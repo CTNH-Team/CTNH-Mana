@@ -26,7 +26,7 @@ public class CMMachines {
                     holder -> new ManaHatch(holder,10000000,10000,10000,1000000,1000))
             .rotationState(RotationState.ALL)
             .abilities(CMPartsAbility.MANAHATCH)
-            .colorOverlayTieredHullModel(GTCEu.id("block/overlay/machine/overlay_pipe_in"), null, GTCEu.id("block/overlay/machine/" + OVERLAY_ITEM_HATCH))
+            .workableTieredHullModel(GTCEu.id("block/machines/digital_well_of_suffer"))
             .tier(UHV)
             .register();
 }
