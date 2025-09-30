@@ -34,8 +34,8 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Getter
     @Persisted
     private final NotifiableFluidTank fluidTank;
-    @Persisted
-    private Level level;
+//    @Persisted
+//    private Level level;
     @Persisted
     private long BT_Max_Mana;
     @Persisted
@@ -102,6 +102,12 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         group.addWidget(container);
         return group;
     }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
     //魔力接受单位
 //    @Override
 //    public Level getManaReceiverLevel() {

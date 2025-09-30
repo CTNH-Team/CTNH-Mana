@@ -17,6 +17,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.api.mana.ManaReceiver;
 
 public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements IMachineBlockEntity, IManaged, ManaReceiver {
@@ -98,6 +102,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     public void receiveMana(int i) {
         BT_MANA+=i;
         BT_MANA=Math.min(BT_MANA,MAX_BT_MANA);
+        setChanged();
     }
     public void setMaxMana(long i)
     {
@@ -108,4 +113,13 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     public boolean canReceiveManaFromBursts() {
         return true;
     }
+
+//    private final LazyOptional<ManaReceiver> manaReceiverCap = LazyOptional.of(() -> this);
+//
+//    @Override
+//    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+//        if(cap == BotaniaForgeCapabilities.MANA_RECEIVER)
+//            return manaReceiverCap.cast();
+//        return super.getCapability(cap);
+//    }
 }
