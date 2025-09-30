@@ -1,0 +1,111 @@
+package com.moguang.ctnhmana.api.blockentity;
+
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.client.model.machine.MachineRenderState;
+import com.lowdragmc.lowdraglib.syncdata.IManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
+import lombok.Getter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import vazkii.botania.api.mana.ManaReceiver;
+
+public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements IMachineBlockEntity, IManaged, ManaReceiver {
+
+    public final MetaMachine metaMachine;
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MetaMachineBlockEntity.class);
+    @Persisted
+    @DescSynced
+    @RequireRerender
+    private MachineRenderState renderState;
+    private final long offset;
+    @Persisted
+    @Getter
+    public long MAX_BT_MANA=10000L;
+    @Persisted
+    @Getter
+    public long BT_MANA=0;
+    public IManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+        super(pType, pPos, pBlockState);
+        this.renderState = this.getDefinition().defaultRenderState();
+        this.metaMachine = this.getDefinition().createMetaMachine(this);
+        this.offset = (long) GTValues.RNG.nextInt(20);
+    }
+
+
+    @Override
+    public MachineRenderState getRenderState() {
+        return this.renderState;
+    }
+
+    @Override
+    public void setRenderState(MachineRenderState state) {
+        this.renderState = state;
+        this.scheduleRenderUpdate();
+    }
+
+    @Override
+    public MetaMachine getMetaMachine() {
+        return this.metaMachine;
+    }
+
+    @Override
+    public long getOffset() {
+        return this.offset;
+    }
+    @Override
+    public void onChanged() {
+        super.onChanged(); // 调用父类逻辑
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+
+    //魔力接受单位
+    @Override
+    public Level getManaReceiverLevel() {
+        return this.getLevel();
+    }
+
+    @Override
+    public BlockPos getManaReceiverPos() {
+        return this.getBlockPos();
+    }
+
+    @Override
+    public int getCurrentMana() {
+        return (int)BT_MANA;
+    }
+
+    @Override
+    public boolean isFull() {
+        return BT_MANA>=MAX_BT_MANA;
+    }
+
+    @Override
+    public void receiveMana(int i) {
+        BT_MANA+=i;
+        BT_MANA=Math.min(BT_MANA,MAX_BT_MANA);
+    }
+    public void setMaxMana(long i)
+    {
+        MAX_BT_MANA=i;
+    }
+
+    @Override
+    public boolean canReceiveManaFromBursts() {
+        return true;
+    }
+}
