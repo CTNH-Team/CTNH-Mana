@@ -26,7 +26,7 @@ import vazkii.botania.api.mana.ManaReceiver;
 public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements IMachineBlockEntity, IManaged, ManaReceiver {
 
     public final MetaMachine metaMachine;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MetaMachineBlockEntity.class);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(IManaMachineBlockEntity.class);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -41,7 +41,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     public IManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
         this.renderState = this.getDefinition().defaultRenderState();
-        this.metaMachine = this.getDefinition().createMetaMachine(this);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     this.metaMachine = this.getDefinition().createMetaMachine(this);
         this.offset = (long) GTValues.RNG.nextInt(20);
     }
 
@@ -98,6 +98,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
         return BT_MANA>=MAX_BT_MANA;
     }
 
+
     @Override
     public void receiveMana(int i) {
         BT_MANA+=i;
@@ -108,7 +109,19 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     {
         MAX_BT_MANA=i;
     }
-
+    public long ChangeMana(long mana)
+    {
+        if(BT_MANA>mana)
+        {
+            BT_MANA-=mana;
+            return mana;
+        }
+        else
+        {
+            BT_MANA=0;
+            return BT_MANA;
+        }
+    }
     @Override
     public boolean canReceiveManaFromBursts() {
         return true;

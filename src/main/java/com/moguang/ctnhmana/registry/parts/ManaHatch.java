@@ -9,9 +9,11 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.lowdragmc.lowdraglib.gui.widget.TextTextureWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.api.blockentity.IManaMachineBlockEntity;
@@ -21,6 +23,10 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import wayoftime.bloodmagic.common.item.ItemBloodOrb;
+import wayoftime.bloodmagic.core.data.SoulNetwork;
+import wayoftime.bloodmagic.core.data.SoulTicket;
+import wayoftime.bloodmagic.util.helper.NetworkHelper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -55,25 +61,36 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     private long Mana_Power=0L;
     @Persisted
     protected final IO io=IO.IN;
-
+    @Persisted
+    private final IManaMachineBlockEntity manaholder;
     @Persisted
     private int MANA_TO_POWER_RATE=20; //默认值为20
-    //Holder初始化
+    private ISubscription ManaSubs = null;
+    //Holder初始化 持久化
     @Persisted
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHatch.class,
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+    //宝珠链接
+    private SoulNetwork SoulNet;
     @Persisted
-    public int ids=-1;
+    private int LP_TO_POWER_RATE=100; //默认值为100转1
+    @Persisted
+    private boolean HAVE_ORB=false;
     public ManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, long Max_Fluid_Mana, long BT_Max_Mana, int capacity) {
         super(holder);
-
-        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.IN);
+        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.IN,IO.BOTH);
+        inventory = new NotifiableItemStackHandler(this, 1, IO.IN,IO.BOTH);
+        this.manaholder=(IManaMachineBlockEntity)holder;
         this.Max_Mana_Power=max_Mana;
         this.BT_Max_Mana=BT_Max_Mana;
         this.Max_Fluid_Mana=Max_Fluid_Mana;
         this.Max_LP=max_LP;
     }
+
     @Override
     public void onDrops(List<ItemStack> drops) {
         clearInventory(getInventory().storage);
@@ -94,7 +111,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         var group = new WidgetGroup(0, 0, 34, 34);
         var container = new WidgetGroup(4, 4, 26, 26);
         int index = 0;
-        container.addWidget(
+        container.addWidgets(
                 new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
                         .setBackgroundTexture(GuiTextures.SLOT)
                         .setIngredientIO(IngredientIO.INPUT));
@@ -103,58 +120,75 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         return group;
     }
 
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
-    //魔力接受单位
-//    @Override
-//    public Level getManaReceiverLevel() {
-//        return this.getLevel();
-//    }
-//
-//    @Override
-//    public BlockPos getManaReceiverPos() {
-//        return this.getPos();
-//    }
-//
-//    @Override
-//    public int getCurrentMana() {
-//        return (int)BT_Mana;
-//    }
-//
-//    @Override
-//    public boolean isFull() {
-//        return BT_Mana>=BT_Max_Mana;
-//    }
-//
-//    @Override
-//    public void receiveMana(int i) {
-//        BT_Mana+=i;
-//        BT_Mana=Math.min(BT_Mana,BT_Max_Mana);
-//    }
 
-//    @Override
-//    public boolean canReceiveManaFromBursts() {
-//        return true;
-//    }
+    //////////////////////////////////////
+    // ********   Subscriptions&Ticks  ********//
+    //////////////////////////////////////
     @Override
     public void onLoad() {
         super.onLoad();
 
         if (getLevel() instanceof ServerLevel serverLevel) {
+            onInventoryChanged();
+            ManaSubs= inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
         }
     }
-    public void updateManaPower()
-    {
-        if(Mana_Power<Max_Mana_Power)
-        {
-            Mana_Power=Math.min(Max_Mana_Power,Mana_Power+BT_Mana/MANA_TO_POWER_RATE);
-            BT_Mana-=Math.min(BT_Mana,(Max_Mana_Power-Mana_Power)*MANA_TO_POWER_RATE);
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (ManaSubs != null) {
+            ManaSubs.unsubscribe();
         }
     }
+
+    public void updateManaPower()
+    {
+        if(this.SoulNet!=null)
+        {
+            var consume=SoulNet.getCurrentEssence();
+            if(consume>100000)
+            {
+                SoulNet.add(new SoulTicket(-100000),100000000);
+                Mana_Power=Math.min(Max_Mana_Power,Mana_Power+100000/LP_TO_POWER_RATE);
+            }
+            else
+            {
+                SoulNet.setCurrentEssence(0);
+                Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/LP_TO_POWER_RATE);
+            }
+        }
+        if(Mana_Power<Max_Mana_Power&&manaholder.getCurrentMana()>0)
+        {
+            long consume=manaholder.ChangeMana(10000); //1000 mana per tick
+            Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/MANA_TO_POWER_RATE);
+        }
+    }
+    public void onInventoryChanged()
+    {
+        if(!inventory.isEmpty())
+        {
+            var item=inventory.getStackInSlot(0);
+            if(item.getItem() instanceof ItemBloodOrb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
+            {
+                this.SoulNet=NetworkHelper.getSoulNetwork(((ItemBloodOrb) item.getItem()).getBinding(item));
+                HAVE_ORB=true;
+            }
+            else setSoulNetInvalid();
+
+        }
+        else setSoulNetInvalid();
+    }
+    public void setSoulNetInvalid() {
+        if(this.SoulNet!=null) {
+            this.SoulNet.clear();
+            HAVE_ORB = false;
+        }
+    }
+
+
+
 //    @Override
 //    public Widget createUIWidget() {
 //        super.createUIWidget();
