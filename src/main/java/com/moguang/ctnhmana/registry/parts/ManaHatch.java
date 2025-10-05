@@ -4,6 +4,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -21,12 +23,20 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.api.blockentity.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
+import com.moguang.ctnhmana.registry.CMMaterials;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.checkerframework.checker.units.qual.C;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import vazkii.botania.api.mana.ManaItem;
+import vazkii.botania.common.helper.ItemNBTHelper;
+import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 import wayoftime.bloodmagic.common.item.ItemBloodOrb;
 import wayoftime.bloodmagic.core.data.SoulNetwork;
 import wayoftime.bloodmagic.core.data.SoulTicket;
@@ -61,6 +71,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Getter
     @Persisted
     private long LP=0L;
+    @Setter
     @Getter
     @Persisted
     private long Mana_Power=0L;
@@ -73,6 +84,10 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     private int LP_CONVERT_SPEED=100;
     @Persisted
     private int BTMANA_CONVERT_SPEED=100;
+    @Persisted
+    private int FLUIDMANA_CONVERT_SPEED=100;
+    @Nullable
+    protected TickableSubscription ConvertSubs;
     //Holder初始化 持久化
     @Persisted
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHatch.class,
@@ -89,14 +104,15 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     private boolean HAVE_ORB=false;
     public ManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, long Max_Fluid_Mana, long BT_Max_Mana, int capacity) {
         super(holder);
-        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.IN,IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.IN,IO.BOTH);
+        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
+        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
         this.Max_Mana_Power=max_Mana;
         this.BT_Max_Mana=BT_Max_Mana;
         this.Max_Fluid_Mana=Max_Fluid_Mana;
         this.Max_LP=max_LP;
         this.LP_CONVERT_SPEED=(int)(max_LP*0.01);
         this.BTMANA_CONVERT_SPEED=(int) (BT_Max_Mana*0.01);
+        this.FLUIDMANA_CONVERT_SPEED=(int)(Max_Fluid_Mana*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(BT_Max_Mana);
     }
     public DoubleSupplier get_MP = () ->(double)this.Mana_Power/Max_Mana_Power;
@@ -118,9 +134,9 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     @Override
     public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 34, 34);
-        var container = new WidgetGroup(4, 4, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 20, 10, 10, 30, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var group = new WidgetGroup(0, 0, 176, 124);
+        var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*Max_Mana_Power));
         }));
@@ -134,7 +150,21 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         group.addWidget(container);
         return group;
     }
-
+    //////////////////////////////////////
+    // ********   Visit  ********//
+    //////////////////////////////////////
+    public boolean isFull()
+    {
+        return Mana_Power>=Max_Mana_Power;
+    }
+    public boolean isEmpty()
+    {
+        return Mana_Power==0;
+    }
+    public void consumeMana(long consume)
+    {
+        Mana_Power=Math.max(0,Mana_Power-consume);
+    }
 
 
     //////////////////////////////////////
@@ -155,28 +185,57 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         if (ManaSubs != null) {
             ManaSubs.unsubscribe();
         }
+        if (ConvertSubs != null) {
+            ConvertSubs.unsubscribe();
+            ConvertSubs = null;
+        }
     }
 
     public void updateManaPower()
     {
-        if(this.SoulNet!=null)
-        {
-            var consume=SoulNet.getCurrentEssence();
-            if(consume>100000)
-            {
-                SoulNet.add(new SoulTicket(-100000),100000000);
-                Mana_Power=Math.min(Max_Mana_Power,Mana_Power+100000/LP_TO_POWER_RATE);
+        ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
+    }
+    public void ConvertMana()
+    {
+        if(Mana_Power<Max_Mana_Power) {
+            if (this.SoulNet != null) {
+                var consume = SoulNet.getCurrentEssence();
+                if (consume > LP_CONVERT_SPEED) {
+                    SoulNet.add(new SoulTicket(-LP_CONVERT_SPEED), 100000000);
+                    Mana_Power = Math.min(Max_Mana_Power, Mana_Power + LP_CONVERT_SPEED / LP_TO_POWER_RATE);
+                } else {
+                    SoulNet.setCurrentEssence(0);
+                    Mana_Power = Math.min(Max_Mana_Power, Mana_Power + consume / LP_TO_POWER_RATE);
+                }
+                return;
             }
-            else
-            {
-                SoulNet.setCurrentEssence(0);
-                Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/LP_TO_POWER_RATE);
+
+
+            if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
+                long consume = ((IManaMachineBlockEntity) this.holder).ChangeMana(BTMANA_CONVERT_SPEED);
+                Mana_Power = Math.min(Max_Mana_Power, Mana_Power + consume / MANA_TO_POWER_RATE);
+                return;
             }
-        }
-        if(Mana_Power<Max_Mana_Power&&((IManaMachineBlockEntity) this.holder).getCurrentMana()>0)
-        {
-            long consume=((IManaMachineBlockEntity) this.holder).ChangeMana(1000); //1000 mana per tick
-            Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/MANA_TO_POWER_RATE);
+            if(!inventory.isEmpty()&&this.SoulNet==null)
+            {
+                var item=inventory.getStackInSlot(0);
+                if(item.getItem()instanceof BandOfManaItem ManaRing)
+                {
+
+                    var p= ItemNBTHelper.getInt(item,"mana",0);
+                    if(p>=20) {
+                        long consume = Math.min(BTMANA_CONVERT_SPEED, p);
+                        Mana_Power = Math.min(Max_Mana_Power, consume / MANA_TO_POWER_RATE + Mana_Power);
+                        ItemNBTHelper.setInt(item, "mana", p - (int) consume);
+                        return;
+                    }
+                }
+            }
+            if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(CMMaterials.Mana.getFluid(1))) {
+                var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), Max_Fluid_Mana);
+                Mana_Power = Math.min(Max_Mana_Power, consume+Mana_Power);
+                fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount()-consume));
+            }
         }
     }
     public void onInventoryChanged()
@@ -196,7 +255,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
     public void setSoulNetInvalid() {
         if(this.SoulNet!=null) {
-            this.SoulNet.clear();
+            this.SoulNet=null;
             HAVE_ORB = false;
         }
     }

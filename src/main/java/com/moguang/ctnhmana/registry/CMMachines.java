@@ -23,7 +23,7 @@ public class CMMachines {
 
     public static final MachineDefinition STERILE_CLEANROOM_MAINTENANCE_HATCH = REGISTRATE
             .manamachine("manahatch",
-                    holder -> new ManaHatch(holder,10000000,10000,10000,1000000,1000))
+                    holder -> new ManaHatch(holder,100000,10000,10000,1000000,1000))
             .rotationState(RotationState.ALL)
             .abilities(CMPartsAbility.MANAHATCH)
             .workableTieredHullModel(GTCEu.id("block/machines/digital_well_of_suffer"))

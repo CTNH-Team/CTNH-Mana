@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.registry;
 
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.data.materials.BotaniaMaterials;
@@ -14,6 +15,7 @@ public class CMMaterials {
     public static Material TerraSteel;
     public static Material Elementium;
     public static Material AlfSteel;
+
     public static void init() {
         BotaniaMaterials.init();
     }
@@ -34,5 +36,9 @@ public class CMMaterials {
         TagPrefix.nugget.setIgnored(AlfSteel, ModItems.alfsteelNugget);
 
     }
+    public static final Material Mana = new Material.Builder(GTCEu.id("mana"))
+            .liquid()
+            .color(0x43e7ed)
+            .buildAndRegister();
 }
 

@@ -116,8 +116,9 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
         }
         else
         {
+            mana=BT_MANA;
             BT_MANA=0;
-            return BT_MANA;
+            return mana;
         }
     }
     @Override
