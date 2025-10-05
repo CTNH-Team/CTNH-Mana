@@ -67,8 +67,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Persisted
     protected final IO io=IO.IN;
     @Persisted
-    private final IManaMachineBlockEntity manaholder;
-    @Persisted
     private int MANA_TO_POWER_RATE=20; //默认值为20
     private ISubscription ManaSubs = null;
     @Persisted
@@ -93,7 +91,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.IN,IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.IN,IO.BOTH);
-        this.manaholder=(IManaMachineBlockEntity)holder;
         this.Max_Mana_Power=max_Mana;
         this.BT_Max_Mana=BT_Max_Mana;
         this.Max_Fluid_Mana=Max_Fluid_Mana;
@@ -176,9 +173,9 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                 Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/LP_TO_POWER_RATE);
             }
         }
-        if(Mana_Power<Max_Mana_Power&&manaholder.getCurrentMana()>0)
+        if(Mana_Power<Max_Mana_Power&&((IManaMachineBlockEntity) this.holder).getCurrentMana()>0)
         {
-            long consume=manaholder.ChangeMana(1000); //1000 mana per tick
+            long consume=((IManaMachineBlockEntity) this.holder).ChangeMana(1000); //1000 mana per tick
             Mana_Power=Math.min(Max_Mana_Power,Mana_Power+consume/MANA_TO_POWER_RATE);
         }
     }
