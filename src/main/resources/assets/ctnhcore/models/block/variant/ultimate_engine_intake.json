@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "ctnhcore:block/casings/pipe/machine_casing_ultimate_engine_intake"
+  }
+}

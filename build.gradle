@@ -166,7 +166,7 @@ dependencies {
     implementation  fg.deobf("maven.modrinth:advanced-loot-info:nrGWQ7rF")
     //runtimeOnly  fg.deobf("curse.maven:JustEnoughResources-240630:5057220")
 
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
+    implementation fg.deobf("curse.maven:ldlib-626676:6745019")
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gregtech_version}:slim") { transitive = false }
     implementation fg.deobf("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")

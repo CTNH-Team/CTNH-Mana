@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ctnhcore:item/catalyst/overlay",
+    "layer1": "gtceu:item/material_sets/dull/catalyst_secondary",
+    "layer2": "ctnhcore:item/catalyst/base"
+  }
+}
