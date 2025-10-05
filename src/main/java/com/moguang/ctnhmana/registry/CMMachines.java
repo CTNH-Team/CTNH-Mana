@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.registry;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.parts.ManaHatch;
 
@@ -26,7 +27,7 @@ public class CMMachines {
                     holder -> new ManaHatch(holder,100000,10000,10000,1000000,1000))
             .rotationState(RotationState.ALL)
             .abilities(CMPartsAbility.MANAHATCH)
-            .workableTieredHullModel(GTCEu.id("block/machines/digital_well_of_suffer"))
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
             .register();
 }
