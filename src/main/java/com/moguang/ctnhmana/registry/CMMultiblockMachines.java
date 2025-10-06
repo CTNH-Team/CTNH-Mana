@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
@@ -38,7 +39,7 @@ public class CMMultiblockMachines {
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished))
                     .where("C", Predicates.blocks(CASING_STEEL_GEARBOX.get()))
-                    .where("D", abilities(PartAbility.IMPORT_FLUIDS))
+                    .where("D", abilities(CMPartsAbility.MANAHATCH))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )

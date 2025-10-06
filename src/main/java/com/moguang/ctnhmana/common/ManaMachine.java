@@ -26,6 +26,10 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     }
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
     @Persisted
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName= Arrays.asList("BT","BM","Ars","GT"); //Waiting for NANE CHANGING

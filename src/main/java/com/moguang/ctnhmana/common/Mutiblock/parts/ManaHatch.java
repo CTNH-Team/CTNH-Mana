@@ -171,6 +171,10 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         }
         return false;
     }
+    public long getBT_Max_Mana()
+    {
+        return ((IManaMachineBlockEntity) this.holder).getMAX_BT_MANA();
+    }
 
 
     //////////////////////////////////////

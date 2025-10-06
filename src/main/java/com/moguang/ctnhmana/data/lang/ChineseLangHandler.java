@@ -18,6 +18,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 
 
 public class ChineseLangHandler {
+    //机器tooltips
     @CN(
             {
                     "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力，灵魂网络的生命源质与液态魔力",
@@ -43,6 +44,8 @@ public class ChineseLangHandler {
     public static  Lang[]  manahatchtootip_base;
     @CN("基础魔力凝聚者")
     public static Lang manahatchtooltip_1;
+
+
     public static void init(RegistrateCNLangProvider provider){
         provider.addItem(CMItems.HORIZEN_RUNE,"§5视域§r符文");
         provider.addItem(CMItems.STARLIGHT_RUNE,"§9星光§r符文");
@@ -51,6 +54,28 @@ public class ChineseLangHandler {
         provider.addItem(CMItems.PROLIFERATION_RUNE,"§a增殖§r符文");
         provider.addItem(CMItems.FLOWER_UPDATE,"§9繁花之核心");
     }
+    //物品tooltips
+    @CN(
+            {
+                    "偏向于植物魔法与液态魔力的升级",
+                    "机器增益：",
+                    "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
+                    "运行时的每一并行提供1%机器增速（最高10%）",
+                    "魔力凝聚仓存有的每10W魔力提供1%机器增速（最高25%）",
+            }
+    )
+    @EN(
+            {
+                    "偏向于植物魔法与液态魔力的升级",
+                    "机器增益：",
+                    "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
+                    "运行时的每一并行提供1%机器增速（最高10%）",
+                    "魔力凝聚仓存有的每10W魔力提供1%机器增速（最高25%）",
+            }
+    )
+    public static Lang[] botaniacoreLang;
+
+
 
 
 

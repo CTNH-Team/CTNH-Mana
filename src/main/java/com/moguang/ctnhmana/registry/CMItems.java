@@ -13,10 +13,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.lib.BotaniaTags;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.botaniacoreLang;
 
 
 public class CMItems {
@@ -72,9 +77,7 @@ public class CMItems {
             .item("flower_core",ComponentItem::create)
             .lang("flower_core")
             .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.proliferation_rune").withStyle(ChatFormatting.GREEN));
-//            })))
+            .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(botaniacoreLang,list))))
             .register();
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
@@ -94,6 +97,15 @@ public class CMItems {
                 return Component.translatable(stack.getDescriptionId(), prefix);
             }
         };
+    }
+    //为不具有format的列表lang提供列表
+    public static List<Component> itemTooltipsAdd(Lang[] langs, List<Component> list)
+    {
+        for(Lang lang:langs)
+        {
+            list.add(lang.translate());
+        }
+        return list;
     }
 
 
