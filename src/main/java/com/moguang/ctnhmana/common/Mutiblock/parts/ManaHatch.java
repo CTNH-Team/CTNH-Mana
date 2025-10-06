@@ -1,10 +1,9 @@
-package com.moguang.ctnhmana.registry.parts;
+package com.moguang.ctnhmana.common.Mutiblock.parts;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
@@ -12,11 +11,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
-import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextTextureWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -30,11 +27,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import org.checkerframework.checker.units.qual.C;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import vazkii.botania.api.mana.ManaItem;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 import wayoftime.bloodmagic.common.item.ItemBloodOrb;
@@ -134,8 +127,13 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     @Override
     public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 176, 124);
+        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
+        var test_text=new TextTextureWidget(100,100,10,10,"你好");
+        var test_button=new SwitchWidget(176-50-20,176-70,30,30,(clickData,state) -> {
+            if(state) group.addWidget(test_text);
+            else group.removeWidget(test_text);
+        }).setHoverTooltips("你好我在这里");
         var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*Max_Mana_Power));
@@ -164,6 +162,14 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void consumeMana(long consume)
     {
         Mana_Power=Math.max(0,Mana_Power-consume);
+    }
+    public boolean consumeManaIfEnough(long consume)
+    {
+        if(Mana_Power>=consume) {
+            Mana_Power = Math.max(0, Mana_Power - consume);
+            return true;
+        }
+        return false;
     }
 
 
@@ -259,6 +265,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
             HAVE_ORB = false;
         }
     }
+
     }
 
 

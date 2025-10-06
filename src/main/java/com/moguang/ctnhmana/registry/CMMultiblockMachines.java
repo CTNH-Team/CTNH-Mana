@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
@@ -25,7 +26,7 @@ public class CMMultiblockMachines {
     public static void init() {
 //I LOVE U
     }
-    public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE.multiblock("mana_macerator", ManaMachine::new)
+    public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE.multiblock("mana_macerator",holder-> new BaseManaMachine(holder,1))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MACERATOR_RECIPES)
             .appearanceBlock(CASING_STAINLESS_CLEAN)

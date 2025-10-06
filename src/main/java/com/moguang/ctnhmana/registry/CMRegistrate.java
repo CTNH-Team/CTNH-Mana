@@ -19,12 +19,14 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
+import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
+import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class CMRegistrate extends GTRegistrate {
+public class CMRegistrate extends CNRegistrate {
     protected CMRegistrate() {
         super(CTNHMana.MODID);
     }
@@ -33,25 +35,26 @@ public class CMRegistrate extends GTRegistrate {
     }
 
 
-    @Override @NotNull @ParametersAreNonnullByDefault
-    public <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> machine(String name,
-                                                                                     Function<ResourceLocation, DEFINITION> definitionFactory,
-                                                                                     Function<IMachineBlockEntity, MetaMachine> metaMachine,
-                                                                                     BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                                                                     BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                                                                     TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
-        return super.machine(name, definitionFactory, metaMachine, blockFactory, itemFactory, blockEntityFactory)
-                .hasBER(false);
-    }
+
+//    @Override @NotNull @ParametersAreNonnullByDefault
+//    public <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> machine(String name,
+//                                                                                     Function<ResourceLocation, DEFINITION> definitionFactory,
+//                                                                                     Function<IMachineBlockEntity, MetaMachine> metaMachine,
+//                                                                                     BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+//                                                                                     BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+//                                                                                     TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+//        return super.machine(name, definitionFactory, metaMachine, blockFactory, itemFactory, blockEntityFactory)
+//                .hasBER(false);
+//    }
 
     @Override @NotNull @ParametersAreNonnullByDefault
-    public MachineBuilder<MachineDefinition> machine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
-        return super.machine(name, metaMachine)
+    public CTNHMachineBuilder<MachineDefinition> machine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+        return (CTNHMachineBuilder<MachineDefinition>)super.machine(name, metaMachine)
                 .hasBER(false);
     }
-    public MachineBuilder<MachineDefinition> manamachine(String name,
+    public CTNHMachineBuilder<MachineDefinition> manamachine(String name,
                                                      Function<IMachineBlockEntity, MetaMachine> metaMachine) {
-        return new MachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
+        return new CTNHMachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
                 MetaMachineBlock::new, MetaMachineItem::new, IManaMachineBlockEntity::new);
     }
 

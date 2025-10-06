@@ -16,9 +16,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import com.moguang.ctnhmana.client.ClientProxy;
 import com.moguang.ctnhmana.common.CommonProxy;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.LangProcessor;
+
 @Mod(CTNHMana.MODID)
 public class CTNHMana
 {
+
     public static final String MODID = "ctnhmana";
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -26,6 +29,8 @@ public class CTNHMana
     public static final CMRegistrate REGISTRATE = CMRegistrate.create();
     @SuppressWarnings("removal")
     public CTNHMana() {
+        LangProcessor langProcessor = new LangProcessor(REGISTRATE);
+        langProcessor.processAll();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegisterEntityRenderers);

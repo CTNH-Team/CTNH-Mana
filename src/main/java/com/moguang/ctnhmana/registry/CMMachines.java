@@ -4,13 +4,16 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.registry.parts.CMPartsAbility;
-import com.moguang.ctnhmana.registry.parts.ManaHatch;
+import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import static com.gregtechceu.gtceu.api.GTValues.UHV;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerSimpleMachines;
-import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.OVERLAY_ITEM_HATCH;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
 public class CMMachines {
     static {
@@ -22,10 +25,22 @@ public class CMMachines {
 
     }
 
-    public static final MachineDefinition STERILE_CLEANROOM_MAINTENANCE_HATCH = REGISTRATE
+
+    public static final MachineDefinition MANA_HATCH = REGISTRATE
             .manamachine("manahatch",
-                    holder -> new ManaHatch(holder,100000,10000,10000,1000000,1000))
+                    holder -> new ManaHatch(holder,10000,10000,10000,100000,1000))
+            .cnLangValue("魔力凝聚仓")
             .rotationState(RotationState.ALL)
+            .tooltips(manahatchtooltip_1.translate())
+            .tooltips(
+                    manahatchtootip_base[0].translate(),
+                    manahatchtootip_base[1].translate(),
+                    manahatchtootip_base[2].translate(),
+                    manahatchtootip_base[3].translate(),
+                    manahatchtootip_base[4].translate(10000),
+                    manahatchtootip_base[5].translate(100000),
+                    manahatchtootip_base[6].translate(1000)
+                    )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)

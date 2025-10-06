@@ -6,6 +6,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.data.materials.BotaniaMaterials;
 import mythicbotany.register.ModItems;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
@@ -37,6 +40,7 @@ public class CMMaterials {
 
     }
     public static final Material Mana = new Material.Builder(GTCEu.id("mana"))
+
             .liquid()
             .color(0x43e7ed)
             .buildAndRegister();

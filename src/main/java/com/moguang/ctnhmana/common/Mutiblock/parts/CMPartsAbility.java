@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.registry.parts;
+package com.moguang.ctnhmana.common.Mutiblock.parts;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 

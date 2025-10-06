@@ -8,5 +8,5 @@ import net.minecraft.world.level.block.Block;
 public class CMTags {
     public static TagKey<Block> ALFHEIM_STONES = TagUtil.createBlockTag("alfheim_stones");
     public static TagKey<Item> TIER5_RUNES = TagUtil.createItemTag("zenith_runes");
-
+    public static TagKey<Item> MANA_UPDATE_TIER1=TagUtil.createItemTag("mana_update_t1");
 }
