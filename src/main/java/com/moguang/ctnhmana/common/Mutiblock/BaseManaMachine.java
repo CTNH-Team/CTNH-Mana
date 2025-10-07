@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.BaseManaMachineGui;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
@@ -36,8 +37,9 @@ import java.util.List;
 public class BaseManaMachine extends ManaMachine {
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
-    @Persisted
     public ManaHatch hatch;
+    @Persisted
+    public BlockPos hatchpos;
     @Persisted
     private boolean isManaConsumedInstantly = false;
     @Persisted
@@ -81,12 +83,16 @@ public class BaseManaMachine extends ManaMachine {
     public void onStructureInvalid() {
         super.onStructureInvalid();
         this.hatch = null;
+        this.hatchpos=null;
+
     }
 
     public ManaHatch getHatch() {
         for (IMultiPart part : getParts()) {
-            if (part instanceof ManaHatch hatchs)
+            if (part instanceof ManaHatch hatchs) {
+                hatchpos = (hatchs).getPos();
                 return hatchs;
+            }
         }
         return null;
     }
@@ -113,7 +119,10 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void onLoad() {
         super.onLoad();
-        if(isFormed)checkUpdate();
+        if(isFormed) {
+            this.hatch=getHatch();
+            checkUpdate();
+        }
 
     }
 

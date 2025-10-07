@@ -216,6 +216,8 @@ dependencies {
     //Hostile Neural NetWork
     implementation fg.deobf("curse.maven:hostile_neural_network-552574:5895036")
 
+    implementation project(":modules:CTNH-Lib")
+
     //should_remove
 
 //
