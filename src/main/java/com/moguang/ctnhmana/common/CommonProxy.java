@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.common;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.moguang.ctnhmana.CMConfig;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.GTMaterialAddon;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -25,7 +26,7 @@ public class CommonProxy {
 
         CMCreativeModeTabs.init();
         CTNHMana.REGISTRATE.registerRegistrate();
-
+        CMDatagen.init();
         //CMRecipes.init(modEventBus);
         CMConfig.init();
     }

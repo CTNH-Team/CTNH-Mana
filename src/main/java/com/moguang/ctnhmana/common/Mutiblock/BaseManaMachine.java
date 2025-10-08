@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
@@ -37,6 +38,7 @@ import java.util.List;
 public class BaseManaMachine extends ManaMachine {
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
+
     public ManaHatch hatch;
     @Persisted
     public BlockPos hatchpos;
@@ -71,19 +73,21 @@ public class BaseManaMachine extends ManaMachine {
     /// ///////////////////////////////////
     @Override
     public void onStructureFormed() {
-        super.onStructureFormed();
         this.hatch = getHatch();
         if (this.hatch == null) onStructureInvalid();
         var tier = getTier();
         consumption = (int) Math.pow(2, tier) * baseconsumption;
         checkUpdate();
+        super.onStructureFormed();
+
     }
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
         this.hatch = null;
         this.hatchpos=null;
+        super.onStructureInvalid();
+
 
     }
 
@@ -123,7 +127,6 @@ public class BaseManaMachine extends ManaMachine {
             this.hatch=getHatch();
             checkUpdate();
         }
-
     }
 
     //////////////////////////////////////
@@ -223,7 +226,6 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
-
         if (this.getRecipeTypes().length > 0) {
             sideTabs.attachSubTab(new BaseManaMachineGui(this));
         }
@@ -256,7 +258,7 @@ public class BaseManaMachine extends ManaMachine {
     public static Lang GT_UPDATE_NAME;
     @CN("没有升级")
     public static Lang NULL_UPDATE_NAME;
-    public MutableComponent getUpdteName()
+    public MutableComponent getUpdateName()
     {
         switch (metric.updateType)
         {
@@ -295,7 +297,7 @@ public class BaseManaMachine extends ManaMachine {
         if(this.isFormed) {
 //            textList.add(textList.size(), BaseManaMachineLang[0].translate((int)hatch.getMana_Power()));
             textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
-            textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdteName()));
+            textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
             textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel));
             textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.true_parallel));
             textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.speed));

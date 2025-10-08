@@ -30,7 +30,6 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
-    @Persisted
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName= Arrays.asList("BT","BM","Ars","GT"); //Waiting for NANE CHANGING
     public ManaData Manadata;
@@ -42,6 +41,12 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
         }
     }
 
+    @Override
+    public void onLoad()
+    {
+        super.onLoad();
+        SyncManaData();
+    }
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
