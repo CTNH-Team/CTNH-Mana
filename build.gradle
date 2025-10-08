@@ -177,7 +177,6 @@ dependencies {
     implementation fg.deobf("curse.maven:createmetallurgy-1007404:6741785")
 
     implementation fg.deobf("curse.maven:placebo-283644:6274231")
-
     // KubeJS
     implementation fg.deobf("curse.maven:kubejs-238086:5853326")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")

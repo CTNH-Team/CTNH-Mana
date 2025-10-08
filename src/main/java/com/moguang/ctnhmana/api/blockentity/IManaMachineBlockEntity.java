@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
+import com.moguang.ctnhmana.common.ManaMachine;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -25,7 +26,7 @@ import vazkii.botania.api.mana.ManaReceiver;
 
 public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements IMachineBlockEntity, IManaged, ManaReceiver {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(IManaMachineBlockEntity.class);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(IManaMachineBlockEntity.class,MetaMachineBlockEntity.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -33,7 +34,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     private final long offset;
     @Persisted
     @Getter
-    public long MAX_BT_MANA=10000L;
+    public long MAX_BT_MANA;
     @Persisted
     @Getter
     public long BT_MANA=0;
@@ -41,6 +42,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
         super(pType, pPos, pBlockState);
         this.renderState = this.getDefinition().defaultRenderState();
         this.offset = (long) GTValues.RNG.nextInt(20);
+        this.MAX_BT_MANA=10000L;
     }
 
 
@@ -106,6 +108,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     public void setMaxMana(long i)
     {
         MAX_BT_MANA=i;
+        setChanged();
     }
     public long ChangeMana(long mana)
     {
@@ -113,6 +116,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
         {
             BT_MANA-=mana;
             return mana;
+
         }
         else
         {

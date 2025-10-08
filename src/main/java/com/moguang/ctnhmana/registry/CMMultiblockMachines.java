@@ -31,6 +31,7 @@ public class CMMultiblockMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MACERATOR_RECIPES)
             .appearanceBlock(CASING_STAINLESS_CLEAN)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABBA", "AAAA", "ABBA")
                     .aisle("ABBA", "ACCA", "ABBA")

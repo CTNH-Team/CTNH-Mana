@@ -62,9 +62,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     private long Max_Fluid_Mana;
     @Getter
     @Persisted
-    private long BT_Mana=0L;
-    @Getter
-    @Persisted
     private long LP=0L;
     @Setter
     @Getter
@@ -84,7 +81,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Nullable
     protected TickableSubscription ConvertSubs;
     //Holder初始化 持久化
-    @Persisted
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHatch.class,
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     @Override
@@ -131,11 +128,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public Widget createUIWidget() {
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var test_text=new TextTextureWidget(100,100,10,10,"你好");
-        var test_button=new SwitchWidget(176-50-20,176-70,30,30,(clickData,state) -> {
-            if(state) group.addWidget(test_text);
-            else group.removeWidget(test_text);
-        }).setHoverTooltips("你好我在这里");
         var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*Max_Mana_Power));
@@ -177,6 +169,10 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     {
         return ((IManaMachineBlockEntity) this.holder).getMAX_BT_MANA();
     }
+    public long getBT_Mana()
+    {
+        return ((IManaMachineBlockEntity) this.holder).getCurrentMana();
+    }
 
 
     //////////////////////////////////////
@@ -186,6 +182,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
+            ((IManaMachineBlockEntity) this.holder).setMaxMana(BT_Max_Mana);
             onInventoryChanged();
             ManaSubs= inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
@@ -221,14 +218,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                 }
                 return;
             }
-
-
-            if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
-                long consume = ((IManaMachineBlockEntity) this.holder).ChangeMana(BTMANA_CONVERT_SPEED);
-                Mana_Power = Math.min(Max_Mana_Power, Mana_Power + consume / MANA_TO_POWER_RATE);
-                return;
-            }
-            if(!inventory.isEmpty()&&this.SoulNet==null)
+            if(!((IManaMachineBlockEntity) this.holder).isFull()&&!inventory.isEmpty()&&this.SoulNet==null)
             {
                 var item=inventory.getStackInSlot(0);
                 if(item.getItem()instanceof BandOfManaItem ManaRing)
@@ -236,13 +226,21 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
                     var p= ItemNBTHelper.getInt(item,"mana",0);
                     if(p>=20) {
-                        long consume = Math.min(BTMANA_CONVERT_SPEED, p);
-                        Mana_Power = Math.min(Max_Mana_Power, consume / MANA_TO_POWER_RATE + Mana_Power);
+                        long consume = (long) Math.min(((IManaMachineBlockEntity) this.holder).getMAX_BT_MANA()*0.1, p);
+                        //Mana_Power = Math.min(Max_Mana_Power, consume / MANA_TO_POWER_RATE + Mana_Power);
+                        ((IManaMachineBlockEntity) this.holder).ChangeMana(-consume);
                         ItemNBTHelper.setInt(item, "mana", p - (int) consume);
-                        return;
                     }
                 }
             }
+
+
+            if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
+                long consume = ((IManaMachineBlockEntity) this.holder).ChangeMana(BTMANA_CONVERT_SPEED);
+                Mana_Power = Math.min(Max_Mana_Power, Mana_Power + consume / MANA_TO_POWER_RATE);
+                return;
+            }
+
             if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(CMMaterials.Mana.getFluid(1))) {
                 var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), Max_Fluid_Mana);
                 Mana_Power = Math.min(Max_Mana_Power, consume+Mana_Power);

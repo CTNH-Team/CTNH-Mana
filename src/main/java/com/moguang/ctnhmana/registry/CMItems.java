@@ -22,6 +22,7 @@ import java.util.List;
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.botaniacoreLang;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.gtcoreLang;
 
 
 public class CMItems {
@@ -78,6 +79,12 @@ public class CMItems {
             .lang("flower_core")
             .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
             .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(botaniacoreLang,list))))
+            .register();
+    public static ItemEntry<ComponentItem> GT_UPDATE = REGISTRATE
+            .item("gt_core",ComponentItem::create)
+            .lang("gt_core")
+            .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
+            .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(gtcoreLang,list))))
             .register();
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);

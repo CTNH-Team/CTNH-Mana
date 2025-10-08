@@ -8,25 +8,24 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.BaseManaMachineGui;
+import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -44,7 +43,6 @@ public class BaseManaMachine extends ManaMachine {
     public BlockPos hatchpos;
     @Persisted
     private boolean isManaConsumedInstantly = false;
-    @Persisted
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             BaseManaMachine.class, ManaMachine.MANAGED_FIELD_HOLDER);
     @Override
@@ -55,7 +53,8 @@ public class BaseManaMachine extends ManaMachine {
     public int consumption;
     @Persisted
     private int baseconsumption;
-    private MachineMetric metric;
+    private MachineMetric metric=new MachineMetric();
+    private MachineMetric pre_metric=new MachineMetric();
 //    public  int parallel=1;
 //    public  double speed=1;
 //    public  double EU_consumption=1;
@@ -73,12 +72,14 @@ public class BaseManaMachine extends ManaMachine {
     /// ///////////////////////////////////
     @Override
     public void onStructureFormed() {
+
+        super.onStructureFormed();
         this.hatch = getHatch();
         if (this.hatch == null) onStructureInvalid();
         var tier = getTier();
         consumption = (int) Math.pow(2, tier) * baseconsumption;
         checkUpdate();
-        super.onStructureFormed();
+
 
     }
 
@@ -92,7 +93,7 @@ public class BaseManaMachine extends ManaMachine {
     }
 
     public ManaHatch getHatch() {
-        for (IMultiPart part : getParts()) {
+        for (IMultiPart part : this.getParts()) {
             if (part instanceof ManaHatch hatchs) {
                 hatchpos = (hatchs).getPos();
                 return hatchs;
@@ -103,6 +104,10 @@ public class BaseManaMachine extends ManaMachine {
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        pre_metric.Copy(metric);
+        if(RecipeHelper.getRecipeEUtTier(recipe)>=this.tier) //如果运行同等级配方速度-0.25;
+            pre_metric.speed-=0.25;
+        //在魔力一次性消耗模式下一次性消耗，否则在onworking美妙消耗
         if (isManaConsumedInstantly && hatch.getBT_Mana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
             return super.beforeWorking(recipe);
@@ -114,17 +119,17 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public boolean onWorking() {
         if (isManaConsumedInstantly) return super.onWorking();
-        if (getOffsetTimer() % 20 == 0 && hatch.consumeManaIfEnough(consumption)) {
-            super.onWorking();
-        } else getRecipeLogic().setProgress(0);
+        if (getOffsetTimer() % 20 == 0) {
+            if(hatch.consumeManaIfEnough(consumption))super.onWorking();
+            else getRecipeLogic().setProgress(0);
+        }
         return super.onWorking();
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        if(isFormed) {
-            this.hatch=getHatch();
+        if(this.isFormed()) {
             checkUpdate();
         }
     }
@@ -165,7 +170,7 @@ public class BaseManaMachine extends ManaMachine {
         public double eut=1;
         public double input=1;
         public double output=1;
-        public String updateType=null;
+        public String updateType="None";
         public int true_parallel=1;
         public void init()
         {
@@ -174,8 +179,17 @@ public class BaseManaMachine extends ManaMachine {
             eut=1;
             input=1;
             output=1;
-            updateType=null;
+            updateType="None";
             true_parallel=1;
+        }
+        public  void Copy(MachineMetric other) {
+            this.parallel = other.parallel;
+            this.speed = other.speed;
+            this.eut = other.eut;
+            this.input = other.input;
+            this.output = other.output;
+            this.updateType = other.updateType; // String不可变，浅拷贝安全
+            this.true_parallel = other.true_parallel;
         }
 
     }
@@ -183,21 +197,34 @@ public class BaseManaMachine extends ManaMachine {
     {
 
     }
+    //检查当前的升级和世界效果的状态
     public void checkUpdate() {
         metric=new MachineMetric();
         if (!machineStorage.isEmpty()) {
-            var name = machineStorage.getStackInSlot(0).getItem().toString();
+            var name = machineStorage.getStackInSlot(0).getItem();
+            if(name.equals(CMItems.FLOWER_UPDATE.get()))metric.updateType="BT";
+            if(name.equals(CMItems.GT_UPDATE.get()))metric.updateType="GT";
         }
-        metric.updateType="BT";
+
     }
+    //计算植物魔法升级
     public MachineMetric caculateBTupdate(MachineMetric metric,GTRecipe recipe)
     {
-
         metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getBT_Max_Mana()/200000);
         var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-        metric.speed+=Math.min(0.1,true_parallel*0.01);
+        metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
         metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
         metric.true_parallel=true_parallel;
+        return metric;
+    }
+    //计算格雷升级
+    public MachineMetric caculateGTupdate(MachineMetric metric,GTRecipe recipe)
+    {
+        metric.parallel+=64;
+        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
+        metric.speed+=Math.min(0.4,true_parallel*00.1-0.01);
+        if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
+        if(hatch.getBT_Mana()>=100000)metric.speed-=0.05;
         return metric;
     }
     //////////////////////////////////////
@@ -205,10 +232,14 @@ public class BaseManaMachine extends ManaMachine {
     //////////////////////////////////////
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof BaseManaMachine mmachine) {
-            var metric=mmachine.metric;
+            var metric= mmachine.pre_metric;
             switch (metric.updateType)
             {
                 case "BT":metric=mmachine.caculateBTupdate(metric,recipe);
+                case "GT":metric=mmachine.caculateGTupdate(metric,recipe);
+
+                case "None":metric.speed*=0.75;
+
             }
             return  ModifierFunction.builder()
                     .parallels(metric.true_parallel)
@@ -258,13 +289,18 @@ public class BaseManaMachine extends ManaMachine {
     public static Lang GT_UPDATE_NAME;
     @CN("没有升级")
     public static Lang NULL_UPDATE_NAME;
+    @CN("Null Pointer Exception发生在魔力凝聚器丢失")
+    public static Lang MANAHATCH_NPE_ERROR;
     public MutableComponent getUpdateName()
     {
+        if(metric.updateType==null)
+            return NULL_UPDATE_NAME.translate();
         switch (metric.updateType)
         {
             case "BT":return BT_UPDATE_NAME.translate();
             case "BM":return BM_UPDATE_NAME.translate();
             case "GT":return GT_UPDATE_NAME.translate();
+            case "None":return  NULL_UPDATE_NAME.translate();
         };
         return NULL_UPDATE_NAME.translate();
     }
@@ -273,7 +309,6 @@ public class BaseManaMachine extends ManaMachine {
             "运行时消耗魔力能量:%d/s",
             "当前升级:%s",
             "最大并行数:%d",
-            "当前并行数:%d",
             "当前速度倍率:%.2f",
             "当前EU消耗倍率:%.2f",
             "当前输入材料倍率:%.2f",
@@ -284,7 +319,6 @@ public class BaseManaMachine extends ManaMachine {
             "运行时消耗魔力能量:%d",
             "当前升级:%s",
             "最大并行数:%d",
-            "当前并行数:%d",
             "当前速度倍率:%.2f",
             "当前EU消耗倍率:%.2f",
             "当前输入材料倍率:%.2f",
@@ -294,16 +328,18 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if(this.isFormed) {
-//            textList.add(textList.size(), BaseManaMachineLang[0].translate((int)hatch.getMana_Power()));
+        if(this.isFormed()) {
+            if(hatch!=null)textList.add(textList.size(), BaseManaMachineLang[0].translate((int)hatch.getMana_Power()));
+            else{
+                textList.add(textList.size(), MANAHATCH_NPE_ERROR.translate());
+            }
             textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
             textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
             textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel));
-            textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.true_parallel));
-            textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.speed));
-            textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.eut));
-            textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.input));
-            textList.add(textList.size(), BaseManaMachineLang[8].translate(metric.output));
+            textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.speed));
+            textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut));
+            textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input));
+            textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output));
         }
 
     }
