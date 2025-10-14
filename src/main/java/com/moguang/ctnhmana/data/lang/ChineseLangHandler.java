@@ -46,6 +46,7 @@ public class ChineseLangHandler {
     public static Lang manahatchtooltip_1;
 
 
+
     public static void init(RegistrateCNLangProvider provider){
         provider.addItem(CMItems.HORIZEN_RUNE,"§5视域§r符文");
         provider.addItem(CMItems.STARLIGHT_RUNE,"§9星光§r符文");
@@ -81,10 +82,10 @@ public class ChineseLangHandler {
             {
                     "偏向于大规模工业流水线的升级",
                     "机器获得：",
-                    "任何条件下，64并行",
+                    "任何时候都具有64并行",
                     "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
                     "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-5%§r机器工作速度",
+                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
                     "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
             }
     )
@@ -92,14 +93,37 @@ public class ChineseLangHandler {
             {
                     "偏向于大规模工业流水线的升级",
                     "机器获得：",
-                    "任何条件下，64并行",
+                    "任何时候都具有64并行",
                     "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
                     "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-5%§r机器工作速度",
+                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
                     "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
             }
     )
     public static Lang[] gtcoreLang;
+
+
+    @CN(
+            {
+                    "魔法之力！",
+                    "要求结构中必须且仅有1个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
+                    "运行电压与当前电压的相同配方具有§c-25%§r运行速度",
+                    "无损超频（暂时）！"
+            }
+    )
+    @EN(
+            {
+                    "魔法之力！",
+                    "要求结构中必须且仅有1个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
+                    "运行电压与当前电压的相同配方具有§c-25%§r运行速度",
+                    "无损超频（暂时）！"
+            }
+    )
+    public static Lang[] basemanamutiblockLang;
 
 
 

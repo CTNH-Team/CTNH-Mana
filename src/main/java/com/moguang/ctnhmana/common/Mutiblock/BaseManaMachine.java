@@ -224,7 +224,7 @@ public class BaseManaMachine extends ManaMachine {
         var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
         metric.speed+=Math.min(0.4,true_parallel*00.1-0.01);
         if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
-        if(hatch.getBT_Mana()>=100000)metric.speed-=0.05;
+        if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
         return metric;
     }
     //////////////////////////////////////
@@ -238,7 +238,7 @@ public class BaseManaMachine extends ManaMachine {
                 case "BT":metric=mmachine.caculateBTupdate(metric,recipe);
                 case "GT":metric=mmachine.caculateGTupdate(metric,recipe);
 
-                case "None":metric.speed*=0.75;
+                case "None":metric.speed*=0.1;
 
             }
             return  ModifierFunction.builder()
