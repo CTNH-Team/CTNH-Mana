@@ -21,6 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.api.blockentity.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import lombok.Getter;
@@ -29,25 +30,30 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
+import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.item.ItemBloodOrb;
 import wayoftime.bloodmagic.core.data.SoulNetwork;
 import wayoftime.bloodmagic.core.data.SoulTicket;
+import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import wayoftime.bloodmagic.util.helper.NetworkHelper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.DoubleSupplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPart, IMachineModifyDrops{
+public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachineModifyDrops{
     @Getter
     @Persisted
-    private final NotifiableItemStackHandler inventory;
+    private final NotifiableItemStackHandler blood_inventory;
     @Getter
     @Persisted
     private final NotifiableItemStackHandler soul_inventory=createMachineStorage();
@@ -83,11 +89,15 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
     @Persisted
     private int FLUIDMANA_CONVERT_SPEED=100;
     @Persisted
-    private int Blood_Mana=1000000;
+    private int Blood_Mana;
     @Persisted
-    private int Soul_Mana=100000;
+    public int Soul_Mana=0;
+    @Persisted
+    public int Max_Soul_Mana;
     @Nullable
     protected TickableSubscription ConvertSubs;
+    @Persisted
+    private int timer=0;
 
     //Holder初始化 持久化
 
@@ -103,14 +113,15 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
     private int LP_TO_POWER_RATE=10; //默认值为10转1
     @Persisted
     private boolean HAVE_ORB=false;
-    public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, long Max_Fluid_Mana, int capacity) {
-        super(holder);
+    @Persisted
+    private double MAX_BLOOD_CONVERT_RATE;
+    public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, double MAX_BLOOD_CONVERT_RATE, int capacity,int max_blood,int max_soul_mana) {
+        super(holder,1000000,1000000,0,0,320000);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
-        this.Max_Mana_Power=max_Mana;
-        this.BT_Max_Mana=BT_Max_Mana;
-        this.Max_Fluid_Mana=Max_Fluid_Mana;
-        this.Max_LP=max_LP;
+        blood_inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
+        this.MAX_BLOOD_CONVERT_RATE=MAX_BLOOD_CONVERT_RATE;
+        this.Blood_Mana=max_blood;
+        this.Max_Soul_Mana=max_soul_mana;
     }
     public DoubleSupplier get_MP = () ->(double)this.Mana_Power/Max_Mana_Power;
 
@@ -129,29 +140,6 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
         getInventory().setDistinct(isDistinct);
     }
 
-    @Override
-    public Widget createUIWidget() {
-        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
-        var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var container2=new WidgetGroup(176/2-13, 124/2+26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
-        ).setDynamicHoverTips(mana->{
-            return "当前魔力值:%d".formatted((int)(mana*Max_Mana_Power));
-        }));
-        int index = 0;
-        container.addWidgets(
-                new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
-                        .setBackgroundTexture(GuiTextures.SLOT)
-                        .setIngredientIO(IngredientIO.INPUT));
-        container.addWidgets(
-                new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
-                        .setBackgroundTexture(GuiTextures.SLOT)
-                        .setIngredientIO(IngredientIO.INPUT));
-        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        group.addWidget(speed_progress2);
-        group.addWidget(container);
-        return group;
-    }
     protected NotifiableItemStackHandler createMachineStorage() {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
@@ -167,8 +155,29 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
         }).setFilter(itemStack -> itemStack.getItem() instanceof ItemBloodOrb);
     }
 
-
-
+    @Override
+    public Widget createUIWidget() {
+        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
+        var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
+        var container2=new WidgetGroup(176/2-13, 124/2+26, 26, 26);
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        ).setDynamicHoverTips(mana->{
+            return "当前魔力值:%d".formatted((int)(mana*Max_Mana_Power));
+        }));
+        int index = 0;
+        container.addWidgets(
+                new SlotWidget(getBlood_inventory().storage, index++, 4, 4, true, io.support(IO.IN))
+                        .setBackgroundTexture(GuiTextures.SLOT)
+                        .setIngredientIO(IngredientIO.INPUT));
+        container.addWidgets(
+                new SlotWidget(getSoul_inventory().storage, index++, 4, 4, true, io.support(IO.IN))
+                        .setBackgroundTexture(GuiTextures.SLOT)
+                        .setIngredientIO(IngredientIO.INPUT));
+        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        group.addWidget(speed_progress2);
+        group.addWidget(container);
+        return group;
+    }
     //////////////////////////////////////
     // ********   Subscriptions&Ticks  ********//
     //////////////////////////////////////
@@ -176,8 +185,9 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
+            ((IManaMachineBlockEntity) this.holder).setMaxMana(BT_Max_Mana);
             onInventoryChanged();
-            ManaSubs= inventory.addChangedListener(this::onInventoryChanged);
+            ManaSubs= blood_inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
         }
     }
@@ -192,16 +202,14 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
             ConvertSubs = null;
         }
     }
-
-    public void updateManaPower()
-    {
-        ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
-    }
+    @Override
     public void ConvertMana()
     {
-        if(this.SoulNet!=null)
+        timer+=1;
+        if(timer>=20&&Soul_Mana<Max_Soul_Mana)
         {
-            var consume=(int)(SoulNet.getCurrentEssence()*0.01);
+            var willChunk1 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),getPos());
+            var will=willChunk1.getCurrentWill().getWill(EnumDemonWillType.valueOf("default"));
         }
         if(Mana_Power<Max_Mana_Power) {
             if (this.SoulNet != null) {
@@ -213,21 +221,20 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
                     SoulNet.setCurrentEssence(0);
                     Mana_Power = Math.min(Max_Mana_Power, Mana_Power + consume / LP_TO_POWER_RATE);
                 }
-                return;
             }
-            if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(CMMaterials.Mana.getFluid(1))) {
-                var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), Max_Fluid_Mana);
-                Mana_Power = Math.min(Max_Mana_Power, consume+Mana_Power/5);
+            if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),1000))) {
+                var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), (long)(fluidTank.getFluidInTank(0).getAmount()*0.001));
+                Mana_Power = Math.min(Max_Mana_Power, (long)(consume/MAX_BLOOD_CONVERT_RATE)+Mana_Power);
                 fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount()-consume));
             }
-
         }
     }
+    @Override
     public void onInventoryChanged()
     {
-        if(!inventory.isEmpty())
+        if(!blood_inventory.isEmpty())
         {
-            var item=inventory.getStackInSlot(0);
+            var item=blood_inventory.getStackInSlot(0);
             if(item.getItem() instanceof ItemBloodOrb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
             {
                 this.SoulNet=NetworkHelper.getSoulNetwork(((ItemBloodOrb) item.getItem()).getBinding(item));
@@ -238,12 +245,16 @@ public class BloodManaHatch extends MultiblockPartMachine implements IDistinctPa
         }
         else setSoulNetInvalid();
     }
+    @Override
     public void setSoulNetInvalid() {
         if(this.SoulNet!=null) {
             this.SoulNet=null;
             HAVE_ORB = false;
         }
     }
+
+
+
 
 
 }
