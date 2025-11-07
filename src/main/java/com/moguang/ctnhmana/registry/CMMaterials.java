@@ -40,7 +40,6 @@ public class CMMaterials {
 
     }
     public static final Material Mana = new Material.Builder(GTCEu.id("mana"))
-
             .liquid()
             .color(0x43e7ed)
             .buildAndRegister();

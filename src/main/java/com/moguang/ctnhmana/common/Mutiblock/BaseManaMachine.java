@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.BaseManaMachineGui;
+import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -258,7 +259,7 @@ public class BaseManaMachine extends ManaMachine {
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
         if (this.getRecipeTypes().length > 0) {
-            sideTabs.attachSubTab(new BaseManaMachineGui(this));
+            sideTabs.attachSubTab(new ShroudUi());
         }
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
         if (directionalConfigurator != null)

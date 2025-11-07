@@ -16,7 +16,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 public class BaseManaMachineGui implements IFancyUIProvider {
 
     @CN("当前升级")
-    public static  Lang  TitleLang;
+    public static  Lang  TitleLangBaseMana;
 
     protected ManaMachine machine;
     public BaseManaMachineGui(IRecipeLogicMachine machine)
@@ -73,6 +73,6 @@ public class BaseManaMachineGui implements IFancyUIProvider {
 
     @Override
     public Component getTitle() {
-        return TitleLang.translate();
+        return TitleLangBaseMana.translate();
     }
 }
