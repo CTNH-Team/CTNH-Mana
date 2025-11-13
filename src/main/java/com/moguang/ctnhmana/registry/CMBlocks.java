@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.registry;
 
 
+import com.moguang.ctnhmana.CTNHMana;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
@@ -24,21 +25,16 @@ public class CMBlocks {
 
 
 
-    public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture) {
-        return createCasingBlock(name, Block::new, texture, () -> Blocks.IRON_BLOCK,
-                () -> RenderType::cutoutMipped);
-    }
-    private static BlockEntry<Block> createGlassCasingBlock(String name, ResourceLocation texture, Supplier<Supplier<RenderType>> type) {
-        return createCasingBlock(name, GlassBlock::new, texture, () -> Blocks.GLASS, type);
-    }
 
     @SuppressWarnings("all")
     public static BlockEntry<Block> createCasingBlock(String name,
+                                                      String cnName,
                                                       NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
                                                       ResourceLocation texture,
                                                       NonNullSupplier<? extends Block> properties,
                                                       Supplier<Supplier<RenderType>> type) {
         return REGISTRATE.block(name, blockSupplier)
+                .cnlang(cnName)
                 .initialProperties(properties)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(type)
@@ -50,7 +46,27 @@ public class CMBlocks {
                 .build()
                 .register();
     }
+    public static BlockEntry<Block> createCasingBlock(String name, String cnName, ResourceLocation texture) {
+        return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
+                () -> RenderType::cutoutMipped);
+    }
 
 
     public static void init() {}
+    public static final BlockEntry<Block> ZENITH_CASING_BLOCK = createCasingBlock(
+            "zenith_casing", "天顶强化机械方块", CTNHMana.id("block/casings/zenith_casing"));
+    public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock(
+            "elementium_casing","源质钢机械外壳", CTNHMana.id("block/casings/elementium_casing"));
+    public static final BlockEntry<Block> MANA_STEEL_CASING = createCasingBlock(
+            "mana_steel_casing","魔力钢机械外壳", CTNHMana.id("block/casings/mana_steel_casing"));
+    public static final BlockEntry<Block> TERRA_STEEL_CASING = createCasingBlock(
+            "terra_steel_casing","泰拉钢机械外壳", CTNHMana.id("block/casings/terra_steel_casing"));
+    public static final BlockEntry<Block> ZENITH_EYE = createCasingBlock(
+            "zenith_eye","§5天顶之眼", CTNHMana.id("block/zenith_eye"));
+    public static final BlockEntry<Block> FIELD_RESTRICTION_CASING = createCasingBlock(
+            "field_restriction_casing", "虚境立场约束机械方块",CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"));
+    public static final BlockEntry<Block> ALF_STEEL_CASING = createCasingBlock(
+            "alfsteel_casing","精灵钢机械外壳", CTNHMana.id("block/casings/alfsteel_casing"));
+    public static final BlockEntry<Block> ZENITH_CASING_GEARBOX = createCasingBlock(
+            "zenith_casing_gearbox","天顶强化魔力齿轮箱机械方块", CTNHMana.id("block/zenith_casing_gearbox"));
 }

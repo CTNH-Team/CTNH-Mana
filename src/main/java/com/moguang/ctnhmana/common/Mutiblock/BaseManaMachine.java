@@ -23,7 +23,11 @@ import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.BaseManaMachineGui;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
+import com.moguang.ctnhmana.item.ComplexItemStackHandler;
+import com.moguang.ctnhmana.item.ComplexNotifiableItemStackHandler;
 import com.moguang.ctnhmana.registry.CMItems;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -54,6 +58,7 @@ public class BaseManaMachine extends ManaMachine {
     public int consumption;
     @Persisted
     private int baseconsumption;
+
     private MachineMetric metric=new MachineMetric();
     private MachineMetric pre_metric=new MachineMetric();
 //    public  int parallel=1;
@@ -142,16 +147,8 @@ public class BaseManaMachine extends ManaMachine {
     protected NotifiableItemStackHandler createMachineStorage() {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
-            @Override
-            public int getSlotLimit(int slot) {
-                return 1;
-            }
 
-            @Override
-            public void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                checkUpdate();
-            }
+
         });//有问题.setFilter(itemStack -> itemStack.getTag().contains("mana_update_t1"));
     }
 
@@ -223,7 +220,7 @@ public class BaseManaMachine extends ManaMachine {
     {
         metric.parallel+=64;
         var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-        metric.speed+=Math.min(0.4,true_parallel*00.1-0.01);
+        metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
         if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
         if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
         return metric;
@@ -286,7 +283,7 @@ public class BaseManaMachine extends ManaMachine {
     public static Lang BM_UPDATE_NAME;
     @CN("§5流线之视野")
     public static Lang ARS_UPDATE_NAME;
-    @CN("§9繁蕊之簇拥")
+    @CN("§5流线之视野")
     public static Lang GT_UPDATE_NAME;
     @CN("没有升级")
     public static Lang NULL_UPDATE_NAME;
@@ -314,6 +311,7 @@ public class BaseManaMachine extends ManaMachine {
             "当前EU消耗倍率:%.2f",
             "当前输入材料倍率:%.2f",
             "当前输出物品倍率:%.2f",
+            "天顶强化已启动",
     })
     @EN({
             "当前魔力能量数：%d",
@@ -324,6 +322,7 @@ public class BaseManaMachine extends ManaMachine {
             "当前EU消耗倍率:%.2f",
             "当前输入材料倍率:%.2f",
             "当前输出产物倍率:%.2f",
+            "天顶强化已启动",
     })
     public static  Lang[]  BaseManaMachineLang;
     @Override
@@ -341,6 +340,8 @@ public class BaseManaMachine extends ManaMachine {
             textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut));
             textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input));
             textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output));
+            if(Zenith_Enhanced!=null)
+                textList.add(textList.size(), BaseManaMachineLang[8].translate());
         }
 
     }

@@ -31,6 +31,7 @@ public class EventHandler {
     public static void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         CMMachines.init();
         CMMultiblockMachines.init();
+
     }
 
     public static void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
@@ -41,6 +42,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void registerMaterials(MaterialEvent event) {
         CMMaterials.init();
+        CMMaterials.tagPrefixIgnore();
     }
 
 

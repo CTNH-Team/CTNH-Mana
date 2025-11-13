@@ -12,7 +12,10 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.moguang.ctnhmana.common.Mutiblock.ZENITH_MATRIX;
 import com.moguang.ctnhmana.data.ManaData;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.Arrays;
@@ -30,6 +33,9 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+    @Setter
+    @Getter
+    public ZENITH_MATRIX Zenith_Enhanced=null;
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName= Arrays.asList("BT","BM","Ars","GT"); //Waiting for NANE CHANGING
     public ManaData Manadata;
