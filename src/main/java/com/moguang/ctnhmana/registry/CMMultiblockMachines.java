@@ -5,12 +5,15 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.ZENITH_MATRIX;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
@@ -20,6 +23,7 @@ import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutiblockLang;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
@@ -58,7 +62,7 @@ public class CMMultiblockMachines {
             .rotationState(RotationState.NON_Y_AXIS)
 
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .appearanceBlock(CASING_STAINLESS_CLEAN)
+
 
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A####BBB##############BBBBB##############BBB#####", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#################################################", "#####BCB##############BBBBB##############BDB#####")
@@ -128,6 +132,9 @@ public class CMMultiblockMachines {
                     .where("L", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("E", Predicates.blocks(ELEMENTIUM_CASING.get()))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .appearanceBlock(CASING_STAINLESS_CLEAN)
+            .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
+            .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+                    .andThen(b -> b.addDynamicRenderer(ZenithMatrixBlockEntityRender::new)))
             .register();
 }

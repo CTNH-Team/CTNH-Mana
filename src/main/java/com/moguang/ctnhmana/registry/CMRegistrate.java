@@ -7,10 +7,12 @@ import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.api.blockentity.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.api.blockentity.IZenithMartixBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -21,6 +23,7 @@ import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
+import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMultiblockMachineBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.BiFunction;
@@ -56,6 +59,9 @@ public class CMRegistrate extends CNRegistrate {
                                                      Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         return new CTNHMachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
                 MetaMachineBlock::new, MetaMachineItem::new, IManaMachineBlockEntity::new);
+    }
+    public CTNHMultiblockMachineBuilder zenithmultiblock(String name, Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+        return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, IZenithMartixBlockEntity::new);
     }
 
 

@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
@@ -24,15 +25,38 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.botaniacoreLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.gtcoreLang;
 
-
+import com.moguang.ctnhmana.item.bosssummon.ThrowItem;
 public class CMItems {
     static {
         REGISTRATE.creativeModeTab(() -> CMCreativeModeTabs.ITEM);
     }
-    public static void init() {
 
+    public static void registerItem()
+    {
+        BOSS_SUMMONER = REGISTRATE
+                .item("boss_summoner", ThrowItem::new)
+                .cnlang("boss召唤器")
+                .lang("Boss Summoner")
+                .onRegister(attach(new BossSummonerBehavior(1)))
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.boss_summoner.use").withStyle(ChatFormatting.RED));
+                })))
+                .register();
+        ADVANCED_BOSS_SUMMONER = REGISTRATE
+                .item("advanced_boss_summoner", ThrowItem::new)
+                .cnlang("进阶boss召唤器")
+                .lang("Advanced Boss Summoner")
+                .onRegister(attach(new BossSummonerBehavior(2)))
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.boss_summoner.use").withStyle(ChatFormatting.DARK_RED));
+                })))
+                .register();
     }
-
+    public static void init() {
+        registerItem();
+    }
+    public static ItemEntry<ThrowItem> BOSS_SUMMONER;
+    public static ItemEntry<ThrowItem> ADVANCED_BOSS_SUMMONER;
     public static  ItemEntry<ComponentItem> HORIZEN_RUNE = REGISTRATE
             .item("horizen_rune",ComponentItem::create)
             .lang("horizen_rune")
@@ -86,6 +110,7 @@ public class CMItems {
             .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
             .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(gtcoreLang,list))))
             .register();
+
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }

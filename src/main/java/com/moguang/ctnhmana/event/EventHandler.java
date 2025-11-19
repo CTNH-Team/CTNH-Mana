@@ -13,6 +13,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMMultiblockMachines;
+import com.moguang.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -45,5 +46,15 @@ public class EventHandler {
         CMMaterials.tagPrefixIgnore();
     }
 
+    @SubscribeEvent
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput packOutput = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        var registries = event.getLookupProvider();
+        if (event.includeClient()) {
+            generator.addProvider(true, new CMSoundDefinitionsProvider(packOutput, CTNHMana.MODID, existingFileHelper));
+        }
 
+    }
 }

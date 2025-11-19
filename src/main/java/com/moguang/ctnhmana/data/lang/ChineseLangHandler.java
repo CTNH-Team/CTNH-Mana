@@ -55,6 +55,13 @@ public class ChineseLangHandler {
         provider.addItem(CMItems.PROLIFERATION_RUNE,"§a增殖§r符文");
         provider.addItem(CMItems.FLOWER_UPDATE,"§9繁花与星空之祝福");
         provider.addItem(CMItems.GT_UPDATE,"§o流水线之视野");
+        provider.add("ritual.ctnhmana.ritualextractor","生灵萃取仪式");
+        provider.add("ritual.ctnhmana.chargerRitual","充能仪式");
+        provider.add("ritual.ctnhmana.ritualbosssummon","战争呼唤仪式");
+        provider.add("ritual.ctnhmana.dragon_cloudritual","龙吟仪式");
+        provider.add("ritual.ctnhmana.dragon_shroudsight","虚境之视");
+        provider.add("effect.ctnhmana.shroud_gaze","虚境的凝视");
+        provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
     }
     //物品tooltips
     @CN(

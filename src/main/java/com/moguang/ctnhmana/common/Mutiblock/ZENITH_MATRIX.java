@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.moguang.ctnhmana.api.blockentity.IZenithMartixBlockEntity;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import lombok.Getter;
@@ -38,10 +40,14 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
     @Getter
     @Nullable
     private Collection<ManaMachine> ManaReceivers;
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            ZENITH_MATRIX.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
     public ZENITH_MATRIX(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-
-
     }
     @NotNull
     protected TraceabilityPredicate innerPredicate() {
@@ -76,19 +82,18 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
             }
         };
     }
-
-
-
+    @Override
+    public void onLoad()
+    {
+        super.onLoad();
+    }
 
 
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-
             this.cleanroomType = CleanroomType.CLEANROOM;
-
-
         // bind cleanroom
         if (cleanroomReceivers != null) {
             this.cleanroomReceivers.forEach(receiver ->{
@@ -117,6 +122,7 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
             this.cleanroomReceivers = null;
             this.ManaReceivers.forEach(Manamachine->Manamachine.setZenith_Enhanced(null));
             this.ManaReceivers=null;
+
         }
     }
 
