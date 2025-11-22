@@ -18,7 +18,7 @@ public class ManaData extends SavedData {
     private static final String ManaData = "ManaSavedData";
     private final ServerLevel serverLevel;
     public Map<String, Integer> ManaLevel = new HashMap<>();
-    public List<String> LevelName= Arrays.asList("BT","BM","Ars","GT"); //Waiting for NANE CHANGING
+    public List<String> LevelName= Arrays.asList("BT","BM","ARS","GT"); //Waiting for NANE CHANGING
     public static ManaData getOrCreate(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new ManaData(serverLevel, tag),
                 () -> new ManaData(serverLevel), "ctnhmana_manadata");

@@ -108,7 +108,7 @@ public class BaseManaMachine extends ManaMachine {
         pre_metric.Copy(metric);
         if(RecipeHelper.getRecipeEUtTier(recipe)>=this.tier) //如果运行同等级配方速度-0.25;
             pre_metric.speed-=0.25;
-        //在魔力一次性消耗模式下一次性消耗，否则在onworking美妙消耗
+        //在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
         if (isManaConsumedInstantly && hatch.getBT_Mana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
             return super.beforeWorking(recipe);

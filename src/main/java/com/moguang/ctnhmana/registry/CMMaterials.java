@@ -64,6 +64,7 @@ public class CMMaterials {
             .liquid()
             .color(0x7D26CD)
             .secondaryColor(0x836FFF)
+            .element(ZENITH)
             .buildAndRegister();
     public static final Material Psionic_Medulla=REGISTRATE.material(GTCEu.id("psionic_medulla"))
             .cnlang("§5灵界髓质§r")
@@ -83,6 +84,13 @@ public class CMMaterials {
             .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 122222, 1000)
             .cableProperties(GTValues.V[GTValues.ZPM], 8, 1, false)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
+    public static final Material Shroud_Zenith_essence=REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
+            .cnlang("§5虚境化的天顶源质§r")
+            .liquid()
+            .color(0x7D26CD)
+            .secondaryColor(0x836FFF)
+            .element(ACTIVE_ZENITH)
             .buildAndRegister();
 
 

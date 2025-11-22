@@ -3,6 +3,7 @@ package com.moguang.ctnhmana;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.moguang.ctnhmana.data.recipe.ManaReactorRecipes;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMElements;
 import com.moguang.ctnhmana.registry.CMItems;
@@ -48,7 +49,7 @@ public class CTNHManaGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-
+        ManaReactorRecipes.init(provider);
     }
 
     @Override

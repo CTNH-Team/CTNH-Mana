@@ -15,5 +15,6 @@ public class CMElements {
     public static final Element MANA_PLUS2 = new Element(300, 300, -1, null, "mana_plus2", "Ma+", false);
     public static final Element MANA_PLUS3 = new Element(300, 300, -1, null, "mana_plus3", "Ma++++", false);
     public static final Element ULTRA_MANA = new Element(777, 777, 777, null, "ultra_mana", "§k*§rMa§k*§r", false);
-
+    public static final Element ZENITH=new  Element(77, 77, 77, null, "zenith", "§5ZE§r", false);
+    public static final Element ACTIVE_ZENITH=new  Element(77, 77, 77, null, "zenith", "§5**ZE**§r", false);
 }

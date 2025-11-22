@@ -2,6 +2,8 @@ package com.moguang.ctnhmana;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.moguang.ctnhmana.api.blockentity.IZenithMartixBlockEntity;
 import com.moguang.ctnhmana.event.EventHandler;
 import com.moguang.ctnhmana.registry.CMMobEffects;
@@ -39,10 +41,12 @@ public class CTNHMana
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegisterEntityRenderers);
         modEventBus.addGenericListener(MachineDefinition.class, EventHandler::registerMachines);
+        modEventBus.addGenericListener(GTRecipeType.class, EventHandler::registerRecipeTypes);
+        modEventBus.addGenericListener(RecipeConditionType.class, EventHandler::registerRecipeConditions);
         CMMobEffects.MOB_EFFECTS.register(modEventBus);
         CMSoundEvent.SOUNDS.register(modEventBus);
-//        modEventBus.addGenericListener(GTRecipeType.class, EventHandler::registerRecipeTypes);
-//        modEventBus.addGenericListener(RecipeConditionType.class, EventHandler::registerRecipeConditions);
+
+
 //        modEventBus.addGenericListener(GTRecipeCategory.class, EventHandler::onRecipeCategoryRegister);
         //modEventBus.addGenericListener(ChanceLogic.class,EventHandler::registerChanceLogic);
 

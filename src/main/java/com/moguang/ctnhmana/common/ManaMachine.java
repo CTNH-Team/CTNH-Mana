@@ -17,6 +17,7 @@ import com.moguang.ctnhmana.data.ManaData;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,9 +36,10 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     }
     @Setter
     @Getter
+    @Nullable
     public ZENITH_MATRIX Zenith_Enhanced=null;
     public Map<String, Integer> ManaLevel = new HashMap<>();
-    public List<String> LevelName= Arrays.asList("BT","BM","Ars","GT"); //Waiting for NANE CHANGING
+    public List<String> LevelName= Arrays.asList("BT","BM","ARS","GT"); //Waiting for NANE CHANGING
     public ManaData Manadata;
 
     private void SyncManaData() {

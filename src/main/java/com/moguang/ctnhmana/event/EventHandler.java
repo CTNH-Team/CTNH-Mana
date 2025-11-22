@@ -10,9 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.data.tags.BiomeTagsLoader;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.registry.CMMachines;
-import com.moguang.ctnhmana.registry.CMMaterials;
-import com.moguang.ctnhmana.registry.CMMultiblockMachines;
+import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -36,10 +34,13 @@ public class EventHandler {
     }
 
     public static void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        //CMRecipeTypes.init();
+        CMRecipeTypes.init();
     }
 
-
+    @SubscribeEvent
+    public static void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType> event) {
+        CMRecipeConditions.init();
+    }
     @SubscribeEvent
     public static void registerMaterials(MaterialEvent event) {
         CMMaterials.init();
