@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
+import com.moguang.ctnhmana.common.recipe.PlantCasingCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import vazkii.botania.common.item.BotaniaItems;
 
@@ -17,23 +18,35 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 
 public class ManaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        MANA_REACTOR_RECIPES.recipeBuilder("test")
+        MANA_REACTOR_RECIPES.recipeBuilder("test11")
+                .addCondition(new ManaReactorCondition(false))
                 .inputItems(runeMana,24)
                 .inputFluids(Zenith_essence.getFluid(144))
                 .outputItems(HORIZEN_RUNE)
                 .duration(200)
                 .circuitMeta(5)
                 .EUt(114514)
-                .addCondition(new ManaReactorCondition(false))
+
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("test2")
+        MANA_REACTOR_RECIPES.recipeBuilder("test22")
+                .addCondition(new ManaReactorCondition(true))
                 .inputItems(runeFire,24)
                 .inputFluids(Zenith_essence.getFluid(144))
                 .outputItems(HORIZEN_RUNE)
                 .duration(200)
                 .circuitMeta(2)
                 .EUt(114514)
-                .addCondition(new ManaReactorCondition(true))
+
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("test3")
+                .addCondition(new PlantCasingCondition(4))
+                .inputItems(runeWater,24)
+                .inputFluids(Zenith_essence.getFluid(144))
+                .outputItems(HORIZEN_RUNE)
+                .duration(200)
+                .circuitMeta(7)
+                .EUt(114514)
+
                 .save(provider);
     }
 }

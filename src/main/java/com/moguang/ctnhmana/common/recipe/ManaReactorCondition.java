@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Prefix;
 
 import java.util.Map;
@@ -30,83 +31,97 @@ public class ManaReactorCondition extends RecipeCondition {
     private boolean isZenith=false;
     private String  ZenithType="Blank";
     private int tier=0;
-    @Override
-    public RecipeConditionType<?> getType()
-    {
-        return CMRecipeConditions.MANA_REACTOR_CONDITION;
-    }
+
     public ManaReactorCondition() {}
 
     public ManaReactorCondition(boolean isZenith) {
         super();
         this.ZenithType="Blank";
-        this.tier=-1;
+        this.tier=0;
         this.isZenith=isZenith;
 
     }
-    public ManaReactorCondition(boolean isReverse,boolean Iszenith,String zenithType,int tier) {
+    public ManaReactorCondition(boolean isReverse,boolean isZenith,String zenithType,int tier) {
         super(isReverse);
-        if(!Iszenith)
+        this.isZenith=isZenith;
+        if(!isZenith)
         {
-            this.isZenith=Iszenith;
             this.ZenithType="Blank";
-            this.tier=-1;
+            this.tier=0;
         }
         else
         {
-            this.isZenith=Iszenith;
             this.ZenithType=zenithType;
             this.tier=tier;
         }
     }
+    @Override
+    public RecipeConditionType<ManaReactorCondition> getType()
+    {
+        return CMRecipeConditions.MANA_REACTOR_CONDITION;
+    }
     @CN("§5需踏足虚境的幽隐之阈§r")
+    @EN("§5需踏足虚境的幽隐之阈§r")
     static Lang is_zenith_tooltip;
     @CN("§d需眷于工业与远见之眼§r")
+    @EN("§d需眷于工业与远见之眼§r")
     static Lang is_gt_tooltip;
     @CN("§d需眷于幻梦与繁星之耀§r")
+    @EN("§d需眷于幻梦与繁星之耀§r")
     static Lang is_bt_tooltip;
     @CN("§d需眷于扭曲与歧路之影§r")
+    @EN("§d需眷于扭曲与歧路之影§r")
     static Lang is_bm_tooltip;
     @CN("§d需眷于增长与繁衍之花§r")
+    @EN("§d需眷于增长与繁衍之花§r")
+
     static Lang is_ars_tooltip;
     @CN("需要的接触等级：%s")
+    @EN("需要的接触等级：%s")
     static Lang zenith_level_tooltip;
     @CN("无知")
+    @EN("无知")
     static Lang zenith_level_0;
     @CN("认知")
+    @EN("认知")
     static Lang zenith_level_1;
     @CN("接纳")
+    @EN("接纳")
     static Lang zenith_level_2;
     @CN("转化")
+    @EN("转化")
     static Lang zenith_level_3;
     @CN("贯通")
+    @EN("贯通")
     static Lang zenith_level_4;
     @CN("同调")
+    @EN("同调")
     static Lang zenith_level_5;
     @CN("%s\n%s\n%s\n")
+    @EN("%s\n%s\n%s\n")
     static Lang Zenith_tooltip_all;
-
+    Map<Integer, Lang> ZENITH_TIERS = Map.of(
+            -1,zenith_level_0,
+            0, zenith_level_0,
+            1, zenith_level_1,
+            2, zenith_level_2,
+            3, zenith_level_3,
+            4, zenith_level_4,
+            5, zenith_level_5
+    );
+    Map<String, Lang> ZENITH_TYPES = Map.of(
+            "GT",is_gt_tooltip,
+            "BT",is_bt_tooltip,
+            "BM",is_bm_tooltip,
+            "ARS",is_ars_tooltip
+    );
     @Override
     public Component getTooltips() {
-        Map<Integer, Lang> ZENITH_TIERS = Map.of(
-                0, zenith_level_0,
-                1, zenith_level_1,
-                2, zenith_level_2,
-                3, zenith_level_3,
-                4, zenith_level_4,
-                5, zenith_level_5
-        );
-        Map<String, Lang> ZENITH_TYPES = Map.of(
-                "GT",is_gt_tooltip,
-                "BT",is_bt_tooltip,
-                "BM",is_bm_tooltip,
-                "ARS",is_ars_tooltip
-        );
-        if(isZenith)
-        {
-            if(ZenithType.equals("Blank")||tier<=0)return is_zenith_tooltip.translate();
-            return Zenith_tooltip_all.translate(is_zenith_tooltip.translate(),ZENITH_TYPES.get(ZenithType).translate(),zenith_level_tooltip.translate(ZENITH_TIERS.get(tier).translate()));
-        }
+//        if(isZenith)
+//        {
+//            if(ZenithType.equals("Blank")||tier<=0)return is_zenith_tooltip.translate();
+//            return Zenith_tooltip_all.translate(is_zenith_tooltip.translate(),ZENITH_TYPES.get(ZenithType).translate(),zenith_level_tooltip.translate(ZENITH_TIERS.get(tier).translate()));
+//        }
         return is_zenith_tooltip.translate();
     }
 
