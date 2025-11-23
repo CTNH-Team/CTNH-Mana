@@ -52,7 +52,7 @@ public class BaseManaMachine extends ManaMachine {
     @Persisted
     public int consumption;
     @Persisted
-    private int baseconsumption;
+    public int baseconsumption;
 
     private MachineMetric metric=new MachineMetric();
     private MachineMetric pre_metric=new MachineMetric();
@@ -203,7 +203,7 @@ public class BaseManaMachine extends ManaMachine {
     //计算植物魔法升级
     public MachineMetric caculateBTupdate(MachineMetric metric,GTRecipe recipe)
     {
-        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getBT_Max_Mana()/200000);
+        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getmaxBTMana()/200000);
         var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
         metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
         metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
@@ -324,7 +324,7 @@ public class BaseManaMachine extends ManaMachine {
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if(this.isFormed()) {
-            if(hatch!=null)textList.add(textList.size(), BaseManaMachineLang[0].translate((int)hatch.getMana_Power()));
+            if(hatch!=null)textList.add(textList.size(), BaseManaMachineLang[0].translate((int)hatch.getMana()));
             else{
                 textList.add(textList.size(), MANAHATCH_NPE_ERROR.translate());
             }

@@ -42,7 +42,7 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     public List<String> LevelName= Arrays.asList("BT","BM","ARS","GT"); //Waiting for NANE CHANGING
     public ManaData Manadata;
 
-    private void SyncManaData() {
+    protected void SyncManaData() {
         if (this.getLevel() instanceof ServerLevel serverLevel) {
             var manadata=ManaData.getOrCreate(serverLevel);
             ManaLevel=manadata.get();

@@ -8,6 +8,7 @@ import com.moguang.ctnhmana.common.Mutiblock.ManaReactor;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
@@ -28,8 +29,11 @@ public class ManaReactorCondition extends RecipeCondition {
                     Codec.INT.fieldOf("tier").forGetter(cond->cond.tier)
             ).apply(instance, ManaReactorCondition::new)
     );
+    @Getter
     private boolean isZenith=false;
+    @Getter
     private String  ZenithType="Blank";
+    @Getter
     private int tier=0;
 
     public ManaReactorCondition() {}
@@ -40,6 +44,19 @@ public class ManaReactorCondition extends RecipeCondition {
         this.tier=0;
         this.isZenith=isZenith;
 
+    }
+    public ManaReactorCondition(boolean isZenith,String zenithType,int tier) {
+        this.isZenith=isZenith;
+        if(!isZenith)
+        {
+            this.ZenithType="Blank";
+            this.tier=0;
+        }
+        else
+        {
+            this.ZenithType=zenithType;
+            this.tier=tier;
+        }
     }
     public ManaReactorCondition(boolean isReverse,boolean isZenith,String zenithType,int tier) {
         super(isReverse);
@@ -79,22 +96,22 @@ public class ManaReactorCondition extends RecipeCondition {
     @CN("需要的接触等级：%s")
     @EN("需要的接触等级：%s")
     static Lang zenith_level_tooltip;
-    @CN("无知")
+    @CN("无知(0)")
     @EN("无知")
     static Lang zenith_level_0;
-    @CN("认知")
+    @CN("§a认知(1)")
     @EN("认知")
     static Lang zenith_level_1;
-    @CN("接纳")
+    @CN("§b接纳(2)")
     @EN("接纳")
     static Lang zenith_level_2;
-    @CN("转化")
+    @CN("§c转化(3)")
     @EN("转化")
     static Lang zenith_level_3;
-    @CN("贯通")
+    @CN("§d贯通(4)")
     @EN("贯通")
     static Lang zenith_level_4;
-    @CN("同调")
+    @CN("§5同调（5)")
     @EN("同调")
     static Lang zenith_level_5;
     @CN("%s\n%s\n%s\n")
@@ -117,12 +134,12 @@ public class ManaReactorCondition extends RecipeCondition {
     );
     @Override
     public Component getTooltips() {
-//        if(isZenith)
-//        {
-//            if(ZenithType.equals("Blank")||tier<=0)return is_zenith_tooltip.translate();
-//            return Zenith_tooltip_all.translate(is_zenith_tooltip.translate(),ZENITH_TYPES.get(ZenithType).translate(),zenith_level_tooltip.translate(ZENITH_TIERS.get(tier).translate()));
-//        }
-        return is_zenith_tooltip.translate();
+        if(isZenith)
+        {
+            if(ZenithType.equals("Blank")||tier<=0)return is_zenith_tooltip.translate();
+            return Zenith_tooltip_all.translate(is_zenith_tooltip.translate(),ZENITH_TYPES.get(ZenithType).translate(),zenith_level_tooltip.translate(ZENITH_TIERS.get(tier).translate()));
+        }
+        return null;
     }
 
     @Override

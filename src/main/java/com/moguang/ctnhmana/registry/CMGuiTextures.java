@@ -12,4 +12,8 @@ public class CMGuiTextures {
     public static final ResourceTexture QUADRANT_NEUTRAL=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral.png");
     public static final ResourceTexture QUADRANT_NEUTRAL_SELECTED=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral_selected.png");
     public static final ResourceTexture QUADRANT_NEUTRAL_SELECTED_BORDER=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral_selected_border.png");//中性象限
+    public static final ResourceTexture TEST_ACTIVE_BAR=new ResourceTexture("ctnhmana:models/block/machine/part/manahatch.json");
+    public static  final ResourceTexture PROGRESS_BAR_MANA_EMPTY_1=new ResourceTexture("ctnhmana:textures/gui/mana_bar_empty.png");
+    public static  final ResourceTexture PROGRESS_BAR_MANA_FULL_1=new ResourceTexture("ctnhmana:textures/gui/mana_bar_full.png");
+
 }

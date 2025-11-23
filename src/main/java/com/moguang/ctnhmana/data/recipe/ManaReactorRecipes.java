@@ -19,7 +19,7 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 public class ManaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         MANA_REACTOR_RECIPES.recipeBuilder("test11")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ManaReactorCondition(true,"GT",4))
                 .inputItems(runeMana,24)
                 .inputFluids(Zenith_essence.getFluid(144))
                 .outputItems(HORIZEN_RUNE)
@@ -35,16 +35,6 @@ public class ManaReactorRecipes {
                 .outputItems(HORIZEN_RUNE)
                 .duration(200)
                 .circuitMeta(2)
-                .EUt(114514)
-
-                .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("test3")
-                .addCondition(new PlantCasingCondition(4))
-                .inputItems(runeWater,24)
-                .inputFluids(Zenith_essence.getFluid(144))
-                .outputItems(HORIZEN_RUNE)
-                .duration(200)
-                .circuitMeta(7)
                 .EUt(114514)
 
                 .save(provider);

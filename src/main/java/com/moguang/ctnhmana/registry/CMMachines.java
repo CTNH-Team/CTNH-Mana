@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
+import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
@@ -41,6 +42,26 @@ public class CMMachines {
                     manahatchtootip_base[5].translate(100000),
                     manahatchtootip_base[6].translate(1000)
                     )
+            .abilities(CMPartsAbility.MANAHATCH)
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
+            .tier(UHV)
+            .register();
+    public static final MachineDefinition BM_HATCH = REGISTRATE
+            .manamachine("bloodmanahatch",
+                    holder -> new BloodManaHatch(holder,666666,6666666,100,666666,100,0.001))
+            .cnLangValue("染血魔力凝聚仓")
+            .rotationState(RotationState.ALL)
+            .tooltips(bloodmanahatchtooltip_1.translate())
+            .tooltips(
+                    bloodmanahatchtootip_base[0].translate(),
+                    bloodmanahatchtootip_base[1].translate(),
+                    bloodmanahatchtootip_base[2].translate(),
+                    bloodmanahatchtootip_base[3].translate(),
+                    bloodmanahatchtootip_base[4].translate(),
+                    bloodmanahatchtootip_base[5].translate(100),
+                    bloodmanahatchtootip_base[6].translate(666666),
+                    bloodmanahatchtootip_base[7].translate(666666)
+            )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
