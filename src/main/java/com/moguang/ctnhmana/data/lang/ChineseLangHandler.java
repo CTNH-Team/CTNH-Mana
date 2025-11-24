@@ -78,13 +78,13 @@ public class ChineseLangHandler {
 
 
     public static void init(RegistrateCNLangProvider provider){
-        provider.addItem(CMItems.HORIZEN_RUNE,"§5视域§r符文");
-        provider.addItem(CMItems.STARLIGHT_RUNE,"§9星光§r符文");
-        provider.addItem(CMItems.TWIST_RUNE,"§c扭曲§r符文");
-        provider.addItem(CMItems.QUASAR_RUNE,"§k类星体§r符文");
-        provider.addItem(CMItems.PROLIFERATION_RUNE,"§a增殖§r符文");
-        provider.addItem(CMItems.FLOWER_UPDATE,"§9繁花与星空之祝福");
-        provider.addItem(CMItems.GT_UPDATE,"§o流水线之视野");
+        provider.add("ctnh.item.runes.starlight_rune","Per Aspera Ad Astra");
+        provider.add("ctnh.item.runes.twist_rune","速度与人性的扭曲");
+        provider.add("ctnh.item.runes.proliferation_rune","金融与生物的本能");
+        provider.add("ctnh.item.runes.quasar_rune","毁灭与创造交替");
+        provider.add("ctnh.item.runes.horizen_rune","视野所向之处");
+//        provider.addItem(CMItems.FLOWER_UPDATE,"§9繁花与星空之祝福");
+//        provider.addItem(CMItems.GT_UPDATE,"§o流水线之视野");
         provider.add("ritual.ctnhmana.ritualextractor","生灵萃取仪式");
         provider.add("ritual.ctnhmana.chargerRitual","充能仪式");
         provider.add("ritual.ctnhmana.ritualbosssummon","战争呼唤仪式");
@@ -94,50 +94,8 @@ public class ChineseLangHandler {
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
     }
     //物品tooltips
-    @CN(
-            {
-                    "偏向于植物魔法与魔力的升级",
-                    "机器获得：",
-                    "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高10%）",
-                    "魔力凝聚仓存有的每10W魔力提供§a+1%§r机器工作速度（最高25%）",
-                    "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
-            }
-    )
-    @EN(
-            {
-                    "偏向于植物魔法与魔力的升级",
-                    "机器获得：",
-                    "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高10%）",
-                    "魔力凝聚仓存有的每10W魔力提供§a+1%§r机器工作速度（最高25%）",
-                    "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
-            }
-    )
-    public static Lang[] botaniacoreLang;
-    @CN(
-            {
-                    "偏向于大规模工业流水线的升级",
-                    "机器获得：",
-                    "任何时候都具有64并行",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
-                    "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
-                    "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
-            }
-    )
-    @EN(
-            {
-                    "偏向于大规模工业流水线的升级",
-                    "机器获得：",
-                    "任何时候都具有64并行",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
-                    "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
-                    "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
-            }
-    )
-    public static Lang[] gtcoreLang;
+
+
 
 
     @CN(

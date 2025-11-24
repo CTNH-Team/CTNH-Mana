@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
+import com.moguang.ctnhmana.item.manamachineupdate.BTUpdateItemT1;
+import com.moguang.ctnhmana.item.manamachineupdate.GTUpdateItemT1;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
@@ -17,13 +19,10 @@ import net.minecraftforge.fluids.FluidUtil;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.lib.BotaniaTags;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.botaniacoreLang;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.gtcoreLang;
 
 import com.moguang.ctnhmana.item.bosssummon.ThrowItem;
 public class CMItems {
@@ -33,6 +32,14 @@ public class CMItems {
 
     public static void registerItem()
     {
+        BT_UPDATE_T1=REGISTRATE
+                .item("botania_update_t1",BTUpdateItemT1::new)
+                .cnlang("§9繁花与星空之祝福")
+                .register();
+        GT_UPDATE_T1=REGISTRATE
+                .item("gt_update_t1",GTUpdateItemT1::new)
+                .cnlang("§9流水线之视野")
+                .register();
         BOSS_SUMMONER = REGISTRATE
                 .item("boss_summoner", ThrowItem::new)
                 .cnlang("boss召唤器")
@@ -51,66 +58,64 @@ public class CMItems {
                     list.add(Component.translatable("ctnh.boss_summoner.use").withStyle(ChatFormatting.DARK_RED));
                 })))
                 .register();
+        HORIZEN_RUNE = REGISTRATE
+                .item("horizen_rune",ComponentItem::create)
+                .cnlang("§5视域§r符文")
+                .lang("§5Horizen§r Rune")
+                .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.item.runes.horizen_rune").withStyle(ChatFormatting.DARK_PURPLE));
+                })))
+                .register();
+        STARLIGHT_RUNE = REGISTRATE
+                .item("starlight_rune",ComponentItem::create)
+                .cnlang("§9星光§r符文")
+                .lang("§9Starlight§r Rune")
+                .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.item.runes.starlight_rune").withStyle(ChatFormatting.BLUE));
+                })))
+                .register();
+        TWIST_RUNE = REGISTRATE
+                .item("twist_rune",ComponentItem::create)
+                .cnlang("§c扭曲§r符文")
+                .lang("§cTwist§r Rune")
+                .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.item.runes.twist_rune").withStyle(ChatFormatting.RED));
+                })))
+                .register();
+        QUASAR_RUNE = REGISTRATE
+                .item("quasar_rune",ComponentItem::create)
+                .cnlang("§k类星体§r符文")
+                .lang("§kQuasar§r Rune")
+                .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.item.runes.quasar_rune").withStyle(ChatFormatting.LIGHT_PURPLE));
+                })))
+                .register();
+        PROLIFERATION_RUNE = REGISTRATE
+                .item("proliferation_rune",ComponentItem::create)
+                .cnlang("§a增殖§r符文")
+                .lang("§aProliferation§r Rune")
+                .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
+                .onRegister(attach(new TooltipBehavior(list -> {
+                    list.add(Component.translatable("ctnh.item.runes.proliferation_rune").withStyle(ChatFormatting.GREEN));
+                })))
+                .register();
     }
     public static void init() {
         registerItem();
     }
     public static ItemEntry<ThrowItem> BOSS_SUMMONER;
     public static ItemEntry<ThrowItem> ADVANCED_BOSS_SUMMONER;
-    public static  ItemEntry<ComponentItem> HORIZEN_RUNE = REGISTRATE
-            .item("horizen_rune",ComponentItem::create)
-            .lang("horizen_rune")
-            .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.horizen_rune").withStyle(ChatFormatting.DARK_PURPLE));
-//            })))
-
-            .register();
-    public static ItemEntry<ComponentItem> STARLIGHT_RUNE = REGISTRATE
-            .item("starlight_rune",ComponentItem::create)
-            .lang("starlight_rune")
-            .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.starlight_rune").withStyle(ChatFormatting.BLUE));
-//            })))
-            .register();
-    public static ItemEntry<ComponentItem> TWIST_RUNE = REGISTRATE
-            .item("twist_rune",ComponentItem::create)
-            .lang("twist_rune")
-            .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.twist_rune").withStyle(ChatFormatting.RED));
-//            })))
-            .register();
-    public static ItemEntry<ComponentItem> QUASAR_RUNE = REGISTRATE
-            .item("quasar_rune",ComponentItem::create)
-            .lang("quasar_rune")
-            .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.quasar_rune").withStyle(ChatFormatting.LIGHT_PURPLE));
-//            })))
-            .register();
-    public static ItemEntry<ComponentItem> PROLIFERATION_RUNE = REGISTRATE
-            .item("proliferation_rune",ComponentItem::create)
-            .lang("proliferation_rune")
-            .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
-//            .onRegister(attach(new TooltipBehavior(list -> {
-//                list.add(Component.translatable("ctnh.item.runes.proliferation_rune").withStyle(ChatFormatting.GREEN));
-//            })))
-            .register();
-    public static ItemEntry<ComponentItem> FLOWER_UPDATE = REGISTRATE
-            .item("flower_core",ComponentItem::create)
-            .lang("flower_core")
-            .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
-            .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(botaniacoreLang,list))))
-            .register();
-    public static ItemEntry<ComponentItem> GT_UPDATE = REGISTRATE
-            .item("gt_core",ComponentItem::create)
-            .lang("gt_core")
-            .tag(BotaniaTags.Items.RUNES,CMTags.MANA_UPDATE_TIER1)
-            .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(gtcoreLang,list))))
-            .register();
-
+    public static ItemEntry<BTUpdateItemT1>BT_UPDATE_T1;
+    public static ItemEntry<GTUpdateItemT1>GT_UPDATE_T1;
+    public static ItemEntry<ComponentItem> HORIZEN_RUNE;
+    public static ItemEntry<ComponentItem> STARLIGHT_RUNE;
+    public static ItemEntry<ComponentItem> TWIST_RUNE;
+    public static ItemEntry<ComponentItem> QUASAR_RUNE;
+    public static ItemEntry<ComponentItem> PROLIFERATION_RUNE;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }

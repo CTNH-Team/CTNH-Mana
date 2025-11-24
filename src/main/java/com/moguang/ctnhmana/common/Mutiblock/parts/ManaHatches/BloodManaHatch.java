@@ -29,6 +29,7 @@ import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +59,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     private final NotifiableItemStackHandler blood_inventory;
     @Getter
     @Persisted
-    private final NotifiableItemStackHandler soul_inventory=createMachineStorage();
+    private final NotifiableItemStackHandler soul_inventory;
     @Getter
     @Persisted
     private final NotifiableFluidTank fluidTank;
@@ -113,7 +114,8 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, int LP_CONVERT_RATE, int capacity,int maxDemonWill,double FLUID_LP_CONVERT_SPEED) {
         super(holder,max_Mana,max_LP,0,0,capacity);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
-        blood_inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
+        blood_inventory =createMachineStorageOrb();
+        soul_inventory=createMachineStorageGem();
         this.LP_CONVERT_RATE=LP_CONVERT_RATE;
         this.maxDemonWill=maxDemonWill;
         this.FLUID_LP_CONVERT_SPEED=FLUID_LP_CONVERT_SPEED;
@@ -135,7 +137,21 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
         getInventory().setDistinct(isDistinct);
     }
 
-    protected NotifiableItemStackHandler createMachineStorage() {
+    protected NotifiableItemStackHandler createMachineStorageGem() {
+        return new NotifiableItemStackHandler(
+                this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
+
+            @Override
+            public void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+            }
+        }).setFilter(itemStack -> itemStack.getItem() instanceof ItemSoulGem);
+    }
+    protected NotifiableItemStackHandler createMachineStorageOrb() {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
             @Override
@@ -155,7 +171,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
         var container2=new WidgetGroup(176/2-13, 124/2+26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_FULL).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*maxMana));
         }));
@@ -188,6 +204,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
         }
     }
+
     @Override
     public void onUnload() {
         super.onUnload();
@@ -199,11 +216,16 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
             ConvertSubs = null;
         }
     }
+    private void updateManaPower()
+    {
+        ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
+    }
     @Override
     public void ConvertMana()
     {
         if(getOffsetTimer()%20==0&&DemonWill<maxDemonWill)
         {
+            ConvertGemsWill();
             if(willChunk!=null) {
                 for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
                     ConvertWill(type1);
@@ -231,6 +253,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
                     {
                         consume=Math.min(current_will,maxDemonWill-rawWill);
                         rawWill+=consume;
+
                     }
                     case CORROSIVE ->
                     {
@@ -253,6 +276,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
                         steadfastWill+=consume;
                     }
                 }
+                gem.drainWill(type,item,consume,true);
 
             }
         }

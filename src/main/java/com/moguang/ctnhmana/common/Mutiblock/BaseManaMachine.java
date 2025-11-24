@@ -10,19 +10,18 @@ import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFa
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
-import com.moguang.ctnhmana.registry.CMItems;
+import com.moguang.ctnhmana.item.manamachineupdate.ManaMachineUpdateItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,12 +36,11 @@ import java.util.List;
 public class BaseManaMachine extends ManaMachine {
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
-
     public ManaHatch hatch;
     @Persisted
-    public BlockPos hatchpos;
+    public BlockPos hatchPos;
     @Persisted
-    private boolean isManaConsumedInstantly = false;
+    public boolean isManaConsumedInstantly = false;
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             BaseManaMachine.class, ManaMachine.MANAGED_FIELD_HOLDER);
     @Override
@@ -52,51 +50,42 @@ public class BaseManaMachine extends ManaMachine {
     @Persisted
     public int consumption;
     @Persisted
-    public int baseconsumption;
-
-    private MachineMetric metric=new MachineMetric();
-    private MachineMetric pre_metric=new MachineMetric();
-//    public  int parallel=1;
-//    public  double speed=1;
-//    public  double EU_consumption=1;
-//    public  double input=1;
-//    public  double output=1;
-//    public  String updateType=null;
+    public int baseConsumption;
+    protected  ManaMachineUpdateItem upgrade;
+    public MachineMetric metric=new MachineMetric();
+    public MachineMetric pre_metric =new MachineMetric();
+    protected ISubscription ManaSubs = null;
     public BaseManaMachine(IMachineBlockEntity holder, int consumption) {
         super(holder);
         this.machineStorage = createMachineStorage();
-        this.baseconsumption = consumption;
+        this.baseConsumption = consumption;
     }
     //////////////////////////////////////
     // ********   HatchVision  ********//
-
     /// ///////////////////////////////////
     @Override
     public void onStructureFormed() {
-
         super.onStructureFormed();
-        this.hatch = getHatch();
-        if (this.hatch == null) onStructureInvalid();
-        var tier = getTier();
-        consumption = (int) Math.pow(2, tier) * baseconsumption;
-        checkUpdate();
-
-
+        this.hatch = getHatch(); //获取舱室
+        if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
+        var tier = getTier();//获取等级
+        consumption = (int) Math.pow(2, tier) * baseConsumption; //计算魔力消耗
+        checkUpdate(); //检查升级
+        this.metric.init(); //重置metric
+        onInventoryChanged();
     }
 
     @Override
     public void onStructureInvalid() {
         this.hatch = null;
-        this.hatchpos=null;
+        this.hatchPos =null;
         super.onStructureInvalid();
-
-
     }
 
     public ManaHatch getHatch() {
         for (IMultiPart part : this.getParts()) {
             if (part instanceof ManaHatch hatchs) {
-                hatchpos = (hatchs).getPos();
+                hatchPos = (hatchs).getPos();
                 return hatchs;
             }
         }
@@ -105,9 +94,6 @@ public class BaseManaMachine extends ManaMachine {
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        pre_metric.Copy(metric);
-        if(RecipeHelper.getRecipeEUtTier(recipe)>=this.tier) //如果运行同等级配方速度-0.25;
-            pre_metric.speed-=0.25;
         //在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
         if (isManaConsumedInstantly && hatch.getBT_Mana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
@@ -126,29 +112,39 @@ public class BaseManaMachine extends ManaMachine {
         }
         return super.onWorking();
     }
-
     @Override
     public void onLoad() {
         super.onLoad();
         if(this.isFormed()) {
             checkUpdate();
         }
+        ManaSubs= machineStorage.addChangedListener(this::onInventoryChanged);
     }
-
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (ManaSubs != null) {
+            ManaSubs.unsubscribe();
+        }
+    }
+    //todo
+    public void onInventoryChanged()
+    {
+        this.metric.init();
+        checkUpdate();
+        if(this.upgrade!=null)
+        {
+            metric=upgrade.calculateNormalUpgrade(this.metric,this);
+        }
+    }
     //////////////////////////////////////
     // ********   MachineStorage  ********//
-
     /// ///////////////////////////////////
     protected NotifiableItemStackHandler createMachineStorage() {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
-
-
-        });//有问题.setFilter(itemStack -> itemStack.getTag().contains("mana_update_t1"));
+        }).setFilter(itemStack -> itemStack.getItem() instanceof ManaMachineUpdateItem);
     }
-
-
-
 
 
     //////////////////////////////////////
@@ -163,7 +159,7 @@ public class BaseManaMachine extends ManaMachine {
         public double eut=1;
         public double input=1;
         public double output=1;
-        public String updateType="None";
+        public String updateType=null;
         public int true_parallel=1;
         public void init()
         {
@@ -172,7 +168,7 @@ public class BaseManaMachine extends ManaMachine {
             eut=1;
             input=1;
             output=1;
-            updateType="None";
+            updateType=null;
             true_parallel=1;
         }
         public  void Copy(MachineMetric other) {
@@ -181,59 +177,63 @@ public class BaseManaMachine extends ManaMachine {
             this.eut = other.eut;
             this.input = other.input;
             this.output = other.output;
-            this.updateType = other.updateType; // String不可变，浅拷贝安全
+            this.updateType = other.updateType;
             this.true_parallel = other.true_parallel;
         }
 
     }
+    //todo
     public void checkWorldData()
     {
 
     }
     //检查当前的升级和世界效果的状态
     public void checkUpdate() {
-        metric=new MachineMetric();
+        checkWorldData();
+        this.upgrade =null;
+        metric.updateType=null;
         if (!machineStorage.isEmpty()) {
             var name = machineStorage.getStackInSlot(0).getItem();
-            if(name.equals(CMItems.FLOWER_UPDATE.get()))metric.updateType="BT";
-            if(name.equals(CMItems.GT_UPDATE.get()))metric.updateType="GT";
+            if(name instanceof ManaMachineUpdateItem mitem)
+            {
+                metric.updateType=mitem.getType();
+                this.upgrade =mitem;
+            }
         }
 
     }
-    //计算植物魔法升级
-    public MachineMetric caculateBTupdate(MachineMetric metric,GTRecipe recipe)
-    {
-        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getmaxBTMana()/200000);
-        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-        metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
-        metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
-        metric.true_parallel=true_parallel;
-        return metric;
-    }
-    //计算格雷升级
-    public MachineMetric caculateGTupdate(MachineMetric metric,GTRecipe recipe)
-    {
-        metric.parallel+=64;
-        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-        metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
-        if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
-        if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
-        return metric;
-    }
+//    //计算植物魔法升级
+//    public MachineMetric caculateBTupdate(MachineMetric metric,GTRecipe recipe)
+//    {
+//        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getmaxBTMana()/200000);
+//        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
+//        metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
+//        metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
+//        metric.true_parallel=true_parallel;
+//        return metric;
+//    }
+//    //计算格雷升级
+//    public MachineMetric caculateGTupdate(MachineMetric metric,GTRecipe recipe)
+//    {
+//        metric.parallel+=64;
+//        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
+//        metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
+//        if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
+//        if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
+//        return metric;
+//    }
+
     //////////////////////////////////////
     // ********   RecipeLogic  ********//
     //////////////////////////////////////
+    ///
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof BaseManaMachine mmachine) {
-            var metric= mmachine.pre_metric;
-            switch (metric.updateType)
-            {
-                case "BT":metric=mmachine.caculateBTupdate(metric,recipe);
-                case "GT":metric=mmachine.caculateGTupdate(metric,recipe);
+            //复制metric 检查metric 计算metric
+            mmachine.pre_metric.Copy(mmachine.metric);
+            MachineMetric metric= mmachine.pre_metric;
+            if(mmachine.upgrade !=null) metric=mmachine.upgrade.calculateUpgrade(metric,recipe,mmachine);
 
-                case "None":metric.speed*=0.1;
-
-            }
             return  ModifierFunction.builder()
                     .parallels(metric.true_parallel)
                     .eutMultiplier(metric.true_parallel*metric.eut)
@@ -259,7 +259,6 @@ public class BaseManaMachine extends ManaMachine {
     }
     @Override
     public @NotNull Widget createUIWidget() {
-
         var widget = super.createUIWidget();
         if (widget instanceof WidgetGroup group) {
             var size = group.getSize();
@@ -269,33 +268,21 @@ public class BaseManaMachine extends ManaMachine {
                                 .setBackground(GuiTextures.SLOT));
             }
         }
-
         return widget;
     }
-    @CN("§9繁蕊之簇拥")
-    public static Lang BT_UPDATE_NAME;
-    @CN("§4赤痕之翘曲")
-    public static Lang BM_UPDATE_NAME;
-    @CN("§5流线之视野")
-    public static Lang ARS_UPDATE_NAME;
-    @CN("§5流线之视野")
-    public static Lang GT_UPDATE_NAME;
+//    @CN("§4赤痕之翘曲")
+//    public static Lang BM_UPDATE_NAME;
+//    @CN("§5流线之视野")
+//    public static Lang ARS_UPDATE_NAME;
     @CN("没有升级")
     public static Lang NULL_UPDATE_NAME;
     @CN("Null Pointer Exception发生在魔力凝聚器丢失")
     public static Lang MANAHATCH_NPE_ERROR;
     public MutableComponent getUpdateName()
     {
-        if(metric.updateType==null)
+        if(metric.updateType==null||this.upgrade ==null)
             return NULL_UPDATE_NAME.translate();
-        switch (metric.updateType)
-        {
-            case "BT":return BT_UPDATE_NAME.translate();
-            case "BM":return BM_UPDATE_NAME.translate();
-            case "GT":return GT_UPDATE_NAME.translate();
-            case "None":return  NULL_UPDATE_NAME.translate();
-        };
-        return NULL_UPDATE_NAME.translate();
+        return this.upgrade.getUpdateName().translate();
     }
     @CN({
             "当前魔力能量数：%d",
@@ -328,6 +315,8 @@ public class BaseManaMachine extends ManaMachine {
             else{
                 textList.add(textList.size(), MANAHATCH_NPE_ERROR.translate());
             }
+            if(Zenith_Enhanced!=null)
+                textList.add(textList.size(), BaseManaMachineLang[8].translate());
             textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
             textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
             textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel));
@@ -335,8 +324,7 @@ public class BaseManaMachine extends ManaMachine {
             textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut));
             textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input));
             textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output));
-            if(Zenith_Enhanced!=null)
-                textList.add(textList.size(), BaseManaMachineLang[8].translate());
+
         }
 
     }

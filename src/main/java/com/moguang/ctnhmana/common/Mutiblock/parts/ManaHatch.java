@@ -75,7 +75,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public int LP_CONVERT_RATE=100; //默认值为100转1
     @Persisted
     public int FLUID_MANA_CONVERT_RATE=1;
-    private ISubscription ManaSubs = null;
+    protected ISubscription ManaSubs = null;
     @Persisted
     public int LP_CONVERT_SPEED=1000;
     @Persisted
@@ -147,7 +147,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public Widget createUIWidget() {
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 80, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_EMPTY_1,CMGuiTextures.PROGRESS_BAR_MANA_FULL_1).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*maxMana));
         }));
@@ -157,7 +157,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                         .setBackgroundTexture(GuiTextures.SLOT)
                         .setIngredientIO(IngredientIO.INPUT));
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        group.addWidget(speed_progress2);
+        group.addWidgets(speed_progress2);
         group.addWidget(container);
         return group;
     }
@@ -217,7 +217,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         }
     }
 
-    public void updateManaPower()
+    private void updateManaPower()
     {
         ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
     }
