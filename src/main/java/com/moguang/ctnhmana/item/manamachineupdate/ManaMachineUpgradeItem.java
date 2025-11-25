@@ -9,12 +9,12 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-public class ManaMachineUpdateItem extends ComponentItem {
+public class ManaMachineUpgradeItem extends ComponentItem {
     @Getter
     public String type;
     @Getter
     public Lang updateName;
-    protected ManaMachineUpdateItem(Properties properties, String type,Lang updateName) {
+    public ManaMachineUpgradeItem(Properties properties, String type, Lang updateName) {
         super(properties);
         this.type=type;
         this.updateName=updateName;

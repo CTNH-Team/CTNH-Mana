@@ -88,15 +88,15 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     @Persisted
     private int timer=0;
     @Persisted
-    double rawWill = 0;
+    public double rawWill = 0;
     @Persisted
-    double steadfastWill = 0;
+    public double steadfastWill = 0;
     @Persisted
-    double corrosiveWill=0;
+    public double corrosiveWill=0;
     @Persisted
-    double destructiveWill = 0;
+    public double destructiveWill = 0;
     @Persisted
-    double vengefulWill = 0;
+    public double vengefulWill = 0;
     WillChunk willChunk=null;
     //Holder初始化 持久化
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BloodManaHatch.class,
@@ -106,11 +106,8 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
         return MANAGED_FIELD_HOLDER;
     }
     //宝珠链接
-    private SoulNetwork SoulNet;
     @Persisted
     private int LP_TO_POWER_RATE=10; //默认值为10转1
-    @Persisted
-    private boolean HAVE_ORB=false;
     public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, int LP_CONVERT_RATE, int capacity,int maxDemonWill,double FLUID_LP_CONVERT_SPEED) {
         super(holder,max_Mana,max_LP,0,0,capacity);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);

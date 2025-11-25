@@ -14,8 +14,8 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.List;
 
-public class GTUpdateItemT1 extends ManaMachineUpdateItem{
-    public GTUpdateItemT1(Properties properties) {
+public class GTUpgradeItemT1 extends ManaMachineUpgradeItem {
+    public GTUpgradeItemT1(Properties properties) {
         super(properties, "GT", GT_UPDATE_NAME);
     }
 
@@ -26,7 +26,7 @@ public class GTUpdateItemT1 extends ManaMachineUpdateItem{
         var true_parallel= ParallelLogic.getParallelAmount(machine,recipe,metric.parallel);
         metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
         if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
-        if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
+        if(hatch.getBTMana()>=100000)metric.speed-=0.1;
         return metric;
     }
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,BaseManaMachine machine)

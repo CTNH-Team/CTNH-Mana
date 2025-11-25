@@ -21,10 +21,12 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
-import com.moguang.ctnhmana.item.manamachineupdate.ManaMachineUpdateItem;
+import com.moguang.ctnhmana.item.manamachineupdate.ManaMachineUpgradeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -51,9 +53,10 @@ public class BaseManaMachine extends ManaMachine {
     public int consumption;
     @Persisted
     public int baseConsumption;
-    protected  ManaMachineUpdateItem upgrade;
-    public MachineMetric metric=new MachineMetric();
-    public MachineMetric pre_metric =new MachineMetric();
+    protected ManaMachineUpgradeItem upgrade;
+    public MachineMetric metric=new MachineMetric(); //用于维护每秒刷新的metric
+    public MachineMetric recipemetric =new MachineMetric(); //用于维护配recipemodifer中根据配方的metric
+    public MachineMetric globalmetric=new MachineMetric(); //用于维护一个全局metric增量，只在成型检查时刷新
     protected ISubscription ManaSubs = null;
     public BaseManaMachine(IMachineBlockEntity holder, int consumption) {
         super(holder);
@@ -72,6 +75,7 @@ public class BaseManaMachine extends ManaMachine {
         consumption = (int) Math.pow(2, tier) * baseConsumption; //计算魔力消耗
         checkUpdate(); //检查升级
         this.metric.init(); //重置metric
+        this.globalmetric.initGlobal();
         onInventoryChanged();
     }
 
@@ -95,7 +99,7 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         //在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
-        if (isManaConsumedInstantly && hatch.getBT_Mana() > consumption * recipe.duration / 20) {
+        if (isManaConsumedInstantly && hatch.getBTMana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
             return super.beforeWorking(recipe);
         } else {
@@ -112,13 +116,19 @@ public class BaseManaMachine extends ManaMachine {
         }
         return super.onWorking();
     }
+    //////////////////////////////////////
+    // ********   Subscriptions&Ticks  ********//
+    //////////////////////////////////////
     @Override
     public void onLoad() {
         super.onLoad();
         if(this.isFormed()) {
             checkUpdate();
         }
-        ManaSubs= machineStorage.addChangedListener(this::onInventoryChanged);
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(0, this::updateMetric));
+            ManaSubs = machineStorage.addChangedListener(this::onInventoryChanged);
+        }
     }
     @Override
     public void onUnload() {
@@ -127,15 +137,16 @@ public class BaseManaMachine extends ManaMachine {
             ManaSubs.unsubscribe();
         }
     }
-    //todo
+    //每秒维护一次
+    public void updateMetric()
+    {
+        if(getOffsetTimer()%20==0&&this.upgrade!=null) {
+            metric = upgrade.calculateNormalUpgrade(new MachineMetric(), this);
+        }
+    }
     public void onInventoryChanged()
     {
-        this.metric.init();
         checkUpdate();
-        if(this.upgrade!=null)
-        {
-            metric=upgrade.calculateNormalUpgrade(this.metric,this);
-        }
     }
     //////////////////////////////////////
     // ********   MachineStorage  ********//
@@ -143,7 +154,7 @@ public class BaseManaMachine extends ManaMachine {
     protected NotifiableItemStackHandler createMachineStorage() {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
-        }).setFilter(itemStack -> itemStack.getItem() instanceof ManaMachineUpdateItem);
+        }).setFilter(itemStack -> itemStack.getItem() instanceof ManaMachineUpgradeItem);
     }
 
 
@@ -171,6 +182,16 @@ public class BaseManaMachine extends ManaMachine {
             updateType=null;
             true_parallel=1;
         }
+        public void initGlobal()
+        {
+            parallel=0;
+            speed=0;
+            eut=0;
+            input=0;
+            output=0;
+            updateType=null;
+            true_parallel=0;
+        }
         public  void Copy(MachineMetric other) {
             this.parallel = other.parallel;
             this.speed = other.speed;
@@ -194,7 +215,7 @@ public class BaseManaMachine extends ManaMachine {
         metric.updateType=null;
         if (!machineStorage.isEmpty()) {
             var name = machineStorage.getStackInSlot(0).getItem();
-            if(name instanceof ManaMachineUpdateItem mitem)
+            if(name instanceof ManaMachineUpgradeItem mitem)
             {
                 metric.updateType=mitem.getType();
                 this.upgrade =mitem;
@@ -230,8 +251,8 @@ public class BaseManaMachine extends ManaMachine {
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof BaseManaMachine mmachine) {
             //复制metric 检查metric 计算metric
-            mmachine.pre_metric.Copy(mmachine.metric);
-            MachineMetric metric= mmachine.pre_metric;
+            mmachine.recipemetric.Copy(mmachine.metric);
+            MachineMetric metric= mmachine.recipemetric;
             if(mmachine.upgrade !=null) metric=mmachine.upgrade.calculateUpgrade(metric,recipe,mmachine);
 
             return  ModifierFunction.builder()
@@ -270,10 +291,7 @@ public class BaseManaMachine extends ManaMachine {
         }
         return widget;
     }
-//    @CN("§4赤痕之翘曲")
-//    public static Lang BM_UPDATE_NAME;
-//    @CN("§5流线之视野")
-//    public static Lang ARS_UPDATE_NAME;
+
     @CN("没有升级")
     public static Lang NULL_UPDATE_NAME;
     @CN("Null Pointer Exception发生在魔力凝聚器丢失")

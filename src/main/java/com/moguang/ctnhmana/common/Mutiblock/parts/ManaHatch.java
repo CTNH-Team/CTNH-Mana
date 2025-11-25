@@ -11,11 +11,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
-import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -28,10 +25,10 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
+import wayoftime.bloodmagic.common.item.BloodOrb;
 import wayoftime.bloodmagic.common.item.ItemBloodOrb;
 import wayoftime.bloodmagic.core.data.SoulNetwork;
 import wayoftime.bloodmagic.core.data.SoulTicket;
@@ -53,10 +50,12 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 //    @Persisted
 //    private Level level;
     @Persisted
-    public long maxBTMana;
+    public int maxBTMana;
     @Persisted
+    @Getter
     public long maxLP;
     @Persisted
+    @Getter
     public long maxMana;
     @Persisted
     public long maxFluidMana;
@@ -93,11 +92,17 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         return MANAGED_FIELD_HOLDER;
     }
     //宝珠链接
-    private SoulNetwork SoulNet;
-
+    @Nullable
+    @Getter
+    public SoulNetwork SoulNet;
+    @Getter
+    @Nullable
+    public BloodOrb orb;
     @Persisted
-    private boolean HAVE_ORB=false;
-    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, long maxBTMana, int capacity,int BTMANA_CONVERT_RATE,int LP_CONVERT_RATE,int FLUID_MANA_CONVERT_RATE) {
+    @Getter
+    public boolean HAVE_ORB=false;
+
+    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, int maxBTMana, int capacity,int BTMANA_CONVERT_RATE,int LP_CONVERT_RATE,int FLUID_MANA_CONVERT_RATE) {
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
@@ -113,7 +118,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.FLUID_MANA_CONVERT_SPEED=(int)(maxFluidMana*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
-    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, long maxBTMana, int capacity) {
+    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, int maxBTMana, int capacity) {
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
@@ -142,12 +147,15 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void setDistinct(boolean isDistinct) {
         getInventory().setDistinct(isDistinct);
     }
-
+    public ManaHatch getself()
+    {
+        return this;
+    }
     @Override
     public Widget createUIWidget() {
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-26, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-52, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*maxMana));
         }));
@@ -184,11 +192,11 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         }
         return false;
     }
-    public long getmaxBTMana()
+    public int getmaxBTMana()
     {
-        return ((IManaMachineBlockEntity) this.holder).getMAX_BT_MANA();
+        return ((IManaMachineBlockEntity) this.holder).getMaxBTMana();
     }
-    public long getBT_Mana()
+    public int getBTMana()
     {
         return ((IManaMachineBlockEntity) this.holder).getCurrentMana();
     }
@@ -273,9 +281,9 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
             {
                 var p= ItemNBTHelper.getInt(item,"mana",0);
                 if(p>=20) {
-                    long consume = (long) Math.min(((IManaMachineBlockEntity) this.holder).getMAX_BT_MANA()*0.01, p);
+                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana()*0.01, p);
                     //Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((IManaMachineBlockEntity) this.holder).ChangeMana(-consume);
+                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
@@ -287,8 +295,9 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         if(!inventory.isEmpty())
         {
             var item=inventory.getStackInSlot(0);
-            if(item.getItem() instanceof ItemBloodOrb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
+            if(item.getItem() instanceof ItemBloodOrb orb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
             {
+                this.orb= orb.getOrb(item);
                 this.SoulNet=NetworkHelper.getSoulNetwork(((ItemBloodOrb) item.getItem()).getBinding(item));
                 HAVE_ORB=true;
             }

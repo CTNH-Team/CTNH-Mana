@@ -7,8 +7,9 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
-import com.moguang.ctnhmana.item.manamachineupdate.BTUpdateItemT1;
-import com.moguang.ctnhmana.item.manamachineupdate.GTUpdateItemT1;
+import com.moguang.ctnhmana.item.manamachineupdate.BMUpgradeItemT1;
+import com.moguang.ctnhmana.item.manamachineupdate.BTUpgradeItemT1;
+import com.moguang.ctnhmana.item.manamachineupdate.GTUpgradeItemT1;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
@@ -33,12 +34,16 @@ public class CMItems {
     public static void registerItem()
     {
         BT_UPDATE_T1=REGISTRATE
-                .item("botania_update_t1",BTUpdateItemT1::new)
+                .item("botania_update_t1", BTUpgradeItemT1::new)
                 .cnlang("§9繁花与星空之祝福")
                 .register();
         GT_UPDATE_T1=REGISTRATE
-                .item("gt_update_t1",GTUpdateItemT1::new)
+                .item("gt_update_t1", GTUpgradeItemT1::new)
                 .cnlang("§9流水线之视野")
+                .register();
+        BM_UPDATE_T1=REGISTRATE
+                .item("bm_update_t1", BMUpgradeItemT1::new)
+                .cnlang("§c扭曲之铸造")
                 .register();
         BOSS_SUMMONER = REGISTRATE
                 .item("boss_summoner", ThrowItem::new)
@@ -109,8 +114,9 @@ public class CMItems {
     }
     public static ItemEntry<ThrowItem> BOSS_SUMMONER;
     public static ItemEntry<ThrowItem> ADVANCED_BOSS_SUMMONER;
-    public static ItemEntry<BTUpdateItemT1>BT_UPDATE_T1;
-    public static ItemEntry<GTUpdateItemT1>GT_UPDATE_T1;
+    public static ItemEntry<BTUpgradeItemT1>BT_UPDATE_T1;
+    public static ItemEntry<GTUpgradeItemT1>GT_UPDATE_T1;
+    public static ItemEntry<BMUpgradeItemT1>BM_UPDATE_T1;
     public static ItemEntry<ComponentItem> HORIZEN_RUNE;
     public static ItemEntry<ComponentItem> STARLIGHT_RUNE;
     public static ItemEntry<ComponentItem> TWIST_RUNE;

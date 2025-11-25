@@ -24,7 +24,7 @@ public class ChineseLangHandler {
                     "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力，灵魂网络的生命源质与液态魔力",
                     "植物魔法的魔力可以通过在物品槽位放入魔力戒指或使用魔力发射器进行传输",
                     "通过在物品槽位放入宝珠来完成与宝珠所有者的灵魂网络的绑定并自动从灵魂网络抽取生命源质",
-                    "直接从外部输入液态魔力（不支持手动输入）来往舱室输入液态魔力",
+                    "直接从外部输入（不支持手动输入）来往舱室输入液态魔力",
                     "最大的魔力能量存储：%d",
                     "最大的生命植物魔法魔力存储：%d",
                     "最大的液态魔力存储：%d mb"
@@ -92,6 +92,10 @@ public class ChineseLangHandler {
         provider.add("ritual.ctnhmana.dragon_shroudsight","虚境之视");
         provider.add("effect.ctnhmana.shroud_gaze","虚境的凝视");
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
+        provider.add("ctnhmana.jade.manahatch.manaprogress","魔力能量：%s / %s");
+        provider.add("ctnhmana.jade.manahatch.btmanaprogress","植物魔法魔力量：%s / %s");
+        provider.add("ctnhmana.jade.manahatch.bmmanaprogress","灵魂网络LP量：%s / %s");
+        provider.add("config.jade.plugin_gtceu.manahatch_status_provider","魔力舱室属性");
     }
     //物品tooltips
 

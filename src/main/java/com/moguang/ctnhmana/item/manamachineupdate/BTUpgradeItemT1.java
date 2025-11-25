@@ -14,8 +14,8 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.List;
 
-public class BTUpdateItemT1 extends ManaMachineUpdateItem {
-    public BTUpdateItemT1(Properties properties) {
+public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
+    public BTUpgradeItemT1(Properties properties) {
         super(properties,"BT",BT_UPDATE_NAME);
     }
     @Override
@@ -31,8 +31,8 @@ public class BTUpdateItemT1 extends ManaMachineUpdateItem {
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,BaseManaMachine machine)
     {
         var hatch=machine.getHatch();
-        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getmaxBTMana()/200000);
-        metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
+        metric.parallel+=(hatch.getBTMana()/50000+hatch.getmaxBTMana()/200000);
+        metric.speed+=Math.min(0.25, (double) hatch.getBTMana() /10000000);
         return metric;
     }
     @Override

@@ -9,19 +9,12 @@ import com.lowdragmc.lowdraglib.syncdata.IManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
-import com.moguang.ctnhmana.common.ManaMachine;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
-import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.api.mana.ManaReceiver;
 
 public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements IMachineBlockEntity, IManaged, ManaReceiver {
@@ -34,15 +27,15 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     private final long offset;
     @Persisted
     @Getter
-    public long MAX_BT_MANA;
+    public int maxBTMana;
     @Persisted
     @Getter
-    public long BT_MANA=0;
+    public int BTMana =0;
     public IManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
         this.renderState = this.getDefinition().defaultRenderState();
         this.offset = (long) GTValues.RNG.nextInt(20);
-        this.MAX_BT_MANA=10000L;
+        this.maxBTMana =10000;
     }
 
 
@@ -90,38 +83,37 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
 
     @Override
     public int getCurrentMana() {
-        return (int)BT_MANA;
+        return (int) BTMana;
     }
 
     @Override
     public boolean isFull() {
-        return BT_MANA>=MAX_BT_MANA;
+        return BTMana >= maxBTMana;
     }
 
 
     @Override
     public void receiveMana(int i) {
-        BT_MANA+=i;
-        BT_MANA=Math.min(BT_MANA,MAX_BT_MANA);
+        BTMana +=i;
+        BTMana =Math.min(BTMana, maxBTMana);
         setChanged();
     }
-    public void setMaxMana(long i)
+    public void setMaxMana(int i)
     {
-        MAX_BT_MANA=i;
+        maxBTMana =i;
         setChanged();
     }
     public long ChangeMana(long mana)
     {
-        if(BT_MANA>mana)
+        if(BTMana >mana)
         {
-            BT_MANA-=mana;
+            BTMana -=mana;
             return mana;
-
         }
         else
         {
-            mana=BT_MANA;
-            BT_MANA=0;
+            mana= BTMana;
+            BTMana =0;
             return mana;
         }
     }
