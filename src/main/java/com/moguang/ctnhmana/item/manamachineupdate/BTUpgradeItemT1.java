@@ -23,7 +23,7 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     {
         var hatch=machine.getHatch();
         var true_parallel= ParallelLogic.getParallelAmount(machine,recipe,metric.parallel);
-        metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
+        metric.speed+=Math.min(0.25,true_parallel*0.025-0.025);
         metric.true_parallel=true_parallel;
         return metric;
     }
@@ -47,8 +47,8 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
                     "偏向于植物魔法与魔力的升级",
                     "机器获得：",
                     "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高10%）",
-                    "魔力凝聚仓存有的每10W魔力提供§a+1%§r机器工作速度（最高25%）",
+                    "运行时的每一并行提供§a+2.5%§r机器工作速度（最高25%）",
+                    "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度（最高25%）",
                     "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
             }
     )
@@ -56,9 +56,9 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
             {
                     "偏向于植物魔法与魔力的升级",
                     "机器获得：",
-                    "魔力凝聚仓每存有5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高10%）",
-                    "魔力凝聚仓存有的每10W魔力提供§a+1%§r机器工作速度（最高25%）",
+                    "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
+                    "运行时的每一并行提供§a+2.5%§r机器工作速度（最高25%）",
+                    "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度（最高25%）",
                     "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
             }
     )

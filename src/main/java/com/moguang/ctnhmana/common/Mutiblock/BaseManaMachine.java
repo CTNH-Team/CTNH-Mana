@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -58,6 +59,9 @@ public class BaseManaMachine extends ManaMachine {
     public MachineMetric recipemetric =new MachineMetric(); //用于维护配recipemodifer中根据配方的metric
     public MachineMetric globalmetric=new MachineMetric(); //用于维护一个全局metric增量，只在成型检查时刷新
     protected ISubscription ManaSubs = null;
+
+    @Nullable
+    protected TickableSubscription TickSubs;
     public BaseManaMachine(IMachineBlockEntity holder, int consumption) {
         super(holder);
         this.machineStorage = createMachineStorage();
@@ -126,7 +130,7 @@ public class BaseManaMachine extends ManaMachine {
             checkUpdate();
         }
         if (getLevel() instanceof ServerLevel serverLevel) {
-            serverLevel.getServer().tell(new TickTask(0, this::updateMetric));
+            serverLevel.getServer().tell(new TickTask(0, this::updateTick));
             ManaSubs = machineStorage.addChangedListener(this::onInventoryChanged);
         }
     }
@@ -136,16 +140,34 @@ public class BaseManaMachine extends ManaMachine {
         if (ManaSubs != null) {
             ManaSubs.unsubscribe();
         }
+        if(TickSubs!=null)
+        {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+    public void updateTick()
+    {
+        TickSubs=subscribeServerTick(TickSubs, this::updateMetric);
     }
     //每秒维护一次
     public void updateMetric()
     {
-        if(getOffsetTimer()%20==0&&this.upgrade!=null) {
-            metric = upgrade.calculateNormalUpgrade(new MachineMetric(), this);
+        if(getOffsetTimer()%20==0) {
+            if(this.upgrade!=null) {
+                metric = upgrade.calculateNormalUpgrade(new MachineMetric(), this);
+                metric.updateType=this.upgrade.type;;
+            }
+            else
+            {
+                metric.init();
+
+            }
         }
     }
     public void onInventoryChanged()
     {
+
         checkUpdate();
     }
     //////////////////////////////////////
@@ -181,6 +203,14 @@ public class BaseManaMachine extends ManaMachine {
             output=1;
             updateType=null;
             true_parallel=1;
+        }
+        public void plus(MachineMetric metric)
+        {
+            this.parallel+=metric.parallel;
+            this.speed+=metric.speed;
+            this.eut+=metric.eut;
+            this.input+=metric.input;
+            this.output+=metric.output;
         }
         public void initGlobal()
         {
@@ -223,26 +253,6 @@ public class BaseManaMachine extends ManaMachine {
         }
 
     }
-//    //计算植物魔法升级
-//    public MachineMetric caculateBTupdate(MachineMetric metric,GTRecipe recipe)
-//    {
-//        metric.parallel+=(hatch.getBT_Mana()/50000+hatch.getmaxBTMana()/200000);
-//        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-//        metric.speed+=Math.min(0.1,true_parallel*0.01-0.01);
-//        metric.speed+=Math.min(0.25, (double) hatch.getBT_Mana() /10000000);
-//        metric.true_parallel=true_parallel;
-//        return metric;
-//    }
-//    //计算格雷升级
-//    public MachineMetric caculateGTupdate(MachineMetric metric,GTRecipe recipe)
-//    {
-//        metric.parallel+=64;
-//        var true_parallel= ParallelLogic.getParallelAmount(this,recipe,metric.parallel);
-//        metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
-//        if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
-//        if(hatch.getBT_Mana()>=100000)metric.speed-=0.1;
-//        return metric;
-//    }
 
     //////////////////////////////////////
     // ********   RecipeLogic  ********//
@@ -252,9 +262,19 @@ public class BaseManaMachine extends ManaMachine {
         if (machine instanceof BaseManaMachine mmachine) {
             //复制metric 检查metric 计算metric
             mmachine.recipemetric.Copy(mmachine.metric);
+            mmachine.recipemetric.plus(mmachine.globalmetric);
             MachineMetric metric= mmachine.recipemetric;
             if(mmachine.upgrade !=null) metric=mmachine.upgrade.calculateUpgrade(metric,recipe,mmachine);
-
+            if(metric.parallel==-1)
+            {
+                return  ModifierFunction.builder()
+                        .parallels(metric.true_parallel)
+                        .eutMultiplier(metric.eut)
+                        .inputModifier(ContentModifier.multiplier(metric.true_parallel*metric.input))
+                        .outputModifier(ContentModifier.multiplier(metric.true_parallel*metric.output))
+                        .durationMultiplier(1/metric.speed*Math.min(64,metric.true_parallel))
+                        .build();
+            }
             return  ModifierFunction.builder()
                     .parallels(metric.true_parallel)
                     .eutMultiplier(metric.true_parallel*metric.eut)
@@ -335,13 +355,25 @@ public class BaseManaMachine extends ManaMachine {
             }
             if(Zenith_Enhanced!=null)
                 textList.add(textList.size(), BaseManaMachineLang[8].translate());
-            textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
-            textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
-            textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel));
-            textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.speed));
-            textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut));
-            textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input));
-            textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output));
+            if(!this.isActive()) {
+                textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
+                textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
+                textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel+globalmetric.parallel));
+                textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.speed+globalmetric.speed));
+                textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut+globalmetric.eut));
+                textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input+globalmetric.input));
+                textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output+globalmetric.output));
+            }
+            else
+            {
+                textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
+                textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
+                textList.add(textList.size(), BaseManaMachineLang[3].translate(recipemetric.parallel));
+                textList.add(textList.size(), BaseManaMachineLang[4].translate(recipemetric.speed));
+                textList.add(textList.size(), BaseManaMachineLang[5].translate(recipemetric.eut));
+                textList.add(textList.size(), BaseManaMachineLang[6].translate(recipemetric.input));
+                textList.add(textList.size(), BaseManaMachineLang[7].translate(recipemetric.output));
+            }
 
         }
 

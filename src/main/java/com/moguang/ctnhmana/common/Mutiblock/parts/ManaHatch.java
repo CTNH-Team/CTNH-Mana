@@ -102,7 +102,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Getter
     public boolean HAVE_ORB=false;
 
-    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, int maxBTMana, int capacity,int BTMANA_CONVERT_RATE,int LP_CONVERT_RATE,int FLUID_MANA_CONVERT_RATE) {
+    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,int BTMANA_CONVERT_RATE,int LP_CONVERT_RATE,int FLUID_MANA_CONVERT_RATE) {
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
@@ -115,20 +115,19 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.FLUID_MANA_CONVERT_RATE=FLUID_MANA_CONVERT_RATE;
         this.LP_CONVERT_SPEED=(int)(maxLP*0.01);
         this.BTMANA_CONVERT_SPEED=(int) (maxBTMana*0.01);
-        this.FLUID_MANA_CONVERT_SPEED=(int)(maxFluidMana*0.01);
+        this.FLUID_MANA_CONVERT_SPEED=(int)(capacity*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
-    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, long maxFluidMana, int maxBTMana, int capacity) {
+    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
         this.maxMana=maxMana;
         this.maxBTMana=maxBTMana;
-        this.maxFluidMana=maxFluidMana;
         this.maxLP=maxLP;
         this.LP_CONVERT_SPEED=(int)(maxLP*0.01);
         this.BTMANA_CONVERT_SPEED=(int) (maxBTMana*0.01);
-        this.FLUID_MANA_CONVERT_SPEED=(int)(maxFluidMana*0.01);
+        this.FLUID_MANA_CONVERT_SPEED=(int)(capacity*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
     public DoubleSupplier get_MP = () ->(double)this.Mana/maxMana;

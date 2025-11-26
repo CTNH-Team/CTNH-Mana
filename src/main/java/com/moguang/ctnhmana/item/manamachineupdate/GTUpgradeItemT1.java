@@ -22,17 +22,22 @@ public class GTUpgradeItemT1 extends ManaMachineUpgradeItem {
     @Override
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe, BaseManaMachine machine)
     {
-        var hatch=machine.getHatch();
-        var true_parallel= ParallelLogic.getParallelAmount(machine,recipe,metric.parallel);
-        metric.speed+=Math.min(0.4,true_parallel*0.1-0.01);
-        if(!hatch.getInventory().isEmpty())metric.speed-=0.1;
-        if(hatch.getBTMana()>=100000)metric.speed-=0.1;
+        if(metric.parallel>1)
+        {
+            var num=metric.parallel-1;
+            metric.parallel=-1;
+            metric.speed*=Math.pow(1.05,num);
+            metric.eut-=num*0.02;
+        }
+        var true_patch_parallel=ParallelLogic.getParallelAmountWithoutEU(machine,recipe,256);
+        metric.speed+=Math.min(3.25,true_patch_parallel*0.03);
+        metric.eut-=Math.min(0.5,0.025*(int)(recipe.duration*true_patch_parallel/2000));
+        metric.true_parallel=true_patch_parallel;
         return metric;
     }
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,BaseManaMachine machine)
     {
-        var hatch=machine.getHatch();
-        metric.parallel+=64;
+        metric.parallel+=1;
         return metric;
     }
     @Override
@@ -45,22 +50,30 @@ public class GTUpgradeItemT1 extends ManaMachineUpgradeItem {
             {
                     "偏向于大规模工业流水线的升级",
                     "机器获得：",
-                    "任何时候都具有64并行",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
-                    "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
-                    "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
+                    "机器的并行§a+1§r，在运行前§c清除机器所有的并行§r",
+                    "每清除一点并行，获得以下加成:",
+                    "最终机器速度§a*1.05§r，§a-2.5%§r能量消耗",
+                    "将机器的并行转化为至多256§b魔力批处理§r:",
+                    "运行多倍配方不再提升电压消耗，而是提升等量时间",
+                    "每有1魔力批处理，机器速度获得§a+3%§r，最多+325%",
+                    "经过批处理后的配方每有100s，§a-2.5%§r能量消耗，最多-50%",
+                    "魔力批处理大于64的部分§a不再提升配方的时间§r",
+                    "§o§5格雷员工的意志铸就了机器的灵能，每一个机器都如黑洞一般地吞噬着所有的输入§r"
             }
     )
     @EN(
             {
                     "偏向于大规模工业流水线的升级",
                     "机器获得：",
-                    "任何时候都具有64并行",
-                    "运行时的每一并行提供§a+1%§r机器工作速度（最高40%）",
-                    "魔力凝聚仓存有§n物品§r时，§c-10%§r机器工作速度",
-                    "魔力凝聚仓存有超过10W魔力时，§c-10%§r机器工作速度",
-                    "§o§5真正至臻完美的流水线不应该容许任何非常态输入，只有gt流体和超级并行才是格雷员工的标配§r"
+                    "机器的并行§a+1§r，在运行前§c清除机器所有的并行§r",
+                    "每清除一点并行，获得以下加成:",
+                    "最终机器速度§a*1.05§r，§a-2.5%§r能量消耗",
+                    "将机器的并行转化为至多256§b魔力批处理§r:",
+                    "运行多倍配方不再提升电压消耗，而是提升等量时间",
+                    "每有1魔力批处理，机器速度获得§a+3%§r，最多+325%",
+                    "经过批处理后的配方每有100s，§a-2.5%§r能量消耗，最多-50%",
+                    "魔力批处理大于64的部分不再提升配方的时间",
+                    "§o§5格雷员工的意志铸就了机器的灵能，每一个机器都如黑洞一般地吞噬着所有的输入§r"
             }
     )
     public static Lang[] gtcoreLang_t1;

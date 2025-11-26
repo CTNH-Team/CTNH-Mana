@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.item.manamachineupdate;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import net.minecraft.network.chat.Component;
@@ -66,12 +67,6 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
         var tier=machine.getTier();
         if(machine.getHatch() instanceof BloodManaHatch hatch)
         {
-            if(hatch.getSoulNet()!=null&&hatch.getOrb()!=null)
-            {
-                metric.parallel+=hatch.getOrb().getTier();
-                metric.parallel+=hatch.getSoulNet().getCurrentEssence()/500000;
-                metric.parallel=Math.min(metric.parallel,16);
-            }
             if(hatch.rawWill>=20)
             {
                 hatch.rawWill-=tier*2*BASE_CONSUPTION;
@@ -93,6 +88,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
                 hatch.vengefulWill-=(tier-1)*BASE_CONSUPTION;
             }
         }
+        metric.true_parallel= ParallelLogic.getParallelAmount(machine,recipe,metric.parallel);
         return metric;
     }
     @Override
@@ -111,7 +107,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
                     "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
                     "坚韧意志：§a消除以上所有意志的负面效果§r",
                     "§c警告：不稳定的意志消耗模式§r",
-                    "§c禁忌不会成为通向真理的阻碍，我们将利用所有可以利用的可能性§r"
+                    "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"
             }
     )
     @EN(
@@ -126,7 +122,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
                     "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
                     "坚韧意志：消除以上所有意志的负面效果",
                     "§c警告：不稳定的意志消耗模式§r",
-                    "§c禁忌不会成为通向真理的阻碍，我们将利用所有可以利用的可能性§r"
+                    "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"
             }
     )
     public static Lang[] bmcoreLang_t1;
