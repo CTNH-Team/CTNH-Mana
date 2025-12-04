@@ -15,23 +15,36 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
-import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.common.Mutiblock.ManaReactor;
-import com.moguang.ctnhmana.common.Mutiblock.ZENITH_MATRIX;
+import com.moguang.ctnhmana.common.Mutiblock.*;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.BeaconBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.common.Mutiblock.HellForgeMachine.hellforgeLang;
+import static com.moguang.ctnhmana.common.Mutiblock.ManaForceTransformer.MFT_Lang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutiblockLang;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
+import static net.minecraft.world.level.block.Blocks.CHAIN;
+import static net.minecraft.world.level.block.Blocks.LAVA;
+
 import com.moguang.ctnhmana.common.*;
+import wayoftime.bloodmagic.BloodMagic;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
+
+import java.util.ArrayList;
+import java.util.List;
+@SuppressWarnings("removal")
 public class CMMultiblockMachines {
     static {
         REGISTRATE.creativeModeTab(() -> CMCreativeModeTabs.MACHINE);
@@ -40,11 +53,35 @@ public class CMMultiblockMachines {
     public static void init() {
 //I LOVE U
     }
+    public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
+    {
+        List<Component> list=new ArrayList<>();
+        int y=0;
+        for(Lang lang:langs)
+        {
+            if(y!=3) list.add(lang.translate());
+            if(y==3)list.add(lang.translate(consumption));
+            y+=1;
+        }
+        return list;
+    }
+    public static List<Component> addMachineTooltips(Lang[] langs)
+    {
+        List<Component> list=new ArrayList<>();
+        int y=0;
+        for(Lang lang:langs)
+        {
+            list.add(lang.translate());
+        }
+        return list;
+    }
     public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE.multiblock("mana_macerator",holder-> new BaseManaMachine(holder,1))
-            .cnLangValue("魔力卷板机")
+            .cnLangValue("§b魔力粉碎机")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MACERATOR_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABBA", "AAAA", "ABBA")
                     .aisle("ABBA", "ACCA", "ABBA")
@@ -59,8 +96,126 @@ public class CMMultiblockMachines {
             )
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_REACTOR = REGISTRATE.multiblock("mana_reactor",holder->new ManaReactor(holder,1))
-            .cnLangValue("魔力反应器")
+    public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE.multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
+            .cnLangValue("§b魔力卷板机")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.BENDER_RECIPES)
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("EEEEE", "ABBBA", "ABBBA", "ACCCA")
+                    .aisle("EDDDE", "B###B", "B###B", "CDDDC")
+                    .aisle("EDDDE", "B#F#B", "B#F#B", "CDDDC")
+                    .aisle("EDDDE", "B###B", "B###B", "CDDDC")
+                    .aisle("EEEEE", "AE@XA", "AEEEA", "ACCCA")
+                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished))
+                    .where("B", Predicates.frames(CMMaterials.ManaSteel))
+                    .where("C", Predicates.blocks(BotaniaBlocks.livingrockBrickStairs))
+                    .where("D", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
+                    .where("#", Predicates.any())
+                    .where("E", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            )
+                    .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("F", Predicates.blocks(CASING_STEEL_GEARBOX.get()))
+                    .build()
+            )
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public final static MultiblockMachineDefinition MANA_WIREMILL = REGISTRATE.multiblock("mana_wiremill", holder -> new BaseManaMachine(holder, 1))
+            .cnLangValue("§b魔力线材扎机")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.WIREMILL_RECIPES)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAA", "BBB", "CCC")
+                    .aisle("AAA", "BBB", "CCC")
+                    .aisle("AAA", "B@X", "CCC")
+                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PartAbility.IMPORT_FLUIDS)))
+                    .where("B", Predicates.frames(CMMaterials.Elementium))
+                    .where("C", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .build()
+            )
+
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public final static MultiblockMachineDefinition MANA_LATHE = REGISTRATE.multiblock("mana_lathe", holder -> new BaseManaMachine(holder, 1))
+            .cnLangValue("§b魔力车床")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.LATHE_RECIPES)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("ABA", "AAA", "AAA", "CAC")
+                    .aisle("ABA", "D#D", "D#D", "CAC")
+                    .aisle("ABA", "D#D", "D#D", "CAC")
+                    .aisle("ABA", "D#D", "D#D", "CAC")
+                    .aisle("ABA", "A@X", "AAA", "CAC")
+                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PartAbility.IMPORT_FLUIDS)))
+                    .where("B", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
+                    .where("C", Predicates.blocks(BotaniaBlocks.livingrockBrickStairs))
+                    .where("D", Predicates.frames(CMMaterials.ManaSteel))
+                    .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("#", Predicates.any())
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build()
+            )
+
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public final static MultiblockMachineDefinition MANA_ASSEMBLER = REGISTRATE.multiblock("mana_assembler", holder -> new BaseManaMachine(holder, 8))
+            .cnLangValue("§b魔力组装机")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,8))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.ASSEMBLER_RECIPES)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("ABBBBBA", "ABBBBBA", "ABBBBBA", "ACCCCCA", "AAAAAAA")
+                    .aisle("BDEEEDB", "B#####B", "B#####B", "C#####C", "ABBBBBA")
+                    .aisle("BEDFDEB", "B#####B", "B##G##B", "C#####C", "ABBBBBA")
+                    .aisle("BEFDFEB", "B##H##B", "B#GHG#B", "C##H##C", "ABBBBBA")
+                    .aisle("BEDFDEB", "B#####B", "B##G##B", "C#####C", "ABBBBBA")
+                    .aisle("BDEEEDB", "B#####B", "B#####B", "C#####C", "ABBBBBA")
+                    .aisle("ABBBBBA", "ABB@XBA", "ABBBBBA", "ACCCCCA", "AAAAAAA")
+                    .where("A", Predicates.frames(CMMaterials.AlfSteel))
+                    .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                            .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(abilities(PartAbility.IMPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_FLUIDS)))
+                    .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("C", Predicates.blocks(BotaniaBlocks.manaGlass))
+                    .where("D", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
+                    .where("E", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
+                    .where("#", Predicates.any())
+                    .where("F", Predicates.blocks(CMBlocks.TERRA_STEEL_CASING.get()))
+                    .where("G", Predicates.blocks(CASING_STAINLESS_STEEL_GEARBOX.get()))
+                    .where("H", Predicates.blocks(CASING_TITANIUM_GEARBOX.get()))
+
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build()
+            )
+
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public final static MultiblockMachineDefinition MANA_REACTOR = REGISTRATE.multiblock("mana_reactor",holder->new ManaReactor(holder,4))
+            .cnLangValue("§b魔力反应器")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,4))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_REACTOR_RECIPES)
             .recipeModifiers(ManaReactor::recipeModifier,
@@ -100,8 +255,110 @@ public class CMMultiblockMachines {
 
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
+    public final static MultiblockMachineDefinition MANA_FORCE_TRANSFORMER = REGISTRATE.multiblock("mana_force_transformer",holder->new ManaForceTransformer(holder,4))
+            .cnLangValue("§b魔力操纵者")
+            .tooltips(addMachineTooltips(MFT_Lang))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(CMRecipeTypes.MANA_TRANSFORMER_RECIPES)
+            .recipeModifiers(ManaForceTransformer::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("A########BBBBB#########", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("######BBBCDDDCBBB######", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("####BBCEEEDDDEEECBB####", "###########F###########", "###########G###########", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("###BCEEHHCDDDCHHEECB###", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("##BCIHH#JBBBBBJ#HHICB##", "####KKK#J#####J#KKK####", "########J#####J########", "########J#####J########", "########L#####L########", "########J#####J########", "########J#####J########", "########J#####J########", "########JMMMMMJ########", "########BBBBBBB########", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("##BEHJBBBNNNNNBBBJHEB##", "####KJK#########KJK####", "#####J###########J#####", "#####J###########J#####", "#####L###########L#####", "#####J###########J#####", "#####J###########J#####", "#####J###########J#####", "#####JMM#######MMJ#####", "#####BBB#######BBB#####", "########BBBBBBB########", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("#BCEHBNNNOPOPONNNBHECB#", "####KKK#########KKK####", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#####M###########M#####", "#####B###########B#####", "######BB#######BB######", "########QQQQQQQ########", "#######################", "#######################", "#######################")
+                    .aisle("#BEH#BNOPNNNNNPONB#HEB#", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#####M###########M#####", "#####B###########B#####", "######B#########B######", "#######BB#####BB#######", "#######RRBBBBBRR#######", "#######################", "#######################")
+                    .aisle("#BEHJBNPOBBBBBOPNBJHEB#", "####J###SBBBBBS###J####", "####J###STQUQTS###J####", "####J###SQQUQQS###J####", "####L###SQQVQQS###L####", "####J###SQQUQQS###J####", "####J###S#QUQ#S###J####", "####J###SBBBBBS###J####", "####J###W#####W###J####", "####B###X#####X###B####", "#####B###########B#####", "######QB#######BQ######", "#######RB#####BR#######", "########RBBBBBR########", "########RRRRRRR########")
+                    .aisle("BCECBNONBIIYJJBNONBCECB", "########BIIYJJB########", "########T##Z##T########", "########Q#####Q########", "########Q#####Q########", "########Q#####Q########", "#######################", "########BEEYMMB########", "####M#############M####", "####B#############B####", "#####B###########B#####", "######Q#########Q######", "#######B##a#a##B#######", "########BbbbbbB########", "########R#####R########")
+                    .aisle("BDDDBNPNBICYCJBNPNBDDDB", "########BIcYcJB########", "########Q#cIc#Q########", "########Q#cWc#Q########", "########Q#c#c#Q########", "########Q#c#c#Q########", "########Q#cdc#Q########", "########BEcYcMB########", "####M######c######M####", "####B######c######B####", "#####B#####c#####B#####", "######Q####c####Q######", "#######B#a#c#a#B#######", "########BbDDDbB########", "########R#####R########")
+                    .aisle("BDDDBNONBYYYYYBNONBDDDB", "##F#####BYYYYYB#####F##", "##Z#####UZIIIZU#####X##", "########U#WUW#U########", "########V##e##V########", "########U##U##U########", "########U#dcd#U########", "########BYYYYYB########", "####M#####cGc#####M####", "####B#####cGc#####B####", "#####B####cGc####B#####", "######Q###cGc###Q######", "#######B##cGc##B#######", "########BbDDDbB########", "########R##F##R########")
+                    .aisle("BDDDBNPNBMCYCEBNPNBDDDB", "########BMcYcEB########", "########Q#cIc#Q########", "########Q#cWc#Q########", "########Q#c#c#Q########", "########Q#c#c#Q########", "########Q#cdc#Q########", "########BJcYcIB########", "####M######c######M####", "####B######c######B####", "#####B#####c#####B#####", "######Q####c####Q######", "#######B#a#c#a#B#######", "########BbDDDbB########", "########R#####R########")
+                    .aisle("BCECBNONBMMYEEBNONBCECB", "########BMMYEEB########", "########T##Z##T########", "########Q#####Q########", "########Q#####Q########", "########Q#####Q########", "#######################", "########BJJYIIB########", "####M#############M####", "####B#############B####", "#####B###########B#####", "######Q#########Q######", "#######B##a#a##B#######", "########BbbbbbB########", "########R#####R########")
+                    .aisle("#BEHJBNPOBBBBBOPNBJHEB#", "####J###SBB@xBS###J####", "####J###STQQQTS###J####", "####J###SQQQQQS###J####", "####L###SQQQQQS###L####", "####J###SQQQQQS###J####", "####J###S#QQQ#S###J####", "####J###SBBBBBS###J####", "####J###W#####W###J####", "####B###X#####X###B####", "#####B###########B#####", "######QB#######BQ######", "#######RB#####BR#######", "########RBBBBBR########", "########RRRRRRR########")
+                    .aisle("#BEH#BNOPNNNNNPONB#HEB#", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#####M###########M#####", "#####B###########B#####", "######B#########B######", "#######BB#####BB#######", "#######RRBBBBBRR#######", "#######################", "#######################")
+                    .aisle("#BCEHBNNNOPOPONNNBHECB#", "####KKK#########KKK####", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#####M###########M#####", "#####B###########B#####", "######BB#######BB######", "########QQQQQQQ########", "#######################", "#######################", "#######################")
+                    .aisle("##BEHJBBBNNNNNBBBJHEB##", "####KJK#########KJK####", "#####J###########J#####", "#####J###########J#####", "#####L###########L#####", "#####J###########J#####", "#####J###########J#####", "#####J###########J#####", "#####JMM#######MMJ#####", "#####BBB#######BBB#####", "########BBBBBBB########", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("##BCIHH#JBBBBBJ#HHICB##", "####KKK#J#####J#KKK####", "########J#####J########", "########J#####J########", "########L#####L########", "########J#####J########", "########J#####J########", "########J#####J########", "########JMMMMMJ########", "########BBBBBBB########", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("###BCEEHHCDDDCHHEECB###", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("####BBCEEEDDDEEECBB####", "###########F###########", "###########L###########", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("######BBBCDDDCBBB######", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################")
+                    .aisle("#########BBBBB#########", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "######################A")
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+
+                    )
+                    .where("x",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("G", Predicates.blocks(BotaniaBlocks.naturaPylon))
+                    .where("P", Predicates.blocks(BotaniaBlocks.manaQuartz))
+                    .where("K", Predicates.blocks(BotaniaBlocks.livingrockStairs))
+                    .where("Q", Predicates.blocks(BotaniaBlocks.elfGlass))
+                    .where("X", Predicates.blocks(BotaniaBlocks.manaPylon))
+                    .where("e", Predicates.blocks(BotaniaBlocks.corporeaIndex))
+                    .where("Y", Predicates.blocks(CASING_STAINLESS_STEEL_GEARBOX.get()))
+                    .where("E", Predicates.blocks(MANA_STEEL_CASING.get()))
+                    .where("F", Predicates.blocks(Blocks.BEACON))
+                    .where("#", Predicates.any())
+                    .where("J", Predicates.blocks(TERRA_STEEL_CASING.get()))
+                    .where("c", Predicates.blocks(CASING_TUNGSTENSTEEL_TURBINE.get()))
+                    .where("S", Predicates.blocks(BotaniaBlocks.livingwoodLogStripped))
+                    .where("d", Predicates.blocks(BotaniaBlocks.corporeaBrickWall))
+                    .where("V", Predicates.blocks(BotaniaBlocks.corporeaCrystalCube))
+                    .where("O", Predicates.blocks(Blocks.SEA_LANTERN))
+                    .where("b", Predicates.blocks(BotaniaBlocks.manaGlass))
+                    .where("T", Predicates.blocks(BotaniaBlocks.conjurationCatalyst))
+                    .where("M", Predicates.blocks(ALF_STEEL_CASING.get()))
+                    .where("A", Predicates.any())
+                    .where("U", Predicates.blocks(BotaniaBlocks.prism))
+                    .where("W", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mythicbotany:mana_infuser"))))
+                    .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:corporea_slab"))))
+                    .where("Z", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mythicbotany:alfsteel_pylon"))))
+                    .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:clean_machine_casing"))))
+                    .where("L", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:gaia_pylon"))))
+                    .where("R", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:livingrock_wall"))))
+                    .where("N", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:magic_hazard_sign_block"))))
+                    .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:mana_diamond_block"))))
+                    .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:glimmering_livingwood"))))
+                    .where("I", Predicates.blocks(ALF_STEEL_CASING.get()))
+                    .build())
+
+
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public static MultiblockMachineDefinition HELLFORGE = REGISTRATE.multiblock("hellforge", HellForgeMachine::new)
+            .cnLangValue("§4工业狱火锻炉")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
+            .tooltips(addMachineTooltips(hellforgeLang))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "AAAAAAA", "AAAAAAA", "A#A#A#A")
+                    .aisle("AAAAAAA", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "AAAAAAA", "A#####A", "#######")
+                    .aisle("AAAAAAA", "##CCC##", "##D#D##", "##BCB##", "##BEB##", "##B#B##", "##D#D##", "##D#D##", "AAAAAAA", "A#AAA#A", "A#####A")
+                    .aisle("AAAAAAA", "##CFC##", "###G###", "##CCC##", "##EHE##", "#######", "#######", "#######", "AAAAAAA", "A#AIA#A", "#######")
+                    .aisle("AAAAAAA", "##CCC##", "##D#D##", "##BCB##", "##BEB##", "##B#B##", "##D#D##", "##D#D##", "AAAAAAA", "A#AAA#A", "A#####A")
+                    .aisle("AAAAAAA", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "AAAAAAA", "A#####A", "#######")
+                    .aisle("AAA@XAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "AAAAAAA", "AAAAAAA", "A#A#A#A")
+                    .where("A", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get()).or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                    .where("B", Predicates.blocks(CHAIN))
+                    .where("#", Predicates.any())
+                    .where("C", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_SLAB.get()))
+                    .where("D", Predicates.blocks(BloodMagicBlocks.HELLFORGED_BLOCK.get()))
+                    .where("E", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get()))
+                    .where("F", Predicates.blocks(BloodMagicBlocks.DUNGEON_TILE.get()))
+                    .where("G", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_WALL.get()))
+                    .where("H", Predicates.blocks(BloodMagicFluids.LIFE_ESSENCE_BLOCK.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("I", Predicates.blocks(LAVA)).build())
+            .workableCasingModel(BloodMagic.rl("block/obsidiantilepath"), GTCEu.id("block/machines/autoclave"))
+            .register();
     public final static MultiblockMachineDefinition ZENITH_MATRIX = REGISTRATE.multiblock("zenith_matrix",holder-> new ZENITH_MATRIX(holder))
             .cnLangValue("天顶矩阵")
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()

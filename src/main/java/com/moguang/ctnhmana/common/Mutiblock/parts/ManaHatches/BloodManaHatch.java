@@ -60,16 +60,8 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     @Getter
     @Persisted
     private final NotifiableItemStackHandler soul_inventory;
-    @Getter
-    @Persisted
-    private final NotifiableFluidTank fluidTank;
     //    @Persisted
 //    private Level level;;
-    @Persisted
-    public long maxMana;
-    @Getter
-    @Persisted
-    public long LP=0L;
     @Persisted
     protected final IO io=IO.IN;
     @Persisted
@@ -100,7 +92,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     WillChunk willChunk=null;
     //Holder初始化 持久化
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BloodManaHatch.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
+            ManaHatch.MANAGED_FIELD_HOLDER);
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
@@ -110,7 +102,6 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     private int LP_TO_POWER_RATE=10; //默认值为10转1
     public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, int LP_CONVERT_RATE, int capacity,int maxDemonWill,double FLUID_LP_CONVERT_SPEED) {
         super(holder,max_Mana,max_LP,0,capacity);
-        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
         blood_inventory =createMachineStorageOrb();
         soul_inventory=createMachineStorageGem();
         this.LP_CONVERT_RATE=LP_CONVERT_RATE;
@@ -234,6 +225,59 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
             ConvertFluidLP();
         }
     }
+    public boolean ConsumeWillIfEnough(String type,int num)
+    {
+        switch (type)
+        {
+            case "default"->
+            {
+                if(this.rawWill>=num)
+                {
+                    this.rawWill-=num;
+                    return true;
+                }
+                return false;
+            }
+            case "vengeful"->
+            {
+                if(this.vengefulWill>=num)
+                {
+                    this.vengefulWill-=num;
+                    return true;
+                }
+                return false;
+            }
+            case "steadfast"->
+            {
+                if(this.steadfastWill>=num)
+                {
+                    this.steadfastWill-=num;
+                    return true;
+                }
+                return false;
+            }
+            case "corrosive"->
+            {
+                if(this.corrosiveWill>=num)
+                {
+                    this.corrosiveWill-=num;
+                    return true;
+                }
+                return false;
+            }
+            case "destructive"->
+            {
+                if(this.destructiveWill>=num)
+                {
+                    this.destructiveWill-=num;
+                    return true;
+                }
+                return false;
+            }
+
+        }
+        return false;
+    }
     public void ConvertGemsWill()
     {
         if(!soul_inventory.isEmpty())
@@ -280,7 +324,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     }
     public void ConvertFluidLP()
     {
-        if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),(int)(1/FLUID_LP_CONVERT_SPEED)))) {
+        if(!fluidTank.isEmpty()&&fluidTank.getFluidInTank(0).containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),1))) {
             var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), (long)(fluidTank.getFluidInTank(0).getAmount()*FLUID_LP_CONVERT_SPEED));
             Mana = Math.min(maxMana, (long)(consume/LP_CONVERT_RATE)+Mana);
             fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount()-consume));
@@ -333,8 +377,9 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
         if(!blood_inventory.isEmpty())
         {
             var item=blood_inventory.getStackInSlot(0);
-            if(item.getItem() instanceof ItemBloodOrb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
+            if(item.getItem() instanceof ItemBloodOrb orb&&((ItemBloodOrb)item.getItem()).getBinding(item)!=null)
             {
+                this.orb= orb.getOrb(item);
                 this.SoulNet=NetworkHelper.getSoulNetwork(((ItemBloodOrb) item.getItem()).getBinding(item));
                 HAVE_ORB=true;
             }

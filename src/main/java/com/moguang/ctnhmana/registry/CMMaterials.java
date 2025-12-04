@@ -92,6 +92,17 @@ public class CMMaterials {
             .secondaryColor(0x836FFF)
             .element(ACTIVE_ZENITH)
             .buildAndRegister();
+    public static final Material MANA_STABLE_COOLDOWN = REGISTRATE.material(GTCEu.id("mana_stable_cooldown"))
+            .cnlang("魔力稳定剂")
+            .liquid()
+            .color(0x28358A)
+            .buildAndRegister();
+    public static final Material ELF_FUEL = REGISTRATE.material(GTCEu.id("elf_fuel"))
+            .cnlang("精灵稳定燃料")
+            .liquid()
+            .color(0x28358A)
+            .buildAndRegister()
+            .setFormula("ArNeC2O4Ma", true);
 
 
 }

@@ -41,7 +41,6 @@ public class ChineseLangHandler {
                     "最大的液态魔力存储：%d mb"
             }
     )
-
     public static  Lang[]  manahatchtootip_base;
 
     @CN(
@@ -69,6 +68,31 @@ public class ChineseLangHandler {
             }
     )
     public static  Lang[]  bloodmanahatchtootip_base;
+    @CN(
+            {
+                    "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",
+                    "不支持输入生命源质",
+                    "植物魔法的魔力可以通过在物品槽位放入魔力戒指或使用魔力发射器进行传输",
+                    "每秒从半径为8的火花绑定的魔力存储中抽取15000植物魔法魔力，每10秒重新检测一次周围的火花",
+                    "直接从外部输入（不支持手动输入）来往舱室输入液态魔力",
+                    "最大的魔力能量存储：%d",
+                    "最大的生命植物魔法魔力存储：%d",
+                    "最大的液态魔力存储：%d mb"
+            }
+    )
+    @EN(
+            {
+                    "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",
+                    "不支持输入生命源质",
+                    "植物魔法的魔力可以通过在物品槽位放入魔力戒指或使用魔力发射器进行传输",
+                    "每秒从半径为8范围内的每一个火花绑定的魔力存储中抽取%d植物魔法魔力，每10秒重新检测一次周围的火花",
+                    "直接从外部输入（不支持手动输入）来往舱室注入液态魔力",
+                    "最大的魔力能量存储：%d",
+                    "最大的生命植物魔法魔力存储：%d",
+                    "最大的液态魔力存储：%d mb"
+            }
+    )
+    public static  Lang[]  sparkmanahatchtootip_base;
     @CN("基础魔力凝聚者")
 
     public static Lang manahatchtooltip_1;
@@ -96,29 +120,35 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.jade.manahatch.btmanaprogress","植物魔法魔力量：%s / %s");
         provider.add("ctnhmana.jade.manahatch.bmmanaprogress","灵魂网络LP量：%s / %s");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider","魔力舱室属性");
+        provider.add("ctnh.recipe_type.info", "配方类型：%s");
+        provider.add("ctnh.recipe_type.list", "%s, %s");
+        provider.add("ctnhmana.copyright.info","由CTNHMana增加");
     }
     //物品tooltips
 
 
 
-
+    @CN("§b同时蕴含信息和能量§r")
+    @EN("§bSimultaneously containing information and energy§r")
+    public static Lang umlhpic;
+    @CN("§b魔力逻辑UV电路板§r")
+    @EN("§bMagic Logic UV Circuit Board§r")
+    public static Lang magic_quantum_processor_mainframe;
     @CN(
             {
                     "魔法之力！",
                     "要求结构中必须且仅有1个魔力凝聚仓",
                     "通过机器内升级槽放入升级",
                     "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-                    "运行电压与当前电压的相同配方具有§c-25%§r运行速度",
                     "无损超频（暂时）！"
             }
     )
     @EN(
             {
-                    "魔法之力！",
+                    "§b魔法之力！",
                     "要求结构中必须且仅有1个魔力凝聚仓",
                     "通过机器内升级槽放入升级",
                     "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-                    "运行电压与当前电压的相同配方具有§c-25%§r运行速度",
                     "无损超频（暂时）！"
             }
     )

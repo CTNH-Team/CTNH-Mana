@@ -36,7 +36,6 @@ public class ManaReactorRecipes {
                 .duration(200)
                 .circuitMeta(2)
                 .EUt(114514)
-
                 .save(provider);
     }
 }

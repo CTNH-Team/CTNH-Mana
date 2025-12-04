@@ -7,6 +7,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.SparkManaHatch;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
@@ -25,8 +26,6 @@ public class CMMachines {
     public static void init() {
 
     }
-
-
     public static final MachineDefinition MANA_HATCH = REGISTRATE
             .manamachine("manahatch",
                     holder -> new ManaHatch(holder,10000,10000,100000,6400))
@@ -48,18 +47,19 @@ public class CMMachines {
             .register();
     public static final MachineDefinition ADVANCED_MANA_HATCH = REGISTRATE
             .manamachine("elf_manahatch",
-                    holder -> new ManaHatch(holder,40000,100000,500000,32000))
+                    holder -> new SparkManaHatch(holder,40000,100000,500000,32000,7500))
             .cnLangValue("精灵·魔力凝聚仓")
             .rotationState(RotationState.ALL)
             .tooltips(manahatchtooltip_1.translate())
             .tooltips(
-                    manahatchtootip_base[0].translate(),
-                    manahatchtootip_base[1].translate(),
-                    manahatchtootip_base[2].translate(),
-                    manahatchtootip_base[3].translate(),
-                    manahatchtootip_base[4].translate(40000),
-                    manahatchtootip_base[5].translate(500000),
-                    manahatchtootip_base[6].translate(32000)
+                    sparkmanahatchtootip_base[0].translate(),
+                    sparkmanahatchtootip_base[1].translate(),
+                    sparkmanahatchtootip_base[2].translate(),
+                    sparkmanahatchtootip_base[3].translate(),
+                    sparkmanahatchtootip_base[4].translate(7500),
+                    sparkmanahatchtootip_base[5].translate(40000),
+                    sparkmanahatchtootip_base[6].translate(500000),
+                    sparkmanahatchtootip_base[7].translate(32000)
             )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
@@ -67,18 +67,19 @@ public class CMMachines {
             .register();
     public static final MachineDefinition GIGA_MANA_HATCH = REGISTRATE
             .manamachine("giga_manahatch",
-                    holder -> new ManaHatch(holder,160000,100000,5000000,128000))
+                    holder -> new SparkManaHatch(holder,160000,100000,5000000,128000,20000))
             .cnLangValue("盖亚·魔力凝聚仓")
             .rotationState(RotationState.ALL)
             .tooltips(manahatchtooltip_1.translate())
             .tooltips(
-                    manahatchtootip_base[0].translate(),
-                    manahatchtootip_base[1].translate(),
-                    manahatchtootip_base[2].translate(),
-                    manahatchtootip_base[3].translate(),
-                    manahatchtootip_base[4].translate(160000),
-                    manahatchtootip_base[5].translate(2500000),
-                    manahatchtootip_base[6].translate(128000)
+                    sparkmanahatchtootip_base[0].translate(),
+                    sparkmanahatchtootip_base[1].translate(),
+                    sparkmanahatchtootip_base[2].translate(),
+                    sparkmanahatchtootip_base[3].translate(),
+                    sparkmanahatchtootip_base[4].translate(20000),
+                    sparkmanahatchtootip_base[5].translate(160000),
+                    sparkmanahatchtootip_base[6].translate(2500000),
+                    sparkmanahatchtootip_base[7].translate(128000)
             )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
@@ -103,7 +104,6 @@ public class CMMachines {
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
             .register();
-
     public static final MachineDefinition BM_HATCH = REGISTRATE
             .manamachine("bloodmanahatch",
                     holder -> new BloodManaHatch(holder,666666,6666666,100,666666,100,0.001))
@@ -121,7 +121,7 @@ public class CMMachines {
                     bloodmanahatchtootip_base[7].translate(666666)
             )
             .abilities(CMPartsAbility.MANAHATCH)
-            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(UHV)
             .register();
 }
