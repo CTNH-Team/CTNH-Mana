@@ -89,6 +89,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     public double destructiveWill = 0;
     @Persisted
     public double vengefulWill = 0;
+
     WillChunk willChunk=null;
     //Holder初始化 持久化
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BloodManaHatch.class,

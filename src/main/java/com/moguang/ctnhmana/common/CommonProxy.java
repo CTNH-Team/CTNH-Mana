@@ -4,7 +4,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.moguang.ctnhmana.CMConfig;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.CMDatagen;
+import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
+import com.moguang.ctnhmana.integration.jade.ManaPoolStatusProvider;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.GTMaterialAddon;
 import net.minecraft.world.level.block.Block;
@@ -44,6 +46,30 @@ public class CommonProxy {
                 Block.class,
                 900,
                 "mana_hatch_status")
+        ;
+        JadePriorityManager.registerBlockData(
+                new BaseManaMachineStatusProvider(),
+                BlockEntity.class,
+                900,
+                "mana_base_machine_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new BaseManaMachineStatusProvider(),
+                Block.class,
+                900,
+                "mana_base_machine_status")
+        ;
+        JadePriorityManager.registerBlockData(
+                new ManaPoolStatusProvider(),
+                BlockEntity.class,
+                900,
+                "mana_pool_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new ManaPoolStatusProvider(),
+                Block.class,
+                900,
+                "mana_pool_status")
         ;
     }
 

@@ -52,7 +52,7 @@ dependencies {
     modImplementation("org.moddingx:LibX:${minecraft_version}-${libx_version}")
 
     // Blood Magic
-    modImplementation("maven.modrinth:blood-magic:${bloodmagic_version}")
+    modImplementation("curse.maven:blood-magic-224791:7253333")
 
     // Curios
     modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curios_version}")

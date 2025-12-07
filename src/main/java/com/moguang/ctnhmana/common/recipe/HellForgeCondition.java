@@ -87,13 +87,24 @@ public class HellForgeCondition extends RecipeCondition {
         return WillAllLang.translate(WillWilltypeLang.translate(DEMON_TYPE.get(Willtype)),WillNumLang.translate(consume));
     }
 
+
     @Override
     protected boolean testCondition(@NotNull GTRecipe gtRecipe, @NotNull RecipeLogic recipeLogic) {
         var machine=recipeLogic.machine;
         if(machine instanceof HellForgeMachine hmachine)
         {
             if(hmachine.hatch==null)return false;
-            return hmachine.hatch.ConsumeWillIfEnough(Willtype,consume);
+            if(hmachine.consumeLock==false)
+            {
+                if(hmachine.hatch.ConsumeWillIfEnough(Willtype,consume))
+                {
+                    hmachine.consumeLock=true;
+                    return true;
+                }
+                return false;
+            }
+            return hmachine.consumeLock;
+
         }
         return false;
     }

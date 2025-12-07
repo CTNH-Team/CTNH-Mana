@@ -17,6 +17,5 @@ public class CMGuiTextures {
     public static final ResourceTexture TEST_ACTIVE_BAR=new ResourceTexture("ctnhmana:models/block/machine/part/manahatch.json");
     public static  final ResourceTexture PROGRESS_BAR_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/mana_bar_empty.png");
     public static  final AnimationTexture PROGRESS_BAR_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/mana_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
-
-
+    public static final ResourceTexture MACHINE_STATUS_ICON=new ResourceTexture("ctnhmana:textures/gui/status_icon.png");
 }

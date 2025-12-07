@@ -21,8 +21,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
+import com.moguang.ctnhmana.common.gui.BaseManaMachineGui;
+import com.moguang.ctnhmana.common.gui.ManaStatusGui;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.item.manamachineupdate.ManaMachineUpgradeItem;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -54,6 +57,7 @@ public class BaseManaMachine extends ManaMachine {
     public int consumption;
     @Persisted
     public int baseConsumption;
+    @Getter
     protected ManaMachineUpgradeItem upgrade;
     public MachineMetric metric=new MachineMetric(); //用于维护每秒刷新的metric
     public MachineMetric recipemetric =new MachineMetric(); //用于维护配recipemodifer中根据配方的metric
@@ -126,9 +130,6 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void onLoad() {
         super.onLoad();
-        if(this.isFormed()) {
-            checkUpdate();
-        }
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTick));
             ManaSubs = machineStorage.addChangedListener(this::onInventoryChanged);
@@ -153,6 +154,7 @@ public class BaseManaMachine extends ManaMachine {
     //每秒维护一次
     public void updateMetric()
     {
+        if(!this.isFormed())return;
         if(getOffsetTimer()%20==0) {
             if(this.upgrade!=null) {
                 metric = upgrade.calculateNormalUpgrade(new MachineMetric(), this);
@@ -167,7 +169,6 @@ public class BaseManaMachine extends ManaMachine {
     }
     public void onInventoryChanged()
     {
-
         checkUpdate();
     }
     //////////////////////////////////////
@@ -293,6 +294,7 @@ public class BaseManaMachine extends ManaMachine {
         sideTabs.setMainTab(this);
         if (this.getRecipeTypes().length > 0) {
             sideTabs.attachSubTab(new ShroudUi());
+            sideTabs.attachSubTab(new ManaStatusGui(this));
         }
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
         if (directionalConfigurator != null)
@@ -345,6 +347,8 @@ public class BaseManaMachine extends ManaMachine {
             "天顶强化已启动",
     })
     public static  Lang[]  BaseManaMachineLang;
+    @CN("当前并行数:%d / %d")
+    public static  Lang  BaseManaMachineWorkingParallelLang;
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
@@ -359,22 +363,21 @@ public class BaseManaMachine extends ManaMachine {
                 textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
                 textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
                 textList.add(textList.size(), BaseManaMachineLang[3].translate(metric.parallel+globalmetric.parallel));
-                textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.speed+globalmetric.speed));
-                textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut+globalmetric.eut));
-                textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input+globalmetric.input));
-                textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output+globalmetric.output));
+//                textList.add(textList.size(), BaseManaMachineLang[4].translate(metric.speed+globalmetric.speed));
+//                textList.add(textList.size(), BaseManaMachineLang[5].translate(metric.eut+globalmetric.eut));
+//                textList.add(textList.size(), BaseManaMachineLang[6].translate(metric.input+globalmetric.input));
+//                textList.add(textList.size(), BaseManaMachineLang[7].translate(metric.output+globalmetric.output));
             }
             else
             {
                 textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
                 textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
-                textList.add(textList.size(), BaseManaMachineLang[3].translate(recipemetric.parallel));
-                textList.add(textList.size(), BaseManaMachineLang[4].translate(recipemetric.speed));
-                textList.add(textList.size(), BaseManaMachineLang[5].translate(recipemetric.eut));
-                textList.add(textList.size(), BaseManaMachineLang[6].translate(recipemetric.input));
-                textList.add(textList.size(), BaseManaMachineLang[7].translate(recipemetric.output));
+                textList.add(textList.size(), BaseManaMachineWorkingParallelLang.translate(recipemetric.parallel,metric.parallel+globalmetric.parallel));
+//                textList.add(textList.size(), BaseManaMachineLang[4].translate(recipemetric.speed));
+//                textList.add(textList.size(), BaseManaMachineLang[5].translate(recipemetric.eut));
+//                textList.add(textList.size(), BaseManaMachineLang[6].translate(recipemetric.input));
+//                textList.add(textList.size(), BaseManaMachineLang[7].translate(recipemetric.output));
             }
-
         }
 
     }

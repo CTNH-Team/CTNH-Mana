@@ -24,11 +24,18 @@ public class HellForgeMachine extends BaseManaMachine {
     public double will = 0;
     public static final String WILL = "will";
     @Persisted
+    public boolean consumeLock=false;
+    @Persisted
     public BlockPos hatchPos;
     public BloodManaHatch hatch;
     public HellForgeMachine(IMachineBlockEntity holder){
         super(holder,4);
         machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof BMUpgradeItemT1);
+    }
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        consumeLock=false;
     }
     @Override
     public void onStructureFormed() {
