@@ -7,7 +7,7 @@ dependencies {
     modImplementation(project(":modules:CTNH-Lib")){transitive = false}
 
     // JEI, EMI, Jade
-    modImplementation("curse.maven:jei-238222:7181650")
+    //modImplementation("curse.maven:jei-238222:7181650")
     //modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     //modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     //modRuntimeOnly("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
