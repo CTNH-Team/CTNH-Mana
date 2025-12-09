@@ -31,7 +31,8 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,BaseManaMachine machine)
     {
         var hatch=machine.getHatch();
-        metric.parallel+=(hatch.getBTMana()/50000+hatch.getmaxBTMana()/200000);
+
+        metric.parallel+=Math.min(16,(hatch.getBTMana()/50000+hatch.getmaxBTMana()/200000));
         metric.speed+=Math.min(0.25, (double) hatch.getBTMana() /10000000);
         return metric;
     }

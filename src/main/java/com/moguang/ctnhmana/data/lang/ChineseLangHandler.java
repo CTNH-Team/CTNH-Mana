@@ -124,6 +124,7 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.jade.manahatch.corrosivewillprogress", "§a侵蚀意志：%s / %s");
         provider.add("ctnhmana.jade.manahatch.destructivewillprogress", "§6破坏意志：%s / %s");
         provider.add("ctnhmana.jade.manahatch.vengefulwillprogress", "§c复仇意志：%s / %s");
+        provider.add("ctnhmana.jade.terra_plate.manaprogress","魔力输入进度：%s / %s (%.2f%%)");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider","魔力舱室属性");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider","魔力机器属性");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status","魔力池属性");
@@ -141,6 +142,27 @@ public class ChineseLangHandler {
     @CN("§b魔力逻辑UV电路板§r")
     @EN("§bMagic Logic UV Circuit Board§r")
     public static Lang magic_quantum_processor_mainframe;
+    @CN(
+            {
+                    "佩戴时获得:",
+                    "显示§b魔力池§r，§b魔力花§r和§b魔力凝聚板§r的详细信息",
+                    "看穿所有敌人的伪装",
+                    "攻击时必定抓住敌人的破绽",
+                    "被所有生物所憎恶，§4§l这就是看穿真实的代价",
+                    "§5§o以自己的幸福，换来可以看见真实的眼睛，这就是身为§r§4§n觉§r§5§o之妖怪的被厌恶者的觉悟"
+            }
+    )
+    @EN(
+            {
+                    "佩戴时获得:",
+                    "显示魔力池，魔力花和魔力凝聚板的详细信息",
+                    "看穿所有敌人的伪装",
+                    "攻击时必定抓住敌人的破绽",
+                    "被所有生物所憎恶，§4§l这就是看穿真实的代价",
+                    "§5§o以自己的幸福，换来可以看见真实的眼睛，这就是身为§r§n觉§r§5§o之妖怪的被厌恶者的觉悟"
+            }
+    )
+    public static Lang[] satori_thirdeye_tooltip;
     @CN(
             {
                     "魔法之力！",

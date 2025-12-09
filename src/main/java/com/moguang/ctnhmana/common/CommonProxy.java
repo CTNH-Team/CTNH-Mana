@@ -6,15 +6,12 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
-import com.moguang.ctnhmana.integration.jade.ManaPoolStatusProvider;
+import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.GTMaterialAddon;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tech.vixhentx.mcmod.ctnhlib.jade.JadePriorityManager;
 
@@ -60,13 +57,13 @@ public class CommonProxy {
                 "mana_base_machine_status")
         ;
         JadePriorityManager.registerBlockData(
-                new ManaPoolStatusProvider(),
+                new ThirdEyeStatusProvider(),
                 BlockEntity.class,
                 900,
                 "mana_pool_status");
 
         JadePriorityManager.registerBlockComponent(
-                new ManaPoolStatusProvider(),
+                new ThirdEyeStatusProvider(),
                 Block.class,
                 900,
                 "mana_pool_status")

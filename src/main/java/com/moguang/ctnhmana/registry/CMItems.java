@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
+import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.manamachineupdate.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.BTUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.*;
@@ -15,10 +16,12 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import vazkii.botania.common.item.equipment.bauble.BaubleItem;
 import vazkii.botania.common.lib.BotaniaTags;
 
 import java.util.List;
@@ -145,6 +148,11 @@ public class CMItems {
                         text.add(magic_quantum_processor_mainframe.translate())
                 )))
                 .register();
+        KOISHI_EYE=REGISTRATE
+                .item("koishi_eye",KoishiEyeItem::new)
+                .cnlang("§9紧闭的第三只眼")
+                .lang("§9Koishi_eye")
+                .register();
 
     }
     public static void init() {
@@ -164,6 +172,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> TWIST_RUNE;
     public static ItemEntry<ComponentItem> QUASAR_RUNE;
     public static ItemEntry<ComponentItem> PROLIFERATION_RUNE;
+    public static ItemEntry<KoishiEyeItem>KOISHI_EYE;
 public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
 public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
 public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
