@@ -62,8 +62,8 @@ public class KoishiEyeItem extends BaubleItem {
         }
         if(living instanceof Player player)
         {
-            var time = Objects.requireNonNull(player.level()).getDayTime() % 80;
-            if(time==0)return;
+            var time = Objects.requireNonNull(player.level()).getDayTime() % 20;
+            if(time!=0)return;
         List<LivingEntity> entityList=player.level().getNearbyEntities(
                 LivingEntity.class,
                 TargetingConditions.forCombat().range(8),

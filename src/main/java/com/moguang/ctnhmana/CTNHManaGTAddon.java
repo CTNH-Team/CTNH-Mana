@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.moguang.ctnhmana.data.recipe.HellForgeRecipes;
 import com.moguang.ctnhmana.data.recipe.ManaReactorRecipes;
+import com.moguang.ctnhmana.data.recipe.WishingWillRecipes;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMElements;
 import com.moguang.ctnhmana.registry.CMItems;
@@ -52,6 +53,7 @@ public class CTNHManaGTAddon implements IGTAddon {
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         ManaReactorRecipes.init(provider);
         HellForgeRecipes.init(provider);
+        WishingWillRecipes.init(provider);
     }
 
     @Override

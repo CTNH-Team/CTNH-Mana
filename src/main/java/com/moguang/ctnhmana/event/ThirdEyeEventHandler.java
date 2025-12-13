@@ -1,7 +1,14 @@
 package com.moguang.ctnhmana.event;
 
+import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.registry.CMItems;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
@@ -23,14 +30,18 @@ import vazkii.botania.common.item.equipment.bauble.ThirdEyeItem;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ThirdEyeEventHandler {
+
+    public int cd=1;
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onLivingHurt(LivingHurtEvent event) {
         DamageSource damageSource = event.getSource();
         LivingEntity target = event.getEntity();
         float originalDamage = event.getAmount();
+        double yuriko_chance=1.0;
         if (damageSource.getEntity() instanceof Player player) {
             ItemStack item= EquipmentHandler.findOrEmpty(BotaniaItems.thirdEye,player);
             if(item.getItem() instanceof ThirdEyeItem)
@@ -39,6 +50,7 @@ public class ThirdEyeEventHandler {
                 // 触发暴击粒子效果（原版视觉反馈）
                 target.level().levelEvent(null, 2008, target.blockPosition(), 0);
             }
+
         }
     }
     @SubscribeEvent
@@ -66,6 +78,7 @@ public class ThirdEyeEventHandler {
                 }
 
             }
+
             return;
         }
 

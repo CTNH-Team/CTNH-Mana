@@ -35,5 +35,13 @@ public class CMRecipeTypes {
                     .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
                     .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE,  ProgressTexture.FillDirection.LEFT_TO_RIGHT)
                     .setSound(GTSoundEntries.CHEMICAL);
+    public static final GTRecipeType WISHING_RECIPES =
+            REGISTRATE.recipeType(GTCEu.id("genshin_wishing"), GTRecipeTypes.MULTIBLOCK)
+                    .cnlang("§c许§6☆§e愿§a☆§9池§d☆§c幸§6☆§e运§a☆§9抽§d☆§c奖").setMaxIOSize(1, 18, 0, 0)
+                    .setEUIO(IO.IN)
+                    .setMaxTooltips(5)
+                    .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE,  ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+                    .setSound(GTSoundEntries.CHEMICAL);
     public static void init() {}
 }

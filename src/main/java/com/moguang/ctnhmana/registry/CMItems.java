@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
+import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
 import com.moguang.ctnhmana.item.manamachineupdate.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.BTUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.*;
@@ -16,6 +17,9 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -31,6 +35,7 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
 import com.moguang.ctnhmana.item.bosssummon.ThrowItem;
+@SuppressWarnings("removal")
 public class CMItems {
     static {
         REGISTRATE.creativeModeTab(() -> CMCreativeModeTabs.ITEM);
@@ -152,6 +157,13 @@ public class CMItems {
                 .item("koishi_eye",KoishiEyeItem::new)
                 .cnlang("§9紧闭的第三只眼")
                 .lang("§9Koishi_eye")
+                .tag(accessory("body"))
+                .register();
+        YURIKO_RING=REGISTRATE
+                .item("yuriko_ring",YurikoRingItem::new)
+                .cnlang("§7黯淡的绮璃之戒")
+                .lang("§§7黯淡的绮璃之戒")
+                .tag(accessory("ring"))
                 .register();
 
     }
@@ -173,6 +185,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> QUASAR_RUNE;
     public static ItemEntry<ComponentItem> PROLIFERATION_RUNE;
     public static ItemEntry<KoishiEyeItem>KOISHI_EYE;
+    public static ItemEntry<YurikoRingItem>YURIKO_RING;
 public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
 public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
 public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
@@ -203,6 +216,9 @@ public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
             list.add(lang.translate());
         }
         return list;
+    }
+    private static TagKey<Item> accessory(String name) {
+        return ItemTags.create(new ResourceLocation("curios", name));
     }
     public static ItemEntry<ComponentItem> MANA_ELECTRONIC_CIRCUIT = REGISTRATE
             .item("mana_electronic_circuit", ComponentItem::create)
