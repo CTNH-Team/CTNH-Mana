@@ -1,11 +1,16 @@
 package com.moguang.ctnhmana.common.Mutiblock;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -23,13 +28,18 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.checkerframework.checker.units.qual.C;
+import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 
 import javax.annotation.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static wayoftime.bloodmagic.demonaura.WorldDemonWillHandler.getDimensionResourceLocation;
 import static wayoftime.bloodmagic.demonaura.WorldDemonWillHandler.getWillChunk;
@@ -61,15 +71,6 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
 
     @Override
     public void afterWorking() {
-        if(getMachine(this.getLevel(),this.getPos()) instanceof HellForgeMachine hmachine)
-        {
-            if(!diffusion_model)
-            {
-                hmachine.hatch.rawWill+=will_adder;
-                will_adder=0;
-            }
-        }
-
         MachineUtils.applyContents(this, (content)->{
             var count = ((ItemStack)content).getTag().getCompound("data_model").getInt("data");
             if(count < 54) ((ItemStack)content).getTag().getCompound("data_model").putInt("data",count + 1);
@@ -95,6 +96,12 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
         }
         return widget;
     }
+
+    //孩子们recipelogic太好用了，什么叫unsafe听不懂喵
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
+        return new EternalWosLogic(this);
+    }
     //todo
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){
         if(machine instanceof EternalWosMachine dmachine) {
@@ -103,25 +110,72 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
             pos = pos.offset(0,-11,0);
             var maxParallel = ParallelLogic.getParallelAmount(dmachine,recipe,2147483647);
            // ModifierFunction parallel = CTNHRecipeModifiers.accurateParallel(machine,recipe,maxParallel);
-            if(getMachine(level,pos) instanceof HellForgeMachine hmachine){
-                var outputAmount=((FluidIngredient)(recipe.getOutputContents(GTRecipeCapabilities.FLUID).get(0).content)).getAmount();
-                if(!dmachine.diffusion_model) {
-                    dmachine.will_adder = hmachine.will + maxParallel * outputAmount * dmachine.multiplier / 1000000;
-                    dmachine.multiplier = 0;
-                    return  ModifierFunction.builder()
-                            .parallels(maxParallel)
-                            .eutMultiplier(maxParallel)
-                            .outputModifier(ContentModifier.multiplier(0))
-                            .build();
-                }
-            }
-
             return  ModifierFunction.builder()
                     .parallels(maxParallel)
                     .eutMultiplier(maxParallel)
                     .build();
         }
         return ModifierFunction.IDENTITY;
+    }
+    public boolean isConnected()
+    {
+        var level = this.getLevel();
+        var pos= this.getPos();
+        pos = pos.offset(0,-11,0);
+        return (getMachine(level,pos) instanceof HellForgeMachine hmachine);
+    }
+
+    public void AddWill(Long count)
+    {
+        var willcount=count/1000000;
+        var level = this.getLevel();
+        var pos= this.getPos();
+        pos = pos.offset(0,-11,0);
+        if(getMachine(level,pos) instanceof HellForgeMachine hmachine)
+        {
+            if(!diffusion_model)
+            {
+                hmachine.hatch.rawWill+=willcount;
+            }
+            var willchunk=getWillChunk(level,pos);
+            willchunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT,willcount);
+            diffuseWillFromCenter(pos.getX(), pos.getY(),1);
+        }
+    }
+
+    class EternalWosLogic extends RecipeLogic
+    {
+
+        public EternalWosLogic(IRecipeLogicMachine machine) {
+            super(machine);
+        }
+        @Override
+        protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
+            if (io == IO.IN) {
+                // 输入处理：正常处理
+                return super.handleRecipeIO(recipe, io);
+            }
+            if (io == IO.OUT) {
+                if(!isConnected())return super.handleRecipeIO(recipe,io);
+                var safe_recipe=lastOriginRecipe;
+                List<Content> outputContents = safe_recipe.getOutputContents(FluidRecipeCapability.CAP);
+                if (!outputContents.isEmpty()) {
+                    for (Content content : outputContents) {
+                        var safe_content=content.copy(FluidRecipeCapability.CAP);
+                        // 从Content中获取ItemStack
+                        FluidIngredient ingredient = FluidRecipeCapability.CAP.of(safe_content.getContent());
+                        if (ingredient != null) {
+                            Long count= Arrays.stream(ingredient.getStacks()).count();
+                            if(count<1)return ActionResult.PASS_NO_CONTENTS;
+                            AddWill(count);
+                        }
+                    }
+                }
+                return ActionResult.SUCCESS;
+            }
+
+            return super.handleRecipeIO(recipe, io);
+        }
     }
     public void SpreadingWill()
     {

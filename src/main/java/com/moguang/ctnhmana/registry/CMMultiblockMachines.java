@@ -9,22 +9,29 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.common.block.LampBlock;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.common.Mutiblock.*;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.BeaconBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;
 
+import static com.github.L_Ender.cataclysm.init.ModBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
@@ -35,9 +42,11 @@ import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutibloc
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
 import static net.minecraft.world.level.block.Blocks.*;
+import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.*;
 
 import com.moguang.ctnhmana.common.*;
 import wayoftime.bloodmagic.BloodMagic;
+import wayoftime.bloodmagic.api.event.BloodMagicCraftedEvent;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
@@ -483,5 +492,123 @@ public class CMMultiblockMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(BloodMagic.rl("block/largebloodstonebrick"), GTCEu.id("block/machines/digital_well_of_suffer"))
+            .register();
+    public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("mana_tester", holder -> new IndustrialAltarMachine(holder))
+            .cnLangValue("§b工业血之祭坛")
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.BENDER_RECIPES)
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("ABCBA", "#####")
+                    .aisle("BDDDB", "#####")
+                    .aisle("CDDDC", "##F##")
+                    .aisle("BDDDB", "#####")
+                    .aisle("ABEBA", "#####")
+                    .where("A", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:sea_lantern"))))
+                    .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                    .where("E",  Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("D", CMPredicates.BMRuneBlocks)
+                    .where("#", Predicates.any())
+                    .where("F", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar"))))
+                    .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks"))))
+                    .build()
+            )
+            .shapeInfos(definition->
+            {
+                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var tier2_build=MultiblockShapeInfo.builder()
+                        .aisle("ABCBA", "#####")
+                        .aisle("BDDDB", "#####")
+                        .aisle("CDDDC", "##F##")
+                        .aisle("BDDDB", "#####")
+                        .aisle("ABEBA", "#####")
+                        .where('A', (ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:sea_lantern"))))
+                        .where('B', (ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                        .where('E', definition,Direction.SOUTH)
+                        .where('D', BLANK_RUNE.get().defaultBlockState())
+                        .where('#',Blocks.AIR.defaultBlockState())
+                        .where('F', (ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar"))))
+                        .where('C', (ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks"))));
+
+                var tier3_build = MultiblockShapeInfo.builder()
+                        .aisle("ABBBCBBBA", "DE#####ED", "D#######D", "F#######F", "#########", "#########", "#########", "#########", "#########", "#########")
+                        .aisle("B#######B", "EBGGGGGBE", "#H#####H#", "#H#####H#", "#I#####I#", "#########", "#########", "#########", "#########", "#########")
+                        .aisle("B#######B", "#GJJKJJG#", "##LMNML##", "##E###E##", "##E###E##", "##E###E##", "##EEEEE##", "####E####", "#########", "#########")
+                        .aisle("B#######B", "#GJ###JG#", "##MGGGM##", "#########", "#########", "#########", "##E###E##", "####E####", "####E####", "#########")
+                        .aisle("C#######C", "#GA###KG#", "##NGGGN##", "####P####", "#########", "#########", "##E###E##", "##EELEE##", "###EEE###", "####Q####")
+                        .aisle("B#######B", "#GJ###JG#", "##MGGGM##", "#########", "#########", "#########", "##E###E##", "####E####", "####E####", "#########")
+                        .aisle("B#######B", "#GJJKJJG#", "##LMOML##", "##E###E##", "##E###E##", "##E###E##", "##EEEEE##", "####E####", "#########", "#########")
+                        .aisle("B#######B", "EBGGGGGBE", "#H#####H#", "#H#####H#", "#I#####I#", "#########", "#########", "#########", "#########", "#########")
+                        .aisle("ABBBCBBBA", "DE#####ED", "D#######D", "F#######F", "#########", "#########", "#########", "#########", "#########", "#########")
+                        // 完全参照B的写法：移除blocks()，直接传入Block实例
+                        .where('B', DUNGEON_BRICK_1.get().defaultBlockState())
+                        .where('L', SEA_LANTERN.defaultBlockState())
+                        .where('J', OBSIDIAN_PATH.get().defaultBlockState())
+                        .where('G', BLANK_RUNE.get().defaultBlockState())
+                        .where('C', DUSK_RITUAL_STONE.get().defaultBlockState())
+                        .where('D', CHISELED_OBSIDIAN_BRICKS)
+                        .where('M', BLANK_RUNE.get().defaultBlockState())
+                        .where('O', definition,Direction.EAST) // controller需保留，内部直接传Block
+                        .where('Q', BEACON.defaultBlockState())
+                        .where('#',  Blocks.AIR.defaultBlockState()) // 非方块类型，保留原逻辑
+                        .where('A', LAMPS.get(DyeColor.PURPLE).get().defaultBlockState())
+                        .where('I', GLOWSTONE.defaultBlockState())
+                        .where('P', BLOOD_ALTAR.get().defaultBlockState())
+                        .where('E', DUNGEON_BRICK_WALL.get())
+                        .where('N', PRISMARINE_BRICKS.defaultBlockState())
+                        .where('K', LAMPS.get(DyeColor.RED).get().defaultBlockState())
+                        .where('F', CRYING_OBSIDIAN.defaultBlockState())
+                        .where('H', STONE_BRICKS.defaultBlockState());
+                var tier4_build = MultiblockShapeInfo.builder()
+                        .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E", "F###########F", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("B###########B", "#GHIIIIIIIHG#", "#J#########J#", "#J#########J#", "#J#########J#", "#J#########J#", "#K#########K#", "#############", "#############", "#############", "#############")
+                        .aisle("C###########C", "#HLMMMNMMMLH#", "##OP#####PO##", "##O#######O##", "##Q#######Q##", "#############", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("C###########C", "#IM#######MI#", "##PMIIIIIMP##", "###J#####J###", "###J#####J###", "###R#####R###", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TUVUT####", "####P###P####", "####P###P####", "####P###P####", "####PPPPP####", "######P######", "#############", "#############")
+                        .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UIIIU####", "#############", "#############", "#############", "####P###P####", "######P######", "######P######", "#############")
+                        .aisle("D###########D", "#IN#######NI#", "###IG###GI###", "####VIIIW####", "######X######", "#############", "######Y######", "####P#Z#P####", "####PPTPP####", "#####PPP#####", "######a######")
+                        .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UIIIU####", "#############", "#############", "#############", "####P###P####", "######P######", "######P######", "#############")
+                        .aisle("C###########C", "#IM#######MI#", "###ISSLSSI###", "####TUVUT####", "####P###P####", "####P###P####", "####P###P####", "####PPPPP####", "######P######", "#############", "#############")
+                        .aisle("C###########C", "#IM#######MI#", "##PMIIIIIMP##", "###J#####J###", "###J#####J###", "###R#####R###", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("C###########C", "#HLMMMNMMMLH#", "##OP#####PO##", "##O#######O##", "##Q#######Q##", "#############", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("B###########B", "#GHIIIIIIIHG#", "#J#########J#", "#J#########J#", "#J#########J#", "#J#########J#", "#K#########K#", "#############", "#############", "#############", "#############")
+                        .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E", "F###########F", "#############", "#############", "#############", "#############", "#############")
+                        .where('K', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:largebloodstonebrick")))
+                        .where('S', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:obsidiantilepath")))
+                        .where('I', BLANK_RUNE.get().defaultBlockState()) // 替换原CMPredicates.BMRuneBlocks
+                        .where('O', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks")))
+                        .where('H', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone")))
+                        .where('U', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune")))
+                        .where('a', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:beacon")))
+                        .where('#', Blocks.AIR.defaultBlockState()) // 替换原Predicates.any()
+                        .where('D', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer")))
+                        .where('R', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:glowstone")))
+                        .where('P', DUNGEON_BRICK_WALL.get())
+                        .where('A', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:chiseled_end_stone_bricks")))
+                        .where('J', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:stone_bricks")))
+                        .where('M', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_brick1")))
+                        .where('T', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:sea_lantern")))
+                        .where('B', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone")))
+                        .where('N', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:duskritualstone")))
+                        .where('Y', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:soul_lantern")))
+                        .where('F', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:void_lantern_block")))
+                        .where('W', definition, Direction.EAST) // 简化controller写法
+                        .where('Z', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:chain")))
+                        .where('L', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:purple_lamp")))
+                        .where('X', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar")))
+                        .where('V', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks")))
+                        .where('G', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_lamp")))
+                        .where('Q', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:crying_obsidian")))
+                        .where('C', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:bloodstonebrick")))
+                        .where('E', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar")));
+                shapeInfos.add(tier2_build.build());
+                shapeInfos.add(tier3_build.build());
+                shapeInfos.add(tier4_build.shallowCopy().build());
+
+                return shapeInfos;
+            })
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
 }

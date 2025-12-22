@@ -17,4 +17,9 @@ public class CMElements {
     public static final Element ULTRA_MANA = new Element(7777, 7777, 7777, null, "ultra_mana", "§k*§rMa§k*§r", false);
     public static final Element ZENITH=new  Element(77, 77, 77, null, "zenith", "§5ZE§r", false);
     public static final Element ACTIVE_ZENITH=new  Element(77, 77, 77, null, "zenith", "§5**ZE**§r", false);
+    public static final Element HEMOPLATINUM=new Element(44,44,44,null,"hemoplatinum","§4HPt§r",false);
+    public static final Element PRIMOVOLITHEST=new Element(177,177,177,null,"primovolithest","§3*PFe*",false);
+    public static final Element COAGULBLOODGOLD=new Element(44,44,44,null,"coagulbloodgold","§4SAu",false);
+    public static final Element DEMON=new Element(444,444,444,null,"demon","DM",false);
+    public static final Element SHADOWIUM=new Element(11,11,11,null,"shadowium","§7SHADOW",false);
 }

@@ -33,7 +33,6 @@ public class HellForgeCondition extends RecipeCondition {
     );
     public HellForgeCondition() {}
 
-
     public HellForgeCondition(int consume) {
         super();
         this.Willtype="default";

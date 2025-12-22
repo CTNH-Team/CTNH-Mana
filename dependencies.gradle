@@ -63,9 +63,12 @@ dependencies {
 
     //Hostile Neural NetWork
     modImplementation("curse.maven:hostile_neural_network-552574:5895036")
-
+    //lendercataclysm
+    modImplementation("curse.maven:lendercataclysm-551586:6906993")
+    modImplementation("curse.maven:lionfish-api-1001614:5922047")
 
     modRuntimeOnly("curse.maven:just-enough-characters-250702:6680042")
     //legendary_survival
     modImplementation("curse.maven:legendary_survival_overhaul-840254:6750561")
+
 }

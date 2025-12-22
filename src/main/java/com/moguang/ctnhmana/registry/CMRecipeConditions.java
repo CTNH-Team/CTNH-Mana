@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import com.moguang.ctnhmana.common.recipe.PlantCasingCondition;
@@ -13,5 +14,7 @@ public class CMRecipeConditions {
             "hell_forge_condition", new RecipeConditionType<>(HellForgeCondition::new, HellForgeCondition.CODEC));
     public static RecipeConditionType<PlantCasingCondition> PLANT_CASING = GTRegistries.RECIPE_CONDITIONS.register(
             "plant_casing_condition", new RecipeConditionType<>(PlantCasingCondition::new, PlantCasingCondition.CODEC));
+    public static RecipeConditionType<BloodAltarCondition> BLOOD_ALTAR_CONDITION = GTRegistries.RECIPE_CONDITIONS.register(
+            "blood_altar_condition", new RecipeConditionType<>(BloodAltarCondition::new, BloodAltarCondition.CODEC));
     public static void init() {}
 }

@@ -8,6 +8,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.materials.BotaniaMaterials;
+import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
+import io.github.lounode.extrabotany.common.item.equipment.tool.hammer.OrichalcosHammer;
 import mythicbotany.register.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -32,7 +35,11 @@ public class CMMaterials {
     public static Material TerraSteel;
     public static Material Elementium;
     public static Material AlfSteel;
-
+    public static Material Orichalcos;
+    public static Material Photonium;
+    public static Material Aerialite;
+    public static Material DEMON;
+    public static Material SHADOWIUM;
     public static void init() {
         BotaniaMaterials.init();
     }
@@ -52,8 +59,19 @@ public class CMMaterials {
         TagPrefix.ingot.setIgnored(AlfSteel, () -> ModItems.alfsteelIngot);
         TagPrefix.nugget.setIgnored(AlfSteel, () -> ModItems.alfsteelNugget);
         TagPrefix.block.setIgnored(AlfSteel, () -> mythicbotany.register.ModBlocks.alfsteelBlock);
+        TagPrefix.ingot.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcos);
+        TagPrefix.nugget.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcosNugget);
+        TagPrefix.block.setIgnored(Orichalcos, () -> ExtraBotanyBlocks.orichalcosBlock);
+        TagPrefix.ingot.setIgnored(Photonium, () -> ExtraBotanyItems.photonium);
+        TagPrefix.nugget.setIgnored(Photonium, () -> ExtraBotanyItems.photoniumNugget);
+        TagPrefix.block.setIgnored(Photonium, () -> ExtraBotanyBlocks.photoniumBlock);
+        TagPrefix.ingot.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialite);
+        TagPrefix.nugget.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialiteNugget);
+        TagPrefix.block.setIgnored(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);
+
 
     }
+
     public static final Material Mana =  REGISTRATE.material(GTCEu.id("mana"))
             .cnlang("液态魔力")
             .liquid()
@@ -81,8 +99,8 @@ public class CMMaterials {
             .dust()
             .element(ULTRA_MANA)
             .color(0x7D26CD)
-            .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 122222, 1000)
-            .cableProperties(GTValues.V[GTValues.ZPM], 8, 1, false)
+            .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 77777, 77777)
+            .cableProperties(GTValues.V[GTValues.UIV], 777777, 0, true)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Shroud_Zenith_essence=REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
@@ -103,6 +121,35 @@ public class CMMaterials {
             .color(0x28358A)
             .buildAndRegister()
             .setFormula("ArNeC2O4Ma", true);
+    public  static final Material HEMOPLATINUM=REGISTRATE.material(GTCEu.id("hemoplatinum"))
+            .cnlang("§4血铂")
+            .liquid()
+            .ingot()
+            .color(0XD8D8DA)
+            .secondaryColor(0X990000)
+            .element(CMElements.HEMOPLATINUM)
+            .blastTemp(3600, BlastProperty.GasTier.HIGHEST, 444, 4444)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
+    public  static final Material COAGULBLOODGOLD=REGISTRATE.material(GTCEu.id("coagulbloodgold"))
+            .cnlang("§4凝血金")
+            .ingot()
+            .liquid()
+            .color(0XD4A017)
+            .secondaryColor(0X990000)
+            .element(CMElements.COAGULBLOODGOLD)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
+    public  static final Material PRIMOVOLITHEST=REGISTRATE.material(GTCEu.id("primovolithest"))
+            .cnlang("混元意志钢")
+            .liquid()
+            .ingot()
+            .color(0X2C2C2E)
+            .element(CMElements.PRIMOVOLITHEST)
+            .blastTemp(5400, BlastProperty.GasTier.HIGHEST, 4444, 444)
+            .cableProperties(GTValues.V[GTValues.LuV], 44, 4, false)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
 
 
 }

@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.bosssummon.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.item.itemregister.registercircuit;
 import com.moguang.ctnhmana.item.manamachineupdate.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.BTUpgradeItemT1;
 import com.moguang.ctnhmana.item.manamachineupdate.*;
@@ -168,7 +169,10 @@ public class CMItems {
 
     }
     public static void init() {
+
         registerItem();
+        registercircuit.init();
+
     }
 
     public static ItemEntry<ThrowItem> BOSS_SUMMONER;
@@ -186,9 +190,9 @@ public class CMItems {
     public static ItemEntry<ComponentItem> PROLIFERATION_RUNE;
     public static ItemEntry<KoishiEyeItem>KOISHI_EYE;
     public static ItemEntry<YurikoRingItem>YURIKO_RING;
-public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
-public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
-public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
+    public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
+    public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
+    public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
@@ -220,33 +224,7 @@ public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
     private static TagKey<Item> accessory(String name) {
         return ItemTags.create(new ResourceLocation("curios", name));
     }
-    public static ItemEntry<ComponentItem> MANA_ELECTRONIC_CIRCUIT = REGISTRATE
-            .item("mana_electronic_circuit", ComponentItem::create)
-            .cnlang("注魔的电子电路")
-            .tag(CustomTags.HV_CIRCUITS)
-            .lang("Mana Electronic Circuit")
-            .register();
 
-    public static ItemEntry<ComponentItem> MANA_INTEGRATED_CIRCUIT = REGISTRATE
-            .item("mana_integrated_circuit", ComponentItem::create)
-            .cnlang("注魔的集成电路")
-            .tag(CustomTags.EV_CIRCUITS)
-            .lang("Mana Integrated Circuit")
-            .register();
-
-    public static ItemEntry<ComponentItem> BLOODED_MICRO_PROCESSOR_MAINFRAME = REGISTRATE
-            .item("blooded_micro_processor_mainframe", ComponentItem::create)
-            .cnlang("血染微型处理器主机")
-            .tag(CustomTags.IV_CIRCUITS)
-            .lang("Blooded Micro Processor Mainframe")
-            .register();
-
-    public static ItemEntry<ComponentItem> WILL_NANO_PROCESSOR_MAINFRAME = REGISTRATE
-            .item("will_nano_processor_mainframe", ComponentItem::create)
-            .cnlang("恶魔纳米处理器主机")
-            .tag(CustomTags.LuV_CIRCUITS)
-            .lang("Will Nano Processor Mainframe")
-            .register();
 
     public static ItemEntry<ComponentItem> ELF_CATALYST = REGISTRATE
             .item("elf_catalyst", ComponentItem::create)
@@ -254,89 +232,6 @@ public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
             .lang("Elf Catalyst")
             .register();
 
-    public static ItemEntry<ComponentItem> MANA_SOC = REGISTRATE
-            .item("mana_soc", ComponentItem::create)
-            .cnlang("§b注魔的SOC")
-            .lang("§bMana Soc")
-            .register();
-
-    public static ItemEntry<ComponentItem> ZENITH_SOC = REGISTRATE
-            .item("zenith_soc", ComponentItem::create)
-            .cnlang("§5天顶SOC")
-            .lang("§5Zenith Soc")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_RESISTOR = REGISTRATE
-            .item("mana_resistor", ComponentItem::create)
-            .cnlang("注魔电阻")
-            .lang("Mana Resistor")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_CAPACITOR = REGISTRATE
-            .item("mana_capacitor", ComponentItem::create)
-            .cnlang("注魔电容")
-            .lang("Mana Capacitor")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_TRANSISTOR = REGISTRATE
-            .item("mana_transistor", ComponentItem::create)
-            .cnlang("注魔晶体管")
-            .lang("Mana Transistor")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_DIODE = REGISTRATE
-            .item("mana_diode", ComponentItem::create)
-            .cnlang("注魔二极管")
-            .lang("Mana Diode")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_INDUCTOR = REGISTRATE
-            .item("mana_inductor", ComponentItem::create)
-            .cnlang("注魔电感")
-            .lang("Mana Inductor")
-            .register();
-
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_RESISTOR = REGISTRATE
-            .item("advanced_mana_resistor", ComponentItem::create)
-            .cnlang("高级注魔电阻")
-            .lang("Advanced Mana Resistor")
-            .register();
-
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_CAPACITOR = REGISTRATE
-            .item("advanced_mana_capacitor", ComponentItem::create)
-            .cnlang("高级注魔电容")
-            .lang("Advanced Mana Capacitor")
-            .register();
-
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_TRANSISTOR = REGISTRATE
-            .item("advanced_mana_transistor", ComponentItem::create)
-            .cnlang("高级注魔晶体管")
-            .lang("Advanced Mana Transistor")
-            .register();
-
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_DIODE = REGISTRATE
-            .item("advanced_mana_diode", ComponentItem::create)
-            .cnlang("高级注魔二极管")
-            .lang("Advanced Mana Diode")
-            .register();
-
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_INDUCTOR = REGISTRATE
-            .item("advanced_mana_inductor", ComponentItem::create)
-            .cnlang("高级注魔电感")
-            .lang("Advanced Mana Inductor")
-            .register();
-
-    public static ItemEntry<ComponentItem> MANA_WAFER = REGISTRATE
-            .item("mana_wafer", ComponentItem::create)
-            .cnlang("§b注魔的SOC晶圆")
-            .lang("§bMana Wafer")
-            .register();
-
-    public static ItemEntry<ComponentItem> ZENITH_WAFER = REGISTRATE
-            .item("zenith_wafer", ComponentItem::create)
-            .cnlang("§5天顶SOC晶圆")
-            .lang("§5§bMana Wafer")
-            .register();
 
     public static ItemEntry<ComponentItem> ENDSLATE = REGISTRATE
             .item("endslate", ComponentItem::create)

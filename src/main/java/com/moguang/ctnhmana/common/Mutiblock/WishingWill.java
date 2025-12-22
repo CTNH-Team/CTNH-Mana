@@ -1,9 +1,11 @@
 package com.moguang.ctnhmana.common.Mutiblock;
 
+import com.gregtechceu.gtceu.api.capability.recipe.CWURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
@@ -14,7 +16,13 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -30,6 +38,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.CIRCUITS;
@@ -65,8 +74,10 @@ public class WishingWill extends WorkableMultiblockMachine {
         {
             if(item.getItem().is(CIRCUITS))
             {
-                machineStorage.insertItem(0,(item.getItem()),false);
-                item.remove(Entity.RemovalReason.KILLED);
+                if(machineStorage.getStackInSlot(0).isEmpty()) {
+                    machineStorage.insertItem(0, (item.getItem()), false);
+                    item.remove(Entity.RemovalReason.KILLED);
+                }
             }
         }
     }
@@ -82,7 +93,6 @@ public class WishingWill extends WorkableMultiblockMachine {
         var pos=this.getPos();
         for(ItemStack item:itemStacks) {
             ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 3, pos.getZ(), item);
-            // 添加一些随机速度，让物品"喷出来"
             itemEntity.setDeltaMovement(
                     0.0,
                     0.5 + level.random.nextDouble() * 2.0,
@@ -112,7 +122,17 @@ public class WishingWill extends WorkableMultiblockMachine {
             ManaSubs.unsubscribe();
         }
     }
-
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){
+        if(machine instanceof WishingWill wmachine) {
+            var parallel=ParallelLogic.getParallelAmount(wmachine,recipe,10);
+            return ModifierFunction.builder()
+                    .inputModifier(ContentModifier.multiplier(parallel))
+                    .outputModifier(ContentModifier.multiplier(parallel))
+                    .eutMultiplier(parallel/2)
+                    .build();
+        }
+        return ModifierFunction.NULL;
+    }
     class WishingWillLogic extends RecipeLogic
     {
 
@@ -121,23 +141,19 @@ public class WishingWill extends WorkableMultiblockMachine {
         }
 
         @Override
-        public void serverTick() {
-            super.serverTick();
-        }
-        @Override
         protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.IN) {
                 // 输入处理：正常处理
-                return ActionResult.SUCCESS;
-            } else if (io == IO.OUT) {
-                // 输出处理：拦截并改为从坐标喷出
-
-                // 获取配方的输出物品
-                List<Content> outputContents = lastOriginRecipe.getOutputContents(ItemRecipeCapability.CAP);
-                if (outputContents != null && !outputContents.isEmpty()) {
+                return super.handleRecipeIO(recipe, io);
+            }
+            if (io == IO.OUT) {
+                var safe_recipe=lastOriginRecipe;
+                List<Content> outputContents = safe_recipe.getOutputContents(ItemRecipeCapability.CAP);
+                if (!outputContents.isEmpty()) {
                     for (Content content : outputContents) {
+                            var safe_content=content.copy(ItemRecipeCapability.CAP);
                         // 从Content中获取ItemStack
-                        Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
+                        Ingredient ingredient = ItemRecipeCapability.CAP.of(safe_content.getContent());
                         if (ingredient != null) {
                             ItemStack[] stacks = ingredient.getItems();
                             if (stacks != null && stacks.length > 0) {
@@ -146,12 +162,10 @@ public class WishingWill extends WorkableMultiblockMachine {
                         }
                     }
                 }
-
-                // 返回成功，表示输出已处理（但不输出到输出总线）
                 return ActionResult.SUCCESS;
             }
 
-            return ActionResult.SUCCESS;
+            return super.handleRecipeIO(recipe, io);
         }
 
     }
