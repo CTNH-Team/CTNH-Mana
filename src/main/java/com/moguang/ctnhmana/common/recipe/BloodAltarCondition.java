@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.moguang.ctnhmana.common.Mutiblock.IndustrialAltarMachine;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,12 +16,15 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 public class BloodAltarCondition extends RecipeCondition {
     public int altar_tier;
-    public int consumption;
+    public int consumption_rate;
+    public int min_consumption;
     public String upgrade;
+
     public static final Codec<BloodAltarCondition> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.INT.optionalFieldOf("consumption", 1).forGetter(cond-> cond.consumption),
                     Codec.INT.fieldOf("tier").forGetter(cond-> cond.altar_tier),
+                    Codec.INT.optionalFieldOf("consumption_rate", 1).forGetter(cond-> cond.consumption_rate),
+                    Codec.INT.optionalFieldOf("min_consumption", 1).forGetter(cond-> cond.min_consumption),
                     Codec.STRING.optionalFieldOf("upgrade","None").forGetter(cond-> cond.upgrade)
             ).apply(instance,BloodAltarCondition::new)
     );
@@ -30,23 +34,40 @@ public class BloodAltarCondition extends RecipeCondition {
         return CMRecipeConditions.BLOOD_ALTAR_CONDITION;
     }
     public BloodAltarCondition() {}
-    public BloodAltarCondition(int tier,int consumption) {
+    public BloodAltarCondition(int tier,int consumption_rate) {
         this.altar_tier=tier;
-        this.consumption=consumption;
+        this.consumption_rate=consumption_rate;
+        this.min_consumption=consumption_rate*200;//default:10s
+        this.upgrade="None";
     }
-    public BloodAltarCondition(int tier,int consumption,String upgrade) {
+    public BloodAltarCondition(int tier,int consumption_rate,int min_consumption) {
         this.altar_tier=tier;
-        this.consumption=consumption;
+        this.consumption_rate=consumption_rate;
+        this.min_consumption=min_consumption;//default:10s
+        this.upgrade="None";
+    }
+
+    public BloodAltarCondition(int tier,int consumption,int min_consumption,String upgrade) {
+        this.altar_tier=tier;
+        this.consumption_rate=consumption;
+        this.min_consumption=min_consumption;
         this.upgrade=upgrade;
     }
     @Override
     public Component getTooltips() {
-        if(upgrade==null||upgrade.equals("None")) return altar_lang.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang.translate(consumption));
-        return altar_lang.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang.translate(consumption),altar_upgrade_lang.translate(upgrade));
+        if(upgrade==null||upgrade.equals("None")) return altar_lang_2.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(consumption_rate),altar_consumption_lang[0].translate(consumption_rate));
+        return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(consumption_rate),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(upgrade));
     }
 
     @Override
     protected boolean testCondition(@NotNull GTRecipe gtRecipe, @NotNull RecipeLogic recipeLogic) {
+        var machine=recipeLogic.getMachine();
+        if(machine instanceof IndustrialAltarMachine altarMachine)
+        {
+            if(altarMachine.altar_tier<this.altar_tier)return false;
+            if(!altarMachine.getUpgrade().equals(this.upgrade))return false;
+            return true;
+        }
         return false;
     }
 
@@ -59,13 +80,26 @@ public class BloodAltarCondition extends RecipeCondition {
     )
     public static Lang altar_tier_lang;
     @CN(
-            "每tick消耗的生命源质数量 %d"
+            {
+                    "消耗LP速率：%d/tick",
+                    "消耗的LP总量: %d",
+            }
     )
-    public static Lang altar_consumption_lang;
+    @EN(
+            {
+
+                    "每tick消耗的生命源质数量:%d",
+                    "配方执行至少需要的生命源质总量:%d",
+            }
+    )
+    public static Lang[] altar_consumption_lang;
     @CN(
             "需要的升级: %s"
     )
     public static Lang altar_upgrade_lang;
-    @CN("%s\n%s\n%s")
-    public static Lang altar_lang;
+    @CN("%s\n%s\n%s\n%s")
+    public static Lang altar_lang_1;
+    @CN("%s\n%s\n%s\n")
+    public static Lang altar_lang_2;
+
 }

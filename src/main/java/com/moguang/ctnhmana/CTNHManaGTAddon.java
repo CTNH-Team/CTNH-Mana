@@ -3,6 +3,7 @@ package com.moguang.ctnhmana;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.moguang.ctnhmana.data.recipe.BloodAltarRecipes;
 import com.moguang.ctnhmana.data.recipe.HellForgeRecipes;
 import com.moguang.ctnhmana.data.recipe.ManaReactorRecipes;
 import com.moguang.ctnhmana.data.recipe.WishingWillRecipes;
@@ -54,6 +55,7 @@ public class CTNHManaGTAddon implements IGTAddon {
         ManaReactorRecipes.init(provider);
         HellForgeRecipes.init(provider);
         WishingWillRecipes.init(provider);
+        BloodAltarRecipes.init(provider);
     }
 
     @Override

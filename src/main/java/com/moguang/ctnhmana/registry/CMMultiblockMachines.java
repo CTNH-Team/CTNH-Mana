@@ -497,7 +497,7 @@ public class CMMultiblockMachines {
             .cnLangValue("§b工业血之祭坛")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GTRecipeTypes.BENDER_RECIPES)
+            .recipeType(CMRecipeTypes.BLOOD_ALTAR_RECIPES)
             .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()

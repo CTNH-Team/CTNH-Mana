@@ -15,7 +15,7 @@ import static vazkii.botania.common.item.BotaniaItems.runeMana;
 
 public class HellForgeRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        HELL_FORGE_RECIPES.recipeBuilder("testXXX")
+        HELL_FORGE_RECIPES.recipeBuilder("testxxx")
                 .addCondition(new HellForgeCondition(10))
                 .inputItems(runeFire,24)
                 .inputFluids(Zenith_essence.getFluid(144))

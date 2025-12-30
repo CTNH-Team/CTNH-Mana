@@ -4,40 +4,32 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
-import lombok.Getter;
+import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
+import com.moguang.ctnhmana.mixin.bloodmagic.TileAltarAccessor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
+import wayoftime.bloodmagic.altar.BloodAltar;
 import wayoftime.bloodmagic.common.tile.TileAltar;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.BLANK_RUNE;
 
 @SuppressWarnings("removal")
 public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implements ITieredMachine {
@@ -46,13 +38,29 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     @Persisted
-    public int blood_tier=0;
-
+    public int altar_tier =0;
+    @Persisted
+    public int dislocation_rate=100;
+    @Persisted
+    public float dislocation_modifier=1.0F;
+    @Persisted
+    public float speed= 1.0F;
+    @Persisted
+    public int consumption_lp=0;
     @Nullable
     protected TickableSubscription TickSubs;
-    public TileAltar altar;
+    public TileAltar tileAltar;
+    public BloodAltar altar;
     @Persisted
     public BlockPos altar_pos;
+    @Persisted
+    public  float CapacityModifier=1.0F;
+    @Persisted
+    public  float SpeedModifier=1.0F;
+    @Persisted
+    public int chargingFrequency=20;
+
+
     @Override
     protected void initializePatterns() {
         super.initializePatterns();
@@ -60,6 +68,25 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         addPattern(createLevel4Pattern());
         // 默认从定义中获取模式（向后兼容）
     }
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe)
+    {
+        updateAltarData();
+        if(consumeLPIfEnough(consumption_lp))
+        {
+            return super.beforeWorking(recipe);
+        }
+        return false;
+    }
+    @Override
+    public boolean onWorking(){
+        if(!consumeLPIfEnough(consumption_lp))
+        {
+            getRecipeLogic().setProgress(this.getProgress()-1);
+        }
+        return super.onWorking();
+    }
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
@@ -70,20 +97,103 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         {
             var tier=new_altar.getTier();
             if(tier<2)onStructureInvalid();
-            blood_tier=Math.max(tier,index+2);
-            this.altar=new_altar;
+            altar_tier =Math.max(tier,index+2);
+            this.tileAltar =new_altar;
+
+            if(this.tileAltar instanceof TileAltarAccessor accessor)
+            {
+                this.altar=accessor.getBloodAltar();
+
+            }
+            if(this.altar instanceof IBloodAltarLogic altaraccessor)
+            {
+                altaraccessor.CM$BroadcastPos(this.getPos());
+            }
+            if(this.altar==null)
+            {
+                onStructureInvalid();
+            }
+            updateAltarData();
+
         }
         else
         {
             onStructureInvalid();
         }
+    }
 
+    public String getUpgrade()
+    {
+        return "None";
+    }
+    public boolean consumeLPIfEnough(int lp)
+    {
+        if(this.altar==null)return false;
+        if(this.altar instanceof IBloodAltarLogic altaraccessor)
+        {
+            return altaraccessor.CM$ConsumeLPIfEnough(lp);
+        }
+        return false;
+    }
+
+    public void updateAltarData()
+    {
+        this.speed=altar.getConsumptionRate();
+        this.dislocation_modifier=tileAltar.getDislocationMultiplier();
+        this.dislocation_rate= (int) (20*dislocation_modifier*Math.pow(2, altar_tier));
+        this.chargingFrequency=altar.getChargingFrequency();
     }
     @Override
     public void onStructureInvalid()
     {
         super.onStructureInvalid();
-        blood_tier=0;
+        CapacityModifier=1.0F;
+        SpeedModifier=1.0F;
+        altar_tier =0;
+    }
+    public int calculateSpeed(int tier)
+    {
+        return (int) (Math.pow(2,tier));
+    }
+    //////////////////////////////////////
+    // ********  Modifier  ********//
+    //////////////////////////////////////
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if(machine instanceof IndustrialAltarMachine altarMachine)
+        {
+            var condition=recipe.conditions.get(0);
+            int consume=0;
+            int altar_tier=0;
+            var true_time=20;
+            int batch=1;
+            double speed=altarMachine.speed;
+            if(condition instanceof BloodAltarCondition altarCondition)
+            {
+                altar_tier=altarCondition.altar_tier;
+                consume=altarCondition.consumption_rate;
+                var parallel= ParallelLogic.getParallelAmountWithoutEU(machine,recipe,1024);
+                var overclock=altarMachine.altar_tier-altar_tier;
+                if(overclock>0)
+                {
+                    consume=(int) (consume*Math.pow(4,overclock));
+                    speed*=altarMachine.calculateSpeed(overclock);
+                }
+                if(recipe.duration/speed<20)
+                {
+                    batch=Math.min((int)(speed/recipe.duration),parallel);
+                    true_time= (int) Math.max(20,recipe.duration/speed*batch);
+                }
+                altarMachine.consumption_lp=consume;
+                return  ModifierFunction.builder()
+                        .parallels(batch)
+                        .inputModifier(ContentModifier.multiplier(batch))
+                        .outputModifier(ContentModifier.multiplier(batch))
+                        .durationMultiplier(true_time/ recipe.duration)
+                        .build();
+            }
+            return ModifierFunction.NULL;
+        }
+        return ModifierFunction.NULL;
     }
     //////////////////////////////////////
     // ********   Subscriptions&Ticks  ********//
@@ -108,9 +218,48 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     {
         TickSubs=subscribeServerTick(TickSubs, this::updateStates);
     }
+    //todo
     public void updateStates()
     {
+        if(this.isFormed()&&this.altar!=null)
+        {
+            if(this.getOffsetTimer()%chargingFrequency==0)
+            {
+//                if(this.)
+//                altar.fillMainTank()
+            }
+        }
     }
+    //////////////////////////////////////
+    // ********   Lang  ********//
+    //////////////////////////////////////
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+        if(this.isFormed&& tileAltar !=null&&altar!=null) {
+            textList.add(level_lang.translate(altar_tier));
+            textList.add(altar_lang[0].translate(tileAltar.getCapacity()));
+            textList.add(altar_lang[1].translate(tileAltar.getCurrentBlood()));
+            textList.add(altar_lang[2].translate(altar.getCapacity()));
+//            textList.add(altar_lang[2].translate(tileAltar.getCapacity()));
+        }
+    }
+    @CN("当前等级:%d")
+    public static Lang level_lang;
+    @CN({
+            "祭坛最大容量:%d",
+            "当前祭坛LP容量:%d",
+            "LP消耗倍率:%d"
+    })
+    @EN({
+            "祭坛最大容量:%d",
+            "当前祭坛LP容量:%d",
+            "LP消耗倍率:%d"
+    })
+    public static Lang[] altar_lang;
+    //////////////////////////////////////
+    // ********   PatternBuilder  ********//
+    //////////////////////////////////////
     @Override
     public String getMatchedPatternName() {
         switch (getMatchedPatternIndex()) {
@@ -126,20 +275,6 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 return "No Pattern Matched";
         }
     }
-    @Override
-    public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
-        if(this.isFormed&&altar!=null) {
-            textList.add(level_lang.translate(blood_tier));
-            textList.add(altar_lang[0].translate(altar.getCapacity()));
-            textList.add(altar_lang[1].translate(altar.getCurrentBlood()));
-            textList.add(altar_lang[2].translate(altar.getConsumptionMultiplier()));
-        }
-
-    }
-    //////////////////////////////////////
-    // ********   PatternBuilder  ********//
-    //////////////////////////////////////
 
     private BlockPattern createLevel3Pattern() {
         return FactoryBlockPattern.start()
@@ -268,7 +403,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:sculk"))))
                 .where("i", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:chain"))))
                 .where("U", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:purple_lamp"))))
-                .where("g", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar"))))
+                .where("g", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:tileAltar"))))
                 .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:fireritualstone"))))
                 .where("f", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks"))))
                 .where("Q", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_lamp"))))
@@ -300,7 +435,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 //            .where('#',  Blocks.AIR.defaultBlockState()) // 非方块类型，保留原逻辑
 //            .where('A', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:purple_lamp")))
 //            .where('I', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:glowstone")))
-//            .where('P', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar")))
+//            .where('P', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:tileAltar")))
 //            .where('E', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_brick_wall")))
 //            .where('N', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks")))
 //            .where('K', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_lamp")))
@@ -329,7 +464,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 //            .where('#', Blocks.AIR.defaultBlockState()) // 替换原Predicates.any()
 //            .where('A', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:purple_lamp")))
 //            .where('I', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:glowstone")))
-//            .where('P', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar")))
+//            .where('P', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:tileAltar")))
 //            .where('E', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_brick_wall")))
 //            .where('N', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks")))
 //            .where('K', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_lamp")))
@@ -372,7 +507,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 //            .where('W', this.getDefinition(), Direction.EAST) // 简化controller写法
 //            .where('Z', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:chain")))
 //            .where('L', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:purple_lamp")))
-//            .where('X', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altar")))
+//            .where('X', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:tileAltar")))
 //            .where('V', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:prismarine_bricks")))
 //            .where('G', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_lamp")))
 //            .where('Q', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:crying_obsidian")))
@@ -380,19 +515,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 //            .where('E', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar")))
 //            .build();
 
-    @CN("当前等级:%d")
-    public static Lang level_lang;
-    @CN({
-            "祭坛最大容量:%d",
-            "当前祭坛LP容量:%d",
-            "LP消耗倍率:%d"
-    })
-    @EN({
-            "祭坛最大容量:%d",
-            "当前祭坛LP容量:%d",
-            "LP消耗倍率:%d"
-    })
-    public static Lang[] altar_lang;
+
 
 
 }
