@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.manamachineupdate;
+package com.moguang.ctnhmana.item.ManaMachineUpgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;

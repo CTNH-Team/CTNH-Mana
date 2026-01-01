@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.bosssummon;
+package com.moguang.ctnhmana.item.bossSummoner;
 
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import net.minecraft.sounds.SoundEvents;

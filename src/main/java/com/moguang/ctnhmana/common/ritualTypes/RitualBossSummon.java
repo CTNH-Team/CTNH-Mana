@@ -1,7 +1,5 @@
 package com.moguang.ctnhmana.common.ritualTypes;
 
-import com.moguang.ctnhmana.item.bosssummon.ThrowItem;
-import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
@@ -24,10 +22,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.ritual.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

@@ -37,7 +37,7 @@ public class BloodAltarRecipeBuilder {
     private int consumeRate = 0; // 默认消耗速率0
     private int drainRate = 0;   // 默认流失速率0
     private final ResourceLocation id;
-
+    private int meta=-1;
     // 构造器：仅接收配方名称，用于生成ID（丢弃原构造器的强制参数）
     public BloodAltarRecipeBuilder(String name) {
         // 生成BloodMagic命名空间的ID，路径格式：tileAltar/配方名（对齐Petal的petal_apothecary/xxx风格）
@@ -72,6 +72,11 @@ public class BloodAltarRecipeBuilder {
 
     public BloodAltarRecipeBuilder output(ItemStack itemStack) {
         this.output = itemStack;
+        return this;
+    }
+    public BloodAltarRecipeBuilder circuitMeta(int meta)
+    {
+        this.meta=meta;
         return this;
     }
 
@@ -175,6 +180,9 @@ public class BloodAltarRecipeBuilder {
 
         int gtDuration = Math.max(syphon/consumeRate, 100);
         gtBuilder.duration(gtDuration);
+
+        if(meta>=0)
+            gtBuilder.circuitMeta(meta);
 
 
 

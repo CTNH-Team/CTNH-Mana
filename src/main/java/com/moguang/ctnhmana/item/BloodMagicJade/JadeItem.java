@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.manamachineupdate;
+package com.moguang.ctnhmana.item.BloodMagicJade;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -9,23 +9,15 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-public class ManaMachineUpgradeItem extends ComponentItem {
+public class JadeItem extends ComponentItem {
     @Getter
     public String type;
     @Getter
-    public Lang updateName;
-    public ManaMachineUpgradeItem(Properties properties, String type, Lang updateName) {
+    public Lang upgradeName;
+    public JadeItem(Properties properties, String type, Lang upgradeName) {
         super(properties);
         this.type=type;
-        this.updateName=updateName;
-    }
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe, BaseManaMachine machine)
-    {
-        return metric;
-    }
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,BaseManaMachine machine)
-    {
-        return metric;
+        this.upgradeName=upgradeName;
     }
     public static List<Component> itemTooltipsAdd(Lang[] langs, List<Component> list)
     {

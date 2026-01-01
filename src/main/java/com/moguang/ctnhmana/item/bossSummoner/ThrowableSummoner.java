@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.bosssummon;
+package com.moguang.ctnhmana.item.bossSummoner;
 
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;

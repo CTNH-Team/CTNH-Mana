@@ -88,7 +88,7 @@ public class BotaniaMaterials {
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.EV], 4, 4, false)
                 .buildAndRegister();
-        DEMON=REGISTRATE.material(GTCEu.id("demon"))
+        DEMON=REGISTRATE.material(CTNHMana.id("hellforged"))
                 .cnlang("恶魔钢")
                 .liquid()
                 .ingot()
@@ -98,7 +98,7 @@ public class BotaniaMaterials {
                 .cableProperties(GTValues.V[GTValues.IV], 4, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
                 .buildAndRegister();
-        SHADOWIUM=REGISTRATE.material(GTCEu.id("shaowium"))
+        SHADOWIUM=REGISTRATE.material(CTNHMana.id("shaowium"))
                 .cnlang("暗影")
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
                 .ingot()

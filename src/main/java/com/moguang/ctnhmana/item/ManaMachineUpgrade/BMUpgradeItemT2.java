@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.manamachineupdate;
+package com.moguang.ctnhmana.item.ManaMachineUpgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -15,9 +15,9 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.List;
 
-public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
-    public BMUpgradeItemT1(Properties properties) {
-        super(properties, "BM", BM_UPDATE_NAME_T1);
+public class BMUpgradeItemT2 extends ManaMachineUpgradeItem{
+    public BMUpgradeItemT2(Properties properties) {
+        super(properties, "BM", BM_UPDATE_NAME_T2);
     }
     public double BASE_CONSUPTION=0.5;
     public double BASE_MIN=10;
@@ -43,7 +43,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
             }
             if(hatch.destructiveWill>=BASE_MIN)
             {
-                metric.speed+=0.35;
+                metric.speed+=0.5;
                 if(!stead) metric.output-=0.1;
 
             }
@@ -65,48 +65,56 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe, BaseManaMachine machine)
     {
         var tier=machine.getTier();
+        int consume=0;
         if(machine.getHatch() instanceof BloodManaHatch hatch)
         {
             if(hatch.rawWill>=20)
             {
                 hatch.rawWill-=tier*2*BASE_CONSUPTION;
+                consume+=1;
             }
             if(hatch.steadfastWill>=BASE_MIN)
             {
                 hatch.steadfastWill-=(tier-1)*BASE_CONSUPTION;
+                consume+=1;
             }
             if(hatch.destructiveWill>=BASE_MIN)
             {
                 hatch.destructiveWill-=(tier-1)*BASE_CONSUPTION;
+                consume+=1;
             }
             if(hatch.vengefulWill>=BASE_MIN)
             {
                 hatch.vengefulWill-=(tier-1)*BASE_CONSUPTION;
+                consume+=1;
             }
             if(hatch.corrosiveWill>=BASE_MIN)
             {
                 hatch.vengefulWill-=(tier-1)*BASE_CONSUPTION;
+                consume+=1;
             }
+            if(consume>=5)metric.parallel=Integer.MAX_VALUE;
         }
         metric.true_parallel= ParallelLogic.getParallelAmount(machine,recipe,metric.parallel);
         return metric;
     }
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, itemTooltipsAdd(bmcoreLang_t1,tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信息
+        super.appendHoverText(stack, level, itemTooltipsAdd(bmcoreLang_t2,tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信息
     }
     @CN(
             {
                     "偏向于生命源质和恶魔意志的升级",
                     "机器获得：",
-                    "宝珠的每一等级提供§a+1§r最大并行,灵魂网络的每250000LP提供§a+1§r最大并行（最多16）",
-                    "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*2点恶魔意志，使最大并行翻倍",
-                    "如果机器中的特殊恶魔意志至少拥有10，则在运行时消耗0.5*（机器电压-1）点恶魔意志，获得以下效果:",
-                    "破坏意志：运行速度§a+35%§r，最终产物§c-20%§r" ,
-                    "侵蚀意志：消耗电压§a-30%§r，运行速度§c-15%§r",
-                    "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
+                    "宝珠的每一等级提供§a+1§r最大并行,灵魂网络的每 250000LP提供§a+2§r最大并行（最多32）",
+                    "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*3点恶魔意志，使最大并行翻三倍",
+                    "如果机器中的特殊恶魔意志至少拥有10，则在运行时消耗（机器电压-1）点恶魔意志，获得以下效果:",
+                    "破坏意志：运行速度§a+75%§r，最终产物§c-20%§r",
+                    "侵蚀意志：消耗电压§a-40%§r，运行速度§c-15%§r",
+                    "复仇意志：最终产物§a+30%§r，最大并行§c-25%§r",
                     "坚韧意志：§a消除以上所有意志的负面效果§r",
-                    "§c警告：不稳定的意志消耗模式§r",
+                    "如果触发了每一种意志的效果，则运行时最大并行改为§4无限",
+                    "§c警告：极为不稳定的意志消耗模式§r",
                     "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"
             }
     )
@@ -117,21 +125,22 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
                     "宝珠的每一等级提供§a+1§r最大并行,灵魂网络的每250000LP提供§a+1§r最大并行（最多16）",
                     "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*2点恶魔意志，使最大并行翻倍",
                     "如果机器中的每种特殊恶魔意志至少拥有10，则在运行时消耗0.5*（机器电压-1）点恶魔意志，获得以下效果:",
-                    "破坏意志：运行速度§a+35%§r，最终产物§c-20%§r" ,
+                    "破坏意志：运行速度§a+50%§r，最终产物§c-20%§r" ,
                     "侵蚀意志：消耗电压§a-30%§r，运行速度§c-15%§r",
                     "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
                     "坚韧意志：消除以上所有意志的负面效果",
+                    "如果触发了每一种意志的效果，则运行时最大并行改为§4无限",
                     "§c警告：不稳定的意志消耗模式§r",
                     "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"
             }
     )
-    public static Lang[] bmcoreLang_t1;
+    public static Lang[] bmcoreLang_t2;
 
 
 
 
 
 
-      @CN("§4赤痕之翘曲")
-      public static Lang BM_UPDATE_NAME_T1;
+      @CN("§4血痕之扭曲")
+      public static Lang BM_UPDATE_NAME_T2;
 }

@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.item.bosssummon;
+package com.moguang.ctnhmana.item.bossSummoner;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;

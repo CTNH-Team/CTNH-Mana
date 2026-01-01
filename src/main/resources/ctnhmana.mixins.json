@@ -4,8 +4,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.ctnhmana.refmap.json",
   "mixins": [
-    "bloodmagic.TileAltarAccessor",
-    "bloodmagic.BloodAltarMixin"
+    "bloodmagic.BloodAltarMixin",
+    "bloodmagic.BMRecipeCancelMixin",
+    "bloodmagic.TileAltarAccessor"
   ],
   "client": [
   ],

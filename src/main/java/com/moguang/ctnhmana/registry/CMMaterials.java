@@ -28,6 +28,8 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Prefix;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
+import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 public class CMMaterials {
 
@@ -68,6 +70,8 @@ public class CMMaterials {
         TagPrefix.ingot.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialite);
         TagPrefix.nugget.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialiteNugget);
         TagPrefix.block.setIgnored(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);
+        TagPrefix.ingot.setIgnored(DEMON,()-> BloodMagicItems.HELLFORGED_INGOT.get());
+        TagPrefix.block.setIgnored(DEMON,()-> BloodMagicBlocks.HELLFORGED_BLOCK.get());
 
 
     }

@@ -39,7 +39,7 @@ public class CMRecipeTypes {
             REGISTRATE.recipeType(GTCEu.id("blood_altar"), GTRecipeTypes.ELECTRIC)
                     .cnlang("工业血祭").setMaxIOSize(6, 6, 6, 6)
                     .setEUIO(IO.IN)
-                    .setMaxTooltips(6)
+                    .setMaxTooltips(7)
                     .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
                     .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE,  ProgressTexture.FillDirection.LEFT_TO_RIGHT)
                     .setSound(GTSoundEntries.CHEMICAL);

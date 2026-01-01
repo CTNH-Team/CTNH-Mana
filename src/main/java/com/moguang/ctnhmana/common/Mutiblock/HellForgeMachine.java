@@ -2,23 +2,13 @@ package com.moguang.ctnhmana.common.Mutiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
-import com.moguang.ctnhmana.item.manamachineupdate.BMUpgradeItemT1;
-import com.moguang.ctnhmana.item.manamachineupdate.ManaMachineUpgradeItem;
+import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-
-import java.util.List;
 
 public class HellForgeMachine extends BaseManaMachine {
     public double will = 0;

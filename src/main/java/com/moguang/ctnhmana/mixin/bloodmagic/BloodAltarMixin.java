@@ -28,6 +28,8 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
     @Shadow(remap = false)
     private int capacity;
     @Shadow(remap = false)
+    private int bufferCapacity;
+    @Shadow(remap = false)
     private TileAltar tileAltar;
     @Shadow (remap = false)
     private float consumptionMultiplier;
@@ -40,9 +42,9 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
     @Shadow (remap = false)
     private FluidStack fluid;
 
-    @Shadow public abstract FluidStack getFluid();
+    @Shadow (remap = false)public abstract FluidStack getFluid();
 
-    @Shadow public abstract int getFluidAmount();
+    @Shadow (remap = false)public abstract int getFluidAmount();
 
     @Unique
     @Persisted
@@ -72,17 +74,17 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
             remap = false
     )
     private void injectCheckTier(CallbackInfo ci) {
-        if (CM$IndustrialPos!=null&&getMachine(tileAltar.getLevel(),CM$IndustrialPos) instanceof IndustrialAltarMachine machine&&machine.isFormed())
+        if (CM$IndustrialPos!=null&&getMachine(tileAltar.getLevel(),CM$IndustrialPos) instanceof IndustrialAltarMachine machine&&machine.isFormed()&&machine.altar_tier>=2)
         {
-            this.consumptionMultiplier=(float) ((0.1+machine.altar_tier *0.05)*this.upgrade.getLevel(BloodRuneType.SPEED));
-            this.consumptionMultiplier*=machine.SpeedModifier;
+            this.consumptionMultiplier=(float) ((0.1+(machine.altar_tier-1) *0.05)*this.upgrade.getLevel(BloodRuneType.SPEED));
             int cap = upgrade.getLevel(BloodRuneType.CAPACITY);
             int cap_aug = upgrade.getLevel(BloodRuneType.AUGMENTED_CAPACITY);
-            this.capacityMultiplier = (float) ((1 + 0.20*Math.pow(1.5,machine.altar_tier -1) * cap) * Math.pow(1.075+0.025*machine.altar_tier -1, cap_aug));
-            this.capacityMultiplier= (float) (this.capacityMultiplier*(machine.CapacityModifier-1)*0.5);
-            this.capacity= (int) (this.capacity*capacityMultiplier);
+            this.capacityMultiplier = (float) ((1 + 0.20*Math.pow(1.5,machine.altar_tier -1) * cap) * Math.pow(1.075+0.025*(machine.altar_tier -1), cap_aug))*(machine.altar_tier-1);
+            this.capacity = (int) (FluidType.BUCKET_VOLUME * 10 * this.capacityMultiplier);
             this.dislocationMultiplier = (float) (Math.pow(1.2+0.05*machine.altar_tier, upgrade.getLevel(BloodRuneType.DISPLACEMENT)));
             this.efficiencyMultiplier = (float) Math.pow(0.85, upgrade.getLevel(BloodRuneType.EFFICIENCY)+machine.altar_tier -1);
+            this.bufferCapacity=0;
+            tileAltar.getLevel().sendBlockUpdated(tileAltar.getBlockPos(), tileAltar.getLevel().getBlockState(tileAltar.getBlockPos()), tileAltar.getLevel().getBlockState(tileAltar.getBlockPos()), 3);
         }
     }
     @Override

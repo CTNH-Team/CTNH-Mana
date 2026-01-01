@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.common.block.LampBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
@@ -38,7 +39,7 @@ import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWor
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.common.Mutiblock.HellForgeMachine.hellforgeLang;
 import static com.moguang.ctnhmana.common.Mutiblock.ManaForceTransformer.MFT_Lang;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutiblockLang;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
 import static net.minecraft.world.level.block.Blocks.*;
@@ -495,11 +496,25 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("mana_tester", holder -> new IndustrialAltarMachine(holder))
             .cnLangValue("§b工业血之祭坛")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .tooltips(addMachineTooltips(industrialAltarLang))
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(industrialAltarctrlLang[0].translate());
+                    tooltip.add(industrialAltarctrlLang[1].translate());
+                    tooltip.add(industrialAltarctrlLang[2].translate());
+                    tooltip.add(industrialAltarctrlLang[3].translate());
+                    tooltip.add(industrialAltarctrlLang[4].translate());
+                    tooltip.add(industrialAltarctrlLang[5].translate());
+                    tooltip.add(industrialAltarctrlLang[6].translate());
+                    tooltip.add(industrialAltarctrlLang[7].translate());
+                    tooltip.add(industrialAltarctrlLang[8].translate());
+                }
+            })
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.BLOOD_ALTAR_RECIPES)
             .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .recipeModifiers(IndustrialAltarMachine::recipeModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABCBA", "#####")
                     .aisle("BDDDB", "#####")
@@ -507,7 +522,8 @@ public class CMMultiblockMachines {
                     .aisle("BDDDB", "#####")
                     .aisle("ABEBA", "#####")
                     .where("A", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:sea_lantern"))))
-                    .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                    .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune")))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where("E",  Predicates.controller(Predicates.blocks(definition.get())))
                     .where("D", CMPredicates.BMRuneBlocks)
                     .where("#", Predicates.any())

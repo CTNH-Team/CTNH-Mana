@@ -142,6 +142,38 @@ public class ChineseLangHandler {
     @CN("§b魔力逻辑UV电路板§r")
     @EN("§bMagic Logic UV Circuit Board§r")
     public static Lang magic_quantum_processor_mainframe;
+    @CN("§4血染逻辑LuV电路板§r \n §4残酷工业的哲学§r")
+    public static Lang bloody_nano_circuit_lang;
+    @CN("§1意志逻辑ZPM电路板§r \n §1意志主导运算法则§r")
+    public static Lang mixin_will_circuit_lang;
+    @CN("将逻辑映射在符文之上")
+    public static Lang rune_circuit_board_lang;
+    @CN("§b魔力电路化的第一步")
+    public static Lang mana_circuit_lang;
+    @CN("§a超越精灵的逻辑运算因式")
+    public static Lang advanced_mana_circuit_lang;
+    @CN("§4单向涌血控制")
+    public static Lang blooddiodelang;
+    @CN("§1非静态意志限制器")
+    public static Lang willdiodelang;
+    @CN("§4调整源质流动")
+    public static Lang bloodresistorlang;
+    @CN("§1阻遏过度思维")
+    public static Lang willresistorlang;
+    @CN("§4存储命结电荷")
+    public static Lang bloodcapacitorlang;
+    @CN("§1增生困惑思维")
+    public static Lang willcapacitorlang;
+    @CN("§4放大源质信号")
+    public static Lang bloodtransistorlang;
+    @CN("§1实体化意志扭曲")
+    public static Lang willtransistorlang;
+    @CN("§4提供血涌缓冲")
+    public static Lang bloodinductorlang;
+    @CN("§4提供矛盾缓冲")
+    public static Lang willinductorlang;
+    @CN("§4否决原电路逻辑，执行自意志运算")
+    public static Lang willsoclang;
     @CN(
             {
                     "佩戴时获得:",
@@ -182,7 +214,65 @@ public class ChineseLangHandler {
             }
     )
     public static Lang[] basemanamutiblockLang;
+    @CN(
+            {
+                    "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",
+                    "§4工业血祭坛§r是特殊的祭坛结构，其拥有多个等级，其等级决定了可以运行的配方，在结构成型时，将自动绑定结构中的血祭坛",
+                    "根据自身的等级，增强§c所有§r血祭坛符文的效果，并直接扩大血祭容量",
+                    "§c清除血祭坛的缓存容量，也不会使用血祭坛的缓存LP",
+                    "具有与血祭坛类似的供血机制，每秒从输入总线抽取一定数量的LP注入血祭坛，该注入受到等级，符文的影响",
+                    "运行时，直接消耗血祭坛中的LP来进行工作。LP不足时，§c进度会缓慢倒退而不是直接归零",
+                    "§c不可进行任何电力超频§r，自身工作速度受到血祭坛工作速度影响，同时拥有特殊的血超频机制",
+                    "运行时，祭坛血等级每高配方等级一级，速度翻倍，LP消耗速率翻四倍",
+                    "具有批处理功能：当配方时间<1s时，机器会尝试批处理直到运行时间≥1s",
+                    "§c注意：即使批处理不足，实际运行时间不会低于1s§r",
+                    "按住CTRL来显示具体数据"
+            }
+    )
+    @EN(
+            {
+                    "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",
+                    "工业血祭坛是特殊的祭坛结构，其拥有多个等级，其等级决定了可以运行的配方，在结构成型时，将自动绑定结构中的血祭坛",
+                    "根据自身的等级，增强所有血祭坛的符文的效果，并直接扩大血祭容量",
+                    "清除血祭坛的缓存容量，也不会使用血祭坛的缓存LP",
+                    "具有与血祭坛类似的供血机制，每秒从输入总线抽取一定数量的LP注入血祭坛，该注入受到等级，符文的影响",
+                    "运行时，直接消耗血祭坛中的LP来进行工作。LP不足时，§c进度会缓慢倒退而不是直接归零",
+                    "§c不可进行任何电力超频§r，自身工作速度受到血祭坛工作速度影响，同时拥有特殊的血超频机制",
+                    "运行时，祭坛血等级每高配方等级一级，速度翻倍，LP消耗速率翻四倍",
+                    "具有批处理功能：当配方时间<1s时，机器会尝试批处理直到运行时间≥1s",
+                    "§c注意：即使批处理不足，实际运行时间不会低于1s§r",
+                    "按住CTRL来显示具体数据"
+            }
+    )
+    public static Lang[] industrialAltarLang;
+    @CN(
+            {
+                    "工业血祭坛数据详细：",
+                    "增强符文效果：",
+                    "血祭坛扩大(工业血祭坛等级-1)倍容量",
+                    "§b速度符文§r：额外提升(0.05)*(工业血祭坛等级-2)的速度",
+                    "§e增容符文§r：提供的容量乘以1.5^(工业血祭坛等级-1)",
+                    "§4超容符文§r：提供的指数容量基数提升0.025*(工业血祭坛等级-1）",
+                    "§1转位符文§r：指数基数提升(0.05*工业血祭坛等级)",
+                    "效率符文：视作额外计算(工业血祭坛等级-1)个效率符文",
+                    "基础供血速率：20lp*(2^工业血祭坛等级)/s 该速率受到转位符文，促速符文的影响",
 
+            }
+    )
+    @EN(
+            {
+                    "工业血祭坛数据详细：",
+                    "增强符文效果：",
+                    "血祭坛扩大(工业血祭坛等级-1)倍容量",
+                    "§b速度符文§r：额外提升(0.05)*(工业血祭坛等级-2)的速度",
+                    "§e增容符文§r：提供的容量乘以1.5^(工业血祭坛等级-1)",
+                    "§4超容符文§r：提供的指数容量基数提升0.025*(工业血祭坛等级-1）",
+                    "§1转位符文§r：指数基数提升(0.05*工业血祭坛等级)",
+                    "效率符文：视作额外计算(工业血祭坛等级-1)个效率符文",
+                    "基础供血速率：20lp*(2^工业血祭坛等级)/s 该速率受到转位符文，促速符文的影响"
+            }
+    )
+    public static Lang[] industrialAltarctrlLang;
 
 
 

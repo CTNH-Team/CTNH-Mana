@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.moguang.ctnhmana.common.Mutiblock.IndustrialAltarMachine;
+import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -55,8 +56,9 @@ public class BloodAltarCondition extends RecipeCondition {
     }
     @Override
     public Component getTooltips() {
-        if(upgrade==null||upgrade.equals("None")) return altar_lang_2.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(consumption_rate),altar_consumption_lang[0].translate(consumption_rate));
-        return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(consumption_rate),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(upgrade));
+        if(upgrade==null||upgrade.equals("None")) return altar_lang_2.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate));
+        else if(upgrade.equals("etching")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(EtchingJade.etching_upgrade.translate()));
+        return null;
     }
 
     @Override

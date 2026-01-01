@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.common.Mutiblock;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -8,25 +9,33 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
+import com.moguang.ctnhmana.item.BloodMagicJade.JadeItem;
 import com.moguang.ctnhmana.mixin.bloodmagic.TileAltarAccessor;
+import com.moguang.ctnhmana.registry.CMMaterials;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import wayoftime.bloodmagic.altar.BloodAltar;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.tile.TileAltar;
 
 import java.util.List;
@@ -56,10 +65,11 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Persisted
     public  float CapacityModifier=1.0F;
     @Persisted
-    public  float SpeedModifier=1.0F;
-    @Persisted
     public int chargingFrequency=20;
-
+    @Getter
+    @Persisted
+    public String Upgrade;
+    public String Upgrade_name="无";
 
     @Override
     protected void initializePatterns() {
@@ -113,6 +123,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             {
                 onStructureInvalid();
             }
+            this.altar.checkTier();
             updateAltarData();
 
         }
@@ -122,10 +133,6 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         }
     }
 
-    public String getUpgrade()
-    {
-        return "None";
-    }
     public boolean consumeLPIfEnough(int lp)
     {
         if(this.altar==null)return false;
@@ -138,7 +145,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 
     public void updateAltarData()
     {
-        this.speed=altar.getConsumptionRate();
+        this.speed=1+altar.getConsumptionMultiplier();
         this.dislocation_modifier=tileAltar.getDislocationMultiplier();
         this.dislocation_rate= (int) (20*dislocation_modifier*Math.pow(2, altar_tier));
         this.chargingFrequency=altar.getChargingFrequency();
@@ -148,8 +155,13 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     {
         super.onStructureInvalid();
         CapacityModifier=1.0F;
-        SpeedModifier=1.0F;
+        speed=0;
         altar_tier =0;
+        dislocation_rate=100;
+        dislocation_modifier=1.0F;
+    }
+    public GTRecipe getBloodRecipe() {
+        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 100)).buildRawRecipe();
     }
     public int calculateSpeed(int tier)
     {
@@ -164,7 +176,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             var condition=recipe.conditions.get(0);
             int consume=0;
             int altar_tier=0;
-            var true_time=20;
+            var true_time=recipe.duration;
             int batch=1;
             double speed=altarMachine.speed;
             if(condition instanceof BloodAltarCondition altarCondition)
@@ -225,8 +237,29 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         {
             if(this.getOffsetTimer()%chargingFrequency==0)
             {
-//                if(this.)
-//                altar.fillMainTank()
+//                if(MachineUtils.inputFluid(CMMaterials.Mana.getFluid(10),this ))
+//                {
+//                    altar.fillMainTank(10);
+//                }
+                var boosterRecipe = getBloodRecipe();
+                var isBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                if(isBoosted)
+                {
+                    altar.fillMainTank(dislocation_rate);
+                }
+//                if(MachineUtils.inputFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),dislocation_rate),this)) {
+//                    altar.fillMainTank(dislocation_rate);
+//                }
+            }
+            if(this.getOffsetTimer()%100==0)
+            {
+                var item=tileAltar.getItem(0);
+                if(item.getItem() instanceof JadeItem jades)
+                {
+                    this.Upgrade=jades.getType();
+                    this.Upgrade_name=jades.getUpgradeName().translate().getString();
+                }
             }
         }
     }
@@ -240,7 +273,9 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             textList.add(level_lang.translate(altar_tier));
             textList.add(altar_lang[0].translate(tileAltar.getCapacity()));
             textList.add(altar_lang[1].translate(tileAltar.getCurrentBlood()));
-            textList.add(altar_lang[2].translate(altar.getCapacity()));
+            textList.add(altar_lang[2].translate(speed));
+            textList.add(altar_lang[3].translate(dislocation_rate,chargingFrequency*0.05F));
+            textList.add(altar_lang[4].translate(Upgrade_name));
 //            textList.add(altar_lang[2].translate(tileAltar.getCapacity()));
         }
     }
@@ -249,12 +284,16 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @CN({
             "祭坛最大容量:%d",
             "当前祭坛LP容量:%d",
-            "LP消耗倍率:%d"
+            "速度增幅倍率:%d",
+            "充能速率：%d lp/ %.2f s",
+            "当前升级:%s"
     })
     @EN({
             "祭坛最大容量:%d",
             "当前祭坛LP容量:%d",
-            "LP消耗倍率:%d"
+            "LP消耗倍率:%d",
+            "充能速率：%d lp/ %.2f s",
+            "当前升级:%s"
     })
     public static Lang[] altar_lang;
     //////////////////////////////////////
@@ -293,7 +332,9 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("G", CMPredicates.BMRuneBlocks)
                 .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:duskritualstone"))))
                 .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))))
-                .where("M", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                .where("M", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune")))
+                        .or(Predicates.autoAbilities(this.getRecipeTypes())))
+
                 .where("O", Predicates.controller(Predicates.blocks(this.getDefinition().get())))
                 .where("Q", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:beacon"))))
                 .where("#", Predicates.any())
@@ -328,7 +369,8 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("I", CMPredicates.BMRuneBlocks)
                 .where("O", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))))
                 .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone"))))
-                .where("U", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                .where("U", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune")))
+                        .or(Predicates.autoAbilities(this.getRecipeTypes())))
                 .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:beacon"))))
                 .where("#", Predicates.any())
                 .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))))
@@ -380,7 +422,8 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("A", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:reinforced_deepslate"))))
                 .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_metal"))))
                 .where("R", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone"))))
-                .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune"))))
+                .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:blankrune")))
+                        .or(Predicates.autoAbilities(this.getRecipeTypes())))
                 .where("j", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:beacon"))))
                 .where("F", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:mechanical_fusion_anvil"))))
                 .where("#", Predicates.any())
