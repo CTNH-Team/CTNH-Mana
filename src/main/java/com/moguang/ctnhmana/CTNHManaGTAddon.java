@@ -1,19 +1,25 @@
 package com.moguang.ctnhmana;
 
+import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.moguang.ctnhmana.data.recipe.BloodAltarRecipes;
-import com.moguang.ctnhmana.data.recipe.HellForgeRecipes;
-import com.moguang.ctnhmana.data.recipe.ManaReactorRecipes;
-import com.moguang.ctnhmana.data.recipe.WishingWillRecipes;
-import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMElements;
-import com.moguang.ctnhmana.registry.CMItems;
+import com.moguang.ctnhmana.data.recipe.*;
+import com.moguang.ctnhmana.registry.*;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.data.CTNHDynamicDataPack;
+import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
+import wayoftime.bloodmagic.common.data.GeneratorRecipes;
+import wayoftime.bloodmagic.common.recipe.BloodAltarRecipeProvider;
 
+import java.nio.file.Path;
 import java.util.function.Consumer;
+
+import static tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack.FILTERED_RECIPES;
 
 @GTAddon
 public class CTNHManaGTAddon implements IGTAddon {
@@ -26,6 +32,7 @@ public class CTNHManaGTAddon implements IGTAddon {
     public void initializeAddon() {
         CMItems.init();
         CMBlocks.init();
+        CMBlockEntities.init();
     }
 
     @Override
@@ -36,7 +43,7 @@ public class CTNHManaGTAddon implements IGTAddon {
     @Override
     public void registerTagPrefixes() {
 
-       // CMTagPrefixes.init();
+       CMTagPrefixes.init();
     }
 
     @Override
@@ -56,10 +63,56 @@ public class CTNHManaGTAddon implements IGTAddon {
         HellForgeRecipes.init(provider);
         WishingWillRecipes.init(provider);
         BloodAltarRecipes.init(provider);
+
+        DemonWillGeneratorRecipes.init(provider);
+        ManaCondenserRecipes.init(provider);
+        BotaniaRecipes.init(provider);
+        MachineRecipes.init(provider);
+        ManaRecipes.init(provider);
+
+        //示例：重新注册所有血祭坛配方
+//        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
+    }
+
+    //这个函数用于重新注册其他模组被删除的配方，因为被删除的配方如果id不变即使重新注册也会被移除，故通过这个函数将配方的命名空间变为ctnhmana
+    Consumer<FinishedRecipe> changeId(Consumer<FinishedRecipe> provider){
+        return r -> {
+
+            provider.accept(new FinishedRecipe() {
+                @Override
+                public void serializeRecipeData(JsonObject jsonObject) {
+                    r.serializeRecipeData(jsonObject);
+                }
+
+                @Override
+                public ResourceLocation getId() {
+                    return CTNHMana.id(r.getId().getNamespace() + '/' + r.getId().getPath());
+                }
+
+                @Override
+                public RecipeSerializer<?> getType() {
+                    return r.getType();
+                }
+
+                @Override
+                public @Nullable JsonObject serializeAdvancement() {
+                    return r.serializeAdvancement();
+                }
+
+                @Override
+                public @Nullable ResourceLocation getAdvancementId() {
+                    return r.getAdvancementId();
+                }
+            });
+        };
     }
 
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
 
+//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+//        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
+//
+//        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");
     }
 }

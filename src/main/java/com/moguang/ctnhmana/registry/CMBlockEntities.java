@@ -1,0 +1,23 @@
+package com.moguang.ctnhmana.registry;
+
+import com.moguang.ctnhmana.common.blockentity.flower.BloodAntiarisBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.flower.DemonFlytrapBlockEntity;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
+
+import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+
+public class CMBlockEntities {
+    public static void init() {
+
+    }
+
+    public static BlockEntityEntry<DemonFlytrapBlockEntity> DEMON_FLYTRAP = REGISTRATE
+            .blockEntity("demon_flytrap", DemonFlytrapBlockEntity::new)
+            .validBlocks(CMBlocks.DEMON_FLYTRAP)
+            .register();
+
+    public static BlockEntityEntry<BloodAntiarisBlockEntity> BLOOD_ANTIARIS = REGISTRATE
+            .blockEntity("blood_antiaris", BloodAntiarisBlockEntity::new)
+            .validBlocks(CMBlocks.BLOOD_ANTIARIS)
+            .register();
+}

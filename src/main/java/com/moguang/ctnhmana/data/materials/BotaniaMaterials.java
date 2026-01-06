@@ -108,5 +108,10 @@ public class BotaniaMaterials {
                 .cableProperties(GTValues.V[GTValues.EV], 4, 4, false)
                 .buildAndRegister();
 
+        Livingrock = REGISTRATE.material(GTCEu.id("livingrock"))
+                .cnlang("活石")
+                .dust()
+                .color(0xfafafa)
+                .buildAndRegister();
     }
 }

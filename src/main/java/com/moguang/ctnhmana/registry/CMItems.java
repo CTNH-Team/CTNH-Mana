@@ -488,6 +488,25 @@ public class CMItems {
             .lang("Endslate")
             .register();
 
-
+    public static ItemEntry<Item> CORROSIVE_CORE = REGISTRATE
+            .item("corrosive_core",Item::new)
+            .cnlang("腐蚀核心")
+            .lang("Corrosive Core")
+            .register();
+    public static ItemEntry<Item> VENGEFUL_CORE = REGISTRATE
+            .item("vengeful_core",Item::new)
+            .cnlang("复仇核心")
+            .lang("Vengeful Core")
+            .register();
+    public static ItemEntry<Item> DESTRUCTIVE_CORE = REGISTRATE
+            .item("destructive_core",Item::new)
+            .cnlang("破坏核心")
+            .lang("Destructive Core")
+            .register();
+    public static ItemEntry<Item> STEADFAST_CORE = REGISTRATE
+            .item("steadfast_core",Item::new)
+            .cnlang("坚毅核心")
+            .lang("Steadfast Core")
+            .register();
 
 }

@@ -62,3 +62,9 @@ versionRange = "${minecraft_version}"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.${mod_id}]]
+modId="botania"
+mandatory=true
+versionRange="[1.20.1-446-FORGE,)"
+ordering="BEFORE"
+side="BOTH"

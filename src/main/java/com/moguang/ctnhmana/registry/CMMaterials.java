@@ -42,6 +42,9 @@ public class CMMaterials {
     public static Material Aerialite;
     public static Material DEMON;
     public static Material SHADOWIUM;
+
+    public static Material Livingrock;
+
     public static void init() {
         BotaniaMaterials.init();
     }
@@ -73,7 +76,7 @@ public class CMMaterials {
         TagPrefix.ingot.setIgnored(DEMON,()-> BloodMagicItems.HELLFORGED_INGOT.get());
         TagPrefix.block.setIgnored(DEMON,()-> BloodMagicBlocks.HELLFORGED_BLOCK.get());
 
-
+        TagPrefix.block.setIgnored(Livingrock, () -> BotaniaBlocks.livingrock);
     }
 
     public static final Material Mana =  REGISTRATE.material(GTCEu.id("mana"))
