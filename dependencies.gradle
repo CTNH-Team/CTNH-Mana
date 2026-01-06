@@ -3,8 +3,8 @@ dependencies {
 
     // Mixin
     annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
-
-    modImplementation(project(":modules:CTNH-Lib")){transitive = false}
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0-rc.3"))
+    implementation(project(":modules:CTNH-Lib")){transitive = false}
 
     // JEI, EMI, Jade
     //modImplementation("curse.maven:jei-238222:7181650")
@@ -52,7 +52,7 @@ dependencies {
     modImplementation("org.moddingx:LibX:${minecraft_version}-${libx_version}")
 
     // Blood Magic
-    modImplementation("curse.maven:blood-magic-224791:7253333")
+    modImplementation("maven.modrinth:blood-magic:${bloodmagic_version}")
 
     // Curios
     modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -71,4 +71,7 @@ dependencies {
     //legendary_survival
     modImplementation("curse.maven:legendary_survival_overhaul-840254:6750561")
 
+    //AE2
+    modImplementation("appeng:appliedenergistics2-forge:${ae2_version}")
+    modImplementation("curse.maven:guideme-1173950:6679102")
 }

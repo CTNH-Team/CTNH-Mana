@@ -19,7 +19,7 @@ import wayoftime.bloodmagic.common.tile.TileAltar;
 
 import static com.gregtechceu.gtceu.api.machine.MetaMachine.getMachine;
 
-@Mixin(BloodAltar.class)
+@Mixin(value = BloodAltar.class, remap = false)
 public abstract class BloodAltarMixin implements IBloodAltarLogic {
 
     @Shadow(remap = false)

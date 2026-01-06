@@ -5,8 +5,8 @@
   "refmap": "mixins.ctnhmana.refmap.json",
   "mixins": [
     "bloodmagic.BloodAltarMixin",
-    "bloodmagic.BMRecipeCancelMixin",
-    "bloodmagic.TileAltarAccessor"
+    "bloodmagic.TileAltarAccessor",
+    "botania.ManaPoolBlockEntityMixin"
   ],
   "client": [
   ],

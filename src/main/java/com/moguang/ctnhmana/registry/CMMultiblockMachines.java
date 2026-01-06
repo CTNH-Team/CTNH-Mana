@@ -22,6 +22,8 @@ import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.common.Mutiblock.*;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.registry.multiblock.Botania;
+import com.moguang.ctnhmana.registry.multiblock.misc;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -60,7 +62,9 @@ public class CMMultiblockMachines {
     }
 
     public static void init() {
-//I LOVE U
+        com.moguang.ctnhmana.registry.multiblock.BloodMagic.init();
+        Botania.init();
+        misc.init();
     }
     public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
     {

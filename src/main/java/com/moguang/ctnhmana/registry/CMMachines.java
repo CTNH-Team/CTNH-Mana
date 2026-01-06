@@ -1,19 +1,25 @@
 package com.moguang.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.DigitalWosMachine;
 import com.moguang.ctnhmana.common.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.SparkManaHatch;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerSimpleMachines;
+import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerTieredMachines;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
@@ -42,7 +48,7 @@ public class CMMachines {
                     manahatchtootip_base[6].translate(8000)
                     )
             .abilities(CMPartsAbility.MANAHATCH)
-            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
+            .overlayTieredHullModel("manahatch")
             .tier(HV)
             .register();
     public static final MachineDefinition ADVANCED_MANA_HATCH = REGISTRATE
@@ -124,4 +130,17 @@ public class CMMachines {
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(UHV)
             .register();
+
+    public static final MachineDefinition[] DIGITAL_WELL_OF_SUFFER = registerTieredMachines("digital_well_of_suffer",
+            (holder, tier) -> new DigitalWosMachine(holder,tier,(tiers) -> tiers * 32000),
+            (tier,builder) -> builder
+                    .langValue("%s Digital Well of Suffer".formatted(VNF[tier]))
+                    .recipeType(CMRecipeTypes.DIGITAL_WELL_OF_SUFFER)
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("digital_well_of_suffer"),CMRecipeTypes.DIGITAL_WELL_OF_SUFFER))
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .recipeModifier(DigitalWosMachine::recipeModifier)
+                    .workableTieredHullModel(GTCEu.id("block/machines/digital_well_of_suffer"))
+                    .tooltips(Component.translatable("ctnh.dwof.tooltip").withStyle(ChatFormatting.YELLOW))
+                    .register(),
+            GTValues.tiersBetween(LV,UV));
 }
