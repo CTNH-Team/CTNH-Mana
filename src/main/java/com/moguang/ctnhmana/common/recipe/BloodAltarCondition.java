@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
-import com.moguang.ctnhmana.common.Mutiblock.IndustrialAltarMachine;
+import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
 import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;

@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -21,7 +21,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 
 import java.util.List;
 
-import static com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine.BaseManaMachineLang;
+import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.BaseManaMachineLang;
 public class ManaStatusGui implements IFancyUIProvider {
     protected BaseManaMachine machine;
 

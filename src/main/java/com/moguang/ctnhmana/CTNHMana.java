@@ -4,14 +4,12 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
-import com.moguang.ctnhmana.api.blockentity.IZenithMartixBlockEntity;
 import com.moguang.ctnhmana.event.EventHandler;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import com.moguang.ctnhmana.registry.CMRegistrate;
 import com.moguang.ctnhmana.registry.sounds.CMSoundEvent;
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;

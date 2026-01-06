@@ -5,15 +5,19 @@ import com.moguang.ctnhmana.CMConfig;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
+import com.moguang.ctnhmana.integration.jade.BloodAltarStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
+import com.moguang.ctnhmana.registry.CMEntities;
 import com.moguang.ctnhmana.registry.GTMaterialAddon;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tech.vixhentx.mcmod.ctnhlib.jade.JadePriorityManager;
+
+import javax.xml.crypto.dsig.CanonicalizationMethod;
 
 @SuppressWarnings("removal")
 public class CommonProxy {
@@ -26,7 +30,7 @@ public class CommonProxy {
     @SuppressWarnings("removal")
     public static void init() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+        CMEntities.init();
         CMCreativeModeTabs.init();
         CTNHMana.REGISTRATE.registerRegistrate();
         CMDatagen.init();
@@ -67,6 +71,18 @@ public class CommonProxy {
                 Block.class,
                 900,
                 "mana_pool_status")
+        ;
+        JadePriorityManager.registerBlockData(
+                new BloodAltarStatusProvider(),
+                BlockEntity.class,
+                900,
+                "bloodaltar_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new BloodAltarStatusProvider(),
+                Block.class,
+                900,
+                "bloodaltar_status")
         ;
     }
 

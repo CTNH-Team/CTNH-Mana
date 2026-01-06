@@ -2,8 +2,8 @@ package com.moguang.ctnhmana.item.ManaMachineUpgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;

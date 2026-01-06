@@ -2,9 +2,8 @@ package com.moguang.ctnhmana.integration.jade;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
-import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

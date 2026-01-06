@@ -4,8 +4,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
-import com.moguang.ctnhmana.common.Mutiblock.MachineUtils;
-import com.moguang.ctnhmana.common.Mutiblock.ManaCondenserMachine;
+import com.moguang.ctnhmana.Mutiblock.MachineUtils;
+import com.moguang.ctnhmana.Mutiblock.ManaCondenserMachine;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 

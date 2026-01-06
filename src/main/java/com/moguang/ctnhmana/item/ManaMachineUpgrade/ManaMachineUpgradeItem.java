@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.item.ManaMachineUpgrade;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;

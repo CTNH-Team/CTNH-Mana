@@ -127,8 +127,10 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.jade.manahatch.destructivewillprogress", "§6破坏意志：%s / %s");
         provider.add("ctnhmana.jade.manahatch.vengefulwillprogress", "§c复仇意志：%s / %s");
         provider.add("ctnhmana.jade.terra_plate.manaprogress","魔力输入进度：%s / %s (%.2f%%)");
+        provider.add("ctnhmana.jade.bloodaltar.lp","LP存储:%d / %d");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider","魔力舱室属性");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider","魔力机器属性");
+        provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider","工业血祭坛属性");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status","魔力池属性");
         //provider.add("ctnh.recipe_type.info", "配方类型：%s");
         provider.add("ctnh.recipe_type.list", "%s, %s");

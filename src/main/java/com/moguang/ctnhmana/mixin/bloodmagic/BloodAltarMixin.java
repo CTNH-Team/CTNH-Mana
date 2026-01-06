@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.mixin.bloodmagic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
-import com.moguang.ctnhmana.common.Mutiblock.IndustrialAltarMachine;
+import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;

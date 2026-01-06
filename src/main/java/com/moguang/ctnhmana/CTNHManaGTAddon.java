@@ -110,7 +110,7 @@ public class CTNHManaGTAddon implements IGTAddon {
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
 
-//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+        DataFilterPack.removeRecipeType("bloodmagic", "altar");
 //        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
 //
 //        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");

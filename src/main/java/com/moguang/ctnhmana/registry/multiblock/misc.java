@@ -1,35 +1,21 @@
 package com.moguang.ctnhmana.registry.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.Mutiblock.Nicoll_Dyson_Beams;
-import com.moguang.ctnhmana.common.Mutiblock.Quasar_Eye;
-import com.moguang.ctnhmana.common.Mutiblock.TwistedFusionMachine;
+import com.moguang.ctnhmana.Mutiblock.TwistedFusionMachine;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.network.chat.Component;
-import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.function.Function;
 
-import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.ADVANCED_COMPUTER_CASING;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_CASING;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UV;
-import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.registry.CMBlocks.TWISTED_FUSION_CASING;
 

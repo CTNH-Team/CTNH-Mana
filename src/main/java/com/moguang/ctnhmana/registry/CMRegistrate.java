@@ -1,32 +1,20 @@
 package com.moguang.ctnhmana.registry;
 
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.api.blockentity.IManaMachineBlockEntity;
-import com.moguang.ctnhmana.api.blockentity.IZenithMartixBlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.function.TriFunction;
+import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.IZenithMartixBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMultiblockMachineBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class CMRegistrate extends CNRegistrate {

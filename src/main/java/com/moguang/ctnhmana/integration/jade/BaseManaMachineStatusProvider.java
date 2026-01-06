@@ -2,14 +2,12 @@ package com.moguang.ctnhmana.integration.jade;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
-import com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.common.Mutiblock.parts.ManaHatch;
+import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,9 +18,7 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.overlay.DisplayHelper;
 
-import java.awt.*;
-
-import static com.moguang.ctnhmana.common.Mutiblock.BaseManaMachine.BaseManaMachineLang;
+import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.BaseManaMachineLang;
 
 public class BaseManaMachineStatusProvider extends CapabilityBlockProvider<BaseManaMachine> {
     public BaseManaMachineStatusProvider() {

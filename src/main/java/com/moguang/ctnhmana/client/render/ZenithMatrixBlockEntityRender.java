@@ -4,19 +4,14 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
-import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
-import com.moguang.ctnhmana.common.Mutiblock.ZENITH_MATRIX;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.moguang.ctnhmana.Mutiblock.ZENITH_MATRIX;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
-import net.minecraft.client.renderer.entity.EnderDragonRenderer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3d;
 
 import static com.hollingsworth.arsnouveau.client.ClientInfo.partialTicks;
 
