@@ -23,27 +23,27 @@ import java.util.Map;
 
 public class HellForgeCondition extends RecipeCondition {
     public String Willtype;
-    public int consume;
+    public double consume;
     public static final Codec<HellForgeCondition> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.BOOL.optionalFieldOf("isReverse", false).forGetter(RecipeCondition::isReverse),
                     Codec.STRING.optionalFieldOf("willtype", "default").forGetter(cond-> cond.Willtype),
-                    Codec.INT.fieldOf("consume").forGetter(cond->cond.consume)
+                    Codec.DOUBLE.fieldOf("consume").forGetter(cond->cond.consume)
             ).apply(instance,HellForgeCondition::new)
     );
     public HellForgeCondition() {}
 
-    public HellForgeCondition(int consume) {
+    public HellForgeCondition(double consume) {
         super();
         this.Willtype="default";
         this.consume=consume;
     }
-    public HellForgeCondition(String typer,int consume) {
+    public HellForgeCondition(String typer,double consume) {
         super();
         this.Willtype=typer;
         this.consume=consume;
     }
-    public HellForgeCondition(boolean reverse,String typer,int consume) {
+    public HellForgeCondition(boolean reverse,String typer,double consume) {
         super(reverse);
         this.Willtype=typer;
         this.consume=consume;

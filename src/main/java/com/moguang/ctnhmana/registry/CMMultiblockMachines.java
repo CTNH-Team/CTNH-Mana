@@ -62,6 +62,7 @@ public class CMMultiblockMachines {
     public static void init() {
 //I LOVE U
     }
+
     public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
     {
         List<Component> list=new ArrayList<>();
@@ -218,7 +219,6 @@ public class CMMultiblockMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
     public final static MultiblockMachineDefinition MANA_REACTOR = REGISTRATE.multiblock("mana_reactor",holder->new ManaReactor(holder,4))
@@ -299,7 +299,6 @@ public class CMMultiblockMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-
                     )
                     .where("x",Predicates.abilities(CMPartsAbility.MANAHATCH))
                     .where("G", Predicates.blocks(BotaniaBlocks.naturaPylon))
@@ -337,6 +336,10 @@ public class CMMultiblockMachines {
 
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
+
+
+
+
     public static MultiblockMachineDefinition HELLFORGE = REGISTRATE.multiblock("hellforge", HellForgeMachine::new)
             .cnLangValue("§4工业狱火锻炉")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -622,7 +625,6 @@ public class CMMultiblockMachines {
                 shapeInfos.add(tier2_build.build());
                 shapeInfos.add(tier3_build.build());
                 shapeInfos.add(tier4_build.shallowCopy().build());
-
                 return shapeInfos;
             })
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))

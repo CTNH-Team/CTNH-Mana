@@ -226,7 +226,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
             ConvertFluidLP();
         }
     }
-    public boolean ConsumeWillIfEnough(String type,int num)
+    public boolean ConsumeWillIfEnough(String type,double num)
     {
         switch (type)
         {

@@ -142,16 +142,77 @@ public class ChineseLangHandler {
     @CN("§b魔力逻辑UV电路板§r")
     @EN("§bMagic Logic UV Circuit Board§r")
     public static Lang magic_quantum_processor_mainframe;
-    @CN("§4血染逻辑LuV电路板§r \n §4残酷工业的哲学§r")
-    public static Lang bloody_nano_circuit_lang;
-    @CN("§1意志逻辑ZPM电路板§r \n §1意志主导运算法则§r")
-    public static Lang mixin_will_circuit_lang;
+
+    @CN(
+            {
+                    "§4血染逻辑LuV电路§r",
+                    "§4残酷工业的哲学§r"
+            }
+    )
+    @EN(
+            {
+                    "§4血染逻辑LuV电路§r",
+                    "§4残酷工业的哲学§r"
+            }
+    )
+    public static Lang[] bloody_nano_circuit_lang;
+
+    @CN(
+            {
+                    "§1意志逻辑ZPM电路§r",
+                    "§1扭曲主导的运算法则§r"
+            }
+    )
+    @EN(
+            {
+                    "§1意志逻辑ZPM电路§r",
+                    "§1扭曲主导的运算法则§r"
+            }
+    )
+    public static Lang[] mixin_will_circuit_lang;
     @CN("将逻辑映射在符文之上")
     public static Lang rune_circuit_board_lang;
-    @CN("§b魔力电路化的第一步")
-    public static Lang mana_circuit_lang;
-    @CN("§a超越精灵的逻辑运算因式")
-    public static Lang advanced_mana_circuit_lang;
+
+    @CN(
+            {
+                    "§b魔力逻辑HV电路",
+                    "§b魔力逻辑电路的第一步"
+            }
+    )
+    @EN(
+            {
+                    "§b魔力逻辑HV电路",
+                    "§b魔力电路化的第一步"
+            }
+    )
+    public static Lang[] mana_circuit_lang;
+
+    @CN(
+            {
+                    "§a精灵逻辑EV电路",
+                    "§a超越精灵的逻辑运算因式"
+            }
+    )
+    @EN(
+            {
+                    "§a精灵逻辑EV电路",
+                    "§a超越精灵的逻辑运算因式"
+            }
+    )
+    public static Lang[] advanced_mana_circuit_lang;
+    @CN(
+            {
+                    "§1意志逻辑IV电路",
+                    "§1意志结晶的逻辑拓展"
+            }
+    )
+    @EN(
+            {
+                    "§1意志逻辑IV电路",
+                    "§1意志结晶的逻辑拓展"
+            }
+    )
+    public static Lang[] will_crystal_circuit_lang;
     @CN("§4单向涌血控制")
     public static Lang blooddiodelang;
     @CN("§1非静态意志限制器")

@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.item.Rune.IRuneItem;
+import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
@@ -26,14 +28,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import vazkii.botania.common.lib.BotaniaTags;
-
 import java.util.List;
-
-import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
+import static com.moguang.ctnhmana.item.Rune.RuneElementType.*;
+import static com.moguang.ctnhmana.item.Rune.RuneElementType.WATER;
 
 import com.moguang.ctnhmana.item.bossSummoner.ThrowItem;
 @SuppressWarnings("removal")
@@ -83,7 +83,7 @@ public class CMItems {
                 })))
                 .register();
         HORIZEN_RUNE = REGISTRATE
-                .item("horizen_rune",ComponentItem::create)
+                .item("horizen_rune",holder->new IRuneItem(holder,List.of(EARTH,WOOD,FIRE),5))
                 .cnlang("§5视域§r符文")
                 .lang("§5Horizen§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -92,7 +92,7 @@ public class CMItems {
                 })))
                 .register();
         STARLIGHT_RUNE = REGISTRATE
-                .item("starlight_rune",ComponentItem::create)
+                .item("starlight_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,FIRE),5))
                 .cnlang("§9星光§r符文")
                 .lang("§9Starlight§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -101,7 +101,7 @@ public class CMItems {
                 })))
                 .register();
         TWIST_RUNE = REGISTRATE
-                .item("twist_rune",ComponentItem::create)
+                .item("twist_rune",holder->new IRuneItem(holder,List.of(EARTH,SIN,FIRE),5))
                 .cnlang("§c扭曲§r符文")
                 .lang("§cTwist§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -110,7 +110,7 @@ public class CMItems {
                 })))
                 .register();
         QUASAR_RUNE = REGISTRATE
-                .item("quasar_rune",ComponentItem::create)
+                .item("quasar_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WOOD,SIN,FIRE),5))
                 .cnlang("§k类星体§r符文")
                 .lang("§kQuasar§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -119,7 +119,7 @@ public class CMItems {
                 })))
                 .register();
         PROLIFERATION_RUNE = REGISTRATE
-                .item("proliferation_rune",ComponentItem::create)
+                .item("proliferation_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WOOD),5))
                 .cnlang("§a增殖§r符文")
                 .lang("§aProliferation§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -145,7 +145,7 @@ public class CMItems {
                 .cnlang("§4血染微处理主机§r")
                 .tag(CustomTags.LuV_CIRCUITS)
                 .onRegister(attach(new TooltipBehavior(text ->
-                        text.add(bloody_nano_circuit_lang.translate())
+                        itemTooltipsChange(bloody_nano_circuit_lang,text)
                 )))
                 .register();
         MIXIN_WILL_PROCESSOR_MAINFRAME=REGISTRATE
@@ -153,7 +153,7 @@ public class CMItems {
                 .cnlang("§1注元意志处理器主机§r")
                 .tag(CustomTags.ZPM_CIRCUITS)
                 .onRegister(attach(new TooltipBehavior(text ->
-                        text.add(mixin_will_circuit_lang.translate())
+                        itemTooltipsChange(mixin_will_circuit_lang,text)
                 )))
                 .register();
         RUNE_CIRCUIT_BOARD=REGISTRATE
@@ -194,6 +194,14 @@ public class CMItems {
                 .item("etching_jade", EtchingJade::new)
                 .cnlang("蚀刻之玉")
                 .register();
+        WILL_CRYSTAL_PROCESSOR = REGISTRATE
+                .item("will_crystal_processor", ComponentItem::create)
+                .cnlang("晶化意志处理器")
+                .tag(CustomTags.IV_CIRCUITS)
+                .onRegister(attach(new TooltipBehavior(text ->
+                        itemTooltipsChange(will_crystal_circuit_lang,text)
+                )))
+                .register();
 
 
 
@@ -214,15 +222,16 @@ public class CMItems {
     public static ItemEntry<BTUpgradeItemT1>BT_UPDATE_T2;
     public static ItemEntry<GTUpgradeItemT2>GT_UPDATE_T2;
     public static ItemEntry<BMUpgradeItemT2>BM_UPDATE_T2;
-    public static ItemEntry<ComponentItem> HORIZEN_RUNE;
-    public static ItemEntry<ComponentItem> STARLIGHT_RUNE;
-    public static ItemEntry<ComponentItem> TWIST_RUNE;
-    public static ItemEntry<ComponentItem> QUASAR_RUNE;
-    public static ItemEntry<ComponentItem> PROLIFERATION_RUNE;
+    public static ItemEntry<IRuneItem> HORIZEN_RUNE;
+    public static ItemEntry<IRuneItem> STARLIGHT_RUNE;
+    public static ItemEntry<IRuneItem> TWIST_RUNE;
+    public static ItemEntry<IRuneItem> QUASAR_RUNE;
+    public static ItemEntry<IRuneItem> PROLIFERATION_RUNE;
     public static ItemEntry<KoishiEyeItem>KOISHI_EYE;
     public static ItemEntry<YurikoRingItem>YURIKO_RING;
     public static ItemEntry<ComponentItem> BLOODY_NANO_PROCESSOR_MAINFRAME;
     public static ItemEntry<ComponentItem> MIXIN_WILL_PROCESSOR_MAINFRAME;
+    public static ItemEntry<ComponentItem> WILL_CRYSTAL_PROCESSOR;
     public static ItemEntry<ComponentItem> RUNE_CIRCUIT_BOARD;
     public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
     public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
@@ -256,6 +265,13 @@ public class CMItems {
             list.add(lang.translate());
         }
         return list;
+    }
+    public static void itemTooltipsChange(Lang[] langs, List<Component> list)
+    {
+        for(Lang lang:langs)
+        {
+            list.add(lang.translate());
+        }
     }
     private static TagKey<Item> accessory(String name) {
         return ItemTags.create(new ResourceLocation("curios", name));
@@ -337,7 +353,7 @@ public class CMItems {
             .cnlang("§b注魔的电子电路")
             .tag(CustomTags.HV_CIRCUITS)
             .onRegister(attach(new TooltipBehavior(text ->
-                    text.add(mana_circuit_lang.translate())
+                    itemTooltipsChange(mana_circuit_lang,text)
             )))
             .lang("Mana Electronic Circuit")
             .register();
@@ -347,7 +363,8 @@ public class CMItems {
             .cnlang("§a注魔的集成电路")
             .tag(CustomTags.EV_CIRCUITS)
             .onRegister(attach(new TooltipBehavior(text ->
-                    text.add(advanced_mana_circuit_lang.translate())
+
+                    itemTooltipsChange(advanced_mana_circuit_lang,text)
             )))
             .lang("Mana Integrated Circuit")
             .register();

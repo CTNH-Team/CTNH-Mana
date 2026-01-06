@@ -133,7 +133,7 @@ public class CMMaterials {
             .secondaryColor(0X990000)
             .element(CMElements.HEMOPLATINUM)
             .blastTemp(3600, BlastProperty.GasTier.HIGHEST, 444, 4444)
-            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING,GENERATE_FINE_WIRE)
             .buildAndRegister();
     public  static final Material COAGULBLOODGOLD=REGISTRATE.material(GTCEu.id("coagulbloodgold"))
             .cnlang("§4凝血金")
@@ -142,7 +142,7 @@ public class CMMaterials {
             .color(0XD4A017)
             .secondaryColor(0X990000)
             .element(CMElements.COAGULBLOODGOLD)
-            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING,GENERATE_FINE_WIRE)
             .buildAndRegister();
     public  static final Material PRIMOVOLITHEST=REGISTRATE.material(GTCEu.id("primovolithest"))
             .cnlang("混元意志钢")
@@ -154,6 +154,17 @@ public class CMMaterials {
             .cableProperties(GTValues.V[GTValues.LuV], 44, 4, false)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
+    public  static final Material YURIKO=REGISTRATE.material(GTCEu.id("yuriko"))
+            .cnlang("绮璃")
+            .liquid()
+            .ingot()
+            .color(0XFFD1DC)
+            .element(Yuriko)
+            .blastTemp(5400, BlastProperty.GasTier.HIGHEST, 4444, 444)
+            .cableProperties(GTValues.V[GTValues.LuV], 44, 4, false)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
+
 
 
 }

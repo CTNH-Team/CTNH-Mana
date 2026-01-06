@@ -22,4 +22,6 @@ public class CMElements {
     public static final Element COAGULBLOODGOLD=new Element(44,44,44,null,"coagulbloodgold","§4SAu",false);
     public static final Element DEMON=new Element(444,444,444,null,"demon","DM",false);
     public static final Element SHADOWIUM=new Element(11,11,11,null,"shadowium","§7SHADOW",false);
+    public static final Element Yuriko=new Element(123456,123456,123456,null,"yutriko","YR",false);
+
 }

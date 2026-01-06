@@ -95,7 +95,7 @@ public class BotaniaMaterials {
                 .color(0X00008B)
                 .element(CMElements.DEMON)
                 .blastTemp(5400, BlastProperty.GasTier.HIGHEST, 4444, 444)
-                .cableProperties(GTValues.V[GTValues.IV], 4, 0, true)
+                .cableProperties(GTValues.V[GTValues.IV], 4, 0, false)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
                 .buildAndRegister();
         SHADOWIUM=REGISTRATE.material(CTNHMana.id("shaowium"))

@@ -2,6 +2,12 @@ package com.moguang.ctnhmana.api.recipe.bloodmagic;
 
 import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
@@ -13,6 +19,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wayoftime.bloodmagic.common.registries.BloodMagicRecipeSerializers;
 import wayoftime.bloodmagic.recipe.helper.SerializerHelper;
@@ -24,12 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * 重构后的血祭坛配方构建器，对齐PetalRecipeBuilder的风格
- * 核心参数保留input/output，非核心参数（tier/syphon等）改为可选链式配置，默认值更合理
- */
+
 public class BloodAltarRecipeBuilder {
-    // 核心成员变量（非核心参数给默认值，避免构造器强制传参）
     private final List<Ingredient> inputs = new ArrayList<>();
     private ItemStack output;
     private int minimumTier = 1; // 默认最低祭坛等级1
@@ -38,13 +41,10 @@ public class BloodAltarRecipeBuilder {
     private int drainRate = 0;   // 默认流失速率0
     private final ResourceLocation id;
     private int meta=-1;
-    // 构造器：仅接收配方名称，用于生成ID（丢弃原构造器的强制参数）
     public BloodAltarRecipeBuilder(String name) {
-        // 生成BloodMagic命名空间的ID，路径格式：tileAltar/配方名（对齐Petal的petal_apothecary/xxx风格）
         this.id = CTNHMana.id(name);
     }
 
-    // 静态构建器入口（对齐Petal的builder方法）
     public static BloodAltarRecipeBuilder builder(String name) {
         return new BloodAltarRecipeBuilder(name);
     }
@@ -65,6 +65,7 @@ public class BloodAltarRecipeBuilder {
         return this;
     }
 
+
     public BloodAltarRecipeBuilder input(Ingredient... ingredients) {
         Arrays.stream(ingredients).forEach(this.inputs::add);
         return this;
@@ -79,7 +80,6 @@ public class BloodAltarRecipeBuilder {
         this.meta=meta;
         return this;
     }
-
     // ========== 链式配置方法（非核心参数，可选） ==========
     public BloodAltarRecipeBuilder minimumTier(int minimumTier) {
         this.minimumTier = minimumTier;
@@ -111,7 +111,6 @@ public class BloodAltarRecipeBuilder {
         // 序列化输出物品
         json.add(Constants.JSON.OUTPUT, SerializerHelper.serializeItemStack(this.output));
 
-        // 序列化输入（支持多输入，若需单输入可取inputs.get(0)）
         JsonObject inputJson = (JsonObject) inputs.get(0).toJson(); // 保持原单输入逻辑，若需多输入可改为JsonArray
         json.add(Constants.JSON.INPUT, inputJson);
 
@@ -137,7 +136,6 @@ public class BloodAltarRecipeBuilder {
 
             @Override
             public net.minecraft.world.item.crafting.RecipeSerializer<?> getType() {
-                // 替换为血祭坛实际的RecipeSerializer（需根据BloodMagic源码调整）
                 return BloodMagicRecipeSerializers.ALTAR.getRecipeSerializer();
             }
 
@@ -155,32 +153,25 @@ public class BloodAltarRecipeBuilder {
         };
     }
     private GTRecipeBuilder mapToGTBuilder() {
-        // 1. 校验BM核心参数（避免空指针）
         if (this.output == null || this.inputs.isEmpty()) {
             throw new IllegalStateException("参数缺失是凉爽的夏夜");
         }
 
-        // 2. 生成GT配方ID（基于BM的ID，添加gt前缀区分）
         ResourceLocation bmId = BloodAltarRecipeBuilder.this.id;
         ResourceLocation gtId = GTCEu.id( "industrial_altar_" + bmId.getPath());
 
-        // 3. 创建GT Builder并配置基础信息
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.BLOOD_ALTAR_RECIPES)
                 .addCondition(new BloodAltarCondition(this.minimumTier,this.drainRate,this.syphon));
 
-        // 4. 映射BM输入 → GT输入（复用BM的input，数量默认24）
         for (Ingredient ingredient : this.inputs) {
             gtBuilder.inputItems(ingredient);
         }
-        // 5. 映射BM输出 → GT输出（完全复用数量）
         gtBuilder.outputItems(this.output);
 
         long gtEUt = (long) (128 * Math.pow(2, this.minimumTier-1));
         gtBuilder.EUt(gtEUt);
-
         int gtDuration = Math.max(syphon/consumeRate, 100);
         gtBuilder.duration(gtDuration);
-
         if(meta>=0)
             gtBuilder.circuitMeta(meta);
 
@@ -189,7 +180,6 @@ public class BloodAltarRecipeBuilder {
         return gtBuilder;
     }
 
-    // ========== 保存配方（对齐Petal的save方法） ==========
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(this.build());
         GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
