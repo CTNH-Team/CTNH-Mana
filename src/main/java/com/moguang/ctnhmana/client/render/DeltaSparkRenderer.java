@@ -28,7 +28,7 @@ public class DeltaSparkRenderer extends BaseSparkRenderer<DeltaSpark> {
     }
     @Override
     public TextureAtlasSprite getSpinningIcon(DeltaSpark entity) {
-        return this.isolatedIcon;
+        return null;
         };
     }
 

@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -9,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IZenithMartixBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
@@ -51,6 +53,8 @@ public class CMRegistrate extends CNRegistrate {
     public CTNHMultiblockMachineBuilder zenithmultiblock(String name, Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
         return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, IZenithMartixBlockEntity::new);
     }
-
+    public CTNHMultiblockMachineBuilder mysticmultiblock(String name, Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+        return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, MysticSpireBlockEntity::new);
+    }
 
 }

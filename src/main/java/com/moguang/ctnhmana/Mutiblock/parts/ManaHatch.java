@@ -257,7 +257,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     {
         //转化植物魔法Mana到Mana
         if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
-            long consume = ((IManaMachineBlockEntity) this.holder).ChangeMana(BTMANA_CONVERT_SPEED);
+            long consume = ((IManaMachineBlockEntity) this.holder).sendMana(BTMANA_CONVERT_SPEED);
             Mana = Math.min(maxMana, Mana + consume / BTMANA_CONVERT_RATE);
         }
     }

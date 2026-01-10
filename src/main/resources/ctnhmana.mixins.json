@@ -6,7 +6,8 @@
   "mixins": [
     "bloodmagic.BloodAltarMixin",
     "bloodmagic.TileAltarAccessor",
-    "botania.ManaPoolBlockEntityMixin"
+    "botania.ManaPoolBlockEntityMixin",
+    "botania.MixinForgePacketHandler"
   ],
   "client": [
   ],

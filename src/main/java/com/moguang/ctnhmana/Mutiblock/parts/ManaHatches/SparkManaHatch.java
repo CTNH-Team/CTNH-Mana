@@ -162,7 +162,6 @@ public class SparkManaHatch extends ManaHatch {
                     var consume=Math.min(Math.min(sparkConvertSpeed,maxBTMana-current_btmana),receiver.getCurrentMana());
                     receiver.receiveMana(-consume);
                     ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
-
                 }
             }
         }

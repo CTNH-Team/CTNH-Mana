@@ -29,7 +29,6 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
     @Getter
     public int maxBTMana;
     @Persisted
-    @Getter
     public int BTMana =0;
     public IManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -103,7 +102,7 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity implements I
         maxBTMana =i;
         setChanged();
     }
-    public long ChangeMana(long mana)
+    public long sendMana(long mana)
     {
         if(BTMana >mana)
         {

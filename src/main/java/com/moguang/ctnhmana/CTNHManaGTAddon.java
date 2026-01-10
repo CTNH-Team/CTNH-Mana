@@ -19,7 +19,6 @@ import wayoftime.bloodmagic.common.recipe.BloodAltarRecipeProvider;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-import static tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack.FILTERED_RECIPES;
 
 @GTAddon
 public class CTNHManaGTAddon implements IGTAddon {
