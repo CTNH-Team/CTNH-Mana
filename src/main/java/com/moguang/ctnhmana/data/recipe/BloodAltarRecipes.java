@@ -395,6 +395,5 @@ public class BloodAltarRecipes {
                 .consumeRate(10)
                 .drainRate(20)
                 .save(provider);
-
     }
 }
