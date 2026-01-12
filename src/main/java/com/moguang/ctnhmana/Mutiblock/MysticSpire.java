@@ -26,7 +26,7 @@ public class MysticSpire extends WorkableMultiblockMachine {
     public DeltaSpark Spark;
 
     @Persisted
-    public int MODE=1;
+    public int MODE=2;
 
     public DeltaSpark ConnectedSpark;
     @Persisted
@@ -51,6 +51,7 @@ public class MysticSpire extends WorkableMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         this.sparkpos=new BlockPos(this.getPos().getX(),this.getPos().getY()+7,this.getPos().getZ());
+        MODE=2;
         ((MysticSpireBlockEntity) this.holder).setMaxMana(100000000);
         ((MysticSpireBlockEntity) this.holder).receiveMana(10000000);
         getOrCreatedSpark();
@@ -87,8 +88,8 @@ public class MysticSpire extends WorkableMultiblockMachine {
             entity.setPos(sparkpos.getX(),sparkpos.getY(),sparkpos.getZ());
             if(connectedSparkPos!=null)
             {
-                entity.BindingDeltaSpark=ConnectedSpark;
-                entity.BindingSparkPos=new AABB(ConnectedSpark.getOnPos());
+                entity.connectedDeltaSpark =ConnectedSpark;
+                entity.connectedDeltaSparkPos =new AABB(ConnectedSpark.getOnPos());
             }
             getLevel().addFreshEntity(entity);
         }
@@ -101,10 +102,12 @@ public class MysticSpire extends WorkableMultiblockMachine {
         this.Spark.range=range;
         this.Spark.speed=speed;
         this.Spark.mode=MODE;
-        if(connectedSparkPos!=null) this.Spark.BindingSparkPos=new AABB(connectedSparkPos);
+        if(connectedSparkPos!=null) this.Spark.connectedDeltaSparkPos =new AABB(connectedSparkPos);
         this.Spark.setNetwork(network);
 
     }
+
+
     public void updateSelf()
     {
 

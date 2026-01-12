@@ -1,17 +1,10 @@
-package com.moguang.ctnhmana.api.recipe.bloodmagic;
+package com.moguang.ctnhmana.common.recipe.builder.bloodmagic;
 
 import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wayoftime.bloodmagic.common.registries.BloodMagicRecipeSerializers;
 import wayoftime.bloodmagic.recipe.helper.SerializerHelper;
@@ -115,7 +107,7 @@ public class BloodAltarRecipeBuilder {
         json.add(Constants.JSON.INPUT, inputJson);
 
         // 序列化非核心参数（使用默认值或用户配置值）
-        json.addProperty(Constants.JSON.ALTAR_TIER, this.minimumTier);
+        json.addProperty(Constants.JSON.ALTAR_TIER, this.minimumTier-1);
         json.addProperty(Constants.JSON.ALTAR_SYPHON, this.syphon);
         json.addProperty(Constants.JSON.ALTAR_CONSUMPTION_RATE, this.consumeRate);
         json.addProperty(Constants.JSON.ALTAR_DRAIN_RATE, this.drainRate);

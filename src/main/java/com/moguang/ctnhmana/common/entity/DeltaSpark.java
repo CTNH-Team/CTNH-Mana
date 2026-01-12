@@ -1,35 +1,27 @@
 package com.moguang.ctnhmana.common.entity;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
-import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.level.PistonEvent;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.item.SparkEntity;
 import vazkii.botania.api.mana.ManaCollisionGhost;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.api.mana.spark.ManaSpark;
-import vazkii.botania.common.entity.ManaSparkEntity;
+import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 import vazkii.botania.common.entity.SparkBaseEntity;
 import vazkii.botania.common.helper.ColorHelper;
 import vazkii.botania.network.EffectType;
@@ -50,11 +42,11 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     @Persisted
     public BlockPos AttachPos;
     public MysticSpire SpireMachine;
-    public DeltaSpark BindingDeltaSpark;
+    public DeltaSpark connectedDeltaSpark;
     public boolean isInitChecked=false;
 
     @Persisted
-    public AABB BindingSparkPos;
+    public AABB connectedDeltaSparkPos;
 
     public boolean isAnimationActive=true;
     public int range=20;
@@ -66,6 +58,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     public List<ManaSpark>sparks;
     public List<ManaReceiver>receivers;
     public List<GeneratingFlowerBlockEntity>flowers=new ArrayList<>();
+    public List<ManaPoolBlockEntity>pools;
 
 //    public DeltaSpark(EntityType<?> type, Level world, BlockPos AttachPos) {
 //        super(type, world);
@@ -108,8 +101,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if(mode==0&&!sparks.isEmpty()) sendManaToSpark();
             if(mode==1&&!receivers.isEmpty()) sendManaToReceiver();
             if(mode==2&&!receivers.isEmpty()) receiveManaFromSpark();
-            if(mode==1&&!flowers.isEmpty())receiveManaFromFlower();
-
+            if(mode==2&&!flowers.isEmpty())receiveManaFromFlower();
         }
 
         // When loaded, initialize transfers
@@ -125,22 +117,21 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         {
             this.kill();
         }
-        if(BindingSparkPos!=null)
+        if(connectedDeltaSparkPos !=null)
         {
-            if(!level().getEntitiesOfClass(DeltaSpark.class,BindingSparkPos).isEmpty())
+            if(!level().getEntitiesOfClass(DeltaSpark.class, connectedDeltaSparkPos).isEmpty())
             {
-                BindingDeltaSpark=level().getEntitiesOfClass(DeltaSpark.class,BindingSparkPos).get(0);
+                connectedDeltaSpark =level().getEntitiesOfClass(DeltaSpark.class, connectedDeltaSparkPos).get(0);
             }
             else
             {
-                BindingSparkPos=null;
+                connectedDeltaSparkPos =null;
             }
         }
         isInitChecked=true;
     }
     public void sendManaToSpark()
     {
-
         var pool=(MysticSpireBlockEntity)SpireMachine.getHolder();
         int consume=0;
         var num=0;
@@ -257,7 +248,19 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             }
             if(isAnimationActive)particlesTowardsReverse((BlockEntity)flower);
         }
-
+    }
+    public void sendManaToDeltaNet()
+    {
+        if(connectedDeltaSpark==null)return;
+        var pool=(MysticSpireBlockEntity)SpireMachine.getHolder();
+        var target_pool=(MysticSpireBlockEntity)connectedDeltaSpark.SpireMachine.getHolder();
+        int consume=0;
+        var num=0;
+        consume=Math.min(pool.BTMana,speed);
+        consume=Math.min(consume,target_pool.maxBTMana-target_pool.BTMana);
+        pool.receiveMana(-consume);
+        target_pool.receiveMana(consume);
+        if(isAnimationActive)particlesTowards((connectedDeltaSpark));
     }
     public void refreshSpark()
     {

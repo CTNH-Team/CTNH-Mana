@@ -72,7 +72,6 @@ public class HellForgeCondition extends RecipeCondition {
     public RecipeConditionType<HellForgeCondition> getType() {
         return CMRecipeConditions.HELL_FORGE_CONDITION;
     }
-
     @Override
     public Component getTooltips() {
         Map<@NotNull String, @NotNull MutableComponent> DEMON_TYPE = Map.of(

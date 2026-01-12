@@ -22,6 +22,7 @@ import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.entity.ManaSparkEntity;
@@ -45,6 +46,8 @@ public class SparkManaHatch extends ManaHatch {
     public AABB searchArea;
     public List<ManaSparkEntity> sparks;
     public int sparkConvertSpeed=15000;
+    @Persisted
+    public DyeColor network=DyeColor.WHITE;
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
@@ -154,7 +157,7 @@ public class SparkManaHatch extends ManaHatch {
         if(current_btmana>=this.maxBTMana||sparks==null)return;
         for(ManaSparkEntity spark:sparks)
         {
-            if(spark.isAlive())
+            if(spark.isAlive()&&spark.getNetwork().equals(this.network))
             {
                 var receiver=spark.getAttachedManaReceiver();
                 if(receiver!=null)

@@ -1,7 +1,7 @@
 package com.moguang.ctnhmana.data.recipe;
 
 
-import com.moguang.ctnhmana.api.recipe.PetalRecipeBuilder;
+import com.moguang.ctnhmana.common.recipe.builder.PetalRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;

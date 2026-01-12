@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.api.recipe.bloodmagic;
+package com.moguang.ctnhmana.common.recipe.builder.bloodmagic;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

@@ -1,12 +1,7 @@
-package com.moguang.ctnhmana.api.recipe;
+package com.moguang.ctnhmana.common.recipe.builder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
-import com.gregtechceu.gtceu.api.recipe.ResearchData;
-import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
-import com.gregtechceu.gtceu.common.recipe.condition.ResearchCondition;
 import com.moguang.ctnhmana.CTNHMana;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
