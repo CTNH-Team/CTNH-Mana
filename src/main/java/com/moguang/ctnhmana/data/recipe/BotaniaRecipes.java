@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
 import org.apache.commons.compress.archivers.dump.DumpArchiveEntry;
+import org.checkerframework.checker.units.qual.C;
 import vazkii.botania.common.block.BotaniaBlock;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlock;
@@ -117,6 +118,173 @@ public class BotaniaRecipes {
                 .output(new ItemStack(BotaniaFlowerBlocks.thermalily.asItem(),1))
                 .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
                 .save(provider);
-
+        PetalRecipeBuilder.builder("shulk_me_not")
+                .input(PURPLE,PURPLE,PINK,PINK,LIGHTGRAY,LIGHTGRAY)
+                .input(gaiaSpirit,runeEarth,runeEnvy)
+                .output(new ItemStack(BotaniaFlowerBlocks.shulkMeNot.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("labellia")
+                .input(YELLOW,YELLOW,BLACK,WHITE,BLUE)
+                .input(pixieDust,redstoneRoot,runeAutumn)
+                .output(new ItemStack(BotaniaFlowerBlocks.labellia.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("hyacidus")
+                .input(PURPLE,PURPLE,MAGENTA,MAGENTA,GREEN)
+                .input(runeWater,redstoneRoot,runeAutumn)
+                .output(new ItemStack(BotaniaFlowerBlocks.hyacidus.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("jaded_amaranthus")
+                .input(LIME,GRAY,PURPLE)
+                .input(runeSpring,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.jadedAmaranthus.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("tigerseye")
+                .input(BROWN,ORANGE,LIME,YELLOW)
+                .input(runeAutumn)
+                .output(new ItemStack(BotaniaFlowerBlocks.tigerseye.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("bellethorn")
+                .input(RED,RED,CYAN,CYAN)
+                .input(redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.bellethorn.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("loonium")
+                .input(GREEN,GREEN,GREEN,GREEN,GRAY)
+                .input(redstoneRoot,runeEnvy,runeGluttony,runeSloth,pixieDust)
+                .output(new ItemStack(BotaniaFlowerBlocks.loonium.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("dreadthorn")
+                .input(BLACK,BLACK,BLACK,CYAN,CYAN)
+                .input(redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.dreadthorn.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("spectranthemum")
+                .input(WHITE,WHITE,LIGHTGRAY,LIGHTGRAY,CYAN,CYAN)
+                .input(runeWater,runeEnvy,pixieDust)
+                .output(new ItemStack(BotaniaFlowerBlocks.spectranthemum.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("hopperhock")
+                .input(GRAY,GRAY,LIGHTGRAY,LIGHTGRAY)
+                .input(runeAir,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.hopperhock.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("clayconia")
+                .input(GRAY,GRAY,LIGHTGRAY,LIGHTGRAY,CYAN)
+                .input(runeEarth)
+                .output(new ItemStack(BotaniaFlowerBlocks.clayconia.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("orechid")
+                .input(GRAY,GRAY,RED,RED,GREEN,GREEN,YELLOW,YELLOW)
+                .input(runeGreed,runePride,redstoneRoot,pixieDust)
+                .output(new ItemStack(BotaniaFlowerBlocks.orechid.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("heiseidream")
+                .input(MAGENTA,MAGENTA,PURPLE,PURPLE,PINK,PINK)
+                .input(runeWrath,pixieDust)
+                .output(new ItemStack(BotaniaFlowerBlocks.heiseiDream.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("bubbell")
+                .input(BLUE,BLUE,CYAN,CYAN,LIGHTBLUE,LIGHTBLUE)
+                .input(runeWater,runeSummer,pixieDust)
+                .output(new ItemStack(BotaniaFlowerBlocks.bubbell.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("solegnolia")
+                .input(BROWN,BROWN,RED)
+                .input(redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.solegnolia.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("daffomill")
+                .input(WHITE,WHITE,BROWN,YELLOW)
+                .input(runeAir,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.daffomill.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("medumone")
+                .input(GRAY,GRAY,BROWN,BROWN)
+                .input(runeEarth,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.medumone.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("rannuncarpus")
+                .input(ORANGE,ORANGE,YELLOW,YELLOW)
+                .input(runeEarth,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.rannuncarpus.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("tangleberrie")
+                .input(CYAN,CYAN,GRAY,GRAY,LIGHTGRAY)
+                .input(runeEarth,runeAir)
+                .output(new ItemStack(BotaniaFlowerBlocks.tangleberrie.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("fallenkanade")
+                .input(WHITE,WHITE,ORANGE,ORANGE,YELLOW,YELLOW)
+                .input(runeSpring)
+                .output(new ItemStack(BotaniaFlowerBlocks.fallenKanade.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("agricarnation")
+                .input(LIME,LIME,GREEN,YELLOW)
+                .input(runeSpring,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.agricarnation.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("bergamute")
+                .input(ORANGE,GREEN)
+                .input(redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.bergamute.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("pollidisiac")
+                .input(RED,RED,PINK,PINK,ORANGE,ORANGE)
+                .input(runeLust,runeFire)
+                .output(new ItemStack(BotaniaFlowerBlocks.pollidisiac.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("orechidignem")
+                .input(RED,RED,PINK,PINK,WHITE,WHITE)
+                .input(runePride,runeGreed,pixieDust,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.orechidIgnem.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("exoflame")
+                .input(RED,GRAY,RED,LIGHTGRAY)
+                .input(runeFire,runeSummer)
+                .output(new ItemStack(BotaniaFlowerBlocks.exoflame.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("marimorphosis")
+                .input(YELLOW,GREEN,RED,GRAY)
+                .input(runeFire,runeEarth,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.marimorphosis.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("vinculotus")
+                .input(BLACK,BLACK,PURPLE,PURPLE,GREEN)
+                .input(runeSloth,runeLust,runeWater,redstoneRoot)
+                .output(new ItemStack(BotaniaFlowerBlocks.vinculotus.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("jiyuulia")
+                .input(PINK,PINK,PURPLE,PURPLE)
+                .input(runeAir,runeWater)
+                .output(new ItemStack(BotaniaFlowerBlocks.jiyuulia.asItem(),1))
+                .reagent(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .save(provider);
     }
 }
