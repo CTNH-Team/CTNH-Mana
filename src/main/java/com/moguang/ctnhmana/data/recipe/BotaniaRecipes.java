@@ -370,6 +370,7 @@ public class BotaniaRecipes {
                 .input(LIGHTBLUE,LIGHTBLUE,BLUE,BLUE,CYAN)
                 .input(runeSloth,runeEnvy,runePride,gaiaSpirit)
                 .input(ChemicalHelper.get(TagPrefix.ingot,TerraSteel,1))
+                .input(ChemicalHelper.get(TagPrefix.ingot,AlfSteel,1))
                 .input(new ItemStack(BotaniaItems.gaiaIngot))
                 .input(new ItemStack(Items.BLAZE_POWDER))
                 .output(new ItemStack(reikarlily.asItem(),1))
