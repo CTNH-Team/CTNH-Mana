@@ -51,6 +51,10 @@ public class PetalRecipeBuilder {
         reagent = Ingredient.of(itemStack);
         return this;
     }
+    public PetalRecipeBuilder reagent(TagKey<Item>tagKey) {
+        reagent = Ingredient.of(tagKey);
+        return this;
+    }
     public static PetalRecipeBuilder builder(String name) {
         return new PetalRecipeBuilder(name);
     }
