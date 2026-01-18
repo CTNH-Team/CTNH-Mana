@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.recipe.builder.botania;
+package com.moguang.ctnhmana.common.recipe.builder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -51,7 +51,10 @@ public class PetalRecipeBuilder {
         reagent = Ingredient.of(itemStack);
         return this;
     }
-
+    public PetalRecipeBuilder reagent(TagKey<Item>tagKey) {
+        reagent = Ingredient.of(tagKey);
+        return this;
+    }
     public static PetalRecipeBuilder builder(String name) {
         return new PetalRecipeBuilder(name);
     }

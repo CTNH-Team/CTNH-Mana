@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -13,6 +14,7 @@ import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.simibubi.create.content.decoration.encasing.CasingBlock;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.redstone.Redstone;
+import org.moddingx.libx.creativetab.CreativeTabX;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.item.lens.FlashLens;
@@ -395,5 +398,15 @@ public class BloodAltarRecipes {
                 .consumeRate(10)
                 .drainRate(20)
                 .save(provider);
+        BloodAltarRecipeBuilder.builder("casing_blood")
+                .input(new ItemStack(GTBlocks.CASING_STEEL_SOLID,1))
+                .output(new ItemStack(CMBlocks.CASING_BLOOD.get(),1))
+                .syphon(10000)
+                .minimumTier(4)
+                .circuitMeta(1)
+                .consumeRate(100)
+                .drainRate(20)
+                .save(provider);
+
     }
 }
