@@ -45,7 +45,7 @@ public class KoishiEyeItem extends BaubleItem {
 
     public KoishiEyeItem(Properties props) {
         super(props);
-        Proxy.INSTANCE.runOnClient(() -> () -> AccessoryRenderRegistry.register(this, new vazkii.botania.common.item.equipment.bauble.ThirdEyeItem.Renderer()));
+        Proxy.INSTANCE.runOnClient(() -> () -> AccessoryRenderRegistry.register(this, new com.moguang.ctnhmana.item.equipment.KoishiEyeItem.Renderer()));
     }
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags)
@@ -83,7 +83,7 @@ public class KoishiEyeItem extends BaubleItem {
 
     public static class Renderer implements AccessoryRenderer {
 
-        public static final int NUM_LAYERS = 3;
+        public static final int NUM_LAYERS = 1;
 
         @Override
         public void doRender(HumanoidModel<?> bipedModel, ItemStack stack, LivingEntity living, PoseStack ms, MultiBufferSource buffers, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -95,17 +95,12 @@ public class KoishiEyeItem extends BaubleItem {
 
                 switch (i) {
                     case 0:
-                        break;
-                    case 1:
                         double time = ClientTickHandler.total() * 0.12;
                         double dist = 0.05;
                         ms.translate(Math.sin(time) * dist, Math.cos(time * 0.5) * dist, 0);
 
                         ms.scale(0.75F, 0.75F, 1F);
                         ms.translate(0, 0.1, -0.025);
-                        break;
-                    case 2:
-                        ms.translate(0, 0, -0.05);
                         break;
                 }
 

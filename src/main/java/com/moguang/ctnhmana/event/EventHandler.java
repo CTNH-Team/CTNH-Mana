@@ -10,8 +10,10 @@ import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.data.tags.BiomeTagsLoader;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -22,9 +24,11 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.checkerframework.checker.signature.qual.Identifier;
 
 import java.util.Set;
-
+@SuppressWarnings("removal")
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandler {
     public static void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
@@ -48,6 +52,23 @@ public class EventHandler {
     }
 
     @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        // 渲染操作必须在客户端主线程执行，用enqueueWork包裹
+        event.enqueueWork(() -> {
+            // 【核心】注册自定义属性：yourmodid:custom_value（替换为你的MOD_ID）
+            ItemProperties.register(
+                   CMItems.SABER_WAND.get(), // 目标物品
+                    new ResourceLocation(CTNHMana.MODID, "wand_status"), // 属性标识符
+                    (stack, level, entity, seed) -> {
+                       if(!SaberWandItem.getBindMode(stack))return 1.0F;
+                       return 0F;
+                    }
+            );
+        });
+    }
+
+
+    @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
@@ -56,6 +77,5 @@ public class EventHandler {
         if (event.includeClient()) {
             generator.addProvider(true, new CMSoundDefinitionsProvider(packOutput, CTNHMana.MODID, existingFileHelper));
         }
-
     }
 }

@@ -37,6 +37,7 @@ import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWor
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.Mutiblock.HellForgeMachine.hellforgeLang;
 import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
+import static com.moguang.ctnhmana.Mutiblock.MysticSpire.spireTooltipsLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
@@ -104,25 +105,7 @@ public class CMMultiblockMachines {
             )
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
-    public final static MultiblockMachineDefinition MysticSpire = REGISTRATE.mysticmultiblock("mystic_sprie",holder-> new MysticSpire(holder))
-            .cnLangValue("§b奥法尖塔")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
-            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("ABBA", "AAAA", "ABBA")
-                    .aisle("ABBA", "ACCA", "ABBA")
-                    .aisle("ABBA", "A@AA", "ABBA")
-                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
-                    .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished))
-                    .where("C", Predicates.blocks(CASING_STEEL_GEARBOX.get()))
-                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .build()
-            )
-            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
-            .register();
+
     public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE.multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力卷板机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
@@ -644,6 +627,25 @@ public class CMMultiblockMachines {
                 shapeInfos.add(tier4_build.shallowCopy().build());
                 return shapeInfos;
             })
+            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
+    public final static MultiblockMachineDefinition MysticSpire = REGISTRATE.mysticmultiblock("mystic_sprie",holder-> new MysticSpire(holder))
+            .cnLangValue("§b奥法尖塔")
+            .tooltips(addMachineTooltips(spireTooltipsLang))
+            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("ABBA", "AAAA", "ABBA")
+                    .aisle("ABBA", "ACCA", "ABBA")
+                    .aisle("ABBA", "A@AA", "ABBA")
+                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                    .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished))
+                    .where("C", Predicates.blocks(CASING_STEEL_GEARBOX.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build()
+            )
             .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
 }

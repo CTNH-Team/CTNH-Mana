@@ -1,0 +1,31 @@
+{
+  "name": "ctnhmana.entry.mystic_spire",
+  "category": "botania:new_horizon",
+  "icon": "ctnhmana:mystic_spire",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "ctnhmana.spire.page.1"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.spire.page.2"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.spire.page.3"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.spire.page.4"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.spire.page.5"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:mystic_spire": 1
+  }
+}

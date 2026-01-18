@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.jetbrains.annotations.NotNull;
@@ -73,14 +74,14 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
     @Override
     public Widget createUIWidget() {
         var widget=super.createUIWidget();
-        var button_diffusion=(new SwitchWidget(4, 125-15-4, 15, 15, (clickData,ispressed)->
+        var button_diffusion=(new SwitchWidget(80, 100, 20, 20, (clickData,ispressed)->
         {
-            if(getMachine(this.getLevel(),this.getPos()) instanceof HellForgeMachine hmachine)            diffusion_model=true;
+            if(getMachine(this.getLevel(),this.getPos()) instanceof HellForgeMachine hmachine)diffusion_model=true;
 
         })
-                .setSupplier(()->diffusion_model)
-                .setTexture(new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), Icons.EDIT_OFF),
-                        new GuiTextureGroup(ColorPattern.T_CYAN.rectTexture(), Icons.EDIT_ON))
+                .setPressed(diffusion_model)
+                .setTexture(new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), CMGuiTextures.ETERNAL_WOS_DIFFUSION_OFF),
+                        new GuiTextureGroup(ColorPattern.T_CYAN.rectTexture(),  CMGuiTextures.ETERNAL_WOS_DIFFUSION_ON))
                 .setHoverTooltips(demon_diffusion_model.translate())
         );
         if(widget instanceof WidgetGroup group)

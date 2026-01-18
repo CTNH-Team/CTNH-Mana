@@ -166,9 +166,6 @@ public class BloodAltarRecipeBuilder {
         gtBuilder.duration(gtDuration);
         if(meta>=0)
             gtBuilder.circuitMeta(meta);
-
-
-
         return gtBuilder;
     }
 

@@ -1,0 +1,21 @@
+{
+  "name": "ctnhmana.entry.satori_eye",
+  "category": "botania:baubles",
+  "icon": "botania:third_eye",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "botania.page.thirdEye0"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.botania.page.satori_eye1"
+    },
+    {
+      "type": "crafting",
+      "text": "ctnhmana.botania.page.satori_eye5",
+      "recipe": "botania:third_eye"
+    }
+  ]
+}

@@ -18,4 +18,17 @@ public class CMGuiTextures {
     public static  final ResourceTexture PROGRESS_BAR_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/mana_bar_empty.png");
     public static  final AnimationTexture PROGRESS_BAR_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/mana_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
     public static final ResourceTexture MACHINE_STATUS_ICON=new ResourceTexture("ctnhmana:textures/gui/status_icon.png");
+    // 修正拼写错误后，注册所有图标
+    public static final ResourceTexture SPIRE_CONNECT_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/connect_off.png");
+    public static final ResourceTexture SPIRE_CONNECT_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/connect_on.png");
+    public static final ResourceTexture SPIRE_FOCUS_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/focus_off.png");
+    public static final ResourceTexture SPIRE_FOCUS_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/focus_on.png");
+    public static final ResourceTexture SPIRE_GLOBAL_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/global_send_on.png");
+    public static final ResourceTexture SPIRE_GLOBAL_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/global_send_off.png");
+    public static final ResourceTexture SPIRE_SPARK_SEND_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/spark_send_off.png");
+    public static final ResourceTexture SPIRE_SPARK_SEND_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/spark_send_on.png");
+    public static final ResourceTexture SPIRE_ANIMATION_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/animation_off.png");
+    public static final ResourceTexture SPIRE_ANIMATION_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/animation_on.png");
+    public static final ResourceTexture ETERNAL_WOS_DIFFUSION_ON=new ResourceTexture("ctnhmana:textures/gui/eternal_wos_mode/diffusion_on.png");
+    public static final ResourceTexture ETERNAL_WOS_DIFFUSION_OFF=new ResourceTexture("ctnhmana:textures/gui/eternal_wos_mode/diffusion_off.png");
 }

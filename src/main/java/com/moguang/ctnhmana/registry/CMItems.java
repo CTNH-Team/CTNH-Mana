@@ -12,6 +12,7 @@ import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
+import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BTUpgradeItemT1;
@@ -25,6 +26,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -121,6 +123,11 @@ public class CMItems {
         PROLIFERATION_RUNE = REGISTRATE
                 .item("proliferation_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WOOD),5))
                 .cnlang("§a增殖§r符文")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
                 .lang("§aProliferation§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
                 .onRegister(attach(new TooltipBehavior(list -> {
@@ -131,12 +138,22 @@ public class CMItems {
         KOISHI_EYE=REGISTRATE
                 .item("koishi_eye",KoishiEyeItem::new)
                 .cnlang("§9紧闭的第三只眼")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
                 .lang("§9Koishi_eye")
                 .tag(accessory("body"))
                 .register();
         YURIKO_RING=REGISTRATE
                 .item("yuriko_ring",YurikoRingItem::new)
                 .cnlang("§7黯淡的绮璃之戒")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
                 .lang("§§7黯淡的绮璃之戒")
                 .tag(accessory("ring"))
                 .register();
@@ -202,6 +219,17 @@ public class CMItems {
                         itemTooltipsChange(will_crystal_circuit_lang,text)
                 )))
                 .register();
+        SABER_WAND=REGISTRATE
+                .item("saber_wand", SaberWandItem::new)
+                .cnlang("§9电子精灵法杖")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
+                        .register();
+
+
 
 
 
@@ -237,6 +265,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
     public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
     public static ItemEntry<EtchingJade>ETCHING_JADE;
+    public static ItemEntry<SaberWandItem>SABER_WAND;
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);

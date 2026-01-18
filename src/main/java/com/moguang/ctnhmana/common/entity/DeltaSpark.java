@@ -5,32 +5,54 @@ import com.moguang.ctnhmana.Mutiblock.MysticSpire;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
+import com.moguang.ctnhmana.item.equipment.SaberWandItem;
+import lombok.Getter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import vazkii.botania.api.block.WandHUD;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.item.SparkEntity;
 import vazkii.botania.api.mana.ManaCollisionGhost;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.api.mana.spark.ManaSpark;
+import vazkii.botania.client.core.helper.RenderHelper;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
+import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.entity.SparkBaseEntity;
+import vazkii.botania.common.handler.BotaniaSounds;
 import vazkii.botania.common.helper.ColorHelper;
+import vazkii.botania.common.item.BotaniaItems;
+import vazkii.botania.common.item.SparkAugmentItem;
 import vazkii.botania.network.EffectType;
 import vazkii.botania.network.clientbound.BotaniaEffectPacket;
 import vazkii.botania.xplat.XplatAbstractions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static com.moguang.ctnhmana.item.equipment.SaberWandItem.saberWandBindingLang;
+import static com.moguang.ctnhmana.item.equipment.SaberWandItem.updateSpireLang;
 
 public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaCollisionGhost {
     public int TRANSFER_RATE = 1000;
@@ -38,6 +60,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(DeltaSpark.class, EntityDataSerializers.INT);
 
     @Persisted
+    @Getter
     public int mode=2;
     @Persisted
     public BlockPos AttachPos;
@@ -86,8 +109,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if(timer%200==0)
             {
                 initSpark();
-                receivers=scanChunkReceiver(level(),this.getOnPos(),range);
-                sparks=getSparksAround(level(),this.getX(),this.getY(),this.getZ(),this.getNetwork());
+                timer=1;
             }
             timer++;
             if(AttachPos!=null&&level().getBlockEntity(AttachPos) !=null&&level().getBlockEntity(AttachPos) instanceof MysticSpireBlockEntity entity&&entity.getMetaMachine() instanceof MysticSpire machine&&machine.isFormed())
@@ -98,10 +120,11 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             {
                 this.kill();
             }
-            if(mode==0&&!sparks.isEmpty()) sendManaToSpark();
-            if(mode==1&&!receivers.isEmpty()) sendManaToReceiver();
-            if(mode==2&&!receivers.isEmpty()) receiveManaFromSpark();
-            if(mode==2&&!flowers.isEmpty())receiveManaFromFlower();
+            if(mode==1&&!sparks.isEmpty()) sendManaToSpark();
+            if(mode==2&&!receivers.isEmpty()) sendManaToReceiver();
+            if(mode==0&&!receivers.isEmpty()) receiveManaFromSpark();
+            if(mode==0&&!flowers.isEmpty())receiveManaFromFlower();
+            if(connectedDeltaSpark!=null)sendManaToDeltaNet();
         }
 
         // When loaded, initialize transfers
@@ -112,6 +135,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         if(AttachPos!=null&&level().getBlockEntity(AttachPos) !=null&&level().getBlockEntity(AttachPos) instanceof MysticSpireBlockEntity entity&&entity.getMetaMachine() instanceof MysticSpire machine&&machine.isFormed())
         {
             this.SpireMachine= machine;
+            machine.Spark=this;
         }
         else
         {
@@ -129,6 +153,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             }
         }
         isInitChecked=true;
+        receivers=scanChunkReceiver(level(),this.getOnPos(),range);
+        sparks=getSparksAround(level(),this.getX(),this.getY(),this.getZ(),this.getNetwork());
     }
     public void sendManaToSpark()
     {
@@ -262,10 +288,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         target_pool.receiveMana(consume);
         if(isAnimationActive)particlesTowards((connectedDeltaSpark));
     }
-    public void refreshSpark()
-    {
 
-    }
 
     public List<ManaSpark> getSparksAround(Level world, double x, double y, double z, DyeColor color) {
         //不管DeltaSpark，它有自己的一套逻辑，当然实际上也不是一个东西
@@ -350,5 +373,126 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         XplatAbstractions.INSTANCE.sendToTracking(this, new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW, e.getBlockPos().getX(), e.getBlockPos().getY(), e.getBlockPos().getZ(),
                 getId(),getId(), ColorHelper.getColorValue(getNetwork())));
     }
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        var world=player.level();
+        if(world.isClientSide)return InteractionResult.PASS;
+        ItemStack stack = player.getItemInHand(hand);
+
+        if(stack.getItem() instanceof SaberWandItem item&& SaberWandItem.getBindMode(stack))
+        {
+            if (player.isSecondaryUseActive() && this.connectedDeltaSpark != null) {
+                if(!world.isClientSide) {
+                    this.connectedDeltaSpark = null;
+                }
+                if (world.isClientSide) {
+                    player.playSound(BotaniaSounds.ding, 0.11F, 1F);
+                    player.displayClientMessage(saberWandBindingLang[0].translate(), true);
+                }
+                updateMachine();
+                return InteractionResult.SUCCESS;
+            }
+            else {
+                if (item.recordedSpark == null) {
+                    if(!world.isClientSide) {
+                        item.recordedSpark = this;
+                        player.displayClientMessage(saberWandBindingLang[1].translate(), true);
+                    }
+                    updateMachine();
+                    return InteractionResult.SUCCESS;
+                }
+                else {
+                    if (item.recordedSpark!=null&&item.recordedSpark.isAlive() && !item.recordedSpark.isRemoved()) {
+                        if(!world.isClientSide) {
+                            this.connectedDeltaSpark = item.recordedSpark;
+                            this.connectedDeltaSparkPos = item.recordedSpark.getBoundingBox();
+
+                            item.recordedSpark=null;
+                        }
+
+                        if (world.isClientSide) {
+                            player.playSound(BotaniaSounds.ding, 0.11F, 1F);
+                            player.displayClientMessage(saberWandBindingLang[2].translate(), true);
+                        }
+                        updateMachine();
+                        return InteractionResult.SUCCESS;
+                    } else {
+                        player.displayClientMessage(saberWandBindingLang[3].translate(), true);
+                        return InteractionResult.FAIL;
+                    }
+
+                }
+            }
+        }
+        if(stack.getItem() instanceof SaberWandItem item&& !SaberWandItem.getBindMode(stack))
+        {
+            if(!world.isClientSide) {
+                this.connectedDeltaSpark = null;
+            }
+            if(this.mode<3)
+            {
+                this.mode++;
+                SpireMachine.MODE=this.mode;
+            }
+            else
+            {
+                this.mode=0;
+                SpireMachine.MODE=this.mode;
+            }
+            SpireMachine.updateSpark();
+            player.displayClientMessage(updateSpireLang.translate(SpireMachine.mode_MAP.get(this.mode).translate()), true);
+            return InteractionResult.SUCCESS;
+        }
+        else if (stack.getItem() instanceof DyeItem dye) {
+            DyeColor color = dye.getDyeColor();
+            if (color != getNetwork()) {
+                if (!level().isClientSide) {
+                    setNetwork(color);
+                    this.SpireMachine.network=this.getNetwork();
+                }
+                return InteractionResult.sidedSuccess(level().isClientSide);
+            }
+        }
+        return InteractionResult.PASS;
+    }
+    public void updateMachine()
+    {
+        //刷新火花数据
+        if(this.SpireMachine==null)return;
+        this.SpireMachine.range=range;
+        this.SpireMachine.speed=speed;
+        this.SpireMachine.MODE=mode;
+        if(connectedDeltaSpark!=null) this.SpireMachine.connectedSparkPos =new BlockPos((int) connectedDeltaSpark.getX(), (int) connectedDeltaSpark.getY(), (int) connectedDeltaSpark.getZ());
+    }
+
+    public record WandHud(DeltaSpark entity) implements WandHUD {
+        @Override
+        public void renderHUD(GuiGraphics gui, Minecraft mc) {
+            ItemStack sparkStack = new ItemStack(BotaniaItems.spark);
+            DyeColor networkColor = entity.getNetwork();
+            Component networkColorName = Component.translatable("color.minecraft." + networkColor.getName())
+                    .withStyle(ChatFormatting.ITALIC);
+            Component mode_name=MysticSpire.spireModeLang[entity.getMode()].translate();
+            int textColor = ColorHelper.getColorLegibleOnGrayBackground(networkColor);
+
+            int width = 4 + Collections.max(Arrays.asList(
+                    mc.font.width(networkColorName),
+                    RenderHelper.itemWithNameWidth(mc, sparkStack)
+            ));
+            int height = 50;
+            int networkColorTextStart = mc.font.width(networkColorName) / 2;
+            int modeTextStart = mc.font.width(mode_name) / 2;
+            int centerX = mc.getWindow().getGuiScaledWidth() / 2;
+            int centerY = mc.getWindow().getGuiScaledHeight() / 2;
+
+            RenderHelper.renderHUDBox(gui, centerX - width / 2, centerY + 8, centerX + width / 2, centerY + 8 + height);
+
+            RenderHelper.renderItemWithNameCentered(gui, mc, sparkStack, centerY + 10, textColor);
+//            RenderHelper.renderItemWithNameCentered(gui, mc, augmentStack, centerY + 28, textColor);
+            gui.drawString(mc.font, mode_name, centerX - modeTextStart, centerY + (28), textColor);
+            gui.drawString(mc.font, networkColorName, centerX - networkColorTextStart, centerY + (46), textColor);
+        }
+    }
+
 
 }

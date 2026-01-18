@@ -1,0 +1,20 @@
+{
+  "name": "ctnhmana.entry.koishi",
+  "category": "botania:baubles",
+  "icon": "botania:third_eye",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "ctnhmana.botania.page.koishi_eye1"
+    },
+    {
+      "type": "crafting",
+      "text": "ctnhmana.botania.page.koishi_eye3",
+      "recipe": "botania:third_eye"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:koishi_eye": 1
+  }
+}

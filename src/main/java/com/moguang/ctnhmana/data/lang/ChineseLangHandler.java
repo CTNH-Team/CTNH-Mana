@@ -318,6 +318,29 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.multiblock.super_ebf.tooltip.0", "所有配方耗时减半");
 
+        provider.add("botania.tagline.thirdEye","看清所有的一切");
+
+        provider.add("ctnhmana.botania.page.satori_eye1","§9第三只眼§r同样允许你看清所有的§b魔力接受者（魔力池等）§r等的具体魔力信息$(p)§9第三只眼§r也同样能看穿敌人的破绽，在时§9必定§r造成1.5倍的暴击伤害息$(p)§c作为代价§r，所有的中立生物都将§c主动与你为敌§r");
+        provider.add("ctnhmana.botania.page.satori_eye2","§9第三只眼§r也同样能看穿敌人的破绽，在时§9必定§r造成1.5倍的暴击伤害");
+        provider.add("ctnhmana.botania.page.satori_eye3","§c作为代价§r，所有的中立生物都将§c主动与你为敌§r");
+        provider.add("ctnhmana.botania.page.satori_eye4","§7哇，你已经找到姐姐了，你很快也会找到§f恋恋§r§7了吧!§r");
+        provider.add("ctnhmana.botania.page.satori_eye5","§o§5终将一切看穿，终被一切厌恶§r");
+        provider.add("ctnhmana.entry.satori_eye","第三只眼");
+        provider.add("ctnhmana.entry.koishi","§m小恋§r紧闭的第三只眼");
+        provider.add("ctnhmana.botania.page.koishi_eye1","哇，你真的找到§m小恋§r了，§m小恋§r要把她的秘密分享给你!$(p) §m小恋§r的眼睛有很多作用!首先，佩戴时所有生物只有在§b与你贴贴§r的时候才会发现你!并且完~全不用担心尴尬，因为§b过一段时间§r所有人就会§b完全忘记你§r了！当然，小恋§4可没有姐姐的读心能力哦§r");
+        provider.add("ctnhmana.botania.page.koishi_eye3","§o§5终被一切厌弃，终将一切遗忘§r");
+        provider.add("botania.tagline.koishi","不用看清一切也行哦？");
+
+        provider.add("ctnhmana.category.horizon","植物魔法：新视野");
+        provider.add("ctnhmana.category.horizon.description","作为一名优秀的格雷员工，你当然知晓如何合理地将魔法与科技结合获得最大化效益，本条目介绍了§m植物魔法§r机械动力:新视野的一些魔力新增内容");
+
+        provider.add("ctnhmana.entry.mystic_spire","奥法尖塔");
+
+        provider.add("ctnhmana.spire.page.1","奥法尖塔是你在击败盖亚之后就可以制作的高级结构，它会生成§b德尔塔火花§r，火花的高级特殊变种$(p) 奥法尖塔可以代替传统的发射器和火花，为各种魔力容器(包括魔力凝聚仓)供应mana$(br)对于具体的工作逻辑，请参考条目：德尔塔火花");
+        provider.add("ctnhmana.spire.page.2","奥法尖塔在结构成型时会生成一个§b德尔塔火花§r，同时与其完成绑定，奥法尖塔结构失效时§b德尔塔火花§r随之消失，但数据会保留在尖塔主方块中$(p)，通过切换尖塔/火花的模式来决定魔力尖塔的工作模式，§b德尔塔火花§r可以绑定另一个§b德尔塔火花§r，无视模式向该火花传递魔力，该效果独立于传递速度运算且无视模式限制");
+        provider.add("ctnhmana.spire.page.3","奥法尖塔拥有多种模式，你可以在机器主方块UI进行切换，或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式.$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b广域扩散,§6中转");
+        provider.add("ctnhmana.spire.page.4","奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度 初始值50000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度，注意火花吸收产能花的速度只有接收速度的1/10，初始值:5000/tick$(p)范围：决定了火花的影响范围，初始值:10");
+        provider.add("ctnhmana.spire.page.5","奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力，而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则，向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r:奥法尖塔不执行任何操作，只实现奥法尖塔间的魔力传递");
 
         provider.add("ctnh.copyright.magic.info","§bCTNH：工业魔力学");
 

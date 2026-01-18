@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ctnhmana:item/saber_wand_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "ctnhmana.wand_status": 1.0 
+      },
+      "model": "ctnhmana:item/saber_wand_1"
+    }
+  ]
+}
