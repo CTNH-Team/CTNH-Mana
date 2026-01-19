@@ -1,6 +1,8 @@
 package com.moguang.ctnhmana.integration.jade;
 
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.Mutiblock.MysticSpire;
+import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import mythicbotany.functionalflora.base.BlockFunctionalFlower;
 import mythicbotany.functionalflora.base.FunctionalFlowerBase;
 import mythicbotany.infuser.TileManaInfuser;
@@ -35,7 +37,7 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
             BlockEntity be = blockAccessor.getBlockEntity();
             var capData = blockAccessor.getServerData().getCompound(getUid().toString());
             var helper = tooltip.getElementHelper();
-            if(be instanceof ManaPoolBlockEntity||be instanceof BindableSpecialFlowerBlockEntity||be instanceof FunctionalFlowerBase) {
+            if(be instanceof ManaPoolBlockEntity||be instanceof BindableSpecialFlowerBlockEntity||be instanceof FunctionalFlowerBase||be instanceof MysticSpireBlockEntity) {
                 var mana = capData.getLong("mana_x");
                 var maxmana = capData.getLong("max_mana_x");
                 if(maxmana>0)
@@ -104,6 +106,11 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
         {
             mana=flower.getCurrentMana();
             max_mana=flower.maxMana;
+        }
+        if(be instanceof MysticSpireBlockEntity mmachine)
+        {
+            mana=mmachine.getCurrentMana();
+            max_mana=mmachine.getMaxBTMana();
         }
         data.putInt("plate_mana",plate_mana);
         data.putInt("required_mana",required_mana);

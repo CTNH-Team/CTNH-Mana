@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
@@ -228,6 +229,11 @@ public class CMItems {
                     return properties;
                 })
                         .register();
+        SPARK_STICK=REGISTRATE
+                .item("spark_stick",properties -> new IManaFuelStick(properties,5,1,1000))
+                .cnlang("火花级魔力燃料棒")
+                .tag(CMTags.MANA_FUEL_STACK)
+                .register();
 
 
 
@@ -266,7 +272,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
     public static ItemEntry<EtchingJade>ETCHING_JADE;
     public static ItemEntry<SaberWandItem>SABER_WAND;
-
+    public static ItemEntry<IManaFuelStick>SPARK_STICK;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
