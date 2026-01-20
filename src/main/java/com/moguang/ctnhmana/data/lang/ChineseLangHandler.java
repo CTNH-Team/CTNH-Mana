@@ -451,6 +451,8 @@ public class ChineseLangHandler {
     public static Lang willinductorlang;
     @CN("§4否决原电路逻辑，执行自意志运算")
     public static Lang willsoclang;
+    @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
+    public static Lang brokenRuneLang;
     @CN(
             {
                     "佩戴时获得:",

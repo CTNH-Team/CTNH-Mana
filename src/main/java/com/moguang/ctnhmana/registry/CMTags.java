@@ -15,5 +15,10 @@ public class CMTags {
     public static TagKey<Item> ELEMENT_EARTH=TagUtil.createItemTag("element_earth");
     public static TagKey<Item> ELEMENT_SIN=TagUtil.createItemTag("element_sin");
     public static TagKey<Item> MANA_FUEL_STACK=TagUtil.createItemTag("mana_fuel_stack");
+    public static TagKey<Item> TIER1_RUNES=TagUtil.createItemTag("tier1_runes");
+    public static TagKey<Item> TIER2_RUNES=TagUtil.createItemTag("tier2_runes");
+    public static TagKey<Item> TIER3_RUNES=TagUtil.createItemTag("tier3_runes");
+    public static TagKey<Item> TIER4_RUNES=TagUtil.createItemTag("tier4_runes");
+
 
 }

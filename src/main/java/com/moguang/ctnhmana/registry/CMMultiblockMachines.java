@@ -663,6 +663,8 @@ public class CMMultiblockMachines {
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY))
                             .or(Predicates.abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY))
+                            .or(Predicates.abilities(CMPartsAbility.SIGNALHATCH))
+                            .or(Predicates.abilities(CMPartsAbility.CentralControlBus))
                     )
                     .where("B", Predicates.blocks(BotaniaBlocks.livingrockPolished))
                     .where("C", Predicates.blocks(CASING_STEEL_GEARBOX.get()))
