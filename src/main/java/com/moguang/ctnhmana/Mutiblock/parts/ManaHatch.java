@@ -310,7 +310,14 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
             HAVE_ORB = false;
         }
     }
-
+    @Override
+    public boolean canShared() {
+        return false;
+    }
+    @Override
+    public boolean hasPlayerInventory() {
+        return false;
+    }
 
 }
 

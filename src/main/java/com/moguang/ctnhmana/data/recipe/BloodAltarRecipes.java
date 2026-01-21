@@ -19,6 +19,8 @@ import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.simibubi.create.content.decoration.encasing.CasingBlock;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.*;
 import com.gregtechceu.gtceu.common.data.GTBlocks.*;

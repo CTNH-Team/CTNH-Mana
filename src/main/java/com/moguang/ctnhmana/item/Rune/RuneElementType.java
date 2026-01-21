@@ -8,7 +8,7 @@ public enum RuneElementType implements StringRepresentable {
     FIRE("fire"),
     WATER("water"),
     EARTH("earth"),
-    WOOD("wood"),
+    WIND("wind"),
     SIN("sin")
     ;
     @Getter

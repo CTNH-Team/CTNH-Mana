@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
@@ -29,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import software.bernie.geckolib.event.GeoRenderEvent;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.lib.BotaniaTags;
 import java.util.List;
@@ -85,7 +87,7 @@ public class CMItems {
                 })))
                 .register();
         HORIZEN_RUNE = REGISTRATE
-                .item("horizen_rune",holder->new IRuneItem(holder,List.of(EARTH,WOOD,FIRE),5))
+                .item("horizen_rune",holder->new IRuneItem(holder,List.of(EARTH,WIND,FIRE),5))
                 .cnlang("§5视域§r符文")
                 .lang("§5Horizen§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -112,7 +114,7 @@ public class CMItems {
                 })))
                 .register();
         QUASAR_RUNE = REGISTRATE
-                .item("quasar_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WOOD,SIN,FIRE),5))
+                .item("quasar_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WIND,SIN,FIRE),5))
                 .cnlang("§k类星体§r符文")
                 .lang("§kQuasar§r Rune")
                 .tag(BotaniaTags.Items.RUNES,CMTags.TIER5_RUNES)
@@ -121,7 +123,7 @@ public class CMItems {
                 })))
                 .register();
         PROLIFERATION_RUNE = REGISTRATE
-                .item("proliferation_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WOOD),5))
+                .item("proliferation_rune",holder->new IRuneItem(holder,List.of(EARTH,WATER,WIND),5))
                 .cnlang("§a增殖§r符文")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
@@ -228,6 +230,18 @@ public class CMItems {
                     return properties;
                 })
                         .register();
+        SPARK_STICK=REGISTRATE
+                .item("spark_stick",properties -> new IManaFuelStick(properties,5,1,1000))
+                .cnlang("火花级魔力燃料棒")
+                .tag(CMTags.MANA_FUEL_STACK)
+                .register();
+        BROKEN_RUNE=REGISTRATE
+                .item("broken_rune",ComponentItem::create)
+                .cnlang("破碎的符文")
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(brokenRuneLang.translate())
+                )))
+                .register();
 
 
 
@@ -266,7 +280,8 @@ public class CMItems {
     public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
     public static ItemEntry<EtchingJade>ETCHING_JADE;
     public static ItemEntry<SaberWandItem>SABER_WAND;
-
+    public static ItemEntry<IManaFuelStick>SPARK_STICK;
+    public static ItemEntry<ComponentItem>BROKEN_RUNE;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
