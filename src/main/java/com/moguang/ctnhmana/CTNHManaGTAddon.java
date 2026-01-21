@@ -4,19 +4,15 @@ import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
 import com.moguang.ctnhmana.data.recipe.*;
 import com.moguang.ctnhmana.registry.*;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.data.CTNHDynamicDataPack;
 import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
-import wayoftime.bloodmagic.common.data.GeneratorRecipes;
-import wayoftime.bloodmagic.common.recipe.BloodAltarRecipeProvider;
 
-import java.nio.file.Path;
 import java.util.function.Consumer;
 
 
@@ -62,13 +58,13 @@ public class CTNHManaGTAddon implements IGTAddon {
         HellForgeRecipes.init(provider);
         WishingWillRecipes.init(provider);
         BloodAltarRecipes.init(provider);
-
+        TerraPlateRecipe.init(provider);
         DemonWillGeneratorRecipes.init(provider);
         ManaCondenserRecipes.init(provider);
         BotaniaRecipes.init(provider);
         MachineRecipes.init(provider);
         ManaRecipes.init(provider);
-
+        RuneAltarRecipe.init(provider);
         //示例：重新注册所有血祭坛配方
 //        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }

@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.redstone.Redstone;
-import org.moddingx.libx.creativetab.CreativeTabX;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.item.lens.FlashLens;
@@ -38,14 +37,12 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
-import static com.moguang.ctnhmana.registry.CMItems.HORIZEN_RUNE;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
 import static net.minecraft.world.item.Items.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
-import static vazkii.botania.common.item.BotaniaItems.runeFire;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
-import static wayoftime.bloodmagic.common.item.BloodMagicItems.REINFORCED_SLATE;
+
 
 public class BloodAltarRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
@@ -407,6 +404,5 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(20)
                 .save(provider);
-
     }
 }
