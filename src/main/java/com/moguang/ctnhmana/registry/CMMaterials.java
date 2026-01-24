@@ -79,9 +79,10 @@ public class CMMaterials {
         TagPrefix.block.setIgnored(Livingrock, () -> BotaniaBlocks.livingrock);
     }
 
-    public static final Material Mana =  REGISTRATE.material(GTCEu.id("mana"))
+    public static final Material Mana=REGISTRATE.material(GTCEu.id("mana"))
             .cnlang("液态魔力")
             .liquid()
+            .element(MANA)
             .color(0x43e7ed)
             .buildAndRegister();
     public static final Material Zenith_essence=REGISTRATE.material(GTCEu.id("zenith_essence"))
@@ -110,6 +111,77 @@ public class CMMaterials {
             .cableProperties(GTValues.V[GTValues.UIV], 777777, 0, true)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
+    public static final Material Stable_Plus_Mana=REGISTRATE.material(GTCEu.id("stable_plus_mana"))
+            .cnlang("临界态究极魔力")
+            .dust()
+            .color(0xC949C9)
+            .buildAndRegister();
+    public static final Material Unknown_Super_Mana=REGISTRATE.material(GTCEu.id("unknown_super_mana"))
+            .cnlang("混沌态临界魔力")
+            .dust()
+            .liquid()
+            .ingot()
+            .color(0xF02DFA)
+            .element(MANA_UNKNOWN_SUPER)
+            .buildAndRegister();
+    public static final Material Remain_Mana=REGISTRATE.material(GTCEu.id("remain_mana"))
+            .cnlang("魔力残留物")
+            .dust()
+            .color(0xC576C9)
+            .buildAndRegister();
+    public static final Material Super_Plus_Mana=REGISTRATE.material(GTCEu.id("super_plus_mana"))
+            .cnlang("临界富集魔力")
+            .dust()
+            .liquid()
+            .ingot()
+            .color(0x801B85)
+            .element(MANA_PLUS3)
+            .buildAndRegister();
+    public static final Material Quaser_Mana=REGISTRATE.material(GTCEu.id("quaser_mana"))
+            .cnlang("类星体魔力")
+            .dust()
+            .color(0xA00FA8)
+            .buildAndRegister();
+    public static final Material Infused_Plus_Mana=REGISTRATE.material(GTCEu.id("infused_plus_mana"))
+            .cnlang("不稳定注魔临界魔力")
+            .dust()
+            .color(0x810887)
+            .buildAndRegister();
+    public static final Material Unstable_Plus_Mana=REGISTRATE.material(GTCEu.id("unstable_plus_mana"))
+            .cnlang("不稳定超富集魔力")
+            .dust()
+            .color(0xE71FF2)
+            .buildAndRegister();
+    public static final Material Twist_Mana=REGISTRATE.material(GTCEu.id("twist_mana"))
+            .cnlang("扭曲放射态临界魔力")
+            .dust()
+            .liquid()
+            .ingot()
+            .element(TWIST_MANA)
+            .color(0xE73EF0)
+            .buildAndRegister();
+    public static final Material Twist_Power_Mana=REGISTRATE.material(GTCEu.id("twist_power_mana"))
+            .cnlang("极端扭曲放射态临界魔力")
+            .dust()
+            .liquid()
+            .ingot()
+            .element(TWIST_POWER_MANA)
+            .color(0x9E07A6)
+            .buildAndRegister();
+    public static final Material Plus_Mana=REGISTRATE.material(GTCEu.id("plus_mana"))
+            .cnlang("富集魔力")
+            .dust()
+            .liquid()
+            .ingot()
+            .element(MANA_PLUS2)
+            .color(0xED85F2)
+            .buildAndRegister();
+    public static final Material Zenith_Plus_Mana=REGISTRATE.material(GTCEu.id("zenith_plus_mana"))
+            .cnlang("天顶激发态临界魔力")
+            .dust()
+            .color(0x572859)
+            .buildAndRegister();
+
     public static final Material Shroud_Zenith_essence=REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
             .cnlang("§5虚境化的天顶源质§r")
             .liquid()

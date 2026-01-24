@@ -5,12 +5,14 @@ import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.recipe.builder.PetalRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +48,10 @@ public class RuneAltarRecipeBuilder {
     }
     public RuneAltarRecipeBuilder input(Ingredient ingredient) {
         inputs.add(ingredient);
+        return this;
+    }
+    public RuneAltarRecipeBuilder input(Item... items) {
+        inputs.add(Ingredient.of(items));
         return this;
     }
     public RuneAltarRecipeBuilder input(Ingredient... ingredients) {
