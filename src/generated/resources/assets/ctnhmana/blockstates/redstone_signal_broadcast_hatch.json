@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch"
+    },
+    "facing=south": {
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "ctnhmana:block/machine/redstone_signal_broadcast_hatch",
+      "y": 270
+    }
+  }
+}

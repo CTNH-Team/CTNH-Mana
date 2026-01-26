@@ -1,0 +1,13 @@
+{
+  "shroud_whisper": {
+    "sounds": [
+      {
+        "name": "ctnhmana:shroud_whisper",
+        "stream": true,
+        "volume": 0.6,
+        "weight": 3
+      }
+    ],
+    "subtitle": "subtitle.ctnhmana.bgm.shroud_whisper"
+  }
+}
