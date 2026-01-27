@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "ctnhcore:block/casings/blood_casing_ctm"
+        "connection": "ctnhmana:block/casings/blood_casing_ctm"
     }
 }

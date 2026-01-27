@@ -114,7 +114,8 @@ public class CMBlocks {
             "blood_casing", "血染机械方块",CTNHMana.id("block/casings/blood_casing"));
     public static final BlockEntry<Block> CASING_FORCE_FILED = createCasingBlock(
             "force_field_casing", "力场领域机械方块",CTNHMana.id("block/casings/force_field_casing"));
-    
+    public static final BlockEntry<Block>CASING_BLOODLOGIC=createCasingBlock(
+            "bloodlogic_casing","生命逻辑传感机械方块",CTNHMana.id("block/casings/bloodlogic_casing"));
     public static final BlockEntry<ForgeSpecialFlowerBlock> DEMON_FLYTRAP = REGISTRATE
             .block("demon_flytrap", properties -> new ForgeSpecialFlowerBlock(MobEffects.HARM, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.DEMON_FLYTRAP.get()))
             .cnlang("恶魔捕蝇草")

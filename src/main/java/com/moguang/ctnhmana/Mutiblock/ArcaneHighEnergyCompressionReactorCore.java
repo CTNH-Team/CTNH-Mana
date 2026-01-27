@@ -61,6 +61,7 @@ import vazkii.botania.common.lib.BotaniaTags;
 import java.util.*;
 
 import static com.moguang.ctnhmana.item.Rune.RuneElementType.*;
+import static com.moguang.ctnhmana.registry.CMGuiTextures.AHCC_BACKGROUND;
 
 public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMachine implements IFancyUIMachine,
         IDisplayUIMachine, IExplosionMachine,IChannelMachine,ICentralStorageMachine{
@@ -440,7 +441,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     @Override
     public Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 182 + 8 + 20, 182 + 8 + 20);
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 182 + 20, 182 + 8).setBackground(getScreenTexture())
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 182 + 20, 182 + 8).setBackground(AHCC_BACKGROUND)
                 .addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()))
                 .addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText)
                         .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
@@ -455,8 +456,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         for (int i = 0; i < totalSlots; i++) {
             int row = i / slot_range;
             int col = i % slot_range;
-            int slotX = startX + col * 18;
-            int slotY = startY + row * 18;
+            int slotX = startX + col * 18-2;
+            int slotY = startY + row * 18-2;
             group.addWidget(
                     new SlotWidget(inventory.storage, i, slotX, slotY, true, true)
                             .setBackground(GuiTextures.SLOT));

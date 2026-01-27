@@ -39,4 +39,5 @@ public class CMGuiTextures {
     public static final ResourceTexture BM_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/bloodmagic_background.png");
     public static final ResourceTexture ARS_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/ars_background.png");
     public static final ResourceTexture GT_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/gt_background.png");
+    public static final ResourceTexture AHCC_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/ahcc_background_a.png");
 }

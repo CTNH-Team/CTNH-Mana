@@ -40,6 +40,7 @@ import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
 import static com.moguang.ctnhmana.Mutiblock.MysticSpire.spireTooltipsLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
+import static com.moguang.ctnhmana.utils.ModUtils.BloodMagicRL;
 import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
 import static net.minecraft.world.level.block.Blocks.*;
 import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.*;
@@ -497,7 +498,7 @@ public class CMMultiblockMachines {
                     .build())
             .workableCasingModel(BloodMagic.rl("block/largebloodstonebrick"), GTCEu.id("block/machines/digital_well_of_suffer"))
             .register();
-    public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("mana_tester", holder -> new IndustrialAltarMachine(holder))
+    public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("industrial_altar", holder -> new IndustrialAltarMachine(holder))
             .cnLangValue("§b工业血之祭坛")
             .tooltips(addMachineTooltips(industrialAltarLang))
             .tooltipBuilder((stack, tooltip) -> {
@@ -516,7 +517,7 @@ public class CMMultiblockMachines {
             })
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.BLOOD_ALTAR_RECIPES)
-            .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
+            .appearanceBlock(() -> BLANK_RUNE.get())
             .recipeModifiers(IndustrialAltarMachine::recipeModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABCBA", "#####")
@@ -627,7 +628,7 @@ public class CMMultiblockMachines {
                 shapeInfos.add(tier4_build.shallowCopy().build());
                 return shapeInfos;
             })
-            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(BloodMagicRL("block/blankrune"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE.mysticmultiblock("mystic_sprie",holder-> new MysticSpire(holder))
             .cnLangValue("§b奥法尖塔")

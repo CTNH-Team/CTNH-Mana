@@ -161,7 +161,6 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
     }
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-
         if(broken==2)
         {
             doExplosion(100f);

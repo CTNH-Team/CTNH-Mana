@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "ctnhcore:block/casings/force_field_casing_ctm"
+        "connection": "ctnhmana:block/casings/force_field_casing_ctm"
     }
 }

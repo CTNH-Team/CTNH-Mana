@@ -40,6 +40,7 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
                 if(zmachine.mks>5&&zmachine.mks<Integer.MAX_VALUE-1) {
                     int pa= ParallelLogic.getParallelAmount(machine,recipe,1024);
 
+
                     return  ModifierFunction.builder()
                             .parallels(pa)
                             .durationMultiplier(0.25*pa*Math.pow(0.99,pa))

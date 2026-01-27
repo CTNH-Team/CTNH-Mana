@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "ctnhcore:block/casings/quasar_energy_stabilization_casing_ctm"
+        "connection": "ctnhmanablock/casings/quasar_energy_stabilization_casing_ctm"
     }
 }
