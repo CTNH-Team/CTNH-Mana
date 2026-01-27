@@ -14,6 +14,7 @@ import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
+import com.moguang.ctnhmana.item.equipment.TaintedBloodWeepingEye;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BTUpgradeItemT1;
@@ -242,6 +243,28 @@ public class CMItems {
                         text.add(brokenRuneLang.translate())
                 )))
                 .register();
+        TAINTED_BLOOD_EYE=REGISTRATE
+                .item("tainted_blood_third_eye",TaintedBloodWeepingEye::new)
+                .cnlang("污血泣眼")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
+                .tag(accessory("body"))
+                .register();
+        TERRA_CATALYST=REGISTRATE
+                .item("terra_catalyst",ComponentItem::create)
+                .cnlang("§a泰拉催化剂")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    return properties;
+                })
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(terra_catalyst.translate())
+                )))
+                .register();
+
 
 
 
@@ -282,6 +305,8 @@ public class CMItems {
     public static ItemEntry<SaberWandItem>SABER_WAND;
     public static ItemEntry<IManaFuelStick>SPARK_STICK;
     public static ItemEntry<ComponentItem>BROKEN_RUNE;
+    public static ItemEntry<TaintedBloodWeepingEye>TAINTED_BLOOD_EYE;
+    public static ItemEntry<ComponentItem>TERRA_CATALYST;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }

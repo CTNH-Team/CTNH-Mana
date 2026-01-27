@@ -14,9 +14,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.ManaMachine;
@@ -24,6 +25,7 @@ import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.ManaStatusGui;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.ManaMachineUpgradeItem;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -57,6 +59,7 @@ public class BaseManaMachine extends ManaMachine {
     @Persisted
     public int baseConsumption;
     @Getter
+    @DescSynced
     protected ManaMachineUpgradeItem upgrade;
     public MachineMetric metric=new MachineMetric(); //用于维护每秒刷新的metric
     public MachineMetric recipemetric =new MachineMetric(); //用于维护配recipemodifer中根据配方的metric
@@ -301,15 +304,34 @@ public class BaseManaMachine extends ManaMachine {
     }
     @Override
     public @NotNull Widget createUIWidget() {
-        var widget = super.createUIWidget();
-        if (widget instanceof WidgetGroup group) {
-            var size = group.getSize();
+        WidgetGroup widget = new WidgetGroup(0, 0, 190, 125);
+        var group=(new DraggableScrollableWidgetGroup(4, 4, 182, 117)).setBackground(this.getScreenTexture()).addWidget(new LabelWidget(4, 5, this.self().getBlockState().getBlock().getDescriptionId())).addWidget((new ComponentPanelWidget(4, 17, this::addDisplayText)).textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick));
+        widget.setBackground(new IGuiTexture[]{GuiTextures.BACKGROUND_INVERSE});
+
+        if(this.getUpgrade()!=null)
+        {
+            if(this.getUpgrade().getType().equals("BM"))
+            {
+                group.setBackground(CMGuiTextures.BM_BACKGROUND);
+            }
+            else if (this.getUpgrade().getType().equals("BT")) {
+                group.setBackground(CMGuiTextures.BT_BACKGROUND);
+            }
+            else if(this.getUpgrade().getType().equals("GT"))
+            {
+                group.setBackground(CMGuiTextures.GT_BACKGROUND);
+            }
+        }
+        widget.addWidget(group);
+        if (widget!=null) {
+            var size = widget.getSize();
             for(int i = 0; i < 1 ;i++){
-                group.addWidget(
+                widget.addWidget(
                         new SlotWidget(machineStorage.storage, i, size.width - 30 - 18*i, size.height - 30, true, true)
                                 .setBackground(GuiTextures.SLOT));
             }
         }
+//        widget.setBackground(CMGuiTextures.BT_BACKGROUND);
         return widget;
     }
 

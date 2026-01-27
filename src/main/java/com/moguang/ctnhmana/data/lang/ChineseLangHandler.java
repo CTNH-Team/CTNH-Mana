@@ -453,6 +453,8 @@ public class ChineseLangHandler {
     public static Lang willsoclang;
     @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
     public static Lang brokenRuneLang;
+    @CN("§a大地的力量凝聚于此")
+    public static Lang terra_catalyst;
     @CN(
             {
                     "佩戴时获得:",

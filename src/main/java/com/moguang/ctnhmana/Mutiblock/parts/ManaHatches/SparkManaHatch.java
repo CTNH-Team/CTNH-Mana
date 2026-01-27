@@ -85,7 +85,7 @@ public class SparkManaHatch extends ManaHatch {
     public Widget createUIWidget() {
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-52, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-52, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_BT_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_BT_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*maxMana));
         }));

@@ -9,10 +9,15 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
     public  int mks=0;
+    @Persisted
+    public long twistPower=0;
+    @Persisted
+    public long maxTwistPower=0;
     public TwistedFusionMachine(IMachineBlockEntity holder,int mk) {
         super(holder);
         this.mks=mk;
@@ -25,7 +30,6 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
         if(startEU>320000000&&mks<3)
             return false;
         return super.beforeWorking(recipe);
-
     }
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){
 
@@ -54,7 +58,6 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
                             .inputModifier(ContentModifier.multiplier(pa))
                             .outputModifier(ContentModifier.multiplier(pa))
                             .build();
-
                 }
 //                else if (startEU <= 160000000) {
 //                    modifierFunction = CTNHRecipeModifiers.accurateParallel(zmachine, recipe, zmachine.mks*16+16);

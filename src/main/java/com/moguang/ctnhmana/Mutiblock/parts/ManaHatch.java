@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMMaterials;
+import com.sun.jna.platform.win32.WinDef;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -101,7 +102,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Persisted
     @Getter
     public boolean HAVE_ORB=false;
-
+    public  String bar_type;
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,int BTMANA_CONVERT_RATE,int LP_CONVERT_RATE,int FLUID_MANA_CONVERT_RATE) {
         super(holder);
         fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
@@ -117,6 +118,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.BTMANA_CONVERT_SPEED=(int) (maxBTMana*0.01);
         this.FLUID_MANA_CONVERT_SPEED=(int)(capacity*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+
     }
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
         super(holder);
@@ -129,6 +131,19 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.BTMANA_CONVERT_SPEED=(int) (maxBTMana*0.01);
         this.FLUID_MANA_CONVERT_SPEED=(int)(capacity*0.01);
         ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+    }
+    public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,String bar_type) {
+        super(holder);
+        fluidTank= new NotifiableFluidTank(this,1,capacity,IO.NONE,IO.BOTH);
+        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE,IO.BOTH);
+        this.maxMana=maxMana;
+        this.maxBTMana=maxBTMana;
+        this.maxLP=maxLP;
+        this.LP_CONVERT_SPEED=(int)(maxLP*0.01);
+        this.BTMANA_CONVERT_SPEED=(int) (maxBTMana*0.01);
+        this.FLUID_MANA_CONVERT_SPEED=(int)(capacity*0.01);
+        ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+        this.bar_type=bar_type;
     }
     public DoubleSupplier get_MP = () ->(double)this.Mana/maxMana;
 
@@ -152,12 +167,23 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
     @Override
     public Widget createUIWidget() {
-        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
+        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124).setBackground(CMGuiTextures.BT_BACKGROUND);
         var container = new WidgetGroup(176/2-13, 124/2-26, 26, 26);
-        var speed_progress2=(new ProgressWidget(this.get_MP, 176-4-5-18, 124/2-52, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+        var speed_progress2=(new ProgressWidget(this.get_MP, 176 - 24 - 4-4, 6, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
         ).setDynamicHoverTips(mana->{
             return "当前魔力值:%d".formatted((int)(mana*maxMana));
         }));
+        if(bar_type!=null&&bar_type.equals("BT"))
+            speed_progress2=(new ProgressWidget(this.get_MP, 176 - 24 - 4-4, 6, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_BT_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_BT_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+            ).setDynamicHoverTips(mana->{
+                return "当前魔力值:%d".formatted((int)(mana*maxMana));
+            }));
+        if(bar_type!=null&&bar_type.equals("BM"))
+            speed_progress2=(new ProgressWidget(this.get_MP, 176 - 24 - 4-4, 6, 24, 112, new ProgressTexture(CMGuiTextures.PROGRESS_BAR_BM_MANA_HATCH_EMPTY,CMGuiTextures.PROGRESS_BAR_BM_MANA_HATCH_DYNAMIC).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP)
+            ).setDynamicHoverTips(mana->{
+                return "当前魔力值:%d".formatted((int)(mana*maxMana));
+            }));
+
         int index = 0;
         container.addWidgets(
                 new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
@@ -312,10 +338,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
     @Override
     public boolean canShared() {
-        return false;
-    }
-    @Override
-    public boolean hasPlayerInventory() {
         return false;
     }
 

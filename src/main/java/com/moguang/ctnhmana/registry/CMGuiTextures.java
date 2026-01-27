@@ -15,10 +15,13 @@ public class CMGuiTextures {
     public static final ResourceTexture QUADRANT_NEUTRAL_SELECTED=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral_selected.png");
     public static final ResourceTexture QUADRANT_NEUTRAL_SELECTED_BORDER=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral_selected_border.png");//中性象限
     public static final ResourceTexture TEST_ACTIVE_BAR=new ResourceTexture("ctnhmana:models/block/machine/part/manahatch.json");
-    public static  final ResourceTexture PROGRESS_BAR_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/mana_bar_empty.png");
-    public static  final AnimationTexture PROGRESS_BAR_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/mana_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
+    public static  final ResourceTexture PROGRESS_BAR_BT_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/bt_bar_empty.png");
+    public static  final AnimationTexture PROGRESS_BAR_BT_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/by_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
+    public static  final ResourceTexture PROGRESS_BAR_BM_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/bm_bar_empty.png");
+    public static  final AnimationTexture PROGRESS_BAR_BM_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/bm_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
+    public static  final ResourceTexture PROGRESS_BAR_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/mana_bar_empty.png");
+    public static  final AnimationTexture PROGRESS_BAR_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/mana_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
     public static final ResourceTexture MACHINE_STATUS_ICON=new ResourceTexture("ctnhmana:textures/gui/status_icon.png");
-    // 修正拼写错误后，注册所有图标
     public static final ResourceTexture SPIRE_CONNECT_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/connect_off.png");
     public static final ResourceTexture SPIRE_CONNECT_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/connect_on.png");
     public static final ResourceTexture SPIRE_FOCUS_OFF = new ResourceTexture("ctnhmana:textures/gui/spire_mode/focus_off.png");
@@ -31,4 +34,9 @@ public class CMGuiTextures {
     public static final ResourceTexture SPIRE_ANIMATION_ON = new ResourceTexture("ctnhmana:textures/gui/spire_mode/animation_on.png");
     public static final ResourceTexture ETERNAL_WOS_DIFFUSION_ON=new ResourceTexture("ctnhmana:textures/gui/eternal_wos_mode/diffusion_on.png");
     public static final ResourceTexture ETERNAL_WOS_DIFFUSION_OFF=new ResourceTexture("ctnhmana:textures/gui/eternal_wos_mode/diffusion_off.png");
+
+    public static final ResourceTexture BT_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/botania_background.png");
+    public static final ResourceTexture BM_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/bloodmagic_background.png");
+    public static final ResourceTexture ARS_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/ars_background.png");
+    public static final ResourceTexture GT_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/gt_background.png");
 }

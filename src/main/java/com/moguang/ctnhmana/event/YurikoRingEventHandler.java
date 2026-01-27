@@ -77,8 +77,8 @@ public class YurikoRingEventHandler {
             var item = EquipmentHandler.findOrEmpty(CMItems.YURIKO_RING.asItem(), player);
             if (item.getItem() instanceof YurikoRingItem) {
                 MobEffectInstance resistance = new MobEffectInstance(
-                        MobEffects.DAMAGE_RESISTANCE,    // 效果类型：抗性提升
-                        200,          // 时长：200tick=10秒
+                        MobEffects.DAMAGE_RESISTANCE,
+                        200,
                         0,                        // 等级：5（注意：MC中等级从0开始，V对应4）
                         false,                    // 是否显示粒子效果（true=显示，false=隐藏）
                         true                     // 是否显示图标（true=显示在屏幕右侧）

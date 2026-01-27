@@ -47,7 +47,6 @@ public class ThirdEyeEventHandler {
             if(item.getItem() instanceof ThirdEyeItem)
             {
                 event.setAmount((float) (originalDamage * 1.5));
-                // 触发暴击粒子效果（原版视觉反馈）
                 target.level().levelEvent(null, 2008, target.blockPosition(), 0);
             }
 

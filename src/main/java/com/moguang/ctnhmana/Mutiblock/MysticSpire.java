@@ -75,7 +75,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.sparkpos=new BlockPos(this.getPos().getX(),this.getPos().getY()+7,this.getPos().getZ());
+        this.sparkpos=MachineUtils.getOffset(this,0,10,1);
         ((MysticSpireBlockEntity) this.holder).setMaxMana(1000000);
         ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
         if(connectedSparkPos!=null&&!this.getLevel().getEntitiesOfClass(DeltaSpark.class,new AABB(connectedSparkPos)).isEmpty())
@@ -266,7 +266,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
 
     @CN(
             {
-                    "§o这将会是§b火花§r应用的一场革命",
+                    "§o这将会是§b§o火花§r§o应用的一场革命",
                     "奥法尖塔通过其生成的§b德尔塔火花§r来进行魔力传输，该火花自动绑定奥法尖塔本身",
                     "奥法尖塔初始具有100W的魔力容量，五倍于普通火花的传输速度，5000/t的魔力吸取速度，吸取产魔花速度独立于吸收速度并且只有吸取速度的1/10",
                     "该结构具有多种模式，请查阅植物魔法辞典来获取更多详细说明",

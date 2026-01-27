@@ -1,14 +1,13 @@
 package com.moguang.ctnhmana.common;
 
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.Mutiblock.ZENITH_MATRIX;
 import com.moguang.ctnhmana.data.ManaData;
@@ -63,14 +62,17 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
 
     @Override
     public Widget createUIWidget() {
-    var widget=super.createUIWidget();
+        WidgetGroup widget = new WidgetGroup(0, 0, 190, 125);
+        widget.addWidget((new DraggableScrollableWidgetGroup(4, 4, 182, 117)).setBackground(this.getScreenTexture()).addWidget(new LabelWidget(4, 5, this.self().getBlockState().getBlock().getDescriptionId())).addWidget((new ComponentPanelWidget(4, 17, this::addDisplayText)).textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
+        widget.setBackground(new IGuiTexture[]{GuiTextures.BACKGROUND_INVERSE});
+
         var button_refresh=(new ButtonWidget(10, 60, 15, 15, new GuiTextureGroup(new IGuiTexture[]{ResourceBorderTexture.BUTTON_COMMON, new TextTexture("-")}), clickData ->
         {
             SyncManaData();
         }
         ).setHoverTooltips("刷新机器数据状态")
         );
-        if(widget instanceof WidgetGroup group)
+        if(widget != null)
         {
             ((WidgetGroup) widget).addWidget(button_refresh);
         }

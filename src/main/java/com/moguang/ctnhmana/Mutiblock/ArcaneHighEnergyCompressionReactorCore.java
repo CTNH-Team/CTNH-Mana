@@ -372,15 +372,15 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         var now_eu=0L;
         if(this.heat<this.maxHeat*0.5)
         {
-            now_eu= (long) (Math.pow(heat,2)*GTValues.VA[GTValues.HV]);
+            now_eu= (long) (Math.pow(heat,1.5)*GTValues.VA[GTValues.HV]);
         }
         if(this.heat>=this.maxHeat*0.5&&this.heat<=this.maxHeat)
         {
-            now_eu= (long) (Math.pow(heat,2)*GTValues.VA[GTValues.EV]);
+            now_eu= (long) (Math.pow(heat,1.5)*GTValues.VA[GTValues.EV]);
         }
         if(this.heat>this.maxHeat)
         {
-            now_eu= (long) (Math.pow(this.maxHeat,2)*GTValues.VA[GTValues.EV]*(1+ (double) (this.heat - this.maxHeat) /this.maxHeat)+Math.pow(this.heat-this.maxHeat,3));
+            now_eu= (long) (Math.pow(this.maxHeat,1.5)*GTValues.VA[GTValues.EV]*(1+ (double) (this.heat - this.maxHeat) /this.maxHeat)+Math.pow(this.heat-this.maxHeat,3));
         }
         now_eu=Math.min(now_eu,maxEU);
        return now_eu;
@@ -564,10 +564,10 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if(stack.getItem().equals(BotaniaItems.runeFire))
                     {
-                            if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) heatmap[i - 1][j] += 2;
-                            if (isValidLocation(i + 1, j) && heatmap[i + 1][j] > 0) heatmap[i + 1][j] += 2;
-                            if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) heatmap[i][j - 1] += 2;
-                            if (isValidLocation(i, j + 1) && heatmap[i][j + 1] > 0) heatmap[i][j + 1] += 2;
+                            if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) heatmap[i - 1][j] *=1.2;
+                            if (isValidLocation(i + 1, j) && heatmap[i + 1][j] > 0) heatmap[i + 1][j] *=1.2;
+                            if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) heatmap[i][j - 1] *=1.2;
+                            if (isValidLocation(i, j + 1) && heatmap[i][j + 1] > 0) heatmap[i][j + 1] *=1.2;
                             stabilitymap[i][j]+=1;
                     }
                     if(stack.getItem().equals(BotaniaItems.runeEarth))
