@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
 import com.moguang.ctnhmana.Mutiblock.EternalGarden;
@@ -35,10 +36,12 @@ public class Botania {
     public final static MultiblockMachineDefinition ETERNAL_GARDEN = REGISTRATE.multiblock("eternal_garden", EternalGarden::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowFlip(false)
+            .cnLangValue("芙蕾雅的永恒花园")
             .recipeType(CMRecipeTypes.ETERNAL_GARDEN)
             .recipeModifiers(EternalGarden::recipeModifier)
             .tooltips(Component.translatable("ctnh.multiblock.eternalgarden.tooltip.1"),
                     Component.translatable("ctnh.multiblock.eternalgarden.tooltip.2"),
+                    Component.translatable("ctnh.multiblock.eternalgarden.tooltip.broadcast"),
                     Component.translatable("ctnh.multiblock.eternalgarden.tooltip.3"),
                     Component.translatable("ctnh.multiblock.eternalgarden.tooltip.unknown")
             )
@@ -94,6 +97,7 @@ public class Botania {
                     .where("#", Predicates.any())
                     .where("B", Predicates.blocks(CASING_STAINLESS_CLEAN.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(CMPartsAbility.SIGNALHATCH))
                     )
 
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
@@ -150,6 +154,7 @@ public class Botania {
     public static final MultiblockMachineDefinition MANA_CONDENSER = REGISTRATE.multiblock("mana_condenser", ManaCondenserMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_CONDENSER_RECIPES)
+            .cnLangValue("魔力凝聚器")
             .tooltips(Component.translatable("ctnh.multiblock.mana_condenser.tooltips.0").withStyle(ChatFormatting.GRAY),
                     Component.translatable("ctnh.multiblock.mana_condenser.tooltips.1"),
                     Component.translatable("ctnh.multiblock.mana_condenser.tooltips.2"))
@@ -218,6 +223,7 @@ public class Botania {
 
     public static final MultiblockMachineDefinition GAIA_REACTOR = REGISTRATE.multiblock("gaia_reactor", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
+            .cnLangValue("盖亚反应器")
             .recipeType(CMRecipeTypes.GAIA_REACTOR_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#############################", "#############################", "#############################", "#############################", "#############################", "###########BBBBBBB###########", "#############################", "#############################", "#############################", "#############################")

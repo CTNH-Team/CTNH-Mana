@@ -1,14 +1,20 @@
 package com.moguang.ctnhmana.registry.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.Mutiblock.Nicoll_Dyson_Beams;
 import com.moguang.ctnhmana.Mutiblock.TwistedFusionMachine;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.network.chat.Component;
@@ -16,14 +22,17 @@ import net.minecraft.network.chat.Component;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.registry.CMBlocks.TWISTED_FUSION_CASING;
+import static com.moguang.ctnhmana.registry.CMBlocks.*;
 
 public class misc {
     public static void init() {}
 //    public static MultiblockMachineDefinition NICOLL_DYSON_BEAMS = REGISTRATE.multiblock("nicoll_dyson_beams", Nicoll_Dyson_Beams::new)
 //            .rotationState(RotationState.NON_Y_AXIS)
 //            .recipeType(CMRecipeTypes.BEAMS)
+//
 //            // .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
 //            .recipeModifiers(Nicoll_Dyson_Beams::recipeModifier)
 //            .tooltips(Component.translatable("ctnh.multiblock.nicoll_dyson_beams.tooltip.0"),
@@ -111,11 +120,11 @@ public class misc {
 //                    .where("M", Predicates.frames(BlueAlloy))
 //                    .where("N", Predicates.blocks(MATERIAL_BLOCKS.get(TagPrefix.block, Naquadria).get()))
 //                    .where("O", Predicates.frames(Neutronium))
-//                    .where("P", Predicates.blocks(neutron.get()))
-//                    .where("Q", Predicates.blocks(DEPTH_FORCE_FIELD_STABILIZING_CASING.get()))
+//                    .where("P", Predicates.blocks(FUSION_COIL.get()))
+//                    .where("Q", Predicates.blocks(FIELD_RESTRICTION_CASING.get()))
 //                    .where("R", Predicates.blocks(COIL_ULTRA_MANA.get()))
 //                    .where("S", Predicates.blocks(COIL_ULTRA_MANA.get()))
-//                    .where("T", Predicates.blocks(CASING_NAQUADAH_GEARBOX.get()))
+//                    .where("T", Predicates.blocks(CASING_BLOODLOGIC.get()))
 //                    .where("U", Predicates.blocks(COMPUTER_CASING.get()))
 //                    .where("V", Predicates.blocks(MACHINE_CASING_UV.get()))
 //                    .where("W", Predicates.blocks(MATERIAL_BLOCKS.get(TagPrefix.block, Naquadah).get()))

@@ -1,0 +1,9 @@
+{
+    "ldlib": {
+        "connection": "ctnhmana:block/casings/coils/shroud_coil_bloom_ctm",
+        "emissive": true
+    },
+    "shimmer": {
+        "bloom": true
+    }
+}

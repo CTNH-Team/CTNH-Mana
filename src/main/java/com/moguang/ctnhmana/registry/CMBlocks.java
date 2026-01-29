@@ -1,10 +1,21 @@
 package com.moguang.ctnhmana.registry;
 
 
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.block.ActiveBlock;
+import com.gregtechceu.gtceu.api.block.ICoilType;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.common.block.CoilBlock;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
+import com.lowdragmc.lowdraglib.test.TestJava;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.blocks.CoilType;
 import com.moguang.ctnhmana.common.blocks.RuneBlock;
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.client.renderer.RenderType;
@@ -18,6 +29,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.botania.forge.block.ForgeSpecialFlowerBlock;
 
 import java.util.function.Supplier;
@@ -52,6 +65,18 @@ public class CMBlocks {
                 .build()
                 .register();
     }
+    public static BlockEntry<ActiveBlock> createActiveCasing(String name, String cnName, String baseModelPath) {
+        return REGISTRATE.block(name, ActiveBlock::new)
+                .cnlang(cnName)
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .addLayer(() -> RenderType::cutoutMipped)
+                .blockstate(GTModels.createActiveModel(CTNHMana.id(baseModelPath)))
+                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
+                .item(BlockItem::new)
+                .model((ctx, prov) -> prov.withExistingParent(prov.name(ctx), CTNHMana.id(baseModelPath)))
+                .build()
+                .register();
+    }
 
 
     @SuppressWarnings("all")
@@ -74,6 +99,36 @@ public class CMBlocks {
                 .build()
                 .register();
     }
+    public static NonNullBiConsumer<DataGenContext<Block, CoilBlock>, RegistrateBlockstateProvider> createCoilModel(String name,
+                                                                                                                    ICoilType coilType) {
+        return (ctx, prov) -> {
+            ActiveBlock block = ctx.getEntry();
+            ModelFile inactive = prov.models().cubeAll(name, coilType.getTexture());
+            ModelFile active = prov.models().withExistingParent(name + "_active", CTNHMana.id("block/cube_2_layer/all"))
+                    .texture("bot_all", coilType.getTexture())
+                    .texture("top_all", coilType.getTexture().withSuffix("_bloom"));
+            prov.getVariantBuilder(block)
+                    .partialState().with(GTBlockStateProperties.ACTIVE, false).modelForState().modelFile(inactive)
+                    .addModel()
+                    .partialState().with(GTBlockStateProperties.ACTIVE, true).modelForState().modelFile(active)
+                    .addModel();
+        };
+    }
+    @SuppressWarnings("all")
+    private static BlockEntry<CoilBlock> createCoilBlock(ICoilType coilType) {
+        BlockEntry<CoilBlock> coilBlock = REGISTRATE
+                .block("%s_coil_block".formatted(coilType.getName()), p -> new CoilBlock(p, coilType))
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+                .addLayer(() -> RenderType::cutoutMipped)
+                .blockstate(createCoilModel("%s_coil_block".formatted(coilType.getName()), coilType))
+                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
+                .item(BlockItem::new)
+                .build()
+                .register();
+        GTCEuAPI.HEATING_COILS.put(coilType, coilBlock);
+        return coilBlock;
+    }
     public static BlockEntry<Block> createCasingBlock(String name, String cnName, ResourceLocation texture) {
         return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
                 () -> RenderType::cutoutMipped);
@@ -81,6 +136,7 @@ public class CMBlocks {
 
 
     public static void init() {}
+    public static final BlockEntry<Block> LIVING_ROCK_CASING=createCasingBlock("living_rock_casing","活石机械方块",CTNHMana.id("block/casings/living_rock_casing"));
     public static final BlockEntry<Block> ZENITH_CASING_BLOCK = createCasingBlock(
             "zenith_casing", "天顶强化机械方块", CTNHMana.id("block/casings/zenith_casing"));
     public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock(
@@ -89,10 +145,27 @@ public class CMBlocks {
             "mana_steel_casing","魔力钢机械外壳", CTNHMana.id("block/casings/mana_steel_casing"));
     public static final BlockEntry<Block> TERRA_STEEL_CASING = createCasingBlock(
             "terra_steel_casing","泰拉钢机械外壳", CTNHMana.id("block/casings/terra_steel_casing"));
-    public static final BlockEntry<Block> ZENITH_EYE = createCasingBlock(
-            "zenith_eye","§5天顶之眼", CTNHMana.id("block/zenith_eye"));
+    public static final BlockEntry<Block> SOUL_LOCKING_CASING=createCasingBlock("soul_lock_blackcasing","黑石锢魂外壳",CTNHMana.id("block/casings/soul_lock_blackcasing"));
+    public static final BlockEntry<CoilBlock>SHROUD_MANA_COIL=createCoilBlock(CoilType.SHROUD_MANA);
+    public static final BlockEntry<Block> ZENITH_EYE=REGISTRATE
+        .block("zenith_eye",Block::new)
+        .cnlang("§5天顶之眼")
+        .initialProperties(() -> Blocks.IRON_BLOCK)
+        .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+        .addLayer( () -> RenderType::cutoutMipped)
+        .blockstate((ctx, prov) -> {
+            prov.simpleBlock(
+                    ctx.getEntry(),
+                    prov.models().getExistingFile(CTNHMana.id("block/zenith_eye"))
+            );
+        })
+        .tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryBuild("forge", "mineable/wrench")), BlockTags.MINEABLE_WITH_PICKAXE)
+        .item(net.minecraft.world.item.BlockItem::new)
+        .build()
+        .register();
     public static final BlockEntry<Block> FIELD_RESTRICTION_CASING = createCasingBlock(
             "field_restriction_casing", "虚境立场约束机械方块",CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"));
+    public static final BlockEntry<Block>AURA_CONVERGENCE_CASING=createCasingBlock("aura_convergence_casing","立场汇聚机械方块",CTNHMana.id("block/casings/aura_convergence_block"));
     public static final BlockEntry<Block> ALF_STEEL_CASING = createCasingBlock(
             "alfsteel_casing","精灵钢机械外壳", CTNHMana.id("block/casings/alfsteel_casing"));
     public static final BlockEntry<Block> ZENITH_CASING_GEARBOX = createCasingBlock(

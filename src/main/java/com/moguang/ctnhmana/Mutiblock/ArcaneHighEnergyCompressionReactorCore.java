@@ -202,7 +202,6 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             onInventoryChanged();
             shouldChecked=false; //只需要检查一次，非常省性能
         }
-
         var consume=Math.min(EU,energyContainer.getEnergyCapacity()-energyContainer.getEnergyStored());
         EU-=consume;
         energyContainer.addEnergy(consume);
@@ -523,7 +522,6 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                 hatch.setRedstoneSignalOutput(getChannelSignal(hatch.channel));
             }
         }
-
     }
     /// ///////////////////////////////
     /// / Rune/ ////

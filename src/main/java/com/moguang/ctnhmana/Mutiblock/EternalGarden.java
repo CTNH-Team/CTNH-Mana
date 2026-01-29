@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -17,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
@@ -50,7 +52,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 
-public class EternalGarden extends WorkableElectricMultiblockMachine implements ITieredMachine {
+public class EternalGarden extends WorkableElectricMultiblockMachine implements ITieredMachine,IChannelMachine {
     public EternalGarden(IMachineBlockEntity holder){
         super(holder);
     }
@@ -67,16 +69,37 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
     @Persisted private List<ItemStack> flower;
     @Persisted private List<ItemStack> rune;
     @Persisted public String flower_type="None";
-    public void queuer(Double food)
-    {
-        if(nutrition_length==5)
-        {
-            nutritionlist.removeFirst();
-        }
-        else
-            nutrition_length+=1;
-        nutritionlist.add(food);
+    public Map<Integer,Integer>channelSignal=new HashMap<>();
+    public List<RedstoneSignalBroadcastHatch>hatchList=new ArrayList<>();
+    @Override
+    public int getChannelSignal(int channel) {
+        return channelSignal.getOrDefault(channel,0);
     }
+
+    public List<RedstoneSignalBroadcastHatch> broadcastSelf()
+    {
+        List<RedstoneSignalBroadcastHatch>hatches=new ArrayList<>();
+        for (IMultiPart part : this.getParts()) {
+            if (part instanceof RedstoneSignalBroadcastHatch hatch) {
+                hatch.setRedstoneSignalOutput((getChannelSignal(hatch.channel)));
+                hatches.add(hatch);
+            }
+        }
+        return hatches;
+    }
+    public void changeSignal()
+    {
+        if(this.burn&&this.Temperature>=12500)channelSignal.put(0,10);
+        if(!hatchList.isEmpty())
+        {
+            for(RedstoneSignalBroadcastHatch hatch:hatchList)
+            {
+                hatch.setRedstoneSignalOutput(getChannelSignal(hatch.channel));
+            }
+        }
+    }
+    //todo
+    @Deprecated
     public static List<ItemStack> getallrunes()
     {
         List<ItemStack> ItemsRune = new ArrayList<>();
@@ -95,6 +118,8 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
         }
         return ItemsRune;
     }
+    //todo
+    @Deprecated
     public static List<ItemStack> getallflowers()
     {
         List<ItemStack> ItemsRune = new ArrayList<>();
@@ -115,8 +140,16 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
     }
     public void onStructureFormed() {
         super.onStructureFormed();
-        flower=getallflowers();
-        rune=getallrunes();
+        hatchList=broadcastSelf();
+        changeSignal();
+//        flower=getallflowers();
+//        rune=getallrunes();
+    }
+    @Override
+    public void afterWorking()
+    {
+        super.afterWorking();
+        changeSignal();
     }
 
     @Override
@@ -188,8 +221,14 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
         }
         return super.onWorking();
     }
-    class GardenLogic extends RecipeLogic {
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
+        return new GardenLogic(this);
+    }
 
+
+
+    class GardenLogic extends RecipeLogic {
         public GardenLogic(IRecipeLogicMachine machine) {
             super(machine);
         }
@@ -200,7 +239,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                 return normalSearch;
             }
 
-            GTRecipe flowerRecipe = searchFoodRecipe();
+            GTRecipe flowerRecipe = searchFlowerRecipe();
             if (flowerRecipe != null) {
                 if (matchRecipe(flowerRecipe).isSuccess()) {
                     return Collections.singleton(flowerRecipe).iterator();

@@ -1,0 +1,21 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "static": "ctnhmana:block/zenith_eye_static",
+    "animated": "ctnhmana:block/zenith_eye_animated"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": {"uv": [0, 0, 16, 16], "texture": "#static"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#animated"},
+        "north": {"uv": [0, 0, 16, 16], "texture": "#static"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#static"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#static"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#static"}
+      }
+    }
+  ]
+}

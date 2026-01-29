@@ -284,7 +284,8 @@ public class ChineseLangHandler {
         provider.add("ctnh.gtceu.tooltip.tfmkalephzero.4","§7并行数为2147483637，配方时间乘以0.0001，无损超频，满意了吧？§r");
 
         provider.add("ctnh.multiblock.eternalgarden.tooltip.1","§b万物在这世间绽放的永恒的一瞥§r");
-        provider.add("ctnh.multiblock.eternalgarden.tooltip.2","无法超频，但是机器自身电压每比配方电压高一级就使最终产出乘以1.25,通过在输入总线内加入五级符文来增大这个系数");
+        provider.add("ctnh.multiblock.eternalgarden.tooltip.broadcast","允许使用§c§l红石信号广播仓§r，自动化，耶！");
+        provider.add("ctnh.multiblock.eternalgarden.tooltip.2","无法超频，但是机器自身电压每比配方电压高一级就使最终产出乘以1.1");
         provider.add("ctnh.multiblock.eternalgarden.tooltip.3","每朵花都有自己独特的机制，机制太复杂了！请参阅§5魔力飞升§r章节来获取各种花的机制");
         provider.add("ctnh.multiblock.eternalgarden.tooltip.unknown","§5......等待着永恒的紫罗兰如今在何方？");
 
@@ -307,8 +308,6 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1","可以使用激光仓");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.2","对所有配方都有§8无法理喻§r的并行数,所有配方能耗和运行时间减少75%");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.3","§5想制作这台机器的你疯的不轻，当然这台机器也同样疯狂至极§r");
-
-
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.4","只能使用激光仓");
 

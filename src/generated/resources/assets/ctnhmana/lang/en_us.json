@@ -1,6 +1,7 @@
 {
   "block.ctnhmana.alfsteel_casing": "Alfsteel Casing",
   "block.ctnhmana.arcane_highenergy_compression_reactor_core": "Arcane Highenergy Compression Reactor Core",
+  "block.ctnhmana.aura_convergence_casing": "Aura Convergence Casing",
   "block.ctnhmana.autumn_rune_stone": "Autumn Rune Stone",
   "block.ctnhmana.blood_antiaris": "Blood Antiaris",
   "block.ctnhmana.blood_casing": "Blood Casing",
@@ -44,6 +45,7 @@
   "block.ctnhmana.redstone_signal_broadcast_hatch": "Redstone Signal Broadcast Hatch",
   "block.ctnhmana.rune_carrier_block": "Rune Carrier Block",
   "block.ctnhmana.rune_stone_perfect": "Rune Stone Perfect",
+  "block.ctnhmana.shroud_mana_coil_block": "Shroud Mana Coil Block",
   "block.ctnhmana.sin_envy_rune_stone": "Sin Envy Rune Stone",
   "block.ctnhmana.sin_gluttony_rune_stone": "Sin Gluttony Rune Stone",
   "block.ctnhmana.sin_greed_rune_stone": "Sin Greed Rune Stone",
@@ -51,6 +53,7 @@
   "block.ctnhmana.sin_pride_rune_stone": "Sin Pride Rune Stone",
   "block.ctnhmana.sin_sloth_rune_stone": "Sin Sloth Rune Stone",
   "block.ctnhmana.sin_wrath_rune_stone": "Sin Wrath Rune Stone",
+  "block.ctnhmana.soul_lock_blackcasing": "Soul Lock Blackcasing",
   "block.ctnhmana.spring_rune_stone": "Spring Rune Stone",
   "block.ctnhmana.summer_rune_stone": "Summer Rune Stone",
   "block.ctnhmana.terra_steel_casing": "Terra Steel Casing",

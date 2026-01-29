@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "ctnhmana:block/shroud_mana_coil_block"
+    },
+    "active=true": {
+      "model": "ctnhmana:block/shroud_mana_coil_block_active"
+    }
+  }
+}
