@@ -160,6 +160,15 @@ public class CMMaterials {
             .element(TWIST_MANA)
             .color(0xE73EF0)
             .buildAndRegister();
+    public static final Material Fused_demon_mixed=REGISTRATE.material(GTCEu.id("fused_demon_mixed"))
+            .cnlang("恶魔意志筛选蕴魔")
+            .dust()
+            .liquid()
+            .ingot()
+            .element(MANA_LP_MIXED)
+            .color(0x9E3FA3)
+            .buildAndRegister();
+
     public static final Material Twist_Power_Mana=REGISTRATE.material(GTCEu.id("twist_power_mana"))
             .cnlang("极端扭曲放射态临界魔力")
             .dust()

@@ -454,6 +454,8 @@ public class ChineseLangHandler {
     public static Lang brokenRuneLang;
     @CN("§a大地的力量凝聚于此")
     public static Lang terra_catalyst;
+    public static Lang zenith_star;
+    public static Lang mana_circuit_board;
     @CN(
             {
                     "佩戴时获得:",

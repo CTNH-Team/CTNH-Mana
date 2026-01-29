@@ -69,15 +69,6 @@ public class TerraPlateRecipe {
                 .output(new ItemStack(LIFE_ESSENCE_BUCKET.get(),1))
                 .mana(50000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")
-                .input(new ItemStack(BotaniaBlocks.manaGlass.asItem(),1))
-                .input(new ItemStack(BotaniaItems.elfQuartz,1))
-                .input(new ItemStack(BotaniaItems.pixieDust,1))
-                .input(new ItemStack(BotaniaItems.elementium,1))
-                .input(new ItemStack(BotaniaItems.dragonstone,1))
-                .output(ChemicalHelper.get(ingot,AlfSteel,1))
-                .mana(1500000)
-                .save(provider);
         TerraPlateRecipeBuilder.builder("the_universe")
                 .input(new ItemStack(theEnd,1))
                 .input(new ItemStack(theChaos,1))
