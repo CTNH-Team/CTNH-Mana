@@ -6,9 +6,9 @@ public class CMElements {
     public static void init() {
 
     }
-    public static final Element TWIST_MANA = new Element(169, 169, -1, null, "mana_lp_mixed", "(.*?)Ma(.*?)", false);
-    public static final Element TWIST_POWER_MANA = new Element(169, 169, -1, null, "mana_lp_mixed", "M?????A", false);
-    public static final Element MANA_UNKNOWN_SUPER = new Element(169, 169, -1, null, "mana_lp_mixed", "Ma+++++???????", false);
+    public static final Element TWIST_MANA = new Element(169, 169, -1, null, "twist_mana", "(.*?)Ma(.*?)", false);
+    public static final Element TWIST_POWER_MANA = new Element(169, 169, -1, null, "twist_power_mana", "M?????A", false);
+    public static final Element MANA_UNKNOWN_SUPER = new Element(169, 169, -1, null, "mana_unknown_super", "Ma+++++???????", false);
     public static final Element MANA = new Element( 169, 169, -1, null, "mana","Ma", false);
     public static final Element MANA_MIXED_1 = new Element( 169, 169, -1, null, "mana_mixed_1","????Ma????", false);
     public static final Element MANA_MIXED_2 = new Element(169, 169, -1, null, "mana_mixed_2", "???Ma???", false);

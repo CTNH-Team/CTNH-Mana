@@ -264,12 +264,28 @@ public class CMItems {
                         text.add(terra_catalyst.translate())
                 )))
                 .register();
-
-
-
-
-
-
+        ZENITH_STAR=REGISTRATE
+                .item("zenith_star",ComponentItem::create)
+                .cnlang("§a天穹之星")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    return properties;
+                })
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(zenith_star.translate())
+                )))
+                .register();
+        MANA_CIRCUIT_BOARD=REGISTRATE
+                .item("mana_circuit_board",ComponentItem::create)
+                .cnlang("§a天穹之星")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    return properties;
+                })
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(mana_circuit_board.translate())
+                )))
+                .register();
     }
     public static void init() {
 
@@ -281,6 +297,8 @@ public class CMItems {
 
     public static ItemEntry<ThrowItem> BOSS_SUMMONER;
     public static ItemEntry<ThrowItem> ADVANCED_BOSS_SUMMONER;
+    public static ItemEntry<ComponentItem> MANA_CIRCUIT_BOARD;
+    public static ItemEntry<ComponentItem> ZENITH_STAR;
     public static ItemEntry<BTUpgradeItemT1>BT_UPDATE_T1;
     public static ItemEntry<GTUpgradeItemT1>GT_UPDATE_T1;
     public static ItemEntry<BMUpgradeItemT1>BM_UPDATE_T1;
