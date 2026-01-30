@@ -1,5 +1,6 @@
 {
   "values": [
+    "ctnhmana:living_rock_casing",
     "ctnhmana:zenith_casing",
     "ctnhmana:elementium_casing",
     "ctnhmana:mana_steel_casing",
@@ -11,6 +12,7 @@
     "ctnhmana:aura_convergence_casing",
     "ctnhmana:alfsteel_casing",
     "ctnhmana:zenith_casing_gearbox",
+    "ctnhmana:unfading_garden_casing",
     "ctnhmana:fabric",
     "ctnhmana:elementium_pipe_casing",
     "ctnhmana:elementium_normal_fluid_pipe",
@@ -20,6 +22,7 @@
     "ctnhmana:blood_casing",
     "ctnhmana:force_field_casing",
     "ctnhmana:bloodlogic_casing",
+    "ctnhmana:pure_logic_casing",
     "ctnhmana:rune_carrier_block",
     "ctnhmana:winter_rune_stone",
     "ctnhmana:mana_rune_stone",

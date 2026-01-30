@@ -161,6 +161,7 @@ public class CMBlocks {
         })
         .tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryBuild("forge", "mineable/wrench")), BlockTags.MINEABLE_WITH_PICKAXE)
         .item(net.minecraft.world.item.BlockItem::new)
+
         .build()
         .register();
     public static final BlockEntry<Block> FIELD_RESTRICTION_CASING = createCasingBlock(
@@ -170,7 +171,7 @@ public class CMBlocks {
             "alfsteel_casing","精灵钢机械外壳", CTNHMana.id("block/casings/alfsteel_casing"));
     public static final BlockEntry<Block> ZENITH_CASING_GEARBOX = createCasingBlock(
             "zenith_casing_gearbox","天顶强化魔力齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/zenith_casing_gearbox"));
-    
+    public static final BlockEntry<Block> UNFADING_GARDEN_CASING=createCasingBlock("unfading_garden_casing","不凋花园方块",CTNHMana.id("block/casings/unfading_garden_casing"));
     public static final BlockEntry<Block> FABRIC = createCasingBlock(
             "fabric","魔力丝绸方块", CTNHMana.id("block/fabric"));
     public static final BlockEntry<Block> ELEMENTIUM_PIPE_CASING = createCasingBlock("elementium_pipe_casing","源质钢管道机械方块",
@@ -211,7 +212,7 @@ public class CMBlocks {
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();
-
+    public static final BlockEntry<Block> PURE_LOGIC_CASING=createCasingBlock("pure_logic_casing","纯净魔力逻辑传输方块",CTNHMana.id("block/casings/pure_logic_casing"));
     public static final BlockEntry<Block> RUNE_CARRIER_BLOCK = createCasingBlock(
             "rune_carrier_block", "符文载体方块",CTNHMana.id("block/casings/runictexture/rune_stone_0"));
     public static final BlockEntry<RuneBlock> WINTER_RUNE_STONE = createRuneBlock(

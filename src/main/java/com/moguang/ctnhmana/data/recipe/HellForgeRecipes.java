@@ -17,6 +17,7 @@ import wayoftime.bloodmagic.anointment.AnointmentData;
 import wayoftime.bloodmagic.anointment.AnointmentHolder;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
+import wayoftime.bloodmagic.common.tags.BloodMagicTags;
 import wayoftime.bloodmagic.core.AnointmentRegistrar;
 
 import static com.moguang.ctnhmana.registry.CMMaterials.tagPrefixIgnore;
@@ -31,22 +32,131 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 
 public class HellForgeRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        HELL_FORGE_RECIPES.recipeBuilder("testxxx")//工业锻造独有配方
-                .addCondition(new HellForgeCondition(10))
-                .inputItems(runeFire,24)
-                .inputFluids(Zenith_essence.getFluid(144))
-                .outputItems(HORIZEN_RUNE)
-                .duration(200)
-                .circuitMeta(19)
-                .EUt(114514)
-                .save(provider);
-        TartaricForgeRecipeBuilder.builder("testxxy")
-                .input(runeFire,runeMana,runeAir)
-                .output(new ItemStack(runeEnvy))
-                .minimumSouls(1000)
-                .soulDrain(100)
-                .circuitMeta(21)
-                .save(provider);
+        ItemStack stack = new ItemStack(BloodMagicBlocks.DEFORESTER_CHARGE.get());
+        AnointmentHolder smeltingHolder = new AnointmentHolder();
+        smeltingHolder.applyAnointment(stack, AnointmentRegistrar.ANOINTMENT_SMELTING.get(), new AnointmentData(1, 1, 1));
+
+        AnointmentHolder fortune1Holder = new AnointmentHolder();
+        fortune1Holder.applyAnointment(stack, AnointmentRegistrar.ANOINTMENT_FORTUNE.get(), new AnointmentData(1, 1, 1));
+
+        AnointmentHolder fortune2Holder = new AnointmentHolder();
+        fortune2Holder.applyAnointment(stack, AnointmentRegistrar.ANOINTMENT_FORTUNE.get(), new AnointmentData(2, 1, 1));
+
+        AnointmentHolder silkHolder = new AnointmentHolder();
+        silkHolder.applyAnointment(stack, AnointmentRegistrar.ANOINTMENT_SILK_TOUCH.get(), new AnointmentData(1, 1, 1));
+
+        AnointmentHolder voidHolder = new AnointmentHolder();
+        voidHolder.applyAnointment(stack, AnointmentRegistrar.ANOINTMENT_VOIDING.get(), new AnointmentData(1, 1, 1));
+
+//		smeltingHolder.toItemStack(stack);
+
+        String[] suffixArray = new String[] { "_smelting", "_fortune_1", "_silk_touch", "_voiding" };
+        AnointmentHolder[] holderArray = new AnointmentHolder[] { smeltingHolder, fortune1Holder, silkHolder,
+                voidHolder };
+        Ingredient[] firstIngredientArray = new Ingredient[] { Ingredient.of(Tags.Items.CROPS_NETHER_WART),
+                Ingredient.of(Tags.Items.CROPS_NETHER_WART), Ingredient.of(Tags.Items.CROPS_NETHER_WART),
+                Ingredient.of(Tags.Items.CROPS_NETHER_WART) };
+        Ingredient[] secondIngredientArray = new Ingredient[] { Ingredient.of(Items.FURNACE),
+                Ingredient.of(Tags.Items.DUSTS_REDSTONE), Ingredient.of(Items.COBWEB),
+                Ingredient.of(Blocks.NETHERRACK) };
+        Ingredient[] thirdIngredientArray = new Ingredient[] { Ingredient.of(Items.CHARCOAL, Items.COAL),
+                Ingredient.of(BloodMagicTags.DUST_COAL), Ingredient.of(Tags.Items.NUGGETS_GOLD),
+                Ingredient.of(Blocks.COBBLED_DEEPSLATE) };
+        for (int i = 0; i < suffixArray.length; i++)
+        {
+            ItemStack deforesterStack = new ItemStack(BloodMagicBlocks.DEFORESTER_CHARGE.get());
+            ItemStack fungalStack = new ItemStack(BloodMagicBlocks.FUNGAL_CHARGE.get());
+            ItemStack shapedStack = new ItemStack(BloodMagicBlocks.SHAPED_CHARGE.get());
+            ItemStack veinStack = new ItemStack(BloodMagicBlocks.VEINMINE_CHARGE.get());
+            AnointmentHolder holder = holderArray[i];
+            holder.toItemStack(deforesterStack);
+            holder.toItemStack(fungalStack);
+            holder.toItemStack(shapedStack);
+            holder.toItemStack(veinStack);
+            TartaricForgeRecipeBuilder.builder("shaped_charge" + suffixArray[i])
+                    .minimumSouls(60)
+                    .soulDrain(1)
+                    .input(Ingredient.of(BloodMagicItems.SHAPED_CHARGE_ITEM.get()), firstIngredientArray[i], secondIngredientArray[i], thirdIngredientArray[i])
+                    .output(shapedStack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("deforester_charge" + suffixArray[i])
+                    .minimumSouls(60)
+                    .soulDrain(1)
+                    .input(Ingredient.of(BloodMagicItems.DEFORESTER_CHARGE_ITEM.get()), firstIngredientArray[i], secondIngredientArray[i], thirdIngredientArray[i])
+                    .output(deforesterStack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("vein_charge" + suffixArray[i])
+                    .minimumSouls(60)
+                    .soulDrain(1)
+                    .input(Ingredient.of(BloodMagicItems.VEINMINE_CHARGE_ITEM.get()), firstIngredientArray[i], secondIngredientArray[i], thirdIngredientArray[i])
+                    .output(veinStack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("fungal_charge" + suffixArray[i])
+                    .minimumSouls(60)
+                    .soulDrain(1)
+                    .input(Ingredient.of(BloodMagicItems.FUNGAL_CHARGE_ITEM.get()), firstIngredientArray[i], secondIngredientArray[i], thirdIngredientArray[i])
+                    .output(fungalStack)
+                    .save(provider);
+        }
+        String[] suffixArray2 = new String[] { "_smelting_l", "_fortune_1_l", "_fortune_2_l", "_silk_touch_l",
+                "_voiding" };
+        AnointmentHolder[] holderArray2 = new AnointmentHolder[] { smeltingHolder, fortune1Holder, fortune2Holder,
+                silkHolder, voidHolder };
+        Ingredient[] ingredientArray2 = new Ingredient[] { Ingredient.of(BloodMagicItems.SMELTING_ANOINTMENT_L.get()),
+                Ingredient.of(BloodMagicItems.FORTUNE_ANOINTMENT_L.get()),
+                Ingredient.of(BloodMagicItems.FORTUNE_ANOINTMENT_2.get()),
+                Ingredient.of(BloodMagicItems.SILK_TOUCH_ANOINTMENT_L.get()),
+                Ingredient.of(BloodMagicItems.VOIDING_ANOINTMENT_L.get()) };
+        for (int i = 0; i < suffixArray2.length; i++)
+        {
+            ItemStack deforester2Stack = new ItemStack(BloodMagicBlocks.DEFORESTER_CHARGE_2.get());
+            ItemStack vein2Stack = new ItemStack(BloodMagicBlocks.VEINMINE_CHARGE_2.get());
+            ItemStack fungal2Stack = new ItemStack(BloodMagicBlocks.FUNGAL_CHARGE_2.get());
+            ItemStack shapedChargeDeepStack = new ItemStack(BloodMagicBlocks.SHAPED_CHARGE_DEEP.get());
+            ItemStack augShapedStack = new ItemStack(BloodMagicBlocks.AUG_SHAPED_CHARGE.get());
+            AnointmentHolder holder = holderArray2[i];
+            holder.toItemStack(deforester2Stack);
+            holder.toItemStack(vein2Stack);
+            holder.toItemStack(fungal2Stack);
+            holder.toItemStack(shapedChargeDeepStack);
+            holder.toItemStack(augShapedStack);
+            TartaricForgeRecipeBuilder.builder("deforester_charge_2" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.DEFORESTER_CHARGE_2.get()),ingredientArray2[i])
+                    .output(deforester2Stack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("deforester_charge_2" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.DEFORESTER_CHARGE_2.get()),ingredientArray2[i])
+                    .output(deforester2Stack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("vein_charge_2" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.VEINMINE_CHARGE_2.get()),ingredientArray2[i])
+                    .output(vein2Stack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("fungal_charge_2" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.FUNGAL_CHARGE_2.get()),ingredientArray2[i])
+                    .output(fungal2Stack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("shaped_charge_deep" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.SHAPED_CHARGE_DEEP.get()),ingredientArray2[i])
+                    .output(shapedChargeDeepStack)
+                    .save(provider);
+            TartaricForgeRecipeBuilder.builder("aug_shaped_charge" + suffixArray2[i])
+                    .minimumSouls(300)
+                    .soulDrain(4)
+                    .input(Ingredient.of(BloodMagicBlocks.AUG_SHAPED_CHARGE.get()),ingredientArray2[i])
+                    .output(augShapedStack)
+                    .save(provider);
+        }
         TartaricForgeRecipeBuilder.builder("output_routing_node")
                 .input(new ItemStack(Items.REDSTONE,1))
                 .input(new ItemStack(Items.IRON_INGOT,1))
@@ -99,5 +209,6 @@ public class HellForgeRecipes {
                 .EUt(8000)
                 .circuitMeta(1)
                 .save(provider);
+
     }
 }
