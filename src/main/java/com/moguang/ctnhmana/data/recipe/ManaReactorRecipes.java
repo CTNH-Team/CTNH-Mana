@@ -532,7 +532,7 @@ public class ManaReactorRecipes {
                 .outputItems(BT_UPDATE_T1)
                 .duration(40*20)
                 .circuitMeta(1)
-                .EUt(UV)
+                .EUt(522815)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("elementium_quartz")
                 .addCondition(new ManaReactorCondition(false))

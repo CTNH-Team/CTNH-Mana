@@ -277,7 +277,7 @@ public class CMItems {
                 .register();
         MANA_CIRCUIT_BOARD=REGISTRATE
                 .item("mana_circuit_board",ComponentItem::create)
-                .cnlang("§a天穹之星")
+                .cnlang("§a究极魔力电路基板")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
                     return properties;
