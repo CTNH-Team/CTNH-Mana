@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "ctnhmana:mana_bender",
+  "machine": "gtceu:implosion_compressor",
   "texture_overrides": {
     "all": "ctnhmana:block/casings/living_rock_casing"
   },
@@ -11,8 +11,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base_emissive"
         }
       }
     },
@@ -21,8 +21,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_pause",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_pause_emissive"
         }
       }
     },
@@ -31,8 +31,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base_emissive"
         }
       }
     },
@@ -41,8 +41,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_active",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_active_emissive"
         }
       }
     },
@@ -51,8 +51,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base_emissive"
         }
       }
     },
@@ -61,8 +61,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_pause",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_pause_emissive"
         }
       }
     },
@@ -71,8 +71,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_base_emissive"
         }
       }
     },
@@ -81,8 +81,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "ctnhmana:block/casings/living_rock_casing",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "overlay_front": "ctnhmana:block/casings/machine/manamachine/overlay_mana_active",
+          "overlay_front_emissive": "ctnhmana:block/casings/machine/manamachine/overlay_mana_active_emissive"
         }
       }
     }

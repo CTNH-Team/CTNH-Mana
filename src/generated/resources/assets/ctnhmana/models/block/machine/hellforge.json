@@ -3,14 +3,14 @@
   "loader": "gtceu:machine",
   "machine": "ctnhmana:hellforge",
   "texture_overrides": {
-    "all": "bloodmagic:block/obsidiantilepath"
+    "all": "ctnhmana:block/casings/soul_lock_blackcasing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front",
@@ -26,7 +26,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front",
@@ -42,7 +42,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back_active",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_active_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front_active",
@@ -58,7 +58,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back_active",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_active_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front_active",
@@ -74,7 +74,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front",
@@ -90,7 +90,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front",
@@ -106,7 +106,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back_active",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_active_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front_active",
@@ -122,7 +122,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "bloodmagic:block/obsidiantilepath",
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
           "overlay_back": "gtceu:block/machines/autoclave/overlay_back_active",
           "overlay_back_emissive": "gtceu:block/machines/autoclave/overlay_back_active_emissive",
           "overlay_front": "gtceu:block/machines/autoclave/overlay_front_active",

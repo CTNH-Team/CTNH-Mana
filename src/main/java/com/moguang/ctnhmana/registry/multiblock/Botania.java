@@ -9,11 +9,13 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
 import com.moguang.ctnhmana.Mutiblock.EternalGarden;
 import com.moguang.ctnhmana.Mutiblock.ManaCondenserMachine;
+import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -95,11 +97,10 @@ public class Botania {
                     .aisle("A###################BBBBBBB###################A", "####################BBB@BBB####################", "####################BBBBBBB####################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "###############################################", "A#############################################A")
                     .where("A", Predicates.any())
                     .where("#", Predicates.any())
-                    .where("B", Predicates.blocks(CASING_STAINLESS_CLEAN.get())
+                    .where("B", Predicates.blocks(CMBlocks.UNFADING_GARDEN_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(CMPartsAbility.SIGNALHATCH))
                     )
-
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("C", Predicates.blocks(SMOOTH_QUARTZ))
                     .where("D", Predicates.blocks(SMOOTH_QUARTZ_SLAB))
@@ -133,7 +134,7 @@ public class Botania {
                     .where("f", Predicates.blocks(BotaniaFlowerBlocks.heiseiDreamFloating))
                     .where("g", Predicates.blocks(DIRT))
                     .where("h", Predicates.blocks(BotaniaBlocks.whiteFlower))
-                    .where("i", Predicates.blocks(CASING_STAINLESS_CLEAN.get()))
+                    .where("i", Predicates.blocks(CMBlocks.UNFADING_GARDEN_CASING.get()))
                     .where("j", Predicates.blocks(BotaniaBlocks.blackFlower))
                     .where("k", Predicates.blocks(BotaniaBlocks.gaiaPylon))
                     .where("l", Predicates.blocks(WATER))
@@ -146,7 +147,7 @@ public class Botania {
                     .build()
             )
 
-            .model(createWorkableCasingMachineModel(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/implosion_compressor"))
+            .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/living_rock_casing"), GTCEu.id("block/multiblock/implosion_compressor"))
                     .andThen(b -> b.addDynamicRenderer(EternalGardenRender::new)))
             .appearanceBlock(CASING_STAINLESS_CLEAN)
             .register();

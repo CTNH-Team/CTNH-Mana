@@ -454,9 +454,9 @@ public class ChineseLangHandler {
     public static Lang brokenRuneLang;
     @CN("§a大地的力量凝聚于此")
     public static Lang terra_catalyst;
-    @CN("§a宛若天上的繁星")
+    @CN("天顶之星")
     public static Lang zenith_star;
-    @CN("§a魔力的集大成者")
+    @CN("魔力电路基板")
     public static Lang mana_circuit_board;
     @CN(
             {

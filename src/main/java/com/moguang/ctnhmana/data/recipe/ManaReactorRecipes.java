@@ -1,67 +1,36 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.data.tags.ItemTagLoader;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
-import com.moguang.ctnhmana.common.recipe.PlantCasingCondition;
-import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
-import com.simibubi.create.AllItems;
-import com.simibubi.create.Create;
-import dev.latvian.mods.kubejs.KubeJS;
-import io.github.lounode.extrabotany.common.block.ExtraBotanyBlock;
-import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
-import mythicbotany.register.ModBlocks;
-import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.TagType;
-import net.minecraft.nbt.TagTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.checkerframework.checker.units.qual.C;
-import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
-import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry.*;
-import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry.*;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
-
-import javax.swing.text.html.HTML;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
+import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.MANA_MACERATOR;
 import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
-import static io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
 import java.util.function.Consumer;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gregtechceu.gtceu.common.data.GTFluids.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
-import static com.simibubi.create.AllItems.BLAZE_CAKE;
-import static net.minecraft.world.item.ItemStack.TooltipPart.*;
 import static vazkii.botania.common.block.BotaniaBlocks.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
-import static wayoftime.bloodmagic.common.fluid.BloodMagicFluids.*;
-import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 
 @SuppressWarnings("removal")
