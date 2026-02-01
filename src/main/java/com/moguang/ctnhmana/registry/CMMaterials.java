@@ -190,7 +190,12 @@ public class CMMaterials {
             .dust()
             .color(0x572859)
             .buildAndRegister();
-
+    public static final Material Fused_Lp_Mixed_Mana=REGISTRATE.material(GTCEu.id("fused_lp_mixed_mana"))
+            .cnlang("源质提纯恶魔粉")
+            .dust()
+            .element(FUSED_LP_MIXED_MANA)
+            .color(0xC354C9)
+            .buildAndRegister();
     public static final Material Shroud_Zenith_essence=REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
             .cnlang("§5虚境化的天顶源质§r")
             .liquid()
