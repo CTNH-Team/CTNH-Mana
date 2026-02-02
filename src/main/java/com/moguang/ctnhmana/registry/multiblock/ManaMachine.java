@@ -49,7 +49,7 @@ public class ManaMachine {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE.multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力卷板机")
@@ -77,7 +77,7 @@ public class ManaMachine {
                     .where("F", Predicates.blocks(CASING_MANASTEEL_GEARBOX.get()))
                     .build()
             )
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_WIREMILL = REGISTRATE.multiblock("mana_wiremill", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力线材扎机")
@@ -125,7 +125,7 @@ public class ManaMachine {
                     .build()
             )
 
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_ASSEMBLER = REGISTRATE.multiblock("mana_assembler", holder -> new BaseManaMachine(holder, 8))
             .cnLangValue("§b魔力组装机")
@@ -163,6 +163,6 @@ public class ManaMachine {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
 }

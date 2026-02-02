@@ -133,10 +133,14 @@ public class CMBlocks {
         return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
                 () -> RenderType::cutoutMipped);
     }
+    private static BlockEntry<Block> createGlassCasingBlock(String name, String cnName, ResourceLocation texture,
+                                                            Supplier<Supplier<RenderType>> type) {
+        return createCasingBlock(name, cnName, GlassBlock::new, texture, () -> Blocks.GLASS, type);
+    }
 
 
     public static void init() {}
-    public static final BlockEntry<Block> LIVING_ROCK_CASING=createCasingBlock("living_rock_casing","活石机械方块",CTNHMana.id("block/casings/living_rock_casing"));
+    public static final BlockEntry<Block> LIVING_ROCK_CASING=createCasingBlock("living_rock_casing","纯净机械方块",CTNHMana.id("block/casings/living_rock_casing"));
     public static final BlockEntry<Block> ZENITH_CASING_BLOCK = createCasingBlock(
             "zenith_casing", "天顶强化机械方块", CTNHMana.id("block/casings/zenith_casing"));
     public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock(
@@ -165,7 +169,7 @@ public class CMBlocks {
         .build()
         .register();
     public static final BlockEntry<Block> FIELD_RESTRICTION_CASING = createCasingBlock(
-            "field_restriction_casing", "虚境立场约束机械方块",CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"));
+            "field_restriction_casing", "虚境力场约束机械方块",CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"));
     public static final BlockEntry<Block>AURA_CONVERGENCE_CASING=createCasingBlock("aura_convergence_casing","立场汇聚机械方块",CTNHMana.id("block/casings/aura_convergence_block"));
     public static final BlockEntry<Block> ALF_STEEL_CASING = createCasingBlock(
             "alfsteel_casing","精灵钢机械外壳", CTNHMana.id("block/casings/alfsteel_casing"));
@@ -190,6 +194,22 @@ public class CMBlocks {
             "force_field_casing", "力场领域机械方块",CTNHMana.id("block/casings/force_field_casing"));
     public static final BlockEntry<Block>CASING_BLOODLOGIC=createCasingBlock(
             "bloodlogic_casing","生命逻辑传感机械方块",CTNHMana.id("block/casings/bloodlogic_casing"));
+    public static final BlockEntry<Block>ARCANE_CONSTRAINT_COATED_GLASS=createGlassCasingBlock(
+            "arcane_resistance_coated_glass","奥能约束覆层玻璃",CTNHMana.id("block/casings/arcane_resistance_coated_glass"),()->RenderType::translucent);
+    public static final BlockEntry<Block>ARCANE_SHIELDING_COATED_GLASS=createGlassCasingBlock(
+            "arcane_shielding_coated_glass","奥能屏蔽覆层玻璃",CTNHMana.id("block/casings/arcane_resistance_coated_glass"),()->RenderType::cutoutMipped);
+    public static final BlockEntry<Block>ARCANE_REACTOR_BLOCK=createCasingBlock(
+            "arcane_reactor_block","奥能反应堆覆层方块",CTNHMana.id("block/casings/arcane_reactor_block"));
+    public static final BlockEntry<Block>ELEMENTAL_RADIATION_SUPPRESSION_BLOCK =createCasingBlock(
+            "elemental_radiation_suppression_block","元素辐射抑制方块",CTNHMana.id("block/casings/elemental_radiation_suppression_block"));
+    public static final BlockEntry<Block>ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK =createCasingBlock(
+            "arcane_flow_accelerated_conduit_block","魔流束加速管道方块",CTNHMana.id("block/casings/arcane_flow_accelerated_conduit_block"));
+    public static final BlockEntry<Block> ELEMENTAL_CASING_GEARBOX = createCasingBlock(
+            "elemental_casing_gearbox","源质钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/elemental_steel_gearbox_casing"));
+    public static final BlockEntry<Block> ELF_STEEL_CASING_GEARBOX = createCasingBlock(
+            "elf_steel_casing_gearbox","精灵钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/elf_steel_gearbox_casing"));
+    public static final BlockEntry<Block> Orichalcos = createCasingBlock(
+            "orichalcos_steel_casing_gearbox","奥利哈钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/orichalcos_gearbox_casing"));
     public static final BlockEntry<ForgeSpecialFlowerBlock> DEMON_FLYTRAP = REGISTRATE
             .block("demon_flytrap", properties -> new ForgeSpecialFlowerBlock(MobEffects.HARM, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.DEMON_FLYTRAP.get()))
             .cnlang("恶魔捕蝇草")
@@ -212,6 +232,7 @@ public class CMBlocks {
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();
+
     public static final BlockEntry<Block> PURE_LOGIC_CASING=createCasingBlock("pure_logic_casing","纯净魔力逻辑传输方块",CTNHMana.id("block/casings/pure_logic_casing"));
     public static final BlockEntry<Block> RUNE_CARRIER_BLOCK = createCasingBlock(
             "rune_carrier_block", "符文载体方块",CTNHMana.id("block/casings/runictexture/rune_stone_0"));

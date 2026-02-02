@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -39,6 +40,8 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.List;
+
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
 public class BaseManaMachine extends ManaMachine {
     @Persisted
@@ -113,7 +116,12 @@ public class BaseManaMachine extends ManaMachine {
             hatch.consumeMana(consumption * recipe.duration / 20);
             return super.beforeWorking(recipe);
         } else {
-            return hatch.consumeManaIfEnough(consumption) && super.beforeWorking(recipe);
+            if(hatch.consumeManaIfEnough(consumption))
+            {
+                return super.beforeWorking(recipe);
+            }
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughMana.translate());
+            return false;
         }
     }
 
@@ -122,7 +130,10 @@ public class BaseManaMachine extends ManaMachine {
         if (isManaConsumedInstantly) return super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             if(hatch.consumeManaIfEnough(consumption))super.onWorking();
-            else getRecipeLogic().setProgress(0);
+            else {
+                RecipeLogic.putFailureReason(this,this.getRecipeLogic().getLastOriginRecipe().copy(),failureManaLang_NoEnoughMana.translate());
+                getRecipeLogic().setProgress(0);
+            }
         }
         return super.onWorking();
     }

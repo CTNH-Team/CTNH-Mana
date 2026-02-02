@@ -557,6 +557,12 @@ public class ChineseLangHandler {
             }
     )
     public static Lang[] industrialAltarctrlLang;
+    @CN("魔力不足")
+    public static Lang failureManaLang_NoEnoughMana;
+    @CN("等级不足，至少需要扭曲等级:%d")
+    public static Lang failureManaLang_NoEnoughTwistLevel;
+    @CN("END COLOR :XD")
+    public static Lang failureManaLang_BeamCrash;
 
 
 

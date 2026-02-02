@@ -3,16 +3,15 @@
   "loader": "gtceu:machine",
   "machine": "ctnhmana:mana_force_transformer",
   "texture_overrides": {
-    "all": "botania:block/polished_livingrock"
+    "all": "ctnhmana:block/casings/living_rock_casing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front"
         }
       }
     },
@@ -20,9 +19,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_paused",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_paused_emissive"
         }
       }
     },
@@ -30,9 +29,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
       }
     },
@@ -40,9 +39,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
       }
     },
@@ -50,9 +49,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front"
         }
       }
     },
@@ -60,9 +58,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_paused_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_paused",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_paused_emissive"
         }
       }
     },
@@ -70,9 +68,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
       }
     },
@@ -80,9 +78,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "botania:block/polished_livingrock",
-          "overlay_front": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/generator/large_steam_turbine/overlay_front_active_emissive"
+          "all": "ctnhmana:block/casings/living_rock_casing",
+          "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
+          "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
       }
     }

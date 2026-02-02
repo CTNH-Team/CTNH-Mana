@@ -131,7 +131,7 @@ public class CMMultiblockMachines {
                     .build()
             )
 
-            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_FORCE_TRANSFORMER = REGISTRATE.multiblock("mana_force_transformer",holder->new ManaForceTransformer(holder,4))
             .cnLangValue("§b魔力操纵者")
@@ -203,7 +203,7 @@ public class CMMultiblockMachines {
                     .where("I", Predicates.blocks(ALF_STEEL_CASING.get()))
                     .build())
 
-            .workableCasingModel(BotaniaRL("block/polished_livingrock"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
             .register();
 
 
@@ -235,7 +235,7 @@ public class CMMultiblockMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("X",Predicates.abilities(CMPartsAbility.MANAHATCH))
                     .where("I", Predicates.blocks(LAVA)).build())
-            .workableCasingModel(CTNHMana.id("block/casings/soul_lock_blackcasing"), GTCEu.id("block/machines/autoclave"))
+            .workableCasingModel(CTNHMana.id("block/casings/soul_lock_blackcasing"), CTNHMana.id("block/overlay/manamachine_bm"))
             .register();
     public final static MultiblockMachineDefinition WISHINGWILLER = REGISTRATE.multiblock("genshin_wishing_will", WishingWill::new)
             .cnLangValue("§b许愿池")
@@ -501,7 +501,7 @@ public class CMMultiblockMachines {
                 shapeInfos.add(tier4_build.shallowCopy().build());
                 return shapeInfos;
             })
-            .workableCasingModel(BloodMagicRL("block/blankrune"), GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .workableCasingModel(BloodMagicRL("block/blankrune"), CTNHMana.id("block/overlay/manamachine_bm"))
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE.mysticmultiblock("mystic_sprie",holder-> new MysticSpire(holder))
             .cnLangValue("§b奥法尖塔")

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "ctnhmana:block/casings/arcane_flow_accelerated_conduit_block"
+  }
+}

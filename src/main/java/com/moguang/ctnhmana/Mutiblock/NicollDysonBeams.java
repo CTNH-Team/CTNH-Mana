@@ -6,11 +6,14 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -21,17 +24,23 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_BeamCrash;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
+
+public class NicollDysonBeams extends WorkableElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
     @Persisted public int SLOT_COUNT =4;
     @Persisted public int twist_power=0;
     @Persisted  public int starlight_power=0;
@@ -49,17 +58,78 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
     public int quasar_power=0;
     public int mana_parallel=1;
     public List<String> AvailableRune=List.of("twist_rune","starlight_rune","horizen_rune","quasar_rune");
-
+    public ManaHatch hatch;
     @Persisted public final NotifiableItemStackHandler machineStorage;
+    @Nullable
+    protected TickableSubscription TickSubs;
     @Persisted protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            Nicoll_Dyson_Beams.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-    public Nicoll_Dyson_Beams(IMachineBlockEntity holder){
+            NicollDysonBeams.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    public NicollDysonBeams(IMachineBlockEntity holder){
         super(holder);
         this.machineStorage = createMachineStorage((byte) 64);
     }
+    @Override
+    public void onStructureFormed() {
 
+        super.onStructureFormed();
+        this.hatch = getHatch(); //获取舱室
+        if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(0, this::updateTick));
+        }
+        var tier = getTier();//获取等级
+    }
+    @Override
+    public void onStructureInvalid()
+    {
+        super.onStructureInvalid();
+        if(TickSubs!=null)
+        {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+    public ManaHatch getHatch() {
+        for (IMultiPart part : this.getParts()) {
+            if (part instanceof ManaHatch hatchs) {
+                return hatchs;
+            }
+        }
+        return null;
+    }
+    @Override
+    public void onLoad() {
+        super.onLoad();
 
-
+    }
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if(TickSubs!=null)
+        {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+    public void updateTick()
+    {
+        TickSubs=subscribeServerTick(TickSubs, this::tick);
+    }
+    public void tick()
+    {
+        if(this.getOffsetTimer()%20==0&&this.hatch!=null)
+        {
+            if(hatch.getMana()>100000&&this.mana<max_mana)
+            {
+                var consume=Math.min(hatch.getMana(),100000*mana_parallel);
+                if(hatch.consumeManaIfEnough(consume))
+                {
+                    mana+=(1+0.05*horizen_power)*consume;
+                    mana=Math.min(mana,max_mana);
+                }
+            }
+        }
+    }
     public int caculate(){
         return 0;
     }
@@ -131,30 +201,10 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
                     overload = Math.max(overload, 0);
                 }
             }
-
-
             if(overload>=overload_crash)
             {
                 doExplosion(100f);
                 return false;
-            }
-
-            if(MachineUtils.inputFluid(CMMaterials.Mana.getFluid(100000),this))
-            {
-                if(MachineUtils.inputFluid(CMMaterials.Mana.getFluid((int) ((int)100000*mana_parallel)),this))
-                    if(mana+100000*(1+0.05*horizen_power)*mana_parallel<max_mana)
-                     {
-                        mana+=100000*(1+0.05*horizen_power)*mana_parallel;
-                    }
-                    else if(mana<max_mana&&mana+100000*(1+0.05*horizen_power)*mana_parallel>max_mana)
-                    {
-                        mana=max_mana;
-                    }
-                if(mana+100000<max_mana)
-                    mana+=100000*(1+0.05*horizen_power);
-                if(mana+100000*(1+0.05*horizen_power)>max_mana&&mana<max_mana)
-                    mana=max_mana;
-
             }
         }
         return super.onWorking();
@@ -163,7 +213,8 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if(broken==2)
         {
-            doExplosion(100f);
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_BeamCrash.translate());
+            doExplosion(100000f);
             return false;
         }
         if(mana>=recipe.data.getInt("required_mana"))
@@ -171,8 +222,10 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
             max_mana=1000000*(1+0.125*horizen_power);
             rune_consume();
             mana-=recipe.data.getInt("mana");
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughMana.translate());
             return super.beforeWorking(recipe);
         }
+
         return false;
     }
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
@@ -188,7 +241,7 @@ public class Nicoll_Dyson_Beams extends WorkableElectricMultiblockMachine implem
 
             }
         }
-        if(machine instanceof Nicoll_Dyson_Beams xmachine) {
+        if(machine instanceof NicollDysonBeams xmachine) {
             var tier = xmachine.getTier();
             xmachine.mana_parallel=pa;
             if (xmachine.quasar_power > 0) {

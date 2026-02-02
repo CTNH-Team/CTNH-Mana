@@ -14,7 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.Nicoll_Dyson_Beams;
+import com.moguang.ctnhmana.Mutiblock.NicollDysonBeams;
 import com.moguang.ctnhmana.Mutiblock.Quasar_Eye;
 import com.moguang.ctnhmana.Mutiblock.TwistedFusionMachine;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
@@ -32,11 +32,11 @@ import static com.moguang.ctnhmana.registry.CMBlocks.*;
 
 public class misc {
     public static void init() {}
-    public static MultiblockMachineDefinition NICOLL_DYSON_BEAMS = REGISTRATE.multiblock("nicoll_dyson_beams", Nicoll_Dyson_Beams::new)
+    public static MultiblockMachineDefinition NICOLL_DYSON_BEAMS = REGISTRATE.multiblock("nicoll_dyson_beams", NicollDysonBeams::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.BEAMS)
             // .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
-            .recipeModifiers(Nicoll_Dyson_Beams::recipeModifier)
+            .recipeModifiers(NicollDysonBeams::recipeModifier)
             .tooltips(Component.translatable("ctnh.multiblock.nicoll_dyson_beams.tooltip.0"),
                     Component.translatable("ctnh.multiblock.nicoll_dyson_beams.tooltip.1"),
                     Component.translatable("ctnh.multiblock.nicoll_dyson_beams.tooltip.2"),

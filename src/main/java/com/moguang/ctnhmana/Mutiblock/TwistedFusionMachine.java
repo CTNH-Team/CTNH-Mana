@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -11,6 +12,9 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
+
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughTwistLevel;
 
 public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
     public  int mks=0;
@@ -25,10 +29,14 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         var startEU = recipe.data.getLong("eu_to_start");
-        if(startEU>=160000000&&startEU<=320000000&&mks<2)
+        if(startEU>=160000000&&startEU<=320000000&&mks<2) {
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughTwistLevel.translate(2));
             return false;
-        if(startEU>320000000&&mks<3)
+        }
+        if(startEU>320000000&&mks<3) {
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughTwistLevel.translate(3));
             return false;
+        }
         return super.beforeWorking(recipe);
     }
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){

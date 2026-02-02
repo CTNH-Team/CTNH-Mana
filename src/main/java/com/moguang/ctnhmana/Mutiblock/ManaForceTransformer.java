@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
 public class ManaForceTransformer extends ManaMachine implements IExplosionMachine{
     @Persisted
@@ -34,7 +37,10 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     {
         var mana=this.hatch.getMana();
         this.hatch.setMana(0);
-        if(mana<100000)return false;
+        if(mana<100000) {
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughMana.translate());
+            return false;
+        }
         return super.beforeWorking(recipe);
     }
     @Override
