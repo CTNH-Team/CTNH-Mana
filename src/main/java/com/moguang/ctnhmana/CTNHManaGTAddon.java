@@ -4,17 +4,14 @@ import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
 import com.moguang.ctnhmana.data.recipe.*;
 import com.moguang.ctnhmana.registry.*;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
 
 import java.util.function.Consumer;
-
 
 @GTAddon
 public class CTNHManaGTAddon implements IGTAddon {
@@ -58,13 +55,13 @@ public class CTNHManaGTAddon implements IGTAddon {
         HellForgeRecipes.init(provider);
         WishingWillRecipes.init(provider);
         BloodAltarRecipes.init(provider);
-        TerraPlateRecipe.init(provider);
+        MeteorCapturerRecipes.init(provider);
         DemonWillGeneratorRecipes.init(provider);
         ManaCondenserRecipes.init(provider);
         BotaniaRecipes.init(provider);
         MachineRecipes.init(provider);
         ManaRecipes.init(provider);
-//        RuneAltarRecipe.init(provider);
+
         //示例：重新注册所有血祭坛配方
 //        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }
@@ -105,11 +102,8 @@ public class CTNHManaGTAddon implements IGTAddon {
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
 
-        DataFilterPack.removeRecipeType("bloodmagic", "altar");
-        DataFilterPack.removeRecipeType("botania","petal_apothecary");
-        DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
-        DataFilterPack.removeRecipeType("mythicbotany:.*_apothecary");
-        //        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
+//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+//        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
 //
 //        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");
     }

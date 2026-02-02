@@ -340,7 +340,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(32)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("zenithessence")
+        MANA_REACTOR_RECIPES.recipeBuilder("zenith_essence")
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(),1)
                 .inputItems(INFUSED_BREATH,1)
