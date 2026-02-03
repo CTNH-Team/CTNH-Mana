@@ -1,5 +1,9 @@
 package com.moguang.ctnhmana.data.recipe;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.moguang.ctnhmana.common.recipe.builder.botania.RuneRitualRecipeBuilder;
+import com.moguang.ctnhmana.registry.CMItems;
 import mythicbotany.data.recipes.extension.RuneRitualExtension;
 import mythicbotany.kvasir.WanderingTraderRuneInput;
 import mythicbotany.register.ModItems;
@@ -11,18 +15,33 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import org.moddingx.libx.datagen.DatagenContext;
 import org.moddingx.libx.datagen.provider.recipe.RecipeProviderBase;
+import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
+import static com.moguang.ctnhmana.registry.CMMaterials.YURIKO;
 
-public class runeRitualRecipes extends RecipeProviderBase implements RuneRitualExtension{
-    public runeRitualRecipes(DatagenContext ctx) {
-        super(ctx);
+
+public class runeRitualRecipes {
+    public static void init(Consumer<FinishedRecipe> provider) {
+        RuneRitualRecipeBuilder.builder("yuriko")
+                .center(BotaniaFlowerBlocks.pureDaisy.asItem())
+                .rune2(BotaniaItems.runeSummer, 2, 2)
+                .rune2(BotaniaItems.runeSummer, 3, 1)
+                .rune2(BotaniaItems.runeSummer, 1, -3)
+                .rune2(BotaniaItems.runeAutumn, 3, -1)
+                .rune2(BotaniaItems.runeAutumn, 1, 3)
+                .rune2(BotaniaItems.runeAutumn, 2, -2)
+                .rune4(ChemicalHelper.get(ingot,YURIKO).getItem(), 3, 0)
+                .input(BotaniaItems.terraSword)
+                .input(BotaniaItems.manaDiamond)
+                .input(BotaniaItems.whitePetal)
+                .specialInput(WanderingTraderRuneInput.INSTANCE)
+                .output(CMItems.YURIKO_RING.asItem())
+                .mana(79631)
+                .save(provider);
     }
 
-    @Override
-    protected void setup() {
-        this.runeRitual(ModItems.fimbultyrTablet).rune2(ModItems.midgardRune, 2, 2).rune2(ModItems.helheimRune, -2, 2).rune2(BotaniaItems.runeSummer, 1, 3).rune2(BotaniaItems.runeSummer, 3, 1).rune2(BotaniaItems.runeFire, -1, 3).rune2(BotaniaItems.runeFire, -3, 1).input(BotaniaItems.enderDagger).input(ModItems.alfsteelNugget).input(BotaniaItems.vial).special(WanderingTraderRuneInput.INSTANCE).output(ModItems.kvasirBlood).mana(20000).build();
-    }
 }

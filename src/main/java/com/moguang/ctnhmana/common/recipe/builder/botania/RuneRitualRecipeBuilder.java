@@ -196,10 +196,6 @@ public class RuneRitualRecipeBuilder {
         Arrays.stream(ingredients).forEach(this.inputs::add);
         return this;
     }
-
-    /**
-     * 添加仪式输出物品（支持多输出，原逻辑保留）
-     */
     public RuneRitualRecipeBuilder output(Item output) {
         return this.output(new ItemStack(output));
     }
@@ -209,16 +205,15 @@ public class RuneRitualRecipeBuilder {
         return this;
     }
 
-    // ===================== 链式配置方法 - 特殊输入/输出 =====================
-//    public RuneRitualRecipeBuilder specialInput(@Nullable SpecialRuneInput specialInput) {
-//        this.specialInput = specialInput;
-//        return this;
-//    }
-//
-//    public RuneRitualRecipeBuilder specialOutput(@Nullable SpecialRuneOutput specialOutput) {
-//        this.specialOutput = specialOutput;
-//        return this;
-//    }
+    public RuneRitualRecipeBuilder specialInput(@Nullable SpecialRuneInput specialInput) {
+        this.specialInput = specialInput;
+        return this;
+    }
+
+    public RuneRitualRecipeBuilder specialOutput(@Nullable SpecialRuneOutput specialOutput) {
+        this.specialOutput = specialOutput;
+        return this;
+    }
 
     // ===================== JSON序列化（抽离方法，对齐Petal风格）=====================
     public void toJson(JsonObject json) {
@@ -262,7 +257,6 @@ public class RuneRitualRecipeBuilder {
             json.addProperty("special_output", this.specialOutput.id.toString());
         }
     }
-
     // ===================== 构建FinishedRecipe（对齐Petal风格）=====================
     public FinishedRecipe build() {
         // 校验核心符文是否设置
