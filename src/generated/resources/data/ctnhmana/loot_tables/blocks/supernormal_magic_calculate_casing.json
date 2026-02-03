@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ctnhmana:supernormal_magic_calculate_casing"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "ctnhmana:blocks/supernormal_magic_calculate_casing"
+}

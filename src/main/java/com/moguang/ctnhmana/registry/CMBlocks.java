@@ -133,6 +133,10 @@ public class CMBlocks {
         return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
                 () -> RenderType::cutoutMipped);
     }
+    public static BlockEntry<Block> createFrameBlock(String name, String cnName, ResourceLocation texture,Supplier<Supplier<RenderType>> type) {
+        return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
+                type);
+    }
     private static BlockEntry<Block> createGlassCasingBlock(String name, String cnName, ResourceLocation texture,
                                                             Supplier<Supplier<RenderType>> type) {
         return createCasingBlock(name, cnName, GlassBlock::new, texture, () -> Blocks.GLASS, type);
@@ -210,6 +214,24 @@ public class CMBlocks {
             "elf_steel_casing_gearbox","精灵钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/elf_steel_gearbox_casing"));
     public static final BlockEntry<Block> Orichalcos = createCasingBlock(
             "orichalcos_steel_casing_gearbox","奥利哈钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/orichalcos_gearbox_casing"));
+    public static final BlockEntry<Block> ORICHALCOS_FRAME = createFrameBlock(
+            "orichalcos_frame","奥利哈框架", CTNHMana.id("block/casings/frames/orichalcos_frame"),()->RenderType::translucent);
+    public static final BlockEntry<Block> ELEMENTAL_FRAME = createFrameBlock(
+            "elemental_frame","元素框架", CTNHMana.id("block/casings/frames/elemental_frame"),()->RenderType::translucent);
+    public static final BlockEntry<Block> ELF_FRAME = createFrameBlock(
+            "elf_frame","精灵框架", CTNHMana.id("block/casings/frames/elf_frame"),()->RenderType::translucent);
+    public static final BlockEntry<Block> MANA_FRAME = createFrameBlock(
+            "mana_frame","魔力框架", CTNHMana.id("block/casings/frames/mana_frame"),()->RenderType::translucent);
+    public static final BlockEntry<Block> TERRA_FRAME = createFrameBlock(
+            "terra_frame","泰拉框架", CTNHMana.id("block/casings/frames/terra_frame"),()->RenderType::translucent);
+    public static final BlockEntry<Block> SUPERNORMAL_MAGIC_CALCULATE_CASING = createCasingBlock(
+            "supernormal_magic_calculate_casing","超常态魔法运算外壳", CTNHMana.id("block/casings/supernormal_magic_calculate_casing"));
+    public static final BlockEntry<Block> MANA_SHATTER_CORE = createCasingBlock(
+            "mana_shatter_core","魔力粉碎核心", CTNHMana.id("block/casings/core/mana_shatter_core"));
+    public static final BlockEntry<Block> MANA_REFINEMENT_CORE = createCasingBlock(
+            "mana_refinement_core","魔力精细核心", CTNHMana.id("block/casings/core/mana_refinement_core"));
+    public static final BlockEntry<Block> MANA_FORGE_CORE = createCasingBlock(
+            "mana_forge_core","魔力锻压核心", CTNHMana.id("block/casings/core/mana_forge_core"));
     public static final BlockEntry<ForgeSpecialFlowerBlock> DEMON_FLYTRAP = REGISTRATE
             .block("demon_flytrap", properties -> new ForgeSpecialFlowerBlock(MobEffects.HARM, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.DEMON_FLYTRAP.get()))
             .cnlang("恶魔捕蝇草")
