@@ -61,7 +61,7 @@ public class CTNHManaGTAddon implements IGTAddon {
         BotaniaRecipes.init(provider);
         MachineRecipes.init(provider);
         ManaRecipes.init(provider);
-
+        BeamsRecipes.init(provider);
         //示例：重新注册所有血祭坛配方
 //        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }
