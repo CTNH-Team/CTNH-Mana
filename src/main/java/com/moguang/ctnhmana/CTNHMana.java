@@ -48,6 +48,7 @@ public class CTNHMana
 //        modEventBus.addGenericListener(GTRecipeCategory.class, EventHandler::onRecipeCategoryRegister);
         //modEventBus.addGenericListener(ChanceLogic.class,EventHandler::registerChanceLogic);
 
+
         DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
 
