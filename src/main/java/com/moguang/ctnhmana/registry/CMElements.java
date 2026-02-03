@@ -7,6 +7,7 @@ public class CMElements {
 
     }
     public static final Element TWIST_MANA = new Element(169, 169, -1, null, "twist_mana", "(.*?)Ma(.*?)", false);
+    public static final Element MANA_RADIATION_MIXTURE = new Element(169, 169, -1, null, "mana_radiation_mixture", "ThUPuRnNqMa??", false);
     public static final Element FUSED_LP_MIXED_MANA = new Element(169, 169, -1, null, "fused_lp_mixed_mana", "Ma??lp", false);
     public static final Element TWIST_POWER_MANA = new Element(169, 169, -1, null, "twist_power_mana", "M?????A", false);
     public static final Element MANA_UNKNOWN_SUPER = new Element(169, 169, -1, null, "mana_unknown_super", "Ma+++++???????", false);

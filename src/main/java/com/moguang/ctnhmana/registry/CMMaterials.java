@@ -92,6 +92,19 @@ public class CMMaterials {
             .secondaryColor(0x836FFF)
             .element(ZENITH)
             .buildAndRegister();
+    public static final Material Mana_Radiation_Mixture=REGISTRATE.material(GTCEu.id("mana_radiation_mixture"))
+            .cnlang("混合辐射魔力激发")
+            .liquid()
+            .plasma()
+            .color(0x12C924)
+            .element(MANA_RADIATION_MIXTURE)
+            .buildAndRegister();
+    public static final Material Eve_Beam=REGISTRATE.material(GTCEu.id("eve_beam"))
+            .cnlang("EVE高能粒子")
+            .liquid()
+            .plasma()
+            .color(0x1237C9)
+            .buildAndRegister();
     public static final Material Psionic_Medulla=REGISTRATE.material(GTCEu.id("psionic_medulla"))
             .cnlang("§5灵界髓质§r")
             .liquid()

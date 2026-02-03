@@ -19,7 +19,7 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
-import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.MANA_MACERATOR;
+import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.*;
 import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
