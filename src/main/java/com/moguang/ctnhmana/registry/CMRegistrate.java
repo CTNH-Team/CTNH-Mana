@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.registry;
 
+import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
@@ -11,12 +12,20 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IZenithMartixBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMultiblockMachineBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class CMRegistrate extends CNRegistrate {
@@ -44,6 +53,16 @@ public class CMRegistrate extends CNRegistrate {
     public CTNHMachineBuilder<MachineDefinition> machine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         return (CTNHMachineBuilder<MachineDefinition>)super.machine(name, metaMachine)
                 .hasBER(false);
+    }
+    public <DEFINITION extends MachineDefinition> CTNHMachineBuilder<DEFINITION> machine(String name,
+                                                                                         String cnname,
+                                                                                         Function<ResourceLocation, DEFINITION> definitionFactory,
+                                                                                         Function<IMachineBlockEntity, MetaMachine> metaMachine,
+                                                                                         BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+                                                                                         BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+                                                                                         TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+        return new CTNHMachineBuilder<>(this, name, cnname, definitionFactory, metaMachine,
+                blockFactory, itemFactory, blockEntityFactory);
     }
     public CTNHMachineBuilder<MachineDefinition> manamachine(String name,
                                                      Function<IMachineBlockEntity, MetaMachine> metaMachine) {

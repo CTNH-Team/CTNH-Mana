@@ -2,21 +2,36 @@ package com.moguang.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.ICentralStorageMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CentralControlBus;
 import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
+import com.moguang.ctnhmana.client.render.StarCakeMachineBERProvider;
 import com.moguang.ctnhmana.common.DigitalWosMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.SparkManaHatch;
+import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
+import com.moguang.ctnhmana.item.FlowerCakeItem;
+import com.moguang.ctnhmana.machine.FlowerCakeMachine;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
@@ -34,6 +49,49 @@ public class CMMachines {
     public static void init() {
 
     }
+    public static final MachineDefinition STAR_FLOWER_CAKE=REGISTRATE.machine(
+                    "flower_cake",
+                    // 2. 新增：机器中文名称（CTNH框架自动绑定汉化，无需手动写基础lang）
+                    "想给月亮的花束",
+                    // 3. definitionFactory：创建自定义机器定义
+                    MachineDefinition::new,
+                    // 4. metaMachine：绑定方块实体和机器核心逻辑（框架默认实现，直接用）
+                    be -> new FlowerCakeMachine(be),
+                    // 5. blockFactory：创建机器方块（强转自定义定义，避免类型错误）
+                   (block,properties)->new MetaMachineBlock(block,properties)
+                   {
+                       @Override
+                       public float getShadeBrightness(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+                           return 1.0f;
+                       }
+                       @Override
+                       public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
+                           return 0;
+                       }
+                       @Override
+                       public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+                           return Shapes.empty();
+                       }
+                       @Override
+                       public RenderShape getRenderShape(BlockState state) {
+                           return RenderShape.ENTITYBLOCK_ANIMATED;
+                       }
+                   },
+                    (b,p)->new FlowerCakeItem(b,p),
+                    // 7. blockEntityFactory：创建机器方块实体
+                    (beType, pos, state) -> new FlowerCakeBlockEntity(beType, pos, state)
+            )
+            .recipeModifier(RecipeModifier.NO_MODIFIER)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .hasBER(false)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .onBlockEntityRegister(beType -> {
+                if (FMLEnvironment.dist == Dist.CLIENT) {
+                    StarCakeMachineBERProvider.registerRenderer(beType, "star_cake_model");
+                }
+            })
+            .simpleModel(GTCEu.id("block/machine/template/part/hatch_machine"))
+            .register();
     public static final MachineDefinition MANA_HATCH = REGISTRATE
             .manamachine("manahatch",
                     holder -> new ManaHatch(holder,10000,10000,100000,6400))

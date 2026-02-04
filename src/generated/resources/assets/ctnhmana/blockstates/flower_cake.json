@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ctnhmana:block/machine/flower_cake",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ctnhmana:block/machine/flower_cake"
+    },
+    "facing=south": {
+      "model": "ctnhmana:block/machine/flower_cake",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ctnhmana:block/machine/flower_cake",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "ctnhmana:flower_cake",
+  "variants": {
+    "": {
+      "model": "gtceu:block/machine/template/part/hatch_machine"
+    }
+  }
+}

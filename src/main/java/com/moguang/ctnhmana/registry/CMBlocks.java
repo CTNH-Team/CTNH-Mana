@@ -99,6 +99,32 @@ public class CMBlocks {
                 .build()
                 .register();
     }
+    public static BlockEntry<Block> createCasingBlock(String name,
+                                                      String cnName,
+                                                      NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
+                                                      ResourceLocation texture,
+                                                      NonNullSupplier<? extends Block> properties,
+                                                      Supplier<Supplier<RenderType>> type,
+                                                      boolean noOcclusion) {
+        return REGISTRATE.block(name, blockSupplier)
+                .cnlang(cnName)
+                .initialProperties(properties)
+                .properties(p -> {
+                    BlockBehaviour.Properties props = p.isValidSpawn((state, level, pos, ent) -> false);
+                    if (noOcclusion) {
+                        props = props.noOcclusion();
+                    }
+                    return props;
+                })
+                .addLayer(type)
+                .blockstate((ctx, prov) -> {
+                    prov.simpleBlock(ctx.getEntry(), prov.models().cubeAll(name, texture));
+                })
+                .tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryBuild("forge", "mineable/wrench")), BlockTags.MINEABLE_WITH_PICKAXE)
+                .item(BlockItem::new)
+                .build()
+                .register();
+    }
     public static NonNullBiConsumer<DataGenContext<Block, CoilBlock>, RegistrateBlockstateProvider> createCoilModel(String name,
                                                                                                                     ICoilType coilType) {
         return (ctx, prov) -> {
@@ -134,10 +160,10 @@ public class CMBlocks {
                 () -> RenderType::cutoutMipped);
     }
     public static BlockEntry<Block> createFrameBlock(String name, String cnName, ResourceLocation texture,Supplier<Supplier<RenderType>> type) {
-        return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
-                type);
+        return createCasingBlock(name, cnName, Block::new, texture, (() -> Blocks.IRON_BLOCK),
+                type,true);
     }
-    private static BlockEntry<Block> createGlassCasingBlock(String name, String cnName, ResourceLocation texture,
+    private static BlockEntry<Block> createGlassCasingBlock(String  name, String cnName, ResourceLocation texture,
                                                             Supplier<Supplier<RenderType>> type) {
         return createCasingBlock(name, cnName, GlassBlock::new, texture, () -> Blocks.GLASS, type);
     }
