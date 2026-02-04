@@ -117,8 +117,6 @@ public  class ManaInfusionRecipeBuilder {
         if(meta>=0)
             gtBuilder.circuitMeta(meta);
 
-
-
         return gtBuilder;
     }
     public void toJson(JsonObject json) {
@@ -155,7 +153,7 @@ public  class ManaInfusionRecipeBuilder {
 
             @Override
             public RecipeSerializer<?> getType() {
-                return BotaniaRecipeTypes.PETAL_SERIALIZER;
+                return BotaniaRecipeTypes.MANA_INFUSION_SERIALIZER;
             }
 
             @org.jetbrains.annotations.Nullable
