@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "ctnhmana:giga_manahatch",
+  "machine": "ctnhmana:sky_manahatch",
   "replaceable_textures": [
     "bottom",
     "top",
@@ -12,9 +12,9 @@
       "model": {
         "parent": "ctnhmana:block/machine/part/manahatch",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/luv/bottom",
-          "side": "gtceu:block/casings/voltage/luv/side",
-          "top": "gtceu:block/casings/voltage/luv/top"
+          "bottom": "gtceu:block/casings/voltage/uhv/bottom",
+          "side": "gtceu:block/casings/voltage/uhv/side",
+          "top": "gtceu:block/casings/voltage/uhv/top"
         }
       }
     },
@@ -22,9 +22,9 @@
       "model": {
         "parent": "ctnhmana:block/machine/part/manahatch",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/luv/bottom",
-          "side": "gtceu:block/casings/voltage/luv/side",
-          "top": "gtceu:block/casings/voltage/luv/top"
+          "bottom": "gtceu:block/casings/voltage/uhv/bottom",
+          "side": "gtceu:block/casings/voltage/uhv/side",
+          "top": "gtceu:block/casings/voltage/uhv/top"
         }
       }
     }

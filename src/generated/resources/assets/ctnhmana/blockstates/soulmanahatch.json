@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "ctnhmana:block/machine/soulmanahatch",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "ctnhmana:block/machine/soulmanahatch",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ctnhmana:block/machine/soulmanahatch"
+    },
+    "facing=south": {
+      "model": "ctnhmana:block/machine/soulmanahatch",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "ctnhmana:block/machine/soulmanahatch",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "ctnhmana:block/machine/soulmanahatch",
+      "y": 270
+    }
+  }
+}

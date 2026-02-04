@@ -319,12 +319,6 @@ public class CMItems {
     public static ItemEntry<ThrowItem> ADVANCED_BOSS_SUMMONER;
     public static ItemEntry<ComponentItem> MANA_CIRCUIT_BOARD;
     public static ItemEntry<ComponentItem> ZENITH_STAR;
-    public static ItemEntry<BTUpgradeItemT1>BT_UPDATE_T1;
-    public static ItemEntry<GTUpgradeItemT1>GT_UPDATE_T1;
-    public static ItemEntry<BMUpgradeItemT1>BM_UPDATE_T1;
-    public static ItemEntry<BTUpgradeItemT1>BT_UPDATE_T2;
-    public static ItemEntry<GTUpgradeItemT2>GT_UPDATE_T2;
-    public static ItemEntry<BMUpgradeItemT2>BM_UPDATE_T2;
     public static ItemEntry<IRuneItem> HORIZEN_RUNE;
     public static ItemEntry<IRuneItem> STARLIGHT_RUNE;
     public static ItemEntry<IRuneItem> TWIST_RUNE;
