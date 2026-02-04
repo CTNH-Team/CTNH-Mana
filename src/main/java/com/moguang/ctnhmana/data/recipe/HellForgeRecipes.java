@@ -138,12 +138,6 @@ public class HellForgeRecipes {
                     .input(Ingredient.of(BloodMagicBlocks.DEFORESTER_CHARGE_2.get()),ingredientArray2[i])
                     .output(deforester2Stack)
                     .save(provider);
-            TartaricForgeRecipeBuilder.builder("deforester_charge_2" + suffixArray2[i])
-                    .minimumSouls(300)
-                    .soulDrain(4)
-                    .input(Ingredient.of(BloodMagicBlocks.DEFORESTER_CHARGE_2.get()),ingredientArray2[i])
-                    .output(deforester2Stack)
-                    .save(provider);
             TartaricForgeRecipeBuilder.builder("vein_charge_2" + suffixArray2[i])
                     .minimumSouls(300)
                     .soulDrain(4)

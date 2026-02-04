@@ -10,6 +10,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
 
 import java.util.function.Consumer;
 
@@ -62,7 +63,9 @@ public class CTNHManaGTAddon implements IGTAddon {
         MachineRecipes.init(provider);
         ManaRecipes.init(provider);
         BeamsRecipes.init(provider);
+        RuneAltarRecipes.init(provider);
         runeRitualRecipes.init(provider);
+        TerraPlateRecipes.init(provider);
         //示例：重新注册所有血祭坛配方
 //        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }
@@ -102,8 +105,13 @@ public class CTNHManaGTAddon implements IGTAddon {
 
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
-
-//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+        DataFilterPack.removeRecipeType("botania","petal_apothecary");
+        DataFilterPack.removeRecipeType("botania","runic_altar");
+        DataFilterPack.removeRecipeType("botania","terra_plate");
+        DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
+        DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
+        DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
 //        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
 //
 //        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");

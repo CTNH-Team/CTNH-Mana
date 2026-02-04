@@ -228,6 +228,8 @@ public class CMBlocks {
             "arcane_resistance_coated_glass","奥能约束覆层玻璃",CTNHMana.id("block/casings/arcane_resistance_coated_glass"),()->RenderType::translucent);
     public static final BlockEntry<Block>ARCANE_SHIELDING_COATED_GLASS=createGlassCasingBlock(
             "arcane_shielding_coated_glass","奥能屏蔽覆层玻璃",CTNHMana.id("block/casings/arcane_resistance_coated_glass"),()->RenderType::cutoutMipped);
+    public static final BlockEntry<Block>ENHANCED_MANA_GLASS=createGlassCasingBlock(
+            "enhanced_mana_glass","强化魔力玻璃",CTNHMana.id("block/casings/enhanced_mana_glass"),()->RenderType::translucent);
     public static final BlockEntry<Block>ARCANE_REACTOR_BLOCK=createCasingBlock(
             "arcane_reactor_block","奥能反应堆覆层方块",CTNHMana.id("block/casings/arcane_reactor_block"));
     public static final BlockEntry<Block>ELEMENTAL_RADIATION_SUPPRESSION_BLOCK =createCasingBlock(
@@ -258,6 +260,8 @@ public class CMBlocks {
             "mana_refinement_core","魔力精细核心", CTNHMana.id("block/casings/core/mana_refinement_core"));
     public static final BlockEntry<Block> MANA_FORGE_CORE = createCasingBlock(
             "mana_forge_core","魔力锻压核心", CTNHMana.id("block/casings/core/mana_forge_core"));
+    public static final BlockEntry<Block> PURE_MAGIC_CALCULATE_CORE = createCasingBlock(
+            "pure_magic_calculate_core","纯净魔力计算核心", CTNHMana.id("block/casings/pure_magic_calculate_casing"));
     public static final BlockEntry<ForgeSpecialFlowerBlock> DEMON_FLYTRAP = REGISTRATE
             .block("demon_flytrap", properties -> new ForgeSpecialFlowerBlock(MobEffects.HARM, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.DEMON_FLYTRAP.get()))
             .cnlang("恶魔捕蝇草")
@@ -318,6 +322,16 @@ public class CMBlocks {
             "sin_sloth_rune_stone", "懒惰符文石", CTNHMana.id("block/casings/runictexture/rune_stone_16"));
     public static final BlockEntry<Block> RUNE_STONE_PERFECT = createCasingBlock(
             "rune_stone_perfect", "完美的符文石", CTNHMana.id("block/casings/runictexture/rune_stone_perfect"));
+    
+    // 扭曲线圈方块
+    public static final BlockEntry<ActiveBlock> REALITY_TWISTED_COIL = createActiveCasing(
+            "reality_twisted_coil", "现实扭曲线圈", "block/coil/reality_twisted_coil");
+    public static final BlockEntry<ActiveBlock> DIMENSION_TWISTED_COIL = createActiveCasing(
+            "dimension_twisted_coil", "维度扭曲线圈", "block/coil/dimension_twisted_coil");
+    public static final BlockEntry<ActiveBlock> MATERIAL_TWISTED_COIL = createActiveCasing(
+            "material_twisted_coil", "物质扭曲线圈", "block/coil/material_twisted_coil");
+    public static final BlockEntry<ActiveBlock> TERMINAL_TWISTED_COIL = createActiveCasing(
+            "terminal_twisted_coil", "终末扭曲线圈", "block/coil/terminal_twisted_coil");
     
     
 }

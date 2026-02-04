@@ -1,0 +1,10 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "ctnhmana:block/casings/coils/reality_twisted_coil",
+    "top_all": "ctnhmana:block/casings/coils/reality_twisted_coil_bloom"
+  }
+}
+
+
+

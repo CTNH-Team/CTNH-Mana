@@ -49,26 +49,6 @@ public class CMItems {
 
     public static void registerItem()
     {
-        BT_UPDATE_T1=REGISTRATE
-                .item("botania_update_t1", BTUpgradeItemT1::new)
-                .cnlang("§9繁花与星空之祝福")
-                .register();
-        GT_UPDATE_T1=REGISTRATE
-                .item("gt_update_t1", GTUpgradeItemT1::new)
-                .cnlang("§9流水线之视野")
-                .register();
-        GT_UPDATE_T2=REGISTRATE
-                .item("gt_update_t2", GTUpgradeItemT2::new)
-                .cnlang("§9流水线之远视")
-                .register();
-        BM_UPDATE_T1=REGISTRATE
-                .item("bm_update_t1", BMUpgradeItemT1::new)
-                .cnlang("§c扭曲之铸造")
-                .register();
-        BM_UPDATE_T2=REGISTRATE
-                .item("bm_update_t2", BMUpgradeItemT2::new)
-                .cnlang("§c畸变之铸造")
-                .register();
         BOSS_SUMMONER = REGISTRATE
                 .item("boss_summoner", ThrowItem::new)
                 .cnlang("boss召唤器")
@@ -285,6 +265,46 @@ public class CMItems {
                 .onRegister(attach(new TooltipBehavior(text ->
                         text.add(mana_circuit_board.translate())
                 )))
+                .register();
+        SKY_FLOWER_SPEECH = REGISTRATE
+                .item("sky_flower_speech", BTUpgradeItemT1::new)
+                .cnlang("天空之花语")
+                .register();
+        ZENITH_FLOWER_THOUGHT = REGISTRATE
+                .item("zenith_flower_thought", ComponentItem::create)
+                .cnlang("天顶之花思")
+                .register();
+        ZENITH_VISION = REGISTRATE
+                .item("zenith_vision", ComponentItem::create)
+                .cnlang("天顶之视线")
+                .register();
+        TWISTED_BLOOD_FORGING = REGISTRATE
+                .item("twisted_blood_forging", BMUpgradeItemT1::new)
+                .cnlang("曲血之锻造")
+                .register();
+        TWISTED_SOUL_FORGING = REGISTRATE
+                .item("twisted_soul_forging", BMUpgradeItemT2::new)
+                .cnlang("曲魂之锻造")
+                .register();
+        PIPELINE_VISION = REGISTRATE
+                .item("pipeline_vision", GTUpgradeItemT1::new)
+                .cnlang("流水线的视野")
+                .register();
+        PIPELINE_FARSIGHT = REGISTRATE
+                .item("pipeline_farsight", GTUpgradeItemT2::new)
+                .cnlang("流水线的远视")
+                .register();
+        CLEAR_SKY_FLOWER_WISH = REGISTRATE
+                .item("clear_sky_flower_wish", BTUpgradeItemT2::new)
+                .cnlang("澄空之花愿")
+                .register();
+//        WARPED_FORGING = REGISTRATE
+//                .item("warped_forging", BMUpgradeItemT1::new)
+//                .cnlang("翘曲之锻造")
+//                .register();
+        AZURE_SKY_FLOWER_DANCE = REGISTRATE
+                .item("azure_sky_flower_dance", BTUpgradeItemT3::new)
+                .cnlang("苍穹之花舞")
                 .register();
     }
     public static void init() {
@@ -595,5 +615,16 @@ public class CMItems {
             .cnlang("坚毅核心")
             .lang("Steadfast Core")
             .register();
+
+    public static ItemEntry<BTUpgradeItemT1> SKY_FLOWER_SPEECH;
+    public static ItemEntry<ComponentItem> ZENITH_FLOWER_THOUGHT;
+    public static ItemEntry<ComponentItem> ZENITH_VISION;
+    public static ItemEntry<BMUpgradeItemT1> TWISTED_BLOOD_FORGING;
+    public static ItemEntry<BMUpgradeItemT2> TWISTED_SOUL_FORGING;
+    public static ItemEntry<GTUpgradeItemT1> PIPELINE_VISION;
+    public static ItemEntry<GTUpgradeItemT2> PIPELINE_FARSIGHT;
+    public static ItemEntry<BTUpgradeItemT2> CLEAR_SKY_FLOWER_WISH;
+    public static ItemEntry<ComponentItem> WARPED_FORGING;
+    public static ItemEntry<BTUpgradeItemT3> AZURE_SKY_FLOWER_DANCE;
 
 }

@@ -24,6 +24,7 @@
     "ctnhmana:bloodlogic_casing",
     "ctnhmana:arcane_resistance_coated_glass",
     "ctnhmana:arcane_shielding_coated_glass",
+    "ctnhmana:enhanced_mana_glass",
     "ctnhmana:arcane_reactor_block",
     "ctnhmana:elemental_radiation_suppression_block",
     "ctnhmana:arcane_flow_accelerated_conduit_block",
@@ -39,6 +40,7 @@
     "ctnhmana:mana_shatter_core",
     "ctnhmana:mana_refinement_core",
     "ctnhmana:mana_forge_core",
+    "ctnhmana:pure_magic_calculate_core",
     "ctnhmana:pure_logic_casing",
     "ctnhmana:rune_carrier_block",
     "ctnhmana:winter_rune_stone",
@@ -57,6 +59,10 @@
     "ctnhmana:sin_lust_rune_stone",
     "ctnhmana:spring_rune_stone",
     "ctnhmana:sin_sloth_rune_stone",
-    "ctnhmana:rune_stone_perfect"
+    "ctnhmana:rune_stone_perfect",
+    "ctnhmana:reality_twisted_coil",
+    "ctnhmana:dimension_twisted_coil",
+    "ctnhmana:material_twisted_coil",
+    "ctnhmana:terminal_twisted_coil"
   ]
 }

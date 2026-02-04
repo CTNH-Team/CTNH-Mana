@@ -4,6 +4,7 @@ package com.moguang.ctnhmana.registry;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.CTNHMana;
@@ -44,6 +45,10 @@ public class CMMaterials {
     public static Material SHADOWIUM;
 
     public static Material Livingrock;
+    
+    // 自定义图标集
+    public static final MaterialIconSet HEMOPLATINUM_ICON_SET = new MaterialIconSet("hemoplatinum", MaterialIconSet.METALLIC);
+    public static final MaterialIconSet COAGULBLOODGOLD_ICON_SET = new MaterialIconSet("coagulbloodgold", MaterialIconSet.METALLIC);
 
     public static void init() {
         BotaniaMaterials.init();
@@ -234,6 +239,7 @@ public class CMMaterials {
             .color(0XD8D8DA)
             .secondaryColor(0X990000)
             .element(CMElements.HEMOPLATINUM)
+            .iconSet(HEMOPLATINUM_ICON_SET)
             .blastTemp(3600, BlastProperty.GasTier.HIGHEST, 444, 4444)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING,GENERATE_FINE_WIRE)
             .buildAndRegister();
@@ -244,6 +250,7 @@ public class CMMaterials {
             .color(0XD4A017)
             .secondaryColor(0X990000)
             .element(CMElements.COAGULBLOODGOLD)
+            .iconSet(COAGULBLOODGOLD_ICON_SET)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING,GENERATE_FINE_WIRE)
             .buildAndRegister();
     public  static final Material PRIMOVOLITHEST=REGISTRATE.material(GTCEu.id("primovolithest"))

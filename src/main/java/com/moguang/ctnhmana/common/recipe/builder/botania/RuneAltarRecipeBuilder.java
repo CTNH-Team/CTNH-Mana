@@ -101,7 +101,7 @@ public class RuneAltarRecipeBuilder {
 
         long gtEUt=(long)(128);
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(20,20+this.mana/1000);
+        int gtDuration = (int) Math.max(100,100+Math.pow(this.mana/1000,2));
         gtBuilder.duration(gtDuration);
         if(meta>=0)
             gtBuilder.circuitMeta(meta);

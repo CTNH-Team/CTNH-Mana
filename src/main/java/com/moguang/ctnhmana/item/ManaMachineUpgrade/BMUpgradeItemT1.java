@@ -132,6 +132,6 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem{
 
 
 
-      @CN("§4赤痕之翘曲")
+      @CN("§4赤痕之铸造")
       public static Lang BM_UPDATE_NAME_T1;
 }

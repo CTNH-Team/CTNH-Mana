@@ -147,8 +147,29 @@ public class CMMachines {
                     sparkmanahatchtootip_base[3].translate(),
                     sparkmanahatchtootip_base[4].translate(20000),
                     sparkmanahatchtootip_base[5].translate(160000),
-                    sparkmanahatchtootip_base[6].translate(2500000),
+                    sparkmanahatchtootip_base[6].translate(5000000),
                     sparkmanahatchtootip_base[7].translate(128000)
+            )
+            .abilities(CMPartsAbility.MANAHATCH)
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
+            .tier(LuV)
+            .register();
+    public static final MachineDefinition SKY_MANA_HATCH = REGISTRATE
+            .manamachine("sky_manahatch",
+                    holder -> new SparkManaHatch(holder,640000,100000,100000000,1280000,40000))
+            .cnLangValue("天域·魔力凝聚仓")
+            .modelProperty(IS_FORMED, false)
+            .rotationState(RotationState.ALL)
+            .tooltips(manahatchtooltip_1.translate())
+            .tooltips(
+                    sparkmanahatchtootip_base[0].translate(),
+                    sparkmanahatchtootip_base[1].translate(),
+                    sparkmanahatchtootip_base[2].translate(),
+                    sparkmanahatchtootip_base[3].translate(),
+                    sparkmanahatchtootip_base[4].translate(40000),
+                    sparkmanahatchtootip_base[5].translate(640000),
+                    sparkmanahatchtootip_base[6].translate(100000000),
+                    sparkmanahatchtootip_base[7].translate(1280000)
             )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
@@ -176,7 +197,7 @@ public class CMMachines {
             .register();
     public static final MachineDefinition BM_HATCH = REGISTRATE
             .manamachine("bloodmanahatch",
-                    holder -> new BloodManaHatch(holder,666666,6666666,100,666666,100,0.001))
+                    holder -> new BloodManaHatch(holder,66666,6666666,100,66666,100,0.001))
             .cnLangValue("染血魔力凝聚仓")
             .modelProperty(IS_FORMED, false)
             .rotationState(RotationState.ALL)
@@ -188,12 +209,33 @@ public class CMMachines {
                     bloodmanahatchtootip_base[3].translate(),
                     bloodmanahatchtootip_base[4].translate(),
                     bloodmanahatchtootip_base[5].translate(100),
-                    bloodmanahatchtootip_base[6].translate(666666),
-                    bloodmanahatchtootip_base[7].translate(666666)
+                    bloodmanahatchtootip_base[6].translate(66666),
+                    bloodmanahatchtootip_base[7].translate(66666)
             )
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(UHV)
+            .register();
+    public static final MachineDefinition BM_HATCH_T2 = REGISTRATE
+            .manamachine("soulmanahatch",
+                    holder -> new BloodManaHatch(holder,444444,66666666,100,666666,6666,0.002))
+            .cnLangValue("铸魂魔力凝聚仓")
+            .modelProperty(IS_FORMED, false)
+            .rotationState(RotationState.ALL)
+            .tooltips(bloodmanahatchtooltip_1.translate())
+            .tooltips(
+                    bloodmanahatchtootip_base[0].translate(),
+                    bloodmanahatchtootip_base[1].translate(),
+                    bloodmanahatchtootip_base[2].translate(),
+                    bloodmanahatchtootip_base[3].translate(),
+                    bloodmanahatchtootip_base[4].translate(),
+                    bloodmanahatchtootip_base[5].translate(6666),
+                    bloodmanahatchtootip_base[6].translate(444444),
+                    bloodmanahatchtootip_base[7].translate(666666)
+            )
+            .abilities(CMPartsAbility.MANAHATCH)
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
+            .tier(ZPM)
             .register();
 
     public static final MachineDefinition[] DIGITAL_WELL_OF_SUFFER = registerTieredMachines("digital_well_of_suffer",

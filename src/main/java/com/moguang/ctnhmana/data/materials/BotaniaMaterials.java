@@ -40,7 +40,7 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.HV], 8, 1)
                 .buildAndRegister();
         Elementium = REGISTRATE.material(CTNHMana.id("elementium"))
@@ -53,12 +53,12 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.MV], 10, 1)
                 .buildAndRegister();
         AlfSteel = REGISTRATE.material(CTNHMana.id("alfsteel"))
                 .cnlang("精灵钢")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .ingot()
                 .color(0xFD9D31)
                 .iconSet(METALLIC)
@@ -66,7 +66,7 @@ public class BotaniaMaterials {
                 .buildAndRegister();
         Orichalcos=REGISTRATE.material(CTNHMana.id("orichalcos"))
                 .cnlang("奥利哈钢")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .ingot()
                 .color(0xE6E6FA)
                 .iconSet(METALLIC)
@@ -74,7 +74,7 @@ public class BotaniaMaterials {
                 .buildAndRegister();
         Aerialite=REGISTRATE.material(CTNHMana.id("aerialite"))
                 .cnlang("天空")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .ingot()
                 .color(0x1E90FF)
                 .iconSet(METALLIC)
@@ -82,7 +82,7 @@ public class BotaniaMaterials {
                 .buildAndRegister();
         Photonium=REGISTRATE.material(CTNHMana.id("photonium"))
                 .cnlang("光子")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0xF0F0F0)
                 .iconSet(METALLIC)
@@ -100,7 +100,7 @@ public class BotaniaMaterials {
                 .buildAndRegister();
         SHADOWIUM=REGISTRATE.material(CTNHMana.id("shaowium"))
                 .cnlang("暗影")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
                 .ingot()
                 .element(CMElements.SHADOWIUM)
                 .color(0X444444)
