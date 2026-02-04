@@ -149,5 +149,10 @@ public class EnglishLangHandler {
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.7", "Follows the law of conservation of letters.");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.8", "Perhaps this can be used to produce some §9strange things§r...");
 
+        provider.add("config.jade.plugin_gtceu.manahatch_status_provider","Manahatch Status");
+        provider.add("config.jade.plugin_gtceu.manamachine_status_provider","Manamachine Status");
+        provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider","Bloodalter Status");
+        provider.add("config.jade.plugin_ctnhmana.mana_pool_status","Manapool Status");
+
     }
 }
