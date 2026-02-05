@@ -76,16 +76,18 @@ public class CMMultiblockMachines {
         }
         return list;
     }
-    public static List<Component> addMachineTooltips(Lang[] langs)
-    {
-        List<Component> list=new ArrayList<>();
-        int y=0;
-        for(Lang lang:langs)
-        {
-            list.add(lang.translate());
-        }
-        return list;
-    }
+
+//    不需要这个，lib自带
+//    public static List<Component> addMachineTooltips(Lang[] langs)
+//    {
+//        List<Component> list=new ArrayList<>();
+//        int y=0;
+//        for(Lang lang:langs)
+//        {
+//            list.add(lang.translate());
+//        }
+//        return list;
+//    }
 
 
 
@@ -135,7 +137,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition MANA_FORCE_TRANSFORMER = REGISTRATE.multiblock("mana_force_transformer",holder->new ManaForceTransformer(holder,4))
             .cnLangValue("§b魔力操纵者")
-            .tooltips(addMachineTooltips(MFT_Lang))
+            .tooltips(MFT_Lang)
             .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_TRANSFORMER_RECIPES)
@@ -212,9 +214,9 @@ public class CMMultiblockMachines {
     public static MultiblockMachineDefinition HELLFORGE = REGISTRATE.multiblock("hellforge", HellForgeMachine::new)
             .cnLangValue("§4工业狱火锻炉")
             .rotationState(RotationState.NON_Y_AXIS)
-            .appearanceBlock(()->SOUL_LOCKING_CASING.get())
+            .appearanceBlock(SOUL_LOCKING_CASING::get)
             .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
-            .tooltips(addMachineTooltips(hellforgeLang))
+            .tooltips(hellforgeLang)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "AAAAAAA", "AAAAAAA", "A#A#A#A")
                     .aisle("AAAAAAA", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "#A###A#", "AAAAAAA", "A#####A", "#######")
@@ -373,7 +375,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("industrial_altar", holder -> new IndustrialAltarMachine(holder))
             .cnLangValue("§b工业血之祭坛")
-            .tooltips(addMachineTooltips(industrialAltarLang))
+            .tooltips(industrialAltarLang)
             .tooltipBuilder((stack, tooltip) -> {
                 if (GTUtil.isCtrlDown()) {
                     tooltip.add(Component.empty());
@@ -505,7 +507,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE.mysticmultiblock("mystic_sprie",holder-> new MysticSpire(holder))
             .cnLangValue("§b奥法尖塔")
-            .tooltips(addMachineTooltips(spireTooltipsLang))
+            .tooltips(spireTooltipsLang)
             .appearanceBlock(() ->BotaniaBlocks.corporeaBlock)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
@@ -530,7 +532,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition AHCC = REGISTRATE.mysticmultiblock("arcane_highenergy_compression_reactor_core",holder-> new ArcaneHighEnergyCompressionReactorCore(holder,3))
             .cnLangValue("§高能魔能压缩反应核心(AHCC)")
-            .tooltips(addMachineTooltips(spireTooltipsLang))
+            .tooltips(spireTooltipsLang)
             .appearanceBlock(() ->BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
