@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.event;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.moguang.ctnhmana.CTNHMana;
 
+import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMTags;
 import net.minecraft.network.chat.Component;
@@ -36,6 +37,9 @@ public class ForgeEventHandler {
     public static void attachBlockEntityCaps(AttachCapabilitiesEvent<BlockEntity> event) {
         if (event.getObject() instanceof IManaMachineBlockEntity be) {
             event.addCapability(CTNHMana.id("mana_receiver"), CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
+        }
+        if (event.getObject() instanceof FlowerCakeBlockEntity be) {
+            event.addCapability(CTNHMana.id("mana_receiver_flowercake"), CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
         }
     }
     @SubscribeEvent

@@ -109,14 +109,13 @@ public class ChineseLangHandler {
         provider.add("ctnh.item.runes.proliferation_rune","金融与生物的本能");
         provider.add("ctnh.item.runes.quasar_rune","毁灭与创造交替");
         provider.add("ctnh.item.runes.horizen_rune","视野所向之处");
-//        provider.addItem(CMItems.FLOWER_UPDATE,"§9繁花与星空之祝福");
-//        provider.addItem(CMItems.GT_UPDATE,"§o流水线之视野");
         provider.add("ritual.ctnhmana.ritualextractor","生灵萃取仪式");
         provider.add("ritual.ctnhmana.chargerRitual","充能仪式");
         provider.add("ritual.ctnhmana.ritualbosssummon","战争呼唤仪式");
         provider.add("ritual.ctnhmana.dragon_cloudritual","龙吟仪式");
         provider.add("ritual.ctnhmana.dragon_shroudsight","虚境之视");
         provider.add("effect.ctnhmana.shroud_gaze","虚境的凝视");
+        provider.add("effect.ctnhmana.helian_blessing"," 赫利安的祝福");
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
         provider.add("ctnhmana.jade.manahatch.manaprogress","魔力能量：%s / %s");
         provider.add("ctnhmana.jade.manahatch.btmanaprogress","植物魔法魔力量：%s / %s");

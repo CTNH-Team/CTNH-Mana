@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.integration.jade;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
+import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import mythicbotany.functionalflora.base.BlockFunctionalFlower;
 import mythicbotany.functionalflora.base.FunctionalFlowerBase;
@@ -20,6 +21,7 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.overlay.DisplayHelper;
 import vazkii.botania.api.block_entity.BindableSpecialFlowerBlockEntity;
+import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.common.block.block_entity.TerrestrialAgglomerationPlateBlockEntity;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 import vazkii.botania.common.handler.EquipmentHandler;
@@ -37,7 +39,7 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
             BlockEntity be = blockAccessor.getBlockEntity();
             var capData = blockAccessor.getServerData().getCompound(getUid().toString());
             var helper = tooltip.getElementHelper();
-            if(be instanceof ManaPoolBlockEntity||be instanceof BindableSpecialFlowerBlockEntity||be instanceof FunctionalFlowerBase||be instanceof MysticSpireBlockEntity) {
+            if(be instanceof ManaPoolBlockEntity||be instanceof BindableSpecialFlowerBlockEntity||be instanceof FunctionalFlowerBase||be instanceof MysticSpireBlockEntity||be instanceof ManaReceiver) {
                 var mana = capData.getLong("mana_x");
                 var maxmana = capData.getLong("max_mana_x");
                 if(maxmana>0)
@@ -86,6 +88,11 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
         {
             mana= pool.getCurrentMana();
             max_mana=pool.getMaxMana();
+        }
+        if(be instanceof FlowerCakeBlockEntity cake)
+        {
+            mana=cake.getCurrentMana();
+            max_mana=cake.max_mana;
         }
         if(be instanceof TileManaInfuser infuser)
         {

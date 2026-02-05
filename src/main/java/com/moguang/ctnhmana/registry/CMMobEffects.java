@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.registry;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -13,5 +14,6 @@ public class CMMobEffects {
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
     public static final RegistryObject<ShroudGazeEffect> ShroudGazing = MOB_EFFECTS.register("shroud_gaze",
             () -> new ShroudGazeEffect(MobEffectCategory.HARMFUL, 0x6D7917));
-    // 2. 注册你的自定义状态效果（示例：假设你有一个PurpleHazeEffect类）
+    public static final RegistryObject<WishingFlyEffect>WishingFlying= MOB_EFFECTS.register("helian_blessing",
+            WishingFlyEffect::new);
 }
