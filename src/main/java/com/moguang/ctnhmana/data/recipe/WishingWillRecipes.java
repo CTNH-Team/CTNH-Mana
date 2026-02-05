@@ -21,11 +21,11 @@ import static vazkii.botania.common.item.BotaniaItems.runeFire;
 public class WishingWillRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        WISHING_RECIPES.recipeBuilder("test1")
-                .inputItems(CustomTags.LV_CIRCUITS,1)
-                .outputItems(runeFire,10)
-                .duration(200)
-                .save(provider);
+//        WISHING_RECIPES.recipeBuilder("test1")
+//                .inputItems(CustomTags.LV_CIRCUITS,1)
+//                .outputItems(runeFire,10)
+//                .duration(200)
+//                .save(provider);
 //        HELL_FORGE_RECIPES.recipeBuilder("testXXX")
 //                .addCondition(new HellForgeCondition(10))
 //                .inputItems(runeFire,24)

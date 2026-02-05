@@ -95,8 +95,41 @@ public class TerraPlateRecipeBuilder {
         ResourceLocation gtId = GTCEu.id( "manareactor_recipes_terra_plate_" + bmId.getPath());
 
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.MANA_REACTOR_RECIPES);
+        List<Ingredient> pre_inputs = new ArrayList<>();
+        for (Ingredient currentIng : this.inputs) {
+            // 前置校验1：跳过空配料，避免后续空指针/数组越界
+            if (currentIng == null || currentIng == Ingredient.EMPTY) {
+                continue;
+            }
+            ItemStack[] currentStacks = currentIng.getItems();
+            if (currentStacks == null || currentStacks.length == 0 || currentStacks[0].isEmpty()) {
+                continue;
+            }
+            ItemStack currentFirstStack = currentStacks[0]; // 取第一个代表栈作为匹配依据
+            boolean isMatched = false; // 标记是否匹配到已有Ingredient
 
-        for (Ingredient ingredient : this.inputs) {
+            for (Ingredient existIng : pre_inputs) {
+                ItemStack[] existStacks = existIng.getItems();
+                if (existStacks == null || existStacks.length == 0 || existStacks[0].isEmpty()) {
+                    continue;
+                }
+                if (existIng.test(currentFirstStack)) {
+                    ItemStack existFirstStack = existStacks[0];
+                    int maxStack = existFirstStack.getMaxStackSize();
+                    if (existFirstStack.getCount() < maxStack) {
+                        existFirstStack.setCount(existFirstStack.getCount() + 1);
+                    }
+                    isMatched = true;
+                    break; // 找到匹配，立即跳出内层循环，避免重复计数
+                }
+            }
+
+            if (!isMatched) {
+                pre_inputs.add(currentIng);
+            }
+        }
+
+        for (Ingredient ingredient : pre_inputs) {
             gtBuilder.inputItems(ingredient);
         }
         gtBuilder.outputItems(this.output);

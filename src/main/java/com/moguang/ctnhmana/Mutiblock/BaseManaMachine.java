@@ -229,7 +229,7 @@ public class BaseManaMachine extends ManaMachine {
         public void initGlobal()
         {
             parallel=0;
-            speed=0;
+            speed=0.25;
             eut=0;
             input=0;
             output=0;
