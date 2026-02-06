@@ -208,7 +208,7 @@ public class ManaPoolRecipes {
                 .mana(10000)
                 .circuitMeta(1)
                 .save(provider);
-        ManaInfusionRecipeBuilder.builder("tinyPotato")
+        ManaInfusionRecipeBuilder.builder("tinypotato")
                 .input(Ingredient.of(POTATO))
                 .output(tinyPotato.asItem().getDefaultInstance())
                 .mana(1000)
