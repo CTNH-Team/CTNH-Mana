@@ -1,15 +1,23 @@
 package com.moguang.ctnhmana.data.recipe;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
+import static mythicbotany.register.ModItems.helheimRune;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 @SuppressWarnings("removal")
@@ -57,6 +65,15 @@ public class TerraPlateRecipes {
                 .input(new ItemStack(theUniverse,1))
                 .output(new ItemStack(rheinHammer,1))
                 .mana(4000000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("koishi_pain")
+                .input(BotaniaItems.runeLust)
+                .input(helheimRune,BotaniaItems.redString,BotaniaItems.thirdEye, BotaniaFlowerBlocks.rosaArcana.asItem(), BloodMagicItems.LIFE_ESSENCE_BUCKET.get())
+                .input(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Stone,1))
+                .input(CustomTags.KNIVES)
+                .output(new ItemStack(CMItems.KOISHI_EYE,1))
+                .mana(5145140)
+                .circuitMeta(10)
                 .save(provider);
     }
 

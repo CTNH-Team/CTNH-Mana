@@ -161,7 +161,7 @@ public class MeteorCapturerRecipes {
                 .outputItems(INFUSED_BREATH,45)
                 .outputItems(SOURCE_GEM_BLOCK.asItem(),64)
                 .chancedOutput(SOURCE_GEM_BLOCK.asItem().getDefaultInstance(),(int) 8000f,32)
-                .chancedOutput(INFUSED_BREATH.get(), String.valueOf(8000f),32)
+                .chancedOutput(INFUSED_BREATH.get().getDefaultInstance(),(int) 8000f,32)
                 .chancedOutput(ChemicalHelper.get(ingot,AlfSteel),(int) 6000f,2)
                 .chancedOutput(ChemicalHelper.get(ingot,ManaSteel),(int) 6000f,16)
                 .chancedOutput(runeMana.asItem().getDefaultInstance(),(int) 8000f,2)

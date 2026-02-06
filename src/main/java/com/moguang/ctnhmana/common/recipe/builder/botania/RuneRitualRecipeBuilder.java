@@ -97,28 +97,67 @@ public class RuneRitualRecipeBuilder {
     }
 
     /**
-     * 对向双摆：(x,z)和(-x,-z)各摆1个，默认不消耗
+     * 中心对称双摆：(x,z)和(-x,-z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder rune2(Item rune, int x, int z) {
         return this.rune2(Ingredient.of(rune), x, z, false);
     }
 
     /**
-     * 对向双摆：指定是否消耗
+     * 中心对称双摆：指定是否消耗
      */
     public RuneRitualRecipeBuilder rune2(Item rune, int x, int z, boolean consume) {
         return this.rune2(Ingredient.of(rune), x, z, consume);
     }
 
     /**
-     * 对向双摆：Ingredient重载（底层核心）
+     * 中心对称双摆：Ingredient重载（底层核心）
      */
     public RuneRitualRecipeBuilder rune2(Ingredient rune, int x, int z, boolean consume) {
         this.rune(rune, x, z, consume);
         this.rune(rune, -x, -z, consume);
         return this;
     }
-
+    /**
+     * z轴对立双摆：(x,z)和(x,-z)各摆1个，默认不消耗
+     */
+    public RuneRitualRecipeBuilder runez(Item rune, int x, int z) {
+        return this.runez(Ingredient.of(rune), x, z, false);
+    }
+    /**
+     * z轴对立双摆：指定是否消耗
+     */
+    public RuneRitualRecipeBuilder runez(Item rune, int x, int z, boolean consume) {
+        return this.runez(Ingredient.of(rune), x, z, consume);
+    }
+    /**
+     * z轴对立双摆：Ingredient重载（底层核心）
+     */
+    public RuneRitualRecipeBuilder runez(Ingredient rune, int x, int z, boolean consume) {
+        this.rune(rune, x, z, consume);
+        this.rune(rune, -x, z, consume);
+        return this;
+    }
+    /**
+     * x轴对立双摆：(x,z)和(-x,z)各摆1个，默认不消耗
+     */
+    public RuneRitualRecipeBuilder runex(Item rune, int x, int z) {
+        return this.runex(Ingredient.of(rune), x, z, false);
+    }
+    /**
+     * x轴对立双摆：指定是否消耗
+     */
+    public RuneRitualRecipeBuilder runex(Item rune, int x, int z, boolean consume) {
+        return this.runex(Ingredient.of(rune), x, z, consume);
+    }
+    /**
+     * x轴对立双摆：Ingredient重载（底层核心）
+     */
+    public RuneRitualRecipeBuilder runex(Ingredient rune, int x, int z, boolean consume) {
+        this.rune(rune, x, z, consume);
+        this.rune(rune, x, -z, consume);
+        return this;
+    }
     /**
      * 四向四摆：十字/四角对称摆4个，默认不消耗
      * x/z为0时摆十字，都非0时摆四角（保留原逻辑）
