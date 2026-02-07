@@ -16,6 +16,8 @@ import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.moguang.ctnhmana.registry.CMItems.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.helheimRune;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
@@ -74,6 +76,24 @@ public class TerraPlateRecipes {
                 .output(new ItemStack(CMItems.KOISHI_EYE,1))
                 .mana(5145140)
                 .circuitMeta(10)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")
+                .input(MANA_RESISTOR.asStack())
+                .input(MANA_CAPACITOR.asStack())
+                .input(MANA_DIODE.asStack())
+                .input(ELECTRONIC_CIRCUIT_MV.asStack())
+                .input(MANA_SOC.asStack())
+                .output(MANA_ELECTRONIC_CIRCUIT.asStack())
+                .mana(100000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_integrated_circuit")
+                .input(ADVANCED_MANA_RESISTOR.asStack())
+                .input(ADVANCED_MANA_CAPACITOR.asStack())
+                .input(ADVANCED_MANA_DIODE.asStack())
+                .input(ELECTRONIC_CIRCUIT_MV.asStack())
+                .input(MANA_SOC.asStack())
+                .output(MANA_INTEGRATED_CIRCUIT.asStack())
+                .mana(250000)
                 .save(provider);
     }
 
