@@ -63,7 +63,7 @@ public class ManaMachineBlocks {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("pipe_element")    //源质钢管道机械方块
                 .inputItems(ChemicalHelper.get(TagPrefix.rod,CMMaterials.Elementium),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gearSmall,CMMaterials.Elementium),4)
-                .inputItems(CMBlocks.ELEMENTAL_FRAME.asStack())
+                .inputItems(ELEMENTIUM_FRAME.asStack())
                 .circuitMeta(5)
                 .EUt(32)
                 .duration(400)
@@ -77,12 +77,12 @@ public class ManaMachineBlocks {
                 "ABA",
                 'A', ChemicalHelper.get(TagPrefix.rod,CMMaterials.Elementium),
                 'B', (ChemicalHelper.get(TagPrefix.gearSmall,CMMaterials.Elementium)),
-                'C', CMBlocks.ELEMENTAL_FRAME.asStack()
+                'C', ELEMENTIUM_FRAME.asStack()
         );
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elementium_gear_box") //源质钢齿轮箱机械方块
                 .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.Elementium),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.Elementium),2)
-                .inputItems(CMBlocks.ELEMENTAL_FRAME.asStack())
+                .inputItems(ELEMENTIUM_FRAME.asStack())
                 .EUt(32)
                 .duration(400)
                 .circuitMeta(6)
@@ -91,7 +91,7 @@ public class ManaMachineBlocks {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("manasteel_gear_box") //魔力钢齿轮箱方块
                 .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.ManaSteel),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.ManaSteel),2)
-                .inputItems(CMBlocks.MANA_FRAME.asStack())
+                .inputItems(CMBlocks.MANA_STEEL_FRAME.asStack())
                 .EUt(32)
                 .duration(400)
                 .circuitMeta(6)
@@ -109,7 +109,7 @@ public class ManaMachineBlocks {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elf_steel_gear_box") //精灵钢齿轮箱机械方块
                 .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.AlfSteel),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.AlfSteel),2)
-                .inputItems(CMBlocks.ELF_FRAME.asStack())
+                .inputItems(CMBlocks.ALFSTEEL_FRAME.asStack())
                 .EUt(32)
                 .duration(400)
                 .circuitMeta(6)

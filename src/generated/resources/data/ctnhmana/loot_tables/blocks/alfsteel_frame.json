@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ctnhmana:elf_frame"
+          "name": "ctnhmana:alfsteel_frame"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ctnhmana:blocks/elf_frame"
+  "random_sequence": "ctnhmana:blocks/alfsteel_frame"
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "ctnhmana:block/casings/frames/terra_frame"
+    "all": "ctnhmana:block/casings/frames/elementium_frame"
   }
 }

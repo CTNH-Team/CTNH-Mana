@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ctnhmana:elemental_frame"
+          "name": "ctnhmana:elementium_frame"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ctnhmana:blocks/elemental_frame"
+  "random_sequence": "ctnhmana:blocks/elementium_frame"
 }
