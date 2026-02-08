@@ -195,7 +195,7 @@ public class ManaReactorRecipes {
                 .inputFluids(Mana.getFluid(10000))
                 .notConsumable(ELF_CATALYST)
                 .outputItems(Botania.ETERNAL_GARDEN)
-                .duration(400*20)
+                .duration(8000)
                 .circuitMeta(1)
                 .EUt(512)
                 .save(provider);
@@ -266,7 +266,7 @@ public class ManaReactorRecipes {
                 .inputItems(ForgeRegistries.FLUIDS.getValue(new ResourceLocation("biomesoplenty:blood_bucket")),4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
-                .duration(2*20)
+                .duration(40)
                 .circuitMeta(1)
                 .EUt(480)
                 .save(provider);
@@ -288,7 +288,7 @@ public class ManaReactorRecipes {
                 .inputItems(ChemicalHelper.get(dust,Fused_demon_mixed),10)
                 .inputFluids(Mana.getFluid(10000))
                 .outputItems(ChemicalHelper.get(dust,Plus_Mana),8)
-                .duration(5*20)
+                .duration(100)
                 .circuitMeta(1)
                 .EUt(1000)
                 .save(provider);
@@ -301,7 +301,7 @@ public class ManaReactorRecipes {
                 .inputFluids(Mana.getFluid(360*1000))
                 .inputFluids(Zenith_essence.getFluid(90*1000))
                 .outputItems(ZENITH_STAR)
-                .duration(5*20)
+                .duration(100)
                 .circuitMeta(1)
                 .EUt(1000)
                 .save(provider);
@@ -315,7 +315,7 @@ public class ManaReactorRecipes {
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16*1000))
                 .inputFluids(Zenith_essence.getFluid(4*1000))
                 .outputItems(MANA_CIRCUIT_BOARD,16)
-                .duration(5*20)
+                .duration(100)
                 .circuitMeta(1)
                 .EUt(1000)
                 .save(provider);
@@ -327,7 +327,7 @@ public class ManaReactorRecipes {
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16*1000))
                 .inputFluids(Zenith_essence.getFluid(4*1000))
                 .outputItems(ChemicalHelper.get(dust,Infused_Plus_Mana),1)
-                .duration(3*20)
+                .duration(60)
                 .circuitMeta(1)
                 .EUt(1145141919810L)
                 .save(provider);

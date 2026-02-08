@@ -29,7 +29,9 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
+import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_REACTOR_RECIPES;
 
 public class ManaMachineBlocks {
@@ -53,7 +55,7 @@ public class ManaMachineBlocks {
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
                 .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack())
                 .inputItems(CMBlocks.ENHANCED_MANA_GLASS.asStack())
-                .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.Photonium),2)
+                .inputItems(ChemicalHelper.get(plate,CMMaterials.Photonium),2)
                 .inputFluids(CMMaterials.MANA_STABLE_COOLDOWN.getFluid(100))
                 .outputItems(CMBlocks.UNFADING_GARDEN_CASING,2) //不凋花园方块
                 .circuitMeta(7)
@@ -80,7 +82,7 @@ public class ManaMachineBlocks {
                 'C', ELEMENTIUM_FRAME.asStack()
         );
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elementium_gear_box") //源质钢齿轮箱机械方块
-                .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.Elementium),4)
+                .inputItems(ChemicalHelper.get(plate,CMMaterials.Elementium),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.Elementium),2)
                 .inputItems(ELEMENTIUM_FRAME.asStack())
                 .EUt(32)
@@ -89,7 +91,7 @@ public class ManaMachineBlocks {
                 .outputItems(CMBlocks.ELEMENTAL_CASING_GEARBOX.asItem(),2) //源质钢齿轮箱机械方块
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("manasteel_gear_box") //魔力钢齿轮箱方块
-                .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.ManaSteel),4)
+                .inputItems(ChemicalHelper.get(plate,CMMaterials.ManaSteel),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.ManaSteel),2)
                 .inputItems(CMBlocks.MANA_STEEL_FRAME.asStack())
                 .EUt(32)
@@ -98,7 +100,7 @@ public class ManaMachineBlocks {
                 .outputItems(CMBlocks.CASING_MANASTEEL_GEARBOX.asItem(),2) //魔力钢齿轮箱方块
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("orichalcos_gear_box") //奥利哈钢齿轮箱机械方块
-                .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.Orichalcos),4)
+                .inputItems(ChemicalHelper.get(plate,CMMaterials.Orichalcos),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.Orichalcos),2)
                 .inputItems(CMBlocks.ORICHALCOS_FRAME.asStack())
                 .EUt(32)
@@ -107,7 +109,7 @@ public class ManaMachineBlocks {
                 .outputItems(CMBlocks.Orichalcos.asItem(),2) //奥利哈钢齿轮箱机械方块
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elf_steel_gear_box") //精灵钢齿轮箱机械方块
-                .inputItems(ChemicalHelper.get(TagPrefix.plate,CMMaterials.AlfSteel),4)
+                .inputItems(ChemicalHelper.get(plate,CMMaterials.AlfSteel),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.AlfSteel),2)
                 .inputItems(CMBlocks.ALFSTEEL_FRAME.asStack())
                 .EUt(32)
@@ -198,7 +200,150 @@ public class ManaMachineBlocks {
                 .duration(666*2)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
-
-
+        TerraPlateRecipeBuilder.builder("mana_steel_casing1") // 魔力钢机械方块
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(plate,ManaSteel))
+                .input(ChemicalHelper.get(frameGt,ManaSteel))
+                .output(MANA_STEEL_CASING.asStack())
+                .mana(500000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_steel_casing2") // 魔力钢机械方块
+                .inputItems(ChemicalHelper.get(plate,ManaSteel),6)
+                .inputItems(ChemicalHelper.get(frameGt,ManaSteel),1)
+                .inputFluids(Mana.getFluid(1000))
+                .circuitMeta(6)
+                .outputItems(MANA_STEEL_CASING.asItem(),1)
+                .EUt(512)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_steel_frame1") // 魔力钢框架
+                .input(ChemicalHelper.get(rod,ManaSteel))
+                .input(ChemicalHelper.get(rod,ManaSteel))
+                .input(ChemicalHelper.get(rod,ManaSteel))
+                .input(ChemicalHelper.get(rod,ManaSteel))
+                .output(ChemicalHelper.get(frameGt,ManaSteel))
+                .mana(5000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_steel_frame2") // 魔力钢框架
+                .inputItems(ChemicalHelper.get(rod,ManaSteel),4)
+                .inputFluids(Mana.getFluid(100))
+                .circuitMeta(4)
+                .outputItems(ChemicalHelper.get(frameGt,ManaSteel),1)
+                .EUt(1024)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("elementium_casing1") // 源质钢机械方块
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(plate,Elementium))
+                .input(ChemicalHelper.get(frameGt,Elementium))
+                .output(ELEMENTIUM_CASING.asStack())
+                .mana(700000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elementium_casing2") //  源质钢机械方块
+                .inputItems(ChemicalHelper.get(plate,Elementium),6)
+                .inputItems(ChemicalHelper.get(frameGt,Elementium),1)
+                .inputFluids(Mana.getFluid(2000))
+                .circuitMeta(6)
+                .outputItems(ELEMENTIUM_CASING.asItem(),1)
+                .EUt(1024)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("elementium_frame1") // 源质钢框架
+                .input(ChemicalHelper.get(rod,Elementium))
+                .input(ChemicalHelper.get(rod,Elementium))
+                .input(ChemicalHelper.get(rod,Elementium))
+                .input(ChemicalHelper.get(rod,Elementium))
+                .output(ChemicalHelper.get(frameGt,Elementium))
+                .mana(6000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elementium_frame2") // 源质钢框架
+                .inputItems(ChemicalHelper.get(rod,Elementium),4)
+                .inputFluids(Mana.getFluid(250))
+                .circuitMeta(4)
+                .outputItems(ChemicalHelper.get(frameGt,Elementium),1)
+                .EUt(512)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("alfsteel_casing1") // 精灵钢机械方块
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(plate,AlfSteel))
+                .input(ChemicalHelper.get(frameGt,AlfSteel))
+                .output(ALF_STEEL_CASING.asStack())
+                .mana(1000000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("alfsteel_casing2") //   精灵钢机械方块
+                .inputItems(ChemicalHelper.get(plate,AlfSteel),6)
+                .inputItems(ChemicalHelper.get(frameGt,AlfSteel),1)
+                .inputFluids(Mana.getFluid(5000))
+                .circuitMeta(6)
+                .outputItems(ALF_STEEL_CASING.asItem(),1)
+                .EUt(1920)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("alfsteel_frame1") // 精灵钢框架
+                .input(ChemicalHelper.get(rod,AlfSteel))
+                .input(ChemicalHelper.get(rod,AlfSteel))
+                .input(ChemicalHelper.get(rod,AlfSteel))
+                .input(ChemicalHelper.get(rod,AlfSteel))
+                .output(ChemicalHelper.get(frameGt,AlfSteel))
+                .mana(5000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("alfsteel_frame2") // 精灵钢框架
+                .inputItems(ChemicalHelper.get(rod,AlfSteel),4)
+                .inputFluids(Mana.getFluid(1000))
+                .circuitMeta(4)
+                .outputItems(ChemicalHelper.get(frameGt,AlfSteel),1)
+                .EUt(1920)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("terra_steel_casing1") // 泰拉钢机械方块
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(plate,TerraSteel))
+                .input(ChemicalHelper.get(frameGt,TerraSteel))
+                .output(TERRA_STEEL_CASING.asStack())
+                .mana(750000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("terra_steel_casing2") //   泰拉钢机械方块
+                .inputItems(ChemicalHelper.get(plate,TerraSteel),6)
+                .inputItems(ChemicalHelper.get(frameGt,TerraSteel),1)
+                .inputFluids(Mana.getFluid(3000))
+                .circuitMeta(6)
+                .outputItems(TERRA_STEEL_CASING.asItem(),1)
+                .EUt(1920)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("terra_steel_frame1") // 泰拉钢框架
+                .input(ChemicalHelper.get(rod,TerraSteel))
+                .input(ChemicalHelper.get(rod,TerraSteel))
+                .input(ChemicalHelper.get(rod,TerraSteel))
+                .input(ChemicalHelper.get(rod,TerraSteel))
+                .output(ChemicalHelper.get(frameGt,TerraSteel))
+                .mana(500)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("terra_steel_frame2") // 泰拉钢框架
+                .inputItems(ChemicalHelper.get(rod,TerraSteel),4)
+                .inputFluids(Mana.getFluid(500))
+                .circuitMeta(4)
+                .outputItems(ChemicalHelper.get(frameGt,TerraSteel),1)
+                .EUt(1920)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_casing_block") //   天顶强化机械方块
+                .inputItems(ChemicalHelper.get(plate,Plus_Mana),2)
+                .inputItems(ChemicalHelper.get(frameGt,Plus_Mana),1)
+                .inputItems(CASING_BLOOD.asItem(),2)
+                .inputFluids(Zenith_essence.getFluid(200))
+                .circuitMeta(6)
+                .outputItems(ZENITH_CASING_BLOCK.asItem(),1)
+                .EUt(1920)
+                .save(provider);
     }
 }

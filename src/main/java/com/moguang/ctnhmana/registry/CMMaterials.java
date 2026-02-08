@@ -132,7 +132,10 @@ public class CMMaterials {
     public static final Material Stable_Plus_Mana=REGISTRATE.material(GTCEu.id("stable_plus_mana"))
             .cnlang("临界态究极魔力")
             .dust()
+            .liquid()
+            .ingot()
             .color(0xC949C9)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Unknown_Super_Mana=REGISTRATE.material(GTCEu.id("unknown_super_mana"))
             .cnlang("混沌态临界魔力")
@@ -140,6 +143,7 @@ public class CMMaterials {
             .liquid()
             .ingot()
             .color(0xF02DFA)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .element(MANA_UNKNOWN_SUPER)
             .buildAndRegister();
     public static final Material Remain_Mana=REGISTRATE.material(GTCEu.id("remain_mana"))
@@ -153,22 +157,32 @@ public class CMMaterials {
             .liquid()
             .ingot()
             .color(0x801B85)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .element(MANA_PLUS3)
             .buildAndRegister();
     public static final Material Quaser_Mana=REGISTRATE.material(GTCEu.id("quaser_mana"))
             .cnlang("类星体魔力")
             .dust()
+            .liquid()
+            .ingot()
             .color(0xA00FA8)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Infused_Plus_Mana=REGISTRATE.material(GTCEu.id("infused_plus_mana"))
             .cnlang("不稳定注魔临界魔力")
             .dust()
+            .liquid()
+            .ingot()
             .color(0x810887)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Unstable_Plus_Mana=REGISTRATE.material(GTCEu.id("unstable_plus_mana"))
             .cnlang("不稳定超富集魔力")
             .dust()
+            .liquid()
+            .ingot()
             .color(0xE71FF2)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Twist_Mana=REGISTRATE.material(GTCEu.id("twist_mana"))
             .cnlang("扭曲放射态临界魔力")
@@ -177,6 +191,7 @@ public class CMMaterials {
             .ingot()
             .element(TWIST_MANA)
             .color(0xE73EF0)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Fused_demon_mixed=REGISTRATE.material(GTCEu.id("fused_demon_mixed"))
             .cnlang("恶魔意志筛选蕴魔")
@@ -185,6 +200,7 @@ public class CMMaterials {
             .ingot()
             .element(MANA_LP_MIXED)
             .color(0x9E3FA3)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
 
     public static final Material Twist_Power_Mana=REGISTRATE.material(GTCEu.id("twist_power_mana"))
@@ -194,6 +210,7 @@ public class CMMaterials {
             .ingot()
             .element(TWIST_POWER_MANA)
             .color(0x9E07A6)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Plus_Mana=REGISTRATE.material(GTCEu.id("plus_mana"))
             .cnlang("富集魔力")
@@ -202,17 +219,24 @@ public class CMMaterials {
             .ingot()
             .element(MANA_PLUS2)
             .color(0xED85F2)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Zenith_Plus_Mana=REGISTRATE.material(GTCEu.id("zenith_plus_mana"))
             .cnlang("天顶激发态临界魔力")
             .dust()
+            .liquid()
+            .ingot()
             .color(0x572859)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Fused_Lp_Mixed_Mana=REGISTRATE.material(GTCEu.id("fused_lp_mixed_mana"))
-            .cnlang("源质提纯恶魔粉")
+            .cnlang("源质提纯恶魔")
             .dust()
+            .liquid()
+            .ingot()
             .element(FUSED_LP_MIXED_MANA)
             .color(0xC354C9)
+            .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
     public static final Material Shroud_Zenith_essence=REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
             .cnlang("§5虚境化的天顶源质§r")
