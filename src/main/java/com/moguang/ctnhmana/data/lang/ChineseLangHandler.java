@@ -453,10 +453,14 @@ public class ChineseLangHandler {
     public static Lang brokenRuneLang;
     @CN("§a大地的力量凝聚于此")
     public static Lang terra_catalyst;
-    @CN("天顶之星")
+    @CN("宛如天上的繁星")
     public static Lang zenith_star;
-    @CN("魔力电路基板")
+    @CN("高能魔力蚀刻基板")
     public static Lang mana_circuit_board;
+    @CN("调谐电力与魔力")
+    public static Lang magicCoreLang;
+    @CN("永恒的十二面体")
+    public static Lang flowerHeartLang;
     @CN(
             {
                     "佩戴时获得:",

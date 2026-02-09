@@ -306,6 +306,23 @@ public class CMItems {
                 .item("azure_sky_flower_dance", BTUpgradeItemT3::new)
                 .cnlang("苍穹之花舞")
                 .register();
+        MAGIC_CORE = REGISTRATE
+                .item("magic_core", ComponentItem::create)
+                .cnlang("魔式转化核心")
+                .lang("Magic Core")
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(magicCoreLang.translate())
+                )))
+                .register();
+
+        HEART_OF_FLOWER = REGISTRATE
+                .item("heart_of_flower", ComponentItem::create)
+                .cnlang("繁花之心")
+                .lang("Heart of Flower")
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(flowerHeartLang.translate())
+                )))
+                .register();
     }
     public static void init() {
 
@@ -620,5 +637,7 @@ public class CMItems {
     public static ItemEntry<BTUpgradeItemT2> CLEAR_SKY_FLOWER_WISH;
     public static ItemEntry<ComponentItem> WARPED_FORGING;
     public static ItemEntry<BTUpgradeItemT3> AZURE_SKY_FLOWER_DANCE;
+    public static ItemEntry<ComponentItem> MAGIC_CORE;
+    public static ItemEntry<ComponentItem> HEART_OF_FLOWER;
 
 }
