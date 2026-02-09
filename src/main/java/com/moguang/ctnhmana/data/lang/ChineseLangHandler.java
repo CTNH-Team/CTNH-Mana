@@ -457,7 +457,7 @@ public class ChineseLangHandler {
     public static Lang zenith_star;
     @CN("高能魔力蚀刻基板")
     public static Lang mana_circuit_board;
-    @CN("调谐电力与魔力")
+    @CN("调谐电力与魔力的核心")
     public static Lang magicCoreLang;
     @CN("永恒的十二面体")
     public static Lang flowerHeartLang;
