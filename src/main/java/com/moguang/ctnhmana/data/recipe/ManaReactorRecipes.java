@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
@@ -187,10 +188,11 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("eternal_garden")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(runeSpring)
-                .inputItems(runeSummer)
-                .inputItems(runeAutumn)
-                .inputItems(runeWinter)
+                .inputItems(runeSpring,4)
+                .inputItems(runeSummer,4)
+                .inputItems(runeAutumn,4)
+                .inputItems(runeWinter,4)
+                .inputItems(HEART_OF_FLOWER)
                 .inputItems(BotaniaTags.Items.MYSTICAL_FLOWERS,64)
                 .inputFluids(Mana.getFluid(10000))
                 .notConsumable(ELF_CATALYST)
@@ -330,6 +332,31 @@ public class ManaReactorRecipes {
                 .duration(60)
                 .circuitMeta(1)
                 .EUt(1145141919810L)
+                .save(provider);
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder("mana_stable")//魔力稳定剂
+                .inputItems(niflheimRune)
+                .inputItems(runeWinter)
+                .inputFluids(PolyvinylChloride.getFluid(1000))
+                .inputFluids(Neon.getFluid(1000))
+                .inputFluids(ELF_FUEL.getFluid(2000))
+                .outputFluids(MANA_STABLE_COOLDOWN.getFluid(4000))
+                .EUt(1920)
+                .duration(100)
+                .circuitMeta(1)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("heart_of_flower")//繁花之心
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(STARLIGHT_RUNE,32)
+                .inputItems(HORIZEN_RUNE,32)
+                .inputItems(TWIST_RUNE,32)
+                .inputItems(PROLIFERATION_RUNE,64)
+                .inputItems(GTItems.STEM_CELLS,128)
+                .inputItems(ChemicalHelper.get(dustTiny,Ultra_Mana),64)
+                .inputFluids(Zenith_essence.getFluid(10000))
+                .outputItems(HEART_OF_FLOWER)
+                .duration(800)
+                .circuitMeta(1)
+                .EUt(418278400L/800)
                 .save(provider);
     }
 }

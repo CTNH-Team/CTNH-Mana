@@ -461,6 +461,8 @@ public class ChineseLangHandler {
     public static Lang magicCoreLang;
     @CN("永恒的十二面体")
     public static Lang flowerHeartLang;
+    @CN("封藏着魔力的奥义")
+    public static Lang encapsulated_twist_mana;
     @CN(
             {
                     "佩戴时获得:",

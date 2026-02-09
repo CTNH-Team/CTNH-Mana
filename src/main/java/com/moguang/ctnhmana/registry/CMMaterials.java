@@ -86,7 +86,7 @@ public class CMMaterials {
     }
 
     public static final Material Mana=REGISTRATE.material(GTCEu.id("mana"))
-            .cnlang("液态魔力")
+            .cnlang("魔力")
             .liquid()
             .element(MANA)
             .color(0x43e7ed)
@@ -126,11 +126,26 @@ public class CMMaterials {
             .dust()
             .element(ULTRA_MANA)
             .iconSet(ULTRA_MANA_ICON_SET)
-
             .color(0x7D26CD)
             .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 77777, 77777)
             .cableProperties(GTValues.V[GTValues.UIV], 777777, 0, true)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+            .buildAndRegister();
+    public static final Material Fused_Mana=REGISTRATE.material(GTCEu.id("fused_mana"))
+            .cnlang("蕴魔")
+            .liquid()
+            .ore()
+            .color(0xBC91CC)
+            .dust()
+            .ingot()
+            .buildAndRegister();
+    public static final Material Fused_Mixed_Mana=REGISTRATE.material(GTCEu.id("fused_mixed_mana"))
+            .cnlang("分选蕴魔")
+            .liquid()
+            .color(0xB784C9)
+            .dust()
+            .ingot()
+            .element(MANA_MIXED_2)
             .buildAndRegister();
     public static final Material Stable_Plus_Mana=REGISTRATE.material(GTCEu.id("stable_plus_mana"))
             .cnlang("临界态究极魔力")

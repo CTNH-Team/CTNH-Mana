@@ -18,7 +18,7 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 import static mythicbotany.register.ModItems.*;
 public class GaiaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        GAIA_REACTOR_RECIPES.recipeBuilder("2")
+        GAIA_REACTOR_RECIPES.recipeBuilder("1")
                 .inputItems(terrasteel)
                 .outputFluids(Mana.getFluid(1000))
                 .outputItems(gaiaSpirit,4)

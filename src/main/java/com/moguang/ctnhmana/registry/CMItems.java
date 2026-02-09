@@ -255,6 +255,17 @@ public class CMItems {
                         text.add(zenith_star.translate())
                 )))
                 .register();
+        ENCAPSULATED_TWIST_MANA=REGISTRATE
+                .item("encapsulated_twist_mana",ComponentItem::create)
+                .cnlang("§a封装扭曲魔力")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    return properties;
+                })
+                .onRegister(attach(new TooltipBehavior(text ->
+                        text.add(encapsulated_twist_mana.translate())
+                )))
+                .register();
         MANA_CIRCUIT_BOARD=REGISTRATE
                 .item("mana_circuit_board",ComponentItem::create)
                 .cnlang("§a究极魔力电路基板")
@@ -356,6 +367,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem>BROKEN_RUNE;
     public static ItemEntry<TaintedBloodWeepingEye>TAINTED_BLOOD_EYE;
     public static ItemEntry<ComponentItem>TERRA_CATALYST;
+    public static ItemEntry<ComponentItem>ENCAPSULATED_TWIST_MANA;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
