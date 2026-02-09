@@ -49,6 +49,7 @@ public class CMMaterials {
     // 自定义图标集
     public static final MaterialIconSet HEMOPLATINUM_ICON_SET = new MaterialIconSet("hemoplatinum", MaterialIconSet.METALLIC);
     public static final MaterialIconSet COAGULBLOODGOLD_ICON_SET = new MaterialIconSet("coagulbloodgold", MaterialIconSet.METALLIC);
+    public static final MaterialIconSet ULTRA_MANA_ICON_SET=new MaterialIconSet("ultramana",MaterialIconSet.METALLIC);
 
     public static void init() {
         BotaniaMaterials.init();
@@ -124,6 +125,8 @@ public class CMMaterials {
             .ingot()
             .dust()
             .element(ULTRA_MANA)
+            .iconSet(ULTRA_MANA_ICON_SET)
+
             .color(0x7D26CD)
             .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 77777, 77777)
             .cableProperties(GTValues.V[GTValues.UIV], 777777, 0, true)

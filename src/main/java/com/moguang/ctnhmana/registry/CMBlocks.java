@@ -218,6 +218,8 @@ public class CMBlocks {
             CTNHMana.id("block/casings/quasar_energy_stabilization_casing"));
     public static final BlockEntry<Block> TWISTED_FUSION_CASING = createCasingBlock("twisted_fusion_casing","扭曲聚变外壳",
             CTNHMana.id("block/casings/twisted_fusion_casing"));
+    public static final BlockEntry<Block> MANA_FUSION_CASING = createCasingBlock("mana_fusion_casing","魔力聚变外壳",
+            CTNHMana.id("block/casings/mana_fusion_casing"));
     public static final BlockEntry<Block> CASING_BLOOD = createCasingBlock(
             "blood_casing", "血染机械方块",CTNHMana.id("block/casings/blood_casing"));
     public static final BlockEntry<Block> CASING_FORCE_FILED = createCasingBlock(
@@ -240,7 +242,7 @@ public class CMBlocks {
             "elemental_casing_gearbox","源质钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/elemental_steel_gearbox_casing"));
     public static final BlockEntry<Block> ELF_STEEL_CASING_GEARBOX = createCasingBlock(
             "elf_steel_casing_gearbox","精灵钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/elf_steel_gearbox_casing"));
-    public static final BlockEntry<Block> Orichalcos = createCasingBlock(
+    public static final BlockEntry<Block> ORICHALCOS_STEEL_CASING_GEARBOX = createCasingBlock(
             "orichalcos_steel_casing_gearbox","奥利哈钢齿轮箱机械方块", CTNHMana.id("block/casings/gearbox/orichalcos_gearbox_casing"));
     public static final BlockEntry<Block> ORICHALCOS_FRAME = createFrameBlock(
             "orichalcos_frame","奥利哈框架", CTNHMana.id("block/casings/frames/orichalcos_frame"),()->RenderType::translucent);
@@ -252,8 +254,8 @@ public class CMBlocks {
             "mana_steel_frame","魔力钢框架", CTNHMana.id("block/casings/frames/mana_steel_frame"),()->RenderType::translucent);
     public static final BlockEntry<Block> TERRA_STEEL_FRAME = createFrameBlock(
             "terra_steel_frame","泰拉钢框架", CTNHMana.id("block/casings/frames/terra_steel_frame"),()->RenderType::translucent);
-    public static final BlockEntry<Block> SUPERNORMAL_MAGIC_CALCULATE_CASING = createCasingBlock(
-            "supernormal_magic_calculate_casing","超常态魔法运算外壳", CTNHMana.id("block/casings/supernormal_magic_calculate_casing"));
+    public static final BlockEntry<Block> SUPERNORMAL_MAGIC_CALCULATE_CORE = createCasingBlock(
+            "supernormal_magic_calculate_core","超因果奥术运算核心", CTNHMana.id("block/casings/supernormal_magic_calculate_casing"));
     public static final BlockEntry<Block> MANA_SHATTER_CORE = createCasingBlock(
             "mana_shatter_core","魔力粉碎核心", CTNHMana.id("block/casings/core/mana_shatter_core"));
     public static final BlockEntry<Block> MANA_REFINEMENT_CORE = createCasingBlock(

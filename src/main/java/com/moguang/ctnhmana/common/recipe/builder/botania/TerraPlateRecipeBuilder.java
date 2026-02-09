@@ -130,7 +130,7 @@ public class TerraPlateRecipeBuilder {
         }
 
         for (Ingredient ingredient : pre_inputs) {
-            gtBuilder.inputItems(ingredient);
+            gtBuilder.inputItems(ingredient.getItems()[0]);
         }
         gtBuilder.outputItems(this.output);
 
@@ -142,6 +142,7 @@ public class TerraPlateRecipeBuilder {
             gtBuilder.circuitMeta(meta);
         return gtBuilder;
     }
+
 
     public void toJson(JsonObject json) {
         json.addProperty("mana", this.mana);
