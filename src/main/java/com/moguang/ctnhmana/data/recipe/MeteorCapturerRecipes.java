@@ -207,10 +207,10 @@ public class MeteorCapturerRecipes {
                 .duration(400)
                 .EUt(768000/400)
                 .save(provider);
-        METEOR_CAPTURER_RECIPES.recipeBuilder("livingrock_mana_fused_ore")
+        METEOR_CAPTURER_RECIPES.recipeBuilder("fused_mana")
                 .inputItems(ChemicalHelper.get(block,Plus_Mana),9)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000*192))
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:livingrock_mana_fused_ore")),2560)
+                .outputItems(ChemicalHelper.get(ore,Fused_Mana),2560)
                 .duration(400)
                 .EUt(768000/400)
                 .save(provider);
