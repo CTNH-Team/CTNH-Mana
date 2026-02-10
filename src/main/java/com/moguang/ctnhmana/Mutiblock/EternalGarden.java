@@ -425,7 +425,6 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                     if(recipe.data.getBoolean("light"))
                     {
                         EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level,pos,MobSpawnType.TRIGGERED);
-
                         return  ModifierFunction.builder()
                                 .outputModifier(ContentModifier.multiplier(100000*overclock))
                                 .build();

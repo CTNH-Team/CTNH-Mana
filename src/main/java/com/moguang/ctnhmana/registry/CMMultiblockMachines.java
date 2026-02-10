@@ -46,7 +46,6 @@ import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
 import static net.minecraft.world.level.block.Blocks.*;
 import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.*;
 
-import wayoftime.bloodmagic.BloodMagic;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
@@ -373,7 +372,7 @@ public class CMMultiblockMachines {
                     .build())
             .workableCasingModel(CTNHMana.id("block/casings/soul_lock_blackcasing"), GTCEu.id("block/machines/digital_well_of_suffer"))
             .register();
-    public final static MultiblockMachineDefinition TESTER = REGISTRATE.multiblock("industrial_altar", holder -> new IndustrialAltarMachine(holder))
+    public final static MultiblockMachineDefinition INDUSTRIAL_ALTAR = REGISTRATE.multiblock("industrial_altar", holder -> new IndustrialAltarMachine(holder))
             .cnLangValue("§b工业血之祭坛")
             .tooltips(industrialAltarLang)
             .tooltipBuilder((stack, tooltip) -> {

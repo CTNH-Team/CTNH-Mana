@@ -22,10 +22,6 @@ import java.util.function.Consumer;
 
 import static mythicbotany.register.ModRecipes.runeRitual;
 
-/**
- * 符文仪式配方构建器
- * 完全遵循PetalRecipeBuilder风格，保留原符文摆放核心逻辑 | 适配MC1.20.1（移除ItemLike，替换为Item）
- */
 public class RuneRitualRecipeBuilder {
     // 核心配置项（对齐原RuneRitualExtension逻辑）
     private final List<RunePosition> runes = new ArrayList<>();
@@ -40,7 +36,6 @@ public class RuneRitualRecipeBuilder {
     @Nullable
     private SpecialRuneOutput specialOutput; // 自定义特殊输出（需自己实现该接口）
 
-    // 构造器：传入配方名，初始化基础ID（私有，通过builder静态方法创建）
     private RuneRitualRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }

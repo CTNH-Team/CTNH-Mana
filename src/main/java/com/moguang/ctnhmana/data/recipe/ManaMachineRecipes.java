@@ -1,32 +1,22 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.hollingsworth.arsnouveau.common.block.ModBlock;
-import com.hollingsworth.arsnouveau.common.items.Glyph;
-import com.hollingsworth.arsnouveau.common.items.ModItem;
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
-import com.moguang.ctnhmana.registry.CMBlocks;
+import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMachines;
-import com.moguang.ctnhmana.registry.CMMaterials;
+import com.moguang.ctnhmana.registry.CMMultiblockMachines;
 import net.minecraft.data.recipes.FinishedRecipe;
-import vazkii.botania.common.item.EnderHandItem;
+import vazkii.botania.common.block.BotaniaBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
-import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.PARALLEL_HATCH;
-import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
-import static com.hollingsworth.arsnouveau.setup.registry.DamageTypesRegistry.*;
-import static com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
@@ -44,8 +34,6 @@ import static vazkii.botania.common.block.BotaniaBlocks.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.*;
-import static mythicbotany.register.ModItems.*;
-import static mythicbotany.register.ModBlocks.*;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.HELLFORGED_BLOCK;
 
 public class ManaMachineRecipes {
@@ -81,7 +69,7 @@ public class ManaMachineRecipes {
                 "DDD",
                 'A', LIVING_ROCK_CASING.get().asItem(),
                 'B', ELECTRIC_MOTOR_MV.get().asItem(),
-                'C', MACERATOR[2].asStack(),
+                'C', MAGIC_CORE.get().asItem(),
                 'D', COMPONENT_GRINDER_DIAMOND.get().asItem()
         );
         VanillaRecipeHelper.addShapedRecipe(//魔力卷板机
@@ -92,14 +80,15 @@ public class ManaMachineRecipes {
                 "DFG",
                 'A', LIVING_ROCK_CASING.get().asItem(),
                 'B', ELECTRIC_MOTOR_MV.get().asItem(),
-                'C', BENDER[2].asStack(),
+                'C', MAGIC_CORE.get().asItem(),
                 'D', ELECTRIC_PISTON_MV.get().asItem(),
                 'E', TERRA_STEEL_CASING.get().asItem(),
                 'F', ROBOT_ARM_MV.get().asItem(),
                 'G', CustomTags.EV_CIRCUITS
         );
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_wiremill")// 魔力线材轧机
-                .inputItems(ELECTRIC_PISTON_MV, 4)
+                .inputItems(ELECTRIC_PISTON_MV, 1)
+                .inputItems(MAGIC_CORE.asItem())
                 .inputItems(ChemicalHelper.get(wireGtQuadruple, TerraSteel), 4)
                 .inputItems(CustomTags.EV_CIRCUITS, 4)
                 .inputFluids(Mana.getFluid(1000))
@@ -108,7 +97,8 @@ public class ManaMachineRecipes {
                 .duration(400)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_lathe")// 魔力车床
-                .inputItems(ELECTRIC_PISTON_MV, 4)
+                .inputItems(ELECTRIC_PISTON_MV, 1)
+                .inputItems(MAGIC_CORE.asItem())
                 .inputItems(LATHE[2], 2)
                 .inputItems(CustomTags.EV_CIRCUITS, 4)
                 .inputFluids(Mana.getFluid(1000))
@@ -118,9 +108,12 @@ public class ManaMachineRecipes {
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_assembler")// 魔力组装机
                 .inputItems(ChemicalHelper.get(gear, AlfSteel), 16)
+                .inputItems(MAGIC_CORE.asItem())
                 .inputItems(ROBOT_ARM_EV, 2)
                 .inputItems(CIRCUIT_ASSEMBLER[4], 4)
                 .inputItems(CustomTags.LuV_CIRCUITS, 6)
+                .inputItems(MAGIC_CORE.asStack(4))
+                .inputItems(ChemicalHelper.get(frameGt, Orichalcos),8)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1000))
                 .outputItems(MANA_ASSEMBLER)
                 .EUt(2048)
@@ -134,7 +127,7 @@ public class ManaMachineRecipes {
                 "DED",
                 'A', LIVING_ROCK_CASING.get().asItem(),
                 'B', CustomTags.EV_CIRCUITS,
-                'C', ChemicalHelper.get(gear, AlfSteel),
+                'C', MAGIC_CORE.get(),
                 'D', gaiaSpreader.asItem(),
                 'E', fabulousPool.asItem()
         );
@@ -145,7 +138,7 @@ public class ManaMachineRecipes {
                 .inputItems(CASING_TITANIUM_STABLE.asItem(), 4)
                 .inputItems(runeWinter, 16)
                 .inputFluids(Mana.getFluid(4000))
-                .outputItems(MANA_CONDENSER)
+                .outputItems(MANA_TRANSISTOR.asStack())
                 .EUt(1920)
                 .duration(200)
                 .save(provider);
@@ -172,16 +165,15 @@ public class ManaMachineRecipes {
                 .EUt(7680)
                 .duration(100)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("tester")// 工业血之祭坛
-                .inputItems(HELLFORGED_INGOT.get(), 16)
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("industral_blood_altar")// 工业血之祭坛
+                .inputItems(ChemicalHelper.get(gear,COAGULBLOODGOLD), 16)
                 .inputItems(BLANK_RUNE.get().asItem(), 16)
-                .inputItems(BLOOD_ALTAR.get().asItem(), 4)
+                .inputItems(BLOOD_ALTAR.get().asItem(), 1)
                 .inputItems(RAW_CRYSTAL.get(), 16)
-                .inputItems(ETHEREAL_SLATE.get())
-                .inputItems(REAGENT_BLOOD_LIGHT.get().asItem(), 2)
+                .inputItems(SLATE.get())
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 10000))
-                .outputItems(TESTER.getItem())
-                .EUt(7680)
+                .outputItems(INDUSTRIAL_ALTAR.getItem())
+                .EUt(240)
                 .duration(100)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("demon_will_generator")// 恶魔意志发电机
@@ -219,6 +211,17 @@ public class ManaMachineRecipes {
                         b -> b.researchStack(ZENITH_STAR.get().getDefaultInstance()).CWUt(32).EUt(VA[ZPM]))
                 .EUt(524288)
                 .duration(1000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mysticspire")
+                .input(corporeaBlock.asItem())
+                .input(corporeaBlock.asItem())
+                .input(corporeaBlock.asItem())
+                .input(corporeaIndex.asItem())
+                .input(corporeaSpark.asItem())
+                .input(MAGIC_CORE.asStack())
+                .input(CustomTags.HV_CIRCUITS)
+                .output(MysticSpire.asStack())
+                .mana(500000)
                 .save(provider);
     }
 }

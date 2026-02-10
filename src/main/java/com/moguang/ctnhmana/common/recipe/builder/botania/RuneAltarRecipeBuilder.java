@@ -111,6 +111,7 @@ public class RuneAltarRecipeBuilder {
     public FinishedRecipe build() {
         return new FinishedRuneAltarRecipe();
     }
+
     public void save(Consumer<FinishedRecipe> consumer) {
 
         consumer.accept(build());
@@ -136,7 +137,6 @@ public class RuneAltarRecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            // 仅保留普通符文配方的Serializer，移除头颅相关
             return BotaniaRecipeTypes.RUNE_SERIALIZER;
         }
 

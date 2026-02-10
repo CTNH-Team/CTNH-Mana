@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import mythicbotany.infuser.InfuserRecipe;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -14,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
+import org.moddingx.libx.crafting.RecipeHelper;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.crafting.BotaniaRecipeTypes;
 
@@ -30,6 +33,9 @@ public class TerraPlateRecipeBuilder {
     private ResourceLocation id;
     private int meta=-1;
     private boolean isManaReactorAllowed=true;
+    private int fromColor = 16777215; // 白色默认RGB值
+    private int toColor = 16777215;
+    private String group="";// 白色默认RGB值
     private TerraPlateRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }
@@ -153,14 +159,60 @@ public class TerraPlateRecipeBuilder {
         json.add("ingredients", ingredients);
         json.add("result", ItemNBTHelper.serializeStack(this.output));
     }
-
+    public void toElfJson(JsonObject json) {
+        // 序列化配方分组（非空才添加）
+        if (!this.group.isEmpty()) {
+            json.addProperty("group", this.group);
+        }
+        // 序列化输出物品（支持NBT，使用LibX的RecipeHelper保持兼容性）
+        json.add("output", RecipeHelper.serializeItemStack(this.output, true));
+        // 序列化原料列表
+        JsonArray ingredients = new JsonArray();
+        for (Ingredient ingredient : this.inputs) {
+            ingredients.add(ingredient.toJson());
+        }
+        json.add("ingredients", ingredients);
+        json.addProperty("mana", this.mana);
+        json.addProperty("fromColor", this.fromColor);
+        json.addProperty("toColor", this.toColor);
+    }
     public FinishedRecipe build() {
         return new FinishedTerraPlateRecipe();
+    }
+    public FinishedRecipe buildElfPlate() {
+        return new FinishedRecipe() {
+            @Override
+            public void serializeRecipeData(JsonObject pJson) {
+                TerraPlateRecipeBuilder.this.toElfJson(pJson);
+            }
 
+            @Override
+            public ResourceLocation getId() {
+                return ResourceLocation.tryBuild(id.getNamespace(), "elf_plate/"  + id.getPath());
+            }
+
+            @Override
+            public RecipeSerializer<?> getType() {
+                return InfuserRecipe.Serializer.INSTANCE;
+            }
+
+            @Nullable
+            @Override
+            public JsonObject serializeAdvancement() {
+                return null; // 不生成配方进度，和PetalRecipeBuilder保持一致
+            }
+
+            @Nullable
+            @Override
+            public ResourceLocation getAdvancementId() {
+                return null; // 无进度ID
+            }
+        };
     }
 
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(build());
+        consumer.accept(buildElfPlate());
         if(isManaReactorAllowed) {
             GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
             gtBuilder.save(consumer);

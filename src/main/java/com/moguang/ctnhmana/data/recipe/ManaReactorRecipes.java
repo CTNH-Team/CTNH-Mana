@@ -9,6 +9,7 @@ import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
+import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -157,7 +158,7 @@ public class ManaReactorRecipes {
                 .inputFluids(Mana,8000)
                 .inputItems(elfGlass.asItem(),1)
                 .notConsumable(TERRA_CATALYST)
-                .outputItems(AlfSteel)
+                .outputItems(alfsteelIngot)
                 .duration(800)
                 .circuitMeta(1)
                 .EUt(7200)

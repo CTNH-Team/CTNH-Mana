@@ -1,7 +1,6 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import appeng.core.definitions.AEItems;
-import appeng.items.AEBaseItem;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -13,17 +12,12 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMElements;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
-import com.moguang.ctnhmana.registry.multiblock.BloodMagic;
-import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Blocks;
-import vazkii.botania.common.block.BotaniaBlockFlammability;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -38,7 +32,7 @@ import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_REACTOR_RECIPES;
 
-public class ManaMachineBlocks {
+public class ManaMachineBlockRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("pure_block") //纯净机械方块
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
@@ -251,7 +245,7 @@ public class ManaMachineBlocks {
                 .input(ChemicalHelper.get(rod,Elementium))
                 .input(ChemicalHelper.get(rod,Elementium))
                 .input(ChemicalHelper.get(rod,Elementium))
-                .output(ELEMENTIUM_CASING.asStack())
+                .output(ELEMENTIUM_FRAME.asStack())
                 .mana(6000)
                 .save(provider);
         TerraPlateRecipeBuilder.builder("alfsteel_casing1") // 精灵钢机械方块

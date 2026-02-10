@@ -67,9 +67,10 @@ public class CTNHManaGTAddon implements IGTAddon {
         runeRitualRecipes.init(provider);
         TerraPlateRecipes.init(provider);
         ManaPoolRecipes.init(provider);
-        ManaMachineBlocks.init(provider);
+        ManaMachineBlockRecipes.init(provider);
         GaiaReactorRecipes.init(provider);
         ManaMachineRecipes.init(provider);
+        ManaHatchRecipes.init(provider);
         //示例：重新注册所有血祭坛配方
 //        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }

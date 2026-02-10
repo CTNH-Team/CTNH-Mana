@@ -20,10 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * 精灵台配方建造器
- * 贴合PetalRecipeBuilder编码风格，支持魔力消耗、颜色渐变、多原料/带数量原料、配方分组
- */
 public class ElfPlateRecipeBuilder {
     // 核心配方属性，初始化默认值（颜色默认白色，魔力消耗默认未设置）
     private final List<Ingredient> inputs = new ArrayList<>();
@@ -34,27 +30,19 @@ public class ElfPlateRecipeBuilder {
     private int fromColor = 16777215; // 白色默认RGB值
     private int toColor = 16777215;   // 白色默认RGB值
 
-    /**
-     * 私有构造器，禁止直接实例化，通过静态builder工厂方法调用
-     * @param name 配方基础名称，用于生成配方ID
-     */
     private ElfPlateRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }
 
-    // ===================== 静态工厂方法（和PetalRecipeBuilder完全一致）=====================
     public static ElfPlateRecipeBuilder builder(String name) {
         return new ElfPlateRecipeBuilder(name);
     }
 
-    // ===================== 原料添加方法（链式调用，支持多类型原料/带数量）=====================
-    // 单物品原料（ItemLike，适配物品/方块实例）
     public ElfPlateRecipeBuilder input(ItemLike item) {
         this.inputs.add(Ingredient.of(item));
         return this;
     }
 
-    // 带数量的物品原料（循环添加对应次数，满足多份原料需求）
     public ElfPlateRecipeBuilder input(ItemLike item, int quantity) {
         for (int i = 0; i < quantity; i++) {
             this.inputs.add(Ingredient.of(item));
@@ -114,7 +102,6 @@ public class ElfPlateRecipeBuilder {
         return this;
     }
 
-    // ===================== JSON序列化（抽离方法，解耦逻辑，和PetalRecipeBuilder一致）=====================
     public void toJson(JsonObject json) {
         // 序列化配方分组（非空才添加）
         if (!this.group.isEmpty()) {
@@ -136,15 +123,6 @@ public class ElfPlateRecipeBuilder {
 
     // ===================== 构建FinishedRecipe（匿名内部类，和PetalRecipeBuilder完全一致）=====================
     public FinishedRecipe build() {
-        // 核心校验：魔力消耗未设置，抛出明确异常
-        if (this.manaCost < 0) {
-            throw new IllegalStateException("No mana cost set for elf plate recipe: " + this.id);
-        }
-        // 额外校验：输出物品未设置/空，抛出异常（避免运行时空指针）
-        if (this.output == null || this.output.isEmpty()) {
-            throw new IllegalStateException("No output set for elf plate recipe: " + this.id);
-        }
-
         return new FinishedRecipe() {
             @Override
             public void serializeRecipeData(JsonObject pJson) {
@@ -176,7 +154,6 @@ public class ElfPlateRecipeBuilder {
         };
     }
 
-    // ===================== 保存配方（对接DataGenerator，一键保存，和PetalRecipeBuilder一致）=====================
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(this.build());
     }
