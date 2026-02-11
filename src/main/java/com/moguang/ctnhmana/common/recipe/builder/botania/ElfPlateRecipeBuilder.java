@@ -115,7 +115,6 @@ public class ElfPlateRecipeBuilder {
             ingredients.add(ingredient.toJson());
         }
         json.add("ingredients", ingredients);
-        // 序列化精灵台核心属性：魔力消耗、颜色渐变
         json.addProperty("mana", this.manaCost);
         json.addProperty("fromColor", this.fromColor);
         json.addProperty("toColor", this.toColor);

@@ -136,7 +136,11 @@ public class TerraPlateRecipeBuilder {
         }
 
         for (Ingredient ingredient : pre_inputs) {
-            gtBuilder.inputItems(ingredient.getItems()[0]);
+            if(ingredient.getItems()[0].getCount()>1)
+                gtBuilder.inputItems(ingredient.getItems()[0]);
+            else gtBuilder.inputItems(ingredient);
+
+//            gtBuilder.inputItems(ingredient.getItems()[0]);
         }
         gtBuilder.outputItems(this.output);
 

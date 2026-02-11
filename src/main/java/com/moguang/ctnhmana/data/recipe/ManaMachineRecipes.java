@@ -138,7 +138,7 @@ public class ManaMachineRecipes {
                 .inputItems(CASING_TITANIUM_STABLE.asItem(), 4)
                 .inputItems(runeWinter, 16)
                 .inputFluids(Mana.getFluid(4000))
-                .outputItems(MANA_TRANSISTOR.asStack())
+                .outputItems(MANA_CONDENSER.asStack())
                 .EUt(1920)
                 .duration(200)
                 .save(provider);

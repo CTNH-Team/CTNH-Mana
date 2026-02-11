@@ -75,4 +75,6 @@ dependencies {
     //AE2
     modImplementation("appeng:appliedenergistics2-forge:${ae2_version}")
     modImplementation("curse.maven:guideme-1173950:6679102")
+
+    modImplementation("committee.nova.mods:avaritia-forge:${avaritia_version}")
 }

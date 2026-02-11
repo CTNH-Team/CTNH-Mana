@@ -16,7 +16,7 @@ public class CMGuiTextures {
     public static final ResourceTexture QUADRANT_NEUTRAL_SELECTED_BORDER=new ResourceTexture("ctnhmana:textures/gui/shroud/quadrant_neutral_selected_border.png");//中性象限
     public static final ResourceTexture TEST_ACTIVE_BAR=new ResourceTexture("ctnhmana:models/block/machine/part/manahatch.json");
     public static  final ResourceTexture PROGRESS_BAR_BT_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/bt_bar_empty.png");
-    public static  final AnimationTexture PROGRESS_BAR_BT_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/by_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
+    public static  final AnimationTexture PROGRESS_BAR_BT_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/bt_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
     public static  final ResourceTexture PROGRESS_BAR_BM_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/bm_bar_empty.png");
     public static  final AnimationTexture PROGRESS_BAR_BM_MANA_HATCH_DYNAMIC=new AnimationTextureY("ctnhmana:textures/gui/bar/bm_bar_full.png").setCellSize(7).setAnimation(0,6).setAnimation(5);
     public static  final ResourceTexture PROGRESS_BAR_MANA_HATCH_EMPTY=new ResourceTexture("ctnhmana:textures/gui/bar/mana_bar_empty.png");

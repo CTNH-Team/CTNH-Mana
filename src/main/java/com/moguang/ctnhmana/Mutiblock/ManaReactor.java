@@ -23,6 +23,7 @@ public class ManaReactor extends BaseManaMachine{
         List<ManaReactorCondition> conditions = recipe.conditions.stream().filter(ManaReactorCondition.class::isInstance)
                 .map(ManaReactorCondition.class::cast)
                 .toList();
+        if(conditions.isEmpty())return super.getRealRecipe(recipe);
         var condition=conditions.get(0);
         if(!condition.getZenithType().equals("Blank"))
         {
