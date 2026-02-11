@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
@@ -66,6 +68,12 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE,  ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data->
+            {
+                if(data.getString("type").equals("eat"))return EternalGardenSpecialRecipes.eternalFoodRecipeLang.translate().getString();
+                if(data.getString("type").equals("fire"))return EternalGardenSpecialRecipes.eternalCoalRecipeLang.translate().getString();
+                return null;
+            })
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType MANA_CONDENSER_RECIPES = REGISTRATE.recipeType(GTCEu.id("mana_condenser"), MULTIBLOCK)
@@ -113,14 +121,20 @@ public class CMRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
-    public static final GTRecipeType GAIA_REACTOR_RECIPES = REGISTRATE.recipeType(GTCEu.id("gaia_reactor"), MULTIBLOCK)
+    public static final GTRecipeType GAIA_REACTOR_RECIPES = REGISTRATE.recipeType(GTCEu.id("gaia_reactor"),  ELECTRIC)
             .cnlang("盖亚反应").setMaxIOSize(2, 24, 2, 2)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CUT);
+    public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE.recipeType(GTCEu.id("mana_forge"),  ELECTRIC)
+            .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FORGE_HAMMER);
 
-    public static final GTRecipeType METEOR_CAPTURER_RECIPES = REGISTRATE.recipeType(GTCEu.id("meteor_capturer"), MULTIBLOCK)
+    public static final GTRecipeType METEOR_CAPTURER_RECIPES = REGISTRATE.recipeType(GTCEu.id("meteor_capturer"),  ELECTRIC)
             .cnlang("集成式坠星位标").setMaxIOSize(1, 24, 1, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)

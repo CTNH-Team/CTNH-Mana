@@ -55,7 +55,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Persisted
     public int TargetNum=3;
     @Persisted
-    public int maxMana=10000;
+    public int maxMana=1000;
     @Persisted
     public BlockPos sparkpos;
     @Persisted
@@ -76,8 +76,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void onStructureFormed() {
         super.onStructureFormed();
         this.sparkpos=MachineUtils.getOffset(this,0,10,1);
-        ((MysticSpireBlockEntity) this.holder).setMaxMana(1000000);
-        ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
+        ((MysticSpireBlockEntity) this.holder).setMaxMana(10000000);
+//        ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
         if(connectedSparkPos!=null&&!this.getLevel().getEntitiesOfClass(DeltaSpark.class,new AABB(connectedSparkPos)).isEmpty())
         {
             this.ConnectedSpark=this.getLevel().getEntitiesOfClass(DeltaSpark.class,new AABB(connectedSparkPos)).get(0);

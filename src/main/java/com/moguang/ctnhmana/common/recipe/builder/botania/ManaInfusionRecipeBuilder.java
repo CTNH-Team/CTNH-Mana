@@ -150,7 +150,7 @@ public  class ManaInfusionRecipeBuilder {
         gtBuilder.outputItems(this.output);
         long gtEUt=(long)(128);
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(20,this.mana/5000);
+        int gtDuration = Math.max(20,20+this.mana/5000*20);
         gtBuilder.duration(gtDuration);
         if(meta>=0)
             gtBuilder.circuitMeta(meta);

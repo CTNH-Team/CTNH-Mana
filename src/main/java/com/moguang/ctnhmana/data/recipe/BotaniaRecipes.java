@@ -35,6 +35,8 @@ import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import javax.sound.sampled.LineEvent;
 import javax.swing.text.html.HTML;
 import java.util.function.Consumer;
+
+import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_FORGE_RECIPES;
 import static io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
@@ -495,6 +497,18 @@ public class BotaniaRecipes {
                 .input(GREEN,RED,CYAN,LIGHTBLUE)
                 .output(new ItemStack(BotaniaFlowerBlocks.manastar.asItem(),1))
                 .reagent(Tags.Items.SEEDS)
+                .save(provider);
+        MANA_FORGE_RECIPES.recipeBuilder("potato")
+                .inputItems(gildedPotato)
+                .outputItems(gildedPotatoMashed)
+                .duration(1000)
+                .EUt(4)
+                .save(provider);
+        MANA_FORGE_RECIPES.recipeBuilder("spirit")
+                .inputItems(spiritFuel)
+                .outputItems(spiritFragment)
+                .duration(2000)
+                .EUt(4)
                 .save(provider);
     }
 }

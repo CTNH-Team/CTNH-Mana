@@ -306,7 +306,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(ChemicalHelper.get(rod,TerraSteel),4)
                 .inputFluids(Mana.getFluid(500))
                 .circuitMeta(4)
-                .outputItems(ChemicalHelper.get(frameGt,TerraSteel),1)
+                .outputItems(TERRA_STEEL_FRAME.asStack(),1)
                 .EUt(1920)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_casing_block") //   天顶强化机械方块

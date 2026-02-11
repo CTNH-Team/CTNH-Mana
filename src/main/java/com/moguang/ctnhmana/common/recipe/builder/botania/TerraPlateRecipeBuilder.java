@@ -146,7 +146,7 @@ public class TerraPlateRecipeBuilder {
 
         long gtEUt=(long)(512);
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(20,this.mana/2000);
+        int gtDuration = Math.max(20,20+this.mana/2500);
         gtBuilder.duration(gtDuration);
         if(meta>=0)
             gtBuilder.circuitMeta(meta);
@@ -164,7 +164,6 @@ public class TerraPlateRecipeBuilder {
         json.add("result", ItemNBTHelper.serializeStack(this.output));
     }
     public void toElfJson(JsonObject json) {
-        // 序列化配方分组（非空才添加）
         if (!this.group.isEmpty()) {
             json.addProperty("group", this.group);
         }

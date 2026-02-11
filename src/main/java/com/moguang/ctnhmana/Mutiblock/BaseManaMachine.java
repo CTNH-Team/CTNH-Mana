@@ -236,7 +236,7 @@ public class BaseManaMachine extends ManaMachine {
             updateType=null;
             true_parallel=0;
         }
-        public  void Copy(MachineMetric other) {
+        public void Copy(MachineMetric other) {
             this.parallel = other.parallel;
             this.speed = other.speed;
             this.eut = other.eut;

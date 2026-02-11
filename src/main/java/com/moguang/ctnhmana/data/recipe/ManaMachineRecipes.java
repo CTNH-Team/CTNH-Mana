@@ -161,7 +161,7 @@ public class ManaMachineRecipes {
                 .inputItems(ENDSLATE.get().asItem())
                 .inputItems(BLOODSTONE_BRICK.get().asItem(), 4)
                 .inputFluids(Epoxy.getFluid(576))
-                .outputItems(METEOR_CAPTURER.get())
+                .outputItems(METEOR_CAPTURER.asStack())
                 .EUt(7680)
                 .duration(100)
                 .save(provider);

@@ -264,7 +264,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("life_essence")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(runeFire)
+                .inputItems(runeFire.asItem())
                 .inputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:eyebulb")))
                 .inputItems(ForgeRegistries.FLUIDS.getValue(new ResourceLocation("biomesoplenty:blood_bucket")),4)
                 .inputFluids(Mana.getFluid(1000))
