@@ -105,6 +105,7 @@ public class BloodMagic {
                     .where("O", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_LASER))
                     )
                     .where("P", Predicates.blocks(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS))
                     .where("Q", Predicates.blocks(Blocks.RED_STAINED_GLASS_PANE))
