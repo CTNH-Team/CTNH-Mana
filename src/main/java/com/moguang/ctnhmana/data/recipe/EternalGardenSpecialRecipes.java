@@ -15,7 +15,7 @@ public class EternalGardenSpecialRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         var food = Items.BREAD.getDefaultInstance();
         food.setHoverName(eternal_food_lang.translate());
-        CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("eat")
+        CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("eat")//魔力
                 .notConsumable(BotaniaFlowerBlocks.gourmaryllis.asItem())
                 .inputItems(food)
                 .EUt(320)
@@ -25,7 +25,7 @@ public class EternalGardenSpecialRecipes {
                 .save(provider);
         var flame=Items.COAL.getDefaultInstance();
         flame.setHoverName(eternal_coal_lang.translate());
-        CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("endo_flame")
+        CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("endo_flame")//魔力
                 .notConsumable(BotaniaFlowerBlocks.endoflame.asItem())
                 .inputItems(flame)
                 .EUt(320)

@@ -163,7 +163,7 @@ public class HellForgeRecipes {
                     .output(augShapedStack)
                     .save(provider);
         }
-        TartaricForgeRecipeBuilder.builder("output_routing_node")
+        TartaricForgeRecipeBuilder.builder("output_routing_node")//输出路由节点
                 .input(new ItemStack(REDSTONE,1))
                 .input(new ItemStack(IRON_INGOT,1))
                 .input(ROUTING_NODE_BLOCK_ITEM.get())
@@ -173,7 +173,7 @@ public class HellForgeRecipes {
                 .soulDrain(60)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("steadfast_crystal_block_item")
+        HELL_FORGE_RECIPES.recipeBuilder("steadfast_crystal_block_item")//坚韧晶体块
                 .addCondition(new HellForgeCondition(1200))
                 .inputItems(STEADFAST_CRYSTAL)
                 .inputItems(STEADFAST_CRYSTAL)
@@ -184,7 +184,7 @@ public class HellForgeRecipes {
                 .EUt(24000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("deforester_charge_item")
+        HELL_FORGE_RECIPES.recipeBuilder("deforester_charge_item")//伐木充能
                 .addCondition(new HellForgeCondition(10))
                 .inputItems(OAK_PLANKS,1)
                 .inputItems(COBBLESTONE,1)
@@ -195,7 +195,7 @@ public class HellForgeRecipes {
                 .EUt(200)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("throwing_dagger_syringe")
+        HELL_FORGE_RECIPES.recipeBuilder("throwing_dagger_syringe")//飞刀注射器
                 .addCondition(new HellForgeCondition(10))
                 .inputItems(GLASS,1)
                 .inputItems(ANDESITE,1)
@@ -226,7 +226,7 @@ public class HellForgeRecipes {
                 .EUt(8000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("amethyst_throwing_dagger")
+        HELL_FORGE_RECIPES.recipeBuilder("amethyst_throwing_dagger")//紫水晶飞刀
                 .addCondition(new HellForgeCondition(32))
                 .inputItems(AMETHYST_SHARD,1)
                 .inputItems(COPPER_INGOT,2)
@@ -235,7 +235,7 @@ public class HellForgeRecipes {
                 .EUt(128000/200)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("hellforged_parts")
+        HELL_FORGE_RECIPES.recipeBuilder("hellforged_parts")//狱火锻零件
                 .addCondition(new HellForgeCondition(1000))
                 .inputItems(HELLFORGED_PARTS)
                 .inputItems(NETHERITE_SCRAP,1)
@@ -246,7 +246,7 @@ public class HellForgeRecipes {
                 .EUt(4000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("destructive_crystal_block_item")
+        HELL_FORGE_RECIPES.recipeBuilder("destructive_crystal_block_item")//破坏晶体块
                 .addCondition(new HellForgeCondition(1200))
                 .inputItems(DESTRUCTIVE_CRYSTAL)
                 .inputItems(DESTRUCTIVE_CRYSTAL)
@@ -257,7 +257,7 @@ public class HellForgeRecipes {
                 .EUt(24000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("destructive_crystal_catalyst")
+        HELL_FORGE_RECIPES.recipeBuilder("destructive_crystal_catalyst")//破坏晶体催化剂
                 .addCondition(new HellForgeCondition(400))
                 .inputItems(NETHER_WART)
                 .inputItems(BEETROOT)
@@ -268,7 +268,7 @@ public class HellForgeRecipes {
                 .EUt(8000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("lesser_gem")
+        HELL_FORGE_RECIPES.recipeBuilder("lesser_gem")//次级宝石
                 .addCondition(new HellForgeCondition(60))
                 .inputItems(PETTY_GEM)
                 .inputItems(LAPIS_BLOCK)
@@ -290,7 +290,7 @@ public class HellForgeRecipes {
 //                .EUt(8000)
 //                .circuitMeta(1)
 //                .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("miners_key")
+        HELL_FORGE_RECIPES.recipeBuilder("miners_key")//矿工之钥
                 .addCondition(new HellForgeCondition(1200))
                 .inputItems(COPPER_INGOT)
                 .inputItems(HELLFORGED_INGOT)
@@ -300,7 +300,7 @@ public class HellForgeRecipes {
                 .EUt(24000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("corrosive_crystal_catalyst")
+        HELL_FORGE_RECIPES.recipeBuilder("corrosive_crystal_catalyst")//侵蚀晶体催化剂
                 .addCondition(new HellForgeCondition(400))
                 .inputItems(NETHER_WART)
                 .inputItems(WHEAT_SEEDS)
@@ -311,7 +311,7 @@ public class HellForgeRecipes {
                 .EUt(8000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("demon_pylon_item")
+        HELL_FORGE_RECIPES.recipeBuilder("demon_pylon_item")//恶魔塔
                 .addCondition(new HellForgeCondition(400))
                 .inputItems(DEMON_CRUCIBLE_ITEM)
                 .inputItems(REAGENT_TELEPOSITION)
@@ -322,7 +322,7 @@ public class HellForgeRecipes {
                 .EUt(8000)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("sentient_scythe")
+        HELL_FORGE_RECIPES.recipeBuilder("sentient_scythe")//感知镰刀
                 .addCondition(new HellForgeCondition(0))
                 .inputItems(IRON_HOE)
                 .inputItems(PETTY_GEM)
@@ -331,7 +331,7 @@ public class HellForgeRecipes {
                 .EUt(30)
                 .circuitMeta(1)
                 .save(provider);
-        HELL_FORGE_RECIPES.recipeBuilder("demon_crucible_item")
+        HELL_FORGE_RECIPES.recipeBuilder("demon_crucible_item")//恶魔坩埚
                 .addCondition(new HellForgeCondition(400))
                 .inputItems(REAGENT_SIGHT)
                 .inputItems(REAGENT_VOID)

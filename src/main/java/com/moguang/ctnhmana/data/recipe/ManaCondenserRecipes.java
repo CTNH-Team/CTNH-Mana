@@ -15,7 +15,7 @@ import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_CONDENSER_RECIPES
 
 public class ManaCondenserRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        MANA_CONDENSER_RECIPES.recipeBuilder("mana")
+        MANA_CONDENSER_RECIPES.recipeBuilder("mana")//魔力
                 .circuitMeta(0)
                 .outputFluids(CMMaterials.Mana.getFluid(200))
                 .EUt(480)

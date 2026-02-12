@@ -58,7 +58,7 @@ public class MeteorCapturerRecipes {
                 .duration(800)
                 .EUt(98304000/800)
                 .save(provider);
-        METEOR_CAPTURER_RECIPES.recipeBuilder("oilsands")
+        METEOR_CAPTURER_RECIPES.recipeBuilder("oilsands")//油砂矿
                 .inputItems(Oil.getBucket())
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000*256))
                 .outputItems(ChemicalHelper.get(ore,Oilsands),1024)
@@ -207,7 +207,7 @@ public class MeteorCapturerRecipes {
                 .duration(400)
                 .EUt(768000/400)
                 .save(provider);
-        METEOR_CAPTURER_RECIPES.recipeBuilder("fused_mana")
+        METEOR_CAPTURER_RECIPES.recipeBuilder("fused_mana")//融合魔力矿
                 .inputItems(ChemicalHelper.get(block,Plus_Mana),9)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000*192))
                 .outputItems(ChemicalHelper.get(ore,Fused_Mana),2560)
@@ -248,7 +248,7 @@ public class MeteorCapturerRecipes {
                 .duration(400)
                 .EUt(768000/400)
                 .save(provider);
-        METEOR_CAPTURER_RECIPES.recipeBuilder("tantalite")
+        METEOR_CAPTURER_RECIPES.recipeBuilder("tantalite")//钽铁矿
                 .inputItems(EMITTER_LuV)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000*512))
                 .outputItems(ChemicalHelper.get(ore,Tantalite),384)

@@ -175,7 +175,7 @@ public class runeRitualRecipes {
                 .output(STARLIGHT_RUNE.asItem())
                 .mana(500000)
                 .save(provider);
-        RuneRitualRecipeBuilder.builder("kvasirblood")
+        RuneRitualRecipeBuilder.builder("kvasirblood")//克瓦希尔之血
                 .center(fimbultyrTablet.asItem())
                 .rune2(runeFire, 1, -3)
                 .rune2(runeFire, 3, -1)
@@ -190,7 +190,7 @@ public class runeRitualRecipes {
                 .output(kvasirBlood.asItem())
                 .mana(10000)
                 .save(provider);
-        RuneRitualRecipeBuilder.builder("andwari_ring1")
+        RuneRitualRecipeBuilder.builder("andwari_ring1")//安瓦尔之戒
                 .center(runeMana.asItem())
                 .runex(runeGreed, 0, -3)
                 .rune4(runeGreed, 2, -2)
@@ -200,7 +200,7 @@ public class runeRitualRecipes {
                 .output(andwariRing.asItem())
                 .mana(0)
                 .save(provider);
-        RuneRitualRecipeBuilder.builder("andwari_ring2")
+        RuneRitualRecipeBuilder.builder("andwari_ring2")//安瓦尔之戒
                 .center(runeMana.asItem())
                 .runex(runeGreed, 0, -3)
                 .rune4(runeGreed, 2, -2)

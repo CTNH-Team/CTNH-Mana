@@ -212,7 +212,7 @@ public class ManaMachineRecipes {
                 .EUt(524288)
                 .duration(1000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("mysticspire")
+        TerraPlateRecipeBuilder.builder("mysticspire")//神秘尖塔
                 .input(corporeaBlock.asItem())
                 .input(corporeaBlock.asItem())
                 .input(corporeaBlock.asItem())

@@ -41,7 +41,7 @@ public class CMRecipeTypes {
                     .setSound(GTSoundEntries.CHEMICAL);
     public static final GTRecipeType BLOOD_ALTAR_RECIPES =
             REGISTRATE.recipeType(GTCEu.id("blood_altar"), GTRecipeTypes.ELECTRIC)
-                    .cnlang("工业血祭").setMaxIOSize(6, 6, 6, 6)
+                    .cnlang("工业血祭").setMaxIOSize(9, 9, 3, 3)
                     .setEUIO(IO.IN)
                     .setMaxTooltips(7)
                     .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)

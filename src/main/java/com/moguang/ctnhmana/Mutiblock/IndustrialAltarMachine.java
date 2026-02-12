@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
@@ -38,6 +39,9 @@ import wayoftime.bloodmagic.common.tile.TileAltar;
 
 import java.util.List;
 
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughLP;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
+
 @SuppressWarnings("removal")
 public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implements ITieredMachine {
     public IndustrialAltarMachine(IMachineBlockEntity holder, Object... args) {
@@ -66,7 +70,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     public int chargingFrequency=20;
     @Getter
     @Persisted
-    public String Upgrade;
+    public String Upgrade="None";
     public String Upgrade_name="无";
 
     @Override
@@ -84,13 +88,15 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         {
             return super.beforeWorking(recipe);
         }
+        RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughLP.translate());
         return false;
     }
     @Override
     public boolean onWorking(){
-        if(!consumeLPIfEnough(consumption_lp))
+        if(!consumeLPIfEnough(Upgrade.equals("suppression")? (int) (consumption_lp * 0.5) :consumption_lp))
         {
             getRecipeLogic().setProgress(this.getProgress()-1);
+            RecipeLogic.putFailureReason(this,this.getRecipeLogic().getLastOriginRecipe().copy(),failureManaLang_NoEnoughLP.translate());
         }
         return super.onWorking();
     }
@@ -163,7 +169,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
     public int calculateSpeed(int tier)
     {
-        return (int) (Math.pow(2,tier));
+        return this.Upgrade.equals("ephemeral")?(int) (Math.pow(4,tier)):(int) Math.pow(2,tier);
     }
     //////////////////////////////////////
     // ********  Modifier  ********//
@@ -560,4 +566,3 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 
 
 }
-

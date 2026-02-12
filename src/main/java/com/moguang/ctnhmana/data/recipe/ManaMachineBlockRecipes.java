@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
+import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
@@ -17,6 +18,7 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -154,12 +156,12 @@ public class ManaMachineBlockRecipes {
                 .inputItems(BotaniaItems.runeAutumn.asItem(),2)
                 .inputItems(BotaniaItems.runeMana.asItem(),2)
                 .inputItems(MANA_STEEL_CASING.asStack())
-                .outputItems(CMBlocks.MANA_FORGE_CORE.asItem()) //魔力粉碎核心
+                .outputItems(CMBlocks.MANA_FORGE_CORE.asItem()) //魔力锻造核心
                 .duration(200)
                 .circuitMeta(2)
                 .EUt(32)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_refinment_core") //魔力细核心
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_refinment_core") //魔力精炼核心
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
                 .inputItems(BotaniaItems.manaMirror.asItem())
                 .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel),4)
@@ -272,7 +274,7 @@ public class ManaMachineBlockRecipes {
                 .input(ChemicalHelper.get(rod,AlfSteel))
                 .input(ChemicalHelper.get(rod,AlfSteel))
                 .input(ChemicalHelper.get(rod,AlfSteel))
-                .output(ALF_STEEL_CASING.asStack())
+                .output(ALFSTEEL_FRAME.asStack())
                 .mana(5000)
                 .save(provider);
         TerraPlateRecipeBuilder.builder("terra_steel_casing1") // 泰拉钢机械方块
@@ -457,6 +459,15 @@ public class ManaMachineBlockRecipes {
                 .input(CMItems.HORIZEN_RUNE.asStack())
                 .output(ZENITH_EYE.asStack())
                 .mana(7777777)
+                .save(provider);
+        BloodAltarRecipeBuilder.builder("casing_blood")//血染机械方块
+                .input(new ItemStack(GTBlocks.CASING_STEEL_SOLID,1))
+                .output(new ItemStack(CMBlocks.CASING_BLOOD.get(),1))
+                .syphon(10000)
+                .minimumTier(4)
+                .circuitMeta(1)
+                .consumeRate(100)
+                .drainRate(20)
                 .save(provider);
 
 

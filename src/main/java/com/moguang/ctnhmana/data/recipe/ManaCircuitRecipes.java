@@ -52,11 +52,11 @@ public class ManaCircuitRecipes {
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, CMMaterials.COAGULBLOODGOLD,2))
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,CMMaterials.HEMOPLATINUM,12))
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144))
-                .outputItems(BLOOD_DIODE,16)
+                .outputItems(BLOOD_DIODE,6)
                 .circuitMeta(2)
                 .duration(450)
                 .EUt(GTValues.VA[GTValues.MV])
-                .addCondition(new BloodAltarCondition(2,40,900))
+                .addCondition(new BloodAltarCondition(2,40,450*40))
                 .save(provider);
         BloodAltarRecipeBuilder.builder("bloody_resistor")//血染逻辑电阻
                 .input(GTItems.SMD_RESISTOR.asStack())
@@ -72,22 +72,22 @@ public class ManaCircuitRecipes {
                 .inputItems(ChemicalHelper.get(TagPrefix.foil,CMMaterials.COAGULBLOODGOLD,8))
                 .inputItems(BloodMagicItems.REAGENT_LAVA)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144*8))
-                .outputItems(BLOOD_CAPACITOR,48)
+                .outputItems(BLOOD_CAPACITOR,6)
                 .circuitMeta(1)
                 .duration(450)
                 .EUt(GTValues.VA[GTValues.MV])
-                .addCondition(new BloodAltarCondition(2,40,900))
+                .addCondition(new BloodAltarCondition(2,40,450*40))
                 .save(provider);
         BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_transistor")//鲜血结晶管
-                .inputItems(ChemicalHelper.get(TagPrefix.foil,CMMaterials.Aerialite,32))
-                .inputItems(ChemicalHelper.get(TagPrefix.wireFine,GTMaterials.BlackSteel,64))
+                .inputItems(ChemicalHelper.get(TagPrefix.foil,CMMaterials.Aerialite,16))
+                .inputItems(ChemicalHelper.get(TagPrefix.wireFine,GTMaterials.BlackSteel,32))
                 .inputItems(BloodMagicItems.REAGENT_WATER)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144*8))
-                .outputItems(BLOOD_TRANSISTOR,48)
+                .outputItems(BLOOD_TRANSISTOR,6)
                 .circuitMeta(1)
                 .duration(450)
                 .EUt(GTValues.VA[GTValues.MV])
-                .addCondition(new BloodAltarCondition(2,40,900))
+                .addCondition(new BloodAltarCondition(2,40,450*40))
                 .save(provider);
         BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_inductor")//血级电感
                 .inputItems(ChemicalHelper.get(TagPrefix.ring,GTMaterials.NickelZincFerrite,1))
@@ -95,11 +95,11 @@ public class ManaCircuitRecipes {
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,GTMaterials.BlackSteel,8))
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,CMMaterials.HEMOPLATINUM,12))
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144*8))
-                .outputItems(BLOOD_INDUCTOR,32)
+                .outputItems(BLOOD_INDUCTOR,6)
                 .circuitMeta(1)
                 .duration(450)
                 .EUt(GTValues.VA[GTValues.MV])
-                .addCondition(new BloodAltarCondition(2,40,900))
+                .addCondition(new BloodAltarCondition(2,40,450*40))
                 .save(provider);
         BloodAltarRecipeBuilder.builder("bloody_wafer")//血染逻辑晶圆
                 .input(MANA_WAFER.asStack())
@@ -113,9 +113,9 @@ public class ManaCircuitRecipes {
         BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_wafer_2")//血染逻辑晶圆
                 .inputItems(GTItems.PHOSPHORUS_WAFER.asItem())
                 .outputItems(BLOODY_WAFER.asStack())
-                .addCondition(new BloodAltarCondition(2,100,5000,"etching"))
+                .addCondition(new BloodAltarCondition(2,100,100*50*20,"etching"))
                 .EUt(GTValues.VA[GTValues.HV])
-                .duration(5000/100*20)
+                .duration(50*20)
                 .circuitMeta(6)
                 .save(provider);
         GTRecipeTypes.CUTTER_RECIPES.recipeBuilder("bloody_circuit")//血染逻辑芯片
@@ -125,6 +125,20 @@ public class ManaCircuitRecipes {
                 .EUt(32)
                 .duration(444*20)
                 .save(provider);
+        BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_circuit") //血染电路板
+                .inputItems(BLOOD_INDUCTOR,6)
+                .inputItems(BLOOD_DIODE,6)
+                .inputItems(BLOOD_CAPACITOR,6)
+                .inputItems(BLOOD_TRANSISTOR,6)
+                .inputItems(BLOOD_INDUCTOR,6)
+                .inputItems(BLOODY_CHIP,6)
+                .inputItems(RUNE_CIRCUIT_BOARD,6)
+                .outputItems(BLOODY_NANO_PROCESSOR_MAINFRAME)
+                .EUt(66)
+                .duration(20*20)
+                .addCondition(new BloodAltarCondition(4,1000,1000*20*20,"suppression"))
+                .save(provider);
+
         CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_resistor")//意志阻遏电阻
                 .outputItems(WILL_RESISTOR,6)
                 .inputItems(GTItems.ADVANCED_SMD_RESISTOR,6)
@@ -134,15 +148,15 @@ public class ManaCircuitRecipes {
                 .EUt(6666)
                 .duration(66*6)
                 .save(provider);
-        CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_transistor")//晶化意志管
+        CMRecipeTypes.BLOOD_ALTAR_RECIPES.recipeBuilder("will_transistor")//晶化意志管
                 .outputItems(WILL_TRANSISTOR,6)
                 .inputItems(GTItems.ADVANCED_SMD_TRANSISTOR,6)
                 .inputItems(ChemicalHelper.get(TagPrefix.foil,CMMaterials.DEMON),6)
                 .inputItems(BloodMagicItems.REINFORCED_SLATE)
                 .inputItems(BloodMagicItems.RAW_CRYSTAL,1)
-                .addCondition(new HellForgeCondition(66))
+                .addCondition(new BloodAltarCondition(4,1000,10000*20,"ephemeral"))
                 .EUt(6666)
-                .duration(66*6)
+                .duration(10*20)
                 .save(provider);
         CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_inductor")//意志悖论电感
                 .outputItems(WILL_INDUCTOR,6)

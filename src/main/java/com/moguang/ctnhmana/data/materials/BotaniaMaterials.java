@@ -26,7 +26,7 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING
                         )
                 .cableProperties(GTValues.V[GTValues.LV], 6, 1)
                 .buildAndRegister();

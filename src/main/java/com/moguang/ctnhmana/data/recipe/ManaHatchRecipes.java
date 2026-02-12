@@ -44,7 +44,7 @@ public class ManaHatchRecipes {
                 .EUt(120)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("giga_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("giga_mana_hatch")//千兆魔力凝聚者
                 .inputItems(CMBlocks.TERRA_STEEL_CASING.asStack())
                 .inputItems(BotaniaBlocks.fabulousPool.asItem())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.TerraSteel),4)
@@ -56,7 +56,7 @@ public class ManaHatchRecipes {
                 .EUt(320)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("sky_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("sky_mana_hatch")//天际魔力凝聚者
                 .inputItems(CMBlocks.ELF_STEEL_CASING_GEARBOX.asStack())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.Orichalcos),4)
                 .inputItems(GTMachines.FLUID_IMPORT_HATCH[5].asStack())
@@ -68,7 +68,7 @@ public class ManaHatchRecipes {
                 .EUt(8192)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("chemical_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("chemical_mana_hatch")//工业魔力凝聚者
                 .inputItems(CMBlocks.PURE_MAGIC_CALCULATE_CORE.asStack())
                 .inputItems(CMBlocks.PURE_LOGIC_CASING.asStack())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, GTMaterials.TungstenSteel),4)
@@ -80,7 +80,7 @@ public class ManaHatchRecipes {
                 .EUt(8192/4)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("bloody_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("bloody_mana_hatch")//凝血魔力凝聚者
                 .inputItems(CMBlocks.CASING_BLOOD.asStack())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.COAGULBLOODGOLD),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.HEMOPLATINUM),4)
@@ -89,7 +89,7 @@ public class ManaHatchRecipes {
                 .EUt(8192/4/4)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("soul_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("soul_mana_hatch")//灵魂魔力凝聚者
                 .inputItems(CMMachines.BM_HATCH.asStack())
                 .inputItems(CMBlocks.SOUL_LOCKING_CASING.asStack())
                 .inputItems(CMBlocks.CASING_BLOODLOGIC.asStack())
@@ -97,7 +97,6 @@ public class ManaHatchRecipes {
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.PRIMOVOLITHEST),4)
                 .inputItems(BloodMagicItems.ORB_MASTER)
                 .inputItems(CMItems.ENDSLATE)
-
                 .outputItems(CMMachines.BM_HATCH_T2.asStack())
                 .EUt(8192/4)
                 .duration(200)
