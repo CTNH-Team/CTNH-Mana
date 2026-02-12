@@ -101,7 +101,52 @@ public class ChineseLangHandler {
     @CN("§c凝血魔力凝聚者")
     public static Lang bloodmanahatchtooltip_1;
 
-
+    @CN("蚀刻强化")
+    @EN("Etching Upgrade")
+    public static Lang etching_jade_upgrade;
+    @CN(
+            {
+                    "放置在血祭坛中时：",
+                    "使工业血祭坛可以执行额外的配方",
+            }
+    )
+    @EN(  {
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+    })
+    public static Lang[] etchingJadeLang;
+    @CN(
+            {
+                    "放置在血祭坛中时：",
+                    "使工业血祭坛可以执行额外的配方",
+                    "减少一半的LP消耗"
+            }
+    )
+    @EN(  {
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "减少一半的LP消耗"
+    })
+    public static Lang[] suppressionJadeLang;
+    @CN(
+            {
+                    "放置在血祭坛中时：",
+                    "使工业血祭坛可以执行额外的配方",
+                    "将工业血祭坛的超频改为无损超频"
+            }
+    )
+    @EN(  {
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "将工业血祭坛的超频改为无损超频"
+    })
+    public static Lang[] ephemeralJadeLang;
+    @CN("抑液强化")
+    @EN("Suppression Upgrade")
+    public static Lang suppression_jade_upgrade;
+    @CN("须臾强化")
+    @EN("Ephemeral Upgrade")
+    public static Lang ephemeral_jade_upgrade;
 
     public static void init(RegistrateCNLangProvider provider){
         provider.add("ctnh.item.runes.starlight_rune","Per Aspera Ad Astra");

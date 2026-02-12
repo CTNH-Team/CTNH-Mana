@@ -45,7 +45,7 @@ import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 @SuppressWarnings("removal")
 public class BeamsRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        BEAMS.recipeBuilder("slate" )
+        BEAMS.recipeBuilder("slate" )//空白石板
                 .addData("required_mana",500000)
                 .addData("mana",100000)
                 .circuitMeta(1)
@@ -54,7 +54,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("reinforced_slate" )
+        BEAMS.recipeBuilder("reinforced_slate" )//强化石板
                 .addData("required_mana",500000)
                 .addData("mana",100000)
                 .circuitMeta(1)
@@ -63,7 +63,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("demonic_slate" )
+        BEAMS.recipeBuilder("demonic_slate" )//恶魔石板
                 .addData("required_mana",1000000)
                 .addData("mana",500000)
                 .circuitMeta(1)
@@ -72,7 +72,7 @@ public class BeamsRecipes {
                 .EUt(19600)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("imbued_slate" )
+        BEAMS.recipeBuilder("imbued_slate" )//注魔石板
                 .addData("required_mana",750000)
                 .addData("mana",400000)
                 .circuitMeta(1)
@@ -81,7 +81,7 @@ public class BeamsRecipes {
                 .EUt(1960)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("weak_blood_shard" )
+        BEAMS.recipeBuilder("weak_blood_shard" )//弱血碎片
                 .addData("required_mana",2000000)
                 .addData("mana",1000000)
                 .circuitMeta(1)
@@ -90,7 +90,7 @@ public class BeamsRecipes {
                 .EUt(10000)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("raw_crystal" )
+        BEAMS.recipeBuilder("raw_crystal" )//原晶
                 .addData("required_mana",5000000)
                 .addData("mana",2000000)
                 .circuitMeta(1)
@@ -108,7 +108,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(100)
                 .save(provider);
-        BEAMS.recipeBuilder("zenith_essence" )
+        BEAMS.recipeBuilder("zenith_essence" )//顶点精华
                 .addData("required_mana",5000000)
                 .addData("mana",1000000)
                 .circuitMeta(1)
@@ -119,7 +119,7 @@ public class BeamsRecipes {
                 .EUt(66666)
                 .duration(400)
                 .save(provider);
-        BEAMS.recipeBuilder("umlhpic_wafer" )
+        BEAMS.recipeBuilder("umlhpic_wafer" )//魔力超高压集成电路晶圆
                 .addData("required_mana",10000000)
                 .addData("mana",5000000)
                 .circuitMeta(1)
@@ -131,7 +131,7 @@ public class BeamsRecipes {
                 .EUt(261424)
                 .duration(400)
                 .save(provider);
-        BEAMS.recipeBuilder("naquadah_l" )
+        BEAMS.recipeBuilder("naquadah_l" )//镎矿液
                 .addData("required_mana",1000000)
                 .addData("mana",500000)
                 .circuitMeta(1)
@@ -140,7 +140,7 @@ public class BeamsRecipes {
                 .EUt(100000)
                 .duration(180)
                 .save(provider);
-        BEAMS.recipeBuilder("enriched_naquadah_l" )
+        BEAMS.recipeBuilder("enriched_naquadah_l" )//富集镎矿液
                 .addData("required_mana",3000000)
                 .addData("mana",2000000)
                 .circuitMeta(1)
@@ -149,7 +149,7 @@ public class BeamsRecipes {
                 .EUt(400000)
                 .duration(180)
                 .save(provider);
-        BEAMS.recipeBuilder("nqquadria" )
+        BEAMS.recipeBuilder("nqquadria" )//超频金液
                 .addData("required_mana",5000000)
                 .addData("mana",3000000)
                 .circuitMeta(1)
@@ -158,7 +158,7 @@ public class BeamsRecipes {
                 .EUt(1000000)
                 .duration(400)
                 .save(provider);
-        BEAMS.recipeBuilder("mana_circuit_board" )
+        BEAMS.recipeBuilder("mana_circuit_board" )//魔力电路板
                 .addData("required_mana",5000000)
                 .addData("mana",1000000)
                 .circuitMeta(1)
@@ -169,7 +169,7 @@ public class BeamsRecipes {
                 .EUt(40000)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("ultra_mana1" )
+        BEAMS.recipeBuilder("ultra_mana1" )//超魔力锭
                 .addData("required_mana",5000000)
                 .addData("mana",4000000)
                 .circuitMeta(1)
@@ -179,7 +179,7 @@ public class BeamsRecipes {
                 .EUt(10000)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("super_plus_mana" )
+        BEAMS.recipeBuilder("super_plus_mana" )//超级加魔力锭
                 .addData("required_mana",2000000)
                 .addData("mana",1000000)
                 .circuitMeta(2)
@@ -188,7 +188,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("eve_beam_plasma" )
+        BEAMS.recipeBuilder("eve_beam_plasma" )//夏娃光束等离子体
                 .addData("required_mana",5000000)
                 .addData("mana",2000000)
                 .circuitMeta(1)
@@ -198,7 +198,7 @@ public class BeamsRecipes {
                 .EUt(200000)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("ultra_mana2" )
+        BEAMS.recipeBuilder("ultra_mana2" )//超魔力锭
                 .addData("required_mana",10000000)
                 .addData("mana",5000000)
                 .circuitMeta(1)
@@ -208,7 +208,7 @@ public class BeamsRecipes {
                 .EUt(1000000)
                 .duration(500)
                 .save(provider);
-        BEAMS.recipeBuilder("naquadria_ingot" )
+        BEAMS.recipeBuilder("naquadria_ingot" )//超频金锭
                 .addData("required_mana",5000000)
                 .addData("mana",1000000)
                 .circuitMeta(1)
@@ -218,7 +218,7 @@ public class BeamsRecipes {
                 .EUt(1000000)
                 .duration(500)
                 .save(provider);
-        BEAMS.recipeBuilder("rune_mana" )
+        BEAMS.recipeBuilder("rune_mana" )//魔力符文
                 .addData("required_mana",500000)
                 .addData("mana",100000)
                 .circuitMeta(1)
@@ -227,7 +227,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("ethereal_slate" )
+        BEAMS.recipeBuilder("ethereal_slate" )//虚空石板
                 .addData("required_mana",1250000)
                 .addData("mana",500000)
                 .circuitMeta(1)
@@ -236,7 +236,7 @@ public class BeamsRecipes {
                 .EUt(7680)
                 .duration(400)
                 .save(provider);
-        BEAMS.recipeBuilder("ethereal_slate" )
+        BEAMS.recipeBuilder("ethereal_slate" )//终焉石板
                 .addData("required_mana",2500000)
                 .addData("mana",1000000)
                 .circuitMeta(1)
@@ -245,7 +245,7 @@ public class BeamsRecipes {
                 .EUt(1000000)
                 .duration(1000)
                 .save(provider);
-        BEAMS.recipeBuilder("manasteel" )
+        BEAMS.recipeBuilder("manasteel" )//魔力钢锭
                 .addData("required_mana",100000)
                 .addData("mana",10000)
                 .circuitMeta(1)
@@ -254,7 +254,7 @@ public class BeamsRecipes {
                 .EUt(0)
                 .duration(50)
                 .save(provider);
-        BEAMS.recipeBuilder("elementium" )
+        BEAMS.recipeBuilder("elementium" )//源质钢锭
                 .addData("required_mana",500000)
                 .addData("mana",100000)
                 .circuitMeta(2)
@@ -263,7 +263,7 @@ public class BeamsRecipes {
                 .EUt(1)
                 .duration(1000)
                 .save(provider);
-        BEAMS.recipeBuilder("alfsteel" )
+        BEAMS.recipeBuilder("alfsteel" )//精灵钢锭
                 .addData("required_mana",1000000)
                 .addData("mana",500000)
                 .circuitMeta(3)
@@ -272,7 +272,7 @@ public class BeamsRecipes {
                 .EUt(4)
                 .duration(200)
                 .save(provider);
-        BEAMS.recipeBuilder("mana_radiation_mixture" )
+        BEAMS.recipeBuilder("mana_radiation_mixture" )//魔力辐射混合物
                 .addData("required_mana",5000000)
                 .addData("mana",5000000)
                 .circuitMeta(1)

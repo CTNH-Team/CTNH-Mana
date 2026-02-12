@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 
 public class ManaHatchRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("base_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("base_mana_hatch")//魔力凝聚者
                 .inputItems(CMBlocks.LIVING_ROCK_CASING)
                 .inputItems(CMBlocks.MANA_STEEL_CASING.asStack())
                 .inputItems(BotaniaBlocks.manaPool.asItem())
@@ -33,7 +33,7 @@ public class ManaHatchRecipes {
                 .EUt(32)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elf_mana_hatch")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elf_mana_hatch")//精灵魔力凝聚者
                 .inputItems(CMBlocks.ELEMENTIUM_CASING.asStack())
                 .inputItems(BotaniaBlocks.fabulousPool.asItem())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.Elementium),4)
@@ -90,11 +90,14 @@ public class ManaHatchRecipes {
                 .duration(200)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("soul_mana_hatch")
+                .inputItems(CMMachines.BM_HATCH.asStack())
                 .inputItems(CMBlocks.SOUL_LOCKING_CASING.asStack())
                 .inputItems(CMBlocks.CASING_BLOODLOGIC.asStack())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.COAGULBLOODGOLD),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.PRIMOVOLITHEST),4)
                 .inputItems(BloodMagicItems.ORB_MASTER)
+                .inputItems(CMItems.ENDSLATE)
+
                 .outputItems(CMMachines.BM_HATCH_T2.asStack())
                 .EUt(8192/4)
                 .duration(200)

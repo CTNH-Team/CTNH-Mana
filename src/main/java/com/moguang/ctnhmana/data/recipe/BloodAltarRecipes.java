@@ -13,7 +13,6 @@ import com.hollingsworth.arsnouveau.common.items.FlaskCannon;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
@@ -48,7 +47,7 @@ import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 public class BloodAltarRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        BloodAltarRecipeBuilder.builder("test_1")
+        BloodAltarRecipeBuilder.builder("test_1")//视域符文
                 .input(new ItemStack(runeFire,1))
                 .output(new ItemStack(HORIZEN_RUNE,1))
                 .syphon(10000)
@@ -56,7 +55,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("blankslate")
+        BloodAltarRecipeBuilder.builder("blankslate")//空白石板
                 .output(new ItemStack(SLATE.get(),1))
                 .input(new ItemStack(BotaniaBlocks.livingrock.asItem(),1))
                 .circuitMeta(0)
@@ -65,7 +64,7 @@ public class BloodAltarRecipes {
                 .consumeRate(5)
                 .drainRate(5)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bloodygold")
+        BloodAltarRecipeBuilder.builder("bloodygold")//凝血金锭
                 .input(ChemicalHelper.get(TagPrefix.ingot,GTMaterials.Gold,1))
                 .output(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.COAGULBLOODGOLD,1))
                 .circuitMeta(0)
@@ -74,7 +73,7 @@ public class BloodAltarRecipes {
                 .consumeRate(5)
                 .drainRate(5)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bloodygold_dust")
+        BloodAltarRecipeBuilder.builder("bloodygold_dust")//凝血金粉
                 .input(ChemicalHelper.get(TagPrefix.dust,GTMaterials.Gold,1))
                 .output(ChemicalHelper.get(TagPrefix.dust,CMMaterials.COAGULBLOODGOLD,1))
                 .circuitMeta(0)
@@ -83,7 +82,7 @@ public class BloodAltarRecipes {
                 .consumeRate(5)
                 .drainRate(5)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bloodygold_block")
+        BloodAltarRecipeBuilder.builder("bloodygold_block")//凝血金块
                 .input(ChemicalHelper.get(TagPrefix.block,GTMaterials.Gold,1))
                 .output(ChemicalHelper.get(TagPrefix.block,CMMaterials.COAGULBLOODGOLD,1))
                 .circuitMeta(0)
@@ -92,7 +91,7 @@ public class BloodAltarRecipes {
                 .consumeRate(45)
                 .drainRate(45)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bloody_diode")
+        BloodAltarRecipeBuilder.builder("bloody_diode")//凝血金细线
                 .input(ChemicalHelper.get(TagPrefix.dust,CMMaterials.COAGULBLOODGOLD,2))
                 .output(ChemicalHelper.get(TagPrefix.wireFine,CMMaterials.COAGULBLOODGOLD,12))
                 .circuitMeta(1)
@@ -102,7 +101,7 @@ public class BloodAltarRecipes {
                 .drainRate(45)
                 .save(provider);
 
-        BloodAltarRecipeBuilder.builder("reinforced_slate")
+        BloodAltarRecipeBuilder.builder("reinforced_slate")//强化石板
                 .input(new ItemStack(SLATE.get(),1))
                 .output(new ItemStack(REINFORCED_SLATE.get(),1))
                 .syphon(2000)
@@ -111,7 +110,7 @@ public class BloodAltarRecipes {
                 .consumeRate(30)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("imbued_slate")
+        BloodAltarRecipeBuilder.builder("imbued_slate")//注魔石板
                 .input(new ItemStack(REINFORCED_SLATE.get(),1))
                 .output(new ItemStack(IMBUED_SLATE.get(),1))
                 .syphon(5000)
@@ -120,7 +119,7 @@ public class BloodAltarRecipes {
                 .consumeRate(50)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("demonic_slate")
+        BloodAltarRecipeBuilder.builder("demonic_slate")//恶魔石板
                 .input(new ItemStack(IMBUED_SLATE.get(),1))
                 .output(new ItemStack(DEMONIC_SLATE.get(),1))
                 .syphon(15000)
@@ -129,7 +128,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("ethereal_slate")
+        BloodAltarRecipeBuilder.builder("ethereal_slate")//虚空石板
                 .input(new ItemStack(DEMONIC_SLATE.get(),1))
                 .output(new ItemStack(ETHEREAL_SLATE.get(),1))
                 .syphon(40000)
@@ -138,7 +137,7 @@ public class BloodAltarRecipes {
                 .consumeRate(500)
                 .drainRate(10)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("end_slate")
+        BloodAltarRecipeBuilder.builder("end_slate")//终焉石板
                 .input(new ItemStack(ETHEREAL_SLATE.get(),1))
                 .output(new ItemStack(ENDSLATE.get(),1))
                 .syphon(60000)
@@ -147,7 +146,7 @@ public class BloodAltarRecipes {
                 .consumeRate(300)
                 .drainRate(10)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("eak_blood_orb")
+        BloodAltarRecipeBuilder.builder("eak_blood_orb")//初级血之宝珠
                 .input(ChemicalHelper.get(TagPrefix.ingot,AlfSteel,1))
                 .output(new ItemStack(WEAK_BLOOD_ORB.get(),1))
                 .syphon(2000)
@@ -156,7 +155,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("apprentice_blood_orb")
+        BloodAltarRecipeBuilder.builder("apprentice_blood_orb")//学徒血之宝珠
                 .input(ChemicalHelper.get(TagPrefix.block, Redstone,1))
                 .output(new ItemStack(APPRENTICE_BLOOD_ORB.get(),1))
                 .syphon(5000)
@@ -165,7 +164,7 @@ public class BloodAltarRecipes {
                 .consumeRate(50)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("magician_blood_orb")
+        BloodAltarRecipeBuilder.builder("magician_blood_orb")//魔法师血之宝珠
                 .input(ChemicalHelper.get(TagPrefix.block,CMMaterials.COAGULBLOODGOLD,1))
                 .output(new ItemStack(MAGICIAN_BLOOD_ORB.get(),1))
                 .syphon(25000)
@@ -174,7 +173,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("master_blood_orb")
+        BloodAltarRecipeBuilder.builder("master_blood_orb")//大师血之宝珠
                 .input(new ItemStack(WEAK_BLOOD_SHARD.get(),1))
                 .output(new ItemStack(MASTER_BLOOD_ORB.get(),1))
                 .syphon(40000)
@@ -183,7 +182,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(10)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("archmage_blood_orb")
+        BloodAltarRecipeBuilder.builder("archmage_blood_orb")//大法师血之宝珠
                 .input(new ItemStack(HELLFORGED_BLOCK.get(),1))
                 .output(new ItemStack(ARCHMAGE_BLOOD_ORB.get(),1))
                 .syphon(80000)
@@ -192,7 +191,7 @@ public class BloodAltarRecipes {
                 .consumeRate(400)
                 .drainRate(5)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("enhanced_teleposer_focus")
+        BloodAltarRecipeBuilder.builder("enhanced_teleposer_focus")//强化传送聚焦
                 .input(new ItemStack(TELEPOSER_FOCUS.get(),1))
                 .output(new ItemStack(ENHANCED_TELEPOSER_FOCUS.get(),1))
                 .syphon(10000)
@@ -201,7 +200,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("teleposer_focus")
+        BloodAltarRecipeBuilder.builder("teleposer_focus")//传送聚焦
                 .input(ChemicalHelper.get(gem,GTMaterials.EnderPearl,1))
                 .output(new ItemStack(TELEPOSER_FOCUS.get(),1))
                 .syphon(2000)
@@ -210,7 +209,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("air_inscription_tool")
+        BloodAltarRecipeBuilder.builder("air_inscription_tool")//风之刻印工具
                 .input(new ItemStack(AIR_ESSENCE.get(),1))
                 .output(new ItemStack(AIR_INSCRIPTION_TOOL.get(),1))
                 .syphon(2000)
@@ -219,7 +218,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("boss_summoner")
+        BloodAltarRecipeBuilder.builder("boss_summoner")//boss召唤器
                 .input(new ItemStack(GTItems.SENSOR_HV.get(),1))
                 .output(new ItemStack(BOSS_SUMMONER.get(),1))
                 .syphon(5000)
@@ -228,7 +227,7 @@ public class BloodAltarRecipes {
                 .consumeRate(50)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bleeding_edge_music")
+        BloodAltarRecipeBuilder.builder("bleeding_edge_music")//血刃之音
                 .input(new ItemStack(DEMONITE_RAW.get(),1))
                 .output(new ItemStack(BLEEDING_EDGE_MUSIC.get(),1))
                 .syphon(10000)
@@ -237,7 +236,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("weak_activation_crystal")
+        BloodAltarRecipeBuilder.builder("weak_activation_crystal")//弱效激活水晶
                 .input(new ItemStack(LAVA_CRYSTAL.get(),1))
                 .output(new ItemStack(WEAK_ACTIVATION_CRYSTAL.get(),1))
                 .syphon(10000)
@@ -246,7 +245,7 @@ public class BloodAltarRecipes {
                 .consumeRate(100)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("water_inscription_tool")
+        BloodAltarRecipeBuilder.builder("water_inscription_tool")//水之刻印工具
                 .input(new ItemStack(WATER_ESSENCE.get(),1))
                 .output(new ItemStack(WATER_INSCRIPTION_TOOL.get(),1))
                 .syphon(2000)
@@ -255,7 +254,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("strong_tau_item")
+        BloodAltarRecipeBuilder.builder("strong_tau_item")//强效陶符
                 .input(new ItemStack(WEAK_TAU_ITEM.get(),1))
                 .output(new ItemStack(STRONG_TAU_ITEM.get(),1))
                 .syphon(4000)
@@ -264,7 +263,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(30)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("advanced_boss_summoner")
+        BloodAltarRecipeBuilder.builder("advanced_boss_summoner")//进阶boss召唤器
                 .input(new ItemStack(GTItems.SENSOR_LuV.get(),1))
                 .output(new ItemStack(ADVANCED_BOSS_SUMMONER.get(),1))
                 .syphon(20000)
@@ -273,7 +272,7 @@ public class BloodAltarRecipes {
                 .consumeRate(200)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("earth_inscription_tool")
+        BloodAltarRecipeBuilder.builder("earth_inscription_tool")//地之刻印工具
                 .input(new ItemStack(EARTH_ESSENCE.get(),1))
                 .output(new ItemStack(EARTH_INSCRIPTION_TOOL.get(),1))
                 .syphon(2000)
@@ -282,7 +281,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("alchemy_flask")
+        BloodAltarRecipeBuilder.builder("alchemy_flask")//炼金烧瓶
                 .input(new ItemStack(flask,1))
                 .output(new ItemStack(ALCHEMY_FLASK.get(),1))
                 .syphon(4000)
@@ -291,7 +290,7 @@ public class BloodAltarRecipes {
                 .consumeRate(40)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("dusk_inscription_tool")
+        BloodAltarRecipeBuilder.builder("dusk_inscription_tool")//黄昏刻印工具
                 .input(new ItemStack(RAW_CRYSTAL.get(),1))
                 .output(new ItemStack(DUSK_INSCRIPTION_TOOL.get(),1))
                 .syphon(2000)
@@ -300,7 +299,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("dagger_of_sacrifice")
+        BloodAltarRecipeBuilder.builder("dagger_of_sacrifice")//献祭匕首
                 .input(new ItemStack(IRON_SWORD,1))
                 .output(new ItemStack(DAGGER_OF_SACRIFICE.get(),1))
                 .syphon(3000)
@@ -309,7 +308,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("life_essence_bucket")
+        BloodAltarRecipeBuilder.builder("life_essence_bucket")//生命源质桶
                 .input(new ItemStack(BUCKET,1))
                 .output(new ItemStack(LIFE_ESSENCE_BUCKET.get(),1))
                 .syphon(1000)
@@ -318,7 +317,7 @@ public class BloodAltarRecipes {
                 .consumeRate(10)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("fire_inscription_tool")
+        BloodAltarRecipeBuilder.builder("fire_inscription_tool")//火之刻印工具
                 .input(new ItemStack(FIRE_ESSENCE,1))
                 .output(new ItemStack(FIRE_INSCRIPTION_TOOL.get(),1))
                 .syphon(2000)
@@ -327,7 +326,7 @@ public class BloodAltarRecipes {
                 .consumeRate(20)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("soul_snare")
+        BloodAltarRecipeBuilder.builder("soul_snare")//灵魂陷阱
                 .input(new ItemStack(STRING,1))
                 .output(new ItemStack(SOUL_SNARE.get(),1))
                 .syphon(500)
@@ -336,7 +335,7 @@ public class BloodAltarRecipes {
                 .consumeRate(10)
                 .drainRate(20)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("casing_blood")
+        BloodAltarRecipeBuilder.builder("casing_blood")//血染机械方块
                 .input(new ItemStack(GTBlocks.CASING_STEEL_SOLID,1))
                 .output(new ItemStack(CMBlocks.CASING_BLOOD.get(),1))
                 .syphon(10000)

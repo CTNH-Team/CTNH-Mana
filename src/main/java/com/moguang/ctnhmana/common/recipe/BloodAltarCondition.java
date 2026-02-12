@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
-import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.data.lang.ChineseLangHandler;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -57,7 +57,9 @@ public class BloodAltarCondition extends RecipeCondition {
     @Override
     public Component getTooltips() {
         if(upgrade==null||upgrade.equals("None")) return altar_lang_2.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate));
-        else if(upgrade.equals("etching")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(EtchingJade.etching_upgrade.translate()));
+        else if(upgrade.equals("etching")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(ChineseLangHandler.etching_jade_upgrade.translate()));
+        else if(upgrade.equals("suppression")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(ChineseLangHandler.suppression_jade_upgrade.translate()));
+        else if(upgrade.equals("ephemeral")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),altar_consumption_lang[1].translate(min_consumption),altar_consumption_lang[0].translate(consumption_rate),altar_upgrade_lang.translate(ChineseLangHandler.ephemeral_jade_upgrade.translate()));
         return null;
     }
 
@@ -84,7 +86,7 @@ public class BloodAltarCondition extends RecipeCondition {
     @CN(
             {
                     "消耗LP速率：%d/tick",
-                    "消耗的LP总量: %d",
+                    "至少消耗的LP总量: %d",
             }
     )
     @EN(

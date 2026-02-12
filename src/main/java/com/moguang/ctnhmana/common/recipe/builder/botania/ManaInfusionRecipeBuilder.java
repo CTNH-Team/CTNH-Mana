@@ -50,7 +50,10 @@ public  class ManaInfusionRecipeBuilder {
     public static ManaInfusionRecipeBuilder builder(String name) {
         return new ManaInfusionRecipeBuilder(name);
     }
-
+    public ManaInfusionRecipeBuilder input(Item... items) {
+        inputs.add(Ingredient.of(items));
+        return this;
+    }
     public ManaInfusionRecipeBuilder input(ItemStack itemStack) {
         inputs.add(Ingredient.of(itemStack));
         return this;
@@ -71,6 +74,10 @@ public  class ManaInfusionRecipeBuilder {
     // 输出物品（对齐 PetalRecipeBuilder）
     public ManaInfusionRecipeBuilder output(ItemStack itemStack) {
         this.output = itemStack;
+        return this;
+    }
+    public ManaInfusionRecipeBuilder output(Item items) {
+        output=(new ItemStack(items));
         return this;
     }
 

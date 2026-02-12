@@ -15,7 +15,7 @@ import static com.moguang.ctnhmana.registry.CMMaterials.ManaSteel;
 
 public class ManaRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：符文载体
                 provider, "rune_carrier_block_recipe_one",
                 RUNE_CARRIER_BLOCK.asStack(),
                         "ABA",
@@ -27,7 +27,7 @@ public class ManaRecipes {
                 'D', BotaniaBlocks.livingrockPolished.asItem(),
                 'E', GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.plate, ManaSteel).asStack()
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：完美的符文石
                 provider, "rune_stone_perfect_recipe_one",
                 RUNE_STONE_PERFECT.asStack(),
                         "ABA",
@@ -38,7 +38,7 @@ public class ManaRecipes {
                 'D', BotaniaItems.manaDiamond,
                 'C', GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.plateDouble, GTMaterials.Electrum).asStack()
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：火之符文石
                 provider, "fire_rune_stone_one",
                 FIRE_RUNE_STONE.asStack(),
                         "ABA",
@@ -49,7 +49,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeFire    // 火符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：水之符文石
                 provider, "water_rune_stone_one",
                 WATER_RUNE_STONE.asStack(),
                 "ABA",
@@ -60,7 +60,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeWater  // 水符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：地之符文石
                 provider, "earth_rune_stone_one",
                 EARTH_RUNE_STONE.asStack(),
                 "ABA",
@@ -71,7 +71,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeEarth  // 土符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：风之符文石
                 provider, "wind_rune_stone_one",
                 WIND_RUNE_STONE.asStack(),
                 "ABA",
@@ -82,7 +82,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeAir  // 风符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：春之符文石
                 provider, "spring_rune_stone_one",
                 SPRING_RUNE_STONE.asStack(),
                 "ABA",
@@ -93,7 +93,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeSpring  // 春符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：夏之符文石
                 provider, "summer_rune_stone_one",
                 SUMMER_RUNE_STONE.asStack(),
                 "ABA",
@@ -104,7 +104,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeSummer  // 夏符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：秋之符文石
                 provider, "autumn_rune_stone_one",
                 AUTUMN_RUNE_STONE.asStack(),
                 "ABA",
@@ -115,7 +115,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeAutumn  // 秋符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：冬之符文石
                 provider, "winter_rune_stone_one",
                 WINTER_RUNE_STONE.asStack(),
                 "ABA",
@@ -126,7 +126,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeWinter  // 冬符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：魔力符文石
                 provider, "mana_rune_stone_one",
                 MANA_RUNE_STONE.asStack(),
                 "ABA",
@@ -137,7 +137,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeMana  // 魔力符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：欲望符文石
                 provider, "lust_rune_stone_one",
                 SIN_LUST_RUNE_STONE.asStack(),
                 "ABA",
@@ -148,7 +148,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeLust  // 欲望符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：暴食符文石
                 provider, "gluttony_rune_stone_one",
                 SIN_GLUTTONY_RUNE_STONE.asStack(),
                 "ABA",
@@ -159,7 +159,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeGluttony  // 暴食符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：贪婪符文石
                 provider, "greed_rune_stone_one",
                 SIN_GREED_RUNE_STONE.asStack(),
                 "ABA",
@@ -170,7 +170,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeGreed  // 贪婪符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：懒惰符文石
                 provider, "sloth_rune_stone_one",
                 SIN_SLOTH_RUNE_STONE.asStack(),
                 "ABA",
@@ -181,7 +181,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeSloth  // 懒惰符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：暴怒符文石
                 provider, "wrath_rune_stone_one",
                 SIN_WRATH_RUNE_STONE.asStack(),
                 "ABA",
@@ -192,7 +192,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeWrath  // 暴怒符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：嫉妒符文石
                 provider, "envy_rune_stone_one",
                 SIN_ENVY_RUNE_STONE.asStack(),
                 "ABA",
@@ -203,7 +203,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runeEnvy  // 嫉妒符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：傲慢符文石
                 provider, "pride_rune_stone_one",
                 SIN_PRIDE_RUNE_STONE.asStack(),
                 "ABA",
@@ -214,7 +214,7 @@ public class ManaRecipes {
                 'D', RUNE_CARRIER_BLOCK.asStack(),
                 'C', BotaniaItems.runePride  // 傲慢符文
         );
-        VanillaRecipeHelper.addShapedRecipe(
+        VanillaRecipeHelper.addShapedRecipe(//产物：魔力丝绸方块
                 provider, "fabric_one",
                 FABRIC.asStack(),
                 "ABA",
@@ -441,7 +441,7 @@ public class ManaRecipes {
                 .duration(20)
                 .save(provider);
 // 魔力丝绸方块配方
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("fabric_two")
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("fabric_two")//魔力丝绸方块
                 .circuitMeta(20)
                 .inputItems(BotaniaItems.manaString, 4)
                 .inputItems(BotaniaItems.manaweaveCloth, 2)

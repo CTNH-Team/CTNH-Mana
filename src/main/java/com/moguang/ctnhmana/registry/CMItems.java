@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import com.moguang.ctnhmana.item.BloodMagicJade.EtchingJade;
+import com.moguang.ctnhmana.item.BloodMagicJade.JadeItem;
 import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
@@ -190,9 +190,23 @@ public class CMItems {
                         text.add(magic_quantum_processor_mainframe.translate())
                 )))
                 .register();
-        ETCHING_JADE=REGISTRATE
-                .item("etching_jade", EtchingJade::new)
+        ETCHING_JADE = REGISTRATE
+                .item("etching_jade", p -> new JadeItem(p, "etching", etching_jade_upgrade))
                 .cnlang("蚀刻之玉")
+                .lang("Etching Jade")
+                .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(etchingJadeLang, list))))
+                .register();
+        SUPPRESSION_JADE = REGISTRATE
+                .item("suppression_jade", p -> new JadeItem(p, "suppression", suppression_jade_upgrade))
+                .cnlang("抑液之玉")
+                .lang("Suppression Jade")
+                .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(suppressionJadeLang, list))))
+                .register();
+        EPHEMERAL_JADE = REGISTRATE
+                .item("ephemeral_jade", p -> new JadeItem(p, "ephemeral", ephemeral_jade_upgrade))
+                .cnlang("须臾之玉")
+                .lang("Ephemeral Jade")
+                .onRegister(attach(new TooltipBehavior(list -> itemTooltipsAdd(ephemeralJadeLang, list))))
                 .register();
         WILL_CRYSTAL_PROCESSOR = REGISTRATE
                 .item("will_crystal_processor", ComponentItem::create)
@@ -361,7 +375,9 @@ public class CMItems {
     public static ItemEntry<ComponentItem> UMLHPIC_WAFER;
     public static ItemEntry<ComponentItem> UMLHPIC_CHIP;
     public static ItemEntry<ComponentItem> MAGIC_QUANTUM_PROCESSOR_MAINFRAME;
-    public static ItemEntry<EtchingJade>ETCHING_JADE;
+    public static ItemEntry<JadeItem> ETCHING_JADE;
+    public static ItemEntry<JadeItem> SUPPRESSION_JADE;
+    public static ItemEntry<JadeItem> EPHEMERAL_JADE;
     public static ItemEntry<SaberWandItem>SABER_WAND;
     public static ItemEntry<IManaFuelStick>SPARK_STICK;
     public static ItemEntry<ComponentItem>BROKEN_RUNE;

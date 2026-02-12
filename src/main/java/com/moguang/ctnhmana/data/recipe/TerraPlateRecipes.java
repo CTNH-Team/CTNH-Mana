@@ -25,7 +25,7 @@ import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 @SuppressWarnings("removal")
 public class TerraPlateRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        TerraPlateRecipeBuilder.builder("terrasteel123")
+        TerraPlateRecipeBuilder.builder("terrasteel123")//泰拉钢
                 .input(new ItemStack(BotaniaItems.manaDiamond,1))
                 .input(new ItemStack(BotaniaItems.manaPearl,1))
                 .input(new ItemStack(BotaniaItems.manaSteel,1))
@@ -33,28 +33,28 @@ public class TerraPlateRecipes {
                 .output(new ItemStack(BotaniaItems.terrasteel,1))
                 .mana(500000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("life_essence_bucket")
+        TerraPlateRecipeBuilder.builder("life_essence_bucket")//生命精华桶
                 .input(new ItemStack(BotaniaItems.runeFire,1))
                 .input(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:eyebulb")))
                 .input(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:blood_bucket")))
                 .output(new ItemStack(LIFE_ESSENCE_BUCKET.get(),1))
                 .mana(50000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("the_universe")
+        TerraPlateRecipeBuilder.builder("the_universe")//宇宙之忆
                 .input(new ItemStack(theEnd,1))
                 .input(new ItemStack(theChaos,1))
                 .input(new ItemStack(theOrigin,1))
                 .output(new ItemStack(theUniverse,1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("aerialite")
+        TerraPlateRecipeBuilder.builder("aerialite")//风之石
                 .input(new ItemStack(Items.PHANTOM_MEMBRANE,1))
                 .input(new ItemStack(BotaniaItems.enderAirBottle,1))
                 .input(new ItemStack(BotaniaItems.dragonstone,1))
                 .output(new ItemStack(aerialite,1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("rhein_hammer")
+        TerraPlateRecipeBuilder.builder("rhein_hammer")//莱茵之锤
                 .input(new ItemStack(photoniumHammer,1))
                 .input(new ItemStack(shadowiumHammer,1))
                 .input(new ItemStack(elementiumHammer,1))
@@ -68,7 +68,7 @@ public class TerraPlateRecipes {
                 .output(new ItemStack(rheinHammer,1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("koishi_pain")
+        TerraPlateRecipeBuilder.builder("koishi_pain")//古明地眼
                 .input(BotaniaItems.runeLust)
                 .input(helheimRune,BotaniaItems.redString,BotaniaItems.thirdEye, BotaniaFlowerBlocks.rosaArcana.asItem(), BloodMagicItems.LIFE_ESSENCE_BUCKET.get())
                 .input(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Stone,1))
@@ -77,7 +77,7 @@ public class TerraPlateRecipes {
                 .mana(5145140)
                 .circuitMeta(10)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")
+        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")//魔力电子电路
                 .input(MANA_RESISTOR.asStack())
                 .input(MANA_CAPACITOR.asStack())
                 .input(MANA_DIODE.asStack())
@@ -86,7 +86,7 @@ public class TerraPlateRecipes {
                 .output(MANA_ELECTRONIC_CIRCUIT.asStack())
                 .mana(100000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("mana_integrated_circuit")
+        TerraPlateRecipeBuilder.builder("mana_integrated_circuit")//魔力集成电路
                 .input(ADVANCED_MANA_RESISTOR.asStack())
                 .input(ADVANCED_MANA_CAPACITOR.asStack())
                 .input(ADVANCED_MANA_DIODE.asStack())

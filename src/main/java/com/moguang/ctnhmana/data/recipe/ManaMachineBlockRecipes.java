@@ -193,7 +193,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(PURE_LOGIC_CASING.asStack(6))
                 .inputItems(GTItems.FIELD_GENERATOR_HV)
                 .inputItems(CustomTags.EV_CIRCUITS)
-                .inputItems(CMItems.BLOOD_CAPACITOR,6)
+                .inputItems(CMItems.BLOOD_RESISTOR,66)
                 .inputItems(BotaniaItems.runeWrath.asItem(),3)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.COAGULBLOODGOLD),3)
                 .outputItems(CASING_BLOODLOGIC.asItem(),6)
