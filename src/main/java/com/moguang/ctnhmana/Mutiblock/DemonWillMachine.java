@@ -184,19 +184,31 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (will1 == will2){
             return 0;
         }
-        return (Math.abs(will1 - will2) + Capacity_rune * 2) * Math.pow(1.02,Augmented_rune);
+        return (Math.abs(will1 - will2) ) * Math.pow(1.02,Augmented_rune)+ Capacity_rune * 2;
     }
     public void adjustWillChunk(BlockPos pos1, BlockPos pos2,EnumDemonWillType type1) {
         var willChunk1 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos1);
         var willChunk2 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos2);
         var difference = getWillDifference(pos1,pos2,type1);
         if (willChunk1.getCurrentWill().getWill(type1) < willChunk2.getCurrentWill().getWill(type1)) {
-            willChunk1.getCurrentWill().addWill(type1,Math.abs(difference) * 0.04 ,MAX_WILL);
-            willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
+            if(Math.abs(difference)<10)
+            {
+                willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
+            }
+            else {
+                willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
+                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
+            }
         }
         else {
-            willChunk1.getCurrentWill().drainWill(type1,Math.abs(difference) * 0.08);
-            willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04,MAX_WILL);
+            if(Math.abs(difference)<10)
+            {
+                willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
+            }
+            {
+                willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
+                willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
+            }
         }
     }
     public void calculateDiversity() {

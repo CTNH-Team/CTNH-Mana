@@ -16,12 +16,22 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.ZPM;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.frameGt;
+import static com.gregtechceu.gtceu.common.data.GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER;
 import static com.moguang.ctnhmana.registry.CMItems.*;
+import static com.moguang.ctnhmana.registry.CMMaterials.Ultra_Mana;
+import static com.moguang.ctnhmana.registry.CMMaterials.Zenith_essence;
+import static com.moguang.ctnhmana.registry.CMRecipeTypes.BEAMS;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.BLOOD_ALTAR_RECIPES;
 
 public class ManaCircuitRecipes {
@@ -49,7 +59,7 @@ public class ManaCircuitRecipes {
                 .addCondition(new BloodAltarCondition(3,100,100*200,"etching"))
                 .save(provider);
         BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_diode")//血染逻辑二极管
-                .inputItems(ChemicalHelper.get(TagPrefix.dust, CMMaterials.COAGULBLOODGOLD,2))
+                .inputItems(ChemicalHelper.get(dust, CMMaterials.COAGULBLOODGOLD,2))
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,CMMaterials.HEMOPLATINUM,12))
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144))
                 .outputItems(BLOOD_DIODE,6)
@@ -91,7 +101,7 @@ public class ManaCircuitRecipes {
                 .save(provider);
         BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_inductor")//血级电感
                 .inputItems(ChemicalHelper.get(TagPrefix.ring,GTMaterials.NickelZincFerrite,1))
-                .inputItems(ChemicalHelper.get(TagPrefix.dust,GTMaterials.Sulfur,4))
+                .inputItems(ChemicalHelper.get(dust,GTMaterials.Sulfur,4))
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,GTMaterials.BlackSteel,8))
                 .inputItems(ChemicalHelper.get(TagPrefix.wireFine,CMMaterials.HEMOPLATINUM,12))
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144*8))
@@ -133,7 +143,9 @@ public class ManaCircuitRecipes {
                 .inputItems(BLOOD_INDUCTOR,6)
                 .inputItems(BLOODY_CHIP,6)
                 .inputItems(RUNE_CIRCUIT_BOARD,6)
+                .inputItems(ChemicalHelper.get(frameGt,CMMaterials.HEMOPLATINUM))
                 .outputItems(BLOODY_NANO_PROCESSOR_MAINFRAME)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),288))
                 .EUt(66)
                 .duration(20*20)
                 .addCondition(new BloodAltarCondition(4,1000,1000*20*20,"suppression"))
@@ -176,7 +188,7 @@ public class ManaCircuitRecipes {
                 .inputItems(ChemicalHelper.get(TagPrefix.foil,CMMaterials.DEMON),66)
                 .inputItems(BloodMagicItems.DEMONIC_SLATE)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 6666))
-                .addCondition(new HellForgeCondition("vengeful",6666))
+                .addCondition(new HellForgeCondition("vengeful",666))
                 .EUt(6666)
                 .duration(6666)
                 .save(provider);
@@ -192,6 +204,100 @@ public class ManaCircuitRecipes {
                 .EUt(6666)
                 .duration(666)
                 .save(provider);
+        CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_wafer")
+                .outputItems(WILL_WAFER)
+                .inputItems(ChemicalHelper.get(dust,GTMaterials.Silicon),128)
+                .inputItems(ChemicalHelper.get(dust,CMMaterials.DEMON),32)
+                .inputItems(ChemicalHelper.get(dust,CMMaterials.PRIMOVOLITHEST),6)
+                .inputItems(BloodMagicItems.LAVA_CRYSTAL)
+                .circuitMeta(1)
+                .addCondition(new HellForgeCondition(666))
+                .EUt(6666)
+                .duration(666*20)
+                .save(provider);
+        GTRecipeTypes.CUTTER_RECIPES.recipeBuilder("will_soc")
+                .inputItems(WILL_WAFER)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),1000))
+                .outputItems(WILL_SOC,66)
+                .EUt(6666)
+                .duration(66*20)
+                .save(provider);
+        CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_crystal_circuit")
+                .inputItems(WILL_DIODE,6)
+                .inputItems(WILL_CAPACITOR,6)
+                .inputItems(WILL_SOC,18)
+                .inputItems(FluidIngredient.of(Fluids.LAVA,288*6))
+                .outputItems(WILL_CRYSTAL_PROCESSOR,6)
+                .addCondition(new HellForgeCondition(66))
+                .EUt(6666)
+                .duration(6*20)
+                .save(provider);
+        CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_mainframe")
+                .inputItems(WILL_SOC,6)
+                .inputItems(WILL_DIODE,6)
+                .inputItems(WILL_INDUCTOR,6)
+                .inputItems(WILL_RESISTOR,6)
+                .inputItems(WILL_TRANSISTOR,6)
+                .inputItems(ChemicalHelper.get(frameGt,CMMaterials.PRIMOVOLITHEST),8)
+                .inputFluids(CMMaterials.PRIMOVOLITHEST.getFluid(288*2))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),288*2))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),288*2))
+                .outputItems(MIXIN_WILL_PROCESSOR_MAINFRAME,2)
+                .addCondition(new HellForgeCondition(666))
+                .EUt(6666)
+                .duration(66*20)
+                .save(provider);
+        BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_circuit") //血染电路板_soc制造
+                .inputItems(BLOOD_INDUCTOR,6)
+                .inputItems(WILL_DIODE,6)
+                .inputItems(BLOOD_CAPACITOR,6)
+                .inputItems(WILL_TRANSISTOR,6)
+                .inputItems(BLOOD_INDUCTOR,6)
+                .inputItems(WILL_SOC,6)
+                .inputItems(RUNE_CIRCUIT_BOARD,6)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),288*6))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),288*6))
+                .outputItems(BLOODY_NANO_PROCESSOR_MAINFRAME,6)
+                .EUt(8192*4)
+                .duration(12*20)
+                .addCondition(new BloodAltarCondition(6,100,100*20*20,"ephemeral"))
+                .save(provider);
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("umlhpic_wafer" )//魔力超高压集成电路晶圆
+                .circuitMeta(1)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER,32)
+                .inputItems(TWIST_RUNE,1)
+                .inputItems(ChemicalHelper.get(dust,Ultra_Mana),10)
+                .inputFluids(Zenith_essence.getFluid(1000))
+                .outputItems(UMLHPIC_WAFER,32)
+                .EUt(32768*4)
+                .duration(20*20)
+                .save(provider);
+        GTRecipeTypes.CUTTER_RECIPES.recipeBuilder("umlpic_chip")
+                .inputItems(UMLHPIC_WAFER)
+                .inputFluids(Zenith_essence.getFluid(1000))
+                .outputItems(UMLHPIC_CHIP,7)
+                .EUt(32768)
+                .duration(7*20)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("ultra_mana_mainframe")
+                .inputItems(MANA_CIRCUIT_BOARD,2)
+                .inputItems(ChemicalHelper.get(frameGt,Ultra_Mana),4)
+                .inputItems(STARLIGHT_RUNE)
+                .inputItems(ZENITH_STAR)
+                .inputItems(UMLHPIC_CHIP,7)
+                .inputItems(BROKEN_RUNE)
+                .inputFluids(Zenith_essence,288)
+                .inputFluids(CMMaterials.Shroud_Zenith_essence,288)
+                .inputFluids(CMMaterials.MANA_STABLE_COOLDOWN,288*4)
+                .inputFluids(Ultra_Mana,288)
+                .stationResearch(
+                        b -> b.researchStack(UMLHPIC_WAFER.get().getDefaultInstance()).CWUt(32).EUt(VA[ZPM]))
+                .EUt(VA[GTValues.UV])
+                .duration(20)
+                .outputItems(MAGIC_QUANTUM_PROCESSOR_MAINFRAME)
+                .save(provider);
+
+
 
     }
 }

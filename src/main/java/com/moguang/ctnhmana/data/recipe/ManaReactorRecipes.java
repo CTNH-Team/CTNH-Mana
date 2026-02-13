@@ -195,7 +195,7 @@ public class ManaReactorRecipes {
                 .inputItems(runeWinter,4)
                 .inputItems(HEART_OF_FLOWER)
                 .inputItems(BotaniaTags.Items.MYSTICAL_FLOWERS,64)
-                .inputFluids(Mana.getFluid(10000))
+                .inputFluids(Mana.getFluid(1000))
                 .notConsumable(ELF_CATALYST)
                 .outputItems(Botania.ETERNAL_GARDEN)
                 .duration(8000)

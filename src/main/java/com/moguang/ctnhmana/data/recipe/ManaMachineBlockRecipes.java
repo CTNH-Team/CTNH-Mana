@@ -405,7 +405,7 @@ public class ManaMachineBlockRecipes {
                 .input(GTMultiMachines.FUSION_REACTOR[GTValues.UV].asStack())
                 .input(CMItems.ENDSLATE.asStack())
                 .input(ChemicalHelper.get(block, Ultra_Mana))
-                .input(CustomTags.UIV_CIRCUITS)
+                .input(CustomTags.UHV_CIRCUITS)
                 .output(TERMINAL_TWISTED_COIL.asStack())
                 .mana(Integer.MAX_VALUE)
                 .save(provider);
@@ -421,6 +421,7 @@ public class ManaMachineBlockRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("acane_accelerate_block") //魔流束加速管道方块
                 .inputItems(BloodMagicBlocks.SPEED_RUNE.get().asItem(),2)
                 .inputItems(GTItems.ELECTRIC_PUMP_IV)
+                .inputItems(CustomTags.IV_CIRCUITS)
                 .inputItems(ChemicalHelper.get(gear,GTMaterials.Ruridit))
                 .inputItems(ChemicalHelper.get(screw,CMMaterials.Orichalcos),6)
                 .outputItems(ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK.asItem(),2)

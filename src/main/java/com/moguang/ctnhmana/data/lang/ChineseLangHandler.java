@@ -395,12 +395,21 @@ public class ChineseLangHandler {
 
 
 
-    @CN("§b同时蕴含信息和能量§r")
-    @EN("§bSimultaneously containing information and energy§r")
+    @CN("§b将信息本身作为能量的非物质运算§r")
+    @EN("§bNon-physical computation that takes information itself as energy§r")
     public static Lang umlhpic;
-    @CN("§b魔力逻辑UV电路板§r")
-    @EN("§bMagic Logic UV Circuit Board§r")
-    public static Lang magic_quantum_processor_mainframe;
+    @CN(
+            {
+                    "§b魔力逻辑UHV电路板§r",
+                    "§b超越因果，在两世之间纠缠的有限运算§r"
+
+            }
+    )
+    @EN({
+            "§bMagic Logic UHV Circuit Board§r",
+            "§bTranscending Karma, a Finite Computation Entwined Between Two Existences§r"
+    })
+    public static Lang[] magic_quantum_processor_mainframe;
 
     @CN(
             {

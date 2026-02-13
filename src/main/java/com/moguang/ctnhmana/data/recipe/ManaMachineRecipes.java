@@ -2,6 +2,9 @@ package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -12,6 +15,7 @@ import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMultiblockMachines;
 import net.minecraft.data.recipes.FinishedRecipe;
 import vazkii.botania.common.block.BotaniaBlocks;
+import vazkii.botania.common.item.BotaniaItems;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.function.Consumer;
@@ -223,5 +227,16 @@ public class ManaMachineRecipes {
                 .output(MysticSpire.asStack())
                 .mana(500000)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("magic_core")
+                .inputItems(ChemicalHelper.get(gear, Steel),4)
+                .inputItems(ChemicalHelper.get(gear,ManaSteel),4)
+                .inputItems(FIELD_GENERATOR_LV)
+                .inputItems(manaDetector.asItem())
+                .inputItems(runeMana)
+                .outputItems(MAGIC_CORE.asStack())
+                .EUt(32)
+                .duration(20)
+                .save(provider);
+
     }
 }
