@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 
+
 public class ManaMachineUpgradeRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         TerraPlateRecipeBuilder.builder("bt_update_t1")
@@ -96,7 +97,7 @@ public class ManaMachineUpgradeRecipes {
                 .inputItems(GTItems.ELECTRIC_PUMP_EV)
                 .inputItems(GTItems.ELECTRIC_PUMP_IV)
                 .inputItems(CMBlocks.AURA_CONVERGENCE_CASING.get().asItem())
-                .inputItems(GCYMMachines.PARALLEL_HATCH[0].asStack())
+                .inputItems(GCYMMachines.PARALLEL_HATCH[5].asStack())
                 .inputItems(CustomTags.ZPM_CIRCUITS)
                 .inputFluids(CMMaterials.Zenith_essence.getFluid(1000))
                 .outputItems(CMItems.PIPELINE_FARSIGHT)
