@@ -155,7 +155,7 @@ public class ManaCircuitRecipes {
                 .EUt(32)
                 .duration(444*20)
                 .save(provider);
-        BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_circuit") //血染电路板
+        BLOOD_ALTAR_RECIPES.recipeBuilder("bloody_circuit_1") //血染电路板
                 .inputItems(BLOOD_INDUCTOR,6)
                 .inputItems(BLOOD_DIODE,6)
                 .inputItems(BLOOD_CAPACITOR,6)
@@ -254,7 +254,7 @@ public class ManaCircuitRecipes {
                 .save(provider);
         CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("will_mainframe")
                 .inputItems(WILL_SOC,6)
-                .inputItems(WILL_DIODE,6)
+                .inputItems(CMItems.RUNE_CIRCUIT_BOARD,6)
                 .inputItems(WILL_INDUCTOR,6)
                 .inputItems(WILL_RESISTOR,6)
                 .inputItems(WILL_TRANSISTOR,6)

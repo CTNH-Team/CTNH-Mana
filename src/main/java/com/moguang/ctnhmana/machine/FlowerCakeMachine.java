@@ -62,7 +62,7 @@ public class FlowerCakeMachine extends SimpleTieredMachine {
         if(this.is_eating)
         {
 
-            reciever.max_mana=1000000;
+            reciever.max_mana=900000;
             if(reciever.max_mana<=reciever.mana) {
                 this.is_eating = false;
                 reciever.mana=0;

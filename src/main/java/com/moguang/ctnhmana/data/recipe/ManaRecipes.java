@@ -1,10 +1,13 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.registry.CMItems;
+import com.moguang.ctnhmana.registry.CMMaterials;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
 import net.minecraft.data.recipes.FinishedRecipe;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -451,7 +454,19 @@ public class ManaRecipes {
                 .EUt(GTValues.VA[GTValues.ULV])
                 .duration(20)
                 .save(provider);
-
-
+        GTRecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder("broken_rune")
+                .inputItems(BotaniaItems.runeMana,32)
+                .inputFluids(CMMaterials.Mana.getFluid(10000))
+                .chancedOutput(CMItems.BROKEN_RUNE.asStack(),50,10)
+                .EUt(GTValues.VA[GTValues.EV])
+                .duration(100*20)
+                .save(provider);
+        GTRecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder("zenith_shroud")
+                .inputItems(ChemicalHelper.get(TagPrefix.gem,CMMaterials.Psionic_Medulla))
+                .inputFluids(CMMaterials.Zenith_essence.getFluid(1000))
+                .outputFluids(CMMaterials.Shroud_Zenith_essence.getFluid(800))
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(50*20)
+                .save(provider);
     }
 }

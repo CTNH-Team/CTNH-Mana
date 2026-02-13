@@ -13,6 +13,11 @@ import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilde
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMultiblockMachines;
+import committee.nova.mods.avaritia.Avaritia;
+import committee.nova.mods.avaritia.common.item.singularity.SingularityItem;
+import committee.nova.mods.avaritia.init.registry.ModItems;
+import committee.nova.mods.avaritia.init.registry.ModSingularities;
+import committee.nova.mods.avaritia.util.SingularityUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -155,8 +160,32 @@ public class ManaMachineRecipes {
                 .input(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER.asItem())
                 .input(SUPERCONDUCTING_COIL.asItem())
                 .output(TWISTED_FUSION_MK1.asStack())
-                .mana(9999999)
+                .mana(7777777)
                 .save(provider);
+        ElfPlateRecipeBuilder.builder("twist_reactor_mk2")
+                .input(TWISTED_FUSION_MK1.getItem())
+                .input(DIMENSION_TWISTED_COIL.asItem())
+                .input(SUPERNORMAL_MAGIC_CALCULATE_CORE.asItem())
+                .input(SingularityUtils.getItemForSingularity(ModSingularities.ALUMINUM).getItem())
+                .input(TWIST_RUNE.asItem())
+                .input(STARLIGHT_RUNE.asItem())
+                .output(TWISTED_FUSION_MK2.asStack())
+                .mana(77777777)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("twist_reactor_mk3")
+                .input(TWISTED_FUSION_MK2.getItem())
+                .input(REALITY_TWISTED_COIL.asItem())
+                .input(SUPERNORMAL_MAGIC_CALCULATE_CORE.asItem())
+                .input(SingularityUtils.getItemForSingularity(ModSingularities.NETHERITE).getItem())
+                .input(TWIST_RUNE.asItem())
+                .input(STARLIGHT_RUNE.asItem())
+                .input(PROLIFERATION_RUNE.asItem())
+                .input(HORIZEN_RUNE.asItem())
+                .input(QUASAR_RUNE.asItem())
+                .output(TWISTED_FUSION_MK3.asStack())
+                .mana(777777777)
+                .save(provider);
+
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("meteor_capturer")// 坠星操纵者
                 .inputItems(CustomTags.LuV_CIRCUITS, 2)
                 .inputItems(ChemicalHelper.get(frameGt, TungstenSteel).getItem(), 2)

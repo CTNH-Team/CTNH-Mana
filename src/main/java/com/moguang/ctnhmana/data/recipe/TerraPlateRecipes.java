@@ -6,10 +6,16 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
+import com.moguang.ctnhmana.registry.CMMachines;
+import com.moguang.ctnhmana.registry.CMMaterials;
+import com.simibubi.create.AllItems;
+import com.simibubi.create.Create;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -84,6 +90,26 @@ public class TerraPlateRecipes {
                 .input(MAGIC_CORE.asStack().getItem())
                 .output(SABER_WAND.asStack().getItem())
                 .mana(1000000)
+                .save(provider);
+        ElfPlateRecipeBuilder.builder("star_cake")
+                .output(CMMachines.STAR_FLOWER_CAKE.asStack())
+                .input(Blocks.CAKE)
+                .input(BotaniaItems.flightTiara)
+                .input(BotaniaItems.runeGluttony)
+                .input(BotaniaFlowerBlocks.gourmaryllis)
+                .input(AllItems.BAR_OF_CHOCOLATE)
+                .mana(90000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mixin_will_steel")
+                .input(photonium)
+                .input(shadowium)
+                .input(BloodMagicItems.RAW_CRYSTAL.get())
+                .input(BloodMagicItems.CORROSIVE_CRYSTAL.get())
+                .input(BloodMagicItems.DESTRUCTIVE_CRYSTAL.get())
+                .input(BloodMagicItems.VENGEFUL_CRYSTAL.get())
+                .input(BloodMagicItems.STEADFAST_CRYSTAL.get())
+                .output(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.PRIMOVOLITHEST))
+                .mana(77778)
                 .save(provider);
     }
 

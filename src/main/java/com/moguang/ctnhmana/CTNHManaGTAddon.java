@@ -113,6 +113,7 @@ public class CTNHManaGTAddon implements IGTAddon {
 
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
+        RecipeRemoval.init(consumer);
         DataFilterPack.removeRecipeType("bloodmagic", "altar");
         DataFilterPack.removeRecipeType("botania","petal_apothecary");
         DataFilterPack.removeRecipeType("botania","runic_altar");

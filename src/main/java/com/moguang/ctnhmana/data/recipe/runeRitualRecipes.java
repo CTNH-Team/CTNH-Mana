@@ -132,7 +132,7 @@ public class runeRitualRecipes {
                 .mana(1000000)
                 .save(provider);
         RuneRitualRecipeBuilder.builder("horizon_rune")
-                .center(midgardRune.asItem())
+                .center(BROKEN_RUNE.asItem())
                 .rune4(ChemicalHelper.get(ingot,Plus_Mana).getItem(), -2, -3)
                 .rune4(QUANTUM_EYE.asItem(),0,4,true)
                 .rune4(QUANTUM_EYE.asItem(),1,4,true)
@@ -152,7 +152,7 @@ public class runeRitualRecipes {
                 .mana(500000)
                 .save(provider);
         RuneRitualRecipeBuilder.builder("starlight_rune")
-                .center(QUANTUM_STAR.asItem())
+                .center(BROKEN_RUNE.asItem())
                 .runex(QUANTUM_STAR.asItem(), 0, -4)
                 .runez(QUANTUM_STAR.asItem(), -3, -0)
                 .runez(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ad_astra:mars_stone")),-1,0)
