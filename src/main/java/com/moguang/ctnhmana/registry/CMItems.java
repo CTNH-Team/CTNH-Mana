@@ -187,7 +187,7 @@ public class CMItems {
                 .lang("Magic Quantum Processor Mainframe")
                 .tag(CustomTags.UHV_CIRCUITS)
                 .onRegister(attach(new TooltipBehavior(text ->
-                        text.add(magic_quantum_processor_mainframe.translate())
+                        itemTooltipsAdd(magic_quantum_processor_mainframe,text)
                 )))
                 .register();
         ETCHING_JADE = REGISTRATE

@@ -237,6 +237,5 @@ public class ManaMachineRecipes {
                 .EUt(32)
                 .duration(20)
                 .save(provider);
-
     }
 }
