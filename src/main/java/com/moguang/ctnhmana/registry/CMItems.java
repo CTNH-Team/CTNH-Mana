@@ -339,7 +339,6 @@ public class CMItems {
                         text.add(magicCoreLang.translate())
                 )))
                 .register();
-
         HEART_OF_FLOWER = REGISTRATE
                 .item("heart_of_flower", ComponentItem::create)
                 .cnlang("繁花之心")

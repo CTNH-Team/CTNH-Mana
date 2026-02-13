@@ -3,6 +3,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -77,23 +78,12 @@ public class TerraPlateRecipes {
                 .mana(5145140)
                 .circuitMeta(10)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")//魔力电子电路
-                .input(MANA_RESISTOR.asStack())
-                .input(MANA_CAPACITOR.asStack())
-                .input(MANA_DIODE.asStack())
-                .input(ELECTRONIC_CIRCUIT_MV.asStack())
-                .input(MANA_SOC.asStack())
-                .output(MANA_ELECTRONIC_CIRCUIT.asStack())
-                .mana(100000)
-                .save(provider);
-        TerraPlateRecipeBuilder.builder("mana_integrated_circuit")//魔力集成电路
-                .input(ADVANCED_MANA_RESISTOR.asStack())
-                .input(ADVANCED_MANA_CAPACITOR.asStack())
-                .input(ADVANCED_MANA_DIODE.asStack())
-                .input(ELECTRONIC_CIRCUIT_MV.asStack())
-                .input(MANA_SOC.asStack())
-                .output(MANA_INTEGRATED_CIRCUIT.asStack())
-                .mana(250000)
+        ElfPlateRecipeBuilder.builder("saber_alf")
+                .input(BotaniaItems.dreamwoodWand)
+                .input(CustomTags.HV_CIRCUITS)
+                .input(MAGIC_CORE.asStack().getItem())
+                .output(SABER_WAND.asStack().getItem())
+                .mana(1000000)
                 .save(provider);
     }
 

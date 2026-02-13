@@ -27,7 +27,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
         if(recipe.duration>=100*20)
         {
             var accelerate=Math.min(5,(int) machine.getHatch().Mana/10000);
-            metric.speed+=accelerate*0.25;
+            metric.speed+=accelerate*0.5;
             machine.getHatch().consumeManaIfEnough(accelerate*10000);
         }
         metric.speed+=Math.min(0.6,true_parallel*0.02);
@@ -68,7 +68,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
                     "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
                     "运行时的每一并行提供§a+2.5%§r机器工作速度（最高25%）",
                     "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度（最高25%）",
-                    "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量使运行速度增加25%",
+                    "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量则提供单次的供§a+50%§r运行速度",
                     "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
             }
     )

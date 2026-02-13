@@ -152,7 +152,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
         int index = 0;
         container.addWidgets(
                 new SlotWidget(getBlood_inventory().storage, index++, 4, 4, true, io.support(IO.IN))
-                        .setBackgroundTexture(GuiTextures.SLOT)
+                        .setBackgroundTexture(CMGuiTextures.SLOT_ORB)
                         .setIngredientIO(IngredientIO.INPUT));
         index=0;
         container.addWidgets(

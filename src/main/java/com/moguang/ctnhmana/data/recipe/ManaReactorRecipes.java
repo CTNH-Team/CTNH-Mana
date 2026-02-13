@@ -43,33 +43,6 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 @SuppressWarnings("removal")
 public class ManaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        MANA_REACTOR_RECIPES.recipeBuilder("test11")
-                .addCondition(new ManaReactorCondition(true,"GT",4))
-                .inputItems(runeMana,24)
-                .inputFluids(Zenith_essence.getFluid(144))
-                .outputItems(HORIZEN_RUNE)
-                .duration(200)
-                .circuitMeta(5)
-                .EUt(114514)
-                .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("test22")
-                .addCondition(new ManaReactorCondition(true))
-                .inputItems(runeFire,24)
-                .inputFluids(Zenith_essence.getFluid(144))
-                .outputItems(STARLIGHT_RUNE)
-                .duration(200)
-                .circuitMeta(2)
-                .EUt(114514)
-                .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("test33")
-                .addCondition(new ManaReactorCondition(true))
-                .inputItems(runeWater,24)
-                .inputFluids(Zenith_essence.getFluid(144))
-                .outputItems(HORIZEN_RUNE)
-                .duration(200)
-                .circuitMeta(2)
-                .EUt(114514)
-                .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("blocks_manasteel2")
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(Items.IRON_INGOT,9)
