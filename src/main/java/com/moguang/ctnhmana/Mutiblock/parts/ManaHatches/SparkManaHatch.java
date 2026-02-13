@@ -92,7 +92,7 @@ public class SparkManaHatch extends ManaHatch {
         int index = 0;
         container.addWidgets(
                 new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
-                        .setBackgroundTexture(GuiTextures.SLOT)
+                        .setBackgroundTexture(CMGuiTextures.SLOT_RING)
                         .setIngredientIO(IngredientIO.INPUT));
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
         group.addWidgets(speed_progress2);

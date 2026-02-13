@@ -7,10 +7,12 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
@@ -48,6 +50,24 @@ public class ManaCircuitRecipes {
                 .outputItems(MANA_SOC,6)
                 .EUt(32)
                 .duration(100*20)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_electronic_circuit")//魔力电子电路
+                .input(MANA_RESISTOR.asStack())
+                .input(MANA_CAPACITOR.asStack())
+                .input(MANA_DIODE.asStack())
+                .input(CustomTags.MV_CIRCUITS)
+                .input(MANA_SOC.asStack())
+                .output(MANA_ELECTRONIC_CIRCUIT.asStack())
+                .mana(100000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_integrated_circuit")//魔力集成电路
+                .input(ADVANCED_MANA_RESISTOR.asStack())
+                .input(ADVANCED_MANA_CAPACITOR.asStack())
+                .input(ADVANCED_MANA_DIODE.asStack())
+                .input(CustomTags.HV_CIRCUITS)
+                .input(MANA_SOC.asStack())
+                .output(MANA_INTEGRATED_CIRCUIT.asStack())
+                .mana(250000)
                 .save(provider);
 
         BLOOD_ALTAR_RECIPES.recipeBuilder("etching_circuit")//符石电路基板

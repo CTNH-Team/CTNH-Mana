@@ -68,6 +68,12 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
                             .outputModifier(ContentModifier.multiplier(pa))
                             .build();
                 }
+                else
+                {
+                    return  ModifierFunction.builder()
+                            .durationMultiplier(1/(1+0.5*((TwistedFusionMachine) machine).mks))
+                            .build();
+                }
 //                else if (startEU <= 160000000) {
 //                    modifierFunction = CTNHRecipeModifiers.accurateParallel(zmachine, recipe, zmachine.mks*16+16);
 //                } else if (startEU <= 320000000) {
@@ -76,7 +82,6 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
 //                    modifierFunction = CTNHRecipeModifiers.accurateParallel(zmachine, recipe, zmachine.mks+1);
 //                }
 
-                return modifierFunction;
             }
         }
         return ModifierFunction.IDENTITY;
