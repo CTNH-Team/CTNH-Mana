@@ -1,10 +1,14 @@
 package com.moguang.ctnhmana.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.CTNHMana;
 
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.registry.CMBlocks;
+import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -51,13 +55,7 @@ public class ForgeEventHandler {
             tooltips = itemTooltipsAdd(satori_thirdeye_tooltip, tooltips);
         }
     }
-    @SubscribeEvent
-    public void onFMLoadComplete(FMLLoadCompleteEvent event) {
-        BloodMagicAPI.INSTANCE.registerAltarComponent(
-                RUNE_STONE_PERFECT.getDefaultState(),
-                "CRYSTAL"
-        );
-    }
+
 
     public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs, List<Component> list) {
         for (Lang lang : langs) {

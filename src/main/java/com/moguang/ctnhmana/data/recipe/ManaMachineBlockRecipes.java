@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
@@ -30,6 +31,7 @@ import wayoftime.bloodmagic.common.item.BloodMagicItems;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_REACTOR_RECIPES;
@@ -90,6 +92,13 @@ public class ManaMachineBlockRecipes {
                 .circuitMeta(6)
                 .outputItems(CMBlocks.ELEMENTAL_CASING_GEARBOX.asItem(),2) //源质钢齿轮箱机械方块
                 .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("manasteel_gearbox_casing")//魔力钢齿轮箱机壳
+                .inputItems(plate, ManaSteel, 4)
+                .inputItems(gear, ManaSteel, 2)
+                .inputItems(CMBlocks.MANA_STEEL_FRAME)
+                .circuitMeta(4)
+                .outputItems(CASING_MANASTEEL_GEARBOX.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .duration(50).EUt(16).save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("manasteel_gear_box") //魔力钢齿轮箱方块
                 .inputItems(ChemicalHelper.get(plate,CMMaterials.ManaSteel),4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear,CMMaterials.ManaSteel),2)
@@ -210,13 +219,13 @@ public class ManaMachineBlockRecipes {
                 .input(ChemicalHelper.get(plate,ManaSteel))
                 .input(ChemicalHelper.get(plate,ManaSteel))
                 .input(ChemicalHelper.get(plate,ManaSteel))
-                .input(ChemicalHelper.get(frameGt,ManaSteel))
+                .input(MANA_STEEL_FRAME.asStack())
                 .output(MANA_STEEL_CASING.asStack())
                 .mana(500000)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_steel_casing2") // 魔力钢机械方块
                 .inputItems(ChemicalHelper.get(plate,ManaSteel),6)
-                .inputItems(ChemicalHelper.get(frameGt,ManaSteel),1)
+                .inputItems(MANA_STEEL_FRAME.asStack())
                 .inputFluids(Mana.getFluid(1000))
                 .circuitMeta(6)
                 .outputItems(MANA_STEEL_CASING.asItem(),1)

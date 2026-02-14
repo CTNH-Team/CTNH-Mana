@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.moguang.ctnhmana.event.EventHandler;
+import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import com.moguang.ctnhmana.registry.CMRegistrate;
 import com.moguang.ctnhmana.registry.sounds.CMSoundEvent;
@@ -14,13 +15,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import com.moguang.ctnhmana.client.ClientProxy;
 import com.moguang.ctnhmana.common.CommonProxy;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.LangProcessor;
+import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 @Mod(CTNHMana.MODID)
 public class CTNHMana
@@ -38,6 +42,7 @@ public class CTNHMana
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegisterEntityRenderers);
+        modEventBus.addListener(this::onFMLoadComplete);
         modEventBus.addGenericListener(MachineDefinition.class, EventHandler::registerMachines);
         modEventBus.addGenericListener(GTRecipeType.class, EventHandler::registerRecipeTypes);
         modEventBus.addGenericListener(RecipeConditionType.class, EventHandler::registerRecipeConditions);
@@ -55,7 +60,12 @@ public class CTNHMana
 
     public static ResourceLocation id(String name) {return ResourceLocation.tryParse(MODID + ":" + name); }
 
-
+    public void onFMLoadComplete(FMLLoadCompleteEvent event) {
+        BloodMagicAPI.INSTANCE.registerAltarComponent(
+                CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.getDefaultState(),
+                "CRYSTAL"
+        );
+    }
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {

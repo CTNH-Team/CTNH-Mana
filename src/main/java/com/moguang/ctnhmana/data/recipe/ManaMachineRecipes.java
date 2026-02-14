@@ -19,9 +19,12 @@ import committee.nova.mods.avaritia.init.registry.ModItems;
 import committee.nova.mods.avaritia.init.registry.ModSingularities;
 import committee.nova.mods.avaritia.util.SingularityUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
+import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
@@ -95,6 +98,32 @@ public class ManaMachineRecipes {
                 'F', ROBOT_ARM_MV.get().asItem(),
                 'G', CustomTags.EV_CIRCUITS
         );
+        VanillaRecipeHelper.addShapedRecipe(provider,"ritual_rune_air", new ItemStack(AIR_RITUAL_STONE.get().asItem(),1),
+                "AB",
+                'A', BLANK_RITUAL_STONE.get().asItem(),
+                'B', AIR_INSCRIPTION_TOOL.get().asItem()
+                );
+        VanillaRecipeHelper.addShapedRecipe(provider,"ritual_rune_water", new ItemStack(WATER_RITUAL_STONE.get().asItem(),1),
+                "AB",
+                'A', BLANK_RITUAL_STONE.get().asItem(),
+                'B', WATER_INSCRIPTION_TOOL.get().asItem()
+                );
+        VanillaRecipeHelper.addShapedRecipe(provider,"ritual_rune_fire", new ItemStack(FIRE_RITUAL_STONE.get().asItem(),1),
+                "AB",
+                'A', BLANK_RITUAL_STONE.get().asItem(),
+                'B', FIRE_INSCRIPTION_TOOL.get().asItem()
+                );
+        VanillaRecipeHelper.addShapedRecipe(provider,"ritual_rune_earth", new ItemStack(EARTH_RITUAL_STONE.get().asItem(),1),
+                "AB",
+                'A', BLANK_RITUAL_STONE.get().asItem(),
+                'B', EARTH_INSCRIPTION_TOOL.get().asItem()
+                );
+        VanillaRecipeHelper.addShapedRecipe(provider,"ritual_rune_dusk", new ItemStack(DUSK_RITUAL_STONE.get().asItem(),1),
+                "AB",
+                'A', BLANK_RITUAL_STONE.get().asItem(),
+                'B', DUSK_INSCRIPTION_TOOL.get().asItem()
+                );
+
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_wiremill")// 魔力线材轧机
                 .inputItems(ELECTRIC_PISTON_MV, 1)
                 .inputItems(MAGIC_CORE.asItem())
@@ -166,7 +195,6 @@ public class ManaMachineRecipes {
                 .input(TWISTED_FUSION_MK1.getItem())
                 .input(DIMENSION_TWISTED_COIL.asItem())
                 .input(SUPERNORMAL_MAGIC_CALCULATE_CORE.asItem())
-                .input(SingularityUtils.getItemForSingularity(ModSingularities.ALUMINUM).getItem())
                 .input(TWIST_RUNE.asItem())
                 .input(STARLIGHT_RUNE.asItem())
                 .output(TWISTED_FUSION_MK2.asStack())
@@ -176,7 +204,6 @@ public class ManaMachineRecipes {
                 .input(TWISTED_FUSION_MK2.getItem())
                 .input(REALITY_TWISTED_COIL.asItem())
                 .input(SUPERNORMAL_MAGIC_CALCULATE_CORE.asItem())
-                .input(SingularityUtils.getItemForSingularity(ModSingularities.NETHERITE).getItem())
                 .input(TWIST_RUNE.asItem())
                 .input(STARLIGHT_RUNE.asItem())
                 .input(PROLIFERATION_RUNE.asItem())

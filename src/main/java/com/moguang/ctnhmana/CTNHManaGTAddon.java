@@ -114,13 +114,13 @@ public class CTNHManaGTAddon implements IGTAddon {
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
         RecipeRemoval.init(consumer);
-        DataFilterPack.removeRecipeType("bloodmagic", "altar");
-        DataFilterPack.removeRecipeType("botania","petal_apothecary");
-        DataFilterPack.removeRecipeType("botania","runic_altar");
-        DataFilterPack.removeRecipeType("botania","terra_plate");
-        DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
-        DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
-        DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
+//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
+//        DataFilterPack.removeRecipeType("botania","petal_apothecary");
+//        DataFilterPack.removeRecipeType("botania","runic_altar");
+//        DataFilterPack.removeRecipeType("botania","terra_plate");
+//        DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
+//        DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
+//        DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
 //        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
 //
 //        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");

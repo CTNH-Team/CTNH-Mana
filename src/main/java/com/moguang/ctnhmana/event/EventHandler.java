@@ -25,7 +25,9 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.checkerframework.checker.signature.qual.Identifier;
+import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 import java.util.Set;
 @SuppressWarnings("removal")
@@ -50,6 +52,7 @@ public class EventHandler {
         CMMaterials.init();
         CMMaterials.tagPrefixIgnore();
     }
+
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {

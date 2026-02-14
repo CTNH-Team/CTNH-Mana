@@ -468,5 +468,6 @@ public class ManaRecipes {
                 .EUt(GTValues.VA[GTValues.IV])
                 .duration(50*20)
                 .save(provider);
+
     }
 }
