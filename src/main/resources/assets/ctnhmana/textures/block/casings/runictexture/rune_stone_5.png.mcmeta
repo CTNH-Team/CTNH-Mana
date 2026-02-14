@@ -9,6 +9,6 @@
   },
   "ldlib": {
         "emissive": true,
-        "connection": "ctnhcore:block/casings/runictexture/rune_stone_5_ctm"
+        "connection": "ctnhmana:block/casings/runictexture/rune_stone_5_ctm"
     }
 }

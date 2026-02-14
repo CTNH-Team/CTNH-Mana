@@ -4,9 +4,12 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.ICentralStorageMachine;
@@ -34,10 +37,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
+import java.util.Locale;
+import java.util.function.BiFunction;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
-import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerSimpleMachines;
-import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerTieredMachines;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
@@ -239,7 +243,8 @@ public class CMMachines {
             .tier(ZPM)
             .register();
 
-    public static final MachineDefinition[] DIGITAL_WELL_OF_SUFFER = registerTieredMachines("digital_well_of_suffer",
+    public static final MachineDefinition[] DIGITAL_WELL_OF_SUFFER = registerTieredMachines(
+            "digital_well_of_suffer",
             (holder, tier) -> new DigitalWosMachine(holder,tier,(tiers) -> tiers * 32000),
             (tier,builder) -> builder
                     .langValue("%s Digital Well of Suffer".formatted(VNF[tier]))
@@ -247,7 +252,7 @@ public class CMMachines {
                     .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("digital_well_of_suffer"),CMRecipeTypes.DIGITAL_WELL_OF_SUFFER))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeModifier(DigitalWosMachine::recipeModifier)
-                    .workableTieredHullModel(GTCEu.id("block/machines/digital_well_of_suffer"))
+                    .workableTieredHullModel(CTNHMana.id("block/machine/digital_well_of_suffer"))
                     .tooltips(Component.translatable("ctnh.dwof.tooltip").withStyle(ChatFormatting.YELLOW))
                     .register(),
             GTValues.tiersBetween(LV,UV));
@@ -272,4 +277,18 @@ public class CMMachines {
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .register();
 
+    public static MachineDefinition[] registerTieredMachines(String name,
+                                                             BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
+                                                             BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
+                                                             int... tiers) {
+        MachineDefinition[] definitions = new MachineDefinition[GTValues.TIER_COUNT];
+        for (int tier : tiers) {
+            var register = REGISTRATE
+                    .machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
+                            holder -> factory.apply(holder, tier))
+                    .tier(tier);
+            definitions[tier] = builder.apply(tier, register);
+        }
+        return definitions;
+    }
 }

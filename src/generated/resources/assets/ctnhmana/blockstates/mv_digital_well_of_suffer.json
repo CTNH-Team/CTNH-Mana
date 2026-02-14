@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ctnhmana:block/machine/mv_digital_well_of_suffer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ctnhmana:block/machine/mv_digital_well_of_suffer"
+    },
+    "facing=south": {
+      "model": "ctnhmana:block/machine/mv_digital_well_of_suffer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ctnhmana:block/machine/mv_digital_well_of_suffer",
+      "y": 270
+    }
+  }
+}
