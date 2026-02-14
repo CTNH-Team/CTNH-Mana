@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.machine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.gui.factory.MachineUIFactory;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -13,7 +14,15 @@ import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 public class FlowerCakeMachine extends SimpleTieredMachine {
     @Nullable
@@ -34,6 +43,10 @@ public class FlowerCakeMachine extends SimpleTieredMachine {
             return RecipeAmperageEnergyContainer.makeReceiverContainer(this, tierVoltage * 64L,
                     tierVoltage, getMaxInputOutputAmperage());
         }
+    }
+    @Override
+    public InteractionResult tryToOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
+        return InteractionResult.PASS;
     }
     @Override
     public void onLoad()
@@ -58,19 +71,36 @@ public class FlowerCakeMachine extends SimpleTieredMachine {
         ManaSubs=subscribeServerTick(ManaSubs, this::check_eaten);
     }
     public void check_eaten()
-    {            var reciever=((FlowerCakeBlockEntity)this.getHolder());
+    {            var receiver=((FlowerCakeBlockEntity)this.getHolder());
         if(this.is_eating)
         {
 
-            reciever.max_mana=900000;
-            if(reciever.max_mana<=reciever.mana) {
+            receiver.max_mana=900000;
+            if(receiver.max_mana<=receiver.mana) {
                 this.is_eating = false;
-                reciever.mana=0;
+                receiver.mana=0;
             }
         }
         else
         {
-            reciever.max_mana=0;
+            receiver.max_mana=0;
         }
     }
+    @CN(
+            {
+                    "§b制作组物品§r",
+                    "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+                    "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+                    "可连续食用！"
+            }
+    )
+    @EN(
+            {
+                    "§b制作组物品§r",
+                    "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+                    "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+                    "可连续食用！"
+            }
+    )
+    public static Lang[] FlowerCakeLang;
 }

@@ -220,6 +220,7 @@ public class ManaMachineBlockRecipes {
                 .input(ChemicalHelper.get(plate,ManaSteel))
                 .input(ChemicalHelper.get(plate,ManaSteel))
                 .input(MANA_STEEL_FRAME.asStack())
+                .circuitMeta(21)
                 .output(MANA_STEEL_CASING.asStack())
                 .mana(500000)
                 .save(provider);
@@ -239,7 +240,6 @@ public class ManaMachineBlockRecipes {
                 .output(MANA_STEEL_FRAME.asStack())
                 .mana(5000)
                 .save(provider);
-
         TerraPlateRecipeBuilder.builder("elementium_casing1") // 源质钢机械方块
                 .input(ChemicalHelper.get(plate,Elementium))
                 .input(ChemicalHelper.get(plate,Elementium))
@@ -444,7 +444,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(ChemicalHelper.get(frameGt, PRIMOVOLITHEST))
                 .inputItems(CASING_FORCE_FILED.asStack())
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(777))
-                .outputItems(AURA_CONVERGENCE_CASING.asItem(),2)
+                .outputItems(AURA_CONVERGENCE_CASING.asItem(),1)
                 .EUt(6666)
                 .duration(777)
                 .save(provider);
@@ -478,6 +478,16 @@ public class ManaMachineBlockRecipes {
                 .circuitMeta(1)
                 .consumeRate(100)
                 .drainRate(20)
+                .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("shroud_coil")
+                .inputItems(ChemicalHelper.get(foil, Ultra_Mana),8)
+                .inputItems(ChemicalHelper.get(cableGtDouble, PRIMOVOLITHEST),8)
+                .inputItems(ChemicalHelper.get(gem, Psionic_Medulla))
+                .inputItems(CMItems.TWIST_RUNE)
+                .inputFluids(Shroud_Zenith_essence,1000)
+                .outputItems(SHROUD_MANA_COIL.asItem())
+                .EUt(32768)
+                .duration(1000)
                 .save(provider);
 
 

@@ -44,6 +44,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
+import static com.moguang.ctnhmana.machine.FlowerCakeMachine.FlowerCakeLang;
 
 public class CMMachines {
     static {
@@ -56,13 +57,9 @@ public class CMMachines {
     }
     public static final MachineDefinition STAR_FLOWER_CAKE=REGISTRATE.machine(
                     "flower_cake",
-                    // 2. 新增：机器中文名称（CTNH框架自动绑定汉化，无需手动写基础lang）
                     "献给月亮的花束",
-                    // 3. definitionFactory：创建自定义机器定义
                     MachineDefinition::new,
-                    // 4. metaMachine：绑定方块实体和机器核心逻辑（框架默认实现，直接用）
                     be -> new FlowerCakeMachine(be),
-                    // 5. blockFactory：创建机器方块（强转自定义定义，避免类型错误）
                    (block,properties)->new FlowerCakeBlock(block,properties)
                    {
                        @Override
@@ -83,11 +80,11 @@ public class CMMachines {
                        }
                    },
                     (b,p)->new FlowerCakeItem(b,p),
-                    // 7. blockEntityFactory：创建机器方块实体
                     (beType, pos, state) -> new FlowerCakeBlockEntity(beType, pos, state)
             )
             .recipeModifier(RecipeModifier.NO_MODIFIER)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .tooltips(CTNHManaUtils.addMachineTooltips(FlowerCakeLang))
             .hasBER(false)
             .rotationState(RotationState.NON_Y_AXIS)
             .onBlockEntityRegister(beType -> {

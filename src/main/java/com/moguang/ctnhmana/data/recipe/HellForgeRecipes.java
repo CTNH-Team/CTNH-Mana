@@ -307,6 +307,7 @@ public class HellForgeRecipes {
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("raw_crystal_block_item")
                 .input(RAW_CRYSTAL.get(),RAW_CRYSTAL.get(),RAW_CRYSTAL.get(),RAW_CRYSTAL.get())
+                .circuitMeta(22)
                 .output(new ItemStack(RAW_CRYSTAL_BLOCK_ITEM.get(),1))
                 .minimumSouls(2400).soulDrain(1200)
                 .circuitMeta(1)

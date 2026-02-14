@@ -25,6 +25,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Domain;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Key;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
@@ -33,6 +38,7 @@ import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import java.util.List;
 import java.util.Objects;
 
+@Domain(value = "ctnh", category = "multiblock.demon_will_generator")
 public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
@@ -173,7 +179,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             }
         }
         else {
-            difference += getWillDifference(pos1,pos2,type) * 5;
+            difference += getWillDifference(pos1,pos2,type) * 2;
             adjustWillChunk(pos1,pos2,type);
         }
         return difference;
@@ -186,12 +192,18 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         }
         return (Math.abs(will1 - will2) ) * Math.pow(1.02,Augmented_rune)+ Capacity_rune * 2;
     }
+    public double getHigherWill(BlockPos pos1,BlockPos pos2,EnumDemonWillType type1) {
+        var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos1, type1);
+        var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos2, type1);
+        return Math.max(will1,will2);
+    }
     public void adjustWillChunk(BlockPos pos1, BlockPos pos2,EnumDemonWillType type1) {
         var willChunk1 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos1);
         var willChunk2 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos2);
         var difference = getWillDifference(pos1,pos2,type1);
+        var high_will=getHigherWill(pos1,pos2,type1);
         if (willChunk1.getCurrentWill().getWill(type1) < willChunk2.getCurrentWill().getWill(type1)) {
-            if(Math.abs(difference)<10)
+            if(Math.abs(high_will)<10)
             {
                 willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
             }
@@ -201,7 +213,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             }
         }
         else {
-            if(Math.abs(difference)<10)
+            if(Math.abs(high_will)<10)
             {
                 willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
             }
@@ -294,10 +306,10 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         return num;
     }
     public double getBoostRate() {
-        return 2 + 0.5 * Sacrifice_rune;
+        return 2 + 0.2 * Sacrifice_rune;
     }
     public GTRecipe getBloodRecipe() {
-        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 100)).buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 50000)).buildRawRecipe();
     }
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof DemonWillMachine dmachine) {
@@ -341,7 +353,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             calculateDiversity();
         }
         else {
-            diversity = 1;
+            diversity = 0.8;
         }
         return super.beforeWorking(recipe);
     }
@@ -362,15 +374,15 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
         textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2", FormattingUtil.formatNumbers(outputEnergy), voltageName));
         switch (type) {
-            case DEFAULT -> textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.default"));
-            case VENGEFUL -> textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.vengeful"));
-            case CORROSIVE -> textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.corrosive"));
-            case STEADFAST -> textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.steadfast"));
-            case DESTRUCTIVE -> textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.destructive"));
+            case DEFAULT -> textList.add(INFO_SPECIALTY_DEFAULT.translate());
+            case VENGEFUL -> textList.add(INFO_SPECIALTY_VENGEFUL.translate());
+            case CORROSIVE -> textList.add(INFO_SPECIALTY_CORROSIVE.translate());
+            case STEADFAST -> textList.add(INFO_SPECIALTY_STEADFAST.translate());
+            case DESTRUCTIVE -> textList.add(INFO_SPECIALTY_DESTRUCTIVE.translate());
         }
-        textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.1",String.format("%.1f",difference)));
+        textList.add(INFO_DIFFERENCE.translate(String.format("%.1f", difference)));
         if (isBoosted) {
-            textList.add(Component.translatable("ctnh.multiblock.demon_generator.info.boosted"));
+            textList.add(INFO_BOOSTED.translate());
         }
     }
     @Override
@@ -381,4 +393,74 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public boolean regressWhenWaiting() {
         return false;
     }
+
+    // lang: info (display in UI)
+    @Key("info.default")
+    @CN("专精强化：无")
+    public static Lang INFO_SPECIALTY_DEFAULT;
+    @Key("info.vengeful")
+    @CN("专精强化：复仇")
+    public static Lang INFO_SPECIALTY_VENGEFUL;
+    @Key("info.corrosive")
+    @CN("专精强化：腐蚀")
+    public static Lang INFO_SPECIALTY_CORROSIVE;
+    @Key("info.steadfast")
+    @CN("专精强化：坚韧")
+    public static Lang INFO_SPECIALTY_STEADFAST;
+    @Key("info.destructive")
+    @CN("专精强化：破坏")
+    public static Lang INFO_SPECIALTY_DESTRUCTIVE;
+    @Key("info.1")
+    @CN("浓度差异：%s")
+    public static Lang INFO_DIFFERENCE;
+    @Key("info.boosted")
+    @CN("§4血祭模式开启，生命源质强化中")
+    public static Lang INFO_BOOSTED;
+
+    // lang: tooltips (multiblock description)
+    @Key("tooltip")
+    @CN({
+            "驾驭恶魔之力",
+            "允许使用激光仓，变电仓",
+            "机器两侧区块内的恶魔意志符文块可替换，以提供不同强化：",
+            "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
+            "计算基于机器两侧恶魔合金块处的意志浓度。",
+            "两侧区块内各类恶魔意志的多样性会影响发电效率。",
+            "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
+            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升生命源质强化模式下的发电倍率§r\n§3速度符文§r----增加单次配方运行时长（节省恶魔意志消耗）§r\n§e增容符文§r----每个符文使恶魔意志§e最终的§r浓度差+1§r\n§c超容符文§r----每个符文使恶魔意志浓度差+5%（乘算）§r\n==============================",
+            "输入§4生命源质§r可激活强化模式，发电量翻倍，同时每秒消耗§a50000mb§r生命源质。",
+            "按住shift查看详细的计算公式"
+    })
+    @EN({
+            "驾驭恶魔之力",
+            "允许使用激光仓，变电仓",
+            "机器两侧区块内的恶魔意志符文块可替换，以提供不同强化：",
+            "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
+            "计算基于机器两侧恶魔合金块处的意志浓度。",
+            "两侧区块内各类恶魔意志的多样性会影响发电效率。",
+            "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
+            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升生命源质强化模式下的发电倍率§r\n§3速度符文§r----增加单次配方运行时长（节省恶魔意志消耗）§r\n§e增容符文§r----每个符文使恶魔意志§e最终的§r浓度差+1§r\n§c超容符文§r----每个符文使恶魔意志浓度差+5%（乘算）§r\n==============================",
+            "输入§4生命源质§r可激活强化模式，发电量翻倍，同时每秒消耗§a50000mb§r生命源质。",
+            "按住左Ctrl查看详细的计算公式"
+    })
+    public static Lang[] TOOLTIPS;
+    @CN(
+            {
+                    "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*两侧多样性之积 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+                    "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
+                    "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+                    "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
+                    "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+            }
+    )
+    @EN(
+            {
+                    "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*多样性 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+                    "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
+                    "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+                    "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
+                    "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+            }
+    )
+    public static Lang[] SHIFT_TOOLTIPS;
 }

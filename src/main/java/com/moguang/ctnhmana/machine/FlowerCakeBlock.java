@@ -89,7 +89,7 @@ public class FlowerCakeBlock extends MetaMachineBlock {
         if(itemStack.isEmpty()&&this.getMachine(world,pos)instanceof FlowerCakeMachine fmachine&&!fmachine.is_eating)
         {
             fmachine.is_eating=true;
-            player.addEffect(new MobEffectInstance(CMMobEffects.WishingFlying.get(), 20*60*10));
+            player.addEffect(new MobEffectInstance(CMMobEffects.WishingFlying.get(), 20*60*30));
             return InteractionResult.SUCCESS;
         }
         if (shouldOpenUi && machine instanceof IUIMachine uiMachine &&
@@ -99,4 +99,3 @@ public class FlowerCakeBlock extends MetaMachineBlock {
         return shouldOpenUi ? InteractionResult.PASS : InteractionResult.CONSUME;
     }
 }
-

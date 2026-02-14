@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMultiblockMachines;
@@ -293,5 +294,17 @@ public class ManaMachineRecipes {
                 .EUt(32)
                 .duration(20)
                 .save(provider);
+        VanillaRecipeHelper.addShapedRecipe(//魔力操纵者
+                provider, "mana_transformer",
+                MANA_FORCE_TRANSFORMER.asStack(1),
+                "AAA",
+                "BCB",
+                "DED",
+                'A', PURE_LOGIC_CASING.get().asItem(),
+                'B', CustomTags.EV_CIRCUITS,
+                'C', MAGIC_CORE.get(),
+                'D', MysticSpire.asStack(),
+                'E', SKY_FLOWER_SPEECH.asItem()
+        );
     }
 }

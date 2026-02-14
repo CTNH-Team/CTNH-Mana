@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.moguang.ctnhmana.Mutiblock.Quasar_Eye;
 import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 
@@ -104,9 +105,9 @@ public class CMRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE)
-            .addDataInfo(data -> LocalizationUtils.format("ctnh.recipe.quasar_eye.info.0",String.format("%.1f",data.getFloat("consumption"))))
-            .addDataInfo(data -> LocalizationUtils.format("ctnh.recipe.quasar_eye.info.1",String.format("%d",data.getInt("tier"))))
-            .addDataInfo(data -> LocalizationUtils.format("ctnh.recipe.quasar_eye.info.2",String.format("%d",data.getInt("active"))));
+            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_0.translate(String.format("%.1f", data.getFloat("consumption"))).getString())
+            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_1.translate(data.getInt("tier")).getString())
+            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_2.translate(data.getInt("active")).getString());
 
     public static final GTRecipeType TWISTED_FUSION = REGISTRATE.recipeType(GTCEu.id("twisted_fusion"),ELECTRIC)
             .cnlang("扭曲聚变反应堆").setMaxIOSize(0, 0, 2, 2)

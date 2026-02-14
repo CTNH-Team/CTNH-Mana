@@ -5,9 +5,6 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 public class EnglishLangHandler {
     public static void init(RegistrateLangProvider provider){
 
-        provider.add("ctnh.recipe.quasar_eye.info.0", "Activation Cost: %.1f");
-        provider.add("ctnh.recipe.quasar_eye.info.1", "Energy Tier: %d");
-        provider.add("ctnh.recipe.quasar_eye.info.2", "Activation Tier: %d");
         provider.add("ctnh.common_tooltip.mana_machine.0", "Magic, isn't it?");
         provider.add("ctnh.common_tooltip.mana_machine.1", "§cMana Machines no longer have any parallelism");
         provider.add("ctnh.common_tooltip.mana_machine.2", "Each operational parallel provides 1% time and energy reduction, up to 75% maximum reduction");
@@ -27,27 +24,6 @@ public class EnglishLangHandler {
         provider.add("ctnh.common_tooltip.advanced_mana_consume", "Base consumption is 10mB of Liquid Mana per second. For each voltage tier above §7LV§r, the consumption doubles.");
         provider.add("ctnh.common_tooltip.super_mana_consume", "Base consumption is 12mB of Liquid Mana per second. For each voltage tier above §7LV§r, the consumption doubles.");
         provider.add("ctnh.common_tooltip.zenith_machine.0", "§5Transcendent Magic");
-        provider.add("ctnh.multiblock.mana_turbine.info.efficiency", "Generating Efficiency：%d%%");
-        provider.add("ctnh.multiblock.mana_turbine.info.consumption_rate", "Consumption Rate：%d");
-        provider.add("ctnh.multiblock.quasar_eye.info.rune_energy", "Rune energy: %.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.rune_consumption", "Current rune energy consumption rate: %.2f /100ticks");
-        provider.add("ctnh.multiblock.quasar_eye.info.mana_model", "Current mana fuel level: %d");
-        provider.add("ctnh.multiblock.quasar_eye.info.mana_production", "Current power generation efficiency: %.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.quasar_parallel", "Time Parallelism: %.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.consumption_parallel","Energy Consumption Rate: %.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.0","Accumulated Energy: %s");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana", "Current mana: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.twist_consumption", "Twisted rune consumption probability: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.starlight_consumption", "Starlight rune consumption probability: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.max_mana", "Maximum mana: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_required", "Mana required: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_consumption", "Mana consumption: %.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.stable", "Mana stability value: %.2f"+
-        "The rune blocks inside the machine can be replaced to provide different enhancements:\n" +
-                "§4Sacrifice Runes and Self-Sacrifice Runes§r----Increase the power generation multiplier for the Life Essence Fortified Mode§r\n" +
-                "§3Speed Runes§r----Increase the duration of a single recipe operation (saving demonic will consumption)§r\n" +
-                "§eAugment Runes§r----Each rune increases the demonic will concentration difference by 1§r\n" +
-                "§cSupercharge Runes§r----Each rune increases the demonic will concentration difference by 5% (multiplied)§r\n");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier1.tooltip.0", "Basic Mana Converter");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier1.tooltip.1", "Rotor frame tier cannot exceed §bMV§r");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.0", "Advanced Mana Converter");
@@ -61,18 +37,6 @@ public class EnglishLangHandler {
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.2", "Consumes 4× fuel but generates 24× power output when operating");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.3", "Can only use Laser Cores");
         provider.add("ctnh.multiblock.zenith_circuit_assember.tooltip.0", "Allows the use of §5Magical Resonance Circuit Assembly§r to assemble resonant circuits at lower voltages and with special materials");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.0", "§9Mana's§r §cUltimate Mystery§r, a device capable of creating §5quasars§r now rests in §6your§r hands");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.1", "Machine activation requires §rinitial mana fuel consumption§R, consult JEI for specific values");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.2", "Activating lower-tier recipes at high energy tiers §bwaives activation costs§r");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.3", "§5Rune Energy§r governs output potency. Input §bTier V Runes§r to amplify rune energy and enhance outputs. Use §5Quasar Runes§r to generate massive rune energy");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.4", "Rune energy acquisition logic: §5Before each recipe cycle§r, consumes §cup to one§r of each consumable rune type");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.5", "§cWarning§r: Higher rune energy accelerates §cdepletion rate§r. Efficiency §chalves§r when rune energy falls below 50!");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.6", "Energy efficiency formula: log((rune_energy)/50)+1. Max efficiency: (1 + energy tier)");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.7", "Features time parallelism. Both consumption and duration multiply by parallel factor (efficiency*5)");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.8", "Fuel consumption formula: 1-0.05*Math.max((rune_energy-50)/50,0.75)");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.9", "In generation mode, accumulates 1% of EU output into the Quasar Eye. Gains +1% accumulation per 25 rune energy");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.10", "In creation mode, releases all stored EU. Advanced fuels multiply output. Every 1000E EU generates bonus gas byproduct. Creation mode disabled when stored EU <1E");
-        provider.add("ctnh.multiblock.quasar_eye.tooltip.11", "§bGood news§r: This machine won't explode. §cBut no guarantees for future versions!§r");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.0", "§9Arcane Pivot Colossus - Reshaping the Fabric of Scale§r");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.1", "Supports parallel control pods, §cwhich don't provide recipe parallelism§r, only modifying mana input per second");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.2", "Inserted §9Tier V Runes§r determine various machine capabilities");
@@ -99,23 +63,6 @@ public class EnglishLangHandler {
 
 
         provider.add("ctnh.multiblock.hellforge.info.will", "Will: %s");
-
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.0", "Harnessing demonic power");
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.1", "Generates power by utilizing the difference in demonic will concentration between the chunks on either side of the machine. The power generation increases exponentially with the concentration difference.");
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.2", "Calculations are based on the will concentration at the demonic alloy blocks on either side of the machine.");
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.3", "The diversity of various demonic wills in the chunks on both sides affects power generation efficiency.");
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.4", "Will cores can be placed inside the machine, transforming it into a specialized mode focused on a specific type of will.");
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.5",
-                "The rune blocks inside the machine can be replaced to provide different enhancements:\n" +
-                        "§4Sacrifice Runes and Self-Sacrifice Runes§r----Increase the power generation multiplier for the Life Essence Fortified Mode§r\n" +
-                        "§3Speed Runes§r----Increase the duration of a single recipe operation (saving demonic will consumption)§r\n" +
-                        "§eAugment Runes§r----Each rune increases the demonic will concentration difference by 1§r\n" +
-                        "§cSupercharge Runes§r----Each rune increases the demonic will concentration difference by 5% (multiplied)§r\n" +
-                        "=============================="
-        );
-        provider.add("ctnh.multiblock.demon_will_generator.tooltip.6",
-                "Insert §4Life Essence§r to activate the Fortified Mode, doubling power output while consuming §a100mb§r of Life Essence per second."
-        );
 
         provider.add("ctnh.multiblock.industrial_altar.tooltip.0", "§4Blood Magic, right at your doorstep!");
         provider.add("ctnh.multiblock.industrial_altar.tooltip.1", "Like the Blood Altar, this structure has an LP input limit. You §4must§r use specific recipes to increase its LP§r\nSee JEI for the recipes that increase LP.");

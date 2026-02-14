@@ -71,8 +71,8 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof ManaForceTransformer fmachine) {
             var mana = fmachine.hatch.getMana();
-            int parallel = (int) (mana / 100000);
-            var output = mana / 200000;
+            int parallel = (int) (mana / 10000);
+            var output = mana / 50000;
             var true_parallel = ParallelLogic.getParallelAmount(fmachine, recipe, parallel);
             ContentModifier modifer = new ContentModifier(true_parallel, output);
             return ModifierFunction.builder()
@@ -87,7 +87,7 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     @CN({
             "§9没有不科学，只有未被探及的科学§r",
             "§b没有不魔法，只有未被诠释的魔法§r",
-            "运行前消耗魔力凝聚仓所有的魔力能量，每消耗10W魔力能力就§a+1§r最大并行，每消耗20W魔力能量就§a+1§r最终产出",
+            "运行前消耗魔力凝聚仓所有的魔力能量，每消耗1W魔力能力就§a+1§r最大并行，每消耗5W魔力能量就§a+1§r最终产出",
             "如果消耗的魔力能量小于10W，则§c吞噬所有的输入§r",
             "运行时每秒消耗4魔力能量，电压每高于LV一级，消耗量就翻倍",
     })
@@ -100,4 +100,3 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     })
     public static Lang[] MFT_Lang;
 }
-

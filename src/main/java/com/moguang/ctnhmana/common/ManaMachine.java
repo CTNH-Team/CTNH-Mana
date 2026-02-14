@@ -60,24 +60,24 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
         //只是一个测试
     }
 
-    @Override
-    public Widget createUIWidget() {
-        WidgetGroup widget = new WidgetGroup(0, 0, 190, 125);
-        widget.addWidget((new DraggableScrollableWidgetGroup(4, 4, 182, 117)).setBackground(this.getScreenTexture()).addWidget(new LabelWidget(4, 5, this.self().getBlockState().getBlock().getDescriptionId())).addWidget((new ComponentPanelWidget(4, 17, this::addDisplayText)).textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
-        widget.setBackground(new IGuiTexture[]{GuiTextures.BACKGROUND_INVERSE});
-
-        var button_refresh=(new ButtonWidget(10, 60, 15, 15, new GuiTextureGroup(new IGuiTexture[]{ResourceBorderTexture.BUTTON_COMMON, new TextTexture("-")}), clickData ->
-        {
-            SyncManaData();
-        }
-        ).setHoverTooltips("刷新机器数据状态")
-        );
-        if(widget != null)
-        {
-            ((WidgetGroup) widget).addWidget(button_refresh);
-        }
-    return widget;
-    }
+//    @Override
+//    public Widget createUIWidget() {
+//        WidgetGroup widget = new WidgetGroup(0, 0, 190, 125);
+//        widget.addWidget((new DraggableScrollableWidgetGroup(4, 4, 182, 117)).setBackground(this.getScreenTexture()).addWidget(new LabelWidget(4, 5, this.self().getBlockState().getBlock().getDescriptionId())).addWidget((new ComponentPanelWidget(4, 17, this::addDisplayText)).textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
+//        widget.setBackground(new IGuiTexture[]{GuiTextures.BACKGROUND_INVERSE});
+//
+//        var button_refresh=(new ButtonWidget(10, 60, 15, 15, new GuiTextureGroup(new IGuiTexture[]{ResourceBorderTexture.BUTTON_COMMON, new TextTexture("-")}), clickData ->
+//        {
+//            SyncManaData();
+//        }
+//        ).setHoverTooltips("刷新机器数据状态")
+//        );
+//        if(widget != null)
+//        {
+//            ((WidgetGroup) widget).addWidget(button_refresh);
+//        }
+//    return widget;
+//    }
 
 
 

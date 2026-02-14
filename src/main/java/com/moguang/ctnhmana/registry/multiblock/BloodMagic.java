@@ -8,11 +8,12 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.DemonWillMachine;
 import com.moguang.ctnhmana.Mutiblock.MeteorCaptureMachine;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
-import net.minecraft.ChatFormatting;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
@@ -22,6 +23,8 @@ import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_STEEL_SOLID;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.LAMPS;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.Mutiblock.DemonWillMachine.SHIFT_TOOLTIPS;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.industrialAltarctrlLang;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_BLOOD;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_FORCE_FILED;
 
@@ -34,14 +37,13 @@ public class BloodMagic {
             .recipeTypes(CMRecipeTypes.DEMON_WILL_GENERATOR_RECIPE)
             .generator(true)
             .recipeModifiers(DemonWillMachine::recipeModifier)
-            .tooltips(Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.0").withStyle(ChatFormatting.GRAY),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.01"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.1"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.2"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.3"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.4"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.5"),
-                    Component.translatable("ctnh.multiblock.demon_will_generator.tooltip.6"))
+            .tooltips(DemonWillMachine.TOOLTIPS)
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    CTNHManaUtils.itemTooltipsAdd(SHIFT_TOOLTIPS,tooltip);
+                }
+            })
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "      B                   B      ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ", "                                 ")

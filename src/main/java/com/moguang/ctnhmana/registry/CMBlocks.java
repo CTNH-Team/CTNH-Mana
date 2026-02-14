@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.lowdragmc.lowdraglib.test.TestJava;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.blocks.CoilType;
+import com.moguang.ctnhmana.common.blocks.FrameBlock;
 import com.moguang.ctnhmana.common.blocks.RuneBlock;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -159,9 +160,9 @@ public class CMBlocks {
         return createCasingBlock(name, cnName, Block::new, texture, () -> Blocks.IRON_BLOCK,
                 () -> RenderType::cutoutMipped);
     }
-    public static BlockEntry<Block> createFrameBlock(String name, String cnName, ResourceLocation texture,Supplier<Supplier<RenderType>> type) {
-        return createCasingBlock(name, cnName, Block::new, texture, (() -> Blocks.IRON_BLOCK),
-                type,true);
+    public static BlockEntry<Block> createFrameBlock(String name, String cnName, ResourceLocation texture, Supplier<Supplier<RenderType>> type) {
+        return createCasingBlock(name, cnName, FrameBlock::new, texture, () -> Blocks.IRON_BLOCK,
+                type, true);
     }
     private static BlockEntry<Block> createGlassCasingBlock(String  name, String cnName, ResourceLocation texture,
                                                             Supplier<Supplier<RenderType>> type) {

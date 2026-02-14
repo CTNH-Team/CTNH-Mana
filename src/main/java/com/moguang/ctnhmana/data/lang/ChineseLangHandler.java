@@ -213,22 +213,6 @@ public class ChineseLangHandler {
         provider.add("ctnh.common_tooltip.advanced_mana_consume", "每秒基础消耗10mB液态魔力，电压每超过§7LV§r一级，消耗量变为原来的两倍");
         provider.add("ctnh.common_tooltip.super_mana_consume", "每秒基础消耗12mB液态魔力，电压每超过§7LV§r一级，消耗量变为原来的两倍");
 
-        provider.add("ctnh.multiblock.demon_generator.info.default","专精强化：无");
-        provider.add("ctnh.multiblock.demon_generator.info.vengeful","专精强化：复仇");
-        provider.add("ctnh.multiblock.demon_generator.info.corrosive","专精强化：腐蚀");
-        provider.add("ctnh.multiblock.demon_generator.info.steadfast","专精强化：坚韧");
-        provider.add("ctnh.multiblock.demon_generator.info.destructive","专精强化：破坏");
-        provider.add("ctnh.multiblock.demon_generator.info.1","浓度差异：%s");
-        provider.add("ctnh.multiblock.demon_generator.info.boosted","§4血祭模式开启，生命源质强化中");
-
-        provider.add("ctnh.multiblock.quasar_eye.info.rune_energy","符文能量：%.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.rune_consumption","当前消耗符文能量速率:%.2f /100tick");
-        provider.add("ctnh.multiblock.quasar_eye.info.mana_model","当前魔力燃料等级:%d");
-        provider.add("ctnh.multiblock.quasar_eye.info.mana_production","当前发电效率:%.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.quasar_parallel","时间并行:%.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.consumption_parallel","能源消耗率:%.2f");
-        provider.add("ctnh.multiblock.quasar_eye.info.0","积累的能量:%s");
-
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload","§c警告：机器过载！！！");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload_1","§c机器过载度:%d/%d");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.crash","§c机器已损坏");
