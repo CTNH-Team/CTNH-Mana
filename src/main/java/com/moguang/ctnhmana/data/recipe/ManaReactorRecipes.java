@@ -332,5 +332,55 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(418278400L/800)
                 .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电阻
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(MANA_RESISTOR,2)
+                .inputFluids(Mana.getFluid(10))
+                .circuitMeta(3)
+                .outputItems(ADVANCED_MANA_RESISTOR)
+                .duration(200)
+                .circuitMeta(1)
+                .EUt(9600/200)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔二极管
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(MANA_DIODE,2)
+                .inputFluids(Mana.getFluid(10))
+                .circuitMeta(3)
+                .outputItems(ADVANCED_MANA_DIODE)
+                .duration(200)
+                .circuitMeta(1)
+                .EUt(9600/200)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔晶体管
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(MANA_TRANSISTOR,2)
+                .inputFluids(Mana.getFluid(10))
+                .circuitMeta(3)
+                .outputItems(ADVANCED_MANA_TRANSISTOR)
+                .duration(200)
+                .circuitMeta(1)
+                .EUt(9600/200)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电容
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(MANA_CAPACITOR,2)
+                .inputFluids(Mana.getFluid(10))
+                .circuitMeta(3)
+                .outputItems(ADVANCED_MANA_CAPACITOR)
+                .duration(200)
+                .circuitMeta(1)
+                .EUt(9600/200)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电感
+                .addCondition(new ManaReactorCondition(false))
+                .inputItems(MANA_INDUCTOR,2)
+                .inputFluids(Mana.getFluid(10))
+                .circuitMeta(3)
+                .outputItems(ADVANCED_MANA_INDUCTOR)
+                .duration(200)
+                .circuitMeta(1)
+                .EUt(9600/200)
+                .save(provider);
     }
 }
