@@ -22,6 +22,9 @@ import net.minecraft.network.chat.Component;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
+
+import net.minecraft.world.level.block.Block;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -201,44 +204,50 @@ public class misc {
                     .build())
             .workableCasingModel((CTNHMana.id("block/casings/depth_force_field_stabilizing_casing")), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-    static Function<MultiblockMachineDefinition, BlockPattern> TWISTED_FUSION_PATTERN = definition -> FactoryBlockPattern.start()
-            .aisle("###############", "###############", "###############", "######AAA######", "###############", "###############", "###############")
-            .aisle("###############", "###############", "######AAA######", "####AA###AA####", "######AAA######", "###############", "###############")
-            .aisle("###############", "###############", "####AA###AAA###", "###A##AAA##A###", "###AAA###AA####", "###############", "###############")
-            .aisle("###############", "###########A###", "###A######ABA##", "##ABAA###AABA##", "##ABA######A###", "###A###########", "###############")
-            .aisle("###############", "############A##", "###########A#A#", "##AA#######AA##", "#A#A###########", "##A############", "###############")
-            .aisle("###############", "############A##", "###########A#A#", "##A#########A##", "#A#A###########", "##A############", "###############")
-            .aisle("###############", "#############A#", "############A#A", "#A###########A#", "A#A############", "#A#############", "###############")
-            .aisle("###############", "#############A#", "############A#A", "#A###########A#", "A#A############", "#A#############", "###############")
-            .aisle("###############", "#############A#", "############A#A", "#A###########A#", "A#A############", "#A#############", "###############")
-            .aisle("###############", "############A##", "###########A#A#", "##A#########A##", "#A#A###########", "##A############", "###############")
-            .aisle("###############", "###########AA##", "###########A#A#", "##A#########A##", "#A#A###########", "##AA###########", "###############")
-            .aisle("###########A###", "#########AABA##", "##########ABA##", "###A#######A###", "##ABA##########", "##ABAA#########", "###A###########")
-            .aisle("#########AA####", "######AAA##A###", "#########AAA###", "###############", "###AAA#########", "###A##AAA######", "####AA#########")
-            .aisle("######AAA######", "####AA###AA####", "######CCC######", "######C@C######", "######CCC######", "####AA###AA####", "######AAA######")
-            .aisle("####AA#########", "###A##AAA######", "###AAA#########", "###############", "#########AAA###", "######AAA##A###", "#########AA####")
-            .aisle("###A###########", "##ABAA#########", "##ABA##########", "###A#######A###", "##########ABA##", "#########AABA##", "###########A###")
-            .aisle("###############", "##AA###########", "#A#A###########", "##A#########A##", "###########A#A#", "###########AA##", "###############")
-            .aisle("###############", "##A############", "#A#A###########", "##A#########A##", "###########A#A#", "############A##", "###############")
-            .aisle("###############", "#A#############", "A#A############", "#A###########A#", "############A#A", "#############A#", "###############")
-            .aisle("###############", "#A#############", "A#A############", "#A###########A#", "############A#A", "#############A#", "###############")
-            .aisle("###############", "#A#############", "A#A############", "#A###########A#", "############A#A", "#############A#", "###############")
-            .aisle("###############", "##A############", "#A#A###########", "##A#########A##", "###########A#A#", "############A##", "###############")
-            .aisle("###############", "##A############", "#A#A###########", "##AA#######AA##", "###########A#A#", "############A##", "###############")
-            .aisle("###############", "###A###########", "##ABA######A###", "##ABAA###AABA##", "###A######ABA##", "###########A###", "###############")
-            .aisle("###############", "###############", "###AAA###AA####", "###A##AAA##A###", "####AA###AAA###", "###############", "###############")
-            .aisle("###############", "###############", "######AAA######", "####AA###AA####", "######AAA######", "###############", "###############")
-            .aisle("###############", "###############", "###############", "######AAA######", "###############", "###############", "###############")
-            .where("#", Predicates.any())
-            .where("A", Predicates.blocks(TWISTED_FUSION_CASING.get()))
-            .where("B", Predicates.blocks(FUSION_COIL.get()))
-            .where("C", Predicates.blocks(TWISTED_FUSION_CASING.get()).or(Predicates.autoAbilities(definition.getRecipeTypes())))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build();
+    /** 与 MK1 同款的扭曲聚变结构模板，仅线圈 D 按等级传入；木头 A 视为空气，B 位扭曲外壳可 or 按配方放舱室 */
+    static Function<MultiblockMachineDefinition, BlockPattern> createTwistedFusionPattern(Supplier<Block> coilBlock) {
+        return definition -> FactoryBlockPattern.start()
+                .aisle("A##############", "###############", "######BBB######", "######CCC######", "######BBB######", "###############", "###############")
+                .aisle("###############", "###############", "####BBCCCBB####", "####CCDDDCC####", "####BBCCCBB####", "###############", "###############")
+                .aisle("###############", "###############", "###BCCBBBCCB###", "###BDDCCCDDB###", "###BCCBBBCCB###", "###############", "###############")
+                .aisle("###############", "###########BB##", "###BBB###BBEB##", "##BECC###CCEB##", "##BEBB###BBB###", "##BB###########", "###############")
+                .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                .aisle("#########BBB###", "########BCCEB##", "#########BBEB##", "##BB#######BB##", "##BEBB#########", "##BECC#########", "###BBB#########")
+                .aisle("########BCCB###", "######BBBDDC###", "########BCCB###", "###############", "###BCC#########", "###CDDBBB######", "###BCCB########")
+                .aisle("####BBBBBBB####", "####CCEEECCB###", "####BBBBBBB####", "######BFB######", "####BBBBBBB####", "###BCCEEECC####", "####BBBBBBB####")
+                .aisle("###BCCB########", "###BDDBBB######", "###BCB#########", "###############", "#########BCB###", "######BBBDDB###", "########BCCB###")
+                .aisle("###BBB#########", "##BECC#########", "##BEBB#########", "##BB#######B###", "#########BBEB##", "#########CCEB##", "#########BBB###")
+                .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BBB#", "###########CDC#", "###########BCB#", "###############")
+                .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BBB#", "###########CDC#", "###########BCB#", "###############")
+                .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BCB#", "###########CDC#", "###########BCB#", "###############")
+                .aisle("###############", "#BCB###########", "#CDC#######B###", "#BCB#######BCB#", "###########CDC#", "###########BCB#", "###############")
+                .aisle("###############", "##BB###########", "##BEBB###BBCB##", "##BECC###CCEB##", "###BBB###BBEB##", "###########BB##", "###############")
+                .aisle("###############", "###############", "###BCCBBBCCB###", "###BDDCCCDDB###", "###BCCBBBCCB###", "###############", "###############")
+                .aisle("###############", "###############", "####BBCCCBB####", "####CCDDDCC####", "####BBCCCBB####", "###############", "###############")
+                .aisle("###############", "###############", "######BBB######", "######CCC######", "######BBB######", "###############", "##############A")
+                .where("#", Predicates.any())
+                .where("A", Predicates.any())
+                .where("B", Predicates.blocks(TWISTED_FUSION_CASING.get()).or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                .where("C", Predicates.blocks(ARCANE_CONSTRAINT_COATED_GLASS.get()))
+                .where("D", Predicates.blocks(coilBlock.get()))
+                .where("E", Predicates.blocks(SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
+                .where("F", Predicates.controller(Predicates.blocks(definition.get())))
+                .build();
+    }
 
     public static MultiblockMachineDefinition TWISTED_FUSION_MK1 = REGISTRATE.multiblock("twisted_fusion_mk1", holder -> new TwistedFusionMachine(holder, 1))
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES, CMRecipeTypes.TWISTED_FUSION)
             .recipeModifiers(TwistedFusionMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+
             .workableCasingModel(CTNHMana.id("block/casings/twisted_fusion_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .tooltips(Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.0"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.1"),
@@ -249,7 +258,42 @@ public class misc {
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.6"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.7"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.8"))
-            .pattern(TWISTED_FUSION_PATTERN)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("A##############", "###############", "######BBB######", "######CCC######", "######BBB######", "###############", "###############")
+                    .aisle("###############", "###############", "####BBCCCBB####", "####CCDDDCC####", "####BBCCCBB####", "###############", "###############")
+                    .aisle("###############", "###############", "###BCCBBBCCB###", "###BDDCCCDDB###", "###BCCBBBCCB###", "###############", "###############")
+                    .aisle("###############", "###########BB##", "###BBB###BBEB##", "##BECC###CCEB##", "##BEBB###BBB###", "##BB###########", "###############")
+                    .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                    .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                    .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                    .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                    .aisle("###############", "############BCB", "############CDC", "BCB#########BCB", "CDC############", "BCB############", "###############")
+                    .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                    .aisle("###############", "###########BCB#", "###########CDC#", "#BCB#######BCB#", "#CDC###########", "#BCB###########", "###############")
+                    .aisle("#########BBB###", "########BCCEB##", "#########BBEB##", "##BB#######BB##", "##BEBB#########", "##BECC#########", "###BBB#########")
+                    .aisle("########BCCB###", "######BBBDDC###", "########BCCB###", "###############", "###BCC#########", "###CDDBBB######", "###BCCB########")
+                    .aisle("####BBBBBBB####", "####CCEEECCB###", "####BBBBBBB####", "######BFB######", "####BBBBBBB####", "###BCCEEECC####", "####BBBBBBB####")
+                    .aisle("###BCCB########", "###BDDBBB######", "###BCB#########", "###############", "#########BCB###", "######BBBDDB###", "########BCCB###")
+                    .aisle("###BBB#########", "##BECC#########", "##BEBB#########", "##BB#######B###", "#########BBEB##", "#########CCEB##", "#########BBB###")
+                    .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BBB#", "###########CDC#", "###########BCB#", "###############")
+                    .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BBB#", "###########CDC#", "###########BCB#", "###############")
+                    .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                    .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                    .aisle("###############", "BCB############", "CDC############", "BCB#########BCB", "############CDC", "############BCB", "###############")
+                    .aisle("###############", "#BCB###########", "#CDC###########", "#BCB#######BCB#", "###########CDC#", "###########BCB#", "###############")
+                    .aisle("###############", "#BCB###########", "#CDC#######B###", "#BCB#######BCB#", "###########CDC#", "###########BCB#", "###############")
+                    .aisle("###############", "##BB###########", "##BEBB###BBCB##", "##BECC###CCEB##", "###BBB###BBEB##", "###########BB##", "###############")
+                    .aisle("###############", "###############", "###BCCBBBCCB###", "###BDDCCCDDB###", "###BCCBBBCCB###", "###############", "###############")
+                    .aisle("###############", "###############", "####BBCCCBB####", "####CCDDDCC####", "####BBCCCBB####", "###############", "###############")
+                    .aisle("###############", "###############", "######BBB######", "######CCC######", "######BBB######", "###############", "##############A")
+                    .where("C", Predicates.blocks(ARCANE_CONSTRAINT_COATED_GLASS.get()))
+                    .where("D", Predicates.blocks(MATERIAL_TWISTED_COIL.get()))
+                    .where("E", Predicates.blocks(SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
+                    .where("#", Predicates.any())
+                    .where("A", Predicates.any())
+                    .where("F", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("B", Predicates.blocks(TWISTED_FUSION_CASING.get()).or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                    .build())
             .register();
     public static MultiblockMachineDefinition TWISTED_FUSION_MK2 = REGISTRATE.multiblock("twisted_fusion_mk2", holder -> new TwistedFusionMachine(holder, 2))
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES, CMRecipeTypes.TWISTED_FUSION)
@@ -265,7 +309,7 @@ public class misc {
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.6"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.7"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.8"))
-            .pattern(TWISTED_FUSION_PATTERN)
+            .pattern(createTwistedFusionPattern(DIMENSION_TWISTED_COIL::get))
             .register();
     public static MultiblockMachineDefinition TWISTED_FUSION_MK3 = REGISTRATE.multiblock("twisted_fusion_mk3", holder -> new TwistedFusionMachine(holder, 3))
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES, CMRecipeTypes.TWISTED_FUSION)
@@ -280,7 +324,7 @@ public class misc {
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.6"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.7"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk1.tooltip.8"))
-            .pattern(TWISTED_FUSION_PATTERN)
+            .pattern(createTwistedFusionPattern(REALITY_TWISTED_COIL::get))
             .register();
     public static MultiblockMachineDefinition TWISTED_FUSION_MKINFINITY = REGISTRATE.multiblock("twisted_fusion_mkinfinity", holder -> new TwistedFusionMachine(holder, 666))
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES, CMRecipeTypes.TWISTED_FUSION)
@@ -291,7 +335,7 @@ public class misc {
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.2"),
                     Component.translatable("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.3")
             )
-            .pattern(TWISTED_FUSION_PATTERN)
+            .pattern(createTwistedFusionPattern(TERMINAL_TWISTED_COIL::get))
             .register();
     public static MultiblockMachineDefinition TWISTED_FUSION_MKALEPHNULL = REGISTRATE.multiblock("twisted_fusion_mkalephnull", holder -> new TwistedFusionMachine(holder, Integer.MAX_VALUE))
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES, CMRecipeTypes.TWISTED_FUSION)
@@ -303,6 +347,6 @@ public class misc {
                     Component.translatable("ctnh.gtceu.tooltip.tfmkalephzero.3"),
                     Component.translatable("ctnh.gtceu.tooltip.tfmkalephzero.4")
             )
-            .pattern(TWISTED_FUSION_PATTERN)
+            .pattern(createTwistedFusionPattern(TERMINAL_TWISTED_COIL::get))
             .register();
 }

@@ -13,6 +13,7 @@ import com.hollingsworth.arsnouveau.common.items.FlaskCannon;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
@@ -74,24 +75,32 @@ public class BloodAltarRecipes {
                 .consumeRate(5)
                 .drainRate(5)
                 .save(provider);
-        BloodAltarRecipeBuilder.builder("bloodygold_dust")//血铂A
+        BloodAltarRecipeBuilder.builder("bloodyplatinum_dust")//血铂A
                 .input(ChemicalHelper.get(TagPrefix.dust, Platinum,1))
                 .output(ChemicalHelper.get(TagPrefix.dust, HEMOPLATINUM,1))
                 .circuitMeta(0)
                 .syphon(10000)
                 .minimumTier(4)
-                .consumeRate(10)
-                .drainRate(10)
+                .consumeRate(100)
+                .drainRate(100)
                 .save(provider);
-//        BloodAltarRecipeBuilder.builder("bloodygold_dust")//血铂B
-//                .input(ChemicalHelper.get(TagPrefix.dust, Platinum,1))
-//                .output(ChemicalHelper.get(TagPrefix.dust, HEMOPLATINUM,1))
-//                .circuitMeta(1)
-//                .syphon(10000)
-//                .minimumTier(5)
-//                .consumeRate(10)
-//                .drainRate(10)
-//                .save(provider);
+        BloodAltarRecipeBuilder.builder("bloodygold_dust_3")//血铂C
+                .input(ChemicalHelper.get(ingot, Platinum,1))
+                .output(ChemicalHelper.get(ingot, HEMOPLATINUM,1))
+                .circuitMeta(0)
+                .syphon(15000)
+                .minimumTier(4)
+                .consumeRate(100)
+                .drainRate(100)
+                .save(provider);
+        ManaInfusionRecipeBuilder.builder("pure_platinum") //净化血铂 这科学吗???
+                .input(ChemicalHelper.get(dust,HEMOPLATINUM))
+                .output(ChemicalHelper.get(dust,Platinum))
+                .circuitMeta(17)
+                .mana(10000)
+                .save(provider);
+
+
         BloodAltarRecipeBuilder.builder("bloodygold_block")//凝血金块
                 .input(ChemicalHelper.get(TagPrefix.block,GTMaterials.Gold,1))
                 .output(ChemicalHelper.get(TagPrefix.block,CMMaterials.COAGULBLOODGOLD,1))
