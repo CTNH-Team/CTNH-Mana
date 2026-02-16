@@ -251,7 +251,7 @@ public class BeamsRecipes {
                 .circuitMeta(1)
                 .inputItems(IRON_INGOT,512)
                 .outputItems(ChemicalHelper.get(ingot,ManaSteel),512)
-                .EUt(0)
+                .EUt(1)
                 .duration(50)
                 .save(provider);
         BEAMS.recipeBuilder("elementium" )//源质钢锭

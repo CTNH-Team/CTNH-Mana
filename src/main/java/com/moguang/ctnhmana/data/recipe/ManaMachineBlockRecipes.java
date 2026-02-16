@@ -450,7 +450,7 @@ public class ManaMachineBlockRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("mana_fusion") //魔力聚变外壳
                 .inputItems(ChemicalHelper.get(plate,ManaSteel),64)
-                .inputItems(ChemicalHelper.get(frameGt,CMMaterials.Orichalcos),2)
+                .inputItems(ORICHALCOS_FRAME,2)
                 .inputItems(ChemicalHelper.get(frameGt,GTMaterials.Ruridit),6)
                 .inputItems(ALF_STEEL_CASING,8)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1600))

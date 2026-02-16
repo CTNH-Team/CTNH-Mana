@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.data.recipe;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -69,7 +70,7 @@ public class MeteorCapturerRecipes {
                 .inputItems(ChemicalHelper.get(block,NetherStar),144)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000*384))
                 .outputItems(ANCIENT_DEBRIS,1024)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:nether_gold_ore")),2048)
+                .outputItems(ChemicalHelper.get(oreNetherrack, Gold),2048)
                 .duration(400)
                 .EUt(4888800/400)
                 .save(provider);

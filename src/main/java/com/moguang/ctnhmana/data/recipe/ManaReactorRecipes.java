@@ -1,9 +1,11 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
@@ -140,7 +142,7 @@ public class ManaReactorRecipes {
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(niflheimRune,64)
                 .inputItems(gaiaIngot,64)
-                .inputItems(AlfSteel,64)
+                .inputItems(alfsteelIngot,64)
                 .inputFluids(Mana,1200*1000)
                 .inputItems(runeMana,64)
                 .inputItems(ELF_CATALYST)
@@ -238,8 +240,8 @@ public class ManaReactorRecipes {
         MANA_REACTOR_RECIPES.recipeBuilder("life_essence")
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(runeFire.asItem())
-                .inputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:eyebulb")))
-                .inputItems(ForgeRegistries.FLUIDS.getValue(new ResourceLocation("biomesoplenty:blood_bucket")),4)
+                .inputItems(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse("biomesoplenty:eyebulb")))
+                .inputItems(ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("biomesoplenty:blood_bucket")),4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
                 .duration(40)
@@ -342,7 +344,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(9600/200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔二极管
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")//高级注魔二极管
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(MANA_DIODE,2)
                 .inputFluids(Mana.getFluid(10))
@@ -352,7 +354,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(9600/200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔晶体管
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")//高级注魔晶体管
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(MANA_TRANSISTOR,2)
                 .inputFluids(Mana.getFluid(10))
@@ -362,7 +364,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(9600/200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电容
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")//高级注魔电容
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(MANA_CAPACITOR,2)
                 .inputFluids(Mana.getFluid(10))
@@ -372,7 +374,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(9600/200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电感
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")//高级注魔电感
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(MANA_INDUCTOR,2)
                 .inputFluids(Mana.getFluid(10))

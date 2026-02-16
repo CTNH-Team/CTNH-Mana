@@ -19,6 +19,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeItem;
 import net.minecraftforge.common.extensions.IForgeTagAppender;
 import vazkii.botania.common.block.BotaniaBlocks;
+import vazkii.botania.common.item.BotaniaItems;
 import wayoftime.bloodmagic.BloodMagic;
 import wayoftime.bloodmagic.anointment.AnointmentData;
 import wayoftime.bloodmagic.anointment.AnointmentHolder;
@@ -489,30 +490,42 @@ public class HellForgeRecipes {
                 .circuitMeta(1)
                 .save(provider);
 
-        //四个核心的工作台合成：中间岩浆晶体+四周对应意志晶体
+        //四个核心的工作台合成
         VanillaRecipeHelper.addShapedRecipe(provider, true, "steadfast_core", STEADFAST_CORE.asStack(),
-                " W ",
-                "WMW",
-                " W ",
-                'W', STEADFAST_CRYSTAL.get(),
-                'M', LAVA_CRYSTAL.get());
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', STEADFAST_CRYSTAL.get(),
+                'B', lifeEssence,
+                'C', REAGENT_VOID.get(),
+                'D', runeEnvy,
+                'E', lensWarp);
         VanillaRecipeHelper.addShapedRecipe(provider, true, "vengeful_core", VENGEFUL_CORE.asStack(),
-                " W ",
-                "WMW",
-                " W ",
-                'W', VENGEFUL_CRYSTAL.get(),
-                'M', LAVA_CRYSTAL.get());
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', VENGEFUL_CRYSTAL.get(),
+                'B', lifeEssence,
+                'C', REAGENT_SIGHT.get(),
+                'D', runeWrath,
+                'E', lensDamage);
         VanillaRecipeHelper.addShapedRecipe(provider, true, "corrosive_core", CORROSIVE_CORE.asStack(),
-                " W ",
-                "WMW",
-                " W ",
-                'W', CORROSIVE_CRYSTAL.get(),
-                'M', LAVA_CRYSTAL.get());
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', CORROSIVE_CRYSTAL.get(),
+                'B', lifeEssence,
+                'C', REAGENT_GROWTH.get(),
+                'D', runeGreed,
+                'E', lensMine);
         VanillaRecipeHelper.addShapedRecipe(provider, true, "destructive_core", DESTRUCTIVE_CORE.asStack(),
-                " W ",
-                "WMW",
-                " W ",
-                'W', DESTRUCTIVE_CRYSTAL.get(),
-                'M', LAVA_CRYSTAL.get());
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', DESTRUCTIVE_CRYSTAL.get(),
+                'B', lifeEssence,
+                'C', REAGENT_HOLDING.get(),
+                'D', runeSloth,
+                'E', lensInfluence);
     }
 }

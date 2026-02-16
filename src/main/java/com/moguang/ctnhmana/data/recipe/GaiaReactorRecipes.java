@@ -18,10 +18,10 @@ import static vazkii.botania.common.item.BotaniaItems.*;
 import static mythicbotany.register.ModItems.*;
 public class GaiaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        GAIA_REACTOR_RECIPES.recipeBuilder("1")
+        GAIA_REACTOR_RECIPES.recipeBuilder("gaia_1")
                 .inputItems(terrasteel)
                 .outputFluids(Mana.getFluid(1000))
-                .outputItems(gaiaSpirit,4)
+                .outputItems(lifeEssence,4)
                 .outputItems(manaDiamond,5)
                 .outputItems(manaPearl,5)
                 .outputItems(ChemicalHelper.get(ingot,ManaSteel),10)
@@ -36,10 +36,10 @@ public class GaiaReactorRecipes {
                 .EUt(192000/400)
                 .duration(400)
                 .save(provider);
-        GAIA_REACTOR_RECIPES.recipeBuilder("2")
+        GAIA_REACTOR_RECIPES.recipeBuilder("gaia_2")
                 .inputItems(gaiaIngot)
                 .outputFluids(Mana.getFluid(10000))
-                .outputItems(gaiaSpirit,16)
+                .outputItems(lifeEssence,16)
                 .outputItems(manaDiamond,8)
                 .outputItems(manaPearl,8)
                 .outputItems(dragonstone,4)
@@ -64,7 +64,7 @@ public class GaiaReactorRecipes {
                 .EUt(1536000/800)
                 .duration(800)
                 .save(provider);
-        GAIA_REACTOR_RECIPES.recipeBuilder("3")
+        GAIA_REACTOR_RECIPES.recipeBuilder("gaia_3")
                 .inputItems(ChemicalHelper.get(ingot,AlfSteel))
                 .outputFluids(Mana.getFluid(45000))
                 .outputItems(ChemicalHelper.get(ingot,Elementium),4)

@@ -246,7 +246,7 @@ public class ManaCircuitRecipes {
                 .inputItems(WILL_DIODE,6)
                 .inputItems(WILL_CAPACITOR,6)
                 .inputItems(WILL_SOC,18)
-                .inputItems(FluidIngredient.of(Fluids.LAVA,288*6))
+                .inputFluids(FluidIngredient.of(Fluids.LAVA,288*6))
                 .outputItems(WILL_CRYSTAL_PROCESSOR,6)
                 .addCondition(new HellForgeCondition(66))
                 .EUt(6666)

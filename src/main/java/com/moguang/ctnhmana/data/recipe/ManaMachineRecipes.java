@@ -149,7 +149,7 @@ public class ManaMachineRecipes {
                 .inputItems(CIRCUIT_ASSEMBLER[4], 4)
                 .inputItems(CustomTags.LuV_CIRCUITS, 6)
                 .inputItems(MAGIC_CORE.asStack(4))
-                .inputItems(ChemicalHelper.get(frameGt, Orichalcos),8)
+                .inputItems(ORICHALCOS_FRAME,8)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1000))
                 .outputItems(MANA_ASSEMBLER)
                 .EUt(2048)
