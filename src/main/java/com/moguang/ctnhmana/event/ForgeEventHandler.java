@@ -1,23 +1,33 @@
 package com.moguang.ctnhmana.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.moguang.ctnhmana.CTNHMana;
 
+import com.moguang.ctnhmana.Mutiblock.HellForgeMachine;
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMTags;
+import com.moguang.ctnhmana.registry.multiblock.BloodMagic;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +38,8 @@ import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.common.item.equipment.bauble.ThirdEyeItem;
 import vazkii.botania.forge.CapabilityUtil;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
+import wayoftime.bloodmagic.common.item.BloodMagicItems;
 import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 import java.util.List;
@@ -62,5 +74,31 @@ public class ForgeEventHandler {
             list.add(lang.translate());
         }
         return list;
+    }
+    @SubscribeEvent
+    public static void LivingDeathEvent(LivingDeathEvent event)
+    {
+        LivingEntity entity = event.getEntity();
+        Level level = entity.level();
+        if (level.isClientSide()||entity instanceof Player) {
+            return;
+        }
+        BlockPos entityPos = entity.blockPosition();
+        BlockState blockState = level.getBlockState(entityPos);
+        var chunk=level.getChunk(entityPos.getX()>>4,entityPos.getZ()>>4);
+        if(!chunk.getBlockEntities().isEmpty())
+        {
+            for(BlockEntity machine:chunk.getBlockEntities().values())
+            {
+                if(machine instanceof MetaMachineBlockEntity mme&&mme.getMetaMachine() instanceof HellForgeMachine hmachine&&hmachine.isFormed())
+                {
+                    hmachine.hatch.rawWill=Math.max(hmachine.hatch.maxDemonWill,hmachine.hatch.rawWill+entity.getMaxHealth()/20);
+                }
+            }
+        }
+        if(blockState.is(BloodMagicFluids.LIFE_ESSENCE_BLOCK.get()))
+        {
+            level.setBlockAndUpdate(entityPos,BloodMagicFluids.DOUBT_BLOCK.get().defaultBlockState());
+        }
     }
 }

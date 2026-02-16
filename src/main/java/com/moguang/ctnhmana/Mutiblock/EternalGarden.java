@@ -430,7 +430,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                                 .build();
                     }
                     return  ModifierFunction.builder()
-                            .outputModifier(ContentModifier.multiplier(300*overclock))
+                            .outputModifier(ContentModifier.multiplier(1*overclock))
                             .build();
                 }
                 if(level.isRaining())

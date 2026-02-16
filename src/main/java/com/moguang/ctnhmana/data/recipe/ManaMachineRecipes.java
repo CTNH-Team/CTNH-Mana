@@ -10,10 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
-import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMItems;
-import com.moguang.ctnhmana.registry.CMMachines;
-import com.moguang.ctnhmana.registry.CMMultiblockMachines;
+import com.moguang.ctnhmana.registry.*;
 import committee.nova.mods.avaritia.Avaritia;
 import committee.nova.mods.avaritia.common.item.singularity.SingularityItem;
 import committee.nova.mods.avaritia.init.registry.ModItems;
@@ -306,5 +303,21 @@ public class ManaMachineRecipes {
                 'D', MysticSpire.asStack(),
                 'E', SKY_FLOWER_SPEECH.asItem()
         );
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("eternal_wos")
+                .inputItems(CORROSIVE_CORE)
+                .inputItems(DESTRUCTIVE_CORE)
+                .inputItems(VENGEFUL_CORE)
+                .inputItems(STEADFAST_CORE)
+                .inputItems(CMMachines.DIGITAL_WELL_OF_SUFFER[IV].asStack())
+                .inputItems(ChemicalHelper.get(plateDouble, HEMOPLATINUM),6)
+                .inputItems(ChemicalHelper.get(plateDouble, COAGULBLOODGOLD),6)
+                .inputItems(CustomTags.ZPM_CIRCUITS,4)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(),66666))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),6666))
+                .inputFluids(SodiumPotassium,66666)
+                .outputItems(ETERNAL_WELL_OF_SUFFER.asStack())
+                .EUt(32768)
+                .duration(1000)
+                .save(provider);
     }
 }

@@ -348,6 +348,7 @@
   "ctnhmana.hellforgelang.1": "§c只能使用§4血魔法凝聚仓§r和§4血魔法升级§r",
   "ctnhmana.hellforgelang.2": "运行时每秒消耗4魔力能量，电压每提升一级，消耗量便翻倍",
   "ctnhmana.hellforgelang.3": "直接从血§4魔法凝聚仓§r吸收恶魔意志以执行配方",
+  "ctnhmana.hellforgelang.4": "如果自身所在区块内有非玩家生物死亡，吸收其最大生命值/20的灵魂并注入魔力凝聚仓中",
   "ctnhmana.industrialaltarctrllang.0": "工业血祭坛数据详细：",
   "ctnhmana.industrialaltarctrllang.1": "增强符文效果：",
   "ctnhmana.industrialaltarctrllang.2": "血祭坛扩大(工业血祭坛等级-1)倍容量",

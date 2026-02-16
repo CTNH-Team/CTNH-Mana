@@ -1,4 +1,5 @@
 package com.moguang.ctnhmana.data.recipe;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -8,9 +9,11 @@ import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilde
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMaterials;
+import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.Create;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
+import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -110,6 +113,31 @@ public class TerraPlateRecipes {
                 .input(BloodMagicItems.STEADFAST_CRYSTAL.get())
                 .output(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.PRIMOVOLITHEST))
                 .mana(77778)
+                .save(provider);
+        ElfPlateRecipeBuilder.builder("oriculos")
+                .input(photonium)
+                .input(shadowium)
+                .input(ModItems.alfsteelIngot)
+                .input(BotaniaItems.manaSteel)
+                .input(BotaniaItems.terrasteel)
+                .input(BotaniaItems.gaiaIngot)
+                .input(BotaniaItems.elementium)
+                .input(theOrigin)
+                .output(orichalcos)
+                .mana(3000000)
+                .save(provider);
+        CMRecipeTypes.MANA_REACTOR_RECIPES.recipeBuilder("oriculos_reactor")
+                .inputItems(photonium)
+                .inputItems(shadowium)
+                .inputItems(ModItems.alfsteelIngot)
+                .inputItems(BotaniaItems.manaSteel)
+                .inputItems(BotaniaItems.terrasteel)
+                .inputItems(BotaniaItems.gaiaIngot)
+                .inputItems(BotaniaItems.elementium)
+                .notConsumable(TERRA_CATALYST)
+                .outputItems(orichalcos)
+                .EUt(GTValues.VA[GTValues.EV])
+                .duration(400)
                 .save(provider);
     }
 

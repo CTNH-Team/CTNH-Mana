@@ -47,14 +47,6 @@ import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 public class BloodAltarRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
-        BloodAltarRecipeBuilder.builder("test_1")//视域符文
-                .input(new ItemStack(runeFire,1))
-                .output(new ItemStack(HORIZEN_RUNE,1))
-                .syphon(10000)
-                .minimumTier(2)
-                .consumeRate(20)
-                .drainRate(20)
-                .save(provider);
         BloodAltarRecipeBuilder.builder("blankslate")//空白石板
                 .output(new ItemStack(SLATE.get(),1))
                 .input(new ItemStack(BotaniaBlocks.livingrock.asItem(),1))
@@ -82,6 +74,24 @@ public class BloodAltarRecipes {
                 .consumeRate(5)
                 .drainRate(5)
                 .save(provider);
+        BloodAltarRecipeBuilder.builder("bloodygold_dust")//血铂A
+                .input(ChemicalHelper.get(TagPrefix.dust, Platinum,1))
+                .output(ChemicalHelper.get(TagPrefix.dust, HEMOPLATINUM,1))
+                .circuitMeta(0)
+                .syphon(10000)
+                .minimumTier(4)
+                .consumeRate(10)
+                .drainRate(10)
+                .save(provider);
+//        BloodAltarRecipeBuilder.builder("bloodygold_dust")//血铂B
+//                .input(ChemicalHelper.get(TagPrefix.dust, Platinum,1))
+//                .output(ChemicalHelper.get(TagPrefix.dust, HEMOPLATINUM,1))
+//                .circuitMeta(1)
+//                .syphon(10000)
+//                .minimumTier(5)
+//                .consumeRate(10)
+//                .drainRate(10)
+//                .save(provider);
         BloodAltarRecipeBuilder.builder("bloodygold_block")//凝血金块
                 .input(ChemicalHelper.get(TagPrefix.block,GTMaterials.Gold,1))
                 .output(ChemicalHelper.get(TagPrefix.block,CMMaterials.COAGULBLOODGOLD,1))
