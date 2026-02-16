@@ -80,7 +80,7 @@ public class ForgeEventHandler {
     {
         LivingEntity entity = event.getEntity();
         Level level = entity.level();
-        if (level.isClientSide()||entity instanceof Player) {
+        if (entity instanceof Player) {
             return;
         }
         BlockPos entityPos = entity.blockPosition();
