@@ -40,6 +40,7 @@ public class CMGuiTextures {
     public static final ResourceTexture ARS_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/ars_background.png");
     public static final ResourceTexture GT_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/gt_background.png");
     public static final ResourceTexture AHCC_BACKGROUND=new ResourceTexture("ctnhmana:textures/gui/background/ahcc_background_a.png");
+    public static final ResourceTexture INDEX_TARGET=new ResourceTexture("ctnhmana:textures/gui/index_target.png");
 
     /** 槽位图标：仅限戒指（如魔力戒指） */
     public static final ResourceTexture SLOT_RING = new ResourceTexture("ctnhmana:textures/gui/slots/ring_slots.png");

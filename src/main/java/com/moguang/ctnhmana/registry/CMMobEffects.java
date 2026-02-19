@@ -22,6 +22,8 @@ public class CMMobEffects {
             KarmaFortunaEffect::new);
     public static final RegistryObject<BladeUnleashedEffect> Bladeunleashed= MOB_EFFECTS.register("blade_unleashed",
             BladeUnleashedEffect::new);
+    public static final RegistryObject<IndexTargetEffect> indextarget= MOB_EFFECTS.register("index_target",
+            IndexTargetEffect::new);
 
 
 }

@@ -243,6 +243,7 @@ public class ChineseLangHandler {
         provider.add("effect.ctnhmana.karma","§1业");
         provider.add("effect.ctnhmana.karma_fortuna","§1业[福尔图娜]");
         provider.add("effect.ctnhmana.blade_unleashed","§1剑刃解放");
+        provider.add("effect.ctnhmana.index_target","§1指令对象");
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
         provider.add("ctnhmana.jade.manahatch.manaprogress","魔力能量：%s / %s");
         provider.add("ctnhmana.jade.manahatch.btmanaprogress","植物魔法魔力量：%s / %s");
