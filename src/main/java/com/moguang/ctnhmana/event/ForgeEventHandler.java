@@ -9,10 +9,15 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.HellForgeMachine;
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.client.gui.radial.CaduceusRadialMenu;
+import com.moguang.ctnhmana.client.gui.radial.RadialMenuScreen;
+import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
+import com.moguang.ctnhmana.networking.packets.CMNetworking;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMTags;
 import com.moguang.ctnhmana.registry.multiblock.BloodMagic;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,11 +31,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -45,6 +52,7 @@ import wayoftime.bloodmagic.impl.BloodMagicAPI;
 import java.util.List;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.satori_thirdeye_tooltip;
+import static com.moguang.ctnhmana.event.CMKeyBindings.OPEN_CADUCEUS;
 import static com.moguang.ctnhmana.registry.CMBlocks.RUNE_STONE_PERFECT;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -67,6 +75,7 @@ public class ForgeEventHandler {
             tooltips = itemTooltipsAdd(satori_thirdeye_tooltip, tooltips);
         }
     }
+
 
 
     public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs, List<Component> list) {
@@ -100,5 +109,19 @@ public class ForgeEventHandler {
         {
             level.setBlockAndUpdate(entityPos,BloodMagicFluids.DOUBT_BLOCK.get().defaultBlockState());
         }
+    }
+    @SubscribeEvent
+    public static void keyEvent(final InputEvent.Key event) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+
+        if (player == null || event.getAction() != 1) {
+            return;
+        }
+        boolean isMPressed = event.getKey() == OPEN_CADUCEUS.getKey().getValue(); // N
+        if (player.getMainHandItem().getItem() instanceof CaduceusItem && isMPressed) {
+            mc.setScreen(new RadialMenuScreen<>(CaduceusRadialMenu.create(player.getMainHandItem())));
+        }
+
     }
 }

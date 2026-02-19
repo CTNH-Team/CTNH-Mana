@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import mythicbotany.register.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -337,8 +338,8 @@ public class ManaReactorRecipes {
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电阻
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(MANA_RESISTOR,2)
+                .notConsumable(ELF_CATALYST.asItem())
                 .inputFluids(Mana.getFluid(10))
-                .circuitMeta(3)
                 .outputItems(ADVANCED_MANA_RESISTOR)
                 .duration(200)
                 .circuitMeta(1)
@@ -346,9 +347,9 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")//高级注魔二极管
                 .addCondition(new ManaReactorCondition(false))
+                .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_DIODE,2)
                 .inputFluids(Mana.getFluid(10))
-                .circuitMeta(3)
                 .outputItems(ADVANCED_MANA_DIODE)
                 .duration(200)
                 .circuitMeta(1)
@@ -356,9 +357,9 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")//高级注魔晶体管
                 .addCondition(new ManaReactorCondition(false))
+                .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_TRANSISTOR,2)
                 .inputFluids(Mana.getFluid(10))
-                .circuitMeta(3)
                 .outputItems(ADVANCED_MANA_TRANSISTOR)
                 .duration(200)
                 .circuitMeta(1)
@@ -366,9 +367,9 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")//高级注魔电容
                 .addCondition(new ManaReactorCondition(false))
+                .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_CAPACITOR,2)
                 .inputFluids(Mana.getFluid(10))
-                .circuitMeta(3)
                 .outputItems(ADVANCED_MANA_CAPACITOR)
                 .duration(200)
                 .circuitMeta(1)
@@ -376,9 +377,9 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")//高级注魔电感
                 .addCondition(new ManaReactorCondition(false))
+                .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_INDUCTOR,2)
                 .inputFluids(Mana.getFluid(10))
-                .circuitMeta(3)
                 .outputItems(ADVANCED_MANA_INDUCTOR)
                 .duration(200)
                 .circuitMeta(1)

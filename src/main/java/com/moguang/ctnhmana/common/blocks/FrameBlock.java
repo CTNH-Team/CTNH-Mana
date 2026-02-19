@@ -5,9 +5,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-/**
- * 框架方块，透光（不阻挡光照）。
- */
+
 public class FrameBlock extends Block {
     public FrameBlock(Properties properties) {
         super(properties);

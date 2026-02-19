@@ -104,7 +104,7 @@ public class runeRitualRecipes {
                 .rune(enderDagger,-1,2,true)
                 .rune(WILDEN_SPIKE.get(), 3, 0,true)
                 .rune(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rose_gold_knife")), 1, 2,true)
-                .rune(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rose_gold_butchery_knives")), -1, -2,true)
+                .rune(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rose_gold_knife")), -1, -2,true)
                 .rune(ATHAME.get(),1,-2,true)
                 .rune(DIAMOND_SWORD,-3,0,true)
                 .input(runeGreed)

@@ -9,27 +9,42 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.data.tags.BiomeTagsLoader;
+import com.hollingsworth.arsnouveau.api.util.CuriosUtil;
+import com.hollingsworth.arsnouveau.client.gui.radial_menu.GuiRadialMenu;
+import com.hollingsworth.arsnouveau.common.network.Networking;
+import com.hollingsworth.arsnouveau.common.network.PacketGenericClientMessage;
+import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.moguang.ctnhmana.CTNHMana;
+
+import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
+import com.moguang.ctnhmana.networking.packets.CMNetworking;
 import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.checkerframework.checker.signature.qual.Identifier;
 import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 import java.util.Set;
+
+import static com.hollingsworth.arsnouveau.client.keybindings.KeyHandler.checkKeysPressed;
+
 @SuppressWarnings("removal")
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandler {
@@ -53,12 +68,15 @@ public class EventHandler {
         CMMaterials.tagPrefixIgnore();
     }
 
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
+        CMNetworking.init();
+    }
+
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        // 渲染操作必须在客户端主线程执行，用enqueueWork包裹
         event.enqueueWork(() -> {
-            // 【核心】注册自定义属性：yourmodid:custom_value（替换为你的MOD_ID）
             ItemProperties.register(
                    CMItems.SABER_WAND.get(), // 目标物品
                     new ResourceLocation(CTNHMana.MODID, "wand_status"), // 属性标识符

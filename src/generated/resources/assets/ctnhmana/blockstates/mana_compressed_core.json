@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "ctnhmana:block/coil/mana_compressed_core"
+    },
+    "active=true": {
+      "model": "ctnhmana:block/coil/mana_compressed_core_active"
+    }
+  }
+}

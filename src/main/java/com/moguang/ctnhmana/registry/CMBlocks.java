@@ -335,6 +335,13 @@ public class CMBlocks {
             "material_twisted_coil", "物质扭曲线圈", "block/coil/material_twisted_coil");
     public static final BlockEntry<ActiveBlock> TERMINAL_TWISTED_COIL = createActiveCasing(
             "terminal_twisted_coil", "终末扭曲线圈", "block/coil/terminal_twisted_coil");
-    
-    
+
+    // 2.17 方块（材质路径 block/casings/）
+    public static final BlockEntry<Block> ARCANE_LASER_CONDUIT_BLOCK = createCasingBlock(
+            "arcane_laser_conduit_block", "奥能激光传导方块", CTNHMana.id("block/casings/arcane_laser_conduit"));
+    public static final BlockEntry<ActiveBlock> MANA_COMPRESSED_CORE = createActiveCasing(
+            "mana_compressed_core", "魔力压缩核心", "block/coil/mana_compressed_core");
+    public static final BlockEntry<Block> ARCANE_ENERGY_LASER_TOWER = createCasingBlock(
+            "arcane_energy_laser_tower", "奥能能量激光塔", CTNHMana.id("block/casings/arcane_energy_tower"));
+
 }

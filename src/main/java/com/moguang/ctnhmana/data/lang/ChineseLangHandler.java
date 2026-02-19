@@ -70,6 +70,85 @@ public class ChineseLangHandler {
             }
     )
     public static  Lang[]  bloodmanahatchtootip_base;
+    @CN("神谕终端[赫尔墨斯]")
+    public static Lang CaduceusLang;
+    @CN({
+            "应该用大剑将躯干劈开时:",
+            "应该用矿镐将骨骼凿碎时:",
+            "应该用铁铲将皮肉铲削时:",
+            "应该用战斧将肢体斩断时:",
+            "应该用耕锄将筋脉割裂时:",
+            "应该用镰刀将脖颈勾断时:",
+            "应该用锯子将骨肉锯开时:",
+            "应该用扳手将关节拧折时:",
+            "应该用锉刀将皮肉磨烂时:",
+            "应该用螺丝刀将颅骨撬开时:",
+            "应该用剪线钳将筋腱剪断时:",
+            "应该用小刀将动脉划开时:",
+            "应该用马桶搋子将面门砸瘪时:"
+    })
+    @EN({
+            "应该用大剑将躯干劈开时",
+            "应该用矿镐将骨骼凿碎时",
+            "应该用铁铲将皮肉铲削时",
+            "应该用战斧将肢体斩断时",
+            "应该用耕锄将筋脉割裂时",
+            "应该用镰刀将脖颈勾断时",
+            "应该用锯子将骨肉锯开时",
+            "应该用扳手将关节拧折时",
+            "应该用锉刀将皮肉磨烂时",
+            "应该用螺丝刀将颅骨撬开时",
+            "应该用剪线钳将筋腱剪断时",
+            "应该用小刀将动脉划开时",
+            "应该用马桶搋子将面门砸瘪时"
+    })
+//
+    public static Lang[] CaduceusWeaponLang;
+    @CN(
+            {
+                    "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
+                    "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
+                    "这种液体会随着终端所吸收到的指令改变其外观，根据对象的情况与限制而变换成合适的武器。",
+                    "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块"
+            }
+    )
+    @EN(
+            {
+                    "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
+                    "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
+                    "这种液体会随着终端所吸收到的指令改变其外观，根据暗杀对象的情况与限制而变换成合适的武器。",
+                    "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块"
+            }
+    )
+    public static Lang[] CaduceusTooltipNormalLang;
+    @CN(
+            {
+                    "+§8%d§r攻击力",
+                    "+§8%d§r攻击速度"
+            }
+    )
+    @EN(
+            {
+                    "+%d攻击力",
+                    "+%d攻击速度"
+            }
+    )
+    public static Lang[] CaduceusDamageLang;
+    @CN(
+            {
+                    "根据自身§1§n剑刃解放§r层数造成更多伤害",
+                    "对§1§n指令目标§r造成更多伤害",
+                    "命中时获得§4力量§r，根据自身§1§n剑刃解放§r层数或者命中指令目标获得额外§4力量§r"
+            }
+    )
+    @EN(
+            {
+                    "根据自身剑刃解放层数造成更多伤害",
+                    "对指令目标造成更多伤害",
+                    "命中时获得力量，根据自身剑刃解放层数或者命中指令目标获得额外力量"
+            }
+    )
+    public static Lang[] CaduceusStatusLang;
     @CN(
             {
                     "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",
@@ -160,7 +239,10 @@ public class ChineseLangHandler {
         provider.add("ritual.ctnhmana.dragon_cloudritual","龙吟仪式");
         provider.add("ritual.ctnhmana.dragon_shroudsight","虚境之视");
         provider.add("effect.ctnhmana.shroud_gaze","虚境的凝视");
-        provider.add("effect.ctnhmana.helian_blessing"," 赫利安的祝福");
+        provider.add("effect.ctnhmana.helian_blessing","赫利安的祝福");
+        provider.add("effect.ctnhmana.karma","§1业");
+        provider.add("effect.ctnhmana.karma_fortuna","§1业[福尔图娜]");
+        provider.add("effect.ctnhmana.blade_unleashed","§1剑刃解放");
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
         provider.add("ctnhmana.jade.manahatch.manaprogress","魔力能量：%s / %s");
         provider.add("ctnhmana.jade.manahatch.btmanaprogress","植物魔法魔力量：%s / %s");
@@ -357,7 +439,6 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.botania.page.koishi_eye1","哇，你真的找到§m小恋§r了，§m小恋§r要把她的秘密分享给你!$(p) §m小恋§r的眼睛有很多作用!首先，佩戴时所有生物只有在§b与你贴贴§r的时候才会发现你!并且完~全不用担心尴尬，因为§b过一段时间§r所有人就会§b完全忘记你§r了！当然，小恋§4可没有姐姐的读心能力哦§r");
         provider.add("ctnhmana.botania.page.koishi_eye3","§o§5终被一切厌弃，终将一切遗忘§r");
         provider.add("botania.tagline.koishi","不用看清一切也行哦？");
-
         provider.add("ctnhmana.category.horizon","植物魔法：新视野");
         provider.add("ctnhmana.category.horizon.description","作为一名优秀的格雷员工，你当然知晓如何合理地将魔法与科技结合获得最大化效益，本条目介绍了§m植物魔法§r机械动力:新视野的一些魔力新增内容");
 
@@ -372,6 +453,9 @@ public class ChineseLangHandler {
         provider.add("ctnh.copyright.magic.info","§bCTNH：工业魔力学");
 
         provider.add("ctnhmana.copyright.info","由CTNHMana增加");
+
+        provider.add("key.category.ctnhmana.general","CTNHMana");
+        provider.add("key.ctnhmana.open_caduceus","打开神谕终端菜单");
 
 
     }

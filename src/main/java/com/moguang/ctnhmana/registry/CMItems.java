@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.item.BloodMagicJade.JadeItem;
+import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
 import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
@@ -225,6 +226,42 @@ public class CMItems {
                     return properties;
                 })
                         .register();
+        CADUCEUS = REGISTRATE
+                .item("caduceus", CaduceusItem::new)
+                .cnlang("神谕终端[赫尔墨斯]")
+                .lang("Caduceus")
+                .properties(properties -> {
+                    properties.rarity(Rarity.EPIC);
+                    properties.stacksTo(1);
+                    return properties;
+                })
+                .tag(
+                        ItemTags.SWORDS,
+                        ItemTags.PICKAXES,
+                        ItemTags.SHOVELS,
+                        ItemTags.AXES,
+                        ItemTags.HOES,
+                        CustomTags.SCYTHES,
+                        CustomTags.SAWS,
+                        CustomTags.WRENCHES,
+                        CustomTags.WRENCH,
+                        CustomTags.FILES,
+                        CustomTags.SCREWDRIVERS,
+                        CustomTags.WIRE_CUTTERS,
+                        CustomTags.KNIVES,
+                        CustomTags.PLUNGERS,
+                        CustomTags.CRAFTING_CROWBARS,
+                        CustomTags.CRAFTING_FILES,
+                        CustomTags.CRAFTING_HAMMERS,
+                        CustomTags.CRAFTING_KNIVES,
+                        CustomTags.CRAFTING_MALLETS,
+                        CustomTags.CRAFTING_MORTARS,
+                        CustomTags.CRAFTING_SAWS,
+                        CustomTags.CRAFTING_SCREWDRIVERS,
+                        CustomTags.CRAFTING_WIRE_CUTTERS,
+                        CustomTags.CRAFTING_WRENCHES
+                )
+                .register();
         SPARK_STICK=REGISTRATE
                 .item("spark_stick",properties -> new IManaFuelStick(properties,5,1,1000))
                 .cnlang("火花级魔力燃料棒")
@@ -378,6 +415,7 @@ public class CMItems {
     public static ItemEntry<JadeItem> SUPPRESSION_JADE;
     public static ItemEntry<JadeItem> EPHEMERAL_JADE;
     public static ItemEntry<SaberWandItem>SABER_WAND;
+    public static ItemEntry<CaduceusItem> CADUCEUS;
     public static ItemEntry<IManaFuelStick>SPARK_STICK;
     public static ItemEntry<ComponentItem>BROKEN_RUNE;
     public static ItemEntry<TaintedBloodWeepingEye>TAINTED_BLOOD_EYE;
@@ -527,61 +565,61 @@ public class CMItems {
 
     public static ItemEntry<ComponentItem> MANA_RESISTOR = REGISTRATE
             .item("mana_resistor", ComponentItem::create)
-            .cnlang("注魔电阻")
+            .cnlang("魔力电阻")
             .lang("Mana Resistor")
             .register();
 
     public static ItemEntry<ComponentItem> MANA_CAPACITOR = REGISTRATE
             .item("mana_capacitor", ComponentItem::create)
-            .cnlang("注魔电容")
+            .cnlang("魔力电容")
             .lang("Mana Capacitor")
             .register();
 
     public static ItemEntry<ComponentItem> MANA_TRANSISTOR = REGISTRATE
             .item("mana_transistor", ComponentItem::create)
-            .cnlang("注魔晶体管")
+            .cnlang("魔力晶体管")
             .lang("Mana Transistor")
             .register();
 
     public static ItemEntry<ComponentItem> MANA_DIODE = REGISTRATE
             .item("mana_diode", ComponentItem::create)
-            .cnlang("注魔二极管")
+            .cnlang("魔力二极管")
             .lang("Mana Diode")
             .register();
 
     public static ItemEntry<ComponentItem> MANA_INDUCTOR = REGISTRATE
             .item("mana_inductor", ComponentItem::create)
-            .cnlang("注魔电感")
+            .cnlang("魔力电感")
             .lang("Mana Inductor")
             .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_RESISTOR = REGISTRATE
             .item("advanced_mana_resistor", ComponentItem::create)
-            .cnlang("高级注魔电阻")
+            .cnlang("精灵电阻")
             .lang("Advanced Mana Resistor")
             .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_CAPACITOR = REGISTRATE
             .item("advanced_mana_capacitor", ComponentItem::create)
-            .cnlang("高级注魔电容")
+            .cnlang("精灵电容")
             .lang("Advanced Mana Capacitor")
             .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_TRANSISTOR = REGISTRATE
             .item("advanced_mana_transistor", ComponentItem::create)
-            .cnlang("高级注魔晶体管")
+            .cnlang("精灵晶体管")
             .lang("Advanced Mana Transistor")
             .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_DIODE = REGISTRATE
             .item("advanced_mana_diode", ComponentItem::create)
-            .cnlang("高级注魔二极管")
+            .cnlang("精灵二极管")
             .lang("Advanced Mana Diode")
             .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_INDUCTOR = REGISTRATE
             .item("advanced_mana_inductor", ComponentItem::create)
-            .cnlang("高级注魔电感")
+            .cnlang("精灵电感")
             .lang("Advanced Mana Inductor")
             .register();
 

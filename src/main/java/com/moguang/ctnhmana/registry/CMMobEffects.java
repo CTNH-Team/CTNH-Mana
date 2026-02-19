@@ -16,4 +16,12 @@ public class CMMobEffects {
             () -> new ShroudGazeEffect(MobEffectCategory.HARMFUL, 0x6D7917));
     public static final RegistryObject<WishingFlyEffect>WishingFlying= MOB_EFFECTS.register("helian_blessing",
             WishingFlyEffect::new);
+    public static final RegistryObject<KarmaEffect> Karma= MOB_EFFECTS.register("karma",
+            KarmaEffect::new);
+    public static final RegistryObject<KarmaFortunaEffect> KarmaFortuna= MOB_EFFECTS.register("karma_fortuna",
+            KarmaFortunaEffect::new);
+    public static final RegistryObject<BladeUnleashedEffect> Bladeunleashed= MOB_EFFECTS.register("blade_unleashed",
+            BladeUnleashedEffect::new);
+
+
 }

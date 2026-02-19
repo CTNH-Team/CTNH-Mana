@@ -26,10 +26,7 @@ public class ClientForgeRegister {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
 
-        // 仅当玩家有 ShroudGazing 效果时修改 FOV
         if (player != null && player.hasEffect(CMMobEffects.ShroudGazing.get())) {
-            // event.getNewFovModifier() 是当前 FOV 修正系数（默认1.0）
-            // 乘以缩放系数实现视野缩小
             event.setNewFovModifier((float) (event.getNewFovModifier() * 0.8));
         }
     }

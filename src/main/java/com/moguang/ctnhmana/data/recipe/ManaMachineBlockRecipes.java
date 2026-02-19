@@ -259,6 +259,14 @@ public class ManaMachineBlockRecipes {
                 .output(ELEMENTIUM_FRAME.asStack())
                 .mana(6000)
                 .save(provider);
+        TerraPlateRecipeBuilder.builder("elementium_frame1") // 源质钢框架
+                .input(ChemicalHelper.get(rod, Orichalcos))
+                .input(ChemicalHelper.get(rod,Orichalcos))
+                .input(ChemicalHelper.get(rod,Orichalcos))
+                .input(ChemicalHelper.get(rod,Orichalcos))
+                .output(ORICHALCOS_FRAME.asStack())
+                .mana(12000)
+                .save(provider);
         TerraPlateRecipeBuilder.builder("alfsteel_casing1") // 精灵钢机械方块
                 .input(ChemicalHelper.get(plate,AlfSteel))
                 .input(ChemicalHelper.get(plate,AlfSteel))

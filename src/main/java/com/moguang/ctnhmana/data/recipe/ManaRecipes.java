@@ -9,6 +9,7 @@ import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
@@ -468,6 +469,15 @@ public class ManaRecipes {
                 .EUt(GTValues.VA[GTValues.IV])
                 .duration(50*20)
                 .save(provider);
+        VanillaRecipeHelper.addShapedRecipe(//魔力池
+                provider, "mana_pool",
+                new ItemStack(BotaniaBlocks.manaPool.asItem()),
+                "AAA",
+                "ABA",
+                "AAA",
+                'A', BotaniaBlocks.livingrock,
+                'B', BotaniaItems.manaTablet
+        );
 
     }
 }

@@ -204,7 +204,7 @@ public class misc {
                     .build())
             .workableCasingModel((CTNHMana.id("block/casings/depth_force_field_stabilizing_casing")), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-    /** 与 MK1 同款的扭曲聚变结构模板，仅线圈 D 按等级传入；木头 A 视为空气，B 位扭曲外壳可 or 按配方放舱室 */
+
     static Function<MultiblockMachineDefinition, BlockPattern> createTwistedFusionPattern(Supplier<Block> coilBlock) {
         return definition -> FactoryBlockPattern.start()
                 .aisle("A##############", "###############", "######BBB######", "######CCC######", "######BBB######", "###############", "###############")
