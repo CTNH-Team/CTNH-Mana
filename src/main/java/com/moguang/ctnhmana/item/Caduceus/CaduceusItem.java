@@ -2,18 +2,29 @@ package com.moguang.ctnhmana.item.Caduceus;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.api.item.tool.behavior.IToolBehavior;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.moguang.ctnhmana.api.effect.ShroudGazeEffect;
+import com.moguang.ctnhmana.registry.CMMobEffects;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,21 +36,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ToolAction;
 
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
+import static com.moguang.ctnhmana.registry.sounds.CMSoundEvent.INDEX_BEEP_EFFECT;
+import static com.moguang.ctnhmana.registry.sounds.CMSoundEvent.SHROUD_WHISPER_EFFECT;
 
 /**
  * 继承 {@link GTToolItem} 的多形态工具：根据 NBT {@link #NBT_TOOL_TYPE} 选择当前类型，
@@ -79,11 +92,196 @@ public class CaduceusItem extends GTToolItem {
         );
 
     }
-//    @Override
-//    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-//        super.inventoryTick(stack,world,entity,slot,selected);
-//        if(world.getGameTime()%200==0&&)
-//    }
+    public void setKarma(Player player)
+    {
+        if(player.hasEffect(CMMobEffects.Karma.get()))
+        {
+            var karma=player.getEffect(CMMobEffects.Karma.get()).getAmplifier();
+            MobEffectInstance karmaEffect = new MobEffectInstance(
+                    CMMobEffects.Karma.get(),
+                    20*10*60,
+                    karma+1,
+                    false,
+                    true);
+            MobEffectInstance darkEffect = new MobEffectInstance(
+                    MobEffects.DARKNESS,
+                    20*7,
+                    1,
+                    false,
+                    true
+            );
+            player.addEffect(karmaEffect);
+            player.addEffect(darkEffect);
+        }
+        else {
+            MobEffectInstance karmaEffect = new MobEffectInstance(
+                    CMMobEffects.Karma.get(),
+                    20 * 10 * 60,
+                    0,
+                    false,
+                    true);
+            MobEffectInstance darkEffect = new MobEffectInstance(
+                    MobEffects.DARKNESS,
+                    20 * 7,
+                    1,
+                    false,
+                    true
+            );
+            player.addEffect(karmaEffect);
+            player.addEffect(darkEffect);
+        }
+    }
+    @Override
+    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        if (world.getGameTime() % (20 * 30) == 0 && entity instanceof Player player) {
+            if(player.level().isClientSide())
+            {
+                Minecraft mc = Minecraft.getInstance();
+                if (mc.player != player) return;
+                SoundInstance Gazing= new INDEXMUSIC(player);
+
+                SoundManager soundManager = mc.getSoundManager();
+                // 检查音乐是否正在播放
+                boolean isPlaying=soundManager.isActive(Gazing);
+                if (!isPlaying) {
+                    mc.getSoundManager().play(Gazing);
+                }
+                return;
+            }
+            var tag = player.getPersistentData();
+            //先找tag有没有方块
+            if (tag.contains("index_target_block")) {
+                var posArray = tag.getIntArray("index_target_block");
+
+                var targetBlockPos = new BlockPos(posArray[0], posArray[1], posArray[2]);
+                player.getPersistentData().remove("index_target_block");
+                tag.remove("index_target");
+                if (player.level().getBlockEntity(targetBlockPos) == null) {
+//完成了
+                    if (!player.hasEffect(CMMobEffects.Bladeunleashed.get())) {
+                        player.addEffect(new MobEffectInstance(
+                                CMMobEffects.Bladeunleashed.get(),
+                                20 * 30 * 60,
+                                0,
+                                true,
+                                true));
+                    } else {
+                        var amplifier = player.getEffect(CMMobEffects.Bladeunleashed.get()).getAmplifier();
+                        player.addEffect(new MobEffectInstance(
+                                CMMobEffects.Bladeunleashed.get(),
+                                20 * 30 * 60,
+                                Math.min(3, amplifier + 1),
+                                true,
+                                true));
+                    }
+                }
+                else setKarma(player); //没完成，上业
+
+                return;
+            }
+            if (tag.contains("index_target")) {
+                //没完成，上业
+                setKarma(player);
+                tag.remove("index_target");
+                tag.remove("index_target_block");
+            } else {
+                getIndex(entity, stack);
+            }
+        }
+    }
+
+    public void getIndexOfBlock(Player player, ItemStack stack, Map<BlockPos, BlockEntity> bes)
+    {
+        int i=bes.size();
+        for(BlockEntity be:bes.values())
+        {
+            i--;
+            if(be instanceof MetaMachineBlockEntity machine)
+            {
+                var chance=0.2;
+                if(i==0)chance=1;
+                if(machine.getMetaMachine() instanceof WorkableMultiblockMachine wmachine&&wmachine.isActive()&&player.hasEffect(CMMobEffects.Karma.get()))
+                {
+                    chance+=player.getEffect(CMMobEffects.Karma.get()).getAmplifier()*0.1;
+                }
+                if(Math.random()<=chance)
+                {
+                    var tag=player.getPersistentData();
+                    List<Integer> posList = new ArrayList<>();
+                    posList.add(machine.getBlockPos().getX()); // 添加X坐标
+                    posList.add(machine.getBlockPos().getY()); // 添加Y坐标
+                    posList.add(machine.getBlockPos().getZ()); // 添加Z坐标
+                    tag.putIntArray("index_target_block",posList);
+                    player.sendSystemMessage(IndexLang[3].translate());
+                    return;
+                }
+            }
+        }
+
+    }
+    public void getIndex(Entity entity,ItemStack stack)
+    {
+        if(entity.level().isClientSide())return;
+        if(entity instanceof Player player)
+        {
+            var tag=player.getPersistentData();
+            entity.sendSystemMessage(IndexLang[0].translate(entity.getName().getString()));
+            if(player.hasEffect(CMMobEffects.Bladeunleashed.get())&&player.getEffect(CMMobEffects.Bladeunleashed.get()).getAmplifier()>=3)
+            {
+                //当剑刃解放达到IV时，不再下发新的指令，也不再切换武器
+                entity.sendSystemMessage(IndexLang[1].translate());
+                return;
+            }
+            changeType(stack);
+            LevelChunk chunk =player.level().getChunkAt(player.getOnPos());
+            var blockTarget=chunk.getBlockEntities();
+            Map<BlockPos, BlockEntity> TblockTarget = new HashMap<>();
+            for(BlockPos be:blockTarget.keySet())
+            {
+                if((blockTarget.get(be) instanceof MetaMachineBlockEntity))
+                {
+                    TblockTarget.put(be,blockTarget.get(be));
+                }
+            }
+            if(Math.random()>0.7&&!TblockTarget.isEmpty())
+            {
+                getIndexOfBlock(player,stack,TblockTarget);
+                return;
+            }
+            //检查是否有可以破坏的指令目标方块 如果有，则有30%几率选择的是机器
+            double r = 16.0D;
+            AABB aabb = new AABB(
+                    player.getX() - r, player.getY() - r, player.getZ() - r,
+                    player.getX() + r, player.getY() + r, player.getZ() + r
+            );
+            var targets=player.level().getEntitiesOfClass(LivingEntity.class, aabb,b->!b.equals(player)); //选择除自己以外的目标
+
+            if(targets.isEmpty()) //指令找不到，高呼牛逼
+            {
+                if(!TblockTarget.isEmpty())
+                {
+                     getIndexOfBlock(player,stack,TblockTarget);
+                    return;
+                }
+                entity.sendSystemMessage(IndexLang[1].translate());
+                return;
+            }
+            else //标记其中一个
+            {
+                entity.sendSystemMessage(IndexLang[2].translate());
+                var rand=targets.size()*Math.random();
+                var target=targets.get((int) rand);
+                tag.putString("index_target",target.getStringUUID());
+                target.addEffect(new MobEffectInstance(
+                        CMMobEffects.indextarget.get(),
+                        20*30,
+                        0,
+                        true,
+                        true));
+            }
+        }
+    }
     public void changeType(ItemStack stack)
     {
         var rand=(int)(Math.random()*(CYCLE_TYPES.size()-1));
@@ -342,6 +540,16 @@ public class CaduceusItem extends GTToolItem {
             return CaduceusWeaponLang[12].translate();  // 马桶搋子 - 下标12
         } else {
             return CaduceusWeaponLang[0].translate(); // 兜底：默认返回剑的名称
+        }
+    }
+    private static class INDEXMUSIC extends AbstractTickableSoundInstance {
+        Player player=null;
+        private INDEXMUSIC(Player player) {
+            super(INDEX_BEEP_EFFECT.get(), SoundSource.MUSIC   , SoundInstance.createUnseededRandom());
+            this.player=player;
+            this.looping = false;
+        }
+        public void tick() {
         }
     }
 

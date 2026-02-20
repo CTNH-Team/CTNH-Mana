@@ -1,4 +1,14 @@
 {
+  "index_beep": {
+    "sounds": [
+      {
+        "name": "ctnhmana:index_beep",
+        "volume": 0.6,
+        "weight": 3
+      }
+    ],
+    "subtitle": "subtitle.ctnhmana.bgm.shroud_whisper"
+  },
   "shroud_whisper": {
     "sounds": [
       {

@@ -149,6 +149,24 @@ public class ChineseLangHandler {
             }
     )
     public static Lang[] CaduceusStatusLang;
+
+    @CN(
+            {
+                    "致%s:",
+                    "等待直至收到下一条指令",
+                    "在限定时间内消灭指令对象",
+                    "在限定时间内，确保指令对象位置没有机器"
+            }
+    )
+    @EN(
+            {
+                    "致%s:",
+                    "等待直至收到下一条指令",
+                    "在限定时间内前消灭指令对象",
+                    "在限定时间内，确保指令对象位置没有机器"
+            }
+    )
+    public static Lang[]IndexLang;
     @CN(
             {
                     "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",
@@ -693,6 +711,7 @@ public class ChineseLangHandler {
     public static Lang failureManaLang_NoEnoughTwistLevel;
     @CN("END COLOR :XD")
     public static Lang failureManaLang_BeamCrash;
+
 
 
 

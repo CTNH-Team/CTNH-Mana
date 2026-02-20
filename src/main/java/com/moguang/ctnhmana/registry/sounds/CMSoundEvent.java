@@ -17,4 +17,8 @@ public class CMSoundEvent {
             "shroud_whisper",
             () -> SoundEvent.createVariableRangeEvent(CTNHMana.id("shroud_whisper"))
     );
+    public static final RegistryObject<SoundEvent> INDEX_BEEP_EFFECT = SOUNDS.register(
+            "index_beep",
+            () -> SoundEvent.createVariableRangeEvent(CTNHMana.id("index_beep"))
+    );
 }

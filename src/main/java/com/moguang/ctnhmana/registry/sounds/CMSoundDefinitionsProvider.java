@@ -20,5 +20,12 @@ public class CMSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         .volume(0.6)
                         .stream())
         );
+        this.add(CMSoundEvent.INDEX_BEEP_EFFECT.get(),definition()
+                .subtitle("subtitle.ctnhmana.bgm.shroud_whisper")
+                .with(sound(CTNHMana.id("index_beep"))
+                        .weight(3)
+                        .volume(0.6)
+                        )
+        );
     }
 }

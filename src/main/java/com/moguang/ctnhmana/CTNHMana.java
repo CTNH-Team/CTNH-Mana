@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.moguang.ctnhmana.client.render.particle.ParticleRegistry;
 import com.moguang.ctnhmana.event.EventHandler;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMobEffects;
@@ -13,9 +14,9 @@ import com.mojang.logging.LogUtils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -40,9 +41,11 @@ public class CTNHMana
         LangProcessor langProcessor = new LangProcessor(REGISTRATE);
         langProcessor.processAll();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ParticleRegistry.PARTICLE_TYPES.register(modEventBus);
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegisterEntityRenderers);
         modEventBus.addListener(this::onFMLoadComplete);
+        modEventBus.addListener(this::registerParticleProviders);
         modEventBus.addGenericListener(MachineDefinition.class, EventHandler::registerMachines);
         modEventBus.addGenericListener(GTRecipeType.class, EventHandler::registerRecipeTypes);
         modEventBus.addGenericListener(RecipeConditionType.class, EventHandler::registerRecipeConditions);
@@ -73,7 +76,12 @@ public class CTNHMana
 //            event.accept(EXAMPLE_BLOCK_ITEM);
     }
 
+
     private void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 
+    }
+    private void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        // 调用ParticleRegistry中的方法，注册精灵渲染提供者
+        ParticleRegistry.registerParticleProviders(event);
     }
 }
