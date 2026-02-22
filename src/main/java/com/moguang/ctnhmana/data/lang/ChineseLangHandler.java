@@ -244,6 +244,34 @@ public class ChineseLangHandler {
     @CN("须臾强化")
     @EN("Ephemeral Upgrade")
     public static Lang ephemeral_jade_upgrade;
+    @CN(
+            {
+                    "§aCTNH产魔花",
+                    "§6工业时代的炼金术师"
+            }
+    )
+    @EN(
+            {
+                    "§aCTNH产魔花",
+                    "§6工业时代的炼金术师"
+            }
+    )
+    public static Lang[] blackVeinFlowerLang;
+    @CN(
+            {
+                    "§aCTNH产魔花",
+                    "§c永远高贵，永远不衰"
+            }
+    )
+    @EN(
+            {
+                    "§aCTNH产魔花",
+                    "§c永远高贵，永远不衰"
+            }
+    )
+    public static Lang[] tulpenmanieFlowerLang;
+    @CN("§7泡沫过后，一无所有")
+    public static Lang bubleFlowerLang;
 
     public static void init(RegistrateCNLangProvider provider){
         provider.add("ctnh.item.runes.starlight_rune","Per Aspera Ad Astra");
@@ -468,7 +496,8 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.spire.page.3","奥法尖塔拥有多种模式，你可以在机器主方块UI进行切换，或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式.$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b广域扩散,§6中转");
         provider.add("ctnhmana.spire.page.4","奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度 初始值50000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度，注意火花吸收产能花的速度只有接收速度的1/10，初始值:5000/tick$(p)范围：决定了火花的影响范围，初始值:10");
         provider.add("ctnhmana.spire.page.5","奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力，而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则，向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r:奥法尖塔不执行任何操作，只实现奥法尖塔间的魔力传递");
-
+        provider.add("ctnhmana.entry.tulpenmanie","永远的奥古斯都");
+        provider.add("ctnhmana.tulpenmanie.1","魔力beeeee疯了!它竟然做出来了这么一朵超模的花!$(p)永远的奥古斯都每tick会自动吸收周围魔力池100mana,而它每存储1000mana,每tick就可以自然产生1mana!$(p)最恐怖的是，这朵花有着100W的魔力缓存，魔生魔，太疯狂了!");
         provider.add("ctnh.copyright.magic.info","§bCTNH：工业魔力学");
 
         provider.add("ctnhmana.copyright.info","由CTNHMana增加");

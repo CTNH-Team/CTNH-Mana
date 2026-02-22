@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.moguang.ctnhmana.common.recipe.builder.PetalRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import org.antlr.v4.runtime.atn.SemanticContext;
 import org.apache.commons.compress.archivers.dump.DumpArchiveEntry;
@@ -97,7 +99,7 @@ public class BotaniaRecipes {
                 .save(provider);
         PetalRecipeBuilder.builder("gourmaryllis")//美食家莲
                 .input(LIGHTGRAY,LIGHTGRAY,YELLOW,YELLOW,RED,RED)
-                .input(runeFire,gaiaSpirit,runeSummer)
+                .input(runeFire,runeSummer)
                 .output(new ItemStack(BotaniaFlowerBlocks.gourmaryllis.asItem(),1))
                 .reagent(Tags.Items.SEEDS)
                 .save(provider);
@@ -145,7 +147,7 @@ public class BotaniaRecipes {
         PetalRecipeBuilder.builder("shulk_me_not")//喵喵莲
                 .input(PURPLE,PURPLE,PINK,PINK,LIGHTGRAY,LIGHTGRAY)
                 .input(gaiaSpirit,runeEarth,runeEnvy)
-                .input(ChemicalHelper.get(TagPrefix.ingot,AlfSteel,1))
+                .input(ChemicalHelper.get(TagPrefix.ingot,PRIMOVOLITHEST,1))
                 .input(ChemicalHelper.get(TagPrefix.ingot,Elementium,1))
                 .input(ChemicalHelper.get(TagPrefix.ingot,TerraSteel,1))
                 .output(new ItemStack(BotaniaFlowerBlocks.shulkMeNot.asItem(),1))
@@ -499,6 +501,20 @@ public class BotaniaRecipes {
         PetalRecipeBuilder.builder("manastar")//魔力之星
                 .input(GREEN,RED,CYAN,LIGHTBLUE)
                 .output(new ItemStack(BotaniaFlowerBlocks.manastar.asItem(),1))
+                .reagent(Tags.Items.SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("semper_augustus")//奥古斯都
+                .input(RED,RED,WHITE,WHITE)
+                .input(new ItemStack(orichalcos))
+                .input(new ItemStack(BotaniaItems.gaiaIngot))
+                .output(new ItemStack(CMBlocks.SEMPER_AUGUSTUS.asItem(),1))
+                .reagent(Tags.Items.SEEDS)
+                .save(provider);
+        PetalRecipeBuilder.builder("black_vein")//金盏花
+                .input(BLACK,BLACK,RED,WHITE)
+                .input(new ItemStack(Blocks.GOLD_BLOCK.asItem()))
+                .input(GTItems.ELECTRIC_PUMP_LV.asStack())
+                .output(new ItemStack(CMBlocks.BLACKVEIN_MARIGOLD.asItem(),1))
                 .reagent(Tags.Items.SEEDS)
                 .save(provider);
         MANA_FORGE_RECIPES.recipeBuilder("potato")

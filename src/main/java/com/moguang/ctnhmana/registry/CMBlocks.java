@@ -13,6 +13,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.blocks.CoilType;
 import com.moguang.ctnhmana.common.blocks.FrameBlock;
 import com.moguang.ctnhmana.common.blocks.RuneBlock;
+import com.moguang.ctnhmana.item.TooltipsBlockItem;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -37,6 +38,7 @@ import vazkii.botania.forge.block.ForgeSpecialFlowerBlock;
 import java.util.function.Supplier;
 
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
 
 public class CMBlocks {
@@ -89,6 +91,7 @@ public class CMBlocks {
                                                       Supplier<Supplier<RenderType>> type) {
         return REGISTRATE.block(name, blockSupplier)
                 .cnlang(cnName)
+
                 .initialProperties(properties)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(type)
@@ -284,6 +287,40 @@ public class CMBlocks {
             .blockstate(GTModels::createCrossBlockState)
             .addLayer(() -> RenderType::cutoutMipped)
             .item()
+
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<ForgeSpecialFlowerBlock> BLACKVEIN_MARIGOLD = REGISTRATE
+            .block("blackvein_marigold", properties -> new ForgeSpecialFlowerBlock(MobEffects.DIG_SPEED, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.BLACKVEIN_MARIGOLD.get()))
+            .cnlang("黑脉金盏花")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("blackvein_marigold")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem)new TooltipsBlockItem(block, props,blackVeinFlowerLang))
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<ForgeSpecialFlowerBlock> SEMPER_AUGUSTUS = REGISTRATE
+            .block("semper_augustus", properties -> new ForgeSpecialFlowerBlock(MobEffects.DIG_SPEED, 20, BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.SEMPER_AUGUSTUS.get()))
+            .cnlang("§6永远的奥古斯都")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("blackvein_marigold")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem)new TooltipsBlockItem(block, props,tulpenmanieFlowerLang))
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<Block> Tulpenmanie = REGISTRATE
+            .block("tulpenmanie", Block::new)
+            .cnlang("§8泡沫郁金香")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("tulpenmanie")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem)new TooltipsBlockItem(block, props,bubleFlowerLang))
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();
