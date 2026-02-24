@@ -24,5 +24,9 @@ run-data
 mcmodsrepo
 src/generated/resources/.cache
 src/test/
+
 # Files from Forge MDK
 forge*changelog.txt
+
+# macOS
+.DS_Store
