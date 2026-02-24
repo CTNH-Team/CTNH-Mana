@@ -5,12 +5,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -29,12 +24,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.openjdk.nashorn.internal.objects.annotations.Getter;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-
-import java.util.List;
 
 import static net.minecraft.core.Direction.*;
 
@@ -165,25 +154,4 @@ public class CentralControlBus extends ItemBusPartMachine {
     public boolean canConnectRedstone(Direction side) {
         return true;
     }
-    @CN(
-            {
-                    "§6完美§r地控制每一个中央槽位",
-                    "该机器用于精确控制§n多方块结构主机器UI§r的存储槽位",
-                    "机器的电路编号用于指定该机器控制的槽位编号(从0开始)",
-                    "支持从机器的任意面输入物品，并且会将此物品插入指定槽位(如果存在)",
-                    "§n机器的主面§r接收§c红石信号脉冲§r时，将该槽位的物品弹出到§n具有输出功能的§r舱室中",
-                    "§o准备好成为自动化大师了吗？§r"
-            }
-    )
-    @EN(
-            {
-                    "§6完美§r地控制每一个中央槽位",
-                    "该机器用于精确控制§n多方块结构主机器UI§r的存储槽位",
-                    "机器的电路编号用于指定该机器控制的槽位编号(从0)开始",
-                    "支持从机器的任意面输入物品，并且会将此物品插入指定槽位(如果存在)",
-                    "§n机器的主面§r接收§c红石信号脉冲§r时，将该槽位的物品弹出到§n具有输出功能的§r舱室中",
-                    "§o准备好成为自动化大师了吗？§r"
-            }
-    )
-    public static Lang[] centralControlBusLang;
 }

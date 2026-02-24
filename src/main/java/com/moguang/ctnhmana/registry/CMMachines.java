@@ -2,7 +2,6 @@ package com.moguang.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -12,7 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.ICentralStorageMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CentralControlBus;
 import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.client.render.StarCakeMachineBERProvider;
@@ -44,7 +42,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
-import static com.moguang.ctnhmana.machine.FlowerCakeMachine.FlowerCakeLang;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.flowercakelang;
 
 public class CMMachines {
     static {
@@ -84,7 +82,7 @@ public class CMMachines {
             )
             .recipeModifier(RecipeModifier.NO_MODIFIER)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(CTNHManaUtils.addMachineTooltips(FlowerCakeLang))
+            .tooltips(CTNHManaUtils.addMachineTooltips(flowercakelang))
             .hasBER(false)
             .rotationState(RotationState.NON_Y_AXIS)
             .onBlockEntityRegister(beType -> {
@@ -270,7 +268,7 @@ public class CMMachines {
             .modelProperty(IS_FORMED, false)
             .rotationState(RotationState.ALL)
             .abilities(CMPartsAbility.SIGNALHATCH)
-            .tooltips(CTNHManaUtils.addMachineTooltips(CentralControlBus.centralControlBusLang))
+            .tooltips(CTNHManaUtils.addMachineTooltips(centralControlBusLang))
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .register();
 

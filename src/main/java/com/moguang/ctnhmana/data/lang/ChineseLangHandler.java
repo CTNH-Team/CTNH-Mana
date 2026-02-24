@@ -272,6 +272,44 @@ public class ChineseLangHandler {
     public static Lang[] tulpenmanieFlowerLang;
     @CN("§7泡沫过后，一无所有")
     public static Lang bubleFlowerLang;
+    @CN(
+            {
+                    "§b制作组物品§r",
+                    "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+                    "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+                    "可连续食用！"
+            }
+    )
+    @EN(
+            {
+                    "§b制作组物品§r",
+                    "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+                    "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+                    "可连续食用！"
+            }
+    )
+    public static Lang[] flowercakelang;
+    @CN(
+            {
+                    "§6完美§r地控制每一个中央槽位",
+                    "该机器用于精确控制§n多方块结构主机器UI§r的存储槽位",
+                    "机器的电路编号用于指定该机器控制的槽位编号(从0开始)",
+                    "支持从机器的任意面输入物品，并且会将此物品插入指定槽位(如果存在)",
+                    "§n机器的主面§r接收§c红石信号脉冲§r时，将该槽位的物品弹出到§n具有输出功能的§r舱室中",
+                    "§o准备好成为自动化大师了吗？§r"
+            }
+    )
+    @EN(
+            {
+                    "§6完美§r地控制每一个中央槽位",
+                    "该机器用于精确控制§n多方块结构主机器UI§r的存储槽位",
+                    "机器的电路编号用于指定该机器控制的槽位编号(从0)开始",
+                    "支持从机器的任意面输入物品，并且会将此物品插入指定槽位(如果存在)",
+                    "§n机器的主面§r接收§c红石信号脉冲§r时，将该槽位的物品弹出到§n具有输出功能的§r舱室中",
+                    "§o准备好成为自动化大师了吗？§r"
+            }
+    )
+    public static Lang[] centralControlBusLang;
 
     public static void init(RegistrateCNLangProvider provider){
         provider.add("ctnh.item.runes.starlight_rune","Per Aspera Ad Astra");
