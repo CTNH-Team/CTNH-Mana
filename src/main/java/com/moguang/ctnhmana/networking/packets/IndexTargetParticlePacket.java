@@ -2,12 +2,14 @@ package com.moguang.ctnhmana.networking.packets;
 
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
-import com.moguang.ctnhmana.client.render.particle.ParticleRegistry;
+import com.moguang.ctnhmana.registry.CMParticleTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * S2C：服务端发此包后，客户端在指定实体位置生成指令对象粒子。
@@ -32,6 +34,7 @@ public class IndexTargetParticlePacket implements IPacket {
         this.entityId= friendlyByteBuf.readInt();
     }
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void execute(IHandlerContext handler) {
         IPacket.super.execute(handler);
         Level level = Minecraft.getInstance().level;
@@ -42,7 +45,7 @@ public class IndexTargetParticlePacket implements IPacket {
         double y = living.getY() + living.getBbHeight() * 0.5D + 1.0D;
         double z = living.getZ();
         level.addParticle(
-                ParticleRegistry.INDEX_TARGET.get(),
+                CMParticleTypes.INDEX_TARGET.get(),
                 x, y, z,
                 0.0D, 0.0D, 0.0D
         );

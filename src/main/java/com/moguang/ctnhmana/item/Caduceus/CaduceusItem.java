@@ -42,6 +42,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
@@ -52,7 +54,6 @@ import java.util.*;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.sounds.CMSoundEvent.INDEX_BEEP_EFFECT;
-import static com.moguang.ctnhmana.registry.sounds.CMSoundEvent.SHROUD_WHISPER_EFFECT;
 
 /**
  * 继承 {@link GTToolItem} 的多形态工具：根据 NBT {@link #NBT_TOOL_TYPE} 选择当前类型，
@@ -137,16 +138,7 @@ public class CaduceusItem extends GTToolItem {
         if (world.getGameTime() % (20 * 30) == 0 && entity instanceof Player player) {
             if(player.level().isClientSide())
             {
-                Minecraft mc = Minecraft.getInstance();
-                if (mc.player != player) return;
-                SoundInstance Gazing= new INDEXMUSIC(player);
-
-                SoundManager soundManager = mc.getSoundManager();
-                // 检查音乐是否正在播放
-                boolean isPlaying=soundManager.isActive(Gazing);
-                if (!isPlaying) {
-                    mc.getSoundManager().play(Gazing);
-                }
+                playIndexMusic(player);
                 return;
             }
             var tag = player.getPersistentData();
@@ -540,6 +532,20 @@ public class CaduceusItem extends GTToolItem {
             return CaduceusWeaponLang[12].translate();  // 马桶搋子 - 下标12
         } else {
             return CaduceusWeaponLang[0].translate(); // 兜底：默认返回剑的名称
+        }
+    }
+    @OnlyIn(Dist.CLIENT)
+    public static void playIndexMusic(Player player)
+    {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player != player) return;
+        SoundInstance Gazing= new INDEXMUSIC(player);
+
+        SoundManager soundManager = mc.getSoundManager();
+        // 检查音乐是否正在播放
+        boolean isPlaying=soundManager.isActive(Gazing);
+        if (!isPlaying) {
+            mc.getSoundManager().play(Gazing);
         }
     }
     private static class INDEXMUSIC extends AbstractTickableSoundInstance {

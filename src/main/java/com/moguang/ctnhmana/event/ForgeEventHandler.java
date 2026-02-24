@@ -31,6 +31,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -111,6 +113,7 @@ public class ForgeEventHandler {
         }
     }
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void keyEvent(final InputEvent.Key event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;

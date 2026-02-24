@@ -35,12 +35,9 @@ public class ShroudGazeEffect extends MobEffect {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player != player) return;
         SoundInstance Gazing= new GazingMusic(player);
-
         SoundManager soundManager = mc.getSoundManager();
-        // 检查音乐是否正在播放
         boolean isPlaying=soundManager.isActive(Gazing);
         if (!isPlaying) {
-            // 播放循环音乐
             mc.getSoundManager().play(Gazing);
         }
     }

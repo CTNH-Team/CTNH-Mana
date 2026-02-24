@@ -10,6 +10,8 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
@@ -477,6 +479,15 @@ public class ManaRecipes {
                 "AAA",
                 'A', BotaniaBlocks.livingrock,
                 'B', BotaniaItems.manaTablet
+        );
+        VanillaRecipeHelper.addShapedRecipe(
+                provider,"advanced_stone",
+                new ItemStack(Blocks.REINFORCED_DEEPSLATE,8),
+                "AAA",
+                "ABA",
+                "AAA",
+                'A', Blocks.DEEPSLATE,
+                'B', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE
         );
 
     }

@@ -6,10 +6,13 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
+import com.moguang.ctnhmana.client.render.particle.IconParticle;
 import com.moguang.ctnhmana.common.CommonProxy;
 import com.moguang.ctnhmana.registry.CMModelLayers;
+import com.moguang.ctnhmana.registry.CMParticleTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -24,6 +27,11 @@ public class ClientProxy extends CommonProxy {
         DynamicRenderManager.register(CTNHMana.id("zenith_laser"), ZenithMatrixBlockEntityRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("eternal_garden"), EternalGardenRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(CMParticleTypes.INDEX_TARGET.get(), IconParticle.Provider::new);
     }
 
     @SubscribeEvent

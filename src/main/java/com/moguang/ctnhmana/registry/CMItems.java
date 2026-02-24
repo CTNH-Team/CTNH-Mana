@@ -235,32 +235,33 @@ public class CMItems {
                     properties.stacksTo(1);
                     return properties;
                 })
-                .tag(
-                        ItemTags.SWORDS,
-                        ItemTags.PICKAXES,
-                        ItemTags.SHOVELS,
-                        ItemTags.AXES,
-                        ItemTags.HOES,
-                        CustomTags.SCYTHES,
-                        CustomTags.SAWS,
-                        CustomTags.WRENCHES,
-                        CustomTags.WRENCH,
-                        CustomTags.FILES,
-                        CustomTags.SCREWDRIVERS,
-                        CustomTags.WIRE_CUTTERS,
-                        CustomTags.KNIVES,
-                        CustomTags.PLUNGERS,
-                        CustomTags.CRAFTING_CROWBARS,
-                        CustomTags.CRAFTING_FILES,
-                        CustomTags.CRAFTING_HAMMERS,
-                        CustomTags.CRAFTING_KNIVES,
-                        CustomTags.CRAFTING_MALLETS,
-                        CustomTags.CRAFTING_MORTARS,
-                        CustomTags.CRAFTING_SAWS,
-                        CustomTags.CRAFTING_SCREWDRIVERS,
-                        CustomTags.CRAFTING_WIRE_CUTTERS,
-                        CustomTags.CRAFTING_WRENCHES
-                )
+                //d等EMI问题解决了再说这个
+//                .tag(
+//                        ItemTags.SWORDS,
+//                        ItemTags.PICKAXES,
+//                        ItemTags.SHOVELS,
+//                        ItemTags.AXES,
+//                        ItemTags.HOES,
+//                        CustomTags.SCYTHES,
+//                        CustomTags.SAWS,
+//                        CustomTags.WRENCHES,
+//                        CustomTags.WRENCH,
+//                        CustomTags.FILES,
+//                        CustomTags.SCREWDRIVERS,
+//                        CustomTags.WIRE_CUTTERS,
+//                        CustomTags.KNIVES,
+//                        CustomTags.PLUNGERS,
+//                        CustomTags.CRAFTING_CROWBARS,
+//                        CustomTags.CRAFTING_FILES,
+//                        CustomTags.CRAFTING_HAMMERS,
+//                        CustomTags.CRAFTING_KNIVES,
+//                        CustomTags.CRAFTING_MALLETS,
+//                        CustomTags.CRAFTING_MORTARS,
+//                        CustomTags.CRAFTING_SAWS,
+//                        CustomTags.CRAFTING_SCREWDRIVERS,
+//                        CustomTags.CRAFTING_WIRE_CUTTERS,
+//                        CustomTags.CRAFTING_WRENCHES
+//                )
                 .register();
         SPARK_STICK=REGISTRATE
                 .item("spark_stick",properties -> new IManaFuelStick(properties,5,1,1000))

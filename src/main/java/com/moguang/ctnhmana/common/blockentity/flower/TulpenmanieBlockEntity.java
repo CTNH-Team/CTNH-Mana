@@ -4,8 +4,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
@@ -38,20 +36,7 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
         if(burstMana<=0)
         {
             if(this.level.isClientSide()) {
-                for (int i = 0; i < 25; i++) {
-                    double offsetX = Math.random() * 0.5;
-                    double offsetY = Math.random() * 0.5 + 0.5;
-                    double offsetZ = Math.random() * 0.5;
-                    level.addParticle(
-                            ParticleTypes.BUBBLE,
-                            this.getBlockPos().getX() + 0.5 + offsetX,
-                            this.getBlockPos().getY() + 0.5 + offsetY,
-                            this.getBlockPos().getZ() + 0.5 + offsetZ,
-                            offsetX * 0.2,
-                            offsetY * 0.2,
-                            offsetZ * 0.2
-                    );
-                }
+
             }
             else
             {
