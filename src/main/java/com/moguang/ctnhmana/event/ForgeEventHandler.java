@@ -123,7 +123,7 @@ public class ForgeEventHandler {
         }
         boolean isMPressed = event.getKey() == OPEN_CADUCEUS.getKey().getValue(); // N
         if (player.getMainHandItem().getItem() instanceof CaduceusItem && isMPressed) {
-            mc.setScreen(new RadialMenuScreen<>(CaduceusRadialMenu.create(player.getMainHandItem())));
+            mc.setScreen(new RadialMenuScreen<>(CaduceusRadialMenu.create()));
         }
 
     }

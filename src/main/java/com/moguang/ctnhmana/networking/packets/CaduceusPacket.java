@@ -43,7 +43,6 @@ public class CaduceusPacket implements IPacket {
             CTNHMana.LOGGER.warn("Invalid Caduceus tool type from client: {}", this.toolTypeName);
             return;
         }
-
         CaduceusItem.setCurrentType(mainHand, type);
         player.inventoryMenu.sendAllDataToRemote();
     }

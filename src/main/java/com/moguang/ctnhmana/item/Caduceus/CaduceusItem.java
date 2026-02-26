@@ -291,6 +291,7 @@ public class CaduceusItem extends GTToolItem {
     public static void setCurrentType(ItemStack stack, GTToolType type) {
         if (stack == null || stack.isEmpty() || type == null) return;
         stack.getOrCreateTag().putString(NBT_TOOL_TYPE, type.name);
+        stack.getOrCreateTag().putFloat("caduceus_type_index",CYCLE_TYPES.indexOf(type));
     }
 
     @Override

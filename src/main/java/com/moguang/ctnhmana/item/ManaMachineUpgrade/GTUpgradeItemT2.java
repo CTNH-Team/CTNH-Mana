@@ -29,8 +29,8 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
             metric.speed*=Math.pow(1.05,num);
             metric.eut-=num*0.05;
         }
-        var true_patch_parallel=ParallelLogic.getParallelAmountWithoutEU(machine,recipe,666);
-        metric.speed+=Math.min(77.77,true_patch_parallel*0.0444);
+        var true_patch_parallel=ParallelLogic.getParallelAmountWithoutEU(machine,recipe,1024);
+        metric.speed+=Math.min(777.7,true_patch_parallel*0.0444);
         metric.eut-=Math.min(1.0,0.025*(int)(recipe.duration*true_patch_parallel/2000));
         metric.true_parallel=true_patch_parallel;
         metric.eut=Math.max(0.2,metric.eut);
@@ -54,9 +54,9 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
                     "机器的并行§a+2§r，在运行前§c清除机器所有的并行§r",
                     "每清除一点并行，获得以下加成:",
                     "最终机器速度§a+5%r，§a-5%§r能量消耗",
-                    "将机器的并行转化为至多666§b魔力批处理§r:",
+                    "将机器的并行转化为至多1024§b魔力批处理§r:",
                     "运行多倍配方不再提升电压消耗，而是提升等量时间",
-                    "每有1魔力批处理，机器速度获得§a+4.44%§r，最多+777%",
+                    "每有1魔力批处理，机器速度获得§a+4.44%§r，最多+7777%",
                     "经过批处理后的配方每有100s，§a-2.5%§r能量消耗",
                     "魔力批处理大于64的部分不再提升配方的时间",
                     "能量消耗至多减少到20%",

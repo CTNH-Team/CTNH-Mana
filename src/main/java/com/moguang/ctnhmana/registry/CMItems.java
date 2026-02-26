@@ -30,6 +30,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import software.bernie.geckolib.event.GeoRenderEvent;
@@ -229,6 +230,31 @@ public class CMItems {
         CADUCEUS = REGISTRATE
                 .item("caduceus", CaduceusItem::new)
                 .cnlang("神谕终端[赫尔墨斯]")
+                .model((ctx, prov) -> {
+                    String[] sub = { "sword", "pickaxe", "shovel", "axe", "hoe", "scythe", "saw",
+                            "wrench", "file", "screwdriver", "wire_cutter", "knife", "plunger" };
+                    var baseModel = prov.withExistingParent(ctx.getName(), prov.mcLoc("item/handheld"))
+                            .texture("layer0", prov.modLoc("item/caduceus/caduceus_sword"));
+
+                    for (String s : sub) {
+                        String name = "caduceus_" + s;
+                        prov.getBuilder(name)
+                                .parent(new ModelFile.UncheckedModelFile(prov.mcLoc("item/handheld")))
+                                .texture("layer0", prov.modLoc("item/caduceus/caduceus_" + s));
+                    }
+
+
+                    for (int i = sub.length - 1; i >= 0; i--) {
+                        float v = i / (float) (sub.length - 1); // 0.0 ~ 1.0
+                        baseModel.override()
+                                .predicate(prov.modLoc("tool_type"), v)
+                                .model(new ModelFile.UncheckedModelFile(
+                                        prov.modLoc("item/caduceus_" + sub[i])
+                                ))
+                                .end();
+                    }
+
+                })
                 .lang("Caduceus")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);

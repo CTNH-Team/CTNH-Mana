@@ -29,6 +29,8 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -73,20 +75,33 @@ public class EventHandler {
         CMNetworking.init();
     }
 
-
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ItemProperties.register(
                    CMItems.SABER_WAND.get(), // 目标物品
-                    new ResourceLocation(CTNHMana.MODID, "wand_status"), // 属性标识符
+                    new ResourceLocation(CTNHMana.MODID, "wand_status"),
                     (stack, level, entity, seed) -> {
                        if(!SaberWandItem.getBindMode(stack))return 1.0F;
                        return 0F;
                     }
             );
+            ItemProperties.register(
+                    CMItems.CADUCEUS.get(),
+                    new ResourceLocation(CTNHMana.MODID, "tool_type"),
+                    (stack, level, entity, seed) -> {
+                        if(stack.getTag().contains("caduceus_type_index"))
+                        {
+                            float num=stack.getTag().getFloat("caduceus_type_index")/12f;
+                            return num;
+                        }
+                        return 0f;
+                    }
+            );
         });
     }
+
 
 
     @SubscribeEvent

@@ -698,7 +698,7 @@ public class ChineseLangHandler {
                     "要求结构中必须且仅有1个魔力凝聚仓",
                     "通过机器内升级槽放入升级",
                     "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-                    "无损超频（暂时）！"
+                    "最终运行速度+25%"
             }
     )
     @EN(
@@ -707,7 +707,7 @@ public class ChineseLangHandler {
                     "要求结构中必须且仅有1个魔力凝聚仓",
                     "通过机器内升级槽放入升级",
                     "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-                    "无损超频（暂时）！"
+                    "最终运行速度+25%"
             }
     )
     public static Lang[] basemanamutiblockLang;

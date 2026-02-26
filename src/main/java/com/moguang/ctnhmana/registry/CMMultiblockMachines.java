@@ -21,6 +21,7 @@ import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
+import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import com.moguang.ctnhmana.registry.multiblock.misc;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -62,6 +63,7 @@ public class CMMultiblockMachines {
         Botania.init();
         misc.init();
         ManaMachine.init();
+        ZenithMachine.init();
     }
     public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
     {

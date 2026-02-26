@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ctnhmana:item/caduceus/caduceus_shovel"
+  }
+}
