@@ -55,6 +55,7 @@ public class CTNHManaGTAddon implements IGTAddon {
         ManaReactorRecipes.init(provider);
         HellForgeRecipes.init(provider);
         WishingWillRecipes.init(provider);
+        ElvenTradeRecipes.init(provider);
         BloodAltarRecipes.init(provider);
         MeteorCapturerRecipes.init(provider);
         DemonWillGeneratorRecipes.init(provider);

@@ -58,7 +58,6 @@ public class ManaCircuitRecipes {
                 .input(MANA_TRANSISTOR.asStack())
                 .input(MANA_INDUCTOR.asStack())
                 .input(CustomTags.MV_CIRCUITS)
-                .input(MANA_SOC.asStack())
                 .output(MANA_ELECTRONIC_CIRCUIT.asStack())
                 .mana(100000)
                 .save(provider);
