@@ -217,17 +217,6 @@ public class HellForgeRecipes {
                 .minimumSouls(120).soulDrain(60)
                 .circuitMeta(1)
                 .save(provider);
-//todo     HELL_FORGE_RECIPES.recipeBuilder("wither_soul_vial")
-//                .addCondition(new HellForgeCondition(450))//恶魔意志消耗量
-//                .inputItems(ChemicalHelper.get(block, GTMaterials.NetherStar))//下界之星块
-//                .inputItems(REAGENT_BLOOD_LIGHT)//血光试剂
-//                .inputItems(REAGENT_BINDING)//束缚试剂
-//                .inputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("enderio:empty_soul_vial")))//空灵魂瓶
-//                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("enderio:filled_soul_vial"," {BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:wither\"}}}}")))//凋灵灵魂瓶
-//                .duration(200)
-//                .EUt(8000)
-//                .circuitMeta(1)
-//                .save(provider);
         TartaricForgeRecipeBuilder.builder("miners_key")//矿工之钥
                 .input(COPPER_INGOT,HELLFORGED_INGOT.get(),IMBUED_SLATE.get())
                 .output(new ItemStack(DUNGEON_MINE_KEY.get(),1))
