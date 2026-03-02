@@ -16,9 +16,11 @@ public class CMKeyBindings {
     public static final String CATEGORY = "key.category.ctnhmana.general";
 
     public static final KeyMapping OPEN_CADUCEUS = new KeyMapping("key.ctnhmana.open_caduceus", GLFW.GLFW_KEY_N, CATEGORY);
+    public static final KeyMapping FORTUNA = new KeyMapping("key.ctnhmana.fortuna", GLFW.GLFW_KEY_C, CATEGORY);
 
     @SubscribeEvent
     public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
+        event.register(FORTUNA);
         event.register(OPEN_CADUCEUS);
     }
 }

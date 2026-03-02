@@ -117,16 +117,16 @@ public class RadialMenuScreen<T> extends Screen {
             graphics.drawCenteredString(font, slots.get(selectedItem).slotName(), width / 2, (height - font.lineHeight) / 2, 0xFFFFFF);
         }
 
-        // 主图标
+        // 主图标（48x48 材质）
         for (int i = 0; i < n; i++) {
             float angle = ((i / (float) n) - 0.25f) * 2 * (float) Math.PI;
             if (n % 2 != 0) angle += Math.PI / n;
-            int x = (int) (centerX - 8 + itemRadius * Math.cos(angle));
-            int y = (int) (centerY - 8 + itemRadius * Math.sin(angle));
+            int x = (int) (centerX - 24 + itemRadius * Math.cos(angle));
+            int y = (int) (centerY - 24 + itemRadius * Math.sin(angle));
 
             T icon = slots.get(i).primaryIcon();
             if (icon != null) {
-                menu.drawIcon(icon, graphics, x, y, 16);
+                menu.drawIcon(icon, graphics, x, y, 48);
             }
         }
     }

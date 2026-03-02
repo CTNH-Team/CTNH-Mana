@@ -138,7 +138,8 @@ public class ChineseLangHandler {
             {
                     "根据自身§1§n剑刃解放§r层数造成更多伤害",
                     "对§1§n指令目标§r造成更多伤害",
-                    "命中时获得§4力量§r，根据自身§1§n剑刃解放§r层数或者命中指令目标获得额外§4力量§r"
+                    "命中时获得§4力量§r，根据自身§1§n剑刃解放§r层数或者命中§1§n指令目标§1§r获得额外§4力量§r",
+                    ""
             }
     )
     @EN(
@@ -167,6 +168,8 @@ public class ChineseLangHandler {
             }
     )
     public static Lang[]IndexLang;
+    @CN("哦,命运,像月亮板变化无常")
+    public static Lang CaduceusFortunaLang;
     @CN(
             {
                     "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",

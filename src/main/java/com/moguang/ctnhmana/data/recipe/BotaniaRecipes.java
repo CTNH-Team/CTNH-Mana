@@ -529,11 +529,7 @@ public class BotaniaRecipes {
                 .duration(2000)
                 .EUt(4)
                 .save(provider);
-        ManaInfusionRecipeBuilder.builder("fluid_mana")//魔力流体
-                .input(Items.BUCKET)
-                .output(Mana.getBucket())
-                .mana(250000)
-                .save(provider);
+
 
     }
 }
