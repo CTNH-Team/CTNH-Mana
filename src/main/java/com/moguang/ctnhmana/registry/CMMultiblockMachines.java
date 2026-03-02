@@ -355,7 +355,7 @@ public class CMMultiblockMachines {
                     .where("H", Predicates.blocks(LAVA))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/soul_lock_blackcasing"), GTCEu.id("block/machines/digital_well_of_suffer"))
+            .workableCasingModel(CTNHMana.id("block/casings/soul_lock_blackcasing"), CTNHMana.id("block/machine/digital_well_of_suffer"))
             .register();
     public final static MultiblockMachineDefinition INDUSTRIAL_ALTAR = REGISTRATE.multiblock("industrial_altar", holder -> new IndustrialAltarMachine(holder))
             .cnLangValue("§b工业血之祭坛")

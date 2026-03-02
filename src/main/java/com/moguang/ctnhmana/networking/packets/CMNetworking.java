@@ -7,5 +7,6 @@ public class CMNetworking {
         NETWORK.registerC2S(CaduceusPacket.class);
         NETWORK.registerS2C(IndexTargetParticlePacket.class);
         NETWORK.registerS2C(IndexTargetBlockPacket.class);
+        NETWORK.registerS2C(IndexFortunaPacket.class);
     }
 }

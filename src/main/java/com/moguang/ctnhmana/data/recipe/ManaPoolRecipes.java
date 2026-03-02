@@ -226,5 +226,11 @@ public class ManaPoolRecipes {
                 .mana(1000)
                 .circuitMeta(1)
                 .save(provider);
+        ManaInfusionRecipeBuilder.builder("fluid_mana")//魔力流体
+                .input(Items.BUCKET)
+                .output(Mana.getBucket())
+                .mana(250000)
+                .allowReactor(false)
+                .save(provider);
     }
 }

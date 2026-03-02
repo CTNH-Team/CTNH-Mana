@@ -54,6 +54,7 @@ import wayoftime.bloodmagic.impl.BloodMagicAPI;
 import java.util.List;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.satori_thirdeye_tooltip;
+import static com.moguang.ctnhmana.event.CMKeyBindings.FORTUNA;
 import static com.moguang.ctnhmana.event.CMKeyBindings.OPEN_CADUCEUS;
 import static com.moguang.ctnhmana.registry.CMBlocks.RUNE_STONE_PERFECT;
 
@@ -121,9 +122,14 @@ public class ForgeEventHandler {
         if (player == null || event.getAction() != 1) {
             return;
         }
+
         boolean isMPressed = event.getKey() == OPEN_CADUCEUS.getKey().getValue(); // N
         if (player.getMainHandItem().getItem() instanceof CaduceusItem && isMPressed) {
             mc.setScreen(new RadialMenuScreen<>(CaduceusRadialMenu.create()));
+        }
+        if(player.getMainHandItem().getItem() instanceof CaduceusItem&&event.getKey()==FORTUNA.getKey().getValue())
+        {
+
         }
 
     }

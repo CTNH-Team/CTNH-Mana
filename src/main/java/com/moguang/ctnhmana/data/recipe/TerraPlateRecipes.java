@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
@@ -138,6 +139,14 @@ public class TerraPlateRecipes {
                 .outputItems(orichalcos)
                 .EUt(GTValues.VA[GTValues.EV])
                 .duration(400)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("mana_rune")
+                .input(BotaniaBlocks.livingrock.asItem())
+                .input(BotaniaItems.manaDiamond.asItem())
+                .input(ChemicalHelper.get(TagPrefix.dust,CMMaterials.Elementium))
+                .output(BotaniaItems.runeMana.asItem().getDefaultInstance())
+                .circuitMeta(3)
+                .mana(10000)
                 .save(provider);
     }
 

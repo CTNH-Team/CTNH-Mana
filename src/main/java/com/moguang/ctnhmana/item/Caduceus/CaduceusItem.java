@@ -93,6 +93,17 @@ public class CaduceusItem extends GTToolItem {
         );
 
     }
+    public static void switchFortuna(ItemStack stack)
+    {
+        if(stack.getOrCreateTag().contains("karma")||!stack.getOrCreateTag().getBoolean("karma"))
+        {
+            stack.getOrCreateTag().putBoolean("karma",false);
+        }
+        if(stack.getOrCreateTag().getBoolean("karma"))
+        {
+            stack.getOrCreateTag().putBoolean("karma",true);
+        }
+    }
     public void setKarma(Player player)
     {
         if(player.hasEffect(CMMobEffects.Karma.get()))
@@ -225,7 +236,7 @@ public class CaduceusItem extends GTToolItem {
                 entity.sendSystemMessage(IndexLang[1].translate());
                 return;
             }
-            changeType(stack);
+//            changeType(stack);
             LevelChunk chunk =player.level().getChunkAt(player.getOnPos());
             var blockTarget=chunk.getBlockEntities();
             Map<BlockPos, BlockEntity> TblockTarget = new HashMap<>();
@@ -401,6 +412,7 @@ public class CaduceusItem extends GTToolItem {
         tooltipComponents.add(CaduceusTooltipNormalLang[3].translate());
         tooltipComponents.add(CaduceusDamageLang[0].translate(getAttack(stack)));
         tooltipComponents.add(CaduceusDamageLang[1].translate(getAttackSpeed(stack)));
+        if(stack.getOrCreateTag().contains("karma")&&stack.getOrCreateTag().getBoolean("karma"))tooltipComponents.add(CaduceusFortunaLang.translate());
     }
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {

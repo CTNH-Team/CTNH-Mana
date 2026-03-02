@@ -40,6 +40,7 @@ public  class ManaInfusionRecipeBuilder {
     private StateIngredient catalyst;
     @Nullable
     private String group;
+    private boolean allowReactor=true;
 
     // 构造方法（对齐 PetalRecipeBuilder）
     public ManaInfusionRecipeBuilder(String name) {
@@ -64,6 +65,10 @@ public  class ManaInfusionRecipeBuilder {
     }
     public ManaInfusionRecipeBuilder input(Ingredient ingredient) {
         inputs.add(ingredient);
+        return this;
+    }
+    public ManaInfusionRecipeBuilder allowReactor(Boolean allow) {
+        allowReactor=allow;
         return this;
     }
     public ManaInfusionRecipeBuilder input(Ingredient... ingredients) {
@@ -107,6 +112,7 @@ public  class ManaInfusionRecipeBuilder {
         if (this.output == null || this.inputs.isEmpty()) {
             throw new IllegalStateException("参数缺失是凉爽的夏夜");
         }
+
 
         ResourceLocation bmId = ManaInfusionRecipeBuilder.this.id;
         ResourceLocation gtId = GTCEu.id( "botania_recipes" + bmId.getPath());
@@ -218,6 +224,7 @@ public  class ManaInfusionRecipeBuilder {
     // 保存配方（对齐 PetalRecipeBuilder 的 save 方法）
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(build());
+        if(!allowReactor)return;
         GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
         gtBuilder.save(consumer);
     }

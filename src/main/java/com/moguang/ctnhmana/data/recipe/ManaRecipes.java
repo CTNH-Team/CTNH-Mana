@@ -34,6 +34,7 @@ public class ManaRecipes {
                 'D', BotaniaBlocks.livingrockPolished.asItem(),
                 'E', GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.plate, ManaSteel).asStack()
         );
+
         VanillaRecipeHelper.addShapedRecipe(//产物：完美的符文石
                 provider, "rune_stone_perfect_recipe_one",
                 RUNE_STONE_PERFECT.asStack(),
@@ -460,7 +461,7 @@ public class ManaRecipes {
         GTRecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder("broken_rune")
                 .inputItems(BotaniaItems.runeMana,32)
                 .inputFluids(CMMaterials.Mana.getFluid(10000))
-                .chancedOutput(CMItems.BROKEN_RUNE.asStack(),50,10)
+                .chancedOutput(CMItems.BROKEN_RUNE.asStack(),2500,1000)
                 .EUt(GTValues.VA[GTValues.EV])
                 .duration(100*20)
                 .save(provider);
