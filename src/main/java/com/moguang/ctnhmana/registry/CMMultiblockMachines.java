@@ -63,7 +63,7 @@ public class CMMultiblockMachines {
         Botania.init();
         misc.init();
         ManaMachine.init();
-        ZenithMachine.init();
+        //ZenithMachine.init();
     }
     public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
     {

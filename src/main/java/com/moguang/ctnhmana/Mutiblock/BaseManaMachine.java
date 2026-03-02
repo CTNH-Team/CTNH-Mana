@@ -306,7 +306,7 @@ public class BaseManaMachine extends ManaMachine {
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
         if (this.getRecipeTypes().length > 0) {
-            sideTabs.attachSubTab(new ShroudUi());
+            //sideTabs.attachSubTab(new ShroudUi());
             sideTabs.attachSubTab(new ManaStatusGui(this));
         }
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
