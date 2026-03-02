@@ -71,7 +71,7 @@ public class ManaMachine {
             .cnLangValue("§b魔力卷板机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.BENDER_RECIPES)
+            .recipeTypes(GTRecipeTypes.BENDER_RECIPES,GTRecipeTypes.FORGE_HAMMER_RECIPES, CMRecipeTypes.MANA_FORGE_RECIPES)
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()

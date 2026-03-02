@@ -73,7 +73,7 @@ public class CMRecipeTypes {
             {
                 if(data.getString("type").equals("eat"))return EternalGardenSpecialRecipes.eternalFoodRecipeLang.translate().getString();
                 if(data.getString("type").equals("fire"))return EternalGardenSpecialRecipes.eternalCoalRecipeLang.translate().getString();
-                return null;
+                return "";
             })
             .setSound(GTSoundEntries.CHEMICAL);
 

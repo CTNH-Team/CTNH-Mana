@@ -448,6 +448,7 @@ public class CMItems {
     public static ItemEntry<TaintedBloodWeepingEye>TAINTED_BLOOD_EYE;
     public static ItemEntry<ComponentItem>TERRA_CATALYST;
     public static ItemEntry<ComponentItem>ENCAPSULATED_TWIST_MANA;
+    public static ItemEntry<ComponentItem>UNEMPOWERED_SOUL;
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }

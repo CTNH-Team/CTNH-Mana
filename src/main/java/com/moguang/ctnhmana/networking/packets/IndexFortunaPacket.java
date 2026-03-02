@@ -28,7 +28,7 @@ public class IndexFortunaPacket implements IPacket {
         if (player == null) return;
         ItemStack mainHand = player.getMainHandItem();
         if (!(mainHand.getItem() instanceof CaduceusItem)) return;
-        CaduceusItem.switchFortuna(mainHand);
+        CaduceusItem.switchFortuna(mainHand,player);
         player.inventoryMenu.sendAllDataToRemote();
     }
 }

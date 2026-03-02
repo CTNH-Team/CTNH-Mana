@@ -13,6 +13,9 @@ import com.moguang.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.moguang.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
 import com.moguang.ctnhmana.networking.packets.CMNetworking;
+import com.moguang.ctnhmana.networking.packets.CaduceusPacket;
+import com.moguang.ctnhmana.networking.packets.IndexFortunaPacket;
+import com.moguang.ctnhmana.networking.packets.IndexTargetParticlePacket;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMTags;
@@ -129,7 +132,9 @@ public class ForgeEventHandler {
         }
         if(player.getMainHandItem().getItem() instanceof CaduceusItem&&event.getKey()==FORTUNA.getKey().getValue())
         {
-
+            com.lowdragmc.lowdraglib.networking.LDLNetworking.NETWORK.sendToServer(
+                    new IndexFortunaPacket()
+            );
         }
 
     }

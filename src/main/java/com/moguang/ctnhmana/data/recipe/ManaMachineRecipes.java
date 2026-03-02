@@ -155,6 +155,19 @@ public class ManaMachineRecipes {
                 .EUt(2048)
                 .duration(100)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_assembler")// 魔力组装机
+                .inputItems(ChemicalHelper.get(gear, AlfSteel), 16)
+                .inputItems(MAGIC_CORE.asItem())
+                .inputItems(ROBOT_ARM_EV, 2)
+                .inputItems(MIXER[4], 4)
+                .inputItems(CustomTags.LuV_CIRCUITS, 6)
+                .inputItems(MAGIC_CORE.asStack(4))
+                .inputItems(ORICHALCOS_FRAME,8)
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1000))
+                .outputItems(MANA_ASSEMBLER)
+                .EUt(2048)
+                .duration(100)
+                .save(provider);
         VanillaRecipeHelper.addShapedRecipe(//魔力反应器
                 provider, "mana_reactor",
                 MANA_REACTOR.asStack(1),

@@ -331,7 +331,7 @@ public class CMMultiblockMachines {
     public static MultiblockMachineDefinition ETERNAL_WELL_OF_SUFFER = REGISTRATE.multiblock("eternal_well_of_suffer", EternalWosMachine::new)
             .cnLangValue("永恒苦难之井")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(CMRecipeTypes.MANA_REACTOR_RECIPES)
+            .recipeTypes(CMRecipeTypes.DIGITAL_WELL_OF_SUFFER)
             .appearanceBlock(()->SOUL_LOCKING_CASING.get())
             .recipeModifier(EternalWosMachine::recipeModifier)
             .pattern(definition -> FactoryBlockPattern.start()

@@ -93,14 +93,16 @@ public class CaduceusItem extends GTToolItem {
         );
 
     }
-    public static void switchFortuna(ItemStack stack)
+    public static void switchFortuna(ItemStack stack,Player player)
     {
+
         if(stack.getOrCreateTag().contains("karma")||!stack.getOrCreateTag().getBoolean("karma"))
         {
             stack.getOrCreateTag().putBoolean("karma",false);
         }
         if(stack.getOrCreateTag().getBoolean("karma"))
         {
+            player.sendSystemMessage(CaduceusFortunaLang.translate());
             stack.getOrCreateTag().putBoolean("karma",true);
         }
     }
