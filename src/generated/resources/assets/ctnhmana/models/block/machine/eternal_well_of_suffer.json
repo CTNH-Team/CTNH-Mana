@@ -10,15 +10,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -26,15 +18,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_paused",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_paused_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -42,15 +26,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -58,15 +34,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -74,15 +42,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -90,15 +50,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_paused",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_paused_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -106,15 +58,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     },
@@ -122,15 +66,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/soul_lock_blackcasing",
-          "overlay_back": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active",
-          "overlay_back_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_back_active_emissive",
-          "overlay_front": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active",
-          "overlay_front_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_front_active_emissive",
-          "overlay_side": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active",
-          "overlay_side_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_side_active_emissive",
-          "overlay_top": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active",
-          "overlay_top_emissive": "ctnhmana:block/machine/digital_well_of_suffer/overlay_top_active_emissive"
+          "all": "ctnhmana:block/casings/soul_lock_blackcasing"
         }
       }
     }
