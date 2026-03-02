@@ -74,13 +74,13 @@
       }
     },
     {
-      "model": "ctnhmana:item/caduceus_pickaxe",
+      "model": "ctnhmana:item/caduceus_sword",
       "predicate": {
         "ctnhmana:tool_type": 0.0
       }
     }
   ],
   "textures": {
-    "layer0": "ctnhmana:item/caduceus/caduceus"
+    "layer0": "ctnhmana:item/caduceus/caduceus_sword"
   }
 }
