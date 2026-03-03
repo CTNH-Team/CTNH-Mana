@@ -1,0 +1,48 @@
+{
+  "values": [
+    {
+      "id": "botania:rune_earth",
+      "required": false
+    },
+    {
+      "id": "botania:rune_autumn",
+      "required": false
+    },
+    {
+      "id": "botania:rune_winter",
+      "required": false
+    },
+    {
+      "id": "botania:rune_gluttony",
+      "required": false
+    },
+    {
+      "id": "botania:rune_greed",
+      "required": false
+    },
+    {
+      "id": "botania:rune_mana",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:horizen_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:starlight_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:twist_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:quasar_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:proliferation_rune",
+      "required": false
+    }
+  ]
+}

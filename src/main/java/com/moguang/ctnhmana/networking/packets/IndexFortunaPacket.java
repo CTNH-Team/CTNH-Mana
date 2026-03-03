@@ -10,15 +10,20 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
 public class IndexFortunaPacket implements IPacket {
+    private  int id;
     @Override
-    public void encode(FriendlyByteBuf friendlyByteBuf) {
-
+    public void decode(FriendlyByteBuf friendlyByteBuf) {
+        this.id=friendlyByteBuf.readVarInt();
+    }
+    public IndexFortunaPacket(int id) {
+        this.id=id;
     }
     public IndexFortunaPacket() {
     }
-    @Override
-    public void decode(FriendlyByteBuf friendlyByteBuf) {
 
+    @Override
+    public void encode(FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeVarInt(this.id);
     }
 
     @Override

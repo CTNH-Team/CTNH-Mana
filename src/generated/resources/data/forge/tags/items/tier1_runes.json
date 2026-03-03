@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "botania:rune_water",
+      "required": false
+    },
+    {
+      "id": "botania:rune_fire",
+      "required": false
+    },
+    {
+      "id": "botania:rune_earth",
+      "required": false
+    },
+    {
+      "id": "botania:rune_air",
+      "required": false
+    }
+  ]
+}

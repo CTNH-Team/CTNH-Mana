@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
@@ -139,6 +140,16 @@ public class ManaMachineRecipes {
                 .inputItems(CustomTags.EV_CIRCUITS, 4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputItems(MANA_LATHE)
+                .EUt(120)
+                .duration(400)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_mixer")// 魔力车床
+                .inputItems(ELECTRIC_PISTON_MV, 1)
+                .inputItems(MAGIC_CORE.asItem())
+                .inputItems(GCYMMachines.LARGE_MIXER, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .inputFluids(Mana.getFluid(1000))
+                .outputItems(MANA_MIXER)
                 .EUt(120)
                 .duration(400)
                 .save(provider);

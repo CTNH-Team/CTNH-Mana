@@ -2,6 +2,8 @@ package com.moguang.ctnhmana.Mutiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +17,12 @@ public class ManaReactor extends BaseManaMachine{
     @Override
     public boolean alwaysTryModifyRecipe() {
         return true;
+    }
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            ManaReactor.class, BaseManaMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

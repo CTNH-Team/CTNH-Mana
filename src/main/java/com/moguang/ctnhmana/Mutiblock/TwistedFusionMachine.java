@@ -18,10 +18,6 @@ import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_
 
 public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
     public  int mks=0;
-    @Persisted
-    public long twistPower=0;
-    @Persisted
-    public long maxTwistPower=0;
     public TwistedFusionMachine(IMachineBlockEntity holder,int mk) {
         super(holder);
         this.mks=mk;

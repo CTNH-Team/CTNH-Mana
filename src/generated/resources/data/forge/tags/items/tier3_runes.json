@@ -1,0 +1,32 @@
+{
+  "values": [
+    {
+      "id": "botania:rune_lust",
+      "required": false
+    },
+    {
+      "id": "botania:rune_gluttony",
+      "required": false
+    },
+    {
+      "id": "botania:rune_greed",
+      "required": false
+    },
+    {
+      "id": "botania:rune_sloth",
+      "required": false
+    },
+    {
+      "id": "botania:rune_wrath",
+      "required": false
+    },
+    {
+      "id": "botania:rune_envy",
+      "required": false
+    },
+    {
+      "id": "botania:rune_pride",
+      "required": false
+    }
+  ]
+}

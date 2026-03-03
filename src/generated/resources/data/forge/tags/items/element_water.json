@@ -1,0 +1,40 @@
+{
+  "values": [
+    {
+      "id": "botania:rune_water",
+      "required": false
+    },
+    {
+      "id": "botania:rune_spring",
+      "required": false
+    },
+    {
+      "id": "botania:rune_winter",
+      "required": false
+    },
+    {
+      "id": "botania:rune_sloth",
+      "required": false
+    },
+    {
+      "id": "botania:rune_envy",
+      "required": false
+    },
+    {
+      "id": "botania:rune_mana",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:starlight_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:quasar_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:proliferation_rune",
+      "required": false
+    }
+  ]
+}

@@ -3,8 +3,12 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
@@ -14,7 +18,15 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
+
 public class HellForgeMachine extends BaseManaMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            HellForgeMachine.class, BaseManaMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
     public double will = 0;
     public static final String WILL = "will";
     @Persisted
@@ -27,6 +39,21 @@ public class HellForgeMachine extends BaseManaMachine {
     public HellForgeMachine(IMachineBlockEntity holder){
         super(holder,4);
         machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof BMUpgradeItemT1);
+    }
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        //在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
+        if (isManaConsumedInstantly && hatch.getBTMana() > consumption * recipe.duration / 20) {
+            hatch.consumeMana(consumption * recipe.duration / 20);
+            return super.beforeWorking(recipe);
+        } else {
+            if(hatch.consumeManaIfEnough(consumption))
+            {
+                return super.beforeWorking(recipe);
+            }
+            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughMana.translate());
+            return false;
+        }
     }
     //////////////////////////////////////
     // ********   Subscriptions&Ticks  ********//

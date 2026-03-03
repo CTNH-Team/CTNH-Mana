@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "botania:rune_spring",
+      "required": false
+    },
+    {
+      "id": "botania:rune_summer",
+      "required": false
+    },
+    {
+      "id": "botania:rune_autumn",
+      "required": false
+    },
+    {
+      "id": "botania:rune_winter",
+      "required": false
+    },
+    {
+      "id": "botania:rune_mana",
+      "required": false
+    }
+  ]
+}

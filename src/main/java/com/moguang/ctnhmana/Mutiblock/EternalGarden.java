@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
@@ -56,7 +57,12 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
     public EternalGarden(IMachineBlockEntity holder){
         super(holder);
     }
-
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            EternalGarden.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
     @Persisted private LinkedList<String> foodlist;
     @Persisted private int foodlist_length=0;
     @Persisted private int nutrition_length=0;

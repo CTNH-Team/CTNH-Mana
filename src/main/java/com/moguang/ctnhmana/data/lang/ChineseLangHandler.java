@@ -314,6 +314,30 @@ public class ChineseLangHandler {
     )
     public static Lang[] centralControlBusLang;
 
+    @CN(
+            {
+                    "该符文具有以下元素类型:",
+                    "火元素",
+                    "水元素",
+                    "风元素",
+                    "地元素",
+                    "罪孽元素"
+            }
+    )
+    @EN(
+            {
+                    "该符文具有以下元素类型:",
+                    "火元素",
+                    "水元素",
+                    "风元素",
+                    "地元素",
+                    "罪孽元素"
+            }
+    )
+    public static Lang[]runeElementTags;
+    @CN("%d级符文")
+    public static Lang runeTierTags;
+
     public static void init(RegistrateCNLangProvider provider){
         provider.add("ctnh.item.runes.starlight_rune","Per Aspera Ad Astra");
         provider.add("ctnh.item.runes.twist_rune","速度与人性的扭曲");

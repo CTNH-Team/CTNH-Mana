@@ -4,6 +4,8 @@ package com.moguang.ctnhmana.data;
 import com.moguang.ctnhmana.data.lang.ChineseLangHandler;
 import com.moguang.ctnhmana.data.lang.EnglishLangHandler;
 import com.moguang.ctnhmana.data.tags.FluidTypeTags;
+import com.moguang.ctnhmana.data.tags.ItemTags;
+import com.moguang.ctnhmana.registry.CMTags;
 import com.tterrag.registrate.providers.ProviderType;
 import org.moddingx.libx.annotation.registration.Reg;
 import tech.vixhentx.mcmod.ctnhlib.registrate.lang.RegistrateCNLangProvider;
@@ -18,5 +20,6 @@ public class CMDatagen {
         REGISTRATE.addDataGenerator(ProviderType.LANG, EnglishLangHandler::init);
         REGISTRATE.addDataGenerator(CNLANG, ChineseLangHandler::init);
         REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTypeTags::init);
+        REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, ItemTags::init);
     }
 }

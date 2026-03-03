@@ -87,9 +87,11 @@ public class RadialMenuScreen<T> extends Screen {
             }
         }
 
-        // 绘制扇形
+        // 绘制扇形（关闭深度避免遮挡第一人称武器）
         PoseStack ps = graphics.pose();
         ps.pushPose();
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -110,6 +112,8 @@ public class RadialMenuScreen<T> extends Screen {
 
         Tesselator.getInstance().end();
         RenderSystem.disableBlend();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
         ps.popPose();
 
         // 选中项名称
