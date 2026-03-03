@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
-import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
@@ -101,6 +100,7 @@ public class HellForgeMachine extends BaseManaMachine {
         if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
         var tier = getTier();//获取等级
     }
+    @Override
     public BloodManaHatch getHatch() {
         for (IMultiPart part : this.getParts()) {
             if (part instanceof BloodManaHatch hatchs) {

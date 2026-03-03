@@ -35,46 +35,44 @@ public class IndexEventHandler {
             if (tags.contains("index_target_block") && player.level().getGameTime() % 100 == 0) {
                 var posArray = tags.getIntArray("index_target_block");
                 NETWORK.sendToTrackingChunk(new IndexTargetBlockPacket(posArray), new LevelChunk(player.level(), new ChunkPos(player.getOnPos())));
-
-                if (tags.contains("karma") && player.getEffect(CMMobEffects.Karma.get()) == null) {
-                    MobEffectInstance karmaEffect = new MobEffectInstance(
-                            CMMobEffects.Karma.get(),
-                            20 * 10 * 60,
-                            tags.getInt("karma") + 1,
-                            false,
-                            true
-                    );
-                    MobEffectInstance darkEffect = new MobEffectInstance(
-                            MobEffects.DARKNESS,
-                            20 * 7,
-                            1,
-                            false,
-                            true
-                    );
-                    player.addEffect(karmaEffect);
-                    player.addEffect(darkEffect);
-
-                }
-                if (tags.contains("karma_fortuna") && player.getEffect(CMMobEffects.KarmaFortuna.get()) == null) {
-                    MobEffectInstance karmaEffectFortuna = new MobEffectInstance(
-                            CMMobEffects.KarmaFortuna.get(),
-                            20 * 10 * 60,
-                            tags.getInt("karma_fortuna"),
-                            false,
-                            true
-                    );
-                    MobEffectInstance darkEffect = new MobEffectInstance(
-                            MobEffects.DARKNESS,
-                            20 * 7,
-                            1,
-                            false,
-                            true
-                    );
-                    player.addEffect(karmaEffectFortuna);
-                    player.addEffect(darkEffect);
-                }
             }
+            if (tags.contains("karma") && player.getEffect(CMMobEffects.Karma.get()) == null) {
+                MobEffectInstance karmaEffect = new MobEffectInstance(
+                        CMMobEffects.Karma.get(),
+                        20 * 10 * 60,
+                        tags.getInt("karma") + 1,
+                        false,
+                        true
+                );
+                MobEffectInstance darkEffect = new MobEffectInstance(
+                        MobEffects.DARKNESS,
+                        20 * 7,
+                        1,
+                        false,
+                        true
+                );
+                player.addEffect(karmaEffect);
+                player.addEffect(darkEffect);
 
+            }
+            if (tags.contains("karma_fortuna") && player.getEffect(CMMobEffects.KarmaFortuna.get()) == null) {
+                MobEffectInstance karmaEffectFortuna = new MobEffectInstance(
+                        CMMobEffects.KarmaFortuna.get(),
+                        20 * 10 * 60,
+                        tags.getInt("karma_fortuna"),
+                        false,
+                        true
+                );
+                MobEffectInstance darkEffect = new MobEffectInstance(
+                        MobEffects.DARKNESS,
+                        20 * 7,
+                        1,
+                        false,
+                        true
+                );
+                player.addEffect(karmaEffectFortuna);
+                player.addEffect(darkEffect);
+            }
         }
     }
     @SubscribeEvent

@@ -168,7 +168,7 @@ public class ChineseLangHandler {
             }
     )
     public static Lang[]IndexLang;
-    @CN("哦,命运,像月亮板变化无常")
+    @CN("§1§o哦,命运,如月亮般变化无常")
     public static Lang CaduceusFortunaLang;
     @CN(
             {

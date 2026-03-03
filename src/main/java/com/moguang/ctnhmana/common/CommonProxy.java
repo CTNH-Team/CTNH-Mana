@@ -7,6 +7,7 @@ import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.BloodAltarStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
+import com.moguang.ctnhmana.integration.jade.ManaMachineManaStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.CMEntities;
@@ -47,6 +48,18 @@ public class CommonProxy {
                 Block.class,
                 900,
                 "mana_hatch_status")
+        ;
+        JadePriorityManager.registerBlockData(
+                new ManaMachineManaStatusProvider(),
+                BlockEntity.class,
+                900,
+                "manamachine_mana_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new ManaMachineManaStatusProvider(),
+                Block.class,
+                900,
+                "manamachine_mana_status")
         ;
         JadePriorityManager.registerBlockData(
                 new BaseManaMachineStatusProvider(),

@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import lombok.Getter;
 import net.minecraft.world.level.block.entity.BlockEntity;

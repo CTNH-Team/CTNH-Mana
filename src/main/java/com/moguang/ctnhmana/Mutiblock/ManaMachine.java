@@ -1,18 +1,15 @@
-package com.moguang.ctnhmana.common;
+package com.moguang.ctnhmana.Mutiblock;
 
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.Mutiblock.ZENITH_MATRIX;
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.data.ManaData;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +22,9 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     public ManaMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
+    public ManaHatch hatch;
+    @Persisted
+    public BlockPos hatchPos;
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     @Override
@@ -56,8 +56,24 @@ public class ManaMachine extends WorkableElectricMultiblockMachine{
     public void onStructureFormed() {
         super.onStructureFormed();
         SyncManaData();
-        //SO MUCH BUGS
-        //只是一个测试
+    }
+    @Override
+    public void onStructureInvalid() {
+        this.hatch = null;
+        this.hatchPos =null;
+        super.onStructureInvalid();
+    }
+
+
+    @Nullable
+    public ManaHatch getHatch() {
+        for (IMultiPart part : this.getParts()) {
+            if (part instanceof ManaHatch hatchs) {
+                hatchPos = (hatchs).getPos();
+                return hatchs;
+            }
+        }
+        return null;
     }
 
 //    @Override

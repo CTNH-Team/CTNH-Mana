@@ -3,7 +3,6 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.common.ManaMachine;
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import org.jetbrains.annotations.Nullable;
 

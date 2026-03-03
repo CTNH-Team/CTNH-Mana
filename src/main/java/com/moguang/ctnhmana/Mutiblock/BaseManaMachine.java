@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -21,14 +20,10 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.common.ManaMachine;
-import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.gui.ManaStatusGui;
-import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.ManaMachineUpgradeItem;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
@@ -46,9 +41,7 @@ import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_
 public class BaseManaMachine extends ManaMachine {
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
-    public ManaHatch hatch;
-    @Persisted
-    public BlockPos hatchPos;
+
     @Persisted
     public boolean isManaConsumedInstantly = false;
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -82,8 +75,9 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.hatch = getHatch(); //获取舱室
+        this.hatch = getHatch(); //获取舱室（在 ManaMachine 中实现的通用查找）
         if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
+        else this.hatchPos = hatch.getPos();
         var tier = getTier();//获取等级
         consumption = (int) Math.pow(2, tier) * baseConsumption; //计算魔力消耗
         checkUpdate(); //检查升级
@@ -92,22 +86,7 @@ public class BaseManaMachine extends ManaMachine {
         onInventoryChanged();
     }
 
-    @Override
-    public void onStructureInvalid() {
-        this.hatch = null;
-        this.hatchPos =null;
-        super.onStructureInvalid();
-    }
 
-    public ManaHatch getHatch() {
-        for (IMultiPart part : this.getParts()) {
-            if (part instanceof ManaHatch hatchs) {
-                hatchPos = (hatchs).getPos();
-                return hatchs;
-            }
-        }
-        return null;
-    }
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {

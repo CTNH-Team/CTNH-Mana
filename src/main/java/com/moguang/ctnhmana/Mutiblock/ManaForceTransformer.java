@@ -3,8 +3,6 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
@@ -12,9 +10,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.common.ManaMachine;
-import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
-import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
@@ -29,9 +24,6 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
-    @Persisted
-    public BlockPos hatchPos;
-    public ManaHatch hatch;
     @Persisted
     public int baseconsumption=1;
     @Persisted
@@ -66,15 +58,6 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
         if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
         var tier = getTier();//获取等级
         this.consumption= (int) (baseconsumption*Math.pow(2,tier-1));
-    }
-    public ManaHatch getHatch() {
-        for (IMultiPart part : this.getParts()) {
-            if (part instanceof ManaHatch hatchs) {
-                hatchPos = (hatchs).getPos();
-                return hatchs;
-            }
-        }
-        return null;
     }
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof ManaForceTransformer fmachine) {

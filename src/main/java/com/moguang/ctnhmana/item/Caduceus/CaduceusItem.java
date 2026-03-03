@@ -98,12 +98,19 @@ public class CaduceusItem extends GTToolItem {
 
         if(stack.getOrCreateTag().contains("karma")||!stack.getOrCreateTag().getBoolean("karma"))
         {
-            stack.getOrCreateTag().putBoolean("karma",false);
-        }
-        if(stack.getOrCreateTag().getBoolean("karma"))
-        {
+            MobEffectInstance karmaFortunaEffect = new MobEffectInstance(
+                    CMMobEffects.KarmaFortuna.get(),
+                    20*60*60,
+                    0,
+                    false,
+                    true);
+            player.addEffect(karmaFortunaEffect);
             player.sendSystemMessage(CaduceusFortunaLang.translate());
             stack.getOrCreateTag().putBoolean("karma",true);
+        }
+        else if(stack.getOrCreateTag().getBoolean("karma"))
+        {
+            stack.getOrCreateTag().putBoolean("karma",false);
         }
     }
     public void setKarma(Player player)
@@ -155,6 +162,18 @@ public class CaduceusItem extends GTToolItem {
                 return;
             }
             var tag = player.getPersistentData();
+            if (stack.getTag().contains("karma")&&stack.getTag().getBoolean("karma"))
+            {
+                MobEffectInstance karmaFortunaEffect = new MobEffectInstance(
+                        CMMobEffects.KarmaFortuna.get(),
+                        20*60*60,
+                        0,
+                        false,
+                        true);
+                ((Player) entity).addEffect(karmaFortunaEffect);
+                player.sendSystemMessage(CaduceusFortunaLang.translate());
+                return;
+            }
             //先找tag有没有方块
             if (tag.contains("index_target_block")) {
                 var posArray = tag.getIntArray("index_target_block");
