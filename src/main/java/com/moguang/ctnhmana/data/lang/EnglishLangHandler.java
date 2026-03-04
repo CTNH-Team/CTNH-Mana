@@ -99,6 +99,7 @@ public class EnglishLangHandler {
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider","Manahatch Status");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider","Manamachine Status");
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider","Bloodalter Status");
+        provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider","Manamachine Mana Status");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status","Manapool Status");
 
     }
