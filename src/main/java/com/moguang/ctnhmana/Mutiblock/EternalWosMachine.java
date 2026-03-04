@@ -60,6 +60,9 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         MachineUtils.applyContents(this, (content) -> {
+            var item=(ItemStack) content;
+//            if(item.hasTag()&&item.getTag().getCompound("data_model").contains("data"))
+//
             var count = ((ItemStack) content).getTag().getCompound("data_model").getInt("data");
             if (count < 6) multiplier = 0;
             else if (count < 48) multiplier = 1;
@@ -123,7 +126,7 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
         var level = this.getLevel();
         var pos= this.getPos();
         pos = pos.offset(0,-11,0);
-        return (getMachine(level,pos) instanceof HellForgeMachine hmachine);
+        return (getMachine(level,pos) instanceof HellForgeMachine hmachine&&hmachine.isFormed()&&hmachine.hatch!=null);
     }
 
     public void AddWill(Long count)
@@ -138,15 +141,16 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
             {
                 hmachine.hatch.rawWill+=willcount;
             }
-            var willchunk=getWillChunk(level,pos);
-            willchunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT,willcount);
-            diffuseWillFromCenter(pos.getX(), pos.getY(),1);
+            else {
+                var willchunk = getWillChunk(level, pos);
+                willchunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, willcount);
+                diffuseWillFromCenter(pos.getX(), pos.getZ(), 1);
+            }
         }
     }
 
     class EternalWosLogic extends RecipeLogic
     {
-
         public EternalWosLogic(IRecipeLogicMachine machine) {
             super(machine);
         }
@@ -166,7 +170,9 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
                         // 从Content中获取ItemStack
                         FluidIngredient ingredient = FluidRecipeCapability.CAP.of(safe_content.getContent());
                         if (ingredient != null) {
-                            Long count= Arrays.stream(ingredient.getStacks()).count();
+                            long count = Arrays.stream(ingredient.getStacks())
+                                    .mapToLong(fluidStack -> fluidStack.getAmount()) // 取每个流体栈的实际数量（mb）
+                                    .sum();
                             if(count<1)return ActionResult.PASS_NO_CONTENTS;
                             AddWill(count);
                         }
@@ -178,18 +184,10 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
             return super.handleRecipeIO(recipe, io);
         }
     }
-    public void SpreadingWill()
-    {
-        var pos=this.getPos();
-        var level=this.getLevel();
-        var x=pos.getX();
-        var y=pos.getY();
-        LevelChunk chunk = level.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
-    }
     public double[][][]getChunkWill(int x,int y,int range)
     {
-        int chunk_x=x>>4;
-        int chunk_y=y>>4;
+        int chunk_x=x;
+        int chunk_y=y;
         double[][][] willchunk=new double[100][100][5];
         for(int range_x=(0);range_x<=range*2;range_x++)
         {
@@ -210,6 +208,7 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
         centerX = centerX >> 4;
         centerY = centerY >> 4;
         double[][][] originalWill = getChunkWill(centerX, centerY, range);
+
         double[] sum_will = new double[5];
         double[]transfer_will=new double[5];
         double[][][] transfer_will_weight=new double[100][100][5];

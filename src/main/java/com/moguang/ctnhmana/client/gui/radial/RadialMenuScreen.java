@@ -121,10 +121,11 @@ public class RadialMenuScreen<T> extends Screen {
             graphics.drawCenteredString(font, slots.get(selectedItem).slotName(), width / 2, (height - font.lineHeight) / 2, 0xFFFFFF);
         }
 
-        // 主图标（48x48 材质）
+        // 主图标（48x48 材质），与扇形选区对齐
         for (int i = 0; i < n; i++) {
-            float angle = ((i / (float) n) - 0.25f) * 2 * (float) Math.PI;
-            if (n % 2 != 0) angle += Math.PI / n;
+            // 扇形 i 的中心角：等于左右边界的平均值
+            // centerDeg = (((i) / n) + 0.25f) * 360
+            float angle = (((i) / (float) n) + 0.25f) * 2 * (float) Math.PI;
             int x = (int) (centerX - 24 + itemRadius * Math.cos(angle));
             int y = (int) (centerY - 24 + itemRadius * Math.sin(angle));
 

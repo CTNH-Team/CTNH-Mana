@@ -143,7 +143,7 @@ public class ManaMachineRecipes {
                 .EUt(120)
                 .duration(400)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_mixer")// 魔力车床
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_mixer")// 魔力搅拌机
                 .inputItems(ELECTRIC_PISTON_MV, 1)
                 .inputItems(MAGIC_CORE.asItem())
                 .inputItems(GCYMMachines.LARGE_MIXER, 2)
@@ -158,19 +158,6 @@ public class ManaMachineRecipes {
                 .inputItems(MAGIC_CORE.asItem())
                 .inputItems(ROBOT_ARM_EV, 2)
                 .inputItems(CIRCUIT_ASSEMBLER[4], 4)
-                .inputItems(CustomTags.LuV_CIRCUITS, 6)
-                .inputItems(MAGIC_CORE.asStack(4))
-                .inputItems(ORICHALCOS_FRAME,8)
-                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1000))
-                .outputItems(MANA_ASSEMBLER)
-                .EUt(2048)
-                .duration(100)
-                .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_assembler")// 魔力组装机
-                .inputItems(ChemicalHelper.get(gear, AlfSteel), 16)
-                .inputItems(MAGIC_CORE.asItem())
-                .inputItems(ROBOT_ARM_EV, 2)
-                .inputItems(MIXER[4], 4)
                 .inputItems(CustomTags.LuV_CIRCUITS, 6)
                 .inputItems(MAGIC_CORE.asStack(4))
                 .inputItems(ORICHALCOS_FRAME,8)

@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.ctnhmana.refmap.json",
   "mixins": [
+    "ars.InventoryManagerMixin",
+    "ars.MixinEmiLecternRecipeHandler",
     "bloodmagic.BloodAltarMixin",
     "bloodmagic.TileAltarAccessor",
     "botania.BotaniaEntitiesMixin",
