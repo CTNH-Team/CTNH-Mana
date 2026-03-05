@@ -1,26 +1,31 @@
 package com.moguang.ctnhmana.common.blockentity.flower;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.moguang.ctnhmana.registry.CMBlocks;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
+
+import com.moguang.ctnhmana.registry.CMBlocks;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.block_entity.RadiusDescriptor;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
+
     public TulpenmanieBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
+
     @Persisted
-    public int burstMana=670000;
+    public int burstMana = 670000;
+
     public int getRange() {
         return 5;
     }
+
     @Override
     public int getMaxMana() {
         return 1000000;
@@ -30,24 +35,21 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
     public int getColor() {
         return 0XFFD700;
     }
+
     @Override
     public void tickFlower() {
         super.tickFlower();
-        if(burstMana<=0)
-        {
-            if(this.level.isClientSide()) {
+        if (burstMana <= 0) {
+            if (this.level.isClientSide()) {
 
-            }
-            else
-            {
+            } else {
                 level.removeBlockEntity(this.getBlockPos()); // 从世界中移除旧BlockEntity
                 this.setRemoved(); // 终止BlockEntity的所有逻辑
-                level.setBlock(this.getBlockPos(), CMBlocks.Tulpenmanie.getDefaultState(),3);
+                level.setBlock(this.getBlockPos(), CMBlocks.Tulpenmanie.getDefaultState(), 3);
             }
 
         }
         if (this.level.isClientSide()) return;
-
 
         Direction[] horizontalDirections = {
                 Direction.SOUTH,  // 前（南）
@@ -60,16 +62,16 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
             if (!level.isInWorldBounds(adjacentPos)) {
                 continue;
             }
-            if(level.getBlockEntity(adjacentPos) instanceof ManaPoolBlockEntity me&&me.getCurrentMana()>=100)
-            {
+            if (level.getBlockEntity(adjacentPos) instanceof ManaPoolBlockEntity me && me.getCurrentMana() >= 100) {
                 me.receiveMana(-100);
                 this.addMana(100);
-                this.burstMana-=25;
+                this.burstMana -= 25;
             }
         }
-        this.addMana(this.getMana()/1000);
-        this.burstMana-=this.getMana()/1000;
+        this.addMana(this.getMana() / 1000);
+        this.burstMana -= this.getMana() / 1000;
     }
+
     @Override
     public @Nullable RadiusDescriptor getRadius() {
         return RadiusDescriptor.Rectangle.square(getEffectivePos(), getRange());

@@ -1,13 +1,8 @@
 package com.moguang.ctnhmana.common.recipe.builder.botania;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
-import mythicbotany.infuser.InfuserRecipe;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -15,10 +10,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import mythicbotany.infuser.InfuserRecipe;
 import org.jetbrains.annotations.Nullable;
 import org.moddingx.libx.crafting.RecipeHelper;
-import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.crafting.BotaniaRecipeTypes;
+import vazkii.botania.common.helper.ItemNBTHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,16 +27,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class TerraPlateRecipeBuilder {
+
     // 多输入：使用List存储多个Ingredient
     private final List<Ingredient> inputs = new ArrayList<>();
     private ItemStack output;
     private int mana;
     private ResourceLocation id;
-    private int meta=-1;
-    private boolean isManaReactorAllowed=true;
+    private int meta = -1;
+    private boolean isManaReactorAllowed = true;
     private int fromColor = 16777215; // 白色默认RGB值
     private int toColor = 16777215;
-    private String group="";// 白色默认RGB值
+    private String group = "";// 白色默认RGB值
+
     private TerraPlateRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }
@@ -48,8 +51,9 @@ public class TerraPlateRecipeBuilder {
         inputs.add(Ingredient.of(itemStack));
         return this;
     }
+
     public TerraPlateRecipeBuilder input(Item item) {
-        inputs.add(Ingredient.of(new ItemStack(item,1)));
+        inputs.add(Ingredient.of(new ItemStack(item, 1)));
         return this;
     }
 
@@ -62,11 +66,11 @@ public class TerraPlateRecipeBuilder {
         inputs.add(ingredient);
         return this;
     }
+
     public TerraPlateRecipeBuilder input(Item... items) {
-        Arrays.stream(items).forEach(item -> inputs.add(Ingredient.of(new ItemStack(item,1))));
+        Arrays.stream(items).forEach(item -> inputs.add(Ingredient.of(new ItemStack(item, 1))));
         return this;
     }
-
 
     public TerraPlateRecipeBuilder input(Ingredient... ingredients) {
         Arrays.stream(ingredients).forEach(ingredient -> inputs.add(ingredient));
@@ -82,23 +86,24 @@ public class TerraPlateRecipeBuilder {
         this.mana = mana;
         return this;
     }
-    public TerraPlateRecipeBuilder circuitMeta(int meta)
-    {
-        this.meta=meta;
+
+    public TerraPlateRecipeBuilder circuitMeta(int meta) {
+        this.meta = meta;
         return this;
     }
-    public TerraPlateRecipeBuilder allowReactor(boolean isallowed)
-    {
-        this.isManaReactorAllowed=isallowed;
+
+    public TerraPlateRecipeBuilder allowReactor(boolean isallowed) {
+        this.isManaReactorAllowed = isallowed;
         return this;
     }
+
     private GTRecipeBuilder mapToGTBuilder() {
         if (this.output == null || this.inputs.isEmpty()) {
             throw new IllegalStateException("参数缺失是凉爽的夏夜");
         }
 
         ResourceLocation bmId = TerraPlateRecipeBuilder.this.id;
-        ResourceLocation gtId = GTCEu.id( "manareactor_recipes_terra_plate_" + bmId.getPath());
+        ResourceLocation gtId = GTCEu.id("manareactor_recipes_terra_plate_" + bmId.getPath());
 
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.MANA_REACTOR_RECIPES);
         List<Ingredient> pre_inputs = new ArrayList<>();
@@ -136,23 +141,22 @@ public class TerraPlateRecipeBuilder {
         }
 
         for (Ingredient ingredient : pre_inputs) {
-            if(ingredient.getItems()[0].getCount()>1)
+            if (ingredient.getItems()[0].getCount() > 1)
                 gtBuilder.inputItems(ingredient.getItems()[0]);
             else gtBuilder.inputItems(ingredient);
 
-//            gtBuilder.inputItems(ingredient.getItems()[0]);
+            // gtBuilder.inputItems(ingredient.getItems()[0]);
         }
         gtBuilder.outputItems(this.output);
 
-        long gtEUt=(long)(512);
+        long gtEUt = (long) (512);
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(20,20+this.mana/2500);
+        int gtDuration = Math.max(20, 20 + this.mana / 2500);
         gtBuilder.duration(gtDuration);
-        if(meta>=0)
+        if (meta >= 0)
             gtBuilder.circuitMeta(meta);
         return gtBuilder;
     }
-
 
     public void toJson(JsonObject json) {
         json.addProperty("mana", this.mana);
@@ -163,6 +167,7 @@ public class TerraPlateRecipeBuilder {
         json.add("ingredients", ingredients);
         json.add("result", ItemNBTHelper.serializeStack(this.output));
     }
+
     public void toElfJson(JsonObject json) {
         if (!this.group.isEmpty()) {
             json.addProperty("group", this.group);
@@ -179,11 +184,14 @@ public class TerraPlateRecipeBuilder {
         json.addProperty("fromColor", this.fromColor);
         json.addProperty("toColor", this.toColor);
     }
+
     public FinishedRecipe build() {
         return new FinishedTerraPlateRecipe();
     }
+
     public FinishedRecipe buildElfPlate() {
         return new FinishedRecipe() {
+
             @Override
             public void serializeRecipeData(JsonObject pJson) {
                 TerraPlateRecipeBuilder.this.toElfJson(pJson);
@@ -191,7 +199,7 @@ public class TerraPlateRecipeBuilder {
 
             @Override
             public ResourceLocation getId() {
-                return ResourceLocation.tryBuild(id.getNamespace(), "elf_plate/"  + id.getPath());
+                return ResourceLocation.tryBuild(id.getNamespace(), "elf_plate/" + id.getPath());
             }
 
             @Override
@@ -216,7 +224,7 @@ public class TerraPlateRecipeBuilder {
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(build());
         consumer.accept(buildElfPlate());
-        if(isManaReactorAllowed) {
+        if (isManaReactorAllowed) {
             GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
             gtBuilder.save(consumer);
         }
@@ -231,7 +239,7 @@ public class TerraPlateRecipeBuilder {
 
         @Override
         public ResourceLocation getId() {
-            return ResourceLocation.tryBuild(id.getNamespace(), "terra_plate/"  + id.getPath());
+            return ResourceLocation.tryBuild(id.getNamespace(), "terra_plate/" + id.getPath());
         }
 
         @Override

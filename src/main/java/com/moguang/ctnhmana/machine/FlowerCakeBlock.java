@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
-import com.moguang.ctnhmana.registry.CMMobEffects;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -26,28 +26,36 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import com.moguang.ctnhmana.registry.CMMobEffects;
+
 import java.util.Set;
 
 public class FlowerCakeBlock extends MetaMachineBlock {
+
     public FlowerCakeBlock(Properties properties, MachineDefinition definition) {
         super(properties, definition);
     }
+
     @Override
     public float getShadeBrightness(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
         return 1.0f;
     }
+
     @Override
     public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
         return 0;
     }
+
     @Override
     public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
         return Shapes.empty();
     }
+
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
+
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hit) {
@@ -86,10 +94,10 @@ public class FlowerCakeBlock extends MetaMachineBlock {
             var result = interactedMachine.onUse(state, world, pos, player, hand, hit);
             if (result != InteractionResult.PASS) return result;
         }
-        if(itemStack.isEmpty()&&this.getMachine(world,pos)instanceof FlowerCakeMachine fmachine&&!fmachine.is_eating)
-        {
-            fmachine.is_eating=true;
-            player.addEffect(new MobEffectInstance(CMMobEffects.WishingFlying.get(), 20*60*30));
+        if (itemStack.isEmpty() && this.getMachine(world, pos) instanceof FlowerCakeMachine fmachine &&
+                !fmachine.is_eating) {
+            fmachine.is_eating = true;
+            player.addEffect(new MobEffectInstance(CMMobEffects.WishingFlying.get(), 20 * 60 * 30));
             return InteractionResult.SUCCESS;
         }
         if (shouldOpenUi && machine instanceof IUIMachine uiMachine &&

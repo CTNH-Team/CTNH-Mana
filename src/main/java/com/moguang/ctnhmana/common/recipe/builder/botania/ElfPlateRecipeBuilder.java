@@ -1,10 +1,5 @@
 package com.moguang.ctnhmana.common.recipe.builder;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.moguang.ctnhmana.CTNHMana;
-import mythicbotany.data.recipes.extension.InfuserExtension;
-import mythicbotany.infuser.InfuserRecipe;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -13,6 +8,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.CTNHMana;
+import mythicbotany.infuser.InfuserRecipe;
 import org.jetbrains.annotations.Nullable;
 import org.moddingx.libx.crafting.RecipeHelper;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ElfPlateRecipeBuilder {
+
     // 核心配方属性，初始化默认值（颜色默认白色，魔力消耗默认未设置）
     private final List<Ingredient> inputs = new ArrayList<>();
     private final ResourceLocation id;
@@ -123,6 +124,7 @@ public class ElfPlateRecipeBuilder {
     // ===================== 构建FinishedRecipe（匿名内部类，和PetalRecipeBuilder完全一致）=====================
     public FinishedRecipe build() {
         return new FinishedRecipe() {
+
             @Override
             public void serializeRecipeData(JsonObject pJson) {
                 ElfPlateRecipeBuilder.this.toJson(pJson);
@@ -131,7 +133,7 @@ public class ElfPlateRecipeBuilder {
             @Override
             public ResourceLocation getId() {
                 // 配方ID拼接规则：命名空间/elf_plate/配方名（和petal_apothecary格式完全对齐）
-                return ResourceLocation.tryBuild(id.getNamespace(), "elf_plate/"  + id.getPath());
+                return ResourceLocation.tryBuild(id.getNamespace(), "elf_plate/" + id.getPath());
             }
 
             @Override

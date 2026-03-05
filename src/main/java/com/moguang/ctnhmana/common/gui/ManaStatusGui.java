@@ -7,22 +7,27 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
+
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.registry.CMGuiTextures;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
+
+import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 
 import java.util.List;
 
 import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.BaseManaMachineLang;
+
 public class ManaStatusGui implements IFancyUIProvider {
+
     protected BaseManaMachine machine;
 
     @CN("查看机器详细数据")
@@ -31,48 +36,53 @@ public class ManaStatusGui implements IFancyUIProvider {
     public static Lang ManaStatusProviderTooltips;
     @CN("错误")
     public static Lang ManaStatusGuiError;
-    public ManaStatusGui(BaseManaMachine machine)
-    {
-        this.machine=machine;
+
+    public ManaStatusGui(BaseManaMachine machine) {
+        this.machine = machine;
     }
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget fancyMachineUIWidget) {
         WidgetGroup group = new WidgetGroup(0, 0, 190, 125);
-        DraggableScrollableWidgetGroup dggroup=new DraggableScrollableWidgetGroup(4, 4, 182, 125);
+        DraggableScrollableWidgetGroup dggroup = new DraggableScrollableWidgetGroup(4, 4, 182, 125);
         dggroup.addWidget((new DraggableScrollableWidgetGroup(4, 4, 182, 117)));
-        dggroup.setBackground(new IGuiTexture[]{ GuiTextures.DISPLAY});
-//        group.addWidget(new LabelWidget(4, 5,ManaStatusProviderTooltips.translate()));
+        dggroup.setBackground(new IGuiTexture[] { GuiTextures.DISPLAY });
+        // group.addWidget(new LabelWidget(4, 5,ManaStatusProviderTooltips.translate()));
         dggroup.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayText)
-                .textSupplier(this.machine.getLevel().isClientSide ? null :this::addDisplayText)
+                .textSupplier(this.machine.getLevel().isClientSide ? null : this::addDisplayText)
                 .setMaxWidthLimit(200)
                 .clickHandler(this::handleDisplayClick));
         group.addWidget(dggroup);
         return group;
-
     }
+
     public void handleDisplayClick(String componentData, ClickData clickData) {}
+
     public void addDisplayText(List<Component> textList) {
-        if(this.machine==null||!this.machine.isFormed()||this.machine.hatch==null)
-        {
+        if (this.machine == null || !this.machine.isFormed() || this.machine.hatch == null) {
             textList.add(Component.translatable("gtceu.multiblock.invalid_structure")
                     .withStyle(ChatFormatting.RED));
             return;
         }
-        textList.add(textList.size(),ManaStatusProviderTooltips.translate());
+        textList.add(textList.size(), ManaStatusProviderTooltips.translate());
         textList.add(addEnergyUsageLine(machine.getEnergyContainer()));
         textList.add(addEnergyTierLine(machine.getTier()));
-        textList.add(textList.size(), BaseManaMachineLang[0].translate((int)machine.hatch.getMana()));
-        if(machine.Zenith_Enhanced!=null)
+        textList.add(textList.size(), BaseManaMachineLang[0].translate((int) machine.hatch.getMana()));
+        if (machine.Zenith_Enhanced != null)
             textList.add(textList.size(), BaseManaMachineLang[8].translate());
-        if(!machine.isActive()) {
+        if (!machine.isActive()) {
             textList.add(textList.size(), BaseManaMachineLang[1].translate(machine.consumption));
             textList.add(textList.size(), BaseManaMachineLang[2].translate(machine.getUpdateName()));
-            textList.add(textList.size(), BaseManaMachineLang[3].translate(machine.metric.parallel + machine.globalmetric.parallel));
-            textList.add(textList.size(), BaseManaMachineLang[4].translate(machine.metric.speed + machine.globalmetric.speed));
-            textList.add(textList.size(), BaseManaMachineLang[5].translate(machine.metric.eut + machine.globalmetric.eut));
-            textList.add(textList.size(), BaseManaMachineLang[6].translate(machine.metric.input + machine.globalmetric.input));
-            textList.add(textList.size(), BaseManaMachineLang[7].translate(machine.metric.output + machine.globalmetric.output));
+            textList.add(textList.size(),
+                    BaseManaMachineLang[3].translate(machine.metric.parallel + machine.globalmetric.parallel));
+            textList.add(textList.size(),
+                    BaseManaMachineLang[4].translate(machine.metric.speed + machine.globalmetric.speed));
+            textList.add(textList.size(),
+                    BaseManaMachineLang[5].translate(machine.metric.eut + machine.globalmetric.eut));
+            textList.add(textList.size(),
+                    BaseManaMachineLang[6].translate(machine.metric.input + machine.globalmetric.input));
+            textList.add(textList.size(),
+                    BaseManaMachineLang[7].translate(machine.metric.output + machine.globalmetric.output));
         } else {
             textList.add(textList.size(), BaseManaMachineLang[1].translate(machine.consumption));
             textList.add(textList.size(), BaseManaMachineLang[2].translate(machine.getUpdateName()));
@@ -93,6 +103,7 @@ public class ManaStatusGui implements IFancyUIProvider {
     public Component getTitle() {
         return ManaStatusGuiTooltips.translate();
     }
+
     public Component addEnergyUsageLine(IEnergyContainer energyContainer) {
         if (energyContainer != null && energyContainer.getEnergyCapacity() > 0) {
             long maxVoltage = Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage());
@@ -109,8 +120,7 @@ public class ManaStatusGui implements IFancyUIProvider {
                     .withStyle(ChatFormatting.GRAY);
             return (bodyText.withStyle(
                     style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))));
-        }
-        else return ManaStatusGuiError.translate();
+        } else return ManaStatusGuiError.translate();
     }
 
     public Component addEnergyTierLine(int tier) {

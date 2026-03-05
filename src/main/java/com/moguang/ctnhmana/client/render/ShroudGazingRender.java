@@ -1,23 +1,26 @@
 package com.moguang.ctnhmana.client.render;
 
-import com.moguang.ctnhmana.registry.CMMobEffects;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.moguang.ctnhmana.registry.CMMobEffects;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+
 @OnlyIn(Dist.CLIENT)
 public class ShroudGazingRender {
+
     // 眼睛区域大小系数（0.2=椭圆宽度为屏幕20%，可调整）
     private static final float EYE_SIZE_RATIO = 0.2f;
     // 眼睛区域柔边系数（越大边缘越柔和，0.05~0.15为宜）
     private static final float EYE_EDGE_SMOOTH = 0.05f;
     // 遮罩基础透明度（可手动调整，0.0~1.0）
     private static final float MASK_BASE_ALPHA = 0.85f;
+
     public static void renderPurpleTint(PoseStack matrixStack, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
@@ -34,8 +37,7 @@ public class ShroudGazingRender {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(
                 GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-        );
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         // 基础渲染设置（禁用深度测试，确保遮罩在最上层）
@@ -49,9 +51,9 @@ public class ShroudGazingRender {
         // ========== 2. 修复：渲染顺序反转 → 先遮罩（顶层），后滤镜（底层） ==========
         // 眼睛遮罩Z轴设为-90（最顶层），滤镜设为-89（底层）
         drawPurpleFilter(bufferBuilder, matrixStack, minecraft);
-        drawVignetteMask(bufferBuilder, matrixStack, minecraft,0.5f);
+        drawVignetteMask(bufferBuilder, matrixStack, minecraft, 0.5f);
 
-//        drawPurpleFilter(bufferBuilder, matrixStack, minecraft);
+        // drawPurpleFilter(bufferBuilder, matrixStack, minecraft);
 
         // ========== 3. 修复：渲染状态恢复顺序（先pop矩阵，再恢复其他状态） ==========
         matrixStack.popPose();
@@ -87,11 +89,10 @@ public class ShroudGazingRender {
         bufferBuilder.vertex(matrixStack.last().pose(), 0, 0, -89)
                 .color(0.6f, 0.0f, 1.0f, filterAlpha).endVertex();
         Tesselator.getInstance().end();
-
-
     }
 
-    private static void drawVignetteMask(BufferBuilder bufferBuilder, PoseStack matrixStack, Minecraft minecraft, float vignetteAlpha) {
+    private static void drawVignetteMask(BufferBuilder bufferBuilder, PoseStack matrixStack, Minecraft minecraft,
+                                         float vignetteAlpha) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         float FOV_SCALE = 0.8f; // 和 FovEventHandler 中保持一致
@@ -140,10 +141,9 @@ public class ShroudGazingRender {
         bufferBuilder.vertex(matrixStack.last().pose(), maskX + maskWidth, maskY, -89)
                 .color(0.0f, 0.0f, 0.0f, vignetteAlpha).endVertex();
 
-
-
         Tesselator.getInstance().end();
     }
+
     private static void drawEyeMask(BufferBuilder bufferBuilder, PoseStack matrixStack, Minecraft minecraft) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -172,45 +172,42 @@ public class ShroudGazingRender {
         Tesselator.getInstance().end();
 
         // ========== 关键：在黑罩上挖去椭圆（眼睛）区域（透明绘制） ==========
-//        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-//
-//        // 步骤1：椭圆中心顶点（完全透明，作为三角形扇的中心）
-//        bufferBuilder.vertex(matrixStack.last().pose(), centerX, centerY, -90)
-//                .color(0.0f, 0.0f, 0.0f, 0.0f).endVertex();
-//
-//        // 步骤2：绘制椭圆边缘顶点（形成透明的椭圆区域）
-//        int segments = 128; // 分段数越高，椭圆越平滑
-//        for (int i = 0; i <= segments; i++) {
-//            float angle = (float) (i * 2 * Math.PI / segments);
-//
-//            // 计算椭圆边缘坐标（精准贴合眼睛形状）
-//            float x = centerX + (float) (eyeWidth * Math.cos(angle));
-//            float y = centerY + (float) (eyeHeight * Math.sin(angle));
-//
-//            // 计算边缘柔边（从完全透明到遮罩透明度的过渡）
-//            float dx = (x - centerX) / eyeWidth;
-//            float dy = (y - centerY) / eyeHeight;
-//            float distance = (float) Math.sqrt(dx * dx + dy * dy);
-//
-//            float alpha;
-//            if (distance < 1.0f - edgeSmooth) {
-//                alpha = 0.0f; // 椭圆内部：完全透明（可视区域）
-//            } else if (distance > 1.0f + edgeSmooth) {
-//                alpha = maskAlpha; // 椭圆外部：恢复遮罩透明度（不挖空）
-//            } else {
-//                // 边缘柔边：线性插值实现平滑过渡
-//                alpha = maskAlpha * ((distance - (1.0f - edgeSmooth)) / (2 * edgeSmooth));
-//            }
-//
-//            // 绘制椭圆边缘顶点（透明挖空）
-//            bufferBuilder.vertex(matrixStack.last().pose(), x, y, -90)
-//                    .color(0.0f, 0.0f, 0.0f, alpha).endVertex();
-//        }
+        // bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        //
+        // // 步骤1：椭圆中心顶点（完全透明，作为三角形扇的中心）
+        // bufferBuilder.vertex(matrixStack.last().pose(), centerX, centerY, -90)
+        // .color(0.0f, 0.0f, 0.0f, 0.0f).endVertex();
+        //
+        // // 步骤2：绘制椭圆边缘顶点（形成透明的椭圆区域）
+        // int segments = 128; // 分段数越高，椭圆越平滑
+        // for (int i = 0; i <= segments; i++) {
+        // float angle = (float) (i * 2 * Math.PI / segments);
+        //
+        // // 计算椭圆边缘坐标（精准贴合眼睛形状）
+        // float x = centerX + (float) (eyeWidth * Math.cos(angle));
+        // float y = centerY + (float) (eyeHeight * Math.sin(angle));
+        //
+        // // 计算边缘柔边（从完全透明到遮罩透明度的过渡）
+        // float dx = (x - centerX) / eyeWidth;
+        // float dy = (y - centerY) / eyeHeight;
+        // float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        //
+        // float alpha;
+        // if (distance < 1.0f - edgeSmooth) {
+        // alpha = 0.0f; // 椭圆内部：完全透明（可视区域）
+        // } else if (distance > 1.0f + edgeSmooth) {
+        // alpha = maskAlpha; // 椭圆外部：恢复遮罩透明度（不挖空）
+        // } else {
+        // // 边缘柔边：线性插值实现平滑过渡
+        // alpha = maskAlpha * ((distance - (1.0f - edgeSmooth)) / (2 * edgeSmooth));
+        // }
+        //
+        // // 绘制椭圆边缘顶点（透明挖空）
+        // bufferBuilder.vertex(matrixStack.last().pose(), x, y, -90)
+        // .color(0.0f, 0.0f, 0.0f, alpha).endVertex();
+        // }
 
         // 提交绘制（完成椭圆挖空）
         Tesselator.getInstance().end();
     }
-
-
-
 }

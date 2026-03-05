@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
@@ -15,14 +16,16 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -40,6 +43,7 @@ import java.util.Objects;
 
 @Domain(value = "ctnh", category = "multiblock.demon_will_generator")
 public class DemonWillMachine extends WorkableElectricMultiblockMachine {
+
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
     public boolean isBoosted = false;
@@ -51,90 +55,92 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public int Augmented_rune = 0;
     public BlockPos pos1 = BlockPos.ZERO;
     public BlockPos pos2 = BlockPos.ZERO;
-    public BlockPos[] Runes = new BlockPos[]{
-            MachineUtils.getOffset(this,0,34,-5),
-            MachineUtils.getOffset(this,1,34,-5),
-            MachineUtils.getOffset(this,2,34,-5),
-            MachineUtils.getOffset(this,-1,34,-5),
-            MachineUtils.getOffset(this,-2,34,-5),
-            MachineUtils.getOffset(this,3,34,-4),
-            MachineUtils.getOffset(this,-3,34,-4),
-            MachineUtils.getOffset(this,5,34,-2),
-            MachineUtils.getOffset(this,-5,34,-2),
-            MachineUtils.getOffset(this,6,34,-1),
-            MachineUtils.getOffset(this,6,34,0),
-            MachineUtils.getOffset(this,6,34,1),
-            MachineUtils.getOffset(this,6,34,2),
-            MachineUtils.getOffset(this,6,34,3),
-            MachineUtils.getOffset(this,-6,34,-1),
-            MachineUtils.getOffset(this,-6,34,0),
-            MachineUtils.getOffset(this,-6,34,1),
-            MachineUtils.getOffset(this,-6,34,2),
-            MachineUtils.getOffset(this,-6,34,3),
-            MachineUtils.getOffset(this,5,34,4),
-            MachineUtils.getOffset(this,-5,34,4),
-            MachineUtils.getOffset(this,-3,34,6),
-            MachineUtils.getOffset(this,3,34,6),
-            MachineUtils.getOffset(this,0,34,7),
-            MachineUtils.getOffset(this,-1,34,7),
-            MachineUtils.getOffset(this,-2,34,7),
-            MachineUtils.getOffset(this,1,34,7),
-            MachineUtils.getOffset(this,2,34,7),
-            MachineUtils.getOffset(this,0,32,-8),
-            MachineUtils.getOffset(this,1,32,-8),
-            MachineUtils.getOffset(this,2,32,-8),
-            MachineUtils.getOffset(this,-1,32,-8),
-            MachineUtils.getOffset(this,-2,32,-8),
-            MachineUtils.getOffset(this,3,32,-7),
-            MachineUtils.getOffset(this,4,32,-7),
-            MachineUtils.getOffset(this,5,32,-7),
-            MachineUtils.getOffset(this,-3,32,-7),
-            MachineUtils.getOffset(this,-4,32,-7),
-            MachineUtils.getOffset(this,-5,32,-7),
-            MachineUtils.getOffset(this,-8,32,-4),
-            MachineUtils.getOffset(this,-8,32,-3),
-            MachineUtils.getOffset(this,-8,32,-2),
-            MachineUtils.getOffset(this,8,32,-4),
-            MachineUtils.getOffset(this,8,32,-3),
-            MachineUtils.getOffset(this,8,32,-2),
-            MachineUtils.getOffset(this,-9,32,-1),
-            MachineUtils.getOffset(this,-9,32,0),
-            MachineUtils.getOffset(this,-9,32,1),
-            MachineUtils.getOffset(this,-9,32,2),
-            MachineUtils.getOffset(this,-9,32,3),
-            MachineUtils.getOffset(this,9,32,-1),
-            MachineUtils.getOffset(this,9,32,0),
-            MachineUtils.getOffset(this,9,32,1),
-            MachineUtils.getOffset(this,9,32,2),
-            MachineUtils.getOffset(this,9,32,3),
-            MachineUtils.getOffset(this,-8,32,4),
-            MachineUtils.getOffset(this,-8,32,5),
-            MachineUtils.getOffset(this,-8,32,6),
-            MachineUtils.getOffset(this,8,32,4),
-            MachineUtils.getOffset(this,8,32,5),
-            MachineUtils.getOffset(this,8,32,6),
-            MachineUtils.getOffset(this,5,32,9),
-            MachineUtils.getOffset(this,4,32,9),
-            MachineUtils.getOffset(this,3,32,9),
-            MachineUtils.getOffset(this,-5,32,9),
-            MachineUtils.getOffset(this,-4,32,9),
-            MachineUtils.getOffset(this,-3,32,9),
-            MachineUtils.getOffset(this,-2,32,10),
-            MachineUtils.getOffset(this,-1,32,10),
-            MachineUtils.getOffset(this,0,32,10),
-            MachineUtils.getOffset(this,1,32,10),
-            MachineUtils.getOffset(this,2,32,10),
+    public BlockPos[] Runes = new BlockPos[] {
+            MachineUtils.getOffset(this, 0, 34, -5),
+            MachineUtils.getOffset(this, 1, 34, -5),
+            MachineUtils.getOffset(this, 2, 34, -5),
+            MachineUtils.getOffset(this, -1, 34, -5),
+            MachineUtils.getOffset(this, -2, 34, -5),
+            MachineUtils.getOffset(this, 3, 34, -4),
+            MachineUtils.getOffset(this, -3, 34, -4),
+            MachineUtils.getOffset(this, 5, 34, -2),
+            MachineUtils.getOffset(this, -5, 34, -2),
+            MachineUtils.getOffset(this, 6, 34, -1),
+            MachineUtils.getOffset(this, 6, 34, 0),
+            MachineUtils.getOffset(this, 6, 34, 1),
+            MachineUtils.getOffset(this, 6, 34, 2),
+            MachineUtils.getOffset(this, 6, 34, 3),
+            MachineUtils.getOffset(this, -6, 34, -1),
+            MachineUtils.getOffset(this, -6, 34, 0),
+            MachineUtils.getOffset(this, -6, 34, 1),
+            MachineUtils.getOffset(this, -6, 34, 2),
+            MachineUtils.getOffset(this, -6, 34, 3),
+            MachineUtils.getOffset(this, 5, 34, 4),
+            MachineUtils.getOffset(this, -5, 34, 4),
+            MachineUtils.getOffset(this, -3, 34, 6),
+            MachineUtils.getOffset(this, 3, 34, 6),
+            MachineUtils.getOffset(this, 0, 34, 7),
+            MachineUtils.getOffset(this, -1, 34, 7),
+            MachineUtils.getOffset(this, -2, 34, 7),
+            MachineUtils.getOffset(this, 1, 34, 7),
+            MachineUtils.getOffset(this, 2, 34, 7),
+            MachineUtils.getOffset(this, 0, 32, -8),
+            MachineUtils.getOffset(this, 1, 32, -8),
+            MachineUtils.getOffset(this, 2, 32, -8),
+            MachineUtils.getOffset(this, -1, 32, -8),
+            MachineUtils.getOffset(this, -2, 32, -8),
+            MachineUtils.getOffset(this, 3, 32, -7),
+            MachineUtils.getOffset(this, 4, 32, -7),
+            MachineUtils.getOffset(this, 5, 32, -7),
+            MachineUtils.getOffset(this, -3, 32, -7),
+            MachineUtils.getOffset(this, -4, 32, -7),
+            MachineUtils.getOffset(this, -5, 32, -7),
+            MachineUtils.getOffset(this, -8, 32, -4),
+            MachineUtils.getOffset(this, -8, 32, -3),
+            MachineUtils.getOffset(this, -8, 32, -2),
+            MachineUtils.getOffset(this, 8, 32, -4),
+            MachineUtils.getOffset(this, 8, 32, -3),
+            MachineUtils.getOffset(this, 8, 32, -2),
+            MachineUtils.getOffset(this, -9, 32, -1),
+            MachineUtils.getOffset(this, -9, 32, 0),
+            MachineUtils.getOffset(this, -9, 32, 1),
+            MachineUtils.getOffset(this, -9, 32, 2),
+            MachineUtils.getOffset(this, -9, 32, 3),
+            MachineUtils.getOffset(this, 9, 32, -1),
+            MachineUtils.getOffset(this, 9, 32, 0),
+            MachineUtils.getOffset(this, 9, 32, 1),
+            MachineUtils.getOffset(this, 9, 32, 2),
+            MachineUtils.getOffset(this, 9, 32, 3),
+            MachineUtils.getOffset(this, -8, 32, 4),
+            MachineUtils.getOffset(this, -8, 32, 5),
+            MachineUtils.getOffset(this, -8, 32, 6),
+            MachineUtils.getOffset(this, 8, 32, 4),
+            MachineUtils.getOffset(this, 8, 32, 5),
+            MachineUtils.getOffset(this, 8, 32, 6),
+            MachineUtils.getOffset(this, 5, 32, 9),
+            MachineUtils.getOffset(this, 4, 32, 9),
+            MachineUtils.getOffset(this, 3, 32, 9),
+            MachineUtils.getOffset(this, -5, 32, 9),
+            MachineUtils.getOffset(this, -4, 32, 9),
+            MachineUtils.getOffset(this, -3, 32, 9),
+            MachineUtils.getOffset(this, -2, 32, 10),
+            MachineUtils.getOffset(this, -1, 32, 10),
+            MachineUtils.getOffset(this, 0, 32, 10),
+            MachineUtils.getOffset(this, 1, 32, 10),
+            MachineUtils.getOffset(this, 2, 32, 10),
     };
 
     public EnumDemonWillType type = EnumDemonWillType.DEFAULT;
     public int MAX_WILL = 100;
-    public List<String> enableTypes = List.of("vengeful_core","corrosive_core","steadfast_core","destructive_core");
+    public List<String> enableTypes = List.of("vengeful_core", "corrosive_core", "steadfast_core", "destructive_core");
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             DemonWillMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     public DemonWillMachine(IMachineBlockEntity holder) {
         super(holder);
         machineStorage = createMachineStorage((byte) 1);
     }
+
     @Override
     public @NotNull Widget createUIWidget() {
         var widget = super.createUIWidget();
@@ -146,76 +152,76 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         }
         return widget;
     }
+
     protected NotifiableItemStackHandler createMachineStorage(byte value) {
         return new NotifiableItemStackHandler(
                 this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
 
-            @Override
-            public int getSlotLimit(int slot) {
-                return value;
-            }
+                    @Override
+                    public int getSlotLimit(int slot) {
+                        return value;
+                    }
 
-            @Override
-            public void onContentsChanged(int slot) {
-                resetMode();
-                super.onContentsChanged(slot);
-            }
-        }).setFilter(itemStack -> enableTypes.contains(itemStack.getItem().toString()));
+                    @Override
+                    public void onContentsChanged(int slot) {
+                        resetMode();
+                        super.onContentsChanged(slot);
+                    }
+                }).setFilter(itemStack -> enableTypes.contains(itemStack.getItem().toString()));
     }
 
     public ItemStack getMachineStorageItem() {
         return machineStorage.getStackInSlot(0);
     }
+
     public double getTotalWillDifference() {
         double difference = 0;
         if (type == EnumDemonWillType.DEFAULT) {
             for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
-                var newDifference = getWillDifference(pos1,pos2,type1);
+                var newDifference = getWillDifference(pos1, pos2, type1);
                 if (newDifference == 0) {
                     continue;
                 }
                 difference += newDifference;
-                adjustWillChunk(pos1,pos2,type1);
+                adjustWillChunk(pos1, pos2, type1);
             }
-        }
-        else {
-            difference += getWillDifference(pos1,pos2,type) * 2;
-            adjustWillChunk(pos1,pos2,type);
+        } else {
+            difference += getWillDifference(pos1, pos2, type) * 2;
+            adjustWillChunk(pos1, pos2, type);
         }
         return difference;
     }
-    public double getWillDifference(BlockPos pos1,BlockPos pos2,EnumDemonWillType type1) {
-        var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos1, type1);
-        var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos2, type1);
-        if (will1 == will2){
+
+    public double getWillDifference(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
+        var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos1, type1);
+        var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos2, type1);
+        if (will1 == will2) {
             return 0;
         }
-        return (Math.abs(will1 - will2) ) * Math.pow(1.02,Augmented_rune)+ Capacity_rune * 2;
+        return (Math.abs(will1 - will2)) * Math.pow(1.02, Augmented_rune) + Capacity_rune * 2;
     }
-    public double getHigherWill(BlockPos pos1,BlockPos pos2,EnumDemonWillType type1) {
-        var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos1, type1);
-        var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos2, type1);
-        return Math.max(will1,will2);
+
+    public double getHigherWill(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
+        var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos1, type1);
+        var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos2, type1);
+        return Math.max(will1, will2);
     }
-    public void adjustWillChunk(BlockPos pos1, BlockPos pos2,EnumDemonWillType type1) {
-        var willChunk1 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos1);
-        var willChunk2 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()),pos2);
-        var difference = getWillDifference(pos1,pos2,type1);
-        var high_will=getHigherWill(pos1,pos2,type1);
+
+    public void adjustWillChunk(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
+        var willChunk1 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()), pos1);
+        var willChunk2 = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()), pos2);
+        var difference = getWillDifference(pos1, pos2, type1);
+        var high_will = getHigherWill(pos1, pos2, type1);
         if (willChunk1.getCurrentWill().getWill(type1) < willChunk2.getCurrentWill().getWill(type1)) {
-            if(Math.abs(high_will)<10)
-            {
-                willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
-            }
-            else {
+            if (Math.abs(high_will) < 10) {
+                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
+            } else {
                 willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
             }
-        }
-        else {
-            if(Math.abs(high_will)<10)
-            {
-                willChunk2.getCurrentWill().drainWill(type1,Math.abs(difference));
+        } else {
+            if (Math.abs(high_will) < 10) {
+                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
             }
             {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
@@ -223,38 +229,37 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             }
         }
     }
+
     public void calculateDiversity() {
         double total1 = 0;
         double total2 = 0;
         double diversity1 = 1.2;
         double diversity2 = 1.2;
         for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
-            total1 += WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos1,type1);
-            total2 += WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()),pos2,type1);
+            total1 += WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos1, type1);
+            total2 += WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos2, type1);
         }
         for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
-            if(total1 == 0){
+            if (total1 == 0) {
                 diversity1 = 0.2;
-            }
-            else {
+            } else {
                 var will = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos1, type1);
                 diversity1 -= Math.pow(will / total1, 2);
             }
-            if(total2 == 0){
+            if (total2 == 0) {
                 diversity2 = 0.2;
-            }
-            else {
+            } else {
                 var will = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos2, type1);
                 diversity2 -= Math.pow(will / total2, 2);
             }
         }
         diversity = diversity1 * diversity2;
     }
+
     public void resetMode() {
         if (getMachineStorageItem() == null) {
             type = EnumDemonWillType.DEFAULT;
-        }
-        else {
+        } else {
             switch (getMachineStorageItem().getItem().toString()) {
                 case "vengeful_core" -> type = EnumDemonWillType.VENGEFUL;
                 case "corrosive_core" -> type = EnumDemonWillType.CORROSIVE;
@@ -263,69 +268,71 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             }
         }
     }
+
     public void calculateRune() {
         Speed_rune = 0;
         Augmented_rune = 0;
         Capacity_rune = 0;
         Sacrifice_rune = 0;
-        for(var rune : Runes){
+        for (var rune : Runes) {
             var runeBlock = Objects.requireNonNull(getLevel()).getBlockState(rune).getBlock();
             if (runeBlock.equals(BloodMagicBlocks.SPEED_RUNE.get())) {
-                Speed_rune ++;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.SPEED_RUNE_2.get())) {
+                Speed_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.SPEED_RUNE_2.get())) {
                 Speed_rune += 2;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE.get())) {
-                Augmented_rune ++;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE_2.get())) {
+            } else if (runeBlock.equals(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE.get())) {
+                Augmented_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE_2.get())) {
                 Augmented_rune += 2;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.CAPACITY_RUNE.get())) {
-                Capacity_rune ++;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.CAPACITY_RUNE_2.get())) {
+            } else if (runeBlock.equals(BloodMagicBlocks.CAPACITY_RUNE.get())) {
+                Capacity_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.CAPACITY_RUNE_2.get())) {
                 Capacity_rune += 2;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.SACRIFICE_RUNE.get()) || runeBlock.equals(BloodMagicBlocks.SELF_SACRIFICE_RUNE.get())){
-                Sacrifice_rune ++;
-            }
-            else if (runeBlock.equals(BloodMagicBlocks.SACRIFICE_RUNE_2.get()) || runeBlock.equals(BloodMagicBlocks.SELF_SACRIFICE_RUNE_2.get())){
-                Sacrifice_rune += 2;
-            }
+            } else if (runeBlock.equals(BloodMagicBlocks.SACRIFICE_RUNE.get()) ||
+                    runeBlock.equals(BloodMagicBlocks.SELF_SACRIFICE_RUNE.get())) {
+                        Sacrifice_rune++;
+                    } else
+                if (runeBlock.equals(BloodMagicBlocks.SACRIFICE_RUNE_2.get()) ||
+                        runeBlock.equals(BloodMagicBlocks.SELF_SACRIFICE_RUNE_2.get())) {
+                            Sacrifice_rune += 2;
+                        }
         }
     }
-    public double difference_caculate(double difference)
-    {
-        var num=0.0;
-        if(difference<2000)
-            num=Math.pow(difference/4,2);
+
+    public double difference_caculate(double difference) {
+        var num = 0.0;
+        if (difference < 2000)
+            num = Math.pow(difference / 4, 2);
         else
-            num=Math.pow(500,2)+(difference-2000);
+            num = Math.pow(500, 2) + (difference - 2000);
         return num;
     }
+
     public double getBoostRate() {
         return 2 + 0.2 * Sacrifice_rune;
     }
+
     public GTRecipe getBloodRecipe() {
-        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 50000)).buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 50000))
+                .buildRawRecipe();
     }
+
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof DemonWillMachine dmachine) {
             var difference = dmachine.difference;
             var diversity = dmachine.diversity;
             var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.2);
             if (dmachine.isBoosted) {
-                modifierFunction.eutMultiplier(diversity*dmachine.difference_caculate(difference)* dmachine.getBoostRate());
-            }
-            else {
-                modifierFunction.eutMultiplier(diversity*dmachine.difference_caculate(difference));
+                modifierFunction
+                        .eutMultiplier(diversity * dmachine.difference_caculate(difference) * dmachine.getBoostRate());
+            } else {
+                modifierFunction.eutMultiplier(diversity * dmachine.difference_caculate(difference));
             }
             return modifierFunction.build();
         }
         return ModifierFunction.IDENTITY;
     }
+
     @Override
     public boolean onWorking() {
         boolean value = super.onWorking();
@@ -341,7 +348,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0)) {
             var boosterRecipe = getBloodRecipe();
             this.isBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                    RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                            .isSuccess();
         }
         return value;
     }
@@ -351,8 +359,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         difference = getTotalWillDifference();
         if (type == EnumDemonWillType.DEFAULT) {
             calculateDiversity();
-        }
-        else {
+        } else {
             diversity = 0.8;
         }
         return super.beforeWorking(recipe);
@@ -360,8 +367,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     @Override
     public void onStructureFormed() {
-        pos1 = MachineUtils.getOffset(this,10,0,-10);
-        pos2 = MachineUtils.getOffset(this,-10,0,10);
+        pos1 = MachineUtils.getOffset(this, 10, 0, -10);
+        pos2 = MachineUtils.getOffset(this, -10, 0, 10);
         resetMode();
         calculateRune();
         super.onStructureFormed();
@@ -370,9 +377,10 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        var outputEnergy = (isBoosted? getBoostRate() : 1) * diversity * Math.pow(difference,2) * 32;
+        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * Math.pow(difference, 2) * 32;
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
-        textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2", FormattingUtil.formatNumbers(outputEnergy), voltageName));
+        textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2",
+                FormattingUtil.formatNumbers(outputEnergy), voltageName));
         switch (type) {
             case DEFAULT -> textList.add(INFO_SPECIALTY_DEFAULT.translate());
             case VENGEFUL -> textList.add(INFO_SPECIALTY_VENGEFUL.translate());
@@ -385,10 +393,12 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             textList.add(INFO_BOOSTED.translate());
         }
     }
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
     @Override
     public boolean regressWhenWaiting() {
         return false;
@@ -444,23 +454,19 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             "按住左Ctrl查看详细的计算公式"
     })
     public static Lang[] TOOLTIPS;
-    @CN(
-            {
-                    "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*两侧多样性之积 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
-                    "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-                    "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
-                    "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
-                    "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
-            }
-    )
-    @EN(
-            {
-                    "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*多样性 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
-                    "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-                    "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
-                    "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
-                    "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
-            }
-    )
+    @CN({
+            "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*两侧多样性之积 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+            "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
+            "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+            "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
+            "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+    })
+    @EN({
+            "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*多样性 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+            "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
+            "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+            "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
+            "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+    })
     public static Lang[] SHIFT_TOOLTIPS;
 }

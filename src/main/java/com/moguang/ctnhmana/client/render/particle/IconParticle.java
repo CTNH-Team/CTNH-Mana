@@ -1,29 +1,21 @@
 package com.moguang.ctnhmana.client.render.particle;
 
-import com.moguang.ctnhmana.registry.CMGuiTextures;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class IconParticle extends TextureSheetParticle {
+
     private final SpriteSet spriteSet; // 精灵集，用于获取纹理精灵
 
-    protected IconParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet,int time) {
+    protected IconParticle(ClientLevel level, double x, double y, double z, SpriteSet spriteSet, int time) {
         super(level, x, y, z);
         this.spriteSet = spriteSet;
 
@@ -63,6 +55,7 @@ public class IconParticle extends TextureSheetParticle {
     // 精灵工厂（接收SpriteSet参数）
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
+
         private final SpriteSet spriteSet;
 
         public Provider(SpriteSet spriteSet) {
@@ -70,9 +63,10 @@ public class IconParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            if(dx>0)return new IconParticle(level, x, y, z, this.spriteSet, (int) dx);
-            return new IconParticle(level, x, y, z, this.spriteSet,2);
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z,
+                                       double dx, double dy, double dz) {
+            if (dx > 0) return new IconParticle(level, x, y, z, this.spriteSet, (int) dx);
+            return new IconParticle(level, x, y, z, this.spriteSet, 2);
         }
     }
 }

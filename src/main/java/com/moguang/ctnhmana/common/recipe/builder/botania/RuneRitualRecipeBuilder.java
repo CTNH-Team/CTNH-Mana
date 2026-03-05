@@ -1,10 +1,5 @@
 package com.moguang.ctnhmana.common.recipe.builder.botania;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.moguang.ctnhmana.CTNHMana;
-import mythicbotany.rune.SpecialRuneInput;
-import mythicbotany.rune.SpecialRuneOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -12,6 +7,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.CTNHMana;
+import mythicbotany.rune.SpecialRuneInput;
+import mythicbotany.rune.SpecialRuneOutput;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.helper.ItemNBTHelper;
 
@@ -20,9 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static mythicbotany.register.ModRecipes.runeRitual;
-
 public class RuneRitualRecipeBuilder {
+
     // 核心配置项（对齐原RuneRitualExtension逻辑）
     private final List<RunePosition> runes = new ArrayList<>();
     private final List<Ingredient> inputs = new ArrayList<>();
@@ -64,9 +64,10 @@ public class RuneRitualRecipeBuilder {
     // ===================== 链式配置方法 - 符文摆放（核心逻辑，保留原rune/rune2/rune4）=====================
     /**
      * 单符文摆放：指定坐标摆1个符文，默认不消耗
+     * 
      * @param rune 符文物品
-     * @param x 相对核心X坐标（-5~5）
-     * @param z 相对核心Z坐标（-5~5）
+     * @param x    相对核心X坐标（-5~5）
+     * @param z    相对核心Z坐标（-5~5）
      */
     public RuneRitualRecipeBuilder rune(Item rune, int x, int z) {
         return this.rune(Ingredient.of(rune), x, z, false);
@@ -85,7 +86,9 @@ public class RuneRitualRecipeBuilder {
     public RuneRitualRecipeBuilder rune(Ingredient rune, int x, int z, boolean consume) {
         // 坐标范围校验，超出抛异常（保留原逻辑）
         if (x < -5 || x > 5 || z < -5 || z > 5) {
-            throw new IllegalStateException("Rune positions should not be more than 5 blocks away from the central rune holder: (" + x + "," + z + ")");
+            throw new IllegalStateException(
+                    "Rune positions should not be more than 5 blocks away from the central rune holder: (" + x + "," +
+                            z + ")");
         }
         this.runes.add(new RunePosition(rune, x, z, consume));
         return this;
@@ -113,18 +116,21 @@ public class RuneRitualRecipeBuilder {
         this.rune(rune, -x, -z, consume);
         return this;
     }
+
     /**
      * z轴对立双摆：(x,z)和(x,-z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder runez(Item rune, int x, int z) {
         return this.runez(Ingredient.of(rune), x, z, false);
     }
+
     /**
      * z轴对立双摆：指定是否消耗
      */
     public RuneRitualRecipeBuilder runez(Item rune, int x, int z, boolean consume) {
         return this.runez(Ingredient.of(rune), x, z, consume);
     }
+
     /**
      * z轴对立双摆：Ingredient重载（底层核心）
      */
@@ -133,18 +139,21 @@ public class RuneRitualRecipeBuilder {
         this.rune(rune, -x, z, consume);
         return this;
     }
+
     /**
      * x轴对立双摆：(x,z)和(-x,z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder runex(Item rune, int x, int z) {
         return this.runex(Ingredient.of(rune), x, z, false);
     }
+
     /**
      * x轴对立双摆：指定是否消耗
      */
     public RuneRitualRecipeBuilder runex(Item rune, int x, int z, boolean consume) {
         return this.runex(Ingredient.of(rune), x, z, consume);
     }
+
     /**
      * x轴对立双摆：Ingredient重载（底层核心）
      */
@@ -153,6 +162,7 @@ public class RuneRitualRecipeBuilder {
         this.rune(rune, x, -z, consume);
         return this;
     }
+
     /**
      * 四向四摆：十字/四角对称摆4个，默认不消耗
      * x/z为0时摆十字，都非0时摆四角（保留原逻辑）
@@ -230,6 +240,7 @@ public class RuneRitualRecipeBuilder {
         Arrays.stream(ingredients).forEach(this.inputs::add);
         return this;
     }
+
     public RuneRitualRecipeBuilder output(Item output) {
         return this.output(new ItemStack(output));
     }
@@ -291,6 +302,7 @@ public class RuneRitualRecipeBuilder {
             json.addProperty("special_output", this.specialOutput.id.toString());
         }
     }
+
     // ===================== 构建FinishedRecipe（对齐Petal风格）=====================
     public FinishedRecipe build() {
         // 校验核心符文是否设置
@@ -303,11 +315,13 @@ public class RuneRitualRecipeBuilder {
         }
 
         return new FinishedRecipe() {
+
             @Override
             public void serializeRecipeData(JsonObject pJson) {
                 // 调用抽离的toJson方法，简化代码
                 RuneRitualRecipeBuilder.this.toJson(pJson);
             }
+
             @Override
             public ResourceLocation getId() {
                 return ResourceLocation.tryBuild(id.getNamespace(), "rune_rituals/" + id.getPath());
@@ -340,6 +354,7 @@ public class RuneRitualRecipeBuilder {
 
     // ===================== 内部静态类：符文位置信息（封装x/z/符文/是否消耗）=====================
     public static class RunePosition {
+
         public final Ingredient rune;
         public final int x;
         public final int z;

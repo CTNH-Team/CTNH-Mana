@@ -1,9 +1,18 @@
 package com.moguang.ctnhmana.data.recipe;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
@@ -11,15 +20,7 @@ import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.Create;
-import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -35,56 +36,58 @@ import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 @SuppressWarnings("removal")
 public class TerraPlateRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
-        TerraPlateRecipeBuilder.builder("terrasteel123")//泰拉钢
-                .input(new ItemStack(BotaniaItems.manaDiamond,1))
-                .input(new ItemStack(BotaniaItems.manaPearl,1))
-                .input(new ItemStack(BotaniaItems.manaSteel,1))
-                .input(new ItemStack(BotaniaItems.runeMana,1))
-                .output(new ItemStack(BotaniaItems.terrasteel,1))
+        TerraPlateRecipeBuilder.builder("terrasteel123")// 泰拉钢
+                .input(new ItemStack(BotaniaItems.manaDiamond, 1))
+                .input(new ItemStack(BotaniaItems.manaPearl, 1))
+                .input(new ItemStack(BotaniaItems.manaSteel, 1))
+                .input(new ItemStack(BotaniaItems.runeMana, 1))
+                .output(new ItemStack(BotaniaItems.terrasteel, 1))
                 .mana(500000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("life_essence_bucket")//生命精华桶
-                .input(new ItemStack(BotaniaItems.runeFire,1))
+        TerraPlateRecipeBuilder.builder("life_essence_bucket")// 生命精华桶
+                .input(new ItemStack(BotaniaItems.runeFire, 1))
                 .input(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:eyebulb")))
                 .input(ForgeRegistries.ITEMS.getValue(new ResourceLocation("biomesoplenty:blood_bucket")))
-                .output(new ItemStack(LIFE_ESSENCE_BUCKET.get(),1))
+                .output(new ItemStack(LIFE_ESSENCE_BUCKET.get(), 1))
                 .mana(50000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("the_universe")//宇宙之忆
-                .input(new ItemStack(theEnd,1))
-                .input(new ItemStack(theChaos,1))
-                .input(new ItemStack(theOrigin,1))
-                .output(new ItemStack(theUniverse,1))
+        TerraPlateRecipeBuilder.builder("the_universe")// 宇宙之忆
+                .input(new ItemStack(theEnd, 1))
+                .input(new ItemStack(theChaos, 1))
+                .input(new ItemStack(theOrigin, 1))
+                .output(new ItemStack(theUniverse, 1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("aerialite")//风之石
-                .input(new ItemStack(Items.PHANTOM_MEMBRANE,1))
-                .input(new ItemStack(BotaniaItems.enderAirBottle,1))
-                .input(new ItemStack(BotaniaItems.dragonstone,1))
-                .output(new ItemStack(aerialite,1))
+        TerraPlateRecipeBuilder.builder("aerialite")// 风之石
+                .input(new ItemStack(Items.PHANTOM_MEMBRANE, 1))
+                .input(new ItemStack(BotaniaItems.enderAirBottle, 1))
+                .input(new ItemStack(BotaniaItems.dragonstone, 1))
+                .output(new ItemStack(aerialite, 1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("rhein_hammer")//莱茵之锤
-                .input(new ItemStack(photoniumHammer,1))
-                .input(new ItemStack(shadowiumHammer,1))
-                .input(new ItemStack(elementiumHammer,1))
-                .input(new ItemStack(terrasteelHammer,1))
-                .input(new ItemStack(gaiaHammer,1))
-                .input(new ItemStack(aerialiteHammer,1))
-                .input(new ItemStack(orichalcosHammer,1))
-                .input(new ItemStack(dasRheingold,1))
-                .input(new ItemStack(manasteelHammer,1))
-                .input(new ItemStack(theUniverse,1))
-                .output(new ItemStack(rheinHammer,1))
+        TerraPlateRecipeBuilder.builder("rhein_hammer")// 莱茵之锤
+                .input(new ItemStack(photoniumHammer, 1))
+                .input(new ItemStack(shadowiumHammer, 1))
+                .input(new ItemStack(elementiumHammer, 1))
+                .input(new ItemStack(terrasteelHammer, 1))
+                .input(new ItemStack(gaiaHammer, 1))
+                .input(new ItemStack(aerialiteHammer, 1))
+                .input(new ItemStack(orichalcosHammer, 1))
+                .input(new ItemStack(dasRheingold, 1))
+                .input(new ItemStack(manasteelHammer, 1))
+                .input(new ItemStack(theUniverse, 1))
+                .output(new ItemStack(rheinHammer, 1))
                 .mana(4000000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("koishi_pain")//古明地眼
+        TerraPlateRecipeBuilder.builder("koishi_pain")// 古明地眼
                 .input(BotaniaItems.runeLust)
-                .input(helheimRune,BotaniaItems.redString,BotaniaItems.thirdEye, BotaniaFlowerBlocks.rosaArcana.asItem(), BloodMagicItems.LIFE_ESSENCE_BUCKET.get())
-                .input(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Stone,1))
+                .input(helheimRune, BotaniaItems.redString, BotaniaItems.thirdEye,
+                        BotaniaFlowerBlocks.rosaArcana.asItem(), BloodMagicItems.LIFE_ESSENCE_BUCKET.get())
+                .input(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Stone, 1))
                 .input(CustomTags.KNIVES)
-                .output(new ItemStack(CMItems.KOISHI_EYE,1))
+                .output(new ItemStack(CMItems.KOISHI_EYE, 1))
                 .mana(5145140)
                 .circuitMeta(10)
                 .save(provider);
@@ -143,11 +146,10 @@ public class TerraPlateRecipes {
         TerraPlateRecipeBuilder.builder("mana_rune")
                 .input(BotaniaBlocks.livingrock.asItem())
                 .input(BotaniaItems.manaDiamond.asItem())
-                .input(ChemicalHelper.get(TagPrefix.dust,CMMaterials.Elementium))
+                .input(ChemicalHelper.get(TagPrefix.dust, CMMaterials.Elementium))
                 .output(BotaniaItems.runeMana.asItem().getDefaultInstance())
                 .circuitMeta(3)
                 .mana(10000)
                 .save(provider);
     }
-
 }

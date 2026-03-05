@@ -2,12 +2,11 @@ package com.moguang.ctnhmana.data.materials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.CMElements;
-
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.METALLIC;
@@ -15,6 +14,7 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 
 public class BotaniaMaterials {
+
     public static void init() {
         ManaSteel = REGISTRATE.material(CTNHMana.id("mana_steel"))
                 .cnlang("魔力钢")
@@ -26,8 +26,7 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING
-                        )
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.LV], 6, 1)
                 .buildAndRegister();
         TerraSteel = REGISTRATE.material(CTNHMana.id("terra_steel"))
@@ -40,7 +39,7 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.HV], 8, 1)
                 .buildAndRegister();
         Elementium = REGISTRATE.material(CTNHMana.id("elementium"))
@@ -53,42 +52,46 @@ public class BotaniaMaterials {
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
                         GENERATE_GEAR,
-                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                        GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.MV], 10, 1)
                 .buildAndRegister();
         AlfSteel = REGISTRATE.material(CTNHMana.id("alfsteel"))
                 .cnlang("精灵钢")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0xFD9D31)
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.EV], 12, 1, false)
                 .buildAndRegister();
-        Orichalcos=REGISTRATE.material(CTNHMana.id("orichalcos"))
+        Orichalcos = REGISTRATE.material(CTNHMana.id("orichalcos"))
                 .cnlang("奥利哈钢")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0xE6E6FA)
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.IV], 8, 0, true)
                 .buildAndRegister();
-        Aerialite=REGISTRATE.material(CTNHMana.id("aerialite"))
+        Aerialite = REGISTRATE.material(CTNHMana.id("aerialite"))
                 .cnlang("天空")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0x1E90FF)
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.HV], 2, 0, true)
                 .buildAndRegister();
-        Photonium=REGISTRATE.material(CTNHMana.id("photonium"))
+        Photonium = REGISTRATE.material(CTNHMana.id("photonium"))
                 .cnlang("光子")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0xF0F0F0)
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.EV], 4, 4, false)
                 .buildAndRegister();
-        DEMON=REGISTRATE.material(CTNHMana.id("hellforged"))
+        DEMON = REGISTRATE.material(CTNHMana.id("hellforged"))
                 .cnlang("恶魔钢")
                 .liquid()
                 .ingot()
@@ -96,11 +99,13 @@ public class BotaniaMaterials {
                 .element(CMElements.DEMON)
                 .blastTemp(5400, BlastProperty.GasTier.HIGHEST, 4444, 444)
                 .cableProperties(GTValues.V[GTValues.IV], 4, 0, false)
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_FRAME, GENERATE_RING)
                 .buildAndRegister();
-        SHADOWIUM=REGISTRATE.material(CTNHMana.id("shaowium"))
+        SHADOWIUM = REGISTRATE.material(CTNHMana.id("shaowium"))
                 .cnlang("暗影")
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,  GENERATE_RING)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW,
+                        GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .element(CMElements.SHADOWIUM)
                 .color(0X444444)

@@ -8,8 +8,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
@@ -17,48 +19,55 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
-public class ManaForceTransformer extends ManaMachine implements IExplosionMachine{
+public class ManaForceTransformer extends ManaMachine implements IExplosionMachine {
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaForceTransformer.class, ManaMachine.MANAGED_FIELD_HOLDER);
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
     @Persisted
-    public int baseconsumption=1;
+    public int baseconsumption = 1;
     @Persisted
-    public int consumption=4;
-    public ManaForceTransformer(IMachineBlockEntity holder,int consumption) {
+    public int consumption = 4;
+
+    public ManaForceTransformer(IMachineBlockEntity holder, int consumption) {
         super(holder);
-        this.baseconsumption=consumption;
+        this.baseconsumption = consumption;
     }
+
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe)
-    {
-        var mana=this.hatch.getMana();
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        var mana = this.hatch.getMana();
         this.hatch.setMana(0);
-        if(mana<100000) {
-            RecipeLogic.putFailureReason(this,recipe,failureManaLang_NoEnoughMana.translate());
+        if (mana < 100000) {
+            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
             return false;
         }
         return super.beforeWorking(recipe);
     }
+
     @Override
     public boolean onWorking() {
         if (getOffsetTimer() % 20 == 0) {
-            if(hatch.consumeManaIfEnough(consumption))super.onWorking();
+            if (hatch.consumeManaIfEnough(consumption)) super.onWorking();
             else getRecipeLogic().setProgress(0);
         }
         return super.onWorking();
     }
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.hatch = getHatch(); //获取舱室
-        if (this.hatch == null) onStructureInvalid(); //获取不到就别成型
-        var tier = getTier();//获取等级
-        this.consumption= (int) (baseconsumption*Math.pow(2,tier-1));
+        this.hatch = getHatch(); // 获取舱室
+        if (this.hatch == null) onStructureInvalid(); // 获取不到就别成型
+        var tier = getTier();// 获取等级
+        this.consumption = (int) (baseconsumption * Math.pow(2, tier - 1));
     }
+
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof ManaForceTransformer fmachine) {
             var mana = fmachine.hatch.getMana();
@@ -75,6 +84,7 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
         }
         return ModifierFunction.IDENTITY;
     }
+
     @CN({
             "§9没有不科学，只有未被探及的科学§r",
             "§b没有不魔法，只有未被诠释的魔法§r",

@@ -1,9 +1,7 @@
 package com.moguang.ctnhmana.event;
 
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
-import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
-import com.moguang.ctnhmana.registry.CMItems;
+
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,21 +11,25 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.registry.CMItems;
 import vazkii.botania.common.handler.EquipmentHandler;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class YurikoRingEventHandler {
+
     @SubscribeEvent()
-    public static void onLivingHurt(LivingHurtEvent event){
+    public static void onLivingHurt(LivingHurtEvent event) {
         DamageSource damageSource = event.getSource();
         LivingEntity target = event.getEntity();
         float originalDamage = event.getAmount();
-        double yuriko_chance=1.0;
+        double yuriko_chance = 1.0;
         if (damageSource.getEntity() instanceof Player player) {
             var item = EquipmentHandler.findOrEmpty(CMItems.YURIKO_RING.asItem(), player);
             if (item.getItem() instanceof YurikoRingItem) {
@@ -45,35 +47,30 @@ public class YurikoRingEventHandler {
                             player1.heal((float) (originalDamage * 0.1));
                             player1.level().levelEvent(null, 1018, target.blockPosition(), 0);
                         } else {
-                            //forge文档真不如Fabric一根吧
+                            // forge文档真不如Fabric一根吧
                             entity.hurt(GTDamageTypes.ELECTRIC.source(target.level()), (float) (originalDamage * 0.25));
                             entity.level().levelEvent(null, 2008, target.blockPosition(), 0);
                         }
                     }
-                }
-                else
-                {
-                    event.setAmount((float) ((float) originalDamage*0.75));
+                } else {
+                    event.setAmount((float) ((float) originalDamage * 0.75));
                 }
             }
         }
-        if(target instanceof Player player)
-        {
+        if (target instanceof Player player) {
             var item = EquipmentHandler.findOrEmpty(CMItems.YURIKO_RING.asItem(), player);
             if (item.getItem() instanceof YurikoRingItem) {
 
             }
             float originalDamage2 = event.getAmount();
-            event.setAmount((float) (originalDamage2*1.25));
+            event.setAmount((float) (originalDamage2 * 1.25));
         }
-
     }
+
     @SubscribeEvent()
-    public static void LivingDeathEvent(LivingDeathEvent event)
-    {
+    public static void LivingDeathEvent(LivingDeathEvent event) {
         Entity killer = event.getSource().getEntity();
-        if(killer instanceof Player player)
-        {
+        if (killer instanceof Player player) {
             var item = EquipmentHandler.findOrEmpty(CMItems.YURIKO_RING.asItem(), player);
             if (item.getItem() instanceof YurikoRingItem) {
                 MobEffectInstance resistance = new MobEffectInstance(

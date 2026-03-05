@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.networking.packets;
 
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
-import com.moguang.ctnhmana.registry.CMParticleTypes;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
@@ -11,28 +11,32 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.moguang.ctnhmana.registry.CMParticleTypes;
+
 /**
  * S2C：服务端发此包后，客户端在指定实体位置生成指令对象粒子。
  * 不包含注册逻辑，需在 channel 中自行 registerMessage + 用 PacketDistributor 发送。
  */
 public class IndexTargetParticlePacket implements IPacket {
+
     private int entityId;
 
     public IndexTargetParticlePacket(int entityId) {
         this.entityId = entityId;
     }
 
+    public IndexTargetParticlePacket() {}
 
-    public IndexTargetParticlePacket() {
-    }
     @Override
     public void encode(FriendlyByteBuf friendlyByteBuf) {
         friendlyByteBuf.writeInt(this.entityId);
     }
+
     @Override
     public void decode(FriendlyByteBuf friendlyByteBuf) {
-        this.entityId= friendlyByteBuf.readInt();
+        this.entityId = friendlyByteBuf.readInt();
     }
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void execute(IHandlerContext handler) {
@@ -47,7 +51,6 @@ public class IndexTargetParticlePacket implements IPacket {
         level.addParticle(
                 CMParticleTypes.INDEX_TARGET.get(),
                 x, y, z,
-                0.0D, 0.0D, 0.0D
-        );
+                0.0D, 0.0D, 0.0D);
     }
 }

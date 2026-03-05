@@ -1,12 +1,11 @@
 package com.moguang.ctnhmana.api.effect;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
-
 
 public class WishingFlyEffect extends MobEffect {
 
@@ -25,21 +24,21 @@ public class WishingFlyEffect extends MobEffect {
             player.onUpdateAbilities();
         }
     }
+
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, net.minecraft.world.entity.ai.attributes.AttributeMap map, int amplifier) {
+    public void removeAttributeModifiers(LivingEntity entity, net.minecraft.world.entity.ai.attributes.AttributeMap map,
+                                         int amplifier) {
         super.removeAttributeModifiers(entity, map, amplifier);
         if (!(entity instanceof Player player) || player.level().isClientSide()) {
             return;
         }
         UUID playerId = player.getUUID();
-        player.getAbilities().mayfly=false;
+        player.getAbilities().mayfly = false;
         player.onUpdateAbilities();
-
     }
-
 }

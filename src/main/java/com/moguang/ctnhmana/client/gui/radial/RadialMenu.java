@@ -19,8 +19,8 @@ public class RadialMenu<T> {
 
     /**
      * @param setSelectedSlot 选择槽位时的回调（需在服务端同步时自行发包）
-     * @param slots          槽位列表
-     * @param drawCallback   绘制主图标的回调
+     * @param slots           槽位列表
+     * @param drawCallback    绘制主图标的回调
      */
     public RadialMenu(IntConsumer setSelectedSlot, List<RadialMenuSlot<T>> slots, DrawCallback<T> drawCallback) {
         this.setSelectedSlot = setSelectedSlot;
@@ -45,6 +45,7 @@ public class RadialMenu<T> {
      */
     @FunctionalInterface
     public interface DrawCallback<T> {
+
         void draw(T icon, GuiGraphics graphics, int x, int y, int size);
     }
 }

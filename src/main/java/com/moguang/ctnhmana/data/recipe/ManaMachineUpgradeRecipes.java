@@ -3,10 +3,12 @@ package com.moguang.ctnhmana.data.recipe;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
@@ -16,8 +18,6 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
-import net.minecraft.data.recipes.FinishedRecipe;
-import org.checkerframework.checker.units.qual.C;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
@@ -26,8 +26,8 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 
-
 public class ManaMachineUpgradeRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
         TerraPlateRecipeBuilder.builder("bt_update_t1")
                 .input(CMItems.MAGIC_CORE.asStack())
@@ -77,7 +77,7 @@ public class ManaMachineUpgradeRecipes {
                 .outputItems(CMItems.TWISTED_SOUL_FORGING)
                 .addCondition(new HellForgeCondition(42))
                 .EUt(8192)
-                .duration(44*20)
+                .duration(44 * 20)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("gt_update_t1")
                 .inputItems(CMItems.MAGIC_CORE.asStack())
@@ -89,7 +89,7 @@ public class ManaMachineUpgradeRecipes {
                 .inputFluids(CMMaterials.Mana.getFluid(1000))
                 .outputItems(CMItems.PIPELINE_VISION)
                 .EUt(GTValues.VA[GTValues.HV])
-                .duration(10*20)
+                .duration(10 * 20)
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("gt_update_t2")
                 .inputItems(CMItems.PIPELINE_VISION)
@@ -102,7 +102,7 @@ public class ManaMachineUpgradeRecipes {
                 .inputFluids(CMMaterials.Zenith_essence.getFluid(1000))
                 .outputItems(CMItems.PIPELINE_FARSIGHT)
                 .EUt(GTValues.VA[GTValues.IV])
-                .duration(10*20)
+                .duration(10 * 20)
                 .save(provider);
     }
 }

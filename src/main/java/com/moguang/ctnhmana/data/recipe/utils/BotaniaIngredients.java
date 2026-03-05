@@ -1,23 +1,31 @@
 package com.moguang.ctnhmana.data.recipe.utils;
 
-import com.moguang.ctnhmana.utils.ModUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import com.moguang.ctnhmana.utils.ModUtils;
 import vazkii.botania.common.item.BotaniaItems;
 
 public class BotaniaIngredients {
-    public static Ingredient YELLOW = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/yellow")));
+
+    public static Ingredient YELLOW = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/yellow")));
     public static Ingredient WHITE = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/white")));
-    public static Ingredient ORANGE = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/orange")));
-    public static Ingredient MAGENTA = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/magenta")));
-    public static Ingredient LIGHTBLUE = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/light_blue")));
+    public static Ingredient ORANGE = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/orange")));
+    public static Ingredient MAGENTA = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/magenta")));
+    public static Ingredient LIGHTBLUE = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/light_blue")));
     public static Ingredient LIME = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/lime")));
     public static Ingredient PINK = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/pink")));
     public static Ingredient GRAY = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/gray")));
-    public static Ingredient LIGHTGRAY = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/light_gray")));
+    public static Ingredient LIGHTGRAY = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/light_gray")));
     public static Ingredient CYAN = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/cyan")));
-    public static Ingredient PURPLE = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/purple")));
+    public static Ingredient PURPLE = Ingredient
+            .of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/purple")));
     public static Ingredient BLUE = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/blue")));
     public static Ingredient BROWN = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/brown")));
     public static Ingredient GREEN = Ingredient.of(TagKey.create(Registries.ITEM, ModUtils.BotaniaRL("petals/green")));
@@ -42,5 +50,4 @@ public class BotaniaIngredients {
     public static Ingredient redstoneRoot = Ingredient.of(BotaniaItems.redstoneRoot);
     public static Ingredient pixieDust = Ingredient.of(BotaniaItems.pixieDust);
     public static Ingredient gaiaSpirit = Ingredient.of(BotaniaItems.lifeEssence);
-
 }

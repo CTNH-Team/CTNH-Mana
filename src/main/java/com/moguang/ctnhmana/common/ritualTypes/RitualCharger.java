@@ -2,10 +2,10 @@ package com.moguang.ctnhmana.common.ritualTypes;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.electric.BatteryBufferMachine;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+
 import wayoftime.bloodmagic.ritual.*;
 
 import java.util.List;
@@ -13,8 +13,10 @@ import java.util.function.Consumer;
 
 @RitualRegister("manacharger")
 public class RitualCharger extends Ritual {
+
     long energyGen = 204800;
     int syphonCost = 25600;
+
     public RitualCharger() {
         super("ritualCharger", 0, 1500000, "ritual.ctnhmana.chargerRitual");
         this.addBlockRange("charge", new AreaDescriptor.Rectangle(new BlockPos(0, 1, 0), 1));
@@ -29,8 +31,7 @@ public class RitualCharger extends Ritual {
         int effect = 100;
         if (currentEssence < this.getRefreshCost()) {
             masterRitualStone.getOwnerNetwork().causeNausea();
-        }
-        else {
+        } else {
             AreaDescriptor chargerRange = masterRitualStone.getBlockRange("charge");
             List<BlockPos> chargerList = chargerRange.getContainedPositions(pos);
             if (chargerList.size() > 0) {

@@ -6,19 +6,24 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+
 import net.minecraft.world.item.ItemStack;
+
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.Nullable;
 
 public class DigitalWosMachine extends SimpleTieredMachine {
+
     public double multiplier = 0;
-    public DigitalWosMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args){
+
+    public DigitalWosMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction,
+                             Object... args) {
         super(holder, tier, tankScalingFunction, args);
     }
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        if(!importItems.isEmpty()) {
+        if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
             var count = stack.getTag().getCompound("data_model").getInt("data");
             if (count < 6) multiplier = 0;
@@ -32,17 +37,18 @@ public class DigitalWosMachine extends SimpleTieredMachine {
 
     @Override
     public void afterWorking() {
-        if(!importItems.isEmpty()){
+        if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
             var count = stack.getTag().getCompound("data_model").getInt("data");
-            if(count < 54) stack.getTag().getCompound("data_model").putInt("data",count + 1);
+            if (count < 54) stack.getTag().getCompound("data_model").putInt("data", count + 1);
         }
         super.afterWorking();
     }
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){
-            if(machine instanceof DigitalWosMachine dmachine) {
-                return ModifierFunction.builder().outputModifier(ContentModifier.multiplier(dmachine.multiplier)).build();
-            }
-            return ModifierFunction.IDENTITY;
+
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (machine instanceof DigitalWosMachine dmachine) {
+            return ModifierFunction.builder().outputModifier(ContentModifier.multiplier(dmachine.multiplier)).build();
+        }
+        return ModifierFunction.IDENTITY;
     }
 }

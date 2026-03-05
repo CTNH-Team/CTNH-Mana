@@ -1,91 +1,83 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
-import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
-import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
-import com.moguang.ctnhmana.registry.CMItems;
-import com.moguang.ctnhmana.registry.multiblock.Botania;
-import mythicbotany.register.ModItems;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
+import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
+import com.moguang.ctnhmana.registry.multiblock.Botania;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
+import java.util.function.Consumer;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.moguang.ctnhmana.registry.CMItems.*;
+import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
+import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
 import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.*;
 import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
-
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.moguang.ctnhmana.registry.CMItems.*;
-import static com.moguang.ctnhmana.registry.CMMaterials.*;
-import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
-import static net.minecraft.world.item.Items.SWEET_BERRIES;
 import static vazkii.botania.common.block.BotaniaBlocks.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
 
-
 @SuppressWarnings("removal")
 public class ManaReactorRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
         MANA_REACTOR_RECIPES.recipeBuilder("blocks_manasteel2")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(Items.IRON_INGOT,9)
-                .inputFluids(Mana,540)
-                .outputItems(ChemicalHelper.get(block,ManaSteel,1))
+                .inputItems(Items.IRON_INGOT, 9)
+                .inputFluids(Mana, 540)
+                .outputItems(ChemicalHelper.get(block, ManaSteel, 1))
                 .duration(500)
                 .circuitMeta(9)
                 .EUt(32)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manasteel2")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(Items.IRON_BLOCK,1)
-                .outputItems(ChemicalHelper.get(ingot,ManaSteel),9)
-                .inputFluids(Mana,540)
+                .inputItems(Items.IRON_BLOCK, 1)
+                .outputItems(ChemicalHelper.get(ingot, ManaSteel), 9)
+                .inputFluids(Mana, 540)
                 .duration(500)
                 .circuitMeta(9)
                 .EUt(32)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manadiamond2")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(Items.DIAMOND_BLOCK,1)
-                .outputItems(manaDiamond,9)
+                .inputItems(Items.DIAMOND_BLOCK, 1)
+                .outputItems(manaDiamond, 9)
                 .duration(1000)
                 .circuitMeta(9)
                 .EUt(512)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manadiamondblock2")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(Items.DIAMOND,9)
-                .outputItems(manaDiamondBlock.asItem(),1)
+                .inputItems(Items.DIAMOND, 9)
+                .outputItems(manaDiamondBlock.asItem(), 1)
                 .duration(1000)
                 .circuitMeta(9)
                 .EUt(512)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("zenith_essence")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(),1)
-                .inputItems(INFUSED_BREATH,1)
+                .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(), 1)
+                .inputItems(INFUSED_BREATH, 1)
                 .inputFluids(Mana.getFluid(10000))
-                .inputFluids(Krypton,10000)
+                .inputFluids(Krypton, 10000)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 10000))
                 .outputFluids(Zenith_essence.getFluid(2000))
                 .duration(200)
@@ -94,8 +86,8 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("stable_plus_mana_dust")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(ChemicalHelper.get(dust,Infused_Plus_Mana,10))
-                .outputItems(ChemicalHelper.get(dust,Stable_Plus_Mana),15)
+                .inputItems(ChemicalHelper.get(dust, Infused_Plus_Mana, 10))
+                .outputItems(ChemicalHelper.get(dust, Stable_Plus_Mana), 15)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(2000))
                 .duration(200)
                 .circuitMeta(1)
@@ -106,9 +98,9 @@ public class ManaReactorRecipes {
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
-                .inputFluids(Mana,10000)
-                .inputItems(elfGlass.asItem(),1)
-                .chancedOutput(alfsteelIngot.getDefaultInstance(), (int) 5000f,15)
+                .inputFluids(Mana, 10000)
+                .inputItems(elfGlass.asItem(), 1)
+                .chancedOutput(alfsteelIngot.getDefaultInstance(), (int) 5000f, 15)
                 .duration(1600)
                 .circuitMeta(0)
                 .EUt(480)
@@ -118,10 +110,10 @@ public class ManaReactorRecipes {
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
-                .inputFluids(Mana,8000)
-                .inputItems(elfGlass.asItem(),1)
+                .inputFluids(Mana, 8000)
+                .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(ELF_CATALYST)
-                .chancedOutput(alfsteelIngot.getDefaultInstance(),(int) 7500f,15)
+                .chancedOutput(alfsteelIngot.getDefaultInstance(), (int) 7500f, 15)
                 .duration(800)
                 .circuitMeta(1)
                 .EUt(1680)
@@ -131,8 +123,8 @@ public class ManaReactorRecipes {
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
-                .inputFluids(Mana,8000)
-                .inputItems(elfGlass.asItem(),1)
+                .inputFluids(Mana, 8000)
+                .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(TERRA_CATALYST)
                 .outputItems(alfsteelIngot)
                 .duration(800)
@@ -141,13 +133,13 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("terra_catalyst")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(niflheimRune,64)
-                .inputItems(gaiaIngot,64)
-                .inputItems(alfsteelIngot,64)
-                .inputFluids(Mana,1200*1000)
-                .inputItems(runeMana,64)
+                .inputItems(niflheimRune, 64)
+                .inputItems(gaiaIngot, 64)
+                .inputItems(alfsteelIngot, 64)
+                .inputFluids(Mana, 1200 * 1000)
+                .inputItems(runeMana, 64)
                 .inputItems(ELF_CATALYST)
-                .chancedOutput(TERRA_CATALYST.asStack(),(int) 5000f,1)
+                .chancedOutput(TERRA_CATALYST.asStack(), (int) 5000f, 1)
                 .outputItems(ELF_CATALYST)
                 .duration(6000)
                 .circuitMeta(1)
@@ -165,12 +157,12 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("eternal_garden")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(runeSpring,4)
-                .inputItems(runeSummer,4)
-                .inputItems(runeAutumn,4)
-                .inputItems(runeWinter,4)
+                .inputItems(runeSpring, 4)
+                .inputItems(runeSummer, 4)
+                .inputItems(runeAutumn, 4)
+                .inputItems(runeWinter, 4)
                 .inputItems(HEART_OF_FLOWER)
-                .inputItems(BotaniaTags.Items.MYSTICAL_FLOWERS,64)
+                .inputItems(BotaniaTags.Items.MYSTICAL_FLOWERS, 64)
                 .inputFluids(Mana.getFluid(1000))
                 .notConsumable(ELF_CATALYST)
                 .outputItems(Botania.ETERNAL_GARDEN)
@@ -180,7 +172,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("dragonstone1")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(manaDiamond,2)
+                .inputItems(manaDiamond, 2)
                 .inputFluids(Mana.getFluid(500))
                 .notConsumable(ELF_CATALYST)
                 .outputItems(dragonstone)
@@ -190,20 +182,20 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("super_plus_mana_dust")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(ChemicalHelper.get(dust,Stable_Plus_Mana,8))
+                .inputItems(ChemicalHelper.get(dust, Stable_Plus_Mana, 8))
                 .inputFluids(Zenith_essence.getFluid(200))
                 .notConsumable(ELF_CATALYST)
-                .outputItems(ChemicalHelper.get(dust,Super_Plus_Mana,8))
+                .outputItems(ChemicalHelper.get(dust, Super_Plus_Mana, 8))
                 .duration(200)
                 .circuitMeta(1)
                 .EUt(7700)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("mana_macerator")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(ChemicalHelper.get(screw,AlfSteel,64))
-                .inputItems(GTMachines.MACERATOR[2],4)
-                .inputItems(GTItems.ROBOT_ARM_MV,2)
-                .inputItems(GTItems.COMPONENT_GRINDER_DIAMOND,16)
+                .inputItems(ChemicalHelper.get(screw, AlfSteel, 64))
+                .inputItems(GTMachines.MACERATOR[2], 4)
+                .inputItems(GTItems.ROBOT_ARM_MV, 2)
+                .inputItems(GTItems.COMPONENT_GRINDER_DIAMOND, 16)
                 .inputFluids(Mana.getFluid(1000))
                 .outputItems(MANA_MACERATOR)
                 .duration(400)
@@ -212,17 +204,17 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("elfglass1")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(manaGlass.asItem(),1)
+                .inputItems(manaGlass.asItem(), 1)
                 .inputFluids(Mana.getFluid(500))
                 .notConsumable(ELF_CATALYST)
-                .outputItems(elfGlass.asItem(),1)
+                .outputItems(elfGlass.asItem(), 1)
                 .duration(100)
                 .circuitMeta(1)
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("bifrost_perm")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(elfGlass.asItem(),1)
+                .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(rainbowRod)
                 .outputItems(bifrostPerm.asItem())
                 .duration(100)
@@ -231,7 +223,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("elementium_quartz")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(BotaniaItems.elfQuartz,2)
+                .inputItems(BotaniaItems.elfQuartz, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(elementiumQuartz)
                 .duration(20)
@@ -242,7 +234,7 @@ public class ManaReactorRecipes {
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(runeFire.asItem())
                 .inputItems(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse("biomesoplenty:eyebulb")))
-                .inputItems(ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("biomesoplenty:blood_bucket")),4)
+                .inputItems(ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("biomesoplenty:blood_bucket")), 4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
                 .duration(40)
@@ -251,22 +243,22 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("twist_mana")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(ChemicalHelper.get(dust,Uranium235),1)
-                .inputItems(ChemicalHelper.get(dust,Thorium),1)
-                .inputItems(ChemicalHelper.get(dust,Unknown_Super_Mana),1)
-                .inputItems(ChemicalHelper.get(dust,Plutonium241),1)
-                .inputFluids(Radon,200)
+                .inputItems(ChemicalHelper.get(dust, Uranium235), 1)
+                .inputItems(ChemicalHelper.get(dust, Thorium), 1)
+                .inputItems(ChemicalHelper.get(dust, Unknown_Super_Mana), 1)
+                .inputItems(ChemicalHelper.get(dust, Plutonium241), 1)
+                .inputFluids(Radon, 200)
                 .notConsumable(TERRA_CATALYST)
-                .outputItems(ChemicalHelper.get(dust,Twist_Mana),3)
+                .outputItems(ChemicalHelper.get(dust, Twist_Mana), 3)
                 .duration(100)
                 .circuitMeta(1)
                 .EUt(12120)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("plus_mana_dust")
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(ChemicalHelper.get(dust,Fused_demon_mixed),10)
+                .inputItems(ChemicalHelper.get(dust, Fused_demon_mixed), 10)
                 .inputFluids(Mana.getFluid(10000))
-                .outputItems(ChemicalHelper.get(dust,Plus_Mana),8)
+                .outputItems(ChemicalHelper.get(dust, Plus_Mana), 8)
                 .duration(100)
                 .circuitMeta(1)
                 .EUt(1000)
@@ -275,10 +267,10 @@ public class ManaReactorRecipes {
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(GTItems.QUANTUM_STAR)
                 .inputItems(runeMana)
-                .inputItems(vanaheimRune,1)
-                .inputItems(ChemicalHelper.get(ingot,Ultra_Mana),4)
-                .inputFluids(Mana.getFluid(360*1000))
-                .inputFluids(Zenith_essence.getFluid(90*1000))
+                .inputItems(vanaheimRune, 1)
+                .inputItems(ChemicalHelper.get(ingot, Ultra_Mana), 4)
+                .inputFluids(Mana.getFluid(360 * 1000))
+                .inputFluids(Zenith_essence.getFluid(90 * 1000))
                 .outputItems(ZENITH_STAR)
                 .duration(100)
                 .circuitMeta(1)
@@ -287,13 +279,13 @@ public class ManaReactorRecipes {
         MANA_REACTOR_RECIPES.recipeBuilder("mana_circuit_board")
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(STARLIGHT_RUNE)
-                .inputItems(ChemicalHelper.get(plate,ReinforcedEpoxyResin),32)
-                .inputItems(ChemicalHelper.get(foil,Ultra_Mana),32)
-                .inputItems(vanaheimRune,1)
-                .inputItems(ChemicalHelper.get(ingot,Ultra_Mana),4)
-                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16*1000))
-                .inputFluids(Zenith_essence.getFluid(4*1000))
-                .outputItems(MANA_CIRCUIT_BOARD,16)
+                .inputItems(ChemicalHelper.get(plate, ReinforcedEpoxyResin), 32)
+                .inputItems(ChemicalHelper.get(foil, Ultra_Mana), 32)
+                .inputItems(vanaheimRune, 1)
+                .inputItems(ChemicalHelper.get(ingot, Ultra_Mana), 4)
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16 * 1000))
+                .inputFluids(Zenith_essence.getFluid(4 * 1000))
+                .outputItems(MANA_CIRCUIT_BOARD, 16)
                 .duration(100)
                 .circuitMeta(1)
                 .EUt(1000)
@@ -302,15 +294,15 @@ public class ManaReactorRecipes {
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(midgardRune)
                 .inputItems(runeMana)
-                .inputItems(ChemicalHelper.get(dust,Unstable_Plus_Mana),1)
-                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16*1000))
-                .inputFluids(Zenith_essence.getFluid(4*1000))
-                .outputItems(ChemicalHelper.get(dust,Infused_Plus_Mana),1)
+                .inputItems(ChemicalHelper.get(dust, Unstable_Plus_Mana), 1)
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(16 * 1000))
+                .inputFluids(Zenith_essence.getFluid(4 * 1000))
+                .outputItems(ChemicalHelper.get(dust, Infused_Plus_Mana), 1)
                 .duration(60)
                 .circuitMeta(1)
                 .EUt(1145141919810L)
                 .save(provider);
-        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder("mana_stable")//魔力稳定剂
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder("mana_stable")// 魔力稳定剂
                 .inputItems(niflheimRune)
                 .inputItems(runeWinter)
                 .inputFluids(PolyvinylChloride.getFluid(1000))
@@ -321,69 +313,69 @@ public class ManaReactorRecipes {
                 .duration(100)
                 .circuitMeta(1)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("heart_of_flower")//繁花之心
+        MANA_REACTOR_RECIPES.recipeBuilder("heart_of_flower")// 繁花之心
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(STARLIGHT_RUNE,32)
-                .inputItems(HORIZEN_RUNE,32)
-                .inputItems(TWIST_RUNE,32)
-                .inputItems(PROLIFERATION_RUNE,64)
-                .inputItems(GTItems.STEM_CELLS,128)
-                .inputItems(ChemicalHelper.get(dustTiny,Ultra_Mana),64)
+                .inputItems(STARLIGHT_RUNE, 32)
+                .inputItems(HORIZEN_RUNE, 32)
+                .inputItems(TWIST_RUNE, 32)
+                .inputItems(PROLIFERATION_RUNE, 64)
+                .inputItems(GTItems.STEM_CELLS, 128)
+                .inputItems(ChemicalHelper.get(dustTiny, Ultra_Mana), 64)
                 .inputFluids(Zenith_essence.getFluid(10000))
                 .outputItems(HEART_OF_FLOWER)
                 .duration(800)
                 .circuitMeta(1)
-                .EUt(418278400L/800)
+                .EUt(418278400L / 800)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")//高级注魔电阻
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")// 高级注魔电阻
                 .addCondition(new ManaReactorCondition(false))
-                .inputItems(MANA_RESISTOR,2)
+                .inputItems(MANA_RESISTOR, 2)
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_RESISTOR)
                 .duration(200)
                 .circuitMeta(1)
-                .EUt(9600/200)
+                .EUt(9600 / 200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")//高级注魔二极管
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")// 高级注魔二极管
                 .addCondition(new ManaReactorCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
-                .inputItems(MANA_DIODE,2)
+                .inputItems(MANA_DIODE, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_DIODE)
                 .duration(200)
                 .circuitMeta(1)
-                .EUt(9600/200)
+                .EUt(9600 / 200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")//高级注魔晶体管
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")// 高级注魔晶体管
                 .addCondition(new ManaReactorCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
-                .inputItems(MANA_TRANSISTOR,2)
+                .inputItems(MANA_TRANSISTOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_TRANSISTOR)
                 .duration(200)
                 .circuitMeta(1)
-                .EUt(9600/200)
+                .EUt(9600 / 200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")//高级注魔电容
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")// 高级注魔电容
                 .addCondition(new ManaReactorCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
-                .inputItems(MANA_CAPACITOR,2)
+                .inputItems(MANA_CAPACITOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_CAPACITOR)
                 .duration(200)
                 .circuitMeta(1)
-                .EUt(9600/200)
+                .EUt(9600 / 200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")//高级注魔电感
+        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")// 高级注魔电感
                 .addCondition(new ManaReactorCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
-                .inputItems(MANA_INDUCTOR,2)
+                .inputItems(MANA_INDUCTOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_INDUCTOR)
                 .duration(200)
                 .circuitMeta(1)
-                .EUt(9600/200)
+                .EUt(9600 / 200)
                 .save(provider);
     }
 }

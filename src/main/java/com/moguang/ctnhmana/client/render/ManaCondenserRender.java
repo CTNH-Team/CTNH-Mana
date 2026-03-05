@@ -3,11 +3,8 @@ package com.moguang.ctnhmana.client.render;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
+
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
-import com.moguang.ctnhmana.Mutiblock.MachineUtils;
-import com.moguang.ctnhmana.Mutiblock.ManaCondenserMachine;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.serialization.Codec;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
@@ -15,18 +12,26 @@ import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.moguang.ctnhmana.Mutiblock.MachineUtils;
+import com.moguang.ctnhmana.Mutiblock.ManaCondenserMachine;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.serialization.Codec;
+
 import java.util.List;
 
 public class ManaCondenserRender extends DynamicRender<IMachineFeature, ManaCondenserRender> {
+
     public static Codec<ManaCondenserRender> CODEC = Codec.unit(ManaCondenserRender::new);
-    public static final DynamicRenderType<IMachineFeature, ManaCondenserRender> TYPE = new DynamicRenderType<>(ManaCondenserRender.CODEC);
-    public ManaCondenserRender() {
-    }
+    public static final DynamicRenderType<IMachineFeature, ManaCondenserRender> TYPE = new DynamicRenderType<>(
+            ManaCondenserRender.CODEC);
+
+    public ManaCondenserRender() {}
 
     @Override
     public DynamicRenderType<IMachineFeature, ManaCondenserRender> getType() {
         return TYPE;
     }
+
     @Override
     public int getViewDistance() {
         return 48;
@@ -34,9 +39,11 @@ public class ManaCondenserRender extends DynamicRender<IMachineFeature, ManaCond
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(IMachineFeature feature, float gameTime, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    public void render(IMachineFeature feature, float gameTime, PoseStack poseStack, MultiBufferSource buffer,
+                       int combinedLight, int combinedOverlay) {
         var metaMachine = feature.self();
-        if (metaMachine instanceof ManaCondenserMachine machine && machine.isFormed() && (machine.isActive() || machine.getLevel() instanceof TrackedDummyWorld)) {
+        if (metaMachine instanceof ManaCondenserMachine machine && machine.isFormed() &&
+                (machine.isActive() || machine.getLevel() instanceof TrackedDummyWorld)) {
             List<BlockPos> target = List.of(
                     MachineUtils.getOffset(machine, 0, 11, 13),
                     MachineUtils.getOffset(machine, 0, 11, -13),
@@ -52,7 +59,8 @@ public class ManaCondenserRender extends DynamicRender<IMachineFeature, ManaCond
                     MachineUtils.getOffset(machine, -5, 8, -5));
             BlockPos core = MachineUtils.getOffset(machine, 0, 5, 0);
             boolean reverse = false;
-            if (machine.getRecipeLogic().getLastRecipe().data.get("mode") != null && machine.getRecipeLogic().getLastRecipe().data.getString("mode").equals("reverse")) {
+            if (machine.getRecipeLogic().getLastRecipe().data.get("mode") != null &&
+                    machine.getRecipeLogic().getLastRecipe().data.getString("mode").equals("reverse")) {
                 reverse = true;
             }
             float xoff = 0.5F;
@@ -64,13 +72,14 @@ public class ManaCondenserRender extends DynamicRender<IMachineFeature, ManaCond
                 if (reverse) {
                     poseStack.pushPose();
                     poseStack.translate(xoff + x, 4 + y, zoff + z);
-                    EnderDragonRenderer.renderCrystalBeams(-x, -y, -z, machine.getLevel().getGameTime() + gameTime, 2000, poseStack, buffer, 15);
+                    EnderDragonRenderer.renderCrystalBeams(-x, -y, -z, machine.getLevel().getGameTime() + gameTime,
+                            2000, poseStack, buffer, 15);
                     poseStack.popPose();
-                }
-                else {
+                } else {
                     poseStack.pushPose();
                     poseStack.translate(xoff, 4, zoff);
-                    EnderDragonRenderer.renderCrystalBeams(x, y, z, machine.getLevel().getGameTime() + gameTime, 2000, poseStack, buffer, 15);
+                    EnderDragonRenderer.renderCrystalBeams(x, y, z, machine.getLevel().getGameTime() + gameTime, 2000,
+                            poseStack, buffer, 15);
                     poseStack.popPose();
                 }
 

@@ -1,10 +1,8 @@
 package com.moguang.ctnhmana.data.recipe;
 
-import com.moguang.ctnhmana.common.recipe.builder.botania.ElvenTradeRecipeBuilder;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.ItemStack;
-import vazkii.botania.common.block.BotaniaBlocks;
-import vazkii.botania.common.item.BotaniaItems;
+
+import com.moguang.ctnhmana.common.recipe.builder.botania.ElvenTradeRecipeBuilder;
 
 import java.util.function.Consumer;
 
@@ -19,14 +17,10 @@ import static com.moguang.ctnhmana.registry.CMItems.MANA_INDUCTOR;
 import static com.moguang.ctnhmana.registry.CMItems.MANA_RESISTOR;
 import static com.moguang.ctnhmana.registry.CMItems.MANA_TRANSISTOR;
 
-
 @SuppressWarnings("removal")
 public class ElvenTradeRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-
-
-
         ElvenTradeRecipeBuilder.builder("advanced_mana_resistor")
                 .input(MANA_RESISTOR.asStack(), MANA_RESISTOR.asStack())
                 .output(ADVANCED_MANA_RESISTOR.asStack())

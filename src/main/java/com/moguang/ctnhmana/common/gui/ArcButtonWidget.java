@@ -8,19 +8,19 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import dev.latvian.mods.rhino.annotations.JSFunction;
+
+import net.createmod.catnip.annotations.Environment;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.FriendlyByteBuf;
+
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import lombok.Getter;
 import lombok.Setter;
-import net.createmod.catnip.annotations.Environment;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
-import org.jetbrains.annotations.NotNull;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
-import java.util.function.Consumer;
 
 @LDLRegister(name = "arc_button", group = "widget.basic") // 修改注册名以便区分
 @RemapPrefixForJS("kjs$")
@@ -31,19 +31,23 @@ public class ArcButtonWidget extends Widget implements IConfigurableWidget {
 
     // 弧线核心参数（可在编辑器中配置）
     @Configurable(name = "arc.inner_radius", tips = "内半径（弧形空心部分）")
-    @Setter @Getter
-    protected int innerRadius = 92/2;
+    @Setter
+    @Getter
+    protected int innerRadius = 92 / 2;
 
     @Configurable(name = "arc.outer_radius", tips = "外半径（弧形外边界）")
-    @Setter @Getter
-    protected int outerRadius = 275/2;
+    @Setter
+    @Getter
+    protected int outerRadius = 275 / 2;
 
     @Configurable(name = "arc.start_angle", tips = "起始角度（度，0为右向，顺时针递增）")
-    @Setter @Getter
-    protected double startAngle = 360-45; // 单位：度（内部转换为弧度）
+    @Setter
+    @Getter
+    protected double startAngle = 360 - 45; // 单位：度（内部转换为弧度）
 
     @Configurable(name = "arc.end_angle", tips = "结束角度（度）")
-    @Setter @Getter
+    @Setter
+    @Getter
     protected double endAngle = 45; // 单位：度（内部转换为弧度）
 
     protected Consumer<ClickData> onPressCallback;
@@ -59,7 +63,8 @@ public class ArcButtonWidget extends Widget implements IConfigurableWidget {
         setHoverBorderTexture(1, -1);
     }
 
-    public ArcButtonWidget(int xPosition, int yPosition, int width, int height, IGuiTexture buttonTexture, Consumer<ClickData> onPressed) {
+    public ArcButtonWidget(int xPosition, int yPosition, int width, int height, IGuiTexture buttonTexture,
+                           Consumer<ClickData> onPressed) {
         super(xPosition, yPosition, width, height);
         this.onPressCallback = onPressed;
         setBackground(buttonTexture);
@@ -198,7 +203,4 @@ public class ArcButtonWidget extends Widget implements IConfigurableWidget {
             hoverTexture.draw(graphics, mouseX, mouseY, pos.x, pos.y, size.width, size.height);
         }
     }
-
-
-
 }

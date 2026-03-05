@@ -1,30 +1,33 @@
 package com.moguang.ctnhmana.common.recipe.builder.bloodmagic;
 
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
+import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import org.jetbrains.annotations.Nullable;
 import wayoftime.bloodmagic.common.registries.BloodMagicRecipeSerializers;
 import wayoftime.bloodmagic.recipe.helper.SerializerHelper;
 import wayoftime.bloodmagic.util.Constants;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
 
 public class BloodAltarRecipeBuilder {
+
     private final List<Ingredient> inputs = new ArrayList<>();
     private ItemStack output;
     private int minimumTier = 1; // 默认最低祭坛等级1
@@ -32,7 +35,8 @@ public class BloodAltarRecipeBuilder {
     private int consumeRate = 0; // 默认消耗速率0
     private int drainRate = 0;   // 默认流失速率0
     private final ResourceLocation id;
-    private int meta=-1;
+    private int meta = -1;
+
     public BloodAltarRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }
@@ -57,7 +61,6 @@ public class BloodAltarRecipeBuilder {
         return this;
     }
 
-
     public BloodAltarRecipeBuilder input(Ingredient... ingredients) {
         Arrays.stream(ingredients).forEach(this.inputs::add);
         return this;
@@ -67,11 +70,12 @@ public class BloodAltarRecipeBuilder {
         this.output = itemStack;
         return this;
     }
-    public BloodAltarRecipeBuilder circuitMeta(int meta)
-    {
-        this.meta=meta;
+
+    public BloodAltarRecipeBuilder circuitMeta(int meta) {
+        this.meta = meta;
         return this;
     }
+
     // ========== 链式配置方法（非核心参数，可选） ==========
     public BloodAltarRecipeBuilder minimumTier(int minimumTier) {
         this.minimumTier = minimumTier;
@@ -107,7 +111,7 @@ public class BloodAltarRecipeBuilder {
         json.add(Constants.JSON.INPUT, inputJson);
 
         // 序列化非核心参数（使用默认值或用户配置值）
-        json.addProperty(Constants.JSON.ALTAR_TIER, this.minimumTier-1);
+        json.addProperty(Constants.JSON.ALTAR_TIER, this.minimumTier - 1);
         json.addProperty(Constants.JSON.ALTAR_SYPHON, this.syphon);
         json.addProperty(Constants.JSON.ALTAR_CONSUMPTION_RATE, this.consumeRate);
         json.addProperty(Constants.JSON.ALTAR_DRAIN_RATE, this.drainRate);
@@ -116,6 +120,7 @@ public class BloodAltarRecipeBuilder {
     // ========== 构建FinishedRecipe（对齐Petal的build方法） ==========
     public FinishedRecipe build() {
         return new FinishedRecipe() {
+
             @Override
             public void serializeRecipeData(@Nonnull JsonObject pJson) {
                 toJson(pJson); // 复用序列化逻辑
@@ -144,27 +149,28 @@ public class BloodAltarRecipeBuilder {
             }
         };
     }
+
     private GTRecipeBuilder mapToGTBuilder() {
         if (this.output == null || this.inputs.isEmpty()) {
             throw new IllegalStateException("参数缺失是凉爽的夏夜");
         }
 
         ResourceLocation bmId = BloodAltarRecipeBuilder.this.id;
-        ResourceLocation gtId = GTCEu.id( "industrial_altar_" + bmId.getPath());
+        ResourceLocation gtId = GTCEu.id("industrial_altar_" + bmId.getPath());
 
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.BLOOD_ALTAR_RECIPES)
-                .addCondition(new BloodAltarCondition(this.minimumTier,this.drainRate,this.syphon));
+                .addCondition(new BloodAltarCondition(this.minimumTier, this.drainRate, this.syphon));
 
         for (Ingredient ingredient : this.inputs) {
             gtBuilder.inputItems(ingredient);
         }
         gtBuilder.outputItems(this.output);
 
-        long gtEUt = (long) (128 * Math.pow(2, this.minimumTier-1));
+        long gtEUt = (long) (128 * Math.pow(2, this.minimumTier - 1));
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(syphon/consumeRate, 100);
+        int gtDuration = Math.max(syphon / consumeRate, 100);
         gtBuilder.duration(gtDuration);
-        if(meta>=0)
+        if (meta >= 0)
             gtBuilder.circuitMeta(meta);
         return gtBuilder;
     }

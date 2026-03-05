@@ -1,7 +1,14 @@
 package com.moguang.ctnhmana.mixin.ars;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.client.container.IAutoFillTerminal;
 import com.hollingsworth.arsnouveau.client.container.StoredItemStack;
 import com.hollingsworth.arsnouveau.client.jei.CraftingTerminalTransferHandler;
@@ -11,48 +18,38 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(value = CraftingTerminalTransferHandler.class,remap = false)
+@Mixin(value = CraftingTerminalTransferHandler.class, remap = false)
 public abstract class MixinEmiLecternRecipeHandler {
+
     // 复用原类里的 helper，用来创建缺料提示
-    @Shadow private IRecipeTransferHandlerHelper helper;
+    @Shadow
+    private IRecipeTransferHandlerHelper helper;
 
     // 如果你想保留 INTERNAL 错误分支，可以 Shadow 这个字段
     @Shadow
     private static IRecipeTransferError ERROR_INSTANCE;
 
-
     @Inject(
             method = "transferRecipe",
             at = @At("HEAD"),
-            cancellable = true
-    )
+            cancellable = true)
     private void relaxedStoragePath(
-            AbstractContainerMenu container,
-            CraftingRecipe recipe,
-            IRecipeSlotsView recipeSlots,
-            Player player,
-            boolean maxTransfer,
-            boolean doTransfer,
-            CallbackInfoReturnable<IRecipeTransferError> cir
-    ) {
+                                    AbstractContainerMenu container,
+                                    CraftingRecipe recipe,
+                                    IRecipeSlotsView recipeSlots,
+                                    Player player,
+                                    boolean maxTransfer,
+                                    boolean doTransfer,
+                                    CallbackInfoReturnable<IRecipeTransferError> cir) {
         // 非终端容器，交回原方法处理（保持行为一致）
         if (!(container instanceof IAutoFillTerminal term)) {
             return;
@@ -144,11 +141,9 @@ public abstract class MixinEmiLecternRecipeHandler {
             term.sendMessage(compound);
         }
         if (!missing.isEmpty()) {
-            IRecipeTransferError error =
-                    helper.createUserErrorForMissingSlots(
-                            Component.translatable("tooltip.ars_nouveau.items_missing"),
-                            missing
-                    );
+            IRecipeTransferError error = helper.createUserErrorForMissingSlots(
+                    Component.translatable("tooltip.ars_nouveau.items_missing"),
+                    missing);
             cir.setReturnValue(error);
         } else {
             cir.setReturnValue(null);

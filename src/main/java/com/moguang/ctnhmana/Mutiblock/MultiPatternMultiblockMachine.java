@@ -1,27 +1,31 @@
 package com.moguang.ctnhmana.Mutiblock;
 
-
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import lombok.Getter;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+
+import javax.annotation.Nullable;
 
 public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MultiPatternMultiblockMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
     /**
      * 存储所有可用的模式
      */
@@ -46,8 +50,6 @@ public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMac
         // 初始化模式列表
         initializePatterns();
     }
-
-
 
     /**
      * 初始化模式列表
@@ -120,7 +122,7 @@ public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMac
         }
 
         // 尝试匹配每个模式
-        for (int i = patterns.size()-1; i >=0; i--) {
+        for (int i = patterns.size() - 1; i >= 0; i--) {
             BlockPattern pattern = patterns.get(i);
             if (pattern != null) {
                 // 清理状态（每次尝试前清理）

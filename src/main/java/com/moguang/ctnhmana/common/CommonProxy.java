@@ -1,6 +1,12 @@
 package com.moguang.ctnhmana.common;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import com.moguang.ctnhmana.CMConfig;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.CMDatagen;
@@ -12,22 +18,18 @@ import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.CMEntities;
 import com.moguang.ctnhmana.registry.GTMaterialAddon;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tech.vixhentx.mcmod.ctnhlib.jade.JadePriorityManager;
-
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 
 @SuppressWarnings("removal")
 public class CommonProxy {
+
     public CommonProxy() {
         init();
         IEventBus modEventBus = FMLJavaModLoadingContext
                 .get().getModEventBus();
         modEventBus.addListener(this::addMaterialFlag);
     }
+
     @SuppressWarnings("removal")
     public static void init() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -35,7 +37,7 @@ public class CommonProxy {
         CMCreativeModeTabs.init();
         CTNHMana.REGISTRATE.registerRegistrate();
         CMDatagen.init();
-        //CMRecipes.init(modEventBus);
+        // CMRecipes.init(modEventBus);
         CMConfig.init();
         JadePriorityManager.registerBlockData(
                 new ManaHatchStatusProvider(),
@@ -47,8 +49,7 @@ public class CommonProxy {
                 new ManaHatchStatusProvider(),
                 Block.class,
                 900,
-                "mana_hatch_status")
-        ;
+                "mana_hatch_status");
         JadePriorityManager.registerBlockData(
                 new ManaMachineManaStatusProvider(),
                 BlockEntity.class,
@@ -59,8 +60,7 @@ public class CommonProxy {
                 new ManaMachineManaStatusProvider(),
                 Block.class,
                 900,
-                "manamachine_mana_status")
-        ;
+                "manamachine_mana_status");
         JadePriorityManager.registerBlockData(
                 new BaseManaMachineStatusProvider(),
                 BlockEntity.class,
@@ -71,8 +71,7 @@ public class CommonProxy {
                 new BaseManaMachineStatusProvider(),
                 Block.class,
                 900,
-                "mana_base_machine_status")
-        ;
+                "mana_base_machine_status");
         JadePriorityManager.registerBlockData(
                 new ThirdEyeStatusProvider(),
                 BlockEntity.class,
@@ -83,8 +82,7 @@ public class CommonProxy {
                 new ThirdEyeStatusProvider(),
                 Block.class,
                 900,
-                "mana_pool_status")
-        ;
+                "mana_pool_status");
         JadePriorityManager.registerBlockData(
                 new BloodAltarStatusProvider(),
                 BlockEntity.class,
@@ -95,12 +93,10 @@ public class CommonProxy {
                 new BloodAltarStatusProvider(),
                 Block.class,
                 900,
-                "bloodaltar_status")
-        ;
+                "bloodaltar_status");
     }
 
     public void addMaterialFlag(MaterialEvent event) {
         GTMaterialAddon.init();
     }
-
 }

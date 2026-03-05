@@ -1,58 +1,61 @@
 package com.moguang.ctnhmana.common.recipe.builder.bloodmagic;
 
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.gregtechceu.gtceu.utils.GTUtil;
-import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
+import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import org.jetbrains.annotations.Nullable;
-import wayoftime.bloodmagic.common.data.recipe.BloodMagicRecipeBuilder;
 import wayoftime.bloodmagic.common.registries.BloodMagicRecipeSerializers;
 import wayoftime.bloodmagic.recipe.helper.SerializerHelper;
 import wayoftime.bloodmagic.util.Constants;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 public class TartaricForgeRecipeBuilder {
+
     // 核心配方属性
     private final List<Ingredient> inputs = new ArrayList<>();
     private ItemStack output;
     private double minimumSouls;
     private double soulDrain;
     private ResourceLocation id;
-    private int meta=-1;
+    private int meta = -1;
+
     public TartaricForgeRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
     }
+
     public static TartaricForgeRecipeBuilder builder(String name) {
         return new TartaricForgeRecipeBuilder(name);
     }
+
     public TartaricForgeRecipeBuilder id(ResourceLocation id) {
         this.id = id;
         return this;
     }
+
     public TartaricForgeRecipeBuilder input(ItemStack itemStack) {
         inputs.add(Ingredient.of(itemStack));
         return this;
     }
+
     public TartaricForgeRecipeBuilder input(Item item) {
-        inputs.add(Ingredient.of(new ItemStack(item,1)));
+        inputs.add(Ingredient.of(new ItemStack(item, 1)));
         return this;
     }
 
@@ -65,20 +68,22 @@ public class TartaricForgeRecipeBuilder {
         inputs.add(ingredient);
         return this;
     }
+
     public TartaricForgeRecipeBuilder input(Item... items) {
-        Arrays.stream(items).forEach(item -> inputs.add(Ingredient.of(new ItemStack(item,1))));
+        Arrays.stream(items).forEach(item -> inputs.add(Ingredient.of(new ItemStack(item, 1))));
         return this;
     }
-
 
     public TartaricForgeRecipeBuilder input(Ingredient... ingredients) {
         Arrays.stream(ingredients).forEach(ingredient -> inputs.add(ingredient));
         return this;
     }
+
     public TartaricForgeRecipeBuilder output(ItemStack output) {
         this.output = output;
         return this;
     }
+
     public TartaricForgeRecipeBuilder minimumSouls(double minimumSouls) {
         this.minimumSouls = minimumSouls;
         return this;
@@ -88,9 +93,9 @@ public class TartaricForgeRecipeBuilder {
         this.soulDrain = soulDrain;
         return this;
     }
-    public TartaricForgeRecipeBuilder circuitMeta(int meta)
-    {
-        this.meta=meta;
+
+    public TartaricForgeRecipeBuilder circuitMeta(int meta) {
+        this.meta = meta;
         return this;
     }
 
@@ -104,13 +109,14 @@ public class TartaricForgeRecipeBuilder {
         json.addProperty(Constants.JSON.TARTARIC_MINIMUM, (float) minimumSouls);
         json.addProperty(Constants.JSON.TARTARIC_DRAIN, (float) soulDrain);
     }
+
     private GTRecipeBuilder mapToGTBuilder() {
         if (this.output == null || this.inputs.isEmpty()) {
             throw new IllegalStateException("参数缺失是凉爽的夏夜");
         }
 
         ResourceLocation bmId = TartaricForgeRecipeBuilder.this.id;
-        ResourceLocation gtId = GTCEu.id( "hell_forge_" + bmId.getPath());
+        ResourceLocation gtId = GTCEu.id("hell_forge_" + bmId.getPath());
 
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.HELL_FORGE_RECIPES)
                 .addCondition(new HellForgeCondition(soulDrain));
@@ -148,7 +154,7 @@ public class TartaricForgeRecipeBuilder {
         }
 
         for (Ingredient ingredient : pre_inputs) {
-            if(ingredient.getItems()[0].getCount()>1)
+            if (ingredient.getItems()[0].getCount() > 1)
                 gtBuilder.inputItems(ingredient.getItems()[0]);
             else gtBuilder.inputItems(ingredient);
         }
@@ -158,13 +164,14 @@ public class TartaricForgeRecipeBuilder {
         gtBuilder.EUt(gtEUt);
         int gtDuration = (int) Math.max(soulDrain, 100);
         gtBuilder.duration(gtDuration);
-        if(meta>=0)
+        if (meta >= 0)
             gtBuilder.circuitMeta(meta);
         return gtBuilder;
     }
 
     public FinishedRecipe build() {
         return new FinishedRecipe() {
+
             @Override
             public void serializeRecipeData(@Nonnull JsonObject pJson) {
                 toJson(pJson); // 复用序列化逻辑
@@ -193,10 +200,10 @@ public class TartaricForgeRecipeBuilder {
             }
         };
     }
+
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(this.build());
         GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
         gtBuilder.save(consumer);
     }
-
 }

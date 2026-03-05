@@ -8,7 +8,6 @@ import wayoftime.bloodmagic.common.tile.TileAltar;
 @Mixin(TileAltar.class)
 public interface TileAltarAccessor {
 
-    @Accessor(value = "bloodAltar",remap = false)
+    @Accessor(value = "bloodAltar", remap = false)
     BloodAltar getBloodAltar();
-
 }

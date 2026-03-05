@@ -1,21 +1,23 @@
 package com.moguang.ctnhmana;
 
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.moguang.ctnhmana.data.recipe.*;
-import com.moguang.ctnhmana.registry.*;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+
+import com.google.gson.JsonObject;
+import com.moguang.ctnhmana.data.recipe.*;
+import com.moguang.ctnhmana.registry.*;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
 
 import java.util.function.Consumer;
 
 @GTAddon
 public class CTNHManaGTAddon implements IGTAddon {
+
     @Override
     public GTRegistrate getRegistrate() {
         return CTNHMana.REGISTRATE;
@@ -35,8 +37,7 @@ public class CTNHManaGTAddon implements IGTAddon {
 
     @Override
     public void registerTagPrefixes() {
-
-       CMTagPrefixes.init();
+        CMTagPrefixes.init();
     }
 
     @Override
@@ -44,11 +45,8 @@ public class CTNHManaGTAddon implements IGTAddon {
         CMElements.init();
     }
 
-
-
     @Override
-    public void registerSounds() {
-    }
+    public void registerSounds() {}
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
@@ -75,15 +73,16 @@ public class CTNHManaGTAddon implements IGTAddon {
         EternalGardenSpecialRecipes.init(provider);
         ManaCircuitRecipes.init(provider);
         ManaMachineUpgradeRecipes.init(provider);
-        //示例：重新注册所有血祭坛配方
-//        (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
+        // 示例：重新注册所有血祭坛配方
+        // (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }
 
-    //这个函数用于重新注册其他模组被删除的配方，因为被删除的配方如果id不变即使重新注册也会被移除，故通过这个函数将配方的命名空间变为ctnhmana
-    Consumer<FinishedRecipe> changeId(Consumer<FinishedRecipe> provider){
+    // 这个函数用于重新注册其他模组被删除的配方，因为被删除的配方如果id不变即使重新注册也会被移除，故通过这个函数将配方的命名空间变为ctnhmana
+    Consumer<FinishedRecipe> changeId(Consumer<FinishedRecipe> provider) {
         return r -> {
 
             provider.accept(new FinishedRecipe() {
+
                 @Override
                 public void serializeRecipeData(JsonObject jsonObject) {
                     r.serializeRecipeData(jsonObject);
@@ -115,15 +114,15 @@ public class CTNHManaGTAddon implements IGTAddon {
     @Override
     public void removeRecipes(Consumer<ResourceLocation> consumer) {
         RecipeRemoval.init(consumer);
-//        DataFilterPack.removeRecipeType("bloodmagic", "altar");
-//        DataFilterPack.removeRecipeType("botania","petal_apothecary");
-//        DataFilterPack.removeRecipeType("botania","runic_altar");
-//        DataFilterPack.removeRecipeType("botania","terra_plate");
-//        DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
-//        DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
-//        DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
-//        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
-//
-//        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");
+        // DataFilterPack.removeRecipeType("bloodmagic", "altar");
+        // DataFilterPack.removeRecipeType("botania","petal_apothecary");
+        // DataFilterPack.removeRecipeType("botania","runic_altar");
+        // DataFilterPack.removeRecipeType("botania","terra_plate");
+        // DataFilterPack.removeRecipeType("extrabotany","petal_apothecary");
+        // DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
+        // DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
+        // DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
+        //
+        // DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");
     }
 }

@@ -2,23 +2,28 @@ package com.moguang.ctnhmana.Mutiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ManaReactor extends BaseManaMachine{
+public class ManaReactor extends BaseManaMachine {
 
     public ManaReactor(IMachineBlockEntity holder, int consumption) {
         super(holder, consumption);
     }
+
     @Override
     public boolean alwaysTryModifyRecipe() {
         return true;
     }
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaReactor.class, BaseManaMachine.MANAGED_FIELD_HOLDER);
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
@@ -27,18 +32,17 @@ public class ManaReactor extends BaseManaMachine{
     @Override
     protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
         SyncManaData();
-        List<ManaReactorCondition> conditions = recipe.conditions.stream().filter(ManaReactorCondition.class::isInstance)
+        List<ManaReactorCondition> conditions = recipe.conditions.stream()
+                .filter(ManaReactorCondition.class::isInstance)
                 .map(ManaReactorCondition.class::cast)
                 .toList();
-        if(conditions.isEmpty())return super.getRealRecipe(recipe);
-        var condition=conditions.get(0);
-        if(!condition.getZenithType().equals("Blank"))
-        {
-            var type=condition.getType();
-            var tier=condition.getTier();
-            if(tier>0&&tier-ManaLevel.get(type)>0)
-            {
-                var speed_up=0.2*(tier-ManaLevel.get(type));
+        if (conditions.isEmpty()) return super.getRealRecipe(recipe);
+        var condition = conditions.get(0);
+        if (!condition.getZenithType().equals("Blank")) {
+            var type = condition.getType();
+            var tier = condition.getTier();
+            if (tier > 0 && tier - ManaLevel.get(type) > 0) {
+                var speed_up = 0.2 * (tier - ManaLevel.get(type));
             }
         }
 

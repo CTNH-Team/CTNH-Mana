@@ -7,41 +7,47 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.moguang.ctnhmana.registry.CMMaterials;
+
 import net.minecraft.core.BlockPos;
+
+import com.moguang.ctnhmana.registry.CMMaterials;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 public class ManaCondenserMachine extends WorkableElectricMultiblockMachine {
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaCondenserMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
     public BlockPos poolPos = MachineUtils.getOffset(this, 0, 4, 0);
     public int parallel = 1;
     public int basicMana = 1000;
     public boolean reverse = false;
+
     public ManaCondenserMachine(IMachineBlockEntity holder) {
         super(holder);
     }
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe){
-//        if (machine instanceof ManaCondenserMachine mmachine) {
-//            mmachine.parallel = ParallelLogic.getParallelAmount(mmachine, recipe, Integer.MAX_VALUE);
-//            return CMRecipeModifiers.accurateParallel(machine, recipe, Integer.MAX_VALUE);
-//        }
+
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        // if (machine instanceof ManaCondenserMachine mmachine) {
+        // mmachine.parallel = ParallelLogic.getParallelAmount(mmachine, recipe, Integer.MAX_VALUE);
+        // return CMRecipeModifiers.accurateParallel(machine, recipe, Integer.MAX_VALUE);
+        // }
         return ModifierFunction.IDENTITY;
     }
 
     @Override
     public boolean onWorking() {
-        if (getOffsetTimer() % 5 == 0){
-            if (getLevel().getBlockEntity(poolPos) instanceof ManaPoolBlockEntity manaPoolBlockEntity){
+        if (getOffsetTimer() % 5 == 0) {
+            if (getLevel().getBlockEntity(poolPos) instanceof ManaPoolBlockEntity manaPoolBlockEntity) {
                 if (reverse) {
                     manaPoolBlockEntity.receiveMana(basicMana * parallel);
-                }
-                else {
+                } else {
                     manaPoolBlockEntity.receiveMana(-basicMana * parallel);
                 }
             }
@@ -51,7 +57,7 @@ public class ManaCondenserMachine extends WorkableElectricMultiblockMachine {
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        if (getLevel().getBlockEntity(poolPos) instanceof ManaPoolBlockEntity manaPoolBlockEntity){
+        if (getLevel().getBlockEntity(poolPos) instanceof ManaPoolBlockEntity manaPoolBlockEntity) {
             if (recipe.data.get("mode") != null && recipe.data.getString("mode").equals("reverse")) {
                 reverse = true;
                 if (manaPoolBlockEntity.getAvailableSpaceForMana() < basicMana * parallel * 10) {
@@ -61,8 +67,7 @@ public class ManaCondenserMachine extends WorkableElectricMultiblockMachine {
                     return false;
                 }
                 return super.beforeWorking(recipe);
-            }
-            else {
+            } else {
                 reverse = false;
                 if (manaPoolBlockEntity.getCurrentMana() < basicMana * parallel * 10) {
                     return false;

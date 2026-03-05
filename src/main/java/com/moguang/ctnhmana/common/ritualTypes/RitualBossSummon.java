@@ -1,9 +1,5 @@
 package com.moguang.ctnhmana.common.ritualTypes;
 
-import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
-import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
-import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
-import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,6 +16,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+
+import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
+import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
+import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
+import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import wayoftime.bloodmagic.ritual.*;
@@ -34,61 +35,55 @@ import static net.minecraft.world.entity.Entity.RemovalReason.DISCARDED;
 
 @RitualRegister("bosssummon")
 public class RitualBossSummon extends Ritual {
+
     public RitualBossSummon() {
         super("ritualbosssummon", 0, 1, "ritual.ctnhmana.ritualbosssummon");
-        this.addBlockRange("boss_range", new AreaDescriptor.Rectangle(new BlockPos(-1, 0, -1), 3,3,3));
+        this.addBlockRange("boss_range", new AreaDescriptor.Rectangle(new BlockPos(-1, 0, -1), 3, 3, 3));
         this.setMaximumVolumeAndDistanceOfRange("boss_range", 1, 4, 4);
     }
 
     @Override
     public void performRitual(IMasterRitualStone MasterRitualStone) {
-        Level level=MasterRitualStone.getWorldObj();
+        Level level = MasterRitualStone.getWorldObj();
         AreaDescriptor growingRange = MasterRitualStone.getBlockRange("boss_range");
         BlockPos pos = MasterRitualStone.getMasterBlockPos();
-        var area= new AABB(
-                (double) pos.getX()-1,
-                (double)pos.getY()-1,
-                (double)pos.getZ()-1,
-                (double)pos.getX()+1,
-                (double)pos.getY()+2,
-                (double)pos.getZ()+1
-        ) ;     // 检测范围
+        var area = new AABB(
+                (double) pos.getX() - 1,
+                (double) pos.getY() - 1,
+                (double) pos.getZ() - 1,
+                (double) pos.getX() + 1,
+                (double) pos.getY() + 2,
+                (double) pos.getZ() + 1);     // 检测范围
         List<ItemEntity> droppedItems = level.getEntitiesOfClass(
                 ItemEntity.class,  // 只筛选物品实体
-               area
-        );
-        var boss_summon_1=new ItemStack(BOSS_SUMMONER,1);
-        var boss_summon_2=new ItemStack(ADVANCED_BOSS_SUMMONER,1);
-        for(ItemEntity itemEntity:droppedItems)
-        {
-            var items=itemEntity.getItem();
-            if(items.equals(boss_summon_1,false)||items.equals(boss_summon_2,false))
-            {
-                var tier=1;
-                var fight=boss_fight_1;
-                if(items.equals(boss_summon_1,false))
-                {
-                    fight=boss_fight_1;
-                    tier=4;
+                area);
+        var boss_summon_1 = new ItemStack(BOSS_SUMMONER, 1);
+        var boss_summon_2 = new ItemStack(ADVANCED_BOSS_SUMMONER, 1);
+        for (ItemEntity itemEntity : droppedItems) {
+            var items = itemEntity.getItem();
+            if (items.equals(boss_summon_1, false) || items.equals(boss_summon_2, false)) {
+                var tier = 1;
+                var fight = boss_fight_1;
+                if (items.equals(boss_summon_1, false)) {
+                    fight = boss_fight_1;
+                    tier = 4;
                 }
-                if(items.equals(boss_summon_2,false))
-                {
-                    fight=boss_fight_2;
-                    tier=12;
+                if (items.equals(boss_summon_2, false)) {
+                    fight = boss_fight_2;
+                    tier = 12;
                 }
                 itemEntity.remove(DISCARDED);
 
                 int currentEssence = MasterRitualStone.getOwnerNetwork().getCurrentEssence();
-                if(currentEssence<1)
-                {
+                if (currentEssence < 1) {
                     MasterRitualStone.getOwnerNetwork().causeNausea();
-                }
-                else
-                {
-                    var entity=level.getPlayerByUUID(MasterRitualStone.getOwner());
+                } else {
+                    var entity = level.getPlayerByUUID(MasterRitualStone.getOwner());
                     entity.sendSystemMessage(fight.translate());
-                    level.playSound((Player)null, entity.getX(), entity.getY(),entity.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
-                    for(int i=1;i<=tier/4;i++) {
+                    level.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(),
+                            SoundEvents.ENDER_PEARL_THROW, SoundSource.NEUTRAL, 0.5F,
+                            0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+                    for (int i = 1; i <= tier / 4; i++) {
                         summon(entity, level, tier, new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 7));
                         summon(entity, level, tier, new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 7));
                         summon(entity, level, tier, new BlockPos(pos.getX() + 7, pos.getY(), pos.getZ()));
@@ -115,35 +110,36 @@ public class RitualBossSummon extends Ritual {
     public int getRefreshTime() {
         return 100;
     }
+
     @Override
     public void gatherComponents(Consumer<RitualComponent> consumer) {
-        this.addSquareRunes(consumer,7,-3,EnumRuneType.FIRE);
-        this.addOffsetRunes(consumer,1,2,-3,EnumRuneType.FIRE);
-        this.addOffsetRunes(consumer,3,1,-3,EnumRuneType.BLANK);
-        this.addCornerRunes(consumer,1,-2,EnumRuneType.FIRE);
-        this.addCornerRunes(consumer,2,-3,EnumRuneType.BLANK);
-        this.addCornerRunes(consumer,7,-2,EnumRuneType.WATER);
-        this.addCornerRunes(consumer,7,-1,EnumRuneType.BLANK);
-        this.addParallelRunes(consumer,7,-2,EnumRuneType.WATER);
-        this.addParallelRunes(consumer,7,-1,EnumRuneType.BLANK);
-        this.addParallelRunes(consumer,1,-1,EnumRuneType.EARTH);
-        this.addParallelRunes(consumer,2,-2,EnumRuneType.FIRE);
-        this.addParallelRunes(consumer,3,-3,EnumRuneType.FIRE);
-        this.addParallelRunes(consumer,4,-3,EnumRuneType.WATER);
-        this.addParallelRunes(consumer,5,-3,EnumRuneType.WATER);
-        this.addParallelRunes(consumer,6,-3,EnumRuneType.WATER);
-        this.addParallelRunes(consumer,7,-2,EnumRuneType.WATER);
-        this.addParallelRunes(consumer,7,-1,EnumRuneType.BLANK);
-        this.addSmaalSquareRunes(consumer,7,0,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,-7,0,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,0,-7,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,0,7,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,7,7,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,-7,7,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,-7,-7,-1,EnumRuneType.DUSK);
-        this.addSmaalSquareRunes(consumer,7,-7,-1,EnumRuneType.DUSK);
-
+        this.addSquareRunes(consumer, 7, -3, EnumRuneType.FIRE);
+        this.addOffsetRunes(consumer, 1, 2, -3, EnumRuneType.FIRE);
+        this.addOffsetRunes(consumer, 3, 1, -3, EnumRuneType.BLANK);
+        this.addCornerRunes(consumer, 1, -2, EnumRuneType.FIRE);
+        this.addCornerRunes(consumer, 2, -3, EnumRuneType.BLANK);
+        this.addCornerRunes(consumer, 7, -2, EnumRuneType.WATER);
+        this.addCornerRunes(consumer, 7, -1, EnumRuneType.BLANK);
+        this.addParallelRunes(consumer, 7, -2, EnumRuneType.WATER);
+        this.addParallelRunes(consumer, 7, -1, EnumRuneType.BLANK);
+        this.addParallelRunes(consumer, 1, -1, EnumRuneType.EARTH);
+        this.addParallelRunes(consumer, 2, -2, EnumRuneType.FIRE);
+        this.addParallelRunes(consumer, 3, -3, EnumRuneType.FIRE);
+        this.addParallelRunes(consumer, 4, -3, EnumRuneType.WATER);
+        this.addParallelRunes(consumer, 5, -3, EnumRuneType.WATER);
+        this.addParallelRunes(consumer, 6, -3, EnumRuneType.WATER);
+        this.addParallelRunes(consumer, 7, -2, EnumRuneType.WATER);
+        this.addParallelRunes(consumer, 7, -1, EnumRuneType.BLANK);
+        this.addSmaalSquareRunes(consumer, 7, 0, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, -7, 0, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, 0, -7, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, 0, 7, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, 7, 7, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, -7, 7, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, -7, -7, -1, EnumRuneType.DUSK);
+        this.addSmaalSquareRunes(consumer, 7, -7, -1, EnumRuneType.DUSK);
     }
+
     protected final void addSquareRunes(Consumer<RitualComponent> components, int size, int y, EnumRuneType rune) {
         // 校验大小（确保为正数，至少1x1）
         if (size < 1) {
@@ -169,63 +165,65 @@ public class RitualBossSummon extends Ritual {
             addRune(components, offset, y, -size, rune);      // 下右边：(offset, y, -size)
             addRune(components, -offset, y, -size, rune);     // 下左边：(-offset, y, -size)
         }
-        addParallelRunes(components,size,y,rune);
+        addParallelRunes(components, size, y, rune);
     }
-    protected final void addSmaalSquareRunes(Consumer<RitualComponent> components, int x, int z, int y,EnumRuneType rune)
-    {
-        addRune(components,x+1,y,z,rune);
-        addRune(components,x-1,y,z,rune);
-        addRune(components,x,y,z+1,rune);
-        addRune(components,x,y,z-1,rune);
-        addRune(components,x+1,y,z+1,rune);
-        addRune(components,x+1,y,z-1,rune);
-        addRune(components,x-1,y,z+1,rune);
-        addRune(components,x-1,y,z-1,rune);
 
+    protected final void addSmaalSquareRunes(Consumer<RitualComponent> components, int x, int z, int y,
+                                             EnumRuneType rune) {
+        addRune(components, x + 1, y, z, rune);
+        addRune(components, x - 1, y, z, rune);
+        addRune(components, x, y, z + 1, rune);
+        addRune(components, x, y, z - 1, rune);
+        addRune(components, x + 1, y, z + 1, rune);
+        addRune(components, x + 1, y, z - 1, rune);
+        addRune(components, x - 1, y, z + 1, rune);
+        addRune(components, x - 1, y, z - 1, rune);
     }
 
     @Override
     public Ritual getNewCopy() {
         return new RitualBossSummon();
     }
-    public void summon(Entity entity,Level level,int tier,BlockPos pos)
-    {
-        int muti=2;
-        int time=5;
-        int resistance_level=3;
+
+    public void summon(Entity entity, Level level, int tier, BlockPos pos) {
+        int muti = 2;
+        int time = 5;
+        int resistance_level = 3;
         if (entity instanceof ServerPlayer player) {
-            if(tier>=8)
-            {
-                for(int i=1;i<=4;i++)
-                {
-                    var playerpos=entity.getOnPos();
-                    var random_pos=new BlockPos((int) (playerpos.getX()+7-14*Math.random()), (int) (playerpos.getY()+7-14*Math.random()), (int) (playerpos.getZ()+7-14*Math.random()));
-                    EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level,random_pos, MobSpawnType.TRIGGERED);
+            if (tier >= 8) {
+                for (int i = 1; i <= 4; i++) {
+                    var playerpos = entity.getOnPos();
+                    var random_pos = new BlockPos((int) (playerpos.getX() + 7 - 14 * Math.random()),
+                            (int) (playerpos.getY() + 7 - 14 * Math.random()),
+                            (int) (playerpos.getZ() + 7 - 14 * Math.random()));
+                    EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level, random_pos, MobSpawnType.TRIGGERED);
                 }
-                muti=4;
-                time=20;
-                resistance_level=6;
+                muti = 4;
+                time = 20;
+                resistance_level = 6;
             }
-            EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level,pos, MobSpawnType.TRIGGERED);
-            ApothBoss bossItem = (ApothBoss) BossRegistry.INSTANCE.getRandomItem(level.getRandom(), player.getLuck() * tier, new Predicate[]{WeightedDynamicRegistry.IDimensional.matches(level), GameStagesCompat.IStaged.matches(player)});
+            EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level, pos, MobSpawnType.TRIGGERED);
+            ApothBoss bossItem = (ApothBoss) BossRegistry.INSTANCE.getRandomItem(level.getRandom(),
+                    player.getLuck() * tier, new Predicate[] { WeightedDynamicRegistry.IDimensional.matches(level),
+                            GameStagesCompat.IStaged.matches(player) });
             if (bossItem != null) {
                 Mob mobEntity = bossItem.createBoss((ServerLevel) level, pos, level.getRandom(), player.getLuck());
                 mobEntity.setTarget(player);
                 mobEntity.setPersistenceRequired();
-                mobEntity.setHealth(mobEntity.getMaxHealth()*muti);
+                mobEntity.setHealth(mobEntity.getMaxHealth() * muti);
                 MobEffectInstance resistance = new MobEffectInstance(
                         MobEffects.DAMAGE_RESISTANCE,
                         time,          // 最大整数表示“永久”（实际游戏中会持续到实体死亡）
-                        resistance_level-1,                          // 等级3（2+1）
+                        resistance_level - 1,                          // 等级3（2+1）
                         false,
-                        true
-                );
+                        true);
                 mobEntity.addEffect(resistance);
                 ((ServerLevel) level).addFreshEntityWithPassengers(mobEntity);
 
             }
         }
     }
+
     @CN("§c战争在逼近......")
     public static Lang boss_fight_1;
     @CN("§c无尽的战争在逼近......")

@@ -6,6 +6,7 @@ import dev.toma.configuration.config.format.ConfigFormats;
 
 @Config(id = CTNHMana.MODID)
 public class CMConfig {
+
     public static CMConfig INSTANCE;
     private static final Object LOCK = new Object();
 
@@ -16,5 +17,4 @@ public class CMConfig {
             }
         }
     }
-
 }

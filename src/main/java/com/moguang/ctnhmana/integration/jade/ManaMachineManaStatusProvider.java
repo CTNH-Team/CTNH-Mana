@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.integration.jade;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
-import com.moguang.ctnhmana.Mutiblock.ManaMachine;
+
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import com.moguang.ctnhmana.Mutiblock.ManaMachine;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -61,12 +63,9 @@ public class ManaMachineManaStatusProvider extends CapabilityBlockProvider<ManaM
                         Component.translatable(
                                 "ctnhmana.jade.manahatch.manaprogress",
                                 DisplayHelper.dfCommas.format(mana),
-                                DisplayHelper.dfCommas.format(maxMana)
-                        ),
+                                DisplayHelper.dfCommas.format(maxMana)),
                         helper.progressStyle().color(0x00008B, 0x00008B).textColor(-1),
                         Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555),
-                        true
-                )
-        );
+                        true));
     }
 }

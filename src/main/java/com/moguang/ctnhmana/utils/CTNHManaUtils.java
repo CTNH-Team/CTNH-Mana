@@ -1,23 +1,28 @@
 package com.moguang.ctnhmana.utils;
 
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CTNHManaUtils {
-    public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs, List<Component> list) {
+
+    public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs,
+                                                                                       List<Component> list) {
         for (Lang lang : langs) {
             list.add(lang.translate());
         }
         return list;
     }
+
     public static ItemStack insertItemToOutput(NotifiableItemStackHandler handler, ItemStack stack, boolean simulate) {
         if (handler == null || stack.isEmpty()) {
             return stack;
@@ -69,24 +74,22 @@ public class CTNHManaUtils {
         }
         return stack;
     }
-    public static List<Component> addManaMachineTooltips(Lang[] langs,int consumption)
-    {
-        List<Component> list=new ArrayList<>();
-        int y=0;
-        for(Lang lang:langs)
-        {
-            if(y!=3) list.add(lang.translate());
-            if(y==3)list.add(lang.translate(consumption));
-            y+=1;
+
+    public static List<Component> addManaMachineTooltips(Lang[] langs, int consumption) {
+        List<Component> list = new ArrayList<>();
+        int y = 0;
+        for (Lang lang : langs) {
+            if (y != 3) list.add(lang.translate());
+            if (y == 3) list.add(lang.translate(consumption));
+            y += 1;
         }
         return list;
     }
-    public static List<Component> addMachineTooltips(Lang[] langs)
-    {
-        List<Component> list=new ArrayList<>();
-        int y=0;
-        for(Lang lang:langs)
-        {
+
+    public static List<Component> addMachineTooltips(Lang[] langs) {
+        List<Component> list = new ArrayList<>();
+        int y = 0;
+        for (Lang lang : langs) {
             list.add(lang.translate());
         }
         return list;

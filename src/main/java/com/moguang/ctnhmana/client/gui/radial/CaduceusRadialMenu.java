@@ -1,14 +1,13 @@
 package com.moguang.ctnhmana.client.gui.radial;
 
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
 import com.moguang.ctnhmana.networking.packets.CaduceusPacket;
-import com.moguang.ctnhmana.registry.CMItems;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +28,15 @@ public final class CaduceusRadialMenu {
         List<RadialMenuSlot<ResourceLocation>> slotList = new ArrayList<>();
         for (GTToolType type : CaduceusItem.CYCLE_TYPES) {
             slotList.add(new RadialMenuSlot<>(
-                textureFor(type),
-                Component.translatable("item.gtceu.tool." + type.name)
-            ));
+                    textureFor(type),
+                    Component.translatable("item.gtceu.tool." + type.name)));
         }
 
         IntConsumer onSelect = slot -> {
             if (slot < 0 || slot >= CaduceusItem.CYCLE_TYPES.size()) return;
             GTToolType selectedType = CaduceusItem.CYCLE_TYPES.get(slot);
             com.lowdragmc.lowdraglib.networking.LDLNetworking.NETWORK.sendToServer(
-                new CaduceusPacket(selectedType.name)
-            );
+                    new CaduceusPacket(selectedType.name));
         };
 
         RadialMenu.DrawCallback<ResourceLocation> draw = (texture, graphics, x, y, size) -> {

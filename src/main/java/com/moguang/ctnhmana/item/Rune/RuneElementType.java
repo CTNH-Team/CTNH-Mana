@@ -1,7 +1,8 @@
 package com.moguang.ctnhmana.item.Rune;
 
-import lombok.Getter;
 import net.minecraft.util.StringRepresentable;
+
+import lombok.Getter;
 
 public enum RuneElementType implements StringRepresentable {
 
@@ -9,14 +10,12 @@ public enum RuneElementType implements StringRepresentable {
     WATER("water"),
     EARTH("earth"),
     WIND("wind"),
-    SIN("sin")
-    ;
+    SIN("sin");
+
     @Getter
     private final String serializedName;
 
-    RuneElementType(String name)
-    {
-        this.serializedName=name;
+    RuneElementType(String name) {
+        this.serializedName = name;
     }
-
 }

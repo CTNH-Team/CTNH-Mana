@@ -1,7 +1,13 @@
 package com.moguang.ctnhmana.client;
 
-
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
@@ -10,14 +16,10 @@ import com.moguang.ctnhmana.client.render.particle.IconParticle;
 import com.moguang.ctnhmana.common.CommonProxy;
 import com.moguang.ctnhmana.registry.CMModelLayers;
 import com.moguang.ctnhmana.registry.CMParticleTypes;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
+
     public ClientProxy() {
         super();
         init();
@@ -35,17 +37,15 @@ public class ClientProxy extends CommonProxy {
     }
 
     @SubscribeEvent
-    public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event){
+    public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         CMModelLayers.init();
-        //var models = REGISTRATE.getModels();
+        // var models = REGISTRATE.getModels();
     }
 
     @SubscribeEvent
     public void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-//        event.registerEntityRenderer(CBEntities.BASIC_MOB.get(),
-//                BasicLivingMachineEntityRenderer::new
-//        );
-
+        // event.registerEntityRenderer(CBEntities.BASIC_MOB.get(),
+        // BasicLivingMachineEntityRenderer::new
+        // );
     }
-
 }

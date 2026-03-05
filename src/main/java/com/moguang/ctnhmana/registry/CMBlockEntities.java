@@ -9,9 +9,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 
 public class CMBlockEntities {
-    public static void init() {
 
-    }
+    public static void init() {}
 
     public static BlockEntityEntry<DemonFlytrapBlockEntity> DEMON_FLYTRAP = REGISTRATE
             .blockEntity("demon_flytrap", DemonFlytrapBlockEntity::new)

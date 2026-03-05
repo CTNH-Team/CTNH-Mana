@@ -1,20 +1,23 @@
 package com.moguang.ctnhmana.client.render;
 
-import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockState;
+
+import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 public class StarCakeRender extends GeoBlockRenderer<FlowerCakeBlockEntity> {
+
     public StarCakeRender(GeoModel<?> model) {
-        super((GeoModel<FlowerCakeBlockEntity>)model);
+        super((GeoModel<FlowerCakeBlockEntity>) model);
     }
+
     @Override
-    public RenderType getRenderType(FlowerCakeBlockEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-            return RenderType.entityTranslucent(getTextureLocation(animatable));
+    public RenderType getRenderType(FlowerCakeBlockEntity animatable, ResourceLocation texture,
+                                    @Nullable MultiBufferSource bufferSource, float partialTick) {
+        return RenderType.entityTranslucent(getTextureLocation(animatable));
     }
 }

@@ -1,9 +1,5 @@
 package com.moguang.ctnhmana.item.equipment;
 
-
-import com.moguang.ctnhmana.utils.CTNHManaUtils;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -11,28 +7,26 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-import vazkii.botania.api.mana.ManaItemHandler;
 import vazkii.botania.client.core.handler.ClientTickHandler;
 import vazkii.botania.client.core.handler.MiscellaneousModels;
 import vazkii.botania.client.render.AccessoryRenderRegistry;
 import vazkii.botania.client.render.AccessoryRenderer;
-import vazkii.botania.common.entity.MagicMissileEntity;
 import vazkii.botania.common.item.equipment.bauble.BaubleItem;
 import vazkii.botania.common.proxy.Proxy;
 
@@ -45,36 +39,33 @@ public class KoishiEyeItem extends BaubleItem {
 
     public KoishiEyeItem(Properties props) {
         super(props);
-        Proxy.INSTANCE.runOnClient(() -> () -> AccessoryRenderRegistry.register(this, new com.moguang.ctnhmana.item.equipment.KoishiEyeItem.Renderer()));
-    }
-    @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags)
-    {
-        super.appendHoverText(stack,world,tooltip,flags);
-        tooltip=(CTNHManaUtils.itemTooltipsAdd(koishi_thirdeye_tooltips,tooltip));
+        Proxy.INSTANCE.runOnClient(() -> () -> AccessoryRenderRegistry.register(this,
+                new com.moguang.ctnhmana.item.equipment.KoishiEyeItem.Renderer()));
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags) {
+        super.appendHoverText(stack, world, tooltip, flags);
+        tooltip = (CTNHManaUtils.itemTooltipsAdd(koishi_thirdeye_tooltips, tooltip));
+    }
 
     @Override
     public void onWornTick(ItemStack stack, LivingEntity living) {
         if (!(living instanceof Player eplayer)) {
             return;
         }
-        if(living instanceof Player player)
-        {
+        if (living instanceof Player player) {
             var time = Objects.requireNonNull(player.level()).getDayTime() % 20;
-            if(time!=0)return;
-        List<LivingEntity> entityList=player.level().getNearbyEntities(
-                LivingEntity.class,
-                TargetingConditions.forCombat().range(8),
-                player,
-                player.getBoundingBox().inflate(8));
-            for(LivingEntity entity:entityList)
-            {
-                if (entity instanceof Mob mob)
-                {
+            if (time != 0) return;
+            List<LivingEntity> entityList = player.level().getNearbyEntities(
+                    LivingEntity.class,
+                    TargetingConditions.forCombat().range(8),
+                    player,
+                    player.getBoundingBox().inflate(8));
+            for (LivingEntity entity : entityList) {
+                if (entity instanceof Mob mob) {
                     mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(1);
-                    if(Objects.equals(mob.getTarget(), player))mob.setTarget(null);
+                    if (Objects.equals(mob.getTarget(), player)) mob.setTarget(null);
 
                 }
             }
@@ -86,7 +77,9 @@ public class KoishiEyeItem extends BaubleItem {
         public static final int NUM_LAYERS = 1;
 
         @Override
-        public void doRender(HumanoidModel<?> bipedModel, ItemStack stack, LivingEntity living, PoseStack ms, MultiBufferSource buffers, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        public void doRender(HumanoidModel<?> bipedModel, ItemStack stack, LivingEntity living, PoseStack ms,
+                             MultiBufferSource buffers, int light, float limbSwing, float limbSwingAmount,
+                             float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             boolean armor = !living.getItemBySlot(EquipmentSlot.CHEST).isEmpty();
 
             for (int i = 0; i < NUM_LAYERS; i++) {
@@ -114,24 +107,20 @@ public class KoishiEyeItem extends BaubleItem {
             }
         }
     }
-    @CN(
-            {
-                    "佩戴时获得:",
-                    "§4无意识蒙蔽了视野§r",
-                    "所有人都难以产察觉到地底微不足道的小石！",
-                    "消除与所有生物只有一面之缘的§m你§r（§7§oKOISHI§r）的存在",
-                    "§7§o以自己的意识，换来虚伪的幸福，这就是身为§l§d【恋】§r§7§o之少女的被厌恶者的哲学§r"
-            }
-    )
-    @EN(
-            {
-                    "佩戴时获得:",
-                    "§4无意识蒙蔽了视野§r",
-                    "所有人都难以产察觉到地底微不足道的小石!",
-                    "消除所有与所有生物对只有一面之缘的§m你§r（§7§oKOISHI§r）的认知",
-                    "§7§o以自己的意识，换来虚伪的幸福，这就是身为§l§d【恋】§r§7§o之少女的被厌恶者的哲学§r"
-            }
-    )
-    public static Lang[] koishi_thirdeye_tooltips;
 
+    @CN({
+            "佩戴时获得:",
+            "§4无意识蒙蔽了视野§r",
+            "所有人都难以产察觉到地底微不足道的小石！",
+            "消除与所有生物只有一面之缘的§m你§r（§7§oKOISHI§r）的存在",
+            "§7§o以自己的意识，换来虚伪的幸福，这就是身为§l§d【恋】§r§7§o之少女的被厌恶者的哲学§r"
+    })
+    @EN({
+            "佩戴时获得:",
+            "§4无意识蒙蔽了视野§r",
+            "所有人都难以产察觉到地底微不足道的小石!",
+            "消除所有与所有生物对只有一面之缘的§m你§r（§7§oKOISHI§r）的认知",
+            "§7§o以自己的意识，换来虚伪的幸福，这就是身为§l§d【恋】§r§7§o之少女的被厌恶者的哲学§r"
+    })
+    public static Lang[] koishi_thirdeye_tooltips;
 }

@@ -1,7 +1,8 @@
 package com.moguang.ctnhmana.client.model;
 
-import com.moguang.ctnhmana.CTNHMana;
 import net.minecraft.resources.ResourceLocation;
+
+import com.moguang.ctnhmana.CTNHMana;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 

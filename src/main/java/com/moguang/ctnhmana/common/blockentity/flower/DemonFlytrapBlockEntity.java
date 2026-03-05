@@ -5,6 +5,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.api.block_entity.FunctionalFlowerBlockEntity;
 import vazkii.botania.api.block_entity.RadiusDescriptor;
@@ -14,10 +15,13 @@ import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import java.util.List;
 
 public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
+
     public DemonFlytrapBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
+
     public int MAX_WILL = 100;
+
     @Override
     public void tickFlower() {
         super.tickFlower();
@@ -33,7 +37,8 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
                     if (monster.getHealth() <= 4 && !monster.getPersistentData().getBoolean("isDead")) {
                         monster.kill();
                         monster.getPersistentData().putBoolean("isDead", true);
-                        chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20, MAX_WILL);
+                        chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20,
+                                MAX_WILL);
                     } else {
                         monster.hurt(getLevel().damageSources().magic(), 4);
                     }
@@ -42,16 +47,20 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
             }
         }
     }
+
     public List<Monster> getMonsters() {
         var bound = new AABB(getEffectivePos()).inflate(getRange());
         return getLevel().getEntitiesOfClass(Monster.class, bound);
     }
+
     public int getRange() {
         return 5;
     }
+
     public int getCost() {
         return 1000;
     }
+
     @Override
     public int getMaxMana() {
         return this.getCost();

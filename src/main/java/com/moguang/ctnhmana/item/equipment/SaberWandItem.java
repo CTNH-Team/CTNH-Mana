@@ -1,9 +1,5 @@
 package com.moguang.ctnhmana.item.equipment;
 
-import com.moguang.ctnhmana.Mutiblock.MysticSpire;
-import com.moguang.ctnhmana.common.entity.DeltaSpark;
-import com.moguang.ctnhmana.utils.CTNHManaUtils;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +22,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.*;
+
+import com.moguang.ctnhmana.Mutiblock.MysticSpire;
+import com.moguang.ctnhmana.common.entity.DeltaSpark;
+import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -60,6 +60,7 @@ import static com.gregtechceu.gtceu.api.machine.MetaMachine.getMachine;
 import static vazkii.botania.common.lib.ResourceLocationHelper.prefix;
 
 public class SaberWandItem extends WandOfTheForestItem {
+
     private static final String TAG_COLOR1 = "color1";
     private static final String TAG_COLOR2 = "color2";
     private static final String TAG_BOUND_TILE_X = "boundTileX";
@@ -67,11 +68,11 @@ public class SaberWandItem extends WandOfTheForestItem {
     private static final String TAG_BOUND_TILE_Z = "boundTileZ";
     private static final String TAG_BIND_MODE = "bindMode";
     public DeltaSpark recordedSpark;
-    public final ChatFormatting modeChatFormatting=ChatFormatting.GOLD;
-    public static final ChatFormatting format=ChatFormatting.GOLD;
+    public final ChatFormatting modeChatFormatting = ChatFormatting.GOLD;
+    public static final ChatFormatting format = ChatFormatting.GOLD;
 
     public SaberWandItem(Item.Properties builder) {
-        super(format,builder);
+        super(format, builder);
     }
 
     private static boolean tryCompleteBinding(BlockPos src, ItemStack stack, UseOnContext ctx) {
@@ -98,9 +99,11 @@ public class SaberWandItem extends WandOfTheForestItem {
 
         if (axis != null) {
             if (!world.isClientSide) {
-                world.setBlockAndUpdate(pos, BotaniaBlocks.enchanter.defaultBlockState().setValue(BotaniaStateProperties.ENCHANTER_DIRECTION, axis));
+                world.setBlockAndUpdate(pos, BotaniaBlocks.enchanter.defaultBlockState()
+                        .setValue(BotaniaStateProperties.ENCHANTER_DIRECTION, axis));
                 world.playSound(null, pos, BotaniaSounds.enchanterForm, SoundSource.BLOCKS, 1F, 1F);
-                PlayerHelper.grantCriterion((ServerPlayer) ctx.getPlayer(), prefix("main/enchanter_make"), "code_triggered");
+                PlayerHelper.grantCriterion((ServerPlayer) ctx.getPlayer(), prefix("main/enchanter_make"),
+                        "code_triggered");
             } else {
                 for (int i = 0; i < 50; i++) {
                     float red = (float) Math.random();
@@ -116,8 +119,10 @@ public class SaberWandItem extends WandOfTheForestItem {
                     float motionx = (float) -x * velMul;
                     float motiony = (float) -y * velMul;
                     float motionz = (float) -z * velMul;
-                    WispParticleData data = WispParticleData.wisp((float) Math.random() * 0.15F + 0.15F, red, green, blue);
-                    world.addParticle(data, pos.getX() + 0.5 + x, pos.getY() + 0.5 + y, pos.getZ() + 0.5 + z, motionx, motiony, motionz);
+                    WispParticleData data = WispParticleData.wisp((float) Math.random() * 0.15F + 0.15F, red, green,
+                            blue);
+                    world.addParticle(data, pos.getX() + 0.5 + x, pos.getY() + 0.5 + y, pos.getZ() + 0.5 + z, motionx,
+                            motiony, motionz);
                 }
             }
 
@@ -142,18 +147,21 @@ public class SaberWandItem extends WandOfTheForestItem {
                     bindPos.pos().getX() + 0.5, bindPos.pos().getY() + 0.5, bindPos.pos().getZ() + 0.5,
                     pos.getX(), pos.getY(), pos.getZ()));
 
-            world.playSound(null, player.getX(), player.getY(), player.getZ(), BotaniaSounds.ding, SoundSource.PLAYERS, 1F, 1F);
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), BotaniaSounds.ding, SoundSource.PLAYERS,
+                    1F, 1F);
             return true;
         }
         return false;
     }
 
     @Override
-    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity targetEntity, InteractionHand hand) {
-        var world=player.level();
+    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity targetEntity,
+                                                           InteractionHand hand) {
+        var world = player.level();
 
         return InteractionResult.PASS;
     }
+
     @NotNull
     @Override
     public InteractionResult useOn(UseOnContext ctx) {
@@ -165,41 +173,37 @@ public class SaberWandItem extends WandOfTheForestItem {
         Block block = state.getBlock();
         Direction side = ctx.getClickedFace();
         Optional<BlockPos> boundPos = getBindingAttempt(stack);
-        var machine=getMachine(world,pos);
-        if(machine!=null && machine instanceof MysticSpire mmachine&&!getBindMode(stack))
-        {
-            if(mmachine.MODE<3)
-            {
+        var machine = getMachine(world, pos);
+        if (machine != null && machine instanceof MysticSpire mmachine && !getBindMode(stack)) {
+            if (mmachine.MODE < 3) {
                 mmachine.MODE++;
-            }
-            else
-            {
-                mmachine.MODE=0;
+            } else {
+                mmachine.MODE = 0;
             }
             mmachine.updateSpark();
-            player.displayClientMessage(updateSpireLang.translate(mmachine.mode_MAP.get(mmachine.MODE).translate()), true);
+            player.displayClientMessage(updateSpireLang.translate(mmachine.mode_MAP.get(mmachine.MODE).translate()),
+                    true);
             return InteractionResult.SUCCESS;
         }
         if (player == null) {
             return InteractionResult.PASS;
         }
 
-
-
         if (player.isSecondaryUseActive()) {
             if (boundPos.filter(loc -> tryCompleteBinding(loc, stack, ctx)).isPresent()) {
                 return InteractionResult.SUCCESS;
             }
 
-            if (player.mayUseItemAt(pos, side, stack)
-                    && (!(block instanceof CommandBlock) || player.canUseGameMasterBlocks())) {
-                BlockState newState = manipulateBlockstate(state, side, blockState -> blockState.canSurvive(world, pos));
+            if (player.mayUseItemAt(pos, side, stack) &&
+                    (!(block instanceof CommandBlock) || player.canUseGameMasterBlocks())) {
+                BlockState newState = manipulateBlockstate(state, side,
+                        blockState -> blockState.canSurvive(world, pos));
                 if (newState != state) {
                     world.setBlockAndUpdate(pos, newState);
                     ctx.getLevel().playSound(
-                            ctx.getPlayer(), ctx.getClickedPos(), newState.getBlock().getSoundType(newState).getPlaceSound(),
-                            SoundSource.BLOCKS, 1F, 1F
-                    );
+                            ctx.getPlayer(), ctx.getClickedPos(),
+                            newState.getBlock().getSoundType(newState).getPlaceSound(),
+                            SoundSource.BLOCKS, 1F, 1F);
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -209,12 +213,10 @@ public class SaberWandItem extends WandOfTheForestItem {
             return InteractionResult.SUCCESS;
         }
 
-
-
         BlockEntity tile = world.getBlockEntity(pos);
 
-
-        if (getBindMode(stack) && tile instanceof WandBindable bindable && player.isShiftKeyDown() && bindable.canSelect(player, stack, pos, side)) {
+        if (getBindMode(stack) && tile instanceof WandBindable bindable && player.isShiftKeyDown() &&
+                bindable.canSelect(player, stack, pos, side)) {
             if (boundPos.filter(pos::equals).isPresent()) {
                 setBindingAttempt(stack, Bound.UNBOUND_POS);
             } else {
@@ -240,23 +242,29 @@ public class SaberWandItem extends WandOfTheForestItem {
         return InteractionResult.PASS;
     }
 
-    private static BlockState manipulateBlockstate(BlockState oldState, Direction side, Predicate<BlockState> canSurvive) {
+    private static BlockState manipulateBlockstate(BlockState oldState, Direction side,
+                                                   Predicate<BlockState> canSurvive) {
         if (oldState.is(BotaniaTags.Blocks.UNWANDABLE)) {
             return oldState;
         }
 
         if (oldState.getBlock() instanceof RotatedPillarBlock) {
-            return iterateToNextValidPropertyValue(oldState, BlockStateProperties.AXIS, BlockStateProperties.AXIS.getPossibleValues(), oldState.getValue(BlockStateProperties.AXIS), canSurvive);
+            return iterateToNextValidPropertyValue(oldState, BlockStateProperties.AXIS,
+                    BlockStateProperties.AXIS.getPossibleValues(), oldState.getValue(BlockStateProperties.AXIS),
+                    canSurvive);
         }
 
         if (oldState.hasProperty(BlockStateProperties.ROTATION_16)) {
             // standing sign, ceiling-hanging sign or similar block
-            return iterateToNextValidPropertyValue(oldState, BlockStateProperties.ROTATION_16, BlockStateProperties.ROTATION_16.getPossibleValues(), oldState.getValue(BlockStateProperties.ROTATION_16), canSurvive);
+            return iterateToNextValidPropertyValue(oldState, BlockStateProperties.ROTATION_16,
+                    BlockStateProperties.ROTATION_16.getPossibleValues(),
+                    oldState.getValue(BlockStateProperties.ROTATION_16), canSurvive);
         }
 
         // mostly intended for HugeMushroomBlock, but might be useful for certain modded blocks as well:
         BooleanProperty directionPropertyFromSide = PipeBlock.PROPERTY_BY_DIRECTION.get(side);
-        if (oldState.hasProperty(directionPropertyFromSide) && oldState.getProperties().containsAll(PipeBlock.PROPERTY_BY_DIRECTION.values())) {
+        if (oldState.hasProperty(directionPropertyFromSide) &&
+                oldState.getProperties().containsAll(PipeBlock.PROPERTY_BY_DIRECTION.values())) {
             boolean oldValue = oldState.getValue(directionPropertyFromSide);
             BlockState newState = oldState.setValue(directionPropertyFromSide, !oldValue);
             return canSurvive.test(newState) ? newState : oldState;
@@ -290,7 +298,8 @@ public class SaberWandItem extends WandOfTheForestItem {
         }
 
         // fallback: let the block itself figure it out
-        for (Rotation rot : new Rotation[] { Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180, Rotation.COUNTERCLOCKWISE_90 }) {
+        for (Rotation rot : new Rotation[] { Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180,
+                Rotation.COUNTERCLOCKWISE_90 }) {
             BlockState newState = oldState.rotate(rot);
             if (canSurvive.test(newState)) {
                 return newState;
@@ -299,16 +308,21 @@ public class SaberWandItem extends WandOfTheForestItem {
         return oldState;
     }
 
-    private static BlockState rotateFacingDirection(BlockState oldState, Direction side, Predicate<BlockState> canSurvive, Property<Direction> facingProp) {
-        if (oldState.hasProperty(BlockStateProperties.CHEST_TYPE) && !oldState.getValue(BlockStateProperties.CHEST_TYPE).equals(ChestType.SINGLE)
-                || oldState.hasProperty(BlockStateProperties.EXTENDED) && oldState.getValue(BlockStateProperties.EXTENDED).equals(Boolean.TRUE)
-                || oldState.hasProperty(BlockStateProperties.BED_PART)) {
-            // rotating double chests would be nice, but seems beyond the scope of this feature; same goes for beds and extended pistons
+    private static BlockState rotateFacingDirection(BlockState oldState, Direction side,
+                                                    Predicate<BlockState> canSurvive, Property<Direction> facingProp) {
+        if (oldState.hasProperty(BlockStateProperties.CHEST_TYPE) &&
+                !oldState.getValue(BlockStateProperties.CHEST_TYPE).equals(ChestType.SINGLE) ||
+                oldState.hasProperty(BlockStateProperties.EXTENDED) &&
+                        oldState.getValue(BlockStateProperties.EXTENDED).equals(Boolean.TRUE) ||
+                oldState.hasProperty(BlockStateProperties.BED_PART)) {
+            // rotating double chests would be nice, but seems beyond the scope of this feature; same goes for beds and
+            // extended pistons
             return oldState;
         }
 
         Direction oldDir = oldState.getValue(facingProp);
-        if (oldState.hasProperty(BlockStateProperties.ATTACH_FACE) && oldState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+        if (oldState.hasProperty(BlockStateProperties.ATTACH_FACE) &&
+                oldState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
             // FaceAttachedHorizontalDirectionalBlock or equivalent block, rotate around clicked side
             if (side.getAxis() == Direction.Axis.Y) {
                 // clicked vertically attached block from top or bottom, just rotate on that face
@@ -332,7 +346,8 @@ public class SaberWandItem extends WandOfTheForestItem {
             Function<Direction, BlockState> newStateFunction = dir -> switch (dir) {
                 case UP -> oldState.setValue(BlockStateProperties.ATTACH_FACE, AttachFace.CEILING);
                 case DOWN -> oldState.setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
-                default -> oldState.setValue(BlockStateProperties.ATTACH_FACE, AttachFace.WALL).setValue(facingProp, dir);
+                default -> oldState.setValue(BlockStateProperties.ATTACH_FACE, AttachFace.WALL).setValue(facingProp,
+                        dir);
             };
 
             return rotateClockwiseAroundSide(side, impliedDir, newStateFunction, canSurvive);
@@ -362,12 +377,16 @@ public class SaberWandItem extends WandOfTheForestItem {
     }
 
     @NotNull
-    private static BlockState rotateClockwiseAroundSideDirect(BlockState oldState, Direction side, Predicate<BlockState> canSurvive, Property<Direction> facingProp, Direction oldDir) {
+    private static BlockState rotateClockwiseAroundSideDirect(BlockState oldState, Direction side,
+                                                              Predicate<BlockState> canSurvive,
+                                                              Property<Direction> facingProp, Direction oldDir) {
         return rotateClockwiseAroundSide(side, oldDir, dir -> oldState.setValue(facingProp, dir), canSurvive);
     }
 
     @NotNull
-    private static BlockState rotateClockwiseAroundSide(Direction side, Direction oldDir, Function<Direction, BlockState> newStateFunction, Predicate<BlockState> canSurvive) {
+    private static BlockState rotateClockwiseAroundSide(Direction side, Direction oldDir,
+                                                        Function<Direction, BlockState> newStateFunction,
+                                                        Predicate<BlockState> canSurvive) {
         BlockState newState;
         Direction newDir = oldDir;
         do {
@@ -380,12 +399,15 @@ public class SaberWandItem extends WandOfTheForestItem {
 
     @NotNull
     private static Direction getClockwiseDirectionForSide(Direction side, Direction oldDir) {
-        return side.getAxisDirection() == Direction.AxisDirection.NEGATIVE
-                ? oldDir.getCounterClockWise(side.getAxis())
-                : oldDir.getClockWise(side.getAxis());
+        return side.getAxisDirection() == Direction.AxisDirection.NEGATIVE ?
+                oldDir.getCounterClockWise(side.getAxis()) : oldDir.getClockWise(side.getAxis());
     }
 
-    private static <T extends Comparable<T>> BlockState iterateToNextValidPropertyValue(BlockState oldState, Property<T> property, Collection<T> orderedValues, T oldValue, Predicate<BlockState> canSurvive) {
+    private static <
+            T extends Comparable<T>> BlockState iterateToNextValidPropertyValue(BlockState oldState,
+                                                                                Property<T> property,
+                                                                                Collection<T> orderedValues, T oldValue,
+                                                                                Predicate<BlockState> canSurvive) {
         Iterator<T> it = orderedValues.iterator();
         while (it.hasNext() && !it.next().equals(oldValue)) {
             // look for current value
@@ -416,9 +438,11 @@ public class SaberWandItem extends WandOfTheForestItem {
 
     public static void doParticleBeamWithOffset(Level world, BlockPos orig, BlockPos end) {
         Vec3 origOffset = world.getBlockState(orig).getOffset(world, orig);
-        Vec3 vorig = new Vec3(orig.getX() + origOffset.x() + 0.5, orig.getY() + origOffset.y() + 0.5, orig.getZ() + origOffset.z() + 0.5);
+        Vec3 vorig = new Vec3(orig.getX() + origOffset.x() + 0.5, orig.getY() + origOffset.y() + 0.5,
+                orig.getZ() + origOffset.z() + 0.5);
         Vec3 endOffset = world.getBlockState(end).getOffset(world, end);
-        Vec3 vend = new Vec3(end.getX() + endOffset.x() + 0.5, end.getY() + endOffset.y() + 0.5, end.getZ() + endOffset.z() + 0.5);
+        Vec3 vend = new Vec3(end.getX() + endOffset.x() + 0.5, end.getY() + endOffset.y() + 0.5,
+                end.getZ() + endOffset.z() + 0.5);
         doParticleBeam(world, vorig, vend);
     }
 
@@ -502,8 +526,7 @@ public class SaberWandItem extends WandOfTheForestItem {
 
     @Override
     public Component getName(@NotNull ItemStack stack) {
-        if(getBindMode(stack))
-        {
+        if (getBindMode(stack)) {
             return saberwandNamelang[1].translate();
         }
         return saberwandNamelang[0].translate();
@@ -550,6 +573,7 @@ public class SaberWandItem extends WandOfTheForestItem {
     }
 
     public static class CoordBoundItemImpl implements CoordBoundItem {
+
         private final ItemStack stack;
 
         public CoordBoundItemImpl(ItemStack stack) {
@@ -575,45 +599,38 @@ public class SaberWandItem extends WandOfTheForestItem {
             return null;
         }
     }
+
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags)
-    {
-        super.appendHoverText(stack,world,tooltip,flags);
+    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags) {
+        super.appendHoverText(stack, world, tooltip, flags);
         tooltip.add(saberWandTooltip.translate());
     }
+
     @CN("切换为模式: %s")
     public static Lang updateSpireLang;
-    @CN(
-            {
-                    "§b电子精灵法杖(工作模式)",
-                    "§a电子精灵法杖(绑定模式)"
-            }
-    )
-    @EN(
-            {
-                    "§b电子精灵法杖(工作模式)",
-                    "§a电子精灵法杖(绑定模式)"
-            }
-    )
+    @CN({
+            "§b电子精灵法杖(工作模式)",
+            "§a电子精灵法杖(绑定模式)"
+    })
+    @EN({
+            "§b电子精灵法杖(工作模式)",
+            "§a电子精灵法杖(绑定模式)"
+    })
     public static Lang[] saberwandNamelang;
     @CN("§b§l[精灵朋克]§r§d2077")
     public static Lang saberWandTooltip;
 
-    @CN(
-            {
-                    "绑定已清除",
-                    "已选定初始火花",
-                    "已完成绑定",
-                    "绑定出现错误",
-            }
-    )
-    @EN(
-            {
-                    "绑定已清除",
-                    "已选定初始火花",
-                    "已完成绑定",
-                    "绑定出现错误",
-            }
-    )
+    @CN({
+            "绑定已清除",
+            "已选定初始火花",
+            "已完成绑定",
+            "绑定出现错误",
+    })
+    @EN({
+            "绑定已清除",
+            "已选定初始火花",
+            "已完成绑定",
+            "绑定出现错误",
+    })
     public static Lang[] saberWandBindingLang;
 }

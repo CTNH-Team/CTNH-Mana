@@ -5,8 +5,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-
 public class FrameBlock extends Block {
+
     public FrameBlock(Properties properties) {
         super(properties);
     }

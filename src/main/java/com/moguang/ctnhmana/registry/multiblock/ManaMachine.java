@@ -1,6 +1,5 @@
 package com.moguang.ctnhmana.registry.multiblock;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -9,15 +8,12 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -26,33 +22,47 @@ import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutibloc
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_MANASTEEL_GEARBOX;
 import static com.moguang.ctnhmana.registry.CMBlocks.LIVING_ROCK_CASING;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.addManaMachineTooltips;
-import static com.moguang.ctnhmana.utils.ModUtils.BotaniaRL;
 
 public class ManaMachine {
+
     public static void init() {}
-    public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE.multiblock("mana_macerator", holder-> new BaseManaMachine(holder,1))
+
+    public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE
+            .multiblock("mana_macerator", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力粉碎机")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
-            .appearanceBlock(() ->LIVING_ROCK_CASING.get())
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK), GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("A##########", "###########", "#####B#####", "###BBBBB###", "###BBCBB###", "###BCCCB###", "###BBCBB###", "###BBBBB###", "#####B#####", "###########", "###########")
-                    .aisle("###########", "####BBB####", "##BBB#BBB##", "##B#####B##", "#BB#B#B#BB#", "#CC#####CC#", "#BB#B#B#BB#", "##B#####B##", "##BBB#BBB##", "####BBB####", "###########")
-                    .aisle("#####B#####", "##BBB#BBB##", "#B#######B#", "#B#######B#", "#B##B#B##B#", "#C#######C#", "#B##B#B##B#", "#B#######B#", "#B#######B#", "##BBB#BBB##", "#####B#####")
-                    .aisle("###BBBBB###", "##B#####B##", "#B#######B#", "B#########B", "B##BBDBB##B", "B###EFE###B", "B##BBDBB##B", "B#########B", "#B#######B#", "##B#####B##", "###BBBBB###")
-                    .aisle("###BGHGB###", "#BB#IHI#BB#", "#B##IHI##B#", "B###IHI###B", "BBBBJ#JBBBB", "C##E#G#E##C", "BBBBJ#JBBBB", "B###IHI###B", "#B##IHI##B#", "#BB#IHI#BB#", "###BHGHB###")
-                    .aisle("##BBHGHBB##", "#B##HGH##B#", "B###HGH###B", "B###HGH###B", "C##D#G#D##C", "C##FGEGF##C", "C##D#G#D##C", "B###HGH###B", "B###HGH###B", "#B##HGH##B#", "##BBGIGBB##")
-                    .aisle("###BGHGB###", "#BB#IHI#BB#", "#B##IHI##B#", "B###IHI###B", "BBBBJ#JBBBB", "C##E#G#E##C", "BBBBJ#JBBBB", "B###IHI###B", "#B##IHI##B#", "#BB#IHI#BB#", "###BHGHB###")
-                    .aisle("###BBBBB###", "##B#####B##", "#B#######B#", "B#########B", "B##BBDBB##B", "B###EFE###B", "B##BBDBB##B", "B#########B", "#B#######B#", "##B#####B##", "###BBBBB###")
-                    .aisle("#####B#####", "##BBB#BBB##", "#B#######B#", "#B#######B#", "#B##B#B##B#", "#C#######C#", "#B##B#B##B#", "#B#######B#", "#B#######B#", "##BBB#BBB##", "#####B#####")
-                    .aisle("###########", "#####B#####", "##BBB#BBB##", "##B#####B##", "#BB#B#B#BB#", "#CC#####CC#", "#BB#B#B#BB#", "##B#####B##", "##BBB#BBB##", "####BBB####", "###########")
-                    .aisle("###########", "###########", "#####B#####", "###BBBBB###", "###B#B#B###", "###BBKBB###", "###B#B#B###", "###BBBBB###", "#####B#####", "###########", "##########A")
+                    .aisle("A##########", "###########", "#####B#####", "###BBBBB###", "###BBCBB###", "###BCCCB###",
+                            "###BBCBB###", "###BBBBB###", "#####B#####", "###########", "###########")
+                    .aisle("###########", "####BBB####", "##BBB#BBB##", "##B#####B##", "#BB#B#B#BB#", "#CC#####CC#",
+                            "#BB#B#B#BB#", "##B#####B##", "##BBB#BBB##", "####BBB####", "###########")
+                    .aisle("#####B#####", "##BBB#BBB##", "#B#######B#", "#B#######B#", "#B##B#B##B#", "#C#######C#",
+                            "#B##B#B##B#", "#B#######B#", "#B#######B#", "##BBB#BBB##", "#####B#####")
+                    .aisle("###BBBBB###", "##B#####B##", "#B#######B#", "B#########B", "B##BBDBB##B", "B###EFE###B",
+                            "B##BBDBB##B", "B#########B", "#B#######B#", "##B#####B##", "###BBBBB###")
+                    .aisle("###BGHGB###", "#BB#IHI#BB#", "#B##IHI##B#", "B###IHI###B", "BBBBJ#JBBBB", "C##E#G#E##C",
+                            "BBBBJ#JBBBB", "B###IHI###B", "#B##IHI##B#", "#BB#IHI#BB#", "###BHGHB###")
+                    .aisle("##BBHGHBB##", "#B##HGH##B#", "B###HGH###B", "B###HGH###B", "C##D#G#D##C", "C##FGEGF##C",
+                            "C##D#G#D##C", "B###HGH###B", "B###HGH###B", "#B##HGH##B#", "##BBGIGBB##")
+                    .aisle("###BGHGB###", "#BB#IHI#BB#", "#B##IHI##B#", "B###IHI###B", "BBBBJ#JBBBB", "C##E#G#E##C",
+                            "BBBBJ#JBBBB", "B###IHI###B", "#B##IHI##B#", "#BB#IHI#BB#", "###BHGHB###")
+                    .aisle("###BBBBB###", "##B#####B##", "#B#######B#", "B#########B", "B##BBDBB##B", "B###EFE###B",
+                            "B##BBDBB##B", "B#########B", "#B#######B#", "##B#####B##", "###BBBBB###")
+                    .aisle("#####B#####", "##BBB#BBB##", "#B#######B#", "#B#######B#", "#B##B#B##B#", "#C#######C#",
+                            "#B##B#B##B#", "#B#######B#", "#B#######B#", "##BBB#BBB##", "#####B#####")
+                    .aisle("###########", "#####B#####", "##BBB#BBB##", "##B#####B##", "#BB#B#B#BB#", "#CC#####CC#",
+                            "#BB#B#B#BB#", "##B#####B##", "##BBB#BBB##", "####BBB####", "###########")
+                    .aisle("###########", "###########", "#####B#####", "###BBBBB###", "###B#B#B###", "###BBKBB###",
+                            "###B#B#B###", "###BBBBB###", "#####B#####", "###########", "##########A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-                    )
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("D", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("J", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
                     .where("C", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
@@ -65,15 +75,20 @@ public class ManaMachine {
                     .where("A", Predicates.any())
                     .where("G", Predicates.blocks(CMBlocks.ALF_STEEL_CASING.get()))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE.multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
+    public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE
+            .multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力卷板机")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.BENDER_RECIPES,GTRecipeTypes.FORGE_HAMMER_RECIPES, CMRecipeTypes.MANA_FORGE_RECIPES)
+            .recipeTypes(GTRecipeTypes.BENDER_RECIPES, GTRecipeTypes.FORGE_HAMMER_RECIPES,
+                    CMRecipeTypes.MANA_FORGE_RECIPES)
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######", "#######", "#######")
                     .aisle("#BCBCB#", "###B###", "###B###", "###B###", "###B###", "###B###", "#BBBBB#")
@@ -84,8 +99,7 @@ public class ManaMachine {
                     .aisle("##BIB##", "#######", "#######", "#######", "#######", "#######", "######A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-                    )
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("G", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
                     .where("C", Predicates.blocks(CMBlocks.ELEMENTAL_CASING_GEARBOX.get()))
                     .where("D", Predicates.blocks(CASING_MANASTEEL_GEARBOX.get()))
@@ -96,15 +110,19 @@ public class ManaMachine {
                     .where("F", Predicates.blocks(CMBlocks.MANA_REFINEMENT_CORE.get()))
                     .where("H", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_WIREMILL = REGISTRATE.multiblock("mana_wiremill", holder -> new BaseManaMachine(holder, 1))
+    public final static MultiblockMachineDefinition MANA_WIREMILL = REGISTRATE
+            .multiblock("mana_wiremill", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力线材扎机")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
-            .appearanceBlock(() ->LIVING_ROCK_CASING.get())
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.WIREMILL_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK), GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "###B###", "###B###", "###B###", "###B###")
                     .aisle("#BCDCB#", "##E#E##", "##E#E##", "##E#E##", "##CBC##")
@@ -115,8 +133,7 @@ public class ManaMachine {
                     .aisle("##BGB##", "#######", "#######", "#######", "######A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-                    )
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("D", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
                     .where("C", Predicates.blocks(CASING_MANASTEEL_GEARBOX.get()))
                     .where("E", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
@@ -125,15 +142,19 @@ public class ManaMachine {
                     .where("A", Predicates.any())
                     .where("G", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_LATHE = REGISTRATE.multiblock("mana_lathe", holder -> new BaseManaMachine(holder, 1))
+    public final static MultiblockMachineDefinition MANA_LATHE = REGISTRATE
+            .multiblock("mana_lathe", holder -> new BaseManaMachine(holder, 1))
             .cnLangValue("§b魔力车床")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,1))
-            .appearanceBlock(() ->LIVING_ROCK_CASING.get())
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.LATHE_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK), GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######")
                     .aisle("#BCBCB#", "###B###", "###B###", "###B###", "###B###")
@@ -146,12 +167,11 @@ public class ManaMachine {
                     .aisle("##BJB##", "#######", "#######", "#######", "######A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-                    )
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("F", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
                     .where("G", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("C", Predicates.blocks(CMBlocks.CASING_MANASTEEL_GEARBOX.get()))
-                    .where("J",Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("J", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("I", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
                     .where("A", Predicates.any())
                     .where("#", Predicates.any())
@@ -160,76 +180,108 @@ public class ManaMachine {
                     .where("H", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
                     .build())
 
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_ASSEMBLER = REGISTRATE.multiblock("mana_assembler", holder -> new BaseManaMachine(holder, 8))
+    public final static MultiblockMachineDefinition MANA_ASSEMBLER = REGISTRATE
+            .multiblock("mana_assembler", holder -> new BaseManaMachine(holder, 8))
             .cnLangValue("§b魔力组装机")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,8))
-            .appearanceBlock(() ->LIVING_ROCK_CASING.get())
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 8))
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.ASSEMBLER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK), GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("A####BBB#####", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#####BBB#####")
-            .aisle("###BBCDCBB###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###BBCDCBB###")
-            .aisle("##BECBBBCEB##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##CC#####CC##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##BECBBBCEB##")
-            .aisle("#BEGBHBHBGEB#", "#############", "#############", "#############", "##C#######C##", "#############", "#############", "#############", "#BEGBHBHBGEB#")
-            .aisle("#BCBHBEBHBCB#", "##B#######B##", "##B#CCCCC#B##", "##B#CEBEC#B##", "####CBFBC####", "##B#CEBEC#B##", "##B#CCCCC#B##", "##B#######B##", "#BCBHBEBHBCB#")
-            .aisle("BCBHBE#EBHBCB", "##B#######B##", "##F#CEBEC#F##", "##B#EG#GE#B##", "####B###B####", "##B#EGIGE#B##", "##F#CEBEC#F##", "##B#######B##", "BCBHBE#EBHBCB")
-            .aisle("BDBBE#D#EBBDB", "##B#######B##", "##F#CBFBC#F##", "##B#B#H#B#B##", "####F#D#F####", "##B#B#HIB#B##", "##F#CBFBC#F##", "##B#######B##", "BDBBE#D#EBBDB")
-            .aisle("BCBHBE#EBHBCB", "##B#######B##", "##F#CEBEC#F##", "##B#EG#GE#B##", "####B###B####", "##B#EGIGE#B##", "##F#CEBEC#F##", "##B#######B##", "BCBHBE#EBHBCB")
-            .aisle("#BCBHBEBHBCB#", "##B#######B##", "##B#CCCCC#B##", "##B#CEBEC#B##", "####CBFBC####", "##B#CEBEC#B##", "##B#CCCCC#B##", "##B#######B##", "#BCBHBEBHBCB#")
-            .aisle("#BEGBHBHBGEB#", "#############", "#############", "#############", "##C#######C##", "#############", "#############", "#############", "#BEGBHBHBGEB#")
-            .aisle("##BECBBBCEB##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##CC#####CC##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##BECBBBCEB##")
-            .aisle("###BBCDCBB###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###BBCDCBB###")
-            .aisle("#####BJB#####", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#####BBB####A")
-            .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
-                    .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
-                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                    .or(abilities(PartAbility.IMPORT_FLUIDS))
-                    .or(abilities(PartAbility.IMPORT_ITEMS))
-                    .or(abilities(PartAbility.EXPORT_ITEMS))
-                    .or(abilities(PartAbility.EXPORT_FLUIDS))
-                    .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-            )
-            .where("D", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
-            .where("G", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
-            .where("F", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
-            .where("J", Predicates.controller(Predicates.blocks(definition.get())))
-            .where("#", Predicates.any())
-            .where("H", Predicates.blocks(CMBlocks.MANA_REFINEMENT_CORE.get()))
-            .where("I", Predicates.any())
-            .where("C", Predicates.blocks(CMBlocks.ORICHALCOS_FRAME.get()))
-            .where("A", Predicates.any())
-            .where("E", Predicates.blocks(CMBlocks.ORICHALCOS_STEEL_CASING_GEARBOX.get()))
-            .build())
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+                    .aisle("A####BBB#####", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#####BBB#####")
+                    .aisle("###BBCDCBB###", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "###BBCDCBB###")
+                    .aisle("##BECBBBCEB##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##CC#####CC##",
+                            "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##BECBBBCEB##")
+                    .aisle("#BEGBHBHBGEB#", "#############", "#############", "#############", "##C#######C##",
+                            "#############", "#############", "#############", "#BEGBHBHBGEB#")
+                    .aisle("#BCBHBEBHBCB#", "##B#######B##", "##B#CCCCC#B##", "##B#CEBEC#B##", "####CBFBC####",
+                            "##B#CEBEC#B##", "##B#CCCCC#B##", "##B#######B##", "#BCBHBEBHBCB#")
+                    .aisle("BCBHBE#EBHBCB", "##B#######B##", "##F#CEBEC#F##", "##B#EG#GE#B##", "####B###B####",
+                            "##B#EGIGE#B##", "##F#CEBEC#F##", "##B#######B##", "BCBHBE#EBHBCB")
+                    .aisle("BDBBE#D#EBBDB", "##B#######B##", "##F#CBFBC#F##", "##B#B#H#B#B##", "####F#D#F####",
+                            "##B#B#HIB#B##", "##F#CBFBC#F##", "##B#######B##", "BDBBE#D#EBBDB")
+                    .aisle("BCBHBE#EBHBCB", "##B#######B##", "##F#CEBEC#F##", "##B#EG#GE#B##", "####B###B####",
+                            "##B#EGIGE#B##", "##F#CEBEC#F##", "##B#######B##", "BCBHBE#EBHBCB")
+                    .aisle("#BCBHBEBHBCB#", "##B#######B##", "##B#CCCCC#B##", "##B#CEBEC#B##", "####CBFBC####",
+                            "##B#CEBEC#B##", "##B#CCCCC#B##", "##B#######B##", "#BCBHBEBHBCB#")
+                    .aisle("#BEGBHBHBGEB#", "#############", "#############", "#############", "##C#######C##",
+                            "#############", "#############", "#############", "#BEGBHBHBGEB#")
+                    .aisle("##BECBBBCEB##", "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##CC#####CC##",
+                            "##C#BBBBB#C##", "##C#BFFFB#C##", "##C#BBBBB#C##", "##BECBBBCEB##")
+                    .aisle("###BBCDCBB###", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "###BBCDCBB###")
+                    .aisle("#####BJB#####", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#####BBB####A")
+                    .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
+                            .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                            .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(abilities(PartAbility.IMPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_FLUIDS))
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+                    .where("D", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
+                    .where("G", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
+                    .where("F", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
+                    .where("J", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("#", Predicates.any())
+                    .where("H", Predicates.blocks(CMBlocks.MANA_REFINEMENT_CORE.get()))
+                    .where("I", Predicates.any())
+                    .where("C", Predicates.blocks(CMBlocks.ORICHALCOS_FRAME.get()))
+                    .where("A", Predicates.any())
+                    .where("E", Predicates.blocks(CMBlocks.ORICHALCOS_STEEL_CASING_GEARBOX.get()))
+                    .build())
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
-    public final static MultiblockMachineDefinition MANA_MIXER = REGISTRATE.multiblock("mana_mixer", holder -> new BaseManaMachine(holder, 8))
+    public final static MultiblockMachineDefinition MANA_MIXER = REGISTRATE
+            .multiblock("mana_mixer", holder -> new BaseManaMachine(holder, 8))
             .cnLangValue("§b魔力搅拌机")
-            .tooltips(addManaMachineTooltips(basemanamutiblockLang,8))
-            .appearanceBlock(() ->LIVING_ROCK_CASING.get())
+            .tooltips(addManaMachineTooltips(basemanamutiblockLang, 8))
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MIXER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK), GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("A####BBB#####", "#############", "#############", "#############", "#############", "#############", "#####BBB#####")
-                    .aisle("###BBCCCBB###", "#####BBB#####", "####BDDDB####", "####BDDDB####", "####BDDDB####", "#####BBB#####", "###BBEEEBB###")
-                    .aisle("##BFFCECFFB##", "###BB###BB###", "###DB###BD###", "###BG###GB###", "###DB###BD###", "###BB###BB###", "##BEECCCEEB##")
-                    .aisle("#BFCCCECCCFB#", "##B#######B##", "##D#######D##", "##B#######B##", "##D#######D##", "##B#######B##", "#BECCCECCCEB#")
-                    .aisle("#BFCGCECGCFB#", "##B###E###B##", "#BB###E###BB#", "#BG#GEEEG#GB#", "#BB###E###BB#", "##B###E###B##", "#BECGCECGCEB#")
-                    .aisle("BCCCCFEFCCCCB", "#B#########B#", "#D####F####D#", "#D##EFGFE##D#", "#D####F####D#", "#B####E####B#", "BECCCFEFCCCEB")
-                    .aisle("BCEEEEEEEEECB", "#B##E###E##B#", "#D##EFGFE##D#", "#D##EGHGE##D#", "#D##EFGFE##D#", "#B##EEEEE##B#", "BEEEEEEEEECEB")
-                    .aisle("BCCCCFEFCCCCB", "#B#########B#", "#D####F####D#", "#D##EFGFE##D#", "#D####F####D#", "#B####E####B#", "BECCCFEFCCCEB")
-                    .aisle("#BFCGCECGCFB#", "##B###E###B##", "#BB###E###BB#", "#BG#GEEEG#GB#", "#BB###E###BB#", "##B###E###B##", "#BECGCECGCEB#")
-                    .aisle("#BFCCCECCCFB#", "##B#######B##", "##D#######D##", "##B#######B##", "##D#######D##", "##B#######B##", "#BECCCECCCEB#")
-                    .aisle("##BFFCECFFB##", "###BB###BB###", "###DB###BD###", "###BG###GB###", "###DB###BD###", "###BB###BB###", "##BEECCCEEB##")
-                    .aisle("###BBCCCBB###", "#####BBB#####", "####BBDBB####", "####BDDDB####", "####BBDBB####", "#####BBB#####", "###BBEEEBB###")
-                    .aisle("#####B@B#####", "#############", "#############", "#############", "#############", "#############", "#####BBB####A")
+                    .aisle("A####BBB#####", "#############", "#############", "#############", "#############",
+                            "#############", "#####BBB#####")
+                    .aisle("###BBCCCBB###", "#####BBB#####", "####BDDDB####", "####BDDDB####", "####BDDDB####",
+                            "#####BBB#####", "###BBEEEBB###")
+                    .aisle("##BFFCECFFB##", "###BB###BB###", "###DB###BD###", "###BG###GB###", "###DB###BD###",
+                            "###BB###BB###", "##BEECCCEEB##")
+                    .aisle("#BFCCCECCCFB#", "##B#######B##", "##D#######D##", "##B#######B##", "##D#######D##",
+                            "##B#######B##", "#BECCCECCCEB#")
+                    .aisle("#BFCGCECGCFB#", "##B###E###B##", "#BB###E###BB#", "#BG#GEEEG#GB#", "#BB###E###BB#",
+                            "##B###E###B##", "#BECGCECGCEB#")
+                    .aisle("BCCCCFEFCCCCB", "#B#########B#", "#D####F####D#", "#D##EFGFE##D#", "#D####F####D#",
+                            "#B####E####B#", "BECCCFEFCCCEB")
+                    .aisle("BCEEEEEEEEECB", "#B##E###E##B#", "#D##EFGFE##D#", "#D##EGHGE##D#", "#D##EFGFE##D#",
+                            "#B##EEEEE##B#", "BEEEEEEEEECEB")
+                    .aisle("BCCCCFEFCCCCB", "#B#########B#", "#D####F####D#", "#D##EFGFE##D#", "#D####F####D#",
+                            "#B####E####B#", "BECCCFEFCCCEB")
+                    .aisle("#BFCGCECGCFB#", "##B###E###B##", "#BB###E###BB#", "#BG#GEEEG#GB#", "#BB###E###BB#",
+                            "##B###E###B##", "#BECGCECGCEB#")
+                    .aisle("#BFCCCECCCFB#", "##B#######B##", "##D#######D##", "##B#######B##", "##D#######D##",
+                            "##B#######B##", "#BECCCECCCEB#")
+                    .aisle("##BFFCECFFB##", "###BB###BB###", "###DB###BD###", "###BG###GB###", "###DB###BD###",
+                            "###BB###BB###", "##BEECCCEEB##")
+                    .aisle("###BBCCCBB###", "#####BBB#####", "####BBDBB####", "####BDDDB####", "####BBDBB####",
+                            "#####BBB#####", "###BBEEEBB###")
+                    .aisle("#####B@B#####", "#############", "#############", "#############", "#############",
+                            "#############", "#####BBB####A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1))
-                    )
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("G", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("H", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
@@ -240,6 +292,7 @@ public class ManaMachine {
                     .where("A", Predicates.any())
                     .where("F", Predicates.blocks(CMBlocks.ORICHALCOS_STEEL_CASING_GEARBOX.get()))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"), CTNHMana.id("block/overlay/manamachine"))
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
 }
