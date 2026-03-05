@@ -29,7 +29,7 @@ public class ChineseLangHandler {
                     "直接从外部输入（不支持手动输入）来往舱室输入液态魔力",
                     "最大的魔力能量存储：%d",
                     "最大的生命植物魔法魔力存储：%d",
-                    "最大的液态魔力存储：%d mb"
+                    "最大的液态魔力存储：%d mB"
             }
     )
     @EN(
@@ -40,7 +40,7 @@ public class ChineseLangHandler {
                     "直接从外部输入（不支持手动输入）来往舱室注入液态魔力",
                     "最大的魔力能量存储：%d",
                     "最大的生命植物魔法魔力存储：%d",
-                    "最大的液态魔力存储：%d mb"
+                    "最大的液态魔力存储：%d mB"
             }
     )
     public static  Lang[]  manahatchtootip_base;
@@ -54,7 +54,7 @@ public class ChineseLangHandler {
                     "每秒自动从当前区块尽可能地吸收各种恶魔意志",
                     "最大的恶魔意志存储量：%d",
                     "最大的魔力能量存储量：%d",
-                    "最大的液态魔力生命源质：%d mb"
+                    "最大的液态魔力生命源质：%d mB"
             }
     )
     @EN(
@@ -66,7 +66,7 @@ public class ChineseLangHandler {
                     "每秒自动从当前区块尽可能地吸收各种恶魔意志",
                     "最大的恶魔意志存储量：%d",
                     "最大的魔力能量存储：%d",
-                    "最大的液态魔力生命源质：%d mb"
+                    "最大的液态魔力生命源质：%d mB"
             }
     )
     public static  Lang[]  bloodmanahatchtootip_base;
@@ -153,7 +153,7 @@ public class ChineseLangHandler {
 
     @CN(
             {
-                    "致%s:",
+                    "致%s：",
                     "等待直至收到下一条指令",
                     "在限定时间内消灭指令对象",
                     "在限定时间内，确保指令对象位置没有机器"
@@ -161,14 +161,14 @@ public class ChineseLangHandler {
     )
     @EN(
             {
-                    "致%s:",
+                    "致%s：",
                     "等待直至收到下一条指令",
                     "在限定时间内前消灭指令对象",
                     "在限定时间内，确保指令对象位置没有机器"
             }
     )
     public static Lang[]IndexLang;
-    @CN("§1§o哦,命运,如月亮般变化无常")
+    @CN("§1§o哦，命运，如月亮般变化无常")
     public static Lang CaduceusFortunaLang;
     @CN(
             {
@@ -179,7 +179,7 @@ public class ChineseLangHandler {
                     "直接从外部输入（不支持手动输入）来往舱室输入液态魔力",
                     "最大的魔力能量存储：%d",
                     "最大的生命植物魔法魔力存储：%d",
-                    "最大的液态魔力存储：%d mb"
+                    "最大的液态魔力存储：%d mB"
             }
     )
     @EN(
@@ -191,7 +191,7 @@ public class ChineseLangHandler {
                     "直接从外部输入（不支持手动输入）来往舱室注入液态魔力",
                     "最大的魔力能量存储：%d",
                     "最大的生命植物魔法魔力存储：%d",
-                    "最大的液态魔力存储：%d mb"
+                    "最大的液态魔力存储：%d mB"
             }
     )
     public static  Lang[]  sparkmanahatchtootip_base;
@@ -365,10 +365,9 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.jade.manahatch.destructivewillprogress", "§6破坏意志：%s / %s");
         provider.add("ctnhmana.jade.manahatch.vengefulwillprogress", "§c复仇意志：%s / %s");
         provider.add("ctnhmana.jade.terra_plate.manaprogress","魔力输入进度：%s / %s (%.2f%%)");
-        provider.add("ctnhmana.jade.bloodaltar.lp","LP存储:%d / %d");
+        provider.add("ctnhmana.jade.bloodaltar.lp","LP存储：%d / %d");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider","魔力舱室属性");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider","魔力机器属性");
-        provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider","魔力机器属性");
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider","工业血祭坛属性");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "魔力机器魔力属性");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status","魔力池属性");
@@ -392,7 +391,7 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.common_tooltip.mana_machine.0", "魔法，神奇吧");
         provider.add("ctnh.common_tooltip.mana_machine.2","运行中的每一并行提供1%时间和耗能减免，至多减少75%");
-        provider.add("ctnh.common_tooltip.mana_machine.3","§4运行同电压等级配方时，使配方时间增加50%（魔力组装只增加1%)");
+        provider.add("ctnh.common_tooltip.mana_machine.3","§4运行同电压等级配方时，使配方时间增加50%（魔力组装只增加1%）");
         provider.add("ctnh.common_tooltip.mana_machine.4","放入§5类星体符文§r以在100次配方内启用§5星体之眼模式§r：并行变为无限，并行不再提供额外的时间与电压减少。启动此模式不消耗类星体符文");
 
         provider.add("ctnh.common_tooltip.mana_generator.0","机器的基础最大发电量为(配方发电量)*符文提供倍率*转子最大转速*转子发电效率/100*机器自身提供发电量倍率");
@@ -400,36 +399,36 @@ public class ChineseLangHandler {
         provider.add("ctnh.common_tooltip.mana_generator.2","§c注意：运行时需要额外消耗液态魔力，如果消耗液态魔力不足，则本次发电配方发电量将会除以5，通过机器UI可以获得魔力消耗量");
         provider.add("ctnh.common_tooltip.mana_generator.3", "在机器内放入符文可以提升发电效率：\n" +
                 "  一级符文：发电量x1.5，魔力消耗量x0.8，每5秒符文消耗概率：0.2\n" +
-                "  二级符文：发电量x2。4，魔力消耗量x1.2，每5秒符文消耗概率：0.1\n" +
+                "  二级符文：发电量x2.4，魔力消耗量x1.2，每5秒符文消耗概率：0.1\n" +
                 "  三级符文：发电量x3，魔力消耗量x0.8，每5秒符文消耗概率：0.05\n" +
-                "   四级符文：发电量x4， 魔力消耗量x0.6，每5秒符文消耗概率：0.025\n" +
-                "  五级符文： 发电量x5, 魔力消耗量x0.3， 每5秒符文消耗概率：0.02\n" +
+                "  四级符文：发电量x4，魔力消耗量x0.6，每5秒符文消耗概率：0.025\n" +
+                "  五级符文：发电量x5，魔力消耗量x0.3，每5秒符文消耗概率：0.02\n" +
                 "  §5类星体符文§r: 发电量*999, 消耗量*999，§c在被吞噬的星辰中绽放最终的光芒§r");
         provider.add("ctnh.common_tooltip.basic_mana_consume", "每秒基础消耗4mB液态魔力，电压每超过§7LV§r一级，消耗量变为原来的两倍");
         provider.add("ctnh.common_tooltip.advanced_mana_consume", "每秒基础消耗10mB液态魔力，电压每超过§7LV§r一级，消耗量变为原来的两倍");
         provider.add("ctnh.common_tooltip.super_mana_consume", "每秒基础消耗12mB液态魔力，电压每超过§7LV§r一级，消耗量变为原来的两倍");
 
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload","§c警告：机器过载！！！");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload_1","§c机器过载度:%d/%d");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload_1","§c机器过载度：%d/%d");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.crash","§c机器已损坏");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana","当前魔力量:%.4fM");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.twist_consumption","扭曲符文消耗概率:%.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.starlight_consumption","星光符文消耗概率:%.2f");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana","当前魔力量：%.4fM");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.twist_consumption","扭曲符文消耗概率：%.2f");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.starlight_consumption","星光符文消耗概率：%.2f");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.info.overload_2","§c！！！警告：能量溢出！！！");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.max_mana","魔力上限:%.4fM");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_required","魔力需求:%.2fM");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_consumption","消耗魔力:%.2fM");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.time","运行时间倍率:%.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.eut_consumption","消耗能源倍率:%.2f");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.stable","魔力稳定值:%.2f");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.max_mana","魔力上限：%.4fM");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_required","魔力需求：%.2fM");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.mana_consumption","消耗魔力：%.2fM");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.time","运行时间倍率：%.2f");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.eut_consumption","消耗能源倍率：%.2f");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.info.stable","魔力稳定值：%.2f");
 
-        provider.add("ctnh.eternalgarden.info.fire","当前烧煤花温度:%.1f");
-        provider.add("ctnh.eternalgarden.info.eat","当前彼方兰营养值:%d");
+        provider.add("ctnh.eternalgarden.info.fire","当前烧煤花温度：%.1f");
+        provider.add("ctnh.eternalgarden.info.eat","当前彼方兰营养值：%d");
 
         provider.add("ctnh.multiblock.hellforge.info.will", "意志：%s");
 
         provider.add("ctnh.common_tooltip.zenith_machine.0","§5超越魔法");
-        provider.add("ctnh.common_tooltip.zenith_machine.1","在达到LUV电压后，如果§5天顶源质§r足够，每次运行会消耗(60*(当前电压等级-6))的天顶源质，获得2^(当前电压等级-6)的并行数，最大并行数取决于当前电压。但是不输入天顶源质会损失4并行数。");
+        provider.add("ctnh.common_tooltip.zenith_machine.1","在达到LuV电压后，如果§5天顶源质§r足够，每次运行会消耗(60*(当前电压等级-6))的天顶源质，获得2^(当前电压等级-6)的并行数，最大并行数取决于当前电压。但是不输入天顶源质会损失4并行数。");
         provider.add("ctnh.common_tooltip.zenith_machine.2","注意，源质的消耗与当前你输入的物品数无关，即使没有并行，我也会克扣你的天顶源质，当并行达到上限后仍然会消耗天顶源质，但是消耗量固定为60");
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier1.tooltip.0", "简易魔力转换器");
@@ -439,23 +438,23 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.0", "进阶魔力转换器");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.1", "转子支架等级不能超过§5EV§r");
-        provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.2","运行时消耗2.25倍燃料，获得4倍的发电量");
+        provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.2", "运行时消耗2.25倍燃料，获得4倍的发电量");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier2.tooltip.3", "运行基础产能小于64的配方时，产生双倍发电");
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier3.tooltip.0", "精密魔力转换器");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier3.tooltip.1", "转子支架等级不能超过§dLuV§r");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier3.tooltip.2","运行时消耗4倍燃料，获得16倍的发电量");
-        provider.add("ctnh.multiblock.mana_generator_turbine_tier3.tooltip.3", "最终发电量额外乘以（1.2^(基础产能/32))");
+        provider.add("ctnh.multiblock.mana_generator_turbine_tier3.tooltip.3", "最终发电量额外乘以 (1.2^(基础产能/32))");
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.0", "神奇的能量守恒");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.1", "转子支架等级不能超过§cUV§r");
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.2","运行时消耗4倍燃料，获得64倍的发电量");
-        provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.3", "最终发电量额外乘以（1.5^(基础产能/32))");
+        provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.3", "最终发电量额外乘以 (1.5^(基础产能/32))");
 
         provider.add("ctnh.multiblock.industrial_altar.tooltip.0","§4血魔法，就在你家门口！");
-        provider.add("ctnh.multiblock.industrial_altar.tooltip.1","与血祭坛相同，该结构有输入LP上限，同时你§4必须通过特定配方来增加其lp§r\n详见JEI以查询增加的配方");
-        provider.add("ctnh.multiblock.industrial_altar.tooltip.2","电压每超过HV一级，就增加10000可存储LP上限，达到LUV后每级额外增加30000");
-        provider.add("ctnh.multiblock.industrial_altar.tooltip.3","每一个增容符文增加2500LP上限，强化增容符文增加5000,达到LUV后每级额外增加1000000/2000000LP上限");
+        provider.add("ctnh.multiblock.industrial_altar.tooltip.1","与血祭坛相同，该结构有输入LP上限，同时你§4必须通过特定配方来增加其lp§r，详见JEI以查询增加的配方");
+        provider.add("ctnh.multiblock.industrial_altar.tooltip.2","电压每超过HV一级，就增加10000可存储LP上限，达到LuV后每级额外增加30000");
+        provider.add("ctnh.multiblock.industrial_altar.tooltip.3","每一个增容符文增加2500LP上限，强化增容符文增加5000，达到LuV后每级额外增加1000000/2000000LP上限");
 
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.0", "§8撒旦一觉醒来发现自己掉到榜二了§r");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.1", "享受生灵痛苦的嘶吼吧。§r");
@@ -469,10 +468,10 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.hellforge.tooltip.0", "§8机器也会有灵魂吗？§r");
         provider.add("ctnh.multiblock.hellforge.tooltip.1", "运行狱火锻炉的配方，需要满足配方的最小意志条件。§r");
         provider.add("ctnh.multiblock.hellforge.tooltip.2", "如何向机器内填充意志：§r");
-        provider.add("ctnh.multiblock.hellforge.tooltip.3", "1.在控制器附近用§b感知之剑§r杀死一只浸泡于§c生命源质§r的怪物。获得基于怪物最大生命值的意志。");
+        provider.add("ctnh.multiblock.hellforge.tooltip.3", "1. 在控制器附近用§b感知之剑§r杀死一只浸泡于§c生命源质§r的怪物。获得基于怪物最大生命值的意志。");
         provider.add("ctnh.multiblock.hellforge.tooltip.4", "§8到控制器的曼哈顿距离小于8即可，不用非得是中间的血杯§r");
-        provider.add("ctnh.multiblock.hellforge.tooltip.5", "2.在控制器附近丢出一块魂石。机器会自动吸取其中的意志。");
-        provider.add("ctnh.multiblock.hellforge.tooltip.6", "3.使用§4永恒苦难之井§r。请查阅对应机器的tooltip§r");
+        provider.add("ctnh.multiblock.hellforge.tooltip.5", "2. 在控制器附近丢出一块魂石。机器会自动吸取其中的意志。");
+        provider.add("ctnh.multiblock.hellforge.tooltip.6", "3. 使用§4永恒苦难之井§r。请查阅对应机器的tooltip§r");
 
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.0", "§8以不可思议的伟力。§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.1", "§e核聚变反应堆模式：§r");
@@ -514,7 +513,7 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.eternalgarden.tooltip.unknown","§5......等待着永恒的紫罗兰如今在何方？");
 
         provider.add("zenith_extruder","配方类型：压膜机/§5天顶灵压塑形");
-        provider.add("zenith_extruder.1","允许使用§5天顶灵压塑形§r，其以每个形态1mb§5天顶源质§5r的代价来一次性塑造大部分锭的各种形态");
+        provider.add("zenith_extruder.1","允许使用§5天顶灵压塑形§r，其以每个形态1mB§5天顶源质§5r的代价来一次性塑造大部分锭的各种形态");
         provider.add("zenith_extruder.2","允许塑形的形态包括：§7板，杆，小型齿轮，齿轮，转子，环，螺栓，§4不允许塑形南瓜派！");
 
         provider.add("ctnh.multiblock.mana_condenser.tooltips.0", "反熵物质转化！");
@@ -530,7 +529,7 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.0","§8无穷无尽的扭曲之力§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1","可以使用激光仓");
-        provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.2","对所有配方都有§8无法理喻§r的并行数,所有配方能耗和运行时间减少75%");
+        provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.2","对所有配方都有§8无法理喻§r的并行数，所有配方能耗和运行时间减少75%");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.3","§5想制作这台机器的你疯的不轻，当然这台机器也同样疯狂至极§r");
 
         provider.add("ctnh.multiblock.mana_generator_turbine_tier4.tooltip.4","只能使用激光仓");
@@ -554,17 +553,17 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.botania.page.koishi_eye3","§o§5终被一切厌弃，终将一切遗忘§r");
         provider.add("botania.tagline.koishi","不用看清一切也行哦？");
         provider.add("ctnhmana.category.horizon","植物魔法：新视野");
-        provider.add("ctnhmana.category.horizon.description","作为一名优秀的格雷员工，你当然知晓如何合理地将魔法与科技结合获得最大化效益，本条目介绍了§m植物魔法§r机械动力:新视野的一些魔力新增内容");
+        provider.add("ctnhmana.category.horizon.description","作为一名优秀的格雷员工，你当然知晓如何合理地将魔法与科技结合获得最大化效益，本条目介绍了§m植物魔法§r机械动力：新视野的一些魔力新增内容");
 
         provider.add("ctnhmana.entry.mystic_spire","奥法尖塔");
 
         provider.add("ctnhmana.spire.page.1","奥法尖塔是你在击败盖亚之后就可以制作的高级结构，它会生成§b德尔塔火花§r，火花的高级特殊变种$(p) 奥法尖塔可以代替传统的发射器和火花，为各种魔力容器(包括魔力凝聚仓)供应mana$(br)对于具体的工作逻辑，请参考条目：德尔塔火花");
         provider.add("ctnhmana.spire.page.2","奥法尖塔在结构成型时会生成一个§b德尔塔火花§r，同时与其完成绑定，奥法尖塔结构失效时§b德尔塔火花§r随之消失，但数据会保留在尖塔主方块中$(p)，通过切换尖塔/火花的模式来决定魔力尖塔的工作模式，§b德尔塔火花§r可以绑定另一个§b德尔塔火花§r，无视模式向该火花传递魔力，该效果独立于传递速度运算且无视模式限制");
-        provider.add("ctnhmana.spire.page.3","奥法尖塔拥有多种模式，你可以在机器主方块UI进行切换，或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式.$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b广域扩散,§6中转");
-        provider.add("ctnhmana.spire.page.4","奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度 初始值50000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度，注意火花吸收产能花的速度只有接收速度的1/10，初始值:5000/tick$(p)范围：决定了火花的影响范围，初始值:10");
-        provider.add("ctnhmana.spire.page.5","奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力，而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则，向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r:奥法尖塔不执行任何操作，只实现奥法尖塔间的魔力传递");
+        provider.add("ctnhmana.spire.page.3","奥法尖塔拥有多种模式，你可以在机器主方块UI进行切换，或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式$(p)奥法尖塔目前具有四个模式：§4聚焦、§c火花扩散、§b广域扩散、§6中转");
+        provider.add("ctnhmana.spire.page.4","奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度，初始值50000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度，注意火花吸收产能花的速度只有接收速度的1/10，初始值：5000/tick$(p)范围：决定了火花的影响范围，初始值：10");
+        provider.add("ctnhmana.spire.page.5","奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力，而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则，向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r：奥法尖塔不执行任何操作，只实现奥法尖塔间的魔力传递");
         provider.add("ctnhmana.entry.tulpenmanie","永远的奥古斯都");
-        provider.add("ctnhmana.tulpenmanie.1","魔力beeeee疯了!它竟然做出来了这么一朵超模的花!$(p)永远的奥古斯都每tick会自动吸收周围魔力池100mana,而它每存储1000mana,每tick就可以自然产生1mana!$(p)最恐怖的是，这朵花有着100W的魔力缓存，魔生魔，太疯狂了!");
+        provider.add("ctnhmana.tulpenmanie.1","魔力beeeee疯了！它竟然做出来了这么一朵超模的花！$(p)永远的奥古斯都每tick会自动吸收周围魔力池100mana，而它每存储1000mana，每tick就可以自然产生1mana！$(p)最恐怖的是，这朵花有着100W的魔力缓存，魔生魔，太疯狂了!");
         provider.add("ctnh.copyright.magic.info","§bCTNH：工业魔力学");
 
         provider.add("ctnhmana.copyright.info","由CTNHMana增加");
@@ -702,7 +701,7 @@ public class ChineseLangHandler {
     public static Lang encapsulated_twist_mana;
     @CN(
             {
-                    "佩戴时获得:",
+                    "佩戴时获得：",
                     "显示§b魔力池§r，§b魔力花§r和§b魔力凝聚板§r的详细信息",
                     "看穿所有敌人的伪装",
                     "攻击时必定抓住敌人的破绽",
@@ -712,7 +711,7 @@ public class ChineseLangHandler {
     )
     @EN(
             {
-                    "佩戴时获得:",
+                    "佩戴时获得：",
                     "显示魔力池，魔力花和魔力凝聚板的详细信息",
                     "看穿所有敌人的伪装",
                     "攻击时必定抓住敌人的破绽",
