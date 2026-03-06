@@ -18,6 +18,7 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
+import net.minecraft.tags.ItemTags;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
@@ -33,7 +34,7 @@ public class ManaMachineUpgradeRecipes {
                 .input(CMItems.MAGIC_CORE.asStack())
                 .input(BotaniaItems.manaDiamond)
                 .input(BotaniaItems.manaDiamond)
-                .input(BotaniaTags.Items.MYSTICAL_FLOWERS)
+                .input(ItemTags.FLOWERS)
                 .input(BotaniaTags.Items.MYSTICAL_FLOWERS)
                 .input(CustomTags.LV_CIRCUITS)
                 .output(CMItems.SKY_FLOWER_SPEECH.asStack())

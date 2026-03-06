@@ -134,7 +134,7 @@ public class ManaMachineRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_mixer")// 魔力搅拌机
                 .inputItems(ELECTRIC_PISTON_MV, 1)
                 .inputItems(MAGIC_CORE.asItem())
-                .inputItems(GCYMMachines.LARGE_MIXER, 2)
+                .inputItems(LATHE[4], 2)
                 .inputItems(CustomTags.LuV_CIRCUITS, 4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputItems(MANA_MIXER)
@@ -269,9 +269,9 @@ public class ManaMachineRecipes {
                 .duration(1000)
                 .save(provider);
         TerraPlateRecipeBuilder.builder("mysticspire")// 神秘尖塔
+                .input(corporeaBrickStairs.asItem())
                 .input(corporeaBlock.asItem())
-                .input(corporeaBlock.asItem())
-                .input(corporeaBlock.asItem())
+                .input(corporeaBrick.asItem())
                 .input(corporeaIndex.asItem())
                 .input(corporeaSpark.asItem())
                 .input(MAGIC_CORE.asStack())
