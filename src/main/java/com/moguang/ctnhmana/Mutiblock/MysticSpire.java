@@ -57,7 +57,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Persisted
     public int range = 20;
     @Persisted
-    public int speed = 5000;
+    public int speed = 10000;
     @Persisted
     public int TargetNum = 3;
     @Persisted
@@ -67,7 +67,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Persisted
     public boolean isAnimationActive = true;
     @Persisted
-    public int receive_rate = 5000;
+    public int receive_rate = 10000;
     @Persisted
     public DyeColor network = DyeColor.WHITE;
     public final Map<Integer, Lang> mode_MAP = Map.of(
@@ -130,7 +130,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         if (isFormed()) {
             var pool = ((MysticSpireBlockEntity) this.holder);
             textList.add(spireDataLang[0].translate(pool.BTMana, pool.maxBTMana));
-            textList.add(spireDataLang[1].translate(MODE));
+            textList.add(spireDataLang[1].translate(mode_MAP.get(MODE)));
             textList.add(spireDataLang[2].translate(speed));
             textList.add(spireDataLang[3].translate(receive_rate));
             textList.add(spireDataLang[4].translate(range));
@@ -181,7 +181,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
                         new GuiTextureGroup(ColorPattern.T_CYAN.rectTexture(), CMGuiTextures.SPIRE_CONNECT_ON))
                 .setHoverTooltips(spireModeLang[4].translate(spireModeLang[3].translate()));
         var action_button = new SwitchWidget(175, 100, 20, 20, (clickData, aBoolean) -> {
-            isAnimationActive = true;
+            isAnimationActive = aBoolean;
             updateSpark();
         })
                 .setTexture(new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), CMGuiTextures.SPIRE_ANIMATION_OFF),

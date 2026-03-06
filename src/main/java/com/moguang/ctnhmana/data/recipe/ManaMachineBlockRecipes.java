@@ -43,12 +43,12 @@ public class ManaMachineBlockRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("pure_block") // 纯净机械方块
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
-                .inputItems(BotaniaBlocks.livingrock.asItem())
-                .inputItems(ChemicalHelper.get(TagPrefix.gearSmall, CMMaterials.ManaSteel), 2)
+                .inputItems(BotaniaBlocks.livingrock.asItem(), 2)
+                .inputItems(ChemicalHelper.get(TagPrefix.gearSmall, CMMaterials.ManaSteel), 4)
                 .circuitMeta(1)
                 .EUt(32)
                 .duration(120)
-                .outputItems(CMBlocks.LIVING_ROCK_CASING.asItem()) // 纯净机械方块
+                .outputItems(CMBlocks.LIVING_ROCK_CASING.asItem(), 2) // 纯净机械方块
                 .save(provider);
         ManaInfusionRecipeBuilder.builder("advanced_glass")    // 强化魔力玻璃
                 .input(GTBlocks.CASING_TEMPERED_GLASS.asStack())
@@ -58,11 +58,11 @@ public class ManaMachineBlockRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("unwither_casing")  // 不凋花园方块
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
-                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack())
-                .inputItems(CMBlocks.ENHANCED_MANA_GLASS.asStack())
+                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack(), 2)
+                .inputItems(CMBlocks.ENHANCED_MANA_GLASS.asStack(), 2)
                 .inputItems(ChemicalHelper.get(plate, CMMaterials.Photonium), 2)
                 .inputFluids(CMMaterials.MANA_STABLE_COOLDOWN.getFluid(100))
-                .outputItems(CMBlocks.UNFADING_GARDEN_CASING, 2) // 不凋花园方块
+                .outputItems(CMBlocks.UNFADING_GARDEN_CASING, 4) // 不凋花园方块
                 .circuitMeta(7)
                 .EUt(128)
                 .duration(300)
@@ -151,9 +151,9 @@ public class ManaMachineBlockRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_shatter_core") // 魔力粉碎核心
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
                 .inputItems(GTItems.COMPONENT_GRINDER_DIAMOND)
-                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 4)
-                .inputItems(BotaniaItems.runeSummer.asItem(), 2)
-                .inputItems(BotaniaItems.runeMana.asItem(), 2)
+                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 2)
+                .inputItems(BotaniaItems.runeSummer.asItem(), 1)
+                .inputItems(BotaniaItems.runeMana.asItem(), 1)
                 .inputItems(MANA_STEEL_CASING.asStack())
                 .outputItems(CMBlocks.MANA_SHATTER_CORE.asItem()) // 魔力粉碎核心
                 .duration(200)
@@ -163,9 +163,9 @@ public class ManaMachineBlockRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_forge_core") // 魔力锻造核心
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
                 .inputItems(Blocks.ANVIL.asItem())
-                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 4)
-                .inputItems(BotaniaItems.runeAutumn.asItem(), 2)
-                .inputItems(BotaniaItems.runeMana.asItem(), 2)
+                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 2)
+                .inputItems(BotaniaItems.runeAutumn.asItem(), 1)
+                .inputItems(BotaniaItems.runeMana.asItem(), 1)
                 .inputItems(MANA_STEEL_CASING.asStack())
                 .outputItems(CMBlocks.MANA_FORGE_CORE.asItem()) // 魔力锻造核心
                 .duration(200)
@@ -175,9 +175,9 @@ public class ManaMachineBlockRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_refinment_core") // 魔力精炼核心
                 .notConsumable(BotaniaFlowerBlocks.pureDaisy.asItem())
                 .inputItems(BotaniaItems.manaMirror.asItem())
-                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 4)
-                .inputItems(BotaniaItems.runeSpring.asItem(), 2)
-                .inputItems(BotaniaItems.runeMana.asItem(), 2)
+                .inputItems(ChemicalHelper.get(TagPrefix.cableGtSingle, CMMaterials.ManaSteel), 2)
+                .inputItems(BotaniaItems.runeSpring.asItem(), 1)
+                .inputItems(BotaniaItems.runeMana.asItem(), 1)
                 .inputItems(MANA_STEEL_CASING.asStack())
                 .outputItems(CMBlocks.MANA_REFINEMENT_CORE.asItem())
                 .duration(200)

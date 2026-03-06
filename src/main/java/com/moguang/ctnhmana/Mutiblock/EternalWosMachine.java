@@ -93,7 +93,8 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
     public Widget createUIWidget() {
         var widget = super.createUIWidget();
         var button_diffusion = (new SwitchWidget(80, 100, 20, 20, (clickData, ispressed) -> {
-            if (getMachine(this.getLevel(), this.getPos()) instanceof HellForgeMachine hmachine) diffusion_model = true;
+            if (getMachine(this.getLevel(), this.getPos()) instanceof HellForgeMachine hmachine)
+                diffusion_model = ispressed;
 
         })
                 .setPressed(diffusion_model)

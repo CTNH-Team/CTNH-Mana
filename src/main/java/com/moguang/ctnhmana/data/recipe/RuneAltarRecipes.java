@@ -147,7 +147,6 @@ public class RuneAltarRecipes {
                 .input(Blocks.MOSS_BLOCK.asItem())
                 .input(ROOT_BLOCK.get().asItem())
                 .input(CHERRY_SAPLING)
-                .input(HOLLOW_OAK_SAPLING.get().asItem())
                 .mana(5000)
                 .output(new ItemStack(BotaniaItems.runeSpring, 1))
                 .save(provider);

@@ -631,6 +631,10 @@ public class ChineseLangHandler {
     public static Lang flowerHeartLang;
     @CN("封藏着魔力的奥义")
     public static Lang encapsulated_twist_mana;
+    @CN("放置在魔力凝缩器内，每个消耗10000魔力能量来转化为奥利哈精魄")
+    public static Lang unimbudSpritLang;
+    @CN("§b它会变成什么?")
+    public static Lang blankRuneLang;
     @CN({
             "佩戴时获得：",
             "显示§b魔力池§r，§b魔力花§r和§b魔力凝聚板§r的详细信息",

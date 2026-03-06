@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
+import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import lombok.Getter;
 import lombok.Setter;
@@ -289,6 +290,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     public void ConvertLP() {
         // 转化LP到Mana
+        // 只有LP是无转化限制，会损失转化的
         if (this.SoulNet != null) {
             var consume = SoulNet.getCurrentEssence();
             if (consume > LP_CONVERT_SPEED) {
@@ -304,14 +306,16 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void ConvertBTMana() {
         // 转化植物魔法Mana到Mana
         if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
-            long consume = ((IManaMachineBlockEntity) this.holder).sendMana(BTMANA_CONVERT_SPEED);
+            long consume = ((IManaMachineBlockEntity) this.holder)
+                    .sendMana(Math.min((maxMana - Mana) * BTMANA_CONVERT_RATE, BTMANA_CONVERT_SPEED));
             Mana = Math.min(maxMana, Mana + consume / BTMANA_CONVERT_RATE);
         }
     }
 
     public void ConvertFluidMana() {
         if (!fluidTank.isEmpty() && fluidTank.getFluidInTank(0).containsFluid(CMMaterials.Mana.getFluid(1))) {
-            var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(), maxFluidMana);
+            var consume = Math.min((maxMana - Mana) * FLUID_MANA_CONVERT_RATE,
+                    Math.min(fluidTank.getFluidInTank(0).getAmount(), FLUID_MANA_CONVERT_SPEED));
             Mana = Math.min(maxMana, consume / FLUID_MANA_CONVERT_RATE + Mana);
             fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount() - consume));
         }
@@ -320,16 +324,20 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void TransferRingMana() {
         if (!((IManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
-            // 每tick转化容量的1%魔力
+            // 每tick转化容量的0.1%魔力
             var item = inventory.getStackInSlot(0);
             if (item.getItem() instanceof BandOfManaItem ManaRing) {
                 var p = ItemNBTHelper.getInt(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.01, p);
+                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
                     ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
+            }
+            if (item.getItem().equals(CMItems.UNIMBUED_SPIRIT.get()) && this.Mana >= 10000 * item.getCount()) {
+                this.Mana -= 10000 * item.getCount();
+                inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
     }

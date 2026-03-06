@@ -118,18 +118,18 @@ public class TerraPlateRecipes {
                 .output(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.PRIMOVOLITHEST))
                 .mana(77778)
                 .save(provider);
-        ElfPlateRecipeBuilder.builder("oriculos")
-                .input(photonium)
-                .input(shadowium)
-                .input(ModItems.alfsteelIngot)
-                .input(BotaniaItems.manaSteel)
-                .input(BotaniaItems.terrasteel)
-                .input(BotaniaItems.gaiaIngot)
-                .input(BotaniaItems.elementium)
-                .input(theOrigin)
-                .output(orichalcos)
-                .mana(3000000)
-                .save(provider);
+        // ElfPlateRecipeBuilder.builder("oriculos")
+        // .input(photonium)
+        // .input(shadowium)
+        // .input(ModItems.alfsteelIngot)
+        // .input(BotaniaItems.manaSteel)
+        // .input(BotaniaItems.terrasteel)
+        // .input(BotaniaItems.gaiaIngot)
+        // .input(BotaniaItems.elementium)
+        // .input(theOrigin)
+        // .output(orichalcos)
+        // .mana(3000000)
+        // .save(provider);
         CMRecipeTypes.MANA_REACTOR_RECIPES.recipeBuilder("oriculos_reactor")
                 .inputItems(photonium)
                 .inputItems(shadowium)
@@ -150,6 +150,20 @@ public class TerraPlateRecipes {
                 .output(BotaniaItems.runeMana.asItem().getDefaultInstance())
                 .circuitMeta(3)
                 .mana(10000)
+                .save(provider);
+        CMRecipeTypes.MANA_FORGE_RECIPES.recipeBuilder("break_oriculos")
+                .inputItems(orichalcos)
+                .outputItems(UNIMBUED_SPIRIT.get(), 4)
+                .EUt(128)
+                .duration(4000)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("build_orichalcos")
+                .input(ORICHALCOS_SPIRIT.asItem())
+                .input(BotaniaItems.manaSteel.asItem())
+                .input(ChemicalHelper.get(TagPrefix.dust, CMMaterials.Fused_Mana))
+                .output(orichalcos.asItem().getDefaultInstance())
+                .mana(100000)
+                .circuitMeta(17)
                 .save(provider);
     }
 }

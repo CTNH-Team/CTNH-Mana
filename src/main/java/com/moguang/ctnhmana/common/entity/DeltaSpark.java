@@ -167,9 +167,11 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             consume = speed;
         }
 
-        consume = consume / num;
+        consume = Math.max(consume / num, 1);
         for (ManaSpark spark : sparks) {
-            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) continue;
+            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null ||
+                    spark.getAttachedManaReceiver().isFull())
+                continue;
             if (!spark.getAttachedManaReceiver().isFull()) spark.getAttachedManaReceiver().receiveMana(consume);
             if (isAnimationActive) particlesTowards(spark.entity());
 
@@ -181,7 +183,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         int consume = 0;
         var num = 0;
         for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved()) num++;
+            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
+                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()))
+                num++;
         }
         if (num < 1 || pool.getCurrentMana() <= 0) return;
         if (pool.getCurrentMana() <= speed) {
@@ -191,9 +195,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             pool.BTMana -= speed;
             consume = speed;
         }
-        consume = consume / num;
+        consume = Math.max(consume / num, 1);
         for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved()) {
+            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
+                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower())) {
                 receiver.receiveMana(consume);
                 if (isAnimationActive) particlesTowards((BlockEntity) receiver);
             }
@@ -212,10 +217,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if (spark.getAttachedManaReceiver().getCurrentMana() > 0) num++;
         }
         if (num < 1 || pool.isFull()) return;
-        consume = consume / num;
+        consume = Math.max(consume / num, 1);
         for (ManaSpark spark : sparks) {
             if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null ||
-                    spark.getAttachedManaReceiver().getCurrentMana() <= 0)
+                    spark.getAttachedManaReceiver().getCurrentMana() <= 0 || pool.isFull())
                 continue;
             var mana = spark.getAttachedManaReceiver().getCurrentMana();
             if (mana < consume) {
@@ -238,9 +243,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if (!flower.isRemoved() && flower.getMana() > 0) num++;
         }
         if (num < 1 || pool.isFull()) return;
-        consume = consume / num;
+        consume = Math.max(consume / num, 1);
         for (GeneratingFlowerBlockEntity flower : flowers) {
-            if (flower.isRemoved() || flower.getMana() <= 0) continue;
+            if (flower.isRemoved() || flower.getMana() <= 0 || pool.isFull()) continue;
             var mana = flower.getMana();
             if (mana < consume) {
                 flower.addMana(-mana);

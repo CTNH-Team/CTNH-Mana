@@ -288,6 +288,23 @@ public class CMItems {
                 .cnlang("破碎的符文")
                 .onRegister(attach(new TooltipBehavior(text -> text.add(brokenRuneLang.translate()))))
                 .register();
+        EMPTY_RUNE = REGISTRATE
+                .item("blank_rune", ComponentItem::create)
+                .cnlang("空无符文")
+                .onRegister(attach(new TooltipBehavior(text -> text.add(blankRuneLang.translate()))))
+                .lang("Blank Rune")
+                .register();
+        UNIMBUED_SPIRIT = REGISTRATE
+                .item("unimbued_spirit", ComponentItem::create)
+                .cnlang("未注魔的精魄")
+                .onRegister(attach(new TooltipBehavior(text -> text.add(unimbudSpritLang.translate()))))
+                .lang("Unimbued Spirit")
+                .register();
+        ORICHALCOS_SPIRIT = REGISTRATE
+                .item("orichalcos_spirit", ComponentItem::create)
+                .cnlang("§d奥利哈精魄")
+                .lang("Orichalcum Spirit")
+                .register();
         TAINTED_BLOOD_EYE = REGISTRATE
                 .item("tainted_blood_third_eye", TaintedBloodWeepingEye::new)
                 .cnlang("污血泣眼")
@@ -419,10 +436,12 @@ public class CMItems {
     public static ItemEntry<CaduceusItem> CADUCEUS;
     public static ItemEntry<IManaFuelStick> SPARK_STICK;
     public static ItemEntry<ComponentItem> BROKEN_RUNE;
+    public static ItemEntry<ComponentItem> EMPTY_RUNE;
     public static ItemEntry<TaintedBloodWeepingEye> TAINTED_BLOOD_EYE;
     public static ItemEntry<ComponentItem> TERRA_CATALYST;
     public static ItemEntry<ComponentItem> ENCAPSULATED_TWIST_MANA;
-    public static ItemEntry<ComponentItem> UNEMPOWERED_SOUL;
+    public static ItemEntry<ComponentItem> UNIMBUED_SPIRIT;
+    public static ItemEntry<ComponentItem> ORICHALCOS_SPIRIT;
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);

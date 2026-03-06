@@ -164,7 +164,6 @@ public class CaduceusItem extends GTToolItem {
             // 先找tag有没有方块
             if (tag.contains("index_target_block")) {
                 var posArray = tag.getIntArray("index_target_block");
-
                 var targetBlockPos = new BlockPos(posArray[0], posArray[1], posArray[2]);
                 player.getPersistentData().remove("index_target_block");
                 tag.remove("index_target");

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
@@ -21,18 +22,22 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
+import com.moguang.ctnhmana.registry.CMItems;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.entity.ManaSparkEntity;
+import vazkii.botania.common.helper.ItemNBTHelper;
+import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 
 import java.util.List;
 
-public class SparkManaHatch extends ManaHatch {
+public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
 
     @Getter
     @Persisted
@@ -94,6 +99,14 @@ public class SparkManaHatch extends ManaHatch {
     }
 
     @Override
+    public void onDrops(List<ItemStack> drops) {
+        // 实现 IDropSaveMachine 时，破坏时数据会写入掉落物 NBT，不再把槽位内容单独扔到地上，避免重复/丢失
+        if (!saveBreak()) {
+            clearInventory(getInventory().storage);
+        }
+    }
+
+    @Override
     public Widget createUIWidget() {
         var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124);
         var container = new WidgetGroup(176 / 2 - 13, 124 / 2 - 26, 26, 26);
@@ -106,7 +119,7 @@ public class SparkManaHatch extends ManaHatch {
                 }));
         int index = 0;
         container.addWidgets(
-                new SlotWidget(getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
+                new SlotWidget(this.getInventory().storage, index++, 4, 4, true, io.support(IO.IN))
                         .setBackgroundTexture(CMGuiTextures.SLOT_RING)
                         .setIngredientIO(IngredientIO.INPUT));
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -151,6 +164,7 @@ public class SparkManaHatch extends ManaHatch {
         ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
     }
 
+    @Override
     public void ConvertMana() {
         if (getOffsetTimer() % 20 == 0) ConvertSparkMana();
         if (getOffsetTimer() % 200 == 0) searchSpark();
@@ -179,6 +193,28 @@ public class SparkManaHatch extends ManaHatch {
                     receiver.receiveMana(-consume);
                     ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
                 }
+            }
+        }
+    }
+
+    @Override
+    public void TransferRingMana() {
+        if (!((IManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
+            // 把魔力戒指里的魔力转化为植物魔法魔力
+            // 每tick转化容量的1%魔力
+            var item = inventory.getStackInSlot(0);
+            if (item.getItem() instanceof BandOfManaItem ManaRing) {
+                var p = ItemNBTHelper.getInt(item, "mana", 0);
+                if (p >= 20) {
+                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.01, p);
+                    // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
+                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ItemNBTHelper.setInt(item, "mana", p - (int) consume);
+                }
+            }
+            if (item.getItem().equals(CMItems.UNIMBUED_SPIRIT.get()) && this.Mana >= 10000 * item.getCount()) {
+                this.Mana -= 10000 * item.getCount();
+                inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
     }

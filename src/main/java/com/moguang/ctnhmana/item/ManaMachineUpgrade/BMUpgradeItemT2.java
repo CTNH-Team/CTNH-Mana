@@ -43,7 +43,7 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
                 stead = true;
             }
             if (hatch.destructiveWill >= BASE_MIN) {
-                metric.speed += 0.75;
+                metric.speed += 2.5;
                 if (!stead) metric.output -= 0.1;
 
             }
@@ -104,7 +104,7 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
             "宝珠的每一等级提供§a+2§r最大并行,灵魂网络的每 250000LP提供§a+2§r最大并行（最多64）",
             "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*3点恶魔意志，使最大并行翻三倍",
             "如果机器中的特殊恶魔意志至少拥有10，则在运行时消耗（机器电压-1）点恶魔意志，获得以下效果:",
-            "破坏意志：运行速度§a+75%§r，最终产物§c-20%§r",
+            "破坏意志：运行速度§a+250%§r，最终产物§c-20%§r",
             "侵蚀意志：消耗电压§a-40%§r，运行速度§c-15%§r",
             "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
             "坚韧意志：§a消除以上所有意志的负面效果§r",

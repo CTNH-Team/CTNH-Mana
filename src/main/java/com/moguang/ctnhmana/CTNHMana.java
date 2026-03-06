@@ -62,7 +62,7 @@ public class CTNHMana {
 
     public void onFMLoadComplete(FMLLoadCompleteEvent event) {
         BloodMagicAPI.INSTANCE.registerAltarComponent(
-                CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.getDefaultState(),
+                CMBlocks.CASING_BLOODLOGIC.getDefaultState(),
                 "CRYSTAL");
     }
 

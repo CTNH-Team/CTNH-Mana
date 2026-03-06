@@ -32,7 +32,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
             metric.speed += accelerate * 0.5;
             machine.getHatch().consumeManaIfEnough(accelerate * 10000);
         }
-        metric.speed += Math.min(1.25, true_parallel * 0.02);
+        metric.speed += Math.min(2.00, true_parallel * 0.05);
         metric.true_parallel = true_parallel;
         return metric;
     }
@@ -59,7 +59,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
             "偏向于植物魔法与魔力的升级",
             "机器获得：",
             "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得2点并行(最高256)",
-            "运行时的每一并行提供§a+2%§r机器工作速度（最高125%）",
+            "运行时的每一并行提供§a+5%§r机器工作速度（最高200%）",
             "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2.5%§r机器工作速度（最高50%）",
             "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量使运行速度增加25%",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
