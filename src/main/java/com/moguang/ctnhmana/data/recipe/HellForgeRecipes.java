@@ -158,14 +158,14 @@ public class HellForgeRecipes {
                 .input(ROUTING_NODE_BLOCK_ITEM.get())
                 .input(new ItemStack(GLOWSTONE_DUST, 1))
                 .output(new ItemStack(OUTPUT_ROUTING_NODE_BLOCK_ITEM.get()))
-                .minimumSouls(120).soulDrain(60)
+                .minimumSouls(400).soulDrain(25)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("steadfast_crystal_block_item")// 坚韧晶体块
                 .input(STEADFAST_CRYSTAL.get(), STEADFAST_CRYSTAL.get(), STEADFAST_CRYSTAL.get(),
                         STEADFAST_CRYSTAL.get())
                 .output(new ItemStack(STEADFAST_CRYSTAL_BLOCK_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("deforester_charge_item")// 伐木充能
@@ -177,13 +177,13 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("throwing_dagger_syringe")// 飞刀注射器
                 .input(GLASS, ANDESITE)
                 .output(new ItemStack(THROWING_DAGGER_SYRINGE.get(), 8))
-                .minimumSouls(20).soulDrain(10)
+                .minimumSouls(10).soulDrain(2)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("vengeful_crystal_catalyst")
                 .input(SULFUR.get(), TAU_OIL.get(), NETHER_WART, MELON_SEEDS)
                 .output(new ItemStack(VENGEFUL_CRYSTAL_CATALYST.get(), 8))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(20)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("amethyst_throwing_dagger")// 紫水晶飞刀
@@ -204,19 +204,19 @@ public class HellForgeRecipes {
                 .input(DESTRUCTIVE_CRYSTAL.get(), DESTRUCTIVE_CRYSTAL.get(), DESTRUCTIVE_CRYSTAL.get(),
                         DESTRUCTIVE_CRYSTAL.get())
                 .output(new ItemStack(DESTRUCTIVE_CRYSTAL_BLOCK_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("destructive_crystal_catalyst")// 破坏晶体催化剂
                 .input(NETHER_WART, BEETROOT, TAU_OIL.get(), SULFUR.get())
                 .output(new ItemStack(DESTRUCTIVE_CRYSTAL_CATALYST.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(20)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("lesser_gem")// 次级宝石
                 .input(PETTY_GEM.get(), LAPIS_BLOCK, REDSTONE_BLOCK, DIAMOND)
                 .output(new ItemStack(LESSER_GEM.get(), 1))
-                .minimumSouls(120).soulDrain(60)
+                .minimumSouls(60).soulDrain(20)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("miners_key")// 矿工之钥
@@ -228,38 +228,38 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("corrosive_crystal_catalyst")// 侵蚀晶体催化剂
                 .input(NETHER_WART, WHEAT_SEEDS, TAU_OIL.get(), SULFUR.get())
                 .output(new ItemStack(CORROSIVE_CRYSTAL_CATALYST.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(20)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("demon_pylon_item")// 恶魔塔
                 .input(DEMON_CRUCIBLE_ITEM.get(), REAGENT_TELEPOSITION.get(), REAGENT_SUPPRESSION.get(),
                         DEMON_CRYSTALLIZER_ITEM.get())
                 .output(new ItemStack(DEMON_PYLON_ITEM.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(50)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("sentient_scythe")// 感知镰刀
                 .input(IRON_HOE, PETTY_GEM.get())
                 .output(new ItemStack(SENTIENT_SCYTHE.get(), 1))
-                .minimumSouls(2).soulDrain(1)
+                .minimumSouls(0).soulDrain(0)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("demon_crucible_item")// 恶魔坩埚
                 .input(REAGENT_SIGHT.get(), REAGENT_VOID.get(), CAULDRON, REINFORCED_SLATE.get())
                 .output(new ItemStack(DEMON_CRUCIBLE_ITEM.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("sentient_axe")
                 .input(IRON_AXE, PETTY_GEM.get())
                 .output(new ItemStack(SENTIENT_AXE.get(), 1))
-                .minimumSouls(2).soulDrain(1)
+                .minimumSouls(0).soulDrain(0)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("steadfast_crystal_catalyst")
                 .input(NETHER_WART, PUMPKIN_SEEDS, TAU_OIL.get(), SULFUR.get())
                 .output(new ItemStack(STEADFAST_CRYSTAL_CATALYST.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(20)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("veinmine_charge_2_item")
@@ -271,7 +271,7 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("corrosive_crystal_catalyst_greater")
                 .input(COMMON_GEM.get(), DEMONIC_SLATE.get(), WEAK_BLOOD_SHARD.get(), RAW_CRYSTAL.get())
                 .output(new ItemStack(GREATER_GEM.get(), 1))
-                .minimumSouls(2000).soulDrain(1000)
+                .minimumSouls(1000).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("aug_shaped_charge_item")
@@ -283,32 +283,32 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("resonator")
                 .input(RAW_CRYSTAL.get(), COPPER_BLOCK, ANDESITE)
                 .output(new ItemStack(RESONATOR.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("node_router")
                 .input(LAPIS_LAZULI, LAPIS_LAZULI, REINFORCED_SLATE.get(), STICK)
                 .output(new ItemStack(NODE_ROUTER.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(5)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("vengeful_crystal_block_item")
                 .input(VENGEFUL_CRYSTAL.get(), VENGEFUL_CRYSTAL.get(), VENGEFUL_CRYSTAL.get(), VENGEFUL_CRYSTAL.get())
                 .output(new ItemStack(VENGEFUL_CRYSTAL_BLOCK_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("raw_crystal_block_item")
                 .input(RAW_CRYSTAL.get(), RAW_CRYSTAL.get(), RAW_CRYSTAL.get(), RAW_CRYSTAL.get())
                 .circuitMeta(22)
                 .output(new ItemStack(RAW_CRYSTAL_BLOCK_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("petty_gem")
                 .input(REDSTONE, GLASS, GOLD_INGOT, LAPIS_LAZULI)
                 .output(new ItemStack(PETTY_GEM.get(), 1))
-                .minimumSouls(2).soulDrain(1)
+                .minimumSouls(1).soulDrain(1)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("rune_winter")
@@ -335,13 +335,13 @@ public class HellForgeRecipes {
                 .input(SOUL_FORGE_ITEM.get(), REAGENT_MAGNETISM.get(), REAGENT_BLOOD_LIGHT.get(),
                         BotaniaBlocks.manaGlass.asItem())
                 .output(new ItemStack(DEMON_CRYSTALLIZER_ITEM.get()))
-                .minimumSouls(1000).soulDrain(500)
+                .minimumSouls(500).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("input_routing_node_block_item")
                 .input(GOLD_INGOT, ROUTING_NODE_BLOCK_ITEM.get(), REDSTONE, GLOWSTONE)
                 .output(new ItemStack(INPUT_ROUTING_NODE_BLOCK_ITEM.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(25)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("fused_demon_mixed_mana_dust")
@@ -354,13 +354,13 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("common_gem")
                 .input(GOLD_BLOCK, DIAMOND, IMBUED_SLATE.get(), LESSER_GEM.get())
                 .output(new ItemStack(COMMON_GEM.get(), 1))
-                .minimumSouls(480).soulDrain(240)
+                .minimumSouls(240).soulDrain(50)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("sentient_pickaxe")
                 .input(PETTY_GEM.get(), IRON_PICKAXE)
                 .output(new ItemStack(SENTIENT_PICKAXE.get(), 1))
-                .minimumSouls(2).soulDrain(1)
+                .minimumSouls(0).soulDrain(0)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("deforester_charge_2_item")
@@ -372,7 +372,7 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("sanguine_reverter")
                 .input(IMBUED_SLATE.get(), ANDESITE, IRON_INGOT, SHEARS)
                 .output(new ItemStack(SANGUINE_REVERTER.get()))
-                .minimumSouls(700).soulDrain(350)
+                .minimumSouls(350).soulDrain(30)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("shaped_charge_item_ev")
@@ -385,19 +385,19 @@ public class HellForgeRecipes {
                 .input(CORROSIVE_CRYSTAL.get(), CORROSIVE_CRYSTAL.get(), CORROSIVE_CRYSTAL.get(),
                         CORROSIVE_CRYSTAL.get())
                 .output(new ItemStack(CORROSIVE_CRYSTAL_BLOCK_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(100)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("sentient_sword")
                 .input(IRON_SWORD, PETTY_GEM.get())
                 .output(new ItemStack(SENTIENT_SWORD.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(0).soulDrain(0)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("demon_will_gauge")
                 .input(RAW_CRYSTAL.get(), GLASS, GOLD_INGOT, REDSTONE)
                 .output(new ItemStack(DEMON_WILL_GAUGE.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(50)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("rune_spring")
@@ -416,7 +416,7 @@ public class HellForgeRecipes {
                 .input(RAW_CRYSTAL.get(), TAU_OIL.get(), AMETHYST_SHARD,
                         ChemicalHelper.get(ingot, GTMaterials.Vanadium).getItem())
                 .output(new ItemStack(PRIMITIVE_CRYSTALLINE_RESONATOR.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(200)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("raw_crystal1")
@@ -429,13 +429,13 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("sentient_shovel")
                 .input(IRON_SHOVEL, PETTY_GEM.get())
                 .output(new ItemStack(SENTIENT_SHOVEL.get(), 1))
-                .minimumSouls(2).soulDrain(1)
+                .minimumSouls(0).soulDrain(0)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("throwing_dagger")
                 .input(IRON_INGOT, IRON_INGOT, STRING)
                 .output(new ItemStack(THROWING_DAGGER.get(), 16))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(32).soulDrain(5)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("rune_summer")
@@ -447,7 +447,7 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("fungal_charge_2_item")
                 .input(CHARCOAL, COPPER_BLOCK, BROWN_MUSHROOM)
                 .output(new ItemStack(FUNGAL_CHARGE_2_ITEM.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(160).soulDrain(80)
                 .circuitMeta(2)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("rune_autumn1")
@@ -459,13 +459,13 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("master_routing_node_block_item")
                 .input(IRON_BLOCK, DIAMOND, IMBUED_SLATE.get())
                 .output(new ItemStack(MASTER_ROUTING_NODE_BLOCK_ITEM.get(), 1))
-                .minimumSouls(800).soulDrain(400)
+                .minimumSouls(400).soulDrain(200)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("dungeons_simple_key")
                 .input(IRON_INGOT, IRON_INGOT, REDSTONE_BLOCK, IMBUED_SLATE.get())
                 .output(new ItemStack(DUNGEON_SIMPLE_KEY.get(), 1))
-                .minimumSouls(600).soulDrain(300)
+                .minimumSouls(300).soulDrain(50)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("master_core")
@@ -485,7 +485,7 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("hellforged_resonator")
                 .input(AMETHYST_SHARD, HELLFORGED_INGOT.get(), RAW_CRYSTAL.get(), GOLD_INGOT)
                 .output(new ItemStack(HELLFORGED_RESONATOR.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(1200).soulDrain(400)
                 .circuitMeta(1)
                 .save(provider);
 

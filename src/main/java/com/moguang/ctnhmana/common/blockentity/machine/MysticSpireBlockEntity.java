@@ -21,7 +21,7 @@ public class MysticSpireBlockEntity extends IManaMachineBlockEntity
                                     implements IMachineBlockEntity, IManaged, ManaReceiver {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MysticSpireBlockEntity.class, MetaMachineBlockEntity.MANAGED_FIELD_HOLDER);
+            MysticSpireBlockEntity.class, IManaMachineBlockEntity.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     @RequireRerender

@@ -41,7 +41,6 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MysticSpire.class,
             WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
@@ -130,7 +129,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         if (isFormed()) {
             var pool = ((MysticSpireBlockEntity) this.holder);
             textList.add(spireDataLang[0].translate(pool.BTMana, pool.maxBTMana));
-            textList.add(spireDataLang[1].translate(mode_MAP.get(MODE)));
+            textList.add(spireDataLang[1].translate(mode_MAP.get(MODE).translate()));
             textList.add(spireDataLang[2].translate(speed));
             textList.add(spireDataLang[3].translate(receive_rate));
             textList.add(spireDataLang[4].translate(range));

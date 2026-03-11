@@ -261,7 +261,7 @@ public class ManaMachineBlockRecipes {
                 .output(ELEMENTIUM_FRAME.asStack())
                 .mana(6000)
                 .save(provider);
-        TerraPlateRecipeBuilder.builder("elementium_frame1") // 源质钢框架
+        TerraPlateRecipeBuilder.builder("orichalcos_frame1") // 奥利哈框架
                 .input(ChemicalHelper.get(rod, Orichalcos))
                 .input(ChemicalHelper.get(rod, Orichalcos))
                 .input(ChemicalHelper.get(rod, Orichalcos))

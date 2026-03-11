@@ -266,7 +266,7 @@ public class BaseManaMachine extends ManaMachine {
                         .eutMultiplier(metric.eut)
                         .inputModifier(ContentModifier.multiplier(metric.true_parallel * metric.input))
                         .outputModifier(ContentModifier.multiplier(metric.true_parallel * metric.output))
-                        .durationMultiplier(1 / metric.speed * Math.min(64, metric.true_parallel))
+                        .durationMultiplier(1 / metric.speed * Math.min(128, metric.true_parallel))
                         .build();
             }
             return ModifierFunction.builder()
