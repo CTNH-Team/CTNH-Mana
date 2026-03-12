@@ -303,6 +303,7 @@ public class CMItems {
         ORICHALCOS_SPIRIT = REGISTRATE
                 .item("orichalcos_spirit", ComponentItem::create)
                 .cnlang("§d奥利哈精魄")
+                .onRegister(attach(new TooltipBehavior(text -> text.add(orichalcosSpritLang.translate()))))
                 .lang("Orichalcum Spirit")
                 .register();
         TAINTED_BLOOD_EYE = REGISTRATE

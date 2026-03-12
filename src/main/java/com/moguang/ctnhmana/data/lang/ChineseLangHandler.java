@@ -633,6 +633,8 @@ public class ChineseLangHandler {
     public static Lang encapsulated_twist_mana;
     @CN("放置在魔力凝缩器内，每个消耗10000魔力能量来转化为奥利哈精魄")
     public static Lang unimbudSpritLang;
+    @CN("通过未注魂的精魄在魔力凝缩器中消耗魔力能量转化而来")
+    public static Lang orichalcosSpritLang;
     @CN("§b它会变成什么?")
     public static Lang blankRuneLang;
     @CN({
