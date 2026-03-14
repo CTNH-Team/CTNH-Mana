@@ -15,6 +15,8 @@ public class RecipeRemoval {
         removePaths.add("bloodmagic:sacrificial_dagger");
         removePaths.add("botania:mana_pool");
         removePaths.add("mythicbotany:mana_collector");
+        removePaths.add("bloodmagic:path/path_obsidian");
+        removePaths.add("bloodmagic:blood_altar");
         for (String path : removePaths) {
             registry.accept(ResourceLocation.parse(path));
         }

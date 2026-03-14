@@ -42,6 +42,8 @@ public class CMMaterials {
             MaterialIconSet.METALLIC);
     public static final MaterialIconSet ULTRA_MANA_ICON_SET = new MaterialIconSet("ultramana",
             MaterialIconSet.METALLIC);
+    public static final MaterialIconSet PRIMOVOLITHEST_ICON_SET = new MaterialIconSet("primovolithest",
+            MaterialIconSet.METALLIC);
 
     public static void init() {
         BotaniaMaterials.init();
@@ -280,12 +282,14 @@ public class CMMaterials {
             .cnlang("混元意志钢")
             .liquid()
             .ingot()
-            .color(0X2C2C2E)
+            .iconSet(PRIMOVOLITHEST_ICON_SET)
+            .color(0X00008B)
             .element(CMElements.PRIMOVOLITHEST)
             .blastTemp(5400, BlastProperty.GasTier.HIGHEST, 4444, 444)
             .cableProperties(GTValues.V[GTValues.LuV], 44, 4, false)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING)
+
             .buildAndRegister();
     public static final Material YURIKO = REGISTRATE.material(GTCEu.id("yuriko"))
             .cnlang("绮璃")

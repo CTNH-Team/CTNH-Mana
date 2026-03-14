@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "ctnhmana:moonflower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 29110231,
+    "spacing": 400,
+    "separation": 200
+  }
+}

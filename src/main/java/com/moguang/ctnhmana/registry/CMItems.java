@@ -327,7 +327,7 @@ public class CMItems {
                 .register();
         ZENITH_STAR = REGISTRATE
                 .item("zenith_star", ComponentItem::create)
-                .cnlang("§a天穹之星")
+                .cnlang("§5天穹之星")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
                     return properties;
@@ -336,7 +336,7 @@ public class CMItems {
                 .register();
         ENCAPSULATED_TWIST_MANA = REGISTRATE
                 .item("encapsulated_twist_mana", ComponentItem::create)
-                .cnlang("§a封装扭曲魔力")
+                .cnlang("§5封装扭曲魔力")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
                     return properties;
@@ -345,7 +345,7 @@ public class CMItems {
                 .register();
         MANA_CIRCUIT_BOARD = REGISTRATE
                 .item("mana_circuit_board", ComponentItem::create)
-                .cnlang("§a究极魔力电路基板")
+                .cnlang("§5究极魔力电路基板")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
                     return properties;

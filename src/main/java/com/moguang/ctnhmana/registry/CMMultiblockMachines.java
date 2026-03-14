@@ -316,24 +316,17 @@ public class CMMultiblockMachines {
                             "#######################", "#######################", "#######################",
                             "#######################", "#######################", "#######################",
                             "#######################", "#######################")
-                    .aisle("B#####BBBCDDDCBBB######", "#######################", "#######################",
+                    .aisle("######BBBCDDDCBBB######", "#######################", "#######################",
                             "#######################", "#######################", "#######################",
                             "#######################", "#######################", "#######################",
                             "#######################", "#######################", "#######################",
                             "#######################", "#######################")
-                    .aisle("NB#######BBBBB#########", "O######################", "O######################",
-                            "O######################", "N######################", "#######################",
-                            "#######################", "#######################", "#######################",
-                            "#######################", "#######################", "#######################",
-                            "#######################", "######################A")
                     .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("I", Predicates.blocks(PURE_MAGIC_CALCULATE_CORE.get()))
-                    .where("N", Predicates.blocks(CASING_MANASTEEL_GEARBOX.get()))
                     .where("J", Predicates.blocks(Blocks.SEA_LANTERN))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("O", Predicates.blocks(ENHANCED_MANA_GLASS.get()))
                     .where("F", Predicates.blocks(PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("K", Predicates.blocks(BotaniaBlocks.livingrockPolished))
                     .where("E", Predicates.blocks(ORICHALCOS_FRAME.get()))

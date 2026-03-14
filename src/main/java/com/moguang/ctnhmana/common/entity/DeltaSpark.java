@@ -266,6 +266,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var num = 0;
         consume = Math.min(pool.BTMana, speed);
         consume = Math.min(consume, target_pool.maxBTMana - target_pool.BTMana);
+        if (consume <= 0) return;
         pool.receiveMana(-consume);
         target_pool.receiveMana(consume);
         if (isAnimationActive) particlesTowards((connectedDeltaSpark));
@@ -381,20 +382,36 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                 updateMachine();
                 return InteractionResult.SUCCESS;
             } else {
-                if (item.recordedSpark == null) {
+                // 绑定坐标必须是「尖塔控制器 AttachPos」：火花实体在 offset(0,10,1) 等处，1×1 AABB(getOnPos) 永远搜不到
+                BlockPos bindingSpire = SaberWandItem.hasBindingSpire(stack) ? SaberWandItem.getBindingSpire(stack) :
+                        null;
+                DeltaSpark spark = null;
+                if (bindingSpire != null) {
+                    BlockPos finalBinding = bindingSpire;
+                    // 按 AttachPos 匹配另一端尖塔的火花；扩大 AABB 仅用于缩小扫描范围
+                    AABB search = new AABB(finalBinding).inflate(48);
+                    List<DeltaSpark> sparks = level().getEntitiesOfClass(DeltaSpark.class, search,
+                            e -> e != this && e.isAlive() && !e.isRemoved() && e.AttachPos != null &&
+                                    e.AttachPos.equals(finalBinding));
+                    if (!sparks.isEmpty()) {
+                        spark = sparks.get(0);
+                    }
+                }
+                if (spark == null) {
                     if (!world.isClientSide) {
-                        item.recordedSpark = this;
+                        BlockPos record = this.AttachPos != null ? this.AttachPos : this.blockPosition();
+                        SaberWandItem.setBindingSpire(stack, record);
                         player.displayClientMessage(saberWandBindingLang[1].translate(), true);
                     }
                     updateMachine();
                     return InteractionResult.SUCCESS;
                 } else {
-                    if (item.recordedSpark != null && item.recordedSpark.isAlive() && !item.recordedSpark.isRemoved()) {
+                    if (spark != null && spark.isAlive() && !spark.isRemoved()) {
                         if (!world.isClientSide) {
-                            this.connectedDeltaSpark = item.recordedSpark;
-                            this.connectedDeltaSparkPos = item.recordedSpark.getBoundingBox();
+                            this.connectedDeltaSpark = spark;
+                            this.connectedDeltaSparkPos = spark.getBoundingBox();
 
-                            item.recordedSpark = null;
+                            SaberWandItem.clearBinding(stack);
                         }
 
                         if (world.isClientSide) {
@@ -405,6 +422,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                         return InteractionResult.SUCCESS;
                     } else {
                         player.displayClientMessage(saberWandBindingLang[3].translate(), true);
+                        SaberWandItem.clearBinding(stack);
                         return InteractionResult.FAIL;
                     }
 

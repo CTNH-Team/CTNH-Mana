@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "ctnhmana:yurikosword",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 41843927,
+    "spacing": 400,
+    "separation": 200
+  }
+}

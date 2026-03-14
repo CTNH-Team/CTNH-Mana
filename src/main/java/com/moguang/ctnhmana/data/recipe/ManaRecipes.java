@@ -15,6 +15,7 @@ import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 
 import java.util.function.Consumer;
 
@@ -487,5 +488,21 @@ public class ManaRecipes {
                 "AAA",
                 'A', Blocks.DEEPSLATE,
                 'B', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "path", new ItemStack(BloodMagicBlocks.OBSIDIAN_PATH.get(), 32),
+                "AAA",
+                "ABA",
+                "AAA",
+                'A', ChemicalHelper.get(TagPrefix.plateDense, GTMaterials.Obsidian),
+                'B', ChemicalHelper.get(TagPrefix.gear, CMMaterials.COAGULBLOODGOLD));
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("elf")
+                .inputFluids(GTMaterials.Helium, 1000)
+                .inputFluids(GTMaterials.Neutronium, 1000)
+                .inputFluids(GTMaterials.CarbonDioxide, 2000)
+                .inputFluids(CMMaterials.Mana, 1000)
+                .outputFluids(CMMaterials.ELF_FUEL.getFluid(2000))
+                .EUt(120)
+                .duration(1000)
+                .save(provider);
     }
 }

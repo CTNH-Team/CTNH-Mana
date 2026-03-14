@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.*;
 
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
-import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,7 +66,9 @@ public class SaberWandItem extends WandOfTheForestItem {
     private static final String TAG_BOUND_TILE_Y = "boundTileY";
     private static final String TAG_BOUND_TILE_Z = "boundTileZ";
     private static final String TAG_BIND_MODE = "bindMode";
-    public DeltaSpark recordedSpark;
+    private static final String SPARK_POS_X = "spark_pos_x";
+    private static final String SPARK_POS_Y = "spark_pos_y";
+    private static final String SPARK_POS_Z = "spark_pos_z";
     public final ChatFormatting modeChatFormatting = ChatFormatting.GOLD;
     public static final ChatFormatting format = ChatFormatting.GOLD;
 
@@ -553,6 +554,24 @@ public class SaberWandItem extends WandOfTheForestItem {
         ItemNBTHelper.setInt(stack, TAG_BOUND_TILE_Z, pos.getZ());
     }
 
+    public static void setBindingSpire(ItemStack stack, BlockPos pos) {
+        ItemNBTHelper.setInt(stack, SPARK_POS_X, pos.getX());
+        ItemNBTHelper.setInt(stack, SPARK_POS_Y, pos.getY());
+        ItemNBTHelper.setInt(stack, SPARK_POS_Z, pos.getZ());
+    }
+
+    public static BlockPos getBindingSpire(ItemStack stack) {
+        int x = ItemNBTHelper.getInt(stack, SPARK_POS_X, 0);
+        int y = ItemNBTHelper.getInt(stack, SPARK_POS_Y, Integer.MIN_VALUE);
+        int z = ItemNBTHelper.getInt(stack, SPARK_POS_Z, 0);
+        return new BlockPos(x, y, z);
+    }
+
+    /** 魔杖是否已记录「另一端秘术尖塔控制器」坐标（未绑定过则 Y 为默认 MIN_VALUE） */
+    public static boolean hasBindingSpire(ItemStack stack) {
+        return ItemNBTHelper.getInt(stack, SPARK_POS_Y, Integer.MIN_VALUE) != Integer.MIN_VALUE;
+    }
+
     public static Optional<BlockPos> getBindingAttempt(ItemStack stack) {
         int x = ItemNBTHelper.getInt(stack, TAG_BOUND_TILE_X, 0);
         int y = ItemNBTHelper.getInt(stack, TAG_BOUND_TILE_Y, Integer.MIN_VALUE);
@@ -566,6 +585,13 @@ public class SaberWandItem extends WandOfTheForestItem {
 
     public static void setBindMode(ItemStack stack, boolean bindMode) {
         ItemNBTHelper.setBoolean(stack, TAG_BIND_MODE, bindMode);
+        clearBinding(stack);
+    }
+
+    public static void clearBinding(ItemStack stack) {
+        stack.getOrCreateTag().remove(SPARK_POS_X);
+        stack.getOrCreateTag().remove(SPARK_POS_Y);
+        stack.getOrCreateTag().remove(SPARK_POS_Z);
     }
 
     public static String getModeString(ItemStack stack) {

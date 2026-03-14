@@ -8,8 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.moguang.ctnhmana.common.recipe.builder.botania.RuneRitualRecipeBuilder;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.kvasir.WanderingTraderRuneInput;
 import vazkii.botania.common.block.BotaniaBlocks;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 
 import java.util.function.Consumer;
 
@@ -94,6 +96,32 @@ public class runeRitualRecipes {
                 .specialInput(WanderingTraderRuneInput.INSTANCE)
                 .output(SACRIFICIAL_DAGGER.get())
                 .mana(1000000)
+                .save(provider);
+        RuneRitualRecipeBuilder.builder("altar")
+                .center(thermalily.asItem())
+                .rune(runeGreed, -3, 1, true)
+                .rune(runeEnvy, -2, 2, true)
+                .rune(runeLust, -1, 1, true)
+                .rune(ChemicalHelper.get(block, GTMaterials.Redstone).getItem(), 2, 1, true)
+                .rune(runeWrath, 2, 2, true)
+                .rune(ChemicalHelper.get(block, GTMaterials.Redstone).getItem(), -2, 1, true)
+                .rune(runeSloth, 1, 1, true)
+                .rune(runeGluttony, -2, 0, true)
+                .rune(runeMana, 3, 1, true)
+                .rune(runePride, 2, 0, true)
+                .rune(ChemicalHelper.get(plate, GTMaterials.BlackSteel).getItem(), -1, -1, true)
+                .rune(ChemicalHelper.get(plate, GTMaterials.RedSteel).getItem(), 0, -1, true)
+                .rune(ChemicalHelper.get(plate, GTMaterials.BlackSteel).getItem(), 1, -1, true)
+                .rune(ChemicalHelper.get(plateDense, GTMaterials.Obsidian).getItem(), -2, -2, true)
+                .rune(ChemicalHelper.get(plateDense, GTMaterials.Obsidian).getItem(), 0, -2, true)
+                .rune(ChemicalHelper.get(plateDense, GTMaterials.Obsidian).getItem(), 1, -2, true)
+                .rune(ChemicalHelper.get(plateDense, GTMaterials.Obsidian).getItem(), 2, -2, true)
+                .rune(ChemicalHelper.get(plateDense, GTMaterials.Obsidian).getItem(), -1, -2, true)
+                .input(redString)
+                .input(superLavaPendant)
+                .input(ExtraBotanyItems.shadowium)
+                .output(BloodMagicBlocks.BLOOD_ALTAR.get().asItem())
+                .mana(666666)
                 .save(provider);
         RuneRitualRecipeBuilder.builder("mana_collector")
                 .center(gaiaIngot.asItem())

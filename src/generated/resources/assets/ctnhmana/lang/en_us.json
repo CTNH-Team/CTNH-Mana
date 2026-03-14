@@ -358,7 +358,7 @@
   "ctnhmana.gtcorelang_t1.2": "机器的并行§a+1§r，在运行前§c清除机器所有的并行§r",
   "ctnhmana.gtcorelang_t1.3": "每清除一点并行，获得以下加成:",
   "ctnhmana.gtcorelang_t1.4": "最终机器速度§a+5%，§a-2.5%§r能量消耗",
-  "ctnhmana.gtcorelang_t1.5": "将机器的并行转化为至多128§b魔力批处理§r:",
+  "ctnhmana.gtcorelang_t1.5": "将机器的并行转化为至多256§b魔力批处理§r:",
   "ctnhmana.gtcorelang_t1.6": "运行多倍配方不再提升电压消耗，而是提升等量时间",
   "ctnhmana.gtcorelang_t1.7": "每有1魔力批处理，机器速度获得§a+2%§r，最多+222%",
   "ctnhmana.gtcorelang_t1.8": "经过批处理后的配方每有200s，§a-2.5%§r能量消耗，最多-50%",
