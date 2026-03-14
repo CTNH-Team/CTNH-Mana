@@ -2,12 +2,14 @@ package com.moguang.ctnhmana.Mutiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
+import com.gregtechceu.gtceu.api.machine.fancyconfigurator.MachineModeFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -15,6 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -26,6 +29,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 import com.moguang.ctnhmana.common.gui.ManaStatusGui;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.ManaMachineUpgradeItem;
@@ -290,18 +294,36 @@ public class BaseManaMachine extends ManaMachine {
             // sideTabs.attachSubTab(new ShroudUi());
             sideTabs.attachSubTab(new ManaStatusGui(this));
         }
+        if (this.getRecipeTypes().length > 1) {
+            sideTabs.attachSubTab(new MachineModeFancyConfigurator(this));
+        }
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
         if (directionalConfigurator != null)
             sideTabs.attachSubTab(directionalConfigurator);
     }
 
+    private static final double BASE_MANA_UI_SCALE = 1.2;
+
+    private static int sc(int v) {
+        return (int) Math.round(v * BASE_MANA_UI_SCALE);
+    }
+
+    @Override
+    public ModularUI createUI(Player entityPlayer) {
+        int w = sc(198), h = sc(208);
+        return new ModularUI(w, h, this, entityPlayer).widget(new FancyMachineUIWidget(this, w, h));
+    }
+
     @Override
     public @NotNull Widget createUIWidget() {
-        WidgetGroup widget = new WidgetGroup(0, 0, 190, 125);
-        var group = (new DraggableScrollableWidgetGroup(4, 4, 182, 117)).setBackground(this.getScreenTexture())
-                .addWidget(new LabelWidget(4, 5, this.self().getBlockState().getBlock().getDescriptionId()))
-                .addWidget((new ComponentPanelWidget(4, 17, this::addDisplayText))
-                        .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200)
+        int gw = sc(190), gh = sc(125);
+        WidgetGroup widget = new WidgetGroup(0, 0, gw, gh);
+        int m = sc(4);
+        var group = (new DraggableScrollableWidgetGroup(m, m, sc(182), sc(117))).setBackground(this.getScreenTexture())
+                .addWidget(new LabelWidget(m, sc(5), this.self().getBlockState().getBlock().getDescriptionId()))
+                .addWidget((new ComponentPanelWidget(m, sc(17), this::addDisplayText))
+                        .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
+                        .setMaxWidthLimit(sc(200))
                         .clickHandler(this::handleDisplayClick));
         widget.setBackground(new IGuiTexture[] { GuiTextures.BACKGROUND_INVERSE });
 
@@ -317,10 +339,11 @@ public class BaseManaMachine extends ManaMachine {
         widget.addWidget(group);
         if (widget != null) {
             var size = widget.getSize();
+            int slotOff = (30), slotStep = (18);
             for (int i = 0; i < 1; i++) {
                 widget.addWidget(
-                        new SlotWidget(machineStorage.storage, i, size.width - 30 - 18 * i, size.height - 30, true,
-                                true)
+                        new SlotWidget(machineStorage.storage, i, size.width - slotOff - slotStep * i,
+                                size.height - slotOff, true, true)
                                 .setBackground(GuiTextures.SLOT));
             }
         }

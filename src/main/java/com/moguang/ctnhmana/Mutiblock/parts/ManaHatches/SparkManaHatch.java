@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
@@ -42,9 +41,6 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
     @Getter
     @Persisted
     private final NotifiableItemStackHandler inventory;
-    @Getter
-    @Persisted
-    private final NotifiableFluidTank fluidTank;
     @Nullable
     protected TickableSubscription ConvertSubs;
     // Holder初始化 持久化
@@ -67,7 +63,6 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                           int BTMANA_CONVERT_RATE, int LP_CONVERT_RATE, int FLUID_MANA_CONVERT_RATE) {
         super(holder, maxMana, maxLP, maxBTMana, capacity, BTMANA_CONVERT_RATE, LP_CONVERT_RATE,
                 FLUID_MANA_CONVERT_RATE);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         var centerPos = this.getPos();
         this.sparkConvertSpeed = 15000;
@@ -78,7 +73,6 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                           int sparkConvertSpeed) {
         super(holder, maxMana, maxLP, maxBTMana, capacity, BTMANA_CONVERT_RATE, LP_CONVERT_RATE,
                 FLUID_MANA_CONVERT_RATE);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         var centerPos = this.getPos();
         this.sparkConvertSpeed = sparkConvertSpeed;
@@ -86,14 +80,12 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
 
     public SparkManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
         super(holder, maxMana, maxLP, maxBTMana, capacity);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
     }
 
     public SparkManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
                           int sparkConvertSpeed) {
         super(holder, maxMana, maxLP, maxBTMana, capacity);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         this.sparkConvertSpeed = sparkConvertSpeed;
     }

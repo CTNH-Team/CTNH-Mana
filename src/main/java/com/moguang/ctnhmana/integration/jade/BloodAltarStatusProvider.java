@@ -47,6 +47,7 @@ public class BloodAltarStatusProvider extends CapabilityBlockProvider<Industrial
         }
         if (machine.isFormed() && machine.isActive()) {
             consume = machine.consumption_lp;
+            if (machine.getUpgrade().equals("suppression")) consume *= 0.5;
         }
         data.putInt("lp", lp);
         data.putInt("max_lp", max_lp);

@@ -85,7 +85,7 @@ public class BloodAltarCondition extends RecipeCondition {
         var machine = recipeLogic.getMachine();
         if (machine instanceof IndustrialAltarMachine altarMachine) {
             if (altarMachine.altar_tier < this.altar_tier) return false;
-            if (!altarMachine.getUpgrade().equals(this.upgrade)) return false;
+            if (!altarMachine.getUpgrade().equals(this.upgrade) && this.upgrade != "None") return false;
             return true;
         }
         return false;

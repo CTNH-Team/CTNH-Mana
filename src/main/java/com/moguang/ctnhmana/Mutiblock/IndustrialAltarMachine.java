@@ -209,13 +209,13 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 if (recipe.duration / speed < 20) {
                     batch = Math.min((int) (speed / recipe.duration), parallel);
                     true_time = (int) Math.max(20, recipe.duration / speed * batch);
-                }
+                } else true_time = (int) Math.max(20, recipe.duration / speed);
                 altarMachine.consumption_lp = consume;
                 return ModifierFunction.builder()
                         .parallels(batch)
                         .inputModifier(ContentModifier.multiplier(batch))
                         .outputModifier(ContentModifier.multiplier(batch))
-                        .durationMultiplier(true_time / recipe.duration)
+                        .durationMultiplier((double) true_time / recipe.duration)
                         .build();
             }
             return ModifierFunction.NULL;

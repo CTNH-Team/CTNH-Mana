@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -11,11 +12,14 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.redstone.Redstone;
 
+import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import vazkii.botania.common.block.BotaniaBlocks;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.function.Consumer;
 
@@ -337,6 +341,44 @@ public class BloodAltarRecipes {
                 .circuitMeta(1)
                 .consumeRate(100)
                 .drainRate(20)
+                .save(provider);
+        BLOOD_ALTAR_RECIPES.recipeBuilder("jade_etching")
+                .inputItems(ChemicalHelper.get(gemExquisite, Topaz), 2)
+                .inputItems(new ItemStack(lensNormal))
+                .inputItems(ChemicalHelper.get(lens, NetherStar))
+                .inputItems(ChemicalHelper.get(lens, Diamond))
+                .inputItems(ChemicalHelper.get(lens, Ruby))
+                .inputItems(ChemicalHelper.get(lens, Sapphire))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000))
+                .inputFluids(SulfuricAcid, 1000)
+                .outputItems(ETCHING_JADE)
+                .addCondition(new BloodAltarCondition(1, 100, 100 * 100 * 20))
+                .EUt(32)
+                .duration(100 * 20)
+                .save(provider);
+        BLOOD_ALTAR_RECIPES.recipeBuilder("jade_kaguya") // oh my kaguya
+                .inputItems(ChemicalHelper.get(gemExquisite, Ruby), 2)
+                .inputItems(BloodMagicBlocks.SPEED_RUNE.get().asItem())
+                .inputItems(BloodMagicBlocks.SPEED_RUNE_2.get().asItem())
+                .inputItems(lensSpeed)
+                .inputItems(lensEfficiency)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000))
+                .inputFluids(DistilledWater, 6666)
+                .outputItems(EPHEMERAL_JADE)
+                .addCondition(new BloodAltarCondition(4, 1000, 1000 * 100 * 20))
+                .EUt(1200)
+                .duration(100 * 20)
+                .save(provider);
+        BLOOD_ALTAR_RECIPES.recipeBuilder("jade_antiblood") // oh my kaguya
+                .inputItems(ChemicalHelper.get(gemExquisite, Sapphire), 2)
+                .inputItems(SUPPRESSION_SIGIL, 4)
+                .inputItems(REAGENT_SUPPRESSION, 4)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000))
+                .inputFluids(PCBCoolant, 6666)
+                .outputItems(SUPPRESSION_JADE)
+                .addCondition(new BloodAltarCondition(1, 1000, 1000 * 100 * 20))
+                .EUt(32)
+                .duration(100 * 20)
                 .save(provider);
     }
 }

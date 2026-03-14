@@ -28,6 +28,12 @@ import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.BaseManaMachineLang
 
 public class ManaStatusGui implements IFancyUIProvider {
 
+    private static final double STATUS_UI_SCALE = 1.2;
+
+    private static int sc(int v) {
+        return (int) Math.round(v * STATUS_UI_SCALE);
+    }
+
     protected BaseManaMachine machine;
 
     @CN("查看机器详细数据")
@@ -43,14 +49,15 @@ public class ManaStatusGui implements IFancyUIProvider {
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget fancyMachineUIWidget) {
-        WidgetGroup group = new WidgetGroup(0, 0, 190, 125);
-        DraggableScrollableWidgetGroup dggroup = new DraggableScrollableWidgetGroup(4, 4, 182, 125);
-        dggroup.addWidget((new DraggableScrollableWidgetGroup(4, 4, 182, 117)));
+        int m = sc(4);
+        int gw = sc(190), gh = sc(125);
+        WidgetGroup group = new WidgetGroup(0, 0, gw, gh);
+        DraggableScrollableWidgetGroup dggroup = new DraggableScrollableWidgetGroup(m, m, sc(182), sc(125));
+        dggroup.addWidget(new DraggableScrollableWidgetGroup(m, m, sc(182), sc(117)));
         dggroup.setBackground(new IGuiTexture[] { GuiTextures.DISPLAY });
-        // group.addWidget(new LabelWidget(4, 5,ManaStatusProviderTooltips.translate()));
-        dggroup.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayText)
+        dggroup.addWidget(new ComponentPanelWidget(m, sc(5), this::addDisplayText)
                 .textSupplier(this.machine.getLevel().isClientSide ? null : this::addDisplayText)
-                .setMaxWidthLimit(200)
+                .setMaxWidthLimit(sc(200))
                 .clickHandler(this::handleDisplayClick));
         group.addWidget(dggroup);
         return group;
