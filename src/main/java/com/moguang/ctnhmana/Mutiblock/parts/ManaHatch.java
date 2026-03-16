@@ -322,6 +322,13 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
 
     public void TransferRingMana() {
+        if (!this.inventory.isEmpty()) {
+            var item = this.inventory.getStackInSlot(0);
+            if (item.getItem().equals(CMItems.UNIMBUED_SPIRIT.get()) && this.Mana >= 10000 * item.getCount()) {
+                this.Mana -= 10000 * item.getCount();
+                this.inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
+            }
+        }
         if (!((IManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
             // 每tick转化容量的0.1%魔力
@@ -335,10 +342,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
-            if (item.getItem().equals(CMItems.UNIMBUED_SPIRIT.get()) && this.Mana >= 10000 * item.getCount()) {
-                this.Mana -= 10000 * item.getCount();
-                inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
-            }
+
         }
     }
 
