@@ -17,7 +17,7 @@ public class GaiaReactorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         GAIA_REACTOR_RECIPES.recipeBuilder("gaia_1")
                 .inputItems(terrasteel)
-                .outputFluids(Mana.getFluid(1000))
+                .outputFluids(Mana.getFluid(100))
                 .outputItems(lifeEssence.asItem(), 4)
                 .outputItems(manaDiamond, 5)
                 .outputItems(manaPearl, 5)
@@ -35,7 +35,7 @@ public class GaiaReactorRecipes {
                 .save(provider);
         GAIA_REACTOR_RECIPES.recipeBuilder("gaia_2")
                 .inputItems(gaiaIngot)
-                .outputFluids(Mana.getFluid(10000))
+                .outputFluids(Mana.getFluid(1000))
                 .outputItems(lifeEssence.asItem(), 16)
                 .outputItems(manaDiamond, 8)
                 .outputItems(manaPearl, 8)
@@ -63,7 +63,7 @@ public class GaiaReactorRecipes {
                 .save(provider);
         GAIA_REACTOR_RECIPES.recipeBuilder("gaia_3")
                 .inputItems(ChemicalHelper.get(ingot, AlfSteel))
-                .outputFluids(Mana.getFluid(45000))
+                .outputFluids(Mana.getFluid(4500))
                 .outputItems(ChemicalHelper.get(ingot, Elementium), 4)
                 .outputItems(runeMana, 2)
                 .chancedOutput(asgardRune.getDefaultInstance(), (int) 2000f, 1)

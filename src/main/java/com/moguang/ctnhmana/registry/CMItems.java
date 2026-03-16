@@ -179,8 +179,8 @@ public class CMItems {
 
         MAGIC_QUANTUM_PROCESSOR_MAINFRAME = REGISTRATE
                 .item("magic_quantum_processor_mainframe", ComponentItem::create)
-                .cnlang("超因果纠缠虚化主机")
-                .lang("Magic Quantum Processor Mainframe")
+                .cnlang("超因果逻辑UHV电路")
+                .lang("Supercausal Logic UHV Circuit")
                 .tag(CustomTags.UHV_CIRCUITS)
                 .onRegister(
                         attach(new TooltipBehavior(text -> itemTooltipsAdd(magic_quantum_processor_mainframe, text))))

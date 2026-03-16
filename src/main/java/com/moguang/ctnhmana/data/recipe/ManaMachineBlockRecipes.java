@@ -509,7 +509,7 @@ public class ManaMachineBlockRecipes {
                 "ABA",
                 'A', ChemicalHelper.get(plate, GTMaterials.BlackSteel),
                 'B', BloodMagicItems.SLATE.get(),
-                'c', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+                'C', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "speed_rune",
                 new ItemStack(BloodMagicBlocks.SPEED_RUNE.get(), 2), // 加速符文
@@ -576,7 +576,7 @@ public class ManaMachineBlockRecipes {
                 'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "blood_steel",
-                new ItemStack(BloodMagicBlocks.SPEED_RUNE.get(), 2), // 大血石砖
+                new ItemStack(BloodMagicBlocks.BLOODSTONE.get(), 2), // 大血石砖
                 "AAA",
                 "ABA",
                 "AAA",

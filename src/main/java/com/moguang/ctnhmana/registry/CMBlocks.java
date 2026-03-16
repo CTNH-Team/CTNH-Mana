@@ -243,6 +243,16 @@ public class CMBlocks {
             CTNHMana.id("block/casings/mana_fusion_casing"));
     public static final BlockEntry<Block> CASING_BLOOD = createCasingBlock(
             "blood_casing", "血染机械方块", CTNHMana.id("block/casings/blood_casing"));
+    public static final BlockEntry<Block> DUSK_MECHANICAL_BLOCK = createCasingBlock(
+            "dusk_mechanical_block", "薄暮机械方块", CTNHMana.id("block/altar/dusk_mechanical_block"));
+    public static final BlockEntry<Block> ZENITH_WILL_MECHANICAL_BLOCK = createCasingBlock(
+            "zenith_will_mechanical_block", "穹顶意志机械方块",
+            CTNHMana.id("block/altar/zenith_will_mechanical_block"));
+    public static final BlockEntry<Block> BLOOD_RITUAL_MECHANICAL_BLOCK = createCasingBlock(
+            "blood_ritual_mechanical_block", "血祭机械方块",
+            CTNHMana.id("block/altar/blood_ritual_mechanical_block"));
+    public static final BlockEntry<Block> RITUAL_MECHANICAL_BLOCK = createCasingBlock(
+            "ritual_mechanical_block", "仪祭机械方块", CTNHMana.id("block/altar/ritual_mechanical_block"));
     public static final BlockEntry<Block> CASING_FORCE_FILED = createCasingBlock(
             "force_field_casing", "力场领域机械方块", CTNHMana.id("block/casings/force_field_casing"));
     public static final BlockEntry<Block> CASING_BLOODLOGIC = createCasingBlock(
@@ -264,6 +274,11 @@ public class CMBlocks {
     public static final BlockEntry<Block> ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK = createCasingBlock(
             "arcane_flow_accelerated_conduit_block", "魔流束加速管道方块",
             CTNHMana.id("block/casings/arcane_flow_accelerated_conduit_block"));
+    public static final BlockEntry<Block> ASTRAL_TELEPORTER_FRAME = createCasingBlock(
+            "astral_teleporter_frame", "星辉传送门框架",
+            CTNHMana.id("block/casings/astral_teleporter_frame"));
+    public static final BlockEntry<Block> ASTRAL_BEACON_BLOCK = createCasingBlock(
+            "astral_beacon_block", "星辉信标方块", CTNHMana.id("block/casings/astral_beacon_block"));
     public static final BlockEntry<Block> ELEMENTAL_CASING_GEARBOX = createCasingBlock(
             "elemental_casing_gearbox", "源质钢齿轮箱机械方块",
             CTNHMana.id("block/casings/gearbox/elemental_steel_gearbox_casing"));
