@@ -259,7 +259,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     public void sendManaToDeltaNet() {
-        if (connectedDeltaSpark == null) return;
+        if (connectedDeltaSpark == null || connectedDeltaSpark.SpireMachine == null) return;
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         var target_pool = (MysticSpireBlockEntity) connectedDeltaSpark.SpireMachine.getHolder();
         int consume = 0;

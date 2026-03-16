@@ -191,10 +191,10 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
 
     @Override
     public void TransferRingMana() {
-        if (!((IManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
+        if (!((IManaMachineBlockEntity) this.holder).isFull() && !this.inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
             // 每tick转化容量的1%魔力
-            var item = inventory.getStackInSlot(0);
+            var item = this.inventory.getStackInSlot(0);
             if (item.getItem() instanceof BandOfManaItem ManaRing) {
                 var p = ItemNBTHelper.getInt(item, "mana", 0);
                 if (p >= 20) {
@@ -206,7 +206,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
             }
             if (item.getItem().equals(CMItems.UNIMBUED_SPIRIT.get()) && this.Mana >= 10000 * item.getCount()) {
                 this.Mana -= 10000 * item.getCount();
-                inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
+                this.inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
     }

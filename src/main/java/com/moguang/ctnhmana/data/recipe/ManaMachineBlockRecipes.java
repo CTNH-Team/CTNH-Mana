@@ -29,6 +29,7 @@ import vazkii.botania.common.item.BotaniaItems;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
+import wayoftime.bloodmagic.core.recipe.IngredientBloodOrb;
 
 import java.util.function.Consumer;
 
@@ -85,6 +86,7 @@ public class ManaMachineBlockRecipes {
                 'A', ChemicalHelper.get(TagPrefix.rod, CMMaterials.Elementium),
                 'B', (ChemicalHelper.get(TagPrefix.gearSmall, CMMaterials.Elementium)),
                 'C', ELEMENTIUM_FRAME.asStack());
+
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("elementium_gear_box") // 源质钢齿轮箱机械方块
                 .inputItems(ChemicalHelper.get(plate, CMMaterials.Elementium), 4)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.Elementium), 2)
@@ -210,7 +212,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(BotaniaItems.runeWrath.asItem(), 3)
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.COAGULBLOODGOLD), 3)
                 .outputItems(CASING_BLOODLOGIC.asItem(), 6)
-                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 66666))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 6666))
                 .duration(666 * 2)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
@@ -499,5 +501,86 @@ public class ManaMachineBlockRecipes {
                 .EUt(32768)
                 .duration(1000)
                 .save(provider);
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "rune_block_1",
+                new ItemStack(BloodMagicBlocks.BLANK_RUNE.get(), 2), // 空白符文
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', ChemicalHelper.get(plate, GTMaterials.BlackSteel),
+                'B', BloodMagicItems.SLATE.get(),
+                'c', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "speed_rune",
+                new ItemStack(BloodMagicBlocks.SPEED_RUNE.get(), 2), // 加速符文
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', ChemicalHelper.get(plate, GTMaterials.BlueSteel),
+                'C', BloodMagicItems.REINFORCED_SLATE.get(),
+                'B', BotaniaItems.runeAir.asItem());
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "accelerate_rune",
+                new ItemStack(BloodMagicBlocks.ACCELERATION_RUNE.get(), 1), // 促速符文
+                "ADA",
+                "BCB",
+                "AEA",
+                'A', CASING_BLOODLOGIC.get(),
+                'C', BloodMagicBlocks.SPEED_RUNE.get(),
+                'B', BotaniaItems.runeGreed.asItem(),
+                'D', BloodMagicItems.DEMONIC_SLATE.get(),
+                'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_MASTER.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "sacrifice_rune",
+                new ItemStack(BloodMagicBlocks.SACRIFICE_RUNE.get(), 1), // 献祭符文
+                "ADA",
+                "BCB",
+                "AEA",
+                'A', ChemicalHelper.get(plate, COAGULBLOODGOLD),
+                'C', BloodMagicBlocks.BLANK_RUNE.get(),
+                'B', BotaniaItems.runeLust,
+                'D', BloodMagicItems.REINFORCED_SLATE.get(),
+                'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "self_sacrifice_rune",
+                new ItemStack(BloodMagicBlocks.SELF_SACRIFICE_RUNE.get(), 1), // 自我献祭符文
+                "ADA",
+                "BCB",
+                "AEA",
+                'A', ChemicalHelper.get(plate, GTMaterials.Gold),
+                'C', BloodMagicBlocks.BLANK_RUNE.get(),
+                'B', BotaniaItems.runeEnvy,
+                'D', BloodMagicItems.REINFORCED_SLATE.get(),
+                'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "displacement_rune",
+                new ItemStack(BloodMagicBlocks.DISPLACEMENT_RUNE.get(), 1), // 转位符文
+                "ADA",
+                "BCB",
+                "AEA",
+                'A', ChemicalHelper.get(plate, GTMaterials.BlueSteel),
+                'C', BloodMagicBlocks.BLANK_RUNE.get(),
+                'B', BotaniaItems.runeWinter,
+                'D', BloodMagicItems.REINFORCED_SLATE.get(),
+                'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "capacity_rune",
+                new ItemStack(BloodMagicBlocks.CAPACITY_RUNE.get(), 2), // 容量符文
+                "ADA",
+                "BCB",
+                "AEA",
+                'C', ChemicalHelper.get(plate, GTMaterials.BlueAlloy),
+                'A', BloodMagicBlocks.BLANK_RUNE.get(),
+                'B', BotaniaItems.runeWater,
+                'D', BloodMagicItems.REINFORCED_SLATE.get(),
+                'E', IngredientBloodOrb.fromOrb(BloodMagicItems.ORB_WEAK.get()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "blood_steel",
+                new ItemStack(BloodMagicBlocks.SPEED_RUNE.get(), 2), // 大血石砖
+                "AAA",
+                "ABA",
+                "AAA",
+                'A', ChemicalHelper.get(plate, HEMOPLATINUM),
+                'B', BloodMagicItems.WEAK_BLOOD_SHARD.get());
     }
 }

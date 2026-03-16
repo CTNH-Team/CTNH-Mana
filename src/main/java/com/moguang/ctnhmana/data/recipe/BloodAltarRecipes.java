@@ -17,7 +17,6 @@ import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBui
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
-import vazkii.botania.common.block.BotaniaBlocks;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
@@ -39,7 +38,7 @@ public class BloodAltarRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         BloodAltarRecipeBuilder.builder("blankslate")// 空白石板
                 .output(new ItemStack(SLATE.get(), 1))
-                .input(new ItemStack(BotaniaBlocks.livingrock.asItem(), 1))
+                .input(new ItemStack(EMPTY_RUNE, 1))
                 .circuitMeta(0)
                 .syphon(1000)
                 .minimumTier(1)

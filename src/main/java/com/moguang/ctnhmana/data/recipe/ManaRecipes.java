@@ -504,5 +504,12 @@ public class ManaRecipes {
                 .EUt(120)
                 .duration(1000)
                 .save(provider);
+        GTRecipeTypes.CUTTER_RECIPES.recipeBuilder("empty_rune")
+                .inputItems(BotaniaBlocks.livingrock.asItem(), 4)
+                .inputFluids(CMMaterials.Mana, 100)
+                .outputItems(CMItems.EMPTY_RUNE, 1)
+                .duration(200)
+                .EUt(120)
+                .save(provider);
     }
 }

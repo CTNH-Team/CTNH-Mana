@@ -17,6 +17,14 @@ public class RecipeRemoval {
         removePaths.add("mythicbotany:mana_collector");
         removePaths.add("bloodmagic:path/path_obsidian");
         removePaths.add("bloodmagic:blood_altar");
+        removePaths.add("bloodmagic:blood_rune_speed");
+        removePaths.add("bloodmagic:blood_rune_blank");
+        removePaths.add("bloodmagic:blood_rune_acceleration");
+        removePaths.add("bloodmagic:largebloodstonebrick");
+        removePaths.add("bloodmagic:blood_rune_sacrifice");
+        removePaths.add("bloodmagic:blood_rune_self_sacrifice");
+        removePaths.add("bloodmagic:blood_rune_displacement");
+        removePaths.add("bloodmagic:blood_rune_capacity");
         for (String path : removePaths) {
             registry.accept(ResourceLocation.parse(path));
         }

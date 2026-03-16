@@ -68,7 +68,7 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
                 this.burstMana -= 25;
             }
         }
-        this.addMana(this.getMana() / 1000);
+        this.addMana(this.getMana() / 1000 * 2);
         this.burstMana -= this.getMana() / 1000;
     }
 
