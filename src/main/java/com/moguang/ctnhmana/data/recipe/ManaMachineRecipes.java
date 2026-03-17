@@ -224,7 +224,6 @@ public class ManaMachineRecipes {
                 .inputItems(ChemicalHelper.get(gear, COAGULBLOODGOLD), 16)
                 .inputItems(BLANK_RUNE.get().asItem(), 16)
                 .inputItems(BLOOD_ALTAR.get().asItem(), 1)
-                .inputItems(RAW_CRYSTAL.get(), 16)
                 .inputItems(SLATE.get())
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 10000))
                 .outputItems(INDUSTRIAL_ALTAR.getItem())
