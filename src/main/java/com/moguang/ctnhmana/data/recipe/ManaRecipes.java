@@ -497,7 +497,7 @@ public class ManaRecipes {
                 'B', ChemicalHelper.get(TagPrefix.gear, CMMaterials.COAGULBLOODGOLD));
         GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("elf")
                 .inputFluids(GTMaterials.Helium, 1000)
-                .inputFluids(GTMaterials.Neutronium, 1000)
+                .inputFluids(GTMaterials.Neon, 1000)
                 .inputFluids(GTMaterials.CarbonDioxide, 2000)
                 .inputFluids(CMMaterials.Mana, 1000)
                 .outputFluids(CMMaterials.ELF_FUEL.getFluid(2000))
