@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.Mutiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
@@ -95,11 +96,10 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Override
     protected void initializePatterns() {
         super.initializePatterns();
-        addPattern(createLevel3Pattern());
-        addPattern(createLevel4Pattern());
-        addPattern(createLevel5Pattern());
-        addPattern(createLevel6Pattern());
-        // 默认从定义中获取模式（向后兼容）
+        addPattern(createLevel3Pattern(getDefinition()));
+        addPattern(createLevel4Pattern(getDefinition()));
+        addPattern(createLevel5Pattern(getDefinition()));
+        addPattern(createLevel6Pattern(getDefinition()));
     }
 
     @Override
@@ -336,7 +336,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         }
     }
 
-    private BlockPattern createLevel3Pattern() {
+    public static BlockPattern createLevel3Pattern(MultiblockMachineDefinition definition) {
         return FactoryBlockPattern.start()
                 .aisle("ABBBCBBBA", "D#######D", "D#######D", "E#######E", "#########", "#########", "#########",
                         "#########", "#########")
@@ -365,7 +365,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:quartz_brick_wall"))))
                 .where("K", Predicates.blocks(Blocks.SEA_LANTERN))
-                .where("V", Predicates.controller(Predicates.blocks(getDefinition().get())))
+                .where("V", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("J", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                         .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
                 .where("F", CMPredicates.BMRuneBlocks)
@@ -393,7 +393,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .build();
     }
 
-    private BlockPattern createLevel4Pattern() {
+    public static BlockPattern createLevel4Pattern(MultiblockMachineDefinition definition) {
         return FactoryBlockPattern.start()
                 .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E",
                         "E###########E", "F###########F", "#############", "#############", "#############")
@@ -403,7 +403,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#############", "#############", "#############", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
                         "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
-                .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TVUUT####", "####W###W####",
+                .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TUYUT####", "####W###W####",
                         "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
                         "#############", "#############", "####W###W####", "#####XXX#####", "#############")
@@ -411,7 +411,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#############", "######a######", "####W#b#W####", "#####XcX#####", "######d######")
                 .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
                         "#############", "#############", "####W###W####", "#####XXX#####", "#############")
-                .aisle("C###########C", "#IM#######MI#", "###ISSLSSI###", "####TUYUT####", "####W###W####",
+                .aisle("C###########C", "#IM#######MI#", "###ISSLSSI###", "####TUVUT####", "####W###W####",
                         "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
                         "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
@@ -427,7 +427,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("c",
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:quartz_brick_wall"))))
-                .where("V", Predicates.controller(Predicates.blocks(getDefinition().get())))
+                .where("V", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("S", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                         .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
                 .where("I", CMPredicates.BMRuneBlocks)
@@ -478,7 +478,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .build();
     }
 
-    private BlockPattern createLevel5Pattern() {
+    public static BlockPattern createLevel5Pattern(MultiblockMachineDefinition definition) {
         return FactoryBlockPattern.start()
                 .aisle("AABCCCCCCACCCCCCBAA", "###################", "###################", "###################",
                         "###################", "###################", "###################", "###################",
@@ -502,7 +502,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "######S#####S######", "######S#####S######", "######Y#####Y######", "######Z#####Z######",
                         "###################", "###################", "###################")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######FaaQaaF######",
-                        "#######bcdcb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
+                        "#######bcecb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
                         "#######GGGGG#######", "###################", "###################")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######Fa###aF######",
                         "#######ccccc#######", "###################", "###################", "###################",
@@ -514,7 +514,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#######ccFcc#######", "###################", "###################", "###################",
                         "#######G###G#######", "########GGG########", "###################")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######FaaTaaF######",
-                        "#######bcecb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
+                        "#######bcdcb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
                         "#######GGGGG#######", "###################", "###################")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######UFFFFF#######",
                         "######S#####S######", "######S#####S######", "######Y#####Y######", "######Z#####Z######",
@@ -537,7 +537,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("Z",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))))
-                .where("d", Predicates.controller(Predicates.blocks(getDefinition().get())))
+                .where("d", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("a", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                         .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
                 .where("F", CMPredicates.BMRuneBlocks)
@@ -603,7 +603,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .build();
     }
 
-    private BlockPattern createLevel6Pattern() {
+    public static BlockPattern createLevel6Pattern(MultiblockMachineDefinition definition) {
         return FactoryBlockPattern.start()
                 .aisle("ABBBBBBBBBBBBBBBBBBBBBA", "AC###################CA", "A#####################A",
                         "A#####################A", "A#####################A", "A#####################A",
@@ -642,7 +642,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "########e#####e########", "########f#####f########", "#######################",
                         "#######################", "#######################")
                 .aisle("BJQ#################QJB", "###BSN###########NSB###", "######Bb#######bB######",
-                        "########BggZggB########", "#########hijih#########", "#########E###E#########",
+                        "########BggZggB########", "#########hikih#########", "#########E###E#########",
                         "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
                         "#######################", "#######################")
                 .aisle("BKQ#################QKB", "###BSN###########NSB###", "######Bb#######bB######",
@@ -658,7 +658,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#######################", "#######################", "#########E###E#########",
                         "##########EEE##########", "#######################")
                 .aisle("BJQ#################QJB", "###BSN###########NSB###", "######Bb#######bB######",
-                        "########BggaggB########", "#########hikih#########", "#########E###E#########",
+                        "########BggaggB########", "#########hijih#########", "#########E###E#########",
                         "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
                         "#######################", "#######################")
                 .aisle("BIQ#################QIB", "###BSN###########NSB###", "######Bb#######bB######",
@@ -701,7 +701,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("f",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))))
-                .where("j", Predicates.controller(Predicates.blocks(getDefinition().get())))
+                .where("j", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("D", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
                 .where("g", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                         .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
