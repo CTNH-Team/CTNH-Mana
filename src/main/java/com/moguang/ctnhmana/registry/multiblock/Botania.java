@@ -1595,7 +1595,7 @@ public class Botania {
             ManaCondenserMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_CONDENSER_RECIPES)
-            .cnLangValue("魔力凝聚器")
+            .cnLangValue("魔力嬗变器")
             .tooltips(Component.translatable("ctnh.multiblock.mana_condenser.tooltips.0").withStyle(
                     ChatFormatting.GRAY),
                     Component.translatable("ctnh.multiblock.mana_condenser.tooltips.1"),

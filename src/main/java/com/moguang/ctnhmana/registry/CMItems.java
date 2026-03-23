@@ -25,6 +25,7 @@ import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.*;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BTUpgradeItemT1;
+import com.moguang.ctnhmana.item.Rune.SpireUpgradeRuneItem;
 import com.moguang.ctnhmana.item.Rune.IRuneItem;
 import com.moguang.ctnhmana.item.bossSummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.item.bossSummoner.ThrowItem;
@@ -124,6 +125,64 @@ public class CMItems {
                 })))
                 .register();
 
+        UPGRADE_RUNE_SPEED_1 = REGISTRATE
+                .item("upgrade_rune_speed_1", props -> new SpireUpgradeRuneItem(props, 2.0, 1.0, 1.0, 0.1))
+                .cnlang("§9尖塔速度符文I§r")
+                .lang("Spire Speed Rune (x2)")
+                .register();
+        UPGRADE_RUNE_SPEED_2 = REGISTRATE
+                .item("upgrade_rune_speed_2", props -> new SpireUpgradeRuneItem(props, 4.0, 1.0, 1.0, 0.1))
+                .cnlang("§9尖塔速度符文II§r")
+                .lang("Spire Speed Rune (x4)")
+                .register();
+        UPGRADE_RUNE_SPEED_3 = REGISTRATE
+                .item("upgrade_rune_speed_3", props -> new SpireUpgradeRuneItem(props, 16.0, 1.0, 1.0, 0.1))
+                .cnlang("§9尖塔速度符文III§r")
+                .lang("Spire Speed Rune (x16)")
+                .register();
+
+        UPGRADE_RUNE_RANGE_1 = REGISTRATE
+                .item("upgrade_rune_range_1", props -> new SpireUpgradeRuneItem(props, 1.0, 6.0, 1.0, 0.1))
+                .cnlang("§9尖塔范围符文I§r")
+                .lang("Spire Range Rune I (+5 Range)")
+                .register();
+        UPGRADE_RUNE_RANGE_2 = REGISTRATE
+                .item("upgrade_rune_range_2", props -> new SpireUpgradeRuneItem(props, 1.0, 11.0, 1.0, 0.1))
+                .cnlang("§9尖塔范围符文II§r")
+                .lang("Spire Range Rune II (+10 Range)")
+                .register();
+        UPGRADE_RUNE_RANGE_3 = REGISTRATE
+                .item("upgrade_rune_range_3", props -> new SpireUpgradeRuneItem(props, 1.0, 16.0, 1.0, 0.1))
+                .cnlang("§9尖塔范围符文III§r")
+                .lang("Spire Range Rune III (+15 Range)")
+                .register();
+
+        UPGRADE_RUNE_ALPHA = REGISTRATE
+                .item("upgrade_rune_alpha", props -> new SpireUpgradeRuneItem(props, 16.0, 16.0, 16.0, 0.75))
+                .cnlang("§9尖塔α全能符文§r")
+                .lang("Spire Conversion Efficiency Rune (Alpha)")
+                .register();
+        UPGRADE_RUNE_TRANSLOCATION_1 = REGISTRATE
+                .item("upgrade_rune_translocation_1", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 2.0, 0.25))
+                .cnlang("§9尖塔转位符文I§r")
+                .lang("Spire Translocation Rune I")
+                .register();
+        UPGRADE_RUNE_TRANSLOCATION_2 = REGISTRATE
+                .item("upgrade_rune_translocation_2", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 4.0, 0.5))
+                .cnlang("§9尖塔转位符文II§r")
+                .lang("Spire Translocation Rune II (0.5 Conversion)")
+                .register();
+        UPGRADE_RUNE_TRANSLOCATION_3 = REGISTRATE
+                .item("upgrade_rune_translocation_3", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 16.0, 1.0))
+                .cnlang("§9尖塔转位符文III§r")
+                .lang("Spire Translocation Rune III")
+                .register();
+        UPGRADE_RUNE_OMEGA = REGISTRATE
+                .item("upgrade_rune_omega", props -> new SpireUpgradeRuneItem(props, 777.0, 77.0, 777.0, 1.0))
+                .cnlang("§5尖塔Ω全能符文§r")
+                .lang("Spire Conversion Efficiency Rune (Omega)")
+                .register();
+
         KOISHI_EYE = REGISTRATE
                 .item("koishi_eye", KoishiEyeItem::new)
                 .cnlang("§9紧闭的第三只眼")
@@ -179,7 +238,7 @@ public class CMItems {
 
         MAGIC_QUANTUM_PROCESSOR_MAINFRAME = REGISTRATE
                 .item("magic_quantum_processor_mainframe", ComponentItem::create)
-                .cnlang("超因果逻辑UHV电路")
+                .cnlang("超因果逻辑集成电路")
                 .lang("Supercausal Logic UHV Circuit")
                 .tag(CustomTags.UHV_CIRCUITS)
                 .onRegister(
@@ -421,6 +480,17 @@ public class CMItems {
     public static ItemEntry<IRuneItem> TWIST_RUNE;
     public static ItemEntry<IRuneItem> QUASAR_RUNE;
     public static ItemEntry<IRuneItem> PROLIFERATION_RUNE;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_SPEED_1;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_SPEED_2;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_SPEED_3;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_RANGE_1;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_RANGE_2;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_RANGE_3;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_ALPHA;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_TRANSLOCATION_1;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_TRANSLOCATION_2;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_TRANSLOCATION_3;
+    public static ItemEntry<SpireUpgradeRuneItem> UPGRADE_RUNE_OMEGA;
     public static ItemEntry<KoishiEyeItem> KOISHI_EYE;
     public static ItemEntry<YurikoRingItem> YURIKO_RING;
     public static ItemEntry<ComponentItem> BLOODY_NANO_PROCESSOR_MAINFRAME;

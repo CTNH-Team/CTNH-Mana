@@ -631,9 +631,9 @@ public class ChineseLangHandler {
     public static Lang flowerHeartLang;
     @CN("封藏着魔力的奥义")
     public static Lang encapsulated_twist_mana;
-    @CN("放置在魔力凝缩器内，每个消耗10000魔力能量来转化为奥利哈精魄")
+    @CN("放置在魔力凝聚仓内，每个消耗10000魔力能量来转化为奥利哈精魄")
     public static Lang unimbudSpritLang;
-    @CN("通过未注魂的精魄在魔力凝缩器中消耗魔力能量转化而来")
+    @CN("通过未注魂的精魄在魔力凝聚仓中消耗魔力能量转化而来")
     public static Lang orichalcosSpritLang;
     @CN("§b它会变成什么?")
     public static Lang blankRuneLang;
@@ -669,6 +669,23 @@ public class ChineseLangHandler {
             "最终运行速度+25%"
     })
     public static Lang[] basemanamutiblockLang;
+    @CN(
+            {
+                    "要求结构中必须且仅有一个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d 魔力能量，电压每比IV高一级，消耗的魔力能量就翻7倍",
+                    "最终运行速度+77%,任何时候都有25%并行"
+            }
+    )
+    @EN(
+            {
+                    "要求结构中必须且仅有一个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d 魔力能量，电压每比IV高一级，消耗的魔力能量就翻7倍",
+                    "最终运行速度+77%,任何时候都有25%并行"
+            }
+    )
+    public static Lang[]basezenithmutiblockLang;
     @CN({
             "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",
             "§4工业血祭坛§r是特殊的祭坛结构，其拥有多个等级，其等级决定了可以运行的配方，在结构成型时，将自动绑定结构中的血祭坛",

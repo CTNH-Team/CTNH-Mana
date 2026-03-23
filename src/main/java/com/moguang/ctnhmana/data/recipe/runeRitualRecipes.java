@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.data.recipe;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -124,9 +125,9 @@ public class runeRitualRecipes {
                 .mana(666666)
                 .save(provider);
         RuneRitualRecipeBuilder.builder("mana_collector")
-                .center(gaiaIngot.asItem())
+                .center(ExtraBotanyItems.orichalcos.asItem())
                 .rune4(REAGENT_MAGNETISM.get(), 4, 4, true)
-                .rune4(dragonstone, 2, 2, true)
+                .rune4(MAGIC_CORE.asItem(), 2, 2, true)
                 .rune4(pixieDust, 2, 3, true)
                 .rune4(pixieDust, 3, 2, true)
                 .runex(lensLight, 0, -5, true)

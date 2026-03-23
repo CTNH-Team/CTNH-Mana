@@ -125,7 +125,7 @@ public class BotaniaRecipes {
         PetalRecipeBuilder.builder("shulk_me_not")// 喵喵莲
                 .input(PURPLE, PURPLE, PINK, PINK, LIGHTGRAY, LIGHTGRAY)
                 .input(gaiaSpirit, runeEarth, runeEnvy)
-                .input(ChemicalHelper.get(TagPrefix.ingot, PRIMOVOLITHEST, 1))
+                .input(ChemicalHelper.get(TagPrefix.ingot, Orichalcos, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, Elementium, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, TerraSteel, 1))
                 .output(new ItemStack(BotaniaFlowerBlocks.shulkMeNot.asItem(), 1))
@@ -301,7 +301,7 @@ public class BotaniaRecipes {
                 .input(ChemicalHelper.get(TagPrefix.ingot, Elementium, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, TerraSteel, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, ManaSteel, 1))
-                .input(new ItemStack(BotaniaItems.gaiaIngot))
+                .input(new ItemStack(ChemicalHelper.get(TagPrefix.ingot,PRIMOVOLITHEST).getItem()))
                 .input(new ItemStack(Items.NETHER_STAR))
                 .input(new ItemStack(alfsteelSword))
                 .output(new ItemStack(witherAconite.asItem(), 1))

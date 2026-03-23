@@ -56,6 +56,7 @@ import static com.moguang.ctnhmana.item.equipment.SaberWandItem.updateSpireLang;
 
 public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaCollisionGhost {
 
+
     public int TRANSFER_RATE = 1000;
     private static final String TAG_UPGRADE = "upgrade";
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(DeltaSpark.class,
@@ -73,7 +74,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     @Persisted
     public AABB connectedDeltaSparkPos;
 
+
+
     public boolean isAnimationActive = true;
+    public double effencicy=0.1;
     public int range = 20;
     public int speed = 5000;
     public int receive_rate = 5000;
@@ -209,7 +213,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int consume = 0;
         var num = 0;
-        consume = Math.min(pool.maxBTMana - pool.BTMana, receive_rate);
+        consume = Math.min(pool.maxBTMana - pool.BTMana, speed);
         for (ManaSpark spark : sparks) {
             if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) {
                 continue;
@@ -238,7 +242,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int consume = 0;
         var num = 0;
-        consume = Math.min(pool.maxBTMana - pool.BTMana, receive_rate);
+        consume = Math.min(pool.maxBTMana - pool.BTMana, (int)(speed*effencicy));
         for (GeneratingFlowerBlockEntity flower : flowers) {
             if (!flower.isRemoved() && flower.getMana() > 0) num++;
         }

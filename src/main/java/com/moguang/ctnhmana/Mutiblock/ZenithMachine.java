@@ -26,6 +26,6 @@ public class ZenithMachine extends BaseManaMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         this.globalmetric.parallel += base_parallel;
-        this.globalmetric.speed += 0.25;
+        this.globalmetric.speed =0.77;
     }
 }

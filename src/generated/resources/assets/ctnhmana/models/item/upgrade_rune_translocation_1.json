@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ctnhmana:item/upgrade_rune_translocation_1"
+  }
+}

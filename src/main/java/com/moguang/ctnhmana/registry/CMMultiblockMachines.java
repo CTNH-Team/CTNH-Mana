@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -64,7 +65,7 @@ public class CMMultiblockMachines {
         Botania.init();
         misc.init();
         ManaMachine.init();
-        // ZenithMachine.init();
+        ZenithMachine.init();
     }
 
     public static List<Component> addManaMachineTooltips(Lang[] langs, int consumption) {

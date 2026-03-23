@@ -28,7 +28,7 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
 
     @Override
     public int getMaxMana() {
-        return 1000000;
+        return 999999;
     }
 
     @Override
@@ -63,9 +63,9 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
                 continue;
             }
             if (level.getBlockEntity(adjacentPos) instanceof ManaPoolBlockEntity me && me.getCurrentMana() >= 100) {
-                me.receiveMana(-100);
-                this.addMana(100);
-                this.burstMana -= 25;
+                me.receiveMana(-500);
+                this.addMana(500);
+                this.burstMana -= 50;
             }
         }
         this.addMana(this.getMana() / 1000 * 2);
