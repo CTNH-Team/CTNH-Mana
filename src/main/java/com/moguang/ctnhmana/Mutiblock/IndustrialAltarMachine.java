@@ -1,15 +1,18 @@
 package com.moguang.ctnhmana.Mutiblock;
 
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
@@ -21,14 +24,17 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
@@ -38,6 +44,7 @@ import com.moguang.ctnhmana.item.BloodMagicJade.JadeItem;
 import com.moguang.ctnhmana.mixin.bloodmagic.TileAltarAccessor;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -48,13 +55,21 @@ import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.tile.TileAltar;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.autoAbilities;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughLP;
 
 @SuppressWarnings("removal")
 public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implements ITieredMachine {
+
+    private record PreviewCell(BlockPos pos, TraceabilityPredicate predicate, int sliceIndex) {}
 
     public IndustrialAltarMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -337,18 +352,19 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public static BlockPattern createLevel3Pattern(MultiblockMachineDefinition definition) {
+        var abilities = autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES);
         return FactoryBlockPattern.start()
                 .aisle("ABBBCBBBA", "D#######D", "D#######D", "E#######E", "#########", "#########", "#########",
                         "#########", "#########")
                 .aisle("B#######B", "#BFFFFFB#", "#G#####G#", "#G#####G#", "#H#####H#", "#I#####I#", "#########",
                         "#########", "#########")
-                .aisle("B#######B", "#FJJAJJF#", "##KLMLK##", "##N###N##", "##N###N##", "##N###N##", "##ONNNO##",
+                .aisle("B#######B", "#FJJPJJF#", "##KLMLK##", "##N###N##", "##N###N##", "##N###N##", "##ONNNO##",
                         "#########", "#########")
-                .aisle("B#######B", "#FJ###JF#", "##LLFLL##", "#########", "#########", "#########", "##N###N##",
+                .aisle("B#######B", "#FJ###JF#", "##LFFFL##", "#########", "#########", "#########", "##N###N##",
                         "###OOO###", "#########")
                 .aisle("C#######C", "#FP###PF#", "##MFFFM##", "####Q####", "#########", "####R####", "##N#S#N##",
                         "###OTO###", "####U####")
-                .aisle("B#######B", "#FJ###JF#", "##LLFLL##", "#########", "#########", "#########", "##N###N##",
+                .aisle("B#######B", "#FJ###JF#", "##LFFFL##", "#########", "#########", "#########", "##N###N##",
                         "###OOO###", "#########")
                 .aisle("B#######B", "#FJJPJJF#", "##KLVLK##", "##N###N##", "##N###N##", "##N###N##", "##ONNNO##",
                         "#########", "#########")
@@ -357,7 +373,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .aisle("ABBBCBBBA", "D#######D", "D#######D", "E#######E", "#########", "#########", "#########",
                         "#########", "########W")
                 .where("B", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("I",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))))
@@ -367,10 +383,10 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("K", Predicates.blocks(Blocks.SEA_LANTERN))
                 .where("V", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("J", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("F", CMPredicates.BMRuneBlocks)
                 .where("C", Predicates.blocks(BloodMagicBlocks.DUSK_RITUAL_STONE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("R", Predicates.blocks(Blocks.SOUL_LANTERN))
                 .where("D",
                         Predicates.blocks(
@@ -378,7 +394,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("N", Predicates.blocks(Blocks.QUARTZ_PILLAR))
                 .where("W", Predicates.any())
                 .where("L", Predicates.blocks(BloodMagicBlocks.BLANK_RUNE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("U", Predicates.blocks(Blocks.BEACON))
                 .where("#", Predicates.any())
                 .where("S", Predicates.blocks(Blocks.CHAIN))
@@ -394,24 +410,25 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public static BlockPattern createLevel4Pattern(MultiblockMachineDefinition definition) {
+        var abilities = autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES);
         return FactoryBlockPattern.start()
                 .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E",
                         "E###########E", "F###########F", "#############", "#############", "#############")
                 .aisle("B###########B", "#GHIIIIIIIHG#", "#J#########J#", "#J#########J#", "#J#########J#",
                         "#J#########J#", "#K#########K#", "#############", "#############", "#############")
-                .aisle("C###########C", "#HLMMMNMMMLH#", "##########O##", "##########O##", "##P#######P##",
+                .aisle("C###########C", "#HLMMMNMMMLH#", "##O#######O##", "##O#######O##", "##P#######P##",
                         "#############", "#############", "#############", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
                         "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TUYUT####", "####W###W####",
                         "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
-                .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
+                .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UIIIU####", "#############",
                         "#############", "#############", "####W###W####", "#####XXX#####", "#############")
                 .aisle("D###########D", "#IN#######NI#", "###IG###GI###", "####YIIIY####", "######Z######",
                         "#############", "######a######", "####W#b#W####", "#####XcX#####", "######d######")
-                .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
+                .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UIIIU####", "#############",
                         "#############", "#############", "####W###W####", "#####XXX#####", "#############")
-                .aisle("C###########C", "#IM#######MI#", "###ISSLSSI###", "####TUVUT####", "####W###W####",
+                .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TUVUT####", "####W###W####",
                         "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
                 .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
                         "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
@@ -429,7 +446,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:quartz_brick_wall"))))
                 .where("V", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("S", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("I", CMPredicates.BMRuneBlocks)
                 .where("O",
                         Predicates.blocks(
@@ -437,27 +454,27 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("W", Predicates.blocks(Blocks.QUARTZ_PILLAR))
                 .where("H", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("U", Predicates.blocks(BloodMagicBlocks.BLANK_RUNE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("d", Predicates.blocks(Blocks.BEACON))
                 .where("#", Predicates.any())
                 .where("D",
                         Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer")))
-                                .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                                .or(abilities))
                 .where("Q", Predicates.blocks(Blocks.GLOWSTONE))
                 .where("A",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("cataclysm:chiseled_end_stone_bricks"))))
                 .where("J", Predicates.blocks(Blocks.STONE_BRICKS))
                 .where("M", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("T", Predicates.blocks(Blocks.SEA_LANTERN))
                 .where("B", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("N", Predicates.blocks(BloodMagicBlocks.DUSK_RITUAL_STONE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("a", Predicates.blocks(Blocks.SOUL_LANTERN))
                 .where("F",
                         Predicates.blocks(
@@ -479,6 +496,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public static BlockPattern createLevel5Pattern(MultiblockMachineDefinition definition) {
+        var abilities = autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES);
         return FactoryBlockPattern.start()
                 .aisle("AABCCCCCCACCCCCCBAA", "###################", "###################", "###################",
                         "###################", "###################", "###################", "###################",
@@ -505,22 +523,22 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#######bcecb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
                         "#######GGGGG#######", "###################", "###################")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######Fa###aF######",
-                        "#######ccccc#######", "###################", "###################", "###################",
+                        "#######cFFFc#######", "###################", "###################", "###################",
                         "#######G###G#######", "########GGG########", "###################")
                 .aisle("A#################A", "#FIN###########NIF#", "####FV#######VF####", "######FQ###QF######",
-                        "#######ecFFe#######", "#########f#########", "###################", "#########g#########",
+                        "#######eFFFe#######", "#########f#########", "###################", "#########g#########",
                         "#######G#h#G#######", "########GiG########", "#########j#########")
                 .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######Fa###aF######",
-                        "#######ccFcc#######", "###################", "###################", "###################",
+                        "#######cFFFc#######", "###################", "###################", "###################",
                         "#######G###G#######", "########GGG########", "###################")
-                .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######FaaTaaF######",
+                .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######FaaQaaF######",
                         "#######bcdcb#######", "#######G###G#######", "#######G###G#######", "#######G###G#######",
                         "#######GGGGG#######", "###################", "###################")
-                .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######UFFFFF#######",
+                .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####", "######UFFFFFU######",
                         "######S#####S######", "######S#####S######", "######Y#####Y######", "######Z#####Z######",
                         "###################", "###################", "###################")
-                .aisle("C#################C", "#FIH###########HIF#", "####RTUUUVUUUTR####", "#####W#############",
-                        "#####W#############", "#####X#######X#####", "###################", "###################",
+                .aisle("C#################C", "#FIH###########HIF#", "####RTUUUVUUUTR####", "#####W#######W#####",
+                        "#####W#######W#####", "#####X#######X#####", "###################", "###################",
                         "###################", "###################", "###################")
                 .aisle("C#################C", "#FHM###########MHF#", "####QRFFFFFFFRQ####", "####S#########S####",
                         "####S#########S####", "####S#########S####", "###GS#########SG###", "####I#########I####",
@@ -534,12 +552,15 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .aisle("AAD#############DAA", "#DEFFFFFFFFFFFFFED#", "#G###############G#", "#G###############G#",
                         "#G###############G#", "#G###############G#", "#G###############G#", "#G###############G#",
                         "#HG#############GH#", "###################", "##################k")
+                .aisle("AABCCCCCCACCCCCCBAA", "###################", "###################", "###################",
+                        "###################", "###################", "###################", "###################",
+                        "###################", "###################", "###################")
                 .where("Z",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))))
                 .where("d", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("a", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("F", CMPredicates.BMRuneBlocks)
                 .where("B", Predicates.blocks(Blocks.SCULK_CATALYST))
                 .where("W",
@@ -548,12 +569,12 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("i", Predicates.blocks(Blocks.REINFORCED_DEEPSLATE))
                 .where("D", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_metal")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("R", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("c", Predicates.blocks(BloodMagicBlocks.BLANK_RUNE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("j", Predicates.blocks(Blocks.BEACON))
                 .where("#", Predicates.any())
                 .where("J",
@@ -562,7 +583,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("G", Predicates.blocks(CMBlocks.SOUL_LOCKING_CASING.get()))
                 .where("N",
                         Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer")))
-                                .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                                .or(abilities))
                 .where("Y", Predicates.blocks(Blocks.GLOWSTONE))
                 .where("K", Predicates.blocks(Blocks.OBSIDIAN))
                 .where("L",
@@ -573,13 +594,13 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))))
                 .where("U", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("b", Predicates.blocks(Blocks.SEA_LANTERN))
                 .where("M", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("V", Predicates.blocks(BloodMagicBlocks.DUSK_RITUAL_STONE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("g", Predicates.blocks(Blocks.SOUL_LANTERN))
                 .where("P",
                         Predicates.blocks(
@@ -592,7 +613,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("f", Predicates.blocks(BloodMagicBlocks.BLOOD_ALTAR.get()))
                 .where("E", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:fireritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("e", Predicates.blocks(Blocks.PRISMARINE_BRICKS))
                 .where("Q", Predicates.blocks(GTBlocks.LAMPS.get(DyeColor.RED).get()))
                 .where("X", Predicates.blocks(Blocks.CRYING_OBSIDIAN))
@@ -604,10 +625,11 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public static BlockPattern createLevel6Pattern(MultiblockMachineDefinition definition) {
+        var abilities = autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES);
         return FactoryBlockPattern.start()
                 .aisle("ABBBBBBBBBBBBBBBBBBBBBA", "AC###################CA", "A#####################A",
                         "A#####################A", "A#####################A", "A#####################A",
-                        "A#####################A", "A#####################A", "DE###################ED",
+                        "A#####################A", "A#####################A", "NE###################EN",
                         "#######################", "#######################")
                 .aisle("BFEEGGHFIJKLKJIFHGGEEFB", "CMC#################CMC", "#M###################M#",
                         "#M###################M#", "#M###################M#", "#M###################M#",
@@ -646,7 +668,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
                         "#######################", "#######################")
                 .aisle("BKQ#################QKB", "###BSN###########NSB###", "######Bb#######bB######",
-                        "########Bg###gB########", "#########iiBii#########", "#######################",
+                        "########Bg###gB########", "#########iBBBi#########", "#######################",
                         "#######################", "#######################", "#########E###E#########",
                         "##########EEE##########", "#######################")
                 .aisle("BLO#################OLB", "###BSW###########WSB###", "######BK#######KB######",
@@ -654,11 +676,11 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#######################", "###########m###########", "#########E#n#E#########",
                         "##########EME##########", "###########o###########")
                 .aisle("BKQ#################QKB", "###BSN###########NSB###", "######Bb#######bB######",
-                        "########Bg###gB########", "#########iiBii#########", "#######################",
+                        "########Bg###gB########", "#########iBBBi#########", "#######################",
                         "#######################", "#######################", "#########E###E#########",
                         "##########EEE##########", "#######################")
                 .aisle("BJQ#################QJB", "###BSN###########NSB###", "######Bb#######bB######",
-                        "########BggaggB########", "#########hijih#########", "#########E###E#########",
+                        "########BggZggB########", "#########hijih#########", "#########E###E#########",
                         "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
                         "#######################", "#######################")
                 .aisle("BIQ#################QIB", "###BSN###########NSB###", "######Bb#######bB######",
@@ -695,36 +717,35 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         "#######################", "#######################")
                 .aisle("ABBBBBBBBBBBBBBBBBBBBBA", "AC###################CA", "A#####################A",
                         "A#####################A", "A#####################A", "A#####################A",
-                        "A#####################A", "A#####################A", "DE###################ED",
-                        "p######################", "######################q")
-                .where("p", Predicates.blocks(CMBlocks.RUNE_STONE_PERFECT.get()))
+                        "A#####################A", "A#####################A", "NE###################EN",
+                        "#######################", "######################q")
                 .where("f",
                         Predicates.blocks(ForgeRegistries.BLOCKS
                                 .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))))
                 .where("j", Predicates.controller(Predicates.blocks(definition.get())))
                 .where("D", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
                 .where("g", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("B", CMPredicates.BMRuneBlocks)
                 .where("P", Predicates.blocks(Blocks.SCULK_CATALYST))
                 .where("L", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:lightritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("c",
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))))
                 .where("M", Predicates.blocks(Blocks.REINFORCED_DEEPSLATE))
                 .where("J", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:earthritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("R", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_metal")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("H", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("i", Predicates.blocks(BloodMagicBlocks.BLANK_RUNE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("o", Predicates.blocks(Blocks.BEACON))
                 .where("#", Predicates.any())
                 .where("T",
@@ -733,7 +754,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("E", Predicates.blocks(CMBlocks.SOUL_LOCKING_CASING.get()))
                 .where("W",
                         Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer")))
-                                .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                                .or(abilities))
                 .where("e", Predicates.blocks(Blocks.GLOWSTONE))
                 .where("U", Predicates.blocks(Blocks.OBSIDIAN))
                 .where("V",
@@ -747,13 +768,13 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))))
                 .where("b", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("h", Predicates.blocks(Blocks.SEA_LANTERN))
                 .where("F", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("K", Predicates.blocks(BloodMagicBlocks.DUSK_RITUAL_STONE.get())
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("m", Predicates.blocks(Blocks.SOUL_LANTERN))
                 .where("Y",
                         Predicates.blocks(
@@ -769,7 +790,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 .where("l", Predicates.blocks(BloodMagicBlocks.BLOOD_ALTAR.get()))
                 .where("I", Predicates
                         .blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:fireritualstone")))
-                        .or(autoAbilities(CMRecipeTypes.BLOOD_ALTAR_RECIPES)))
+                        .or(abilities))
                 .where("k", Predicates.blocks(Blocks.PRISMARINE_BRICKS))
                 .where("Z", Predicates.blocks(GTBlocks.LAMPS.get(DyeColor.RED).get()))
                 .where("d", Predicates.blocks(Blocks.CRYING_OBSIDIAN))
@@ -778,5 +799,193 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                         Predicates.blocks(
                                 ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar"))))
                 .build();
+    }
+
+    public static BlockInfo[][][] createPreview(BlockPattern pattern) {
+        int[][] repetitions = pattern.aisleRepetitions;
+        int[] rep = new int[repetitions.length];
+        for (int i = 0; i < repetitions.length; i++) {
+            rep[i] = repetitions[i][0];
+        }
+        return createTopFirstPreview(pattern, rep);
+    }
+
+    private static BlockInfo[][][] createTopFirstPreview(BlockPattern pattern, int[] repetition) {
+        try {
+            var blockMatchesField = BlockPattern.class.getDeclaredField("blockMatches");
+            blockMatchesField.setAccessible(true);
+            TraceabilityPredicate[][][] blockMatches = (TraceabilityPredicate[][][]) blockMatchesField.get(pattern);
+
+            var setActualRelativeOffset = BlockPattern.class.getDeclaredMethod("setActualRelativeOffset", int.class,
+                    int.class, int.class, Direction.class, Direction.class, boolean.class);
+            setActualRelativeOffset.setAccessible(true);
+
+            var resetFacing = BlockPattern.class.getDeclaredMethod("resetFacing", BlockPos.class, BlockState.class,
+                    Direction.class, BiPredicate.class, Consumer.class);
+            resetFacing.setAccessible(true);
+
+            int[] dimensions = pattern.getDimensions();
+            int fingerLength = dimensions[0];
+            int thumbLength = dimensions[1];
+            int palmLength = dimensions[2];
+
+            Object2IntOpenHashMap<SimplePredicate> cacheGlobal = new Object2IntOpenHashMap<>();
+            Map<Integer, Object2IntOpenHashMap<SimplePredicate>> cacheLayers = new HashMap<>();
+            Map<BlockPos, BlockInfo> blocks = new HashMap<>();
+            List<PreviewCell> cells = new ArrayList<>();
+            int minX = Integer.MAX_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int minZ = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            int maxZ = Integer.MIN_VALUE;
+
+            for (int l = 0, x = 0; l < fingerLength; l++) {
+                for (int r = 0; r < repetition[l]; r++) {
+                    for (int y = thumbLength - 1; y >= 0; y--) {
+                        for (int z = 0; z < palmLength; z++) {
+                            BlockPos pos = (BlockPos) setActualRelativeOffset.invoke(pattern, z, y, x,
+                                    Direction.NORTH, Direction.UP, false);
+                            cells.add(new PreviewCell(pos, blockMatches[l][y][z], x));
+                            minX = Math.min(pos.getX(), minX);
+                            minY = Math.min(pos.getY(), minY);
+                            minZ = Math.min(pos.getZ(), minZ);
+                            maxX = Math.max(pos.getX(), maxX);
+                            maxY = Math.max(pos.getY(), maxY);
+                            maxZ = Math.max(pos.getZ(), maxZ);
+                        }
+                    }
+                    x++;
+                }
+            }
+
+            cells.sort(Comparator.comparingInt((PreviewCell cell) -> cell.pos().getY()).reversed()
+                    .thenComparingInt(cell -> cell.pos().getX())
+                    .thenComparingInt(cell -> cell.pos().getZ()));
+
+            for (PreviewCell cell : cells) {
+                Object2IntOpenHashMap<SimplePredicate> cacheLayer = cacheLayers.computeIfAbsent(cell.sliceIndex(),
+                        ignored -> new Object2IntOpenHashMap<>());
+                TraceabilityPredicate predicate = cell.predicate();
+                boolean find = false;
+                BlockInfo[] infos = null;
+                for (SimplePredicate limit : predicate.limited) {
+                    if (limit.minLayerCount > 0) {
+                        if (cacheLayer.getInt(limit) < limit.minLayerCount) {
+                            cacheLayer.addTo(limit, 1);
+                        } else {
+                            continue;
+                        }
+                        if (cacheGlobal.getInt(limit) < limit.previewCount) {
+                            cacheGlobal.addTo(limit, 1);
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                    infos = limit.candidates == null ? null : limit.candidates.get();
+                    find = true;
+                    break;
+                }
+                if (!find) {
+                    for (SimplePredicate limit : predicate.limited) {
+                        if (limit.minCount == -1 && limit.previewCount == -1) continue;
+                        if (cacheGlobal.getInt(limit) < limit.previewCount) {
+                            cacheGlobal.addTo(limit, 1);
+                        } else if (limit.minCount > 0) {
+                            if (cacheGlobal.getInt(limit) < limit.minCount) {
+                                cacheGlobal.addTo(limit, 1);
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                        infos = limit.candidates == null ? null : limit.candidates.get();
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find) {
+                    for (SimplePredicate common : predicate.common) {
+                        if (common.previewCount > 0) {
+                            if (cacheGlobal.getInt(common) < common.previewCount) {
+                                cacheGlobal.addTo(common, 1);
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                        infos = common.candidates == null ? null : common.candidates.get();
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find) {
+                    for (SimplePredicate common : predicate.common) {
+                        if (common.previewCount == -1) {
+                            infos = common.candidates == null ? null : common.candidates.get();
+                            find = true;
+                            break;
+                        }
+                    }
+                }
+                if (!find) {
+                    for (SimplePredicate limit : predicate.limited) {
+                        if (limit.previewCount != -1) continue;
+                        if (limit.maxCount != -1 || limit.maxLayerCount != -1) {
+                            if (cacheGlobal.getOrDefault(limit, 0) < limit.maxCount) {
+                                cacheGlobal.addTo(limit, 1);
+                            } else if (cacheLayer.getOrDefault(limit, 0) < limit.maxLayerCount) {
+                                cacheLayer.addTo(limit, 1);
+                            } else {
+                                continue;
+                            }
+                        }
+
+                        infos = limit.candidates == null ? null : limit.candidates.get();
+                        break;
+                    }
+                }
+                blocks.put(cell.pos(), infos == null || infos.length == 0 ? BlockInfo.EMPTY : infos[0]);
+            }
+
+            BlockInfo[][][] result = new BlockInfo[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+            int finalMinX = minX;
+            int finalMinY = minY;
+            int finalMinZ = minZ;
+            blocks.forEach((pos, info) -> {
+                try {
+                    BiPredicate<BlockPos, Direction> checker = (p, facing) -> {
+                        BlockInfo blockInfo = blocks.get(p.relative(facing));
+                        if (blockInfo == null || blockInfo.getBlockState().getBlock() == Blocks.AIR) {
+                            if (blocks.get(pos).getBlockState().getBlock() instanceof MetaMachineBlock machineBlock) {
+                                if (machineBlock.newBlockEntity(BlockPos.ZERO,
+                                        machineBlock
+                                                .defaultBlockState()) instanceof IMachineBlockEntity machineBlockEntity) {
+                                    var machine = machineBlockEntity.getMetaMachine();
+                                    if (machine instanceof com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController) {
+                                        return false;
+                                    }
+                                    return machine.isFacingValid(facing);
+                                }
+                            }
+                            return true;
+                        }
+                        return false;
+                    };
+                    resetFacing.invoke(pattern, pos, info.getBlockState(), null, checker,
+                            (Consumer<BlockState>) info::setBlockState);
+                    result[pos.getX() - finalMinX][pos.getY() - finalMinY][pos.getZ() - finalMinZ] = info;
+                } catch (ReflectiveOperationException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return result;
+        } catch (ReflectiveOperationException e) {
+            return pattern.getPreview(repetition);
+        }
     }
 }

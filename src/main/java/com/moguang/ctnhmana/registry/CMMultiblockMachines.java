@@ -15,10 +15,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -37,6 +35,7 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.github.L_Ender.cataclysm.init.ModBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
@@ -3227,12 +3226,8 @@ public class CMMultiblockMachines {
                     .build())
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
-                java.util.function.Function<BlockPattern, MultiblockShapeInfo> toShape = (p) -> {
-                    int[][] ar = p.aisleRepetitions;
-                    int[] rep = new int[ar.length];
-                    for (int i = 0; i < ar.length; i++) rep[i] = ar[i][0];
-                    return new MultiblockShapeInfo(p.getPreview(rep));
-                };
+                Function<BlockPattern, MultiblockShapeInfo> toShape = p -> new MultiblockShapeInfo(
+                        IndustrialAltarMachine.createPreview(p));
                 shapeInfos.add(toShape.apply(definition.getPatternFactory().get()));
                 shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel3Pattern(definition)));
                 shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel4Pattern(definition)));
