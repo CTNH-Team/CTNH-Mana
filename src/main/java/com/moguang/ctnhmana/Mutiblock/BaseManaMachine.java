@@ -72,7 +72,6 @@ public class BaseManaMachine extends ManaMachine {
     public MachineMetric globalmetric = new MachineMetric(); // 用于维护一个全局metric增量，只在成型检查时刷新
     protected ISubscription ManaSubs = null;
 
-
     @Nullable
     protected TickableSubscription TickSubs;
 

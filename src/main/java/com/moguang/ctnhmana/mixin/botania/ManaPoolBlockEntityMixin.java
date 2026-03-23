@@ -26,15 +26,14 @@ public abstract class ManaPoolBlockEntityMixin extends BlockEntity {
     @Inject(method = "initManaCapAndNetwork", at = @At(value = "HEAD"))
     public void CTNH$initManaCapAndNetwork(CallbackInfo ci) {
         if (manaCap == -1) {
-            var cap=((ManaPoolBlock) getBlockState().getBlock()).variant;
-            if(cap== ManaPoolBlock.Variant.DILUTED)manaCap=10000;
-            if(cap== ManaPoolBlock.Variant.DEFAULT)manaCap=1500000;
-            if(cap==ManaPoolBlock.Variant.FABULOUS)manaCap=10000000;
-//            manaCap = ((ManaPoolBlock) getBlockState().getBlock()).variant == ManaPoolBlock.Variant.DILUTED ? 100000 :
-//                    10000000;;
+            var cap = ((ManaPoolBlock) getBlockState().getBlock()).variant;
+            if (cap == ManaPoolBlock.Variant.DILUTED) manaCap = 10000;
+            if (cap == ManaPoolBlock.Variant.DEFAULT) manaCap = 1500000;
+            if (cap == ManaPoolBlock.Variant.FABULOUS) manaCap = 10000000;
+            // manaCap = ((ManaPoolBlock) getBlockState().getBlock()).variant == ManaPoolBlock.Variant.DILUTED ? 100000
+            // :
+            // 10000000;;
 
         }
-
-
     }
 }

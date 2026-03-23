@@ -2,29 +2,26 @@ package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
-import com.moguang.ctnhmana.registry.*;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.registry.*;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
-import net.minecraft.world.item.ItemStack;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
-import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
@@ -115,7 +112,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', BotaniaItems.spark.asItem(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', BotaniaItems.manaSteel.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(
@@ -124,7 +121,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', CMItems.UPGRADE_RUNE_RANGE_2.asItem(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', ModItems.alfsteelIngot.asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "range_3", new ItemStack(CMItems.UPGRADE_RUNE_RANGE_3.get(), 1),
@@ -132,7 +129,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', CMItems.UPGRADE_RUNE_RANGE_2.asItem(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', ExtraBotanyItems.orichalcos.asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "speed_1", new ItemStack(CMItems.UPGRADE_RUNE_SPEED_1.get(), 4),
@@ -140,7 +137,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', BotaniaItems.runeFire.asItem(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', BotaniaItems.manaSteel.asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "speed_2", new ItemStack(CMItems.UPGRADE_RUNE_SPEED_2.get(), 2),
@@ -148,7 +145,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', CMItems.UPGRADE_RUNE_SPEED_1.get(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', ModItems.alfsteelIngot.asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "speed_3", new ItemStack(CMItems.UPGRADE_RUNE_SPEED_3.get(), 1),
@@ -156,7 +153,7 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "ACA",
                 'A', CMItems.UPGRADE_RUNE_SPEED_2.get(),
-                'B',CustomTags.IV_CIRCUITS,
+                'B', CustomTags.IV_CIRCUITS,
                 'C', ExtraBotanyItems.orichalcos.asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "capacity_1", new ItemStack(CMItems.UPGRADE_RUNE_TRANSLOCATION_1.get(), 1),
@@ -164,33 +161,27 @@ public class ManaMachineUpgradeRecipes {
                 "CBC",
                 "DCD",
                 'A', BotaniaBlocks.fabulousPool.asItem(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', BotaniaItems.manaSteel.asItem(),
-                'D',CMBlocks.LIVING_ROCK_CASING.get().asItem()
-        )
-        ;
+                'D', CMBlocks.LIVING_ROCK_CASING.get().asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "capacity_2", new ItemStack(CMItems.UPGRADE_RUNE_TRANSLOCATION_2.get(), 1),
                 "AAA",
                 "CBC",
                 "DCD",
                 'A', CMItems.UPGRADE_RUNE_TRANSLOCATION_1.get(),
-                'B',CMItems.MAGIC_CORE.asStack().getItem(),
+                'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', ModItems.alfsteelIngot.asItem(),
-                'D',CMBlocks.PURE_LOGIC_CASING.get().asItem()
-        )
-        ;
+                'D', CMBlocks.PURE_LOGIC_CASING.get().asItem());
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "capacity_3", new ItemStack(CMItems.UPGRADE_RUNE_TRANSLOCATION_3.get(), 1),
                 "AAA",
                 "CBC",
                 "DCD",
                 'A', CMItems.UPGRADE_RUNE_TRANSLOCATION_2.get(),
-                'B',CustomTags.IV_CIRCUITS,
+                'B', CustomTags.IV_CIRCUITS,
                 'C', ExtraBotanyItems.orichalcos.asItem(),
-                'D',CMBlocks.PURE_MAGIC_CALCULATE_CORE.get().asItem()
-        )
-        ;
+                'D', CMBlocks.PURE_MAGIC_CALCULATE_CORE.get().asItem());
         RuneAltarRecipeBuilder.builder("alpha_upgrade")
                 .input(CMItems.UPGRADE_RUNE_RANGE_3.asItem())
                 .input(CMItems.UPGRADE_RUNE_TRANSLOCATION_3.asStack())

@@ -301,7 +301,7 @@ public class BotaniaRecipes {
                 .input(ChemicalHelper.get(TagPrefix.ingot, Elementium, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, TerraSteel, 1))
                 .input(ChemicalHelper.get(TagPrefix.ingot, ManaSteel, 1))
-                .input(new ItemStack(ChemicalHelper.get(TagPrefix.ingot,PRIMOVOLITHEST).getItem()))
+                .input(new ItemStack(ChemicalHelper.get(TagPrefix.ingot, PRIMOVOLITHEST).getItem()))
                 .input(new ItemStack(Items.NETHER_STAR))
                 .input(new ItemStack(alfsteelSword))
                 .output(new ItemStack(witherAconite.asItem(), 1))

@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,6 +28,7 @@ import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
+import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import com.moguang.ctnhmana.registry.multiblock.misc;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;

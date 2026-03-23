@@ -1,9 +1,9 @@
 package com.moguang.ctnhmana.Mutiblock;
 
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
@@ -19,7 +19,6 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import com.moguang.ctnhmana.item.Rune.SpireUpgradeRuneItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
@@ -30,6 +29,7 @@ import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
+import com.moguang.ctnhmana.item.Rune.SpireUpgradeRuneItem;
 import com.moguang.ctnhmana.registry.CMEntities;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.Nullable;
@@ -44,8 +44,6 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
                          IDisplayUIMachine {
 
     private static final double UI_SCALE = 1.5;
-
-
 
     @Nullable
     protected TickableSubscription TickSubs;
@@ -63,9 +61,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         this.machineStorage = new NotifiableItemStackHandler(
                 this, 4, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(4) {
 
-        });
+                });
         this.machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof SpireUpgradeRuneItem);
-
     }
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MysticSpire.class,
@@ -100,11 +97,11 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Persisted
     public DyeColor network = DyeColor.WHITE;
     @Persisted
-    public double effencicy=0.1;
-    public int base_speed=10000;
-    public int base_maxmana=10000000;
-    public double base_effencicy=0.1;
-    public int base_range=15;
+    public double effencicy = 0.1;
+    public int base_speed = 10000;
+    public int base_maxmana = 10000000;
+    public double base_effencicy = 0.1;
+    public int base_range = 15;
     public final Map<Integer, Lang> mode_MAP = Map.of(
             0, spireModeLang[0],
             1, spireModeLang[1],
@@ -130,21 +127,20 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
             TickSubs = null;
         }
     }
+
     public void updateTick() {
         TickSubs = subscribeServerTick(TickSubs, this::metircTick);
     }
 
-    public void metircTick()
-    {
-        if(this.getOffsetTimer()%100==0)
-        {
+    public void metircTick() {
+        if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
         }
     }
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-
 
         // ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
         if (connectedSparkPos != null &&
@@ -179,7 +175,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
             entity.range = this.range;
             entity.speed = this.speed;
             entity.TargetNum = this.TargetNum;
-            entity.effencicy=this.effencicy;
+            entity.effencicy = this.effencicy;
             entity.mode = MODE;
             entity.setNetwork(network);
             entity.setPos(sparkpos.getX(), sparkpos.getY(), sparkpos.getZ());
@@ -212,9 +208,9 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         int groupW = sc(182 + 8 + 20);
         int groupH = sc(117 + 8);
         var group = new WidgetGroup(0, 0, groupW, groupH);
-        
+
         // 背景/信息面板区域：整体按比例缩放
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, sc(182 + 20)+8, sc(117)+8)
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, sc(182 + 20) + 8, sc(117) + 8)
                 .setBackground(getScreenTexture())
                 .addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()))
                 .addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText)
@@ -318,24 +314,23 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     }
 
     public void updateSelf() {
-        this.range=base_range;
-        this.maxMana=base_maxmana;
-        this.speed=base_speed;
-        this.effencicy=base_effencicy;
-        for(int i=0;i<=3;i++)
-        {
-            if(!machineStorage.getStackInSlot(i).isEmpty() &&machineStorage.getStackInSlot(i).getItem() instanceof SpireUpgradeRuneItem ritem)
-            {
-                if(ritem.getRange()>1)this.range+=ritem.getRange()-1;
-                if(ritem.getSpeed()>1)this.speed*=ritem.getSpeed();
-                if(ritem.getCapacity()>1)this.maxMana*=ritem.getCapacity();
-                if(ritem.getConversionEfficiency()>0.1)this.effencicy=Math.max(this.effencicy,ritem.getCapacity());
+        this.range = base_range;
+        this.maxMana = base_maxmana;
+        this.speed = base_speed;
+        this.effencicy = base_effencicy;
+        for (int i = 0; i <= 3; i++) {
+            if (!machineStorage.getStackInSlot(i).isEmpty() &&
+                    machineStorage.getStackInSlot(i).getItem() instanceof SpireUpgradeRuneItem ritem) {
+                if (ritem.getRange() > 1) this.range += ritem.getRange() - 1;
+                if (ritem.getSpeed() > 1) this.speed *= ritem.getSpeed();
+                if (ritem.getCapacity() > 1) this.maxMana *= ritem.getCapacity();
+                if (ritem.getConversionEfficiency() > 0.1)
+                    this.effencicy = Math.max(this.effencicy, ritem.getCapacity());
 
             }
         }
-        this.range=Math.min(50,this.range);
+        this.range = Math.min(50, this.range);
         ((MysticSpireBlockEntity) this.holder).setMaxMana(this.maxMana);
-
     }
 
     @CN({
