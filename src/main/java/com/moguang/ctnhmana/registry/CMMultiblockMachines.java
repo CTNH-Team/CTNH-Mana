@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
@@ -14,10 +15,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -37,6 +36,7 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.github.L_Ender.cataclysm.init.ModBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
@@ -191,7 +191,7 @@ public class CMMultiblockMachines {
                     .where("B", Predicates.blocks(BotaniaBlocks.livingrockBrickSlab))
                     .where("C", Predicates.blocks(BotaniaBlocks.livingwoodLogStripped))
                     .where("D", Predicates.blocks(BotaniaBlocks.livingrockPolished)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0)))
                     .where("E", Predicates.blocks(BotaniaBlocks.manaGlass))
                     .where("F", Predicates.blocks(BotaniaBlocks.elfGlass))
                     .where("G", Predicates.blocks(BotaniaBlocks.bifrostPerm))
@@ -370,7 +370,7 @@ public class CMMultiblockMachines {
                             "AAAAAAA", "AAAAAAA", "A#A#A#A")
                     .where("A",
                             Predicates.blocks(SOUL_LOCKING_CASING.get())
-                                    .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                                    .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0)))
                     .where("B", Predicates.blocks(CHAIN))
                     .where("#", Predicates.any())
                     .where("C", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_SLAB.get()))
@@ -3176,7 +3176,7 @@ public class CMMultiblockMachines {
                     .where("A", Predicates.blocks(SOUL_LOCKING_CASING.get()))
                     .where("B",
                             Predicates.blocks(BloodMagicBlocks.BLOODSTONE.get())
-                                    .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                                    .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0)))
                     .where("C", Predicates.blocks(BloodMagicBlocks.BLANK_RITUAL_STONE.get()))
                     .where("D", Predicates.blocks(TINTED_GLASS))
                     .where("E", Predicates.blocks(BloodMagicFluids.LIFE_ESSENCE_BLOCK.get()))
@@ -3218,7 +3218,7 @@ public class CMMultiblockMachines {
                     .aisle("ABEBA", "#####")
                     .where("A", Predicates.blocks(Blocks.SEA_LANTERN))
                     .where("B", Predicates.blocks(BLANK_RUNE.get())
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0)))
                     .where("E", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("D", CMPredicates.BMRuneBlocks)
                     .where("#", Predicates.any())
@@ -3227,462 +3227,13 @@ public class CMMultiblockMachines {
                     .build())
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
-                var tier2_build = MultiblockShapeInfo.builder()
-                        .aisle("ABCBA", "#####")
-                        .aisle("BDDDB", "#####")
-                        .aisle("CDDDC", "##F##")
-                        .aisle("BDDDB", "#####")
-                        .aisle("ABEBA", "#####")
-                        .where('A', Blocks.SEA_LANTERN.defaultBlockState())
-                        .where('B', BLANK_RUNE.get().defaultBlockState())
-                        .where('E', definition, Direction.SOUTH)
-                        .where('D', BLANK_RUNE.get().defaultBlockState())
-                        .where('#', Blocks.AIR.defaultBlockState())
-                        .where('F', BLOOD_ALTAR.get().defaultBlockState())
-                        .where('C', Blocks.PRISMARINE_BRICKS.defaultBlockState());
-
-                var tier3_build = MultiblockShapeInfo.builder()
-                        .aisle("ABBBCBBBA", "D#######D", "D#######D", "E#######E", "#########", "#########",
-                                "#########", "#########", "#########")
-                        .aisle("B#######B", "#BFFFFFB#", "#G#####G#", "#G#####G#", "#H#####H#", "#I#####I#",
-                                "#########", "#########", "#########")
-                        .aisle("B#######B", "#FJJAJJF#", "##KLMLK##", "##N###N##", "##N###N##", "##N###N##",
-                                "##ONNNO##", "#########", "#########")
-                        .aisle("B#######B", "#FJ###JF#", "##LLFLL##", "#########", "#########", "#########",
-                                "##N###N##", "###OOO###", "#########")
-                        .aisle("C#######C", "#FP###PF#", "##MFFFM##", "####Q####", "#########", "####R####",
-                                "##N#S#N##", "###OTO###", "####U####")
-                        .aisle("B#######B", "#FJ###JF#", "##LLFLL##", "#########", "#########", "#########",
-                                "##N###N##", "###OOO###", "#########")
-                        .aisle("B#######B", "#FJJPJJF#", "##KLVLK##", "##N###N##", "##N###N##", "##N###N##",
-                                "##ONNNO##", "#########", "#########")
-                        .aisle("B#######B", "#BFFFFFB#", "#G#####G#", "#G#####G#", "#H#####H#", "#I#####I#",
-                                "#########", "#########", "#########")
-                        .aisle("ABBBCBBBA", "D#######D", "D#######D", "E#######E", "#########", "#########",
-                                "#########", "#########", "########W")
-                        .where('B', DUNGEON_BRICK_1.get().defaultBlockState())
-                        .where('V', definition, Direction.EAST)
-                        .where('L', BLANK_RUNE.get().defaultBlockState())
-                        .where('J', OBSIDIAN_PATH.get().defaultBlockState())
-                        .where('F', BLANK_RUNE.get().defaultBlockState())
-                        .where('C', DUSK_RITUAL_STONE.get().defaultBlockState())
-                        .where('D',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))
-                                        .defaultBlockState())
-                        .where('M', BLANK_RUNE.get().defaultBlockState())
-                        .where('O', BLANK_RUNE.get().defaultBlockState())
-                        .where('Q', BLOOD_ALTAR.get().defaultBlockState())
-                        .where('R', Blocks.SOUL_LANTERN.defaultBlockState())
-                        .where('N', Blocks.QUARTZ_PILLAR.defaultBlockState())
-                        .where('W', Blocks.AIR.defaultBlockState())
-                        .where('U', Blocks.BEACON.defaultBlockState())
-                        .where('#', Blocks.AIR.defaultBlockState())
-                        .where('S', Blocks.CHAIN.defaultBlockState())
-                        .where('A', LAMPS.get(DyeColor.PURPLE).get().defaultBlockState())
-                        .where('K', Blocks.SEA_LANTERN.defaultBlockState())
-                        .where('H', Blocks.GLOWSTONE.defaultBlockState())
-                        .where('I',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))
-                                        .defaultBlockState())
-                        .where('T',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:quartz_brick_wall"))
-                                        .defaultBlockState())
-                        .where('E', Blocks.CRYING_OBSIDIAN.defaultBlockState())
-                        .where('G', Blocks.STONE_BRICKS.defaultBlockState())
-                        .where('P', LAMPS.get(DyeColor.RED).get().defaultBlockState());
-                var tier4_build = MultiblockShapeInfo.builder()
-                        .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E",
-                                "E###########E", "F###########F", "#############", "#############", "#############")
-                        .aisle("B###########B", "#GHIIIIIIIHG#", "#J#########J#", "#J#########J#", "#J#########J#",
-                                "#J#########J#", "#K#########K#", "#############", "#############", "#############")
-                        .aisle("C###########C", "#HLMMMNMMMLH#", "##########O##", "##########O##", "##P#######P##",
-                                "#############", "#############", "#############", "#############", "#############")
-                        .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
-                                "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
-                        .aisle("C###########C", "#IM#######MI#", "###ISSGSSI###", "####TVUUT####", "####W###W####",
-                                "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
-                        .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
-                                "#############", "#############", "####W###W####", "#####XXX#####", "#############")
-                        .aisle("D###########D", "#IN#######NI#", "###IG###GI###", "####YIIIY####", "######Z######",
-                                "#############", "######a######", "####W#b#W####", "#####XcX#####", "######d######")
-                        .aisle("C###########C", "#IM#######MI#", "###IS###SI###", "####UUIUU####", "#############",
-                                "#############", "#############", "####W###W####", "#####XXX#####", "#############")
-                        .aisle("C###########C", "#IM#######MI#", "###ISSLSSI###", "####TUYUT####", "####W###W####",
-                                "####W###W####", "####W###W####", "####XWWWX####", "#############", "#############")
-                        .aisle("C###########C", "#IM#######MI#", "###MIIIIIM###", "###J#####J###", "###J#####J###",
-                                "###Q#####Q###", "###R#####R###", "#############", "#############", "#############")
-                        .aisle("C###########C", "#HLMMMNMMMLH#", "##O#######O##", "##O#######O##", "##P#######P##",
-                                "#############", "#############", "#############", "#############", "#############")
-                        .aisle("B###########B", "#GHIIIIIIIHG#", "#J#########J#", "#J#########J#", "#J#########J#",
-                                "#J#########J#", "#K#########K#", "#############", "#############", "#############")
-                        .aisle("ABCCCCDCCCCBA", "E###########E", "E###########E", "E###########E", "E###########E",
-                                "E###########E", "F###########F", "#############", "#############", "############e")
-                        .where('R',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))
-                                        .defaultBlockState())
-                        .where('c',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:quartz_brick_wall"))
-                                        .defaultBlockState())
-                        .where('V', definition, Direction.EAST)
-                        .where('S', OBSIDIAN_PATH.get().defaultBlockState())
-                        .where('I', BLANK_RUNE.get().defaultBlockState())
-                        .where('O',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))
-                                        .defaultBlockState())
-                        .where('W', Blocks.QUARTZ_PILLAR.defaultBlockState())
-                        .where('H',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone"))
-                                        .defaultBlockState())
-                        .where('U', BLANK_RUNE.get().defaultBlockState())
-                        .where('d', Blocks.BEACON.defaultBlockState())
-                        .where('#', Blocks.AIR.defaultBlockState())
-                        .where('D',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))
-                                        .defaultBlockState())
-                        .where('Q', Blocks.GLOWSTONE.defaultBlockState())
-                        .where('A',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("cataclysm:chiseled_end_stone_bricks"))
-                                        .defaultBlockState())
-                        .where('J', Blocks.STONE_BRICKS.defaultBlockState())
-                        .where('M', DUNGEON_BRICK_1.get().defaultBlockState())
-                        .where('T', Blocks.SEA_LANTERN.defaultBlockState())
-                        .where('B',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone"))
-                                        .defaultBlockState())
-                        .where('N', DUSK_RITUAL_STONE.get().defaultBlockState())
-                        .where('a', Blocks.SOUL_LANTERN.defaultBlockState())
-                        .where('F',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:void_lantern_block"))
-                                        .defaultBlockState())
-                        .where('e', Blocks.AIR.defaultBlockState())
-                        .where('C', CASING_BLOODLOGIC.get().defaultBlockState())
-                        .where('b', Blocks.CHAIN.defaultBlockState())
-                        .where('L', LAMPS.get(DyeColor.PURPLE).get().defaultBlockState())
-                        .where('X', Blocks.CHISELED_QUARTZ_BLOCK.defaultBlockState())
-                        .where('Z', BLOOD_ALTAR.get().defaultBlockState())
-                        .where('Y', Blocks.PRISMARINE_BRICKS.defaultBlockState())
-                        .where('G', LAMPS.get(DyeColor.RED).get().defaultBlockState())
-                        .where('P', Blocks.CRYING_OBSIDIAN.defaultBlockState())
-                        .where('E',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar"))
-                                        .defaultBlockState())
-                        .where('K', BloodMagicBlocks.BLOODSTONE_BRICK.get().defaultBlockState());
-                var tier5_build = MultiblockShapeInfo.builder()
-                        .aisle("AABCCCCCCACCCCCCBAA", "###################", "###################",
-                                "###################", "###################", "###################",
-                                "###################", "###################", "###################",
-                                "###################", "###################")
-                        .aisle("AAD#############DAA", "#DEFFFFFFFFFFFFFED#", "#G###############G#",
-                                "#G###############G#", "#G###############G#", "#G###############G#",
-                                "#G###############G#", "#G###############G#", "#HG#############GH#",
-                                "###################", "###################")
-                        .aisle("BD###############DB", "#EDEHIIIIIIIIIHEDE#", "##J#############J##",
-                                "##J#############J##", "##J#############J##", "##J#############J##",
-                                "##J#############J##", "##JG###########GJ##", "#GK#############KG#",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FELMHHHHNHHHHMLEF#", "###O###########O###",
-                                "###O###########O###", "###O###########O###", "###O###########O###",
-                                "###OG#########GO###", "##GP###########PG##", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FHM###########MHF#", "####QRFFFFFFFFQ####",
-                                "####S#########S####", "####S#########S####", "####S#########S####",
-                                "###GS#########SG###", "####I#########I####", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####RTUUUVUUUTR####",
-                                "#####W#######W#####", "#####W#######W#####", "#####X#######X#####",
-                                "###################", "###################", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######UFFFFFU######", "######S#####S######", "######S#####S######",
-                                "######Y#####Y######", "######Z#####Z######", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######FaaQaaF######", "#######bcdcb#######", "#######G###G#######",
-                                "#######G###G#######", "#######G###G#######", "#######GGGGG#######",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######Fa###aF######", "#######ccccc#######", "###################",
-                                "###################", "###################", "#######G###G#######",
-                                "########GGG########", "###################")
-                        .aisle("A#################A", "#FIN###########NIF#", "####FV#######VF####",
-                                "######FQ###QF######", "#######ecFFe#######", "#########f#########",
-                                "###################", "#########g#########", "#######G#h#G#######",
-                                "########GiG########", "#########j#########")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######Fa###aF######", "#######ccFcc#######", "###################",
-                                "###################", "###################", "#######G###G#######",
-                                "########GGG########", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######FaaTaaF######", "#######bcecb#######", "#######G###G#######",
-                                "#######G###G#######", "#######G###G#######", "#######GGGGG#######",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####FU#######UF####",
-                                "######UFFFFF#######", "######S#####S######", "######S#####S######",
-                                "######Y#####Y######", "######Z#####Z######", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FIH###########HIF#", "####RTUUUVUUUTR####",
-                                "#####W#############", "#####W#############", "#####X#######X#####",
-                                "###################", "###################", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FHM###########MHF#", "####QRFFFFFFFRQ####",
-                                "####S#########S####", "####S#########S####", "####S#########S####",
-                                "###GS#########SG###", "####I#########I####", "###################",
-                                "###################", "###################")
-                        .aisle("C#################C", "#FELMHHHHNHHHHMLEF#", "###O###########O###",
-                                "###O###########O###", "###O###########O###", "###O###########O###",
-                                "###OG#########GO###", "##GP###########PG##", "###################",
-                                "###################", "###################")
-                        .aisle("BD###############DB", "#EDEHIIIIIIIIIHEDE#", "##J#############J##",
-                                "##J#############J##", "##J#############J##", "##J#############J##",
-                                "##J#############J##", "##JG###########GJ##", "#GK#############KG#",
-                                "###################", "###################")
-                        .aisle("AAD#############DAA", "#DEFFFFFFFFFFFFFED#", "#G###############G#",
-                                "#G###############G#", "#G###############G#", "#G###############G#",
-                                "#G###############G#", "#G###############G#", "#HG#############GH#",
-                                "###################", "##################k")
-                        .where('Z',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))
-                                        .defaultBlockState())
-                        .where('d', definition, Direction.EAST)
-                        .where('a', OBSIDIAN_PATH.get().defaultBlockState())
-                        .where('F', BLANK_RUNE.get().defaultBlockState())
-                        .where('B', Blocks.SCULK_CATALYST.defaultBlockState())
-                        .where('W',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))
-                                        .defaultBlockState())
-                        .where('i', Blocks.REINFORCED_DEEPSLATE.defaultBlockState())
-                        .where('D',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_metal"))
-                                        .defaultBlockState())
-                        .where('R',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone"))
-                                        .defaultBlockState())
-                        .where('c', BLANK_RUNE.get().defaultBlockState())
-                        .where('j', Blocks.BEACON.defaultBlockState())
-                        .where('#', Blocks.AIR.defaultBlockState())
-                        .where('J',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("bloodmagic:dungeon_pillar_special"))
-                                        .defaultBlockState())
-                        .where('G', SOUL_LOCKING_CASING.get().defaultBlockState())
-                        .where('N',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))
-                                        .defaultBlockState())
-                        .where('Y', Blocks.GLOWSTONE.defaultBlockState())
-                        .where('K', Blocks.OBSIDIAN.defaultBlockState())
-                        .where('L',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("cataclysm:chiseled_end_stone_bricks"))
-                                        .defaultBlockState())
-                        .where('S', Blocks.STONE_BRICKS.defaultBlockState())
-                        .where('A',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))
-                                        .defaultBlockState())
-                        .where('U', DUNGEON_BRICK_1.get().defaultBlockState())
-                        .where('b', Blocks.SEA_LANTERN.defaultBlockState())
-                        .where('M',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone"))
-                                        .defaultBlockState())
-                        .where('V', DUSK_RITUAL_STONE.get().defaultBlockState())
-                        .where('g', Blocks.SOUL_LANTERN.defaultBlockState())
-                        .where('P',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:void_lantern_block"))
-                                        .defaultBlockState())
-                        .where('k', Blocks.AIR.defaultBlockState())
-                        .where('H', CASING_BLOODLOGIC.get().defaultBlockState())
-                        .where('C', Blocks.SCULK.defaultBlockState())
-                        .where('h', Blocks.CHAIN.defaultBlockState())
-                        .where('T', LAMPS.get(DyeColor.PURPLE).get().defaultBlockState())
-                        .where('f', BLOOD_ALTAR.get().defaultBlockState())
-                        .where('E',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:fireritualstone"))
-                                        .defaultBlockState())
-                        .where('e', Blocks.PRISMARINE_BRICKS.defaultBlockState())
-                        .where('Q', LAMPS.get(DyeColor.RED).get().defaultBlockState())
-                        .where('X', Blocks.CRYING_OBSIDIAN.defaultBlockState())
-                        .where('I', BloodMagicBlocks.BLOODSTONE_BRICK.get().defaultBlockState())
-                        .where('O', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar"))
-                                .defaultBlockState());
-                var tier6_build = MultiblockShapeInfo.builder()
-                        .aisle("ABBBBBBBBBBBBBBBBBBBBBA", "AC###################CA", "A#####################A",
-                                "A#####################A", "A#####################A", "A#####################A",
-                                "A#####################A", "A#####################A", "DE###################ED",
-                                "#######################", "#######################")
-                        .aisle("BFEEGGHFIJKLKJIFHGGEEFB", "CMC#################CMC", "#M###################M#",
-                                "#M###################M#", "#M###################M#", "#M###################M#",
-                                "#M###################M#", "#M###################M#", "ENE#################ENE",
-                                "#######################", "#######################")
-                        .aisle("BEOOPQQQQQQOQQQQQQPOOEB", "#CMC###############CMC#", "##M#################M##",
-                                "##M#################M##", "##M#################M##", "##M#################M##",
-                                "##M#################M##", "##M#################M##", "#ENE###############ENE#",
-                                "#######################", "#######################")
-                        .aisle("BEOOR#############ROOEB", "##CRIBBBBBBBBBBBBBIRC##", "###E###############E###",
-                                "###E###############E###", "###E###############E###", "###E###############E###",
-                                "###E###############E###", "###E###############E###", "##ENE#############ENE##",
-                                "#######################", "#######################")
-                        .aisle("BGPR###############RPGB", "###IRINSSSSSSSSSNIRI###", "####T#############T####",
-                                "####T#############T####", "####T#############T####", "####T#############T####",
-                                "####T#############T####", "####TE###########ET####", "###EU#############UE###",
-                                "#######################", "#######################")
-                        .aisle("BGQ#################QGB", "###BIVFNNNNWNNNNFVIB###", "#####X###########X#####",
-                                "#####X###########X#####", "#####X###########X#####", "#####X###########X#####",
-                                "#####XE#########EX#####", "####EY###########YE####", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BHQ#################QHB", "###BNF###########FNB###", "######ZHBBBBBBBHZ######",
-                                "######A#########A######", "######A#########A######", "######A#########A######",
-                                "#####EA#########AE#####", "######S#########S######", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BFQ#################QFB", "###BSN###########NSB###", "######HabbbKbbbaH######",
-                                "#######c#######c#######", "#######c#######c#######", "#######d#######d#######",
-                                "#######################", "#######################", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BIQ#################QIB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########bBBBBBb########", "########A#####A########", "########A#####A########",
-                                "########e#####e########", "########f#####f########", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BJQ#################QJB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########BggZggB########", "#########hijih#########", "#########E###E#########",
-                                "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
-                                "#######################", "#######################")
-                        .aisle("BKQ#################QKB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########Bg###gB########", "#########iiBii#########", "#######################",
-                                "#######################", "#######################", "#########E###E#########",
-                                "##########EEE##########", "#######################")
-                        .aisle("BLO#################OLB", "###BSW###########WSB###", "######BK#######KB######",
-                                "########BZ###ZB########", "#########kBBBk#########", "###########l###########",
-                                "#######################", "###########m###########", "#########E#n#E#########",
-                                "##########EME##########", "###########o###########")
-                        .aisle("BKQ#################QKB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########Bg###gB########", "#########iiBii#########", "#######################",
-                                "#######################", "#######################", "#########E###E#########",
-                                "##########EEE##########", "#######################")
-                        .aisle("BJQ#################QJB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########BggaggB########", "#########hikih#########", "#########E###E#########",
-                                "#########E###E#########", "#########E###E#########", "#########EEEEE#########",
-                                "#######################", "#######################")
-                        .aisle("BIQ#################QIB", "###BSN###########NSB###", "######Bb#######bB######",
-                                "########bBBBBBb########", "########A#####A########", "########A#####A########",
-                                "########e#####e########", "########f#####f########", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BFQ#################QFB", "###BSN###########NSB###", "######HabbbKbbbaH######",
-                                "#######c#######c#######", "#######c#######c#######", "#######d#######d#######",
-                                "#######################", "#######################", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BHQ#################QHB", "###BNF###########FNB###", "######ZHBBBBBBBHZ######",
-                                "######A#########A######", "######A#########A######", "######A#########A######",
-                                "#####EA#########AE#####", "######S#########S######", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BGQ#################QGB", "###BIVFNNNNWNNNNFVIB###", "#####X###########X#####",
-                                "#####X###########X#####", "#####X###########X#####", "#####X###########X#####",
-                                "#####XE#########EX#####", "####EY###########YE####", "#######################",
-                                "#######################", "#######################")
-                        .aisle("BGPR###############RPGB", "###IRINSSSSSSSSSNIRI###", "####T#############T####",
-                                "####T#############T####", "####T#############T####", "####T#############T####",
-                                "####T#############T####", "####TE###########ET####", "###EU#############UE###",
-                                "#######################", "#######################")
-                        .aisle("BEOOR#############ROOEB", "##CRIBBBBBBBBBBBBBIRC##", "###E###############E###",
-                                "###E###############E###", "###E###############E###", "###E###############E###",
-                                "###E###############E###", "###E###############E###", "##ENE#############ENE##",
-                                "#######################", "#######################")
-                        .aisle("BEOOPQQQQQQOQQQQQQPOOEB", "#CMC###############CMC#", "##M#################M##",
-                                "##M#################M##", "##M#################M##", "##M#################M##",
-                                "##M#################M##", "##M#################M##", "#ENE###############ENE#",
-                                "#######################", "#######################")
-                        .aisle("BFEEGGHFIJKLKJIFHGGEEFB", "CMC#################CMC", "#M###################M#",
-                                "#M###################M#", "#M###################M#", "#M###################M#",
-                                "#M###################M#", "#M###################M#", "ENE#################ENE",
-                                "#######################", "#######################")
-                        .aisle("ABBBBBBBBBBBBBBBBBBBBBA", "AC###################CA", "A#####################A",
-                                "A#####################A", "A#####################A", "A#####################A",
-                                "A#####################A", "A#####################A", "DE###################ED",
-                                "p######################", "######################q")
-                        .where('p', RUNE_STONE_PERFECT.get().defaultBlockState())
-                        .where('f',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("twilightforest:wither_skeleton_skull_candle"))
-                                        .defaultBlockState())
-                        .where('j', definition, Direction.EAST)
-                        .where('D', SUPERNORMAL_MAGIC_CALCULATE_CORE.get().defaultBlockState())
-                        .where('g', OBSIDIAN_PATH.get().defaultBlockState())
-                        .where('B', BLANK_RUNE.get().defaultBlockState())
-                        .where('P', Blocks.SCULK_CATALYST.defaultBlockState())
-                        .where('L',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:lightritualstone"))
-                                        .defaultBlockState())
-                        .where('c',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:obsidian_bricks"))
-                                        .defaultBlockState())
-                        .where('M', Blocks.REINFORCED_DEEPSLATE.defaultBlockState())
-                        .where('J',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:earthritualstone"))
-                                        .defaultBlockState())
-                        .where('R',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dungeon_metal"))
-                                        .defaultBlockState())
-                        .where('H',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:airritualstone"))
-                                        .defaultBlockState())
-                        .where('i', BLANK_RUNE.get().defaultBlockState())
-                        .where('o', Blocks.BEACON.defaultBlockState())
-                        .where('#', Blocks.AIR.defaultBlockState())
-                        .where('T',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("bloodmagic:dungeon_pillar_special"))
-                                        .defaultBlockState())
-                        .where('E', SOUL_LOCKING_CASING.get().defaultBlockState())
-                        .where('W',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))
-                                        .defaultBlockState())
-                        .where('e', Blocks.GLOWSTONE.defaultBlockState())
-                        .where('U', Blocks.OBSIDIAN.defaultBlockState())
-                        .where('V',
-                                ForgeRegistries.BLOCKS
-                                        .getValue(new ResourceLocation("cataclysm:chiseled_end_stone_bricks"))
-                                        .defaultBlockState())
-                        .where('A', Blocks.STONE_BRICKS.defaultBlockState())
-                        .where('C',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("apotheosis:draconic_endshelf"))
-                                        .defaultBlockState())
-                        .where('O',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))
-                                        .defaultBlockState())
-                        .where('b', DUNGEON_BRICK_1.get().defaultBlockState())
-                        .where('h', Blocks.SEA_LANTERN.defaultBlockState())
-                        .where('F',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:waterritualstone"))
-                                        .defaultBlockState())
-                        .where('K', DUSK_RITUAL_STONE.get().defaultBlockState())
-                        .where('m', Blocks.SOUL_LANTERN.defaultBlockState())
-                        .where('Y',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:void_lantern_block"))
-                                        .defaultBlockState())
-                        .where('q', Blocks.AIR.defaultBlockState())
-                        .where('G',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:cursium_block"))
-                                        .defaultBlockState())
-                        .where('N', CASING_BLOODLOGIC.get().defaultBlockState())
-                        .where('Q', Blocks.SCULK.defaultBlockState())
-                        .where('n', Blocks.CHAIN.defaultBlockState())
-                        .where('a', LAMPS.get(DyeColor.PURPLE).get().defaultBlockState())
-                        .where('l', BLOOD_ALTAR.get().defaultBlockState())
-                        .where('I',
-                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:fireritualstone"))
-                                        .defaultBlockState())
-                        .where('k', Blocks.PRISMARINE_BRICKS.defaultBlockState())
-                        .where('Z', LAMPS.get(DyeColor.RED).get().defaultBlockState())
-                        .where('d', Blocks.CRYING_OBSIDIAN.defaultBlockState())
-                        .where('S', BloodMagicBlocks.BLOODSTONE_BRICK.get().defaultBlockState())
-                        .where('X', ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:end_stone_pillar"))
-                                .defaultBlockState());
-                shapeInfos.add(tier2_build.build());
-                shapeInfos.add(tier3_build.build());
-                shapeInfos.add(tier4_build.shallowCopy().build());
-                shapeInfos.add(tier5_build.build());
-                shapeInfos.add(tier6_build.build());
+                Function<BlockPattern, MultiblockShapeInfo> toShape = p -> new MultiblockShapeInfo(
+                        IndustrialAltarMachine.createPreview(p));
+                shapeInfos.add(toShape.apply(definition.getPatternFactory().get()));
+                shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel3Pattern(definition)));
+                shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel4Pattern(definition)));
+                shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel5Pattern(definition)));
+                shapeInfos.add(toShape.apply(IndustrialAltarMachine.createLevel6Pattern(definition)));
                 return shapeInfos;
             })
             .workableCasingModel(BloodMagicRL("block/blankrune"), CTNHMana.id("block/overlay/manamachine_bm"))

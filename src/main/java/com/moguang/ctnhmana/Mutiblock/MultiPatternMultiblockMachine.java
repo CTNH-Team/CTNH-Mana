@@ -146,9 +146,10 @@ public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMac
 
     /**
      * 重写 getPattern() 方法，返回当前匹配的模式
-     * 如果未匹配，返回第一个模式（用于预览等）
+     * 如果未匹配，尝试扫描所有模式找到能匹配当前世界状态的模式（用于 EMI 预览）。
+     * 若全部不匹配，返回第一个模式。
      *
-     * @return 当前匹配的模式或第一个模式
+     * @return 当前匹配的模式或扫描结果或第一个模式
      */
     @Override
     public BlockPattern getPattern() {
@@ -157,13 +158,35 @@ public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMac
             return matchedPattern;
         }
 
-        // 如果未匹配，返回第一个模式（用于预览）
-        if (!patterns.isEmpty()) {
-            return patterns.get(0);
+        // 如果没有模式，返回默认行为
+        if (patterns.isEmpty()) {
+            return super.getPattern();
         }
 
-        // 如果没有模式，返回默认行为
-        return super.getPattern();
+        // 尝试从高级到低级扫描，找到与当前世界状态匹配的模式
+        // 这在 EMI 预览时会被调用（此时 dummy world 中已放置了对应 tier 的方块）
+        MultiblockState worldState = getMultiblockState();
+        if (worldState != null) {
+            BlockPattern matched = null;
+            for (int i = patterns.size() - 1; i >= 0; i--) {
+                BlockPattern p = patterns.get(i);
+                if (p != null) {
+                    worldState.clean();
+                    if (p.checkPatternAt(worldState, false)) {
+                        matched = p;
+                        break;
+                    }
+                }
+            }
+            // 清理临时匹配产生的状态，让调用方重新做带谓词的检查
+            worldState.clean();
+            if (matched != null) {
+                return matched;
+            }
+        }
+
+        // 如果未匹配，返回第一个模式（用于预览）
+        return patterns.get(0);
     }
 
     /**
