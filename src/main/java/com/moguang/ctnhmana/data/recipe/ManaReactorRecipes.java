@@ -6,13 +6,13 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
+import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;

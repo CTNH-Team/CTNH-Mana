@@ -372,12 +372,12 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.getItem() instanceof SaberWandItem item && SaberWandItem.getBindMode(stack)) {
-            if (this.connectedDeltaSpark != null&&player.isShiftKeyDown()) {
+            if (this.connectedDeltaSpark != null && player.isShiftKeyDown()) {
                 if (!world.isClientSide) {
                     this.connectedDeltaSpark = null;
-                    this.connectedDeltaSparkPos=null;
-                    this.SpireMachine.connectedSparkPos=null;
-                    this.SpireMachine.ConnectedSpark=null;
+                    this.connectedDeltaSparkPos = null;
+                    this.SpireMachine.connectedSparkPos = null;
+                    this.SpireMachine.ConnectedSpark = null;
                     updateMachine();
                     player.displayClientMessage(saberWandBindingLang[0].translate(), true);
                 }

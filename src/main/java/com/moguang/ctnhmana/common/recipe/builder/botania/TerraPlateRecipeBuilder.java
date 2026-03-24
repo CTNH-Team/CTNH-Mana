@@ -223,7 +223,7 @@ public class TerraPlateRecipeBuilder {
 
     public void save(Consumer<FinishedRecipe> consumer) {
         consumer.accept(build());
-//        consumer.accept(buildElfPlate());
+        // consumer.accept(buildElfPlate());
         if (isManaReactorAllowed) {
             GTRecipeBuilder gtBuilder = this.mapToGTBuilder();
             gtBuilder.save(consumer);

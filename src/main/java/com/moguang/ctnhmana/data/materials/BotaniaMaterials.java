@@ -19,7 +19,7 @@ public class BotaniaMaterials {
         ManaSteel = REGISTRATE.material(CTNHMana.id("mana_steel"))
                 .cnlang("魔力钢")
                 .ingot()
-                                .liquid()
+                .liquid()
                 .color(0x438FFE)
                 .secondaryColor(0x3962D7)
                 .iconSet(MaterialIconSet.METALLIC)
@@ -33,7 +33,7 @@ public class BotaniaMaterials {
         TerraSteel = REGISTRATE.material(CTNHMana.id("terra_steel"))
                 .cnlang("泰拉钢")
                 .ingot()
-                                .liquid()
+                .liquid()
                 .color(0x63D12F)
                 .secondaryColor(0x2AB73A)
                 .iconSet(MaterialIconSet.METALLIC)
@@ -49,7 +49,7 @@ public class BotaniaMaterials {
 
                 .color(0xf762a3)
                 .secondaryColor(0xf768d1)
-                                .liquid()
+                .liquid()
                 .iconSet(MaterialIconSet.METALLIC)
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,

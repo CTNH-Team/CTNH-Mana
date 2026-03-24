@@ -330,7 +330,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
             }
         }
         this.range = Math.min(50, this.range);
-        this.speed=Math.min(this.maxMana/10,this.speed);
+        this.speed = Math.min(this.maxMana / 10, this.speed);
         ((MysticSpireBlockEntity) this.holder).setMaxMana(this.maxMana);
     }
 
