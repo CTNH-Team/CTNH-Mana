@@ -46,8 +46,8 @@ public class SpireUpgradeRuneItem extends ComponentItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
         tooltipComponents.add(spireUpgradeLang[4].translate());
-        if (this.speed > 1.0) tooltipComponents.add(spireUpgradeLang[0].translate(speed-1));
-        if (this.range > 1.0) tooltipComponents.add(spireUpgradeLang[1].translate(range-1));
+        if (this.speed > 1.0) tooltipComponents.add(spireUpgradeLang[0].translate(speed - 1));
+        if (this.range > 1.0) tooltipComponents.add(spireUpgradeLang[1].translate(range - 1));
         if (this.conversionEfficiency > 0.1) tooltipComponents.add(spireUpgradeLang[2].translate(conversionEfficiency));
         if (this.capacity > 1.0) tooltipComponents.add(spireUpgradeLang[3].translate(capacity));
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
