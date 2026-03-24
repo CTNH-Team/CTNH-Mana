@@ -45,6 +45,7 @@ import net.minecraftforge.common.ToolAction;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -88,6 +89,16 @@ public class CaduceusItem extends GTToolItem {
                 GTMaterials.Neutronium,
                 new MultiToolDefinition(CaduceusItem::getCurrentType, DEFAULT_TYPE),
                 properties);
+    }
+
+    @Override
+    public String getDescriptionId() {
+        return "item." + CTNHMana.MODID + ".caduceus";
+    }
+
+    @Override
+    public Component getDescription() {
+        return Component.translatable(getDescriptionId());
     }
 
     public static void switchFortuna(ItemStack stack, Player player) {
