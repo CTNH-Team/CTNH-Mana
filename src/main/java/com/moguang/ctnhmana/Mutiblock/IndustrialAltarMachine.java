@@ -37,7 +37,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
@@ -121,8 +120,6 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         updateAltarData();
-        CTNHMana.LOGGER.info("Before Working: LP Consumption: {}, Speed Modifier: {}, Dislocation Rate: {}",
-                consumption_lp, speed, dislocation_rate);
         if (consumeLPIfEnough(consumption_lp)) {
             return super.beforeWorking(recipe);
         }
@@ -133,11 +130,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Override
     public boolean onWorking() {
         if (!consumeLPIfEnough(Upgrade.equals("suppression") ? (int) (consumption_lp * 0.5) : consumption_lp)) {
-            CTNHMana.LOGGER.info("LP not enough during working. Required: {}, Available: {}", consumption_lp,
-                    altar.getCurrentBlood());
-            CTNHMana.LOGGER.info("Before progress decrease: {}", this.getProgress());
-            getRecipeLogic().setProgress(this.getProgress() - 1);
-            CTNHMana.LOGGER.info("After progress decrease: {}", this.getProgress());
+            getRecipeLogic().setProgress(this.getProgress() - 2);
             RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe().copy(),
                     failureManaLang_NoEnoughLP.translate());
         }
@@ -154,7 +147,6 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();
             altar_tier = Math.min(tier, index + 2);
-            CTNHMana.LOGGER.info("Altar Tier: {}, Pattern Index: {}, Machine Tier: {}", tier, index, altar_tier);
             this.tileAltar = new_altar;
 
             if (this.tileAltar instanceof TileAltarAccessor accessor) {
