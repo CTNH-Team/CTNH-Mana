@@ -79,6 +79,7 @@ public class TerraPlateRecipes {
                 .input(new ItemStack(manasteelHammer, 1))
                 .input(new ItemStack(theUniverse, 1))
                 .output(new ItemStack(rheinHammer, 1))
+                .allowReactor(false)
                 .mana(4000000)
                 .save(provider);
         TerraPlateRecipeBuilder.builder("koishi_pain")// 古明地眼

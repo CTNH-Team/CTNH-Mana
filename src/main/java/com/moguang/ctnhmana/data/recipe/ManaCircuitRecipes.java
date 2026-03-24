@@ -287,7 +287,6 @@ public class ManaCircuitRecipes {
                 .addCondition(new BloodAltarCondition(6, 100, 100 * 20 * 20, "ephemeral"))
                 .save(provider);
         GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("umlhpic_wafer")// 魔力超高压集成电路晶圆
-                .circuitMeta(1)
                 .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER, 32)
                 .inputItems(TWIST_RUNE, 1)
                 .inputItems(ChemicalHelper.get(dust, Ultra_Mana), 10)

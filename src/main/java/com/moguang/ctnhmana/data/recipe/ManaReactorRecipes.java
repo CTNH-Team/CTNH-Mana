@@ -234,7 +234,6 @@ public class ManaReactorRecipes {
                 .addCondition(new ManaReactorCondition(false))
                 .inputItems(runeFire.asItem())
                 .inputItems(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse("biomesoplenty:eyebulb")))
-                .inputItems(ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("biomesoplenty:blood_bucket")), 4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
                 .duration(40)
@@ -302,7 +301,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(1145141919810L)
                 .save(provider);
-        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder("mana_stable")// 魔力稳定剂
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("mana_stable")// 魔力稳定剂
                 .inputItems(niflheimRune)
                 .inputItems(runeWinter)
                 .inputFluids(PolyvinylChloride.getFluid(1000))
