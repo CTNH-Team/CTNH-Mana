@@ -70,7 +70,6 @@ public class ManaMachineUpgradeRecipes {
                 .save(provider);
         CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("bm_update_t2")
                 .inputItems(CMItems.TWISTED_BLOOD_FORGING.asStack())
-                .circuitMeta(12)
                 .inputItems(CustomTags.LuV_CIRCUITS)
                 .inputItems(CMItems.ENDSLATE)
                 .inputItems(CMItems.WILL_RESISTOR)
