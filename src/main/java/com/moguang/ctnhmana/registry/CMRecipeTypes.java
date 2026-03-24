@@ -149,8 +149,8 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MINER);
-    public static final GTRecipeType ZENITH_CIRCUIT=REGISTRATE
-            .recipeType(GTCEu.id("zenith_assembler"),ELECTRIC)
+    public static final GTRecipeType ZENITH_CIRCUIT = REGISTRATE
+            .recipeType(GTCEu.id("zenith_assembler"), ELECTRIC)
             .cnlang("天域组合").setMaxIOSize(6, 1, 3, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)

@@ -630,10 +630,9 @@ public class SaberWandItem extends WandOfTheForestItem {
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags) {
         super.appendHoverText(stack, world, tooltip, flags);
         tooltip.add(saberWandTooltip.translate());
-        if(ItemNBTHelper.getInt(stack, SPARK_POS_Y, Integer.MAX_VALUE)<Integer.MAX_VALUE)
-        {
-            var pos=SaberWandItem.getBindingSpire(stack);
-            tooltip.add(saberWandSparkLocationTooltip.translate(pos.getX(),pos.getY(),pos.getZ()));
+        if (ItemNBTHelper.getInt(stack, SPARK_POS_Y, Integer.MAX_VALUE) < Integer.MAX_VALUE) {
+            var pos = SaberWandItem.getBindingSpire(stack);
+            tooltip.add(saberWandSparkLocationTooltip.translate(pos.getX(), pos.getY(), pos.getZ()));
         }
     }
 

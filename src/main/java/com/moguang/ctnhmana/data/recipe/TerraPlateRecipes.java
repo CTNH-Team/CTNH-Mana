@@ -1,6 +1,5 @@
 package com.moguang.ctnhmana.data.recipe;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -20,7 +19,6 @@ import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.simibubi.create.AllItems;
-import mythicbotany.register.ModItems;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -131,19 +129,19 @@ public class TerraPlateRecipes {
         // .output(orichalcos)
         // .mana(3000000)
         // .save(provider);
-//        CMRecipeTypes.MANA_REACTOR_RECIPES.recipeBuilder("oriculos_reactor")
-//                .inputItems(photonium)
-//                .inputItems(shadowium)
-//                .inputItems(ModItems.alfsteelIngot)
-//                .inputItems(BotaniaItems.manaSteel)
-//                .inputItems(BotaniaItems.terrasteel)
-//                .inputItems(BotaniaItems.gaiaIngot)
-//                .inputItems(BotaniaItems.elementium)
-//                .notConsumable(TERRA_CATALYST)
-//                .outputItems(orichalcos)
-//                .EUt(GTValues.VA[GTValues.EV])
-//                .duration(400)
-//                .save(provider);
+        // CMRecipeTypes.MANA_REACTOR_RECIPES.recipeBuilder("oriculos_reactor")
+        // .inputItems(photonium)
+        // .inputItems(shadowium)
+        // .inputItems(ModItems.alfsteelIngot)
+        // .inputItems(BotaniaItems.manaSteel)
+        // .inputItems(BotaniaItems.terrasteel)
+        // .inputItems(BotaniaItems.gaiaIngot)
+        // .inputItems(BotaniaItems.elementium)
+        // .notConsumable(TERRA_CATALYST)
+        // .outputItems(orichalcos)
+        // .EUt(GTValues.VA[GTValues.EV])
+        // .duration(400)
+        // .save(provider);
         TerraPlateRecipeBuilder.builder("mana_rune")
                 .input(BotaniaBlocks.livingrock.asItem())
                 .input(BotaniaItems.manaDiamond.asItem())
