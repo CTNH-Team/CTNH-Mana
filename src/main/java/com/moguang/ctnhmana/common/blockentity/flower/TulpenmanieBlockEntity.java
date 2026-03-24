@@ -1,9 +1,8 @@
 package com.moguang.ctnhmana.common.blockentity.flower;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -19,8 +18,19 @@ public class TulpenmanieBlockEntity extends GeneratingFlowerBlockEntity {
         super(type, pos, state);
     }
 
-    @Persisted
     public int burstMana = 670000;
+
+    @Override
+    public void writeToPacketNBT(CompoundTag tag) {
+        super.writeToPacketNBT(tag);
+        tag.putInt("BurstMana", burstMana);
+    }
+
+    @Override
+    public void readFromPacketNBT(CompoundTag tag) {
+        super.readFromPacketNBT(tag);
+        burstMana = tag.getInt("BurstMana");
+    }
 
     public int getRange() {
         return 5;

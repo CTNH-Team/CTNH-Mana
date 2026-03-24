@@ -6,13 +6,13 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
-import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
@@ -25,7 +25,6 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
-import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
 import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.*;
 import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
@@ -39,7 +38,7 @@ public class ManaReactorRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
         MANA_REACTOR_RECIPES.recipeBuilder("blocks_manasteel2")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(Items.IRON_INGOT, 9)
                 .inputFluids(Mana, 540)
                 .outputItems(ChemicalHelper.get(block, ManaSteel, 1))
@@ -48,7 +47,7 @@ public class ManaReactorRecipes {
                 .EUt(32)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manasteel2")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(Items.IRON_BLOCK, 1)
                 .outputItems(ChemicalHelper.get(ingot, ManaSteel), 9)
                 .inputFluids(Mana, 540)
@@ -57,7 +56,7 @@ public class ManaReactorRecipes {
                 .EUt(32)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manadiamond2")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(Items.DIAMOND_BLOCK, 1)
                 .outputItems(manaDiamond, 9)
                 .duration(1000)
@@ -65,7 +64,7 @@ public class ManaReactorRecipes {
                 .EUt(512)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("manadiamondblock2")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(Items.DIAMOND, 9)
                 .outputItems(manaDiamondBlock.asItem(), 1)
                 .duration(1000)
@@ -73,7 +72,7 @@ public class ManaReactorRecipes {
                 .EUt(512)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("zenith_essence")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(), 1)
                 .inputItems(INFUSED_BREATH, 1)
                 .inputFluids(Mana.getFluid(10000))
@@ -85,16 +84,16 @@ public class ManaReactorRecipes {
                 .EUt(IV)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("stable_plus_mana_dust")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(ChemicalHelper.get(dust, Infused_Plus_Mana, 10))
-                .outputItems(ChemicalHelper.get(dust, Stable_Plus_Mana), 15)
+                .outputItems(ChemicalHelper.get(dust, Stable_Plus_Mana), 10)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(2000))
                 .duration(200)
                 .circuitMeta(1)
                 .EUt(1440)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("alfsteel1")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
@@ -106,7 +105,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("alfsteel2")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
@@ -119,7 +118,7 @@ public class ManaReactorRecipes {
                 .EUt(1680)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("alfsteel3")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
@@ -132,7 +131,7 @@ public class ManaReactorRecipes {
                 .EUt(7200)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("terra_catalyst")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(niflheimRune, 64)
                 .inputItems(gaiaIngot, 64)
                 .inputItems(alfsteelIngot, 64)
@@ -146,7 +145,7 @@ public class ManaReactorRecipes {
                 .EUt(960)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("pixie_dust9")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(manaPearl)
                 .inputFluids(Mana.getFluid(500))
                 .notConsumable(ELF_CATALYST)
@@ -156,7 +155,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("eternal_garden")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(runeSpring, 4)
                 .inputItems(runeSummer, 4)
                 .inputItems(runeAutumn, 4)
@@ -171,7 +170,7 @@ public class ManaReactorRecipes {
                 .EUt(512)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("dragonstone1")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(manaDiamond, 2)
                 .inputFluids(Mana.getFluid(500))
                 .notConsumable(ELF_CATALYST)
@@ -181,7 +180,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("super_plus_mana_dust")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(ChemicalHelper.get(dust, Stable_Plus_Mana, 8))
                 .inputFluids(Zenith_essence.getFluid(200))
                 .notConsumable(ELF_CATALYST)
@@ -191,7 +190,7 @@ public class ManaReactorRecipes {
                 .EUt(7700)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("mana_macerator")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(ChemicalHelper.get(screw, AlfSteel, 64))
                 .inputItems(GTMachines.MACERATOR[2], 4)
                 .inputItems(GTItems.ROBOT_ARM_MV, 2)
@@ -203,7 +202,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("elfglass1")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(manaGlass.asItem(), 1)
                 .inputFluids(Mana.getFluid(500))
                 .notConsumable(ELF_CATALYST)
@@ -213,7 +212,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("bifrost_perm")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(rainbowRod)
                 .outputItems(bifrostPerm.asItem())
@@ -222,7 +221,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("elementium_quartz")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(BotaniaItems.elfQuartz, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(elementiumQuartz)
@@ -231,7 +230,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("life_essence")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(runeFire.asItem())
                 .inputItems(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse("biomesoplenty:eyebulb")))
                 .inputItems(ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("biomesoplenty:blood_bucket")), 4)
@@ -242,7 +241,7 @@ public class ManaReactorRecipes {
                 .EUt(480)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("twist_mana")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(ChemicalHelper.get(dust, Uranium235), 1)
                 .inputItems(ChemicalHelper.get(dust, Thorium), 1)
                 .inputItems(ChemicalHelper.get(dust, Unknown_Super_Mana), 1)
@@ -255,7 +254,7 @@ public class ManaReactorRecipes {
                 .EUt(12120)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("plus_mana_dust")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(ChemicalHelper.get(dust, Fused_demon_mixed), 10)
                 .inputFluids(Mana.getFluid(10000))
                 .outputItems(ChemicalHelper.get(dust, Plus_Mana), 8)
@@ -264,7 +263,7 @@ public class ManaReactorRecipes {
                 .EUt(1000)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("zenith_star")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(GTItems.QUANTUM_STAR)
                 .inputItems(runeMana)
                 .inputItems(vanaheimRune, 1)
@@ -277,9 +276,9 @@ public class ManaReactorRecipes {
                 .EUt(1000)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("mana_circuit_board")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(STARLIGHT_RUNE)
-                .inputItems(ChemicalHelper.get(plate, ReinforcedEpoxyResin), 32)
+                .inputItems(RUNE_CIRCUIT_BOARD, 32)
                 .inputItems(ChemicalHelper.get(foil, Ultra_Mana), 32)
                 .inputItems(vanaheimRune, 1)
                 .inputItems(ChemicalHelper.get(ingot, Ultra_Mana), 4)
@@ -291,7 +290,7 @@ public class ManaReactorRecipes {
                 .EUt(1000)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("infused_plus_mana_dust")
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(midgardRune)
                 .inputItems(runeMana)
                 .inputItems(ChemicalHelper.get(dust, Unstable_Plus_Mana), 1)
@@ -314,7 +313,7 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("heart_of_flower")// 繁花之心
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(STARLIGHT_RUNE, 32)
                 .inputItems(HORIZEN_RUNE, 32)
                 .inputItems(TWIST_RUNE, 32)
@@ -328,7 +327,7 @@ public class ManaReactorRecipes {
                 .EUt(418278400L / 800)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")// 高级注魔电阻
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .inputItems(MANA_RESISTOR, 2)
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputFluids(Mana.getFluid(10))
@@ -338,7 +337,7 @@ public class ManaReactorRecipes {
                 .EUt(9600 / 200)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")// 高级注魔二极管
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_DIODE, 2)
                 .inputFluids(Mana.getFluid(10))
@@ -348,7 +347,7 @@ public class ManaReactorRecipes {
                 .EUt(9600 / 200)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")// 高级注魔晶体管
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_TRANSISTOR, 2)
                 .inputFluids(Mana.getFluid(10))
@@ -358,7 +357,7 @@ public class ManaReactorRecipes {
                 .EUt(9600 / 200)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")// 高级注魔电容
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_CAPACITOR, 2)
                 .inputFluids(Mana.getFluid(10))
@@ -368,7 +367,7 @@ public class ManaReactorRecipes {
                 .EUt(9600 / 200)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")// 高级注魔电感
-                .addCondition(new ManaReactorCondition(false))
+                .addCondition(new ZenithCondition(false))
                 .notConsumable(ELF_CATALYST.asItem())
                 .inputItems(MANA_INDUCTOR, 2)
                 .inputFluids(Mana.getFluid(10))

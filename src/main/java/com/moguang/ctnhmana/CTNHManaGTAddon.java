@@ -73,6 +73,7 @@ public class CTNHManaGTAddon implements IGTAddon {
         EternalGardenSpecialRecipes.init(provider);
         ManaCircuitRecipes.init(provider);
         ManaMachineUpgradeRecipes.init(provider);
+        ZenithRecipes.init(provider);
         // 示例：重新注册所有血祭坛配方
         // (new BloodAltarRecipeProvider()).addRecipes(changeId(provider));
     }

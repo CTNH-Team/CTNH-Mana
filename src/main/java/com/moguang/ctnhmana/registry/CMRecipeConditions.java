@@ -5,14 +5,14 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
+import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 
 public class CMRecipeConditions {
 
-    public static RecipeConditionType<ManaReactorCondition> MANA_REACTOR_CONDITION = GTRegistries.RECIPE_CONDITIONS
+    public static RecipeConditionType<ZenithCondition> MANA_REACTOR_CONDITION = GTRegistries.RECIPE_CONDITIONS
             .register(
                     "mana_reactor_condition",
-                    new RecipeConditionType<>(ManaReactorCondition::new, ManaReactorCondition.CODEC));
+                    new RecipeConditionType<>(ZenithCondition::new, ZenithCondition.CODEC));
     public static RecipeConditionType<HellForgeCondition> HELL_FORGE_CONDITION = GTRegistries.RECIPE_CONDITIONS
             .register(
                     "hell_forge_condition",

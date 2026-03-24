@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import com.moguang.ctnhmana.common.recipe.ManaReactorCondition;
+import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -32,9 +32,9 @@ public class ManaReactor extends BaseManaMachine {
     @Override
     protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
         SyncManaData();
-        List<ManaReactorCondition> conditions = recipe.conditions.stream()
-                .filter(ManaReactorCondition.class::isInstance)
-                .map(ManaReactorCondition.class::cast)
+        List<ZenithCondition> conditions = recipe.conditions.stream()
+                .filter(ZenithCondition.class::isInstance)
+                .map(ZenithCondition.class::cast)
                 .toList();
         if (conditions.isEmpty()) return super.getRealRecipe(recipe);
         var condition = conditions.get(0);

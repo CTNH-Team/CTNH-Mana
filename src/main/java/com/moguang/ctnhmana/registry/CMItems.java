@@ -628,6 +628,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> ZENITH_SOC = REGISTRATE
             .item("zenith_soc", ComponentItem::create)
             .cnlang("§5天顶SOC")
+            .onRegister(attach(new TooltipBehavior(text -> text.add(zenithsoclang.translate()))))
             .lang("§5Zenith Soc")
             .register();
 
@@ -720,6 +721,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> ZENITH_WAFER = REGISTRATE
             .item("zenith_wafer", ComponentItem::create)
             .cnlang("§5天顶SOC晶圆")
+            .onRegister(attach(new TooltipBehavior(text -> text.add(zenithsoclang.translate()))))
             .lang("§5§bMana Wafer")
             .register();
     public static ItemEntry<ComponentItem> ELF_CATALYST = REGISTRATE

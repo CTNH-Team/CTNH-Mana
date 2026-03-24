@@ -195,8 +195,8 @@ public class CMMachines {
             .register();
     public static final MachineDefinition BM_HATCH = REGISTRATE
             .manamachine("bloodmanahatch",
-                    holder -> new BloodManaHatch(holder, 66666, 6666666, 100, 66666, 100, 0.001))
-            .cnLangValue("染血魔力凝聚仓")
+                    holder -> new BloodManaHatch(holder, 66666, 6666666, 100, 66666, 666, 0.001))
+            .cnLangValue("血染魔力凝聚仓")
             .modelProperty(IS_FORMED, false)
             .rotationState(RotationState.ALL)
             .tooltips(bloodmanahatchtooltip_1.translate())
@@ -206,7 +206,7 @@ public class CMMachines {
                     bloodmanahatchtootip_base[2].translate(),
                     bloodmanahatchtootip_base[3].translate(),
                     bloodmanahatchtootip_base[4].translate(),
-                    bloodmanahatchtootip_base[5].translate(100),
+                    bloodmanahatchtootip_base[5].translate(666),
                     bloodmanahatchtootip_base[6].translate(66666),
                     bloodmanahatchtootip_base[7].translate(66666))
             .abilities(CMPartsAbility.MANAHATCH)

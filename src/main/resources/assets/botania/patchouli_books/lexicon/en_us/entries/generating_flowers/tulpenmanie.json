@@ -7,14 +7,9 @@
     {
       "type": "text",
       "text": "ctnhmana.tulpenmanie.1"
-    },
-    {
-      "type": "crafting",
-      "text": "ctnhmana.tulpenmanie.2",
-      "recipe": "ctnhmana:petal_apothecary/semper_augustus"
     }
   ],
   "extra_recipe_mappings": {
-    "ctnhmana:semper_augustus": 1
+    "ctnhmana:semper_augustus": 0
   }
 }

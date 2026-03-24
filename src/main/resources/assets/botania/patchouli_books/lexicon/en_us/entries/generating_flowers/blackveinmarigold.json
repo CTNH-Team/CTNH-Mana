@@ -1,0 +1,20 @@
+{
+  "name": "ctnhmana.entry.blackveinmarigold",
+  "category": "botania:generating_flowers",
+  "icon": "ctnhmana:blackvein_marigold",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:blackvein_marigold",
+      "text": "ctnhmana.blackveinmarigold.1"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.blackveinmarigold.2"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:blackvein_marigold": 0
+  }
+}

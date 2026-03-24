@@ -372,13 +372,18 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.getItem() instanceof SaberWandItem item && SaberWandItem.getBindMode(stack)) {
-            if (player.isSecondaryUseActive() && this.connectedDeltaSpark != null) {
+            if (this.connectedDeltaSpark != null&&player.isShiftKeyDown()) {
                 if (!world.isClientSide) {
                     this.connectedDeltaSpark = null;
+                    this.connectedDeltaSparkPos=null;
+                    this.SpireMachine.connectedSparkPos=null;
+                    this.SpireMachine.ConnectedSpark=null;
+                    updateMachine();
+                    player.displayClientMessage(saberWandBindingLang[0].translate(), true);
                 }
                 if (world.isClientSide) {
                     player.playSound(BotaniaSounds.ding, 0.11F, 1F);
-                    player.displayClientMessage(saberWandBindingLang[0].translate(), true);
+
                 }
                 updateMachine();
                 return InteractionResult.SUCCESS;
@@ -411,13 +416,13 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                         if (!world.isClientSide) {
                             this.connectedDeltaSpark = spark;
                             this.connectedDeltaSparkPos = spark.getBoundingBox();
-
                             SaberWandItem.clearBinding(stack);
+                            player.displayClientMessage(saberWandBindingLang[2].translate(), true);
                         }
 
                         if (world.isClientSide) {
                             player.playSound(BotaniaSounds.ding, 0.11F, 1F);
-                            player.displayClientMessage(saberWandBindingLang[2].translate(), true);
+
                         }
                         updateMachine();
                         return InteractionResult.SUCCESS;
@@ -467,6 +472,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         if (connectedDeltaSpark != null)
             this.SpireMachine.connectedSparkPos = new BlockPos((int) connectedDeltaSpark.getX(),
                     (int) connectedDeltaSpark.getY(), (int) connectedDeltaSpark.getZ());
+        this.SpireMachine.getOrCreatedSpark();
     }
 
     public record WandHud(DeltaSpark entity) implements WandHUD {

@@ -21,11 +21,34 @@
       "text": "ctnhmana.spire.page.4"
     },
     {
+      "title": "ctnhmana.spire.title.mode",
       "type": "text",
       "text": "ctnhmana.spire.page.5"
+    },
+    {
+      "title": "ctnhmana.spire.title.binding",
+      "type": "text",
+      "text": "ctnhmana.spire.page.6"
+    },
+    {
+      "title": "ctnhmana.spire.title.upgrade",
+      "type": "text",
+      "text": "ctnhmana.spire.page.7"
     }
   ],
   "extra_recipe_mappings": {
-    "ctnhmana:mystic_spire": 1
+    "ctnhmana:mystic_spire": 1,
+    "ctnhmana:saber_wand": 5,
+    "ctnhmana:upgrade_rune_speed_1": 6,
+    "ctnhmana:upgrade_rune_speed_2": 6,
+    "ctnhmana:upgrade_rune_speed_3": 6,
+    "ctnhmana:upgrade_rune_range_1": 6,
+    "ctnhmana:upgrade_rune_range_2": 6,
+    "ctnhmana:upgrade_rune_range_3": 6,
+    "ctnhmana:upgrade_rune_translocation_1": 6,
+    "ctnhmana:upgrade_rune_translocation_2": 6,
+    "ctnhmana:upgrade_rune_translocation_3": 6,
+    "ctnhmana:upgrade_rune_alpha": 6,
+    "ctnhmana:upgrade_rune_omega": 6
   }
 }

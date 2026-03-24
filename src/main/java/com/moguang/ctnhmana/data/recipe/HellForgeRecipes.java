@@ -303,7 +303,7 @@ public class HellForgeRecipes {
                 .circuitMeta(22)
                 .output(new ItemStack(RAW_CRYSTAL_BLOCK_ITEM.get(), 1))
                 .minimumSouls(1200).soulDrain(100)
-                .circuitMeta(1)
+                .circuitMeta(11)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("petty_gem")
                 .input(REDSTONE, GLASS, GOLD_INGOT, LAPIS_LAZULI)

@@ -1,0 +1,68 @@
+{
+  "name": "ctnhmana.entry.mana_upgrades",
+  "category": "botania:new_horizon",
+  "icon": "ctnhmana:sky_flower_speech",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:sky_flower_speech",
+      "text": "ctnhmana.mana_upgrades.bt"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:twisted_blood_forging",
+      "text": "ctnhmana.mana_upgrades.bm"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:pipeline_vision",
+      "text": "ctnhmana.mana_upgrades.gt"
+    },
+    {
+      "title": "ctnhmana.mana_upgrades.index.title",
+      "type": "spotlight",
+      "item": "ctnhmana:sky_flower_speech",
+      "text": "ctnhmana.mana_upgrades.index"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:clear_sky_flower_wish",
+      "text": "ctnhmana.mana_upgrades.icon.clear_sky_flower_wish"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:azure_sky_flower_dance",
+      "text": "ctnhmana.mana_upgrades.icon.azure_sky_flower_dance"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:twisted_blood_forging",
+      "text": "ctnhmana.mana_upgrades.icon.twisted_blood_forging"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:twisted_soul_forging",
+      "text": "ctnhmana.mana_upgrades.icon.twisted_soul_forging"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:pipeline_vision",
+      "text": "ctnhmana.mana_upgrades.icon.pipeline_vision"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:pipeline_farsight",
+      "text": "ctnhmana.mana_upgrades.icon.pipeline_farsight"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:sky_flower_speech": 0,
+    "ctnhmana:clear_sky_flower_wish": 0,
+    "ctnhmana:azure_sky_flower_dance": 0,
+    "ctnhmana:twisted_blood_forging": 0,
+    "ctnhmana:twisted_soul_forging": 0,
+    "ctnhmana:pipeline_vision": 0,
+    "ctnhmana:pipeline_farsight": 0
+  }
+}

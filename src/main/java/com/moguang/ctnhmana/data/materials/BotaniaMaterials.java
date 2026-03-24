@@ -19,7 +19,7 @@ public class BotaniaMaterials {
         ManaSteel = REGISTRATE.material(CTNHMana.id("mana_steel"))
                 .cnlang("魔力钢")
                 .ingot()
-                .fluid()
+                                .liquid()
                 .color(0x438FFE)
                 .secondaryColor(0x3962D7)
                 .iconSet(MaterialIconSet.METALLIC)
@@ -28,11 +28,12 @@ public class BotaniaMaterials {
                         GENERATE_GEAR,
                         GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL, GENERATE_RING)
                 .cableProperties(GTValues.V[GTValues.LV], 6, 1)
+
                 .buildAndRegister();
         TerraSteel = REGISTRATE.material(CTNHMana.id("terra_steel"))
                 .cnlang("泰拉钢")
                 .ingot()
-                .fluid()
+                                .liquid()
                 .color(0x63D12F)
                 .secondaryColor(0x2AB73A)
                 .iconSet(MaterialIconSet.METALLIC)
@@ -45,9 +46,10 @@ public class BotaniaMaterials {
         Elementium = REGISTRATE.material(CTNHMana.id("elementium"))
                 .cnlang("源质钢")
                 .ingot()
-                .fluid()
+
                 .color(0xf762a3)
                 .secondaryColor(0xf768d1)
+                                .liquid()
                 .iconSet(MaterialIconSet.METALLIC)
                 .flags(GENERATE_PLATE,
                         GENERATE_ROD,
@@ -63,6 +65,7 @@ public class BotaniaMaterials {
                 .color(0xFD9D31)
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.EV], 12, 1, false)
+                .liquid()
                 .buildAndRegister();
         Orichalcos = REGISTRATE.material(CTNHMana.id("orichalcos"))
                 .cnlang("奥利哈钢")
@@ -70,6 +73,7 @@ public class BotaniaMaterials {
                         GENERATE_FOIL, GENERATE_RING)
                 .ingot()
                 .color(0xE6E6FA)
+                .liquid()
                 .iconSet(METALLIC)
                 .cableProperties(GTValues.V[GTValues.IV], 8, 0, true)
                 .buildAndRegister();

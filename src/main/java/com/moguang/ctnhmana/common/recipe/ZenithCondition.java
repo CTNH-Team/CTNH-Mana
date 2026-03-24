@@ -21,13 +21,13 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Prefix;
 import java.util.Map;
 
 @Prefix("recipe.condition.zenith_condition")
-public class ManaReactorCondition extends RecipeCondition {
+public class ZenithCondition extends RecipeCondition {
 
-    public static final Codec<ManaReactorCondition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<ZenithCondition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("isReverse", false).forGetter(RecipeCondition::isReverse),
             Codec.BOOL.fieldOf("isZenith").forGetter(cond -> cond.isZenith),
             Codec.STRING.fieldOf("ZenithType").forGetter(cond -> cond.ZenithType),
-            Codec.INT.fieldOf("tier").forGetter(cond -> cond.tier)).apply(instance, ManaReactorCondition::new));
+            Codec.INT.fieldOf("tier").forGetter(cond -> cond.tier)).apply(instance, ZenithCondition::new));
     @Getter
     private boolean isZenith = false;
     @Getter
@@ -35,16 +35,16 @@ public class ManaReactorCondition extends RecipeCondition {
     @Getter
     private int tier = 0;
 
-    public ManaReactorCondition() {}
+    public ZenithCondition() {}
 
-    public ManaReactorCondition(boolean isZenith) {
+    public ZenithCondition(boolean isZenith) {
         super();
         this.ZenithType = "Blank";
         this.tier = 0;
         this.isZenith = isZenith;
     }
 
-    public ManaReactorCondition(boolean isZenith, String zenithType, int tier) {
+    public ZenithCondition(boolean isZenith, String zenithType, int tier) {
         this.isZenith = isZenith;
         if (!isZenith) {
             this.ZenithType = "Blank";
@@ -55,7 +55,7 @@ public class ManaReactorCondition extends RecipeCondition {
         }
     }
 
-    public ManaReactorCondition(boolean isReverse, boolean isZenith, String zenithType, int tier) {
+    public ZenithCondition(boolean isReverse, boolean isZenith, String zenithType, int tier) {
         super(isReverse);
         this.isZenith = isZenith;
         if (!isZenith) {
@@ -68,7 +68,7 @@ public class ManaReactorCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<ManaReactorCondition> getType() {
+    public RecipeConditionType<ZenithCondition> getType() {
         return CMRecipeConditions.MANA_REACTOR_CONDITION;
     }
 
@@ -155,6 +155,6 @@ public class ManaReactorCondition extends RecipeCondition {
 
     @Override
     public RecipeCondition createTemplate() {
-        return new ManaReactorCondition();
+        return new ZenithCondition();
     }
 }

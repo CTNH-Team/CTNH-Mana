@@ -4,10 +4,9 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.storage.DrumMachine;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -29,14 +28,28 @@ public class BlackVeinMarigoldBlockEntity extends GeneratingFlowerBlockEntity {
         super(type, pos, state);
     }
 
-    @Persisted
     public int burn_time = 0;
-    @Persisted
     public int gold = 100000;
-    @Persisted
     public int status = 0;
-    @Persisted
     public int mana_per_tick = 0;
+
+    @Override
+    public void writeToPacketNBT(CompoundTag tag) {
+        super.writeToPacketNBT(tag);
+        tag.putInt("BurnTime", burn_time);
+        tag.putInt("Gold", gold);
+        tag.putInt("Status", status);
+        tag.putInt("ManaPerTick", mana_per_tick);
+    }
+
+    @Override
+    public void readFromPacketNBT(CompoundTag tag) {
+        super.readFromPacketNBT(tag);
+        burn_time = tag.getInt("BurnTime");
+        gold = tag.getInt("Gold");
+        status = tag.getInt("Status");
+        mana_per_tick = tag.getInt("ManaPerTick");
+    }
 
     @Override
     public int getMaxMana() {

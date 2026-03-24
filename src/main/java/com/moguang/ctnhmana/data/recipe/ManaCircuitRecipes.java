@@ -32,8 +32,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.frameGt;
 import static com.gregtechceu.gtceu.common.data.GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER;
 import static com.moguang.ctnhmana.registry.CMItems.*;
-import static com.moguang.ctnhmana.registry.CMMaterials.Ultra_Mana;
-import static com.moguang.ctnhmana.registry.CMMaterials.Zenith_essence;
+import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.BLOOD_ALTAR_RECIPES;
 
 public class ManaCircuitRecipes {
@@ -287,10 +286,9 @@ public class ManaCircuitRecipes {
                 .addCondition(new BloodAltarCondition(6, 100, 100 * 20 * 20, "ephemeral"))
                 .save(provider);
         GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder("umlhpic_wafer")// 魔力超高压集成电路晶圆
-                .circuitMeta(1)
                 .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER, 32)
                 .inputItems(TWIST_RUNE, 1)
-                .inputItems(ChemicalHelper.get(dust, Ultra_Mana), 10)
+                .inputItems(ChemicalHelper.get(dust, PRIMOVOLITHEST), 10)
                 .inputFluids(Zenith_essence.getFluid(1000))
                 .outputItems(UMLHPIC_WAFER, 32)
                 .EUt(32768 * 4)
@@ -305,6 +303,7 @@ public class ManaCircuitRecipes {
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("ultra_mana_mainframe")
                 .inputItems(MANA_CIRCUIT_BOARD, 2)
+                .inputItems(ZENITH_WAFER,7)
                 .inputItems(ChemicalHelper.get(frameGt, Ultra_Mana), 4)
                 .inputItems(STARLIGHT_RUNE)
                 .inputItems(ZENITH_STAR)

@@ -630,6 +630,11 @@ public class SaberWandItem extends WandOfTheForestItem {
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flags) {
         super.appendHoverText(stack, world, tooltip, flags);
         tooltip.add(saberWandTooltip.translate());
+        if(ItemNBTHelper.getInt(stack, SPARK_POS_Y, Integer.MAX_VALUE)<Integer.MAX_VALUE)
+        {
+            var pos=SaberWandItem.getBindingSpire(stack);
+            tooltip.add(saberWandSparkLocationTooltip.translate(pos.getX(),pos.getY(),pos.getZ()));
+        }
     }
 
     @CN("切换为模式: %s")
@@ -645,16 +650,17 @@ public class SaberWandItem extends WandOfTheForestItem {
     public static Lang[] saberwandNamelang;
     @CN("§b§l[精灵朋克]§r§d2077")
     public static Lang saberWandTooltip;
-
+    @CN("已绑定的目标火花位置:%d %d %d")
+    public static Lang saberWandSparkLocationTooltip;
     @CN({
             "绑定已清除",
-            "已选定初始火花",
+            "已选定初始目标火花",
             "已完成绑定",
             "绑定出现错误",
     })
     @EN({
             "绑定已清除",
-            "已选定初始火花",
+            "已选定初始目标火花",
             "已完成绑定",
             "绑定出现错误",
     })

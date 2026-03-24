@@ -3239,7 +3239,7 @@ public class CMMultiblockMachines {
             .workableCasingModel(BloodMagicRL("block/blankrune"), CTNHMana.id("block/overlay/manamachine_bm"))
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE
-            .mysticmultiblock("mystic_sprie", holder -> new MysticSpire(holder))
+            .mysticmultiblock("mystic_spire", holder -> new MysticSpire(holder))
             .cnLangValue("§b奥法尖塔")
             .tooltips(spireTooltipsLang)
             .appearanceBlock(() -> BotaniaBlocks.corporeaBlock)

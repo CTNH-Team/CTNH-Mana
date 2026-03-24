@@ -508,21 +508,55 @@ public class ChineseLangHandler {
                 "作为一名优秀的格雷员工，你当然知晓如何合理地将魔法与科技结合获得最大化效益，本条目介绍了§m植物魔法§r机械动力：新视野的一些魔力新增内容");
 
         provider.add("ctnhmana.entry.mystic_spire", "奥法尖塔");
+        provider.add("ctnhmana.spire.title.binding","绑定");
+        provider.add("ctnhmana.spire.title.mode","模式");
+        provider.add("ctnhmana.spire.title.update","升级");
+
+
 
         provider.add("ctnhmana.spire.page.1",
-                "奥法尖塔是你在击败盖亚之后就可以制作的高级结构，它会生成§b德尔塔火花§r，火花的高级特殊变种$(p) 奥法尖塔可以代替传统的发射器和火花，为各种魔力容器(包括魔力凝聚仓)供应mana$(br)对于具体的工作逻辑，请参考条目：德尔塔火花");
+                "奥法尖塔是你在击败盖亚之后就可以制作的高级结构,它会生成§b德尔塔火花§r,火花的高级特殊变种$(p) 奥法尖塔可以代替传统的发射器和火花,为各种魔力容器(包括魔力凝聚仓)供应mana$(br)对于具体的工作逻辑,请参考条目：德尔塔火花");
         provider.add("ctnhmana.spire.page.2",
-                "奥法尖塔在结构成型时会生成一个§b德尔塔火花§r，同时与其完成绑定，奥法尖塔结构失效时§b德尔塔火花§r随之消失，但数据会保留在尖塔主方块中$(p)，通过切换尖塔/火花的模式来决定魔力尖塔的工作模式，§b德尔塔火花§r可以绑定另一个§b德尔塔火花§r，无视模式向该火花传递魔力，该效果独立于传递速度运算且无视模式限制");
+                "奥法尖塔在结构成型时会生成一个§b德尔塔火花§r,同时与其完成绑定,奥法尖塔结构失效时§b德尔塔火花§r随之消失,但数据会保留在尖塔主方块中$(p),通过切换尖塔/火花的模式来决定魔力尖塔的工作模式,§b德尔塔火花§r可以绑定另一个§b德尔塔火花§r,无视模式向该火花传递魔力,该效果独立于传递速度运算且无视模式限制");
         provider.add("ctnhmana.spire.page.3",
-                "奥法尖塔拥有多种模式，你可以在机器主方块UI进行切换，或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式$(p)奥法尖塔目前具有四个模式：§4聚焦、§c火花扩散、§b广域扩散、§6中转");
+                "奥法尖塔拥有多种模式,你可以在机器主方块UI进行切换,或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b广域扩散,§6中转");
         provider.add("ctnhmana.spire.page.4",
-                "奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度，初始值50000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度，注意火花吸收产能花的速度只有接收速度的1/10，初始值：5000/tick$(p)范围：决定了火花的影响范围，初始值：10");
+                "奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度,初始值10000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度,注意火花吸收产能花的初始吸收速率只有接收速度的1/10,初始值：10000/tick$(p)范围：决定了火花的影响范围,初始值：15");
         provider.add("ctnhmana.spire.page.5",
-                "奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力，而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则，向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r：奥法尖塔不执行任何操作，只实现奥法尖塔间的魔力传递");
+                "奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力,而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则,向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r：奥法尖塔不执行任何操作,只实现奥法尖塔间的魔力传递");
+
+        provider.add("ctnhmana.spire.page.6","奥法尖塔间可以使用§4电子火花魔杖§r来进行绑定$(p)在§4电子火花魔杖§r的绑定模式下,第一次右键delta火花将选定要绑定的,目标火花,第二次将完成绑定,让奥法尖塔往目标火花传递mana。$(p)使用shift+右键点击delta火花将清除绑定,请注意:允许奥法尖塔间成环 传递");
+
+        provider.add("ctnhmana.spire.page.7","奥法尖塔自带四个升级槽位,可以自由安装升级来增加奥法尖塔的各项属性,不过需要注意以下:$(p)转位升级对吸收产魔法效率的提升只取最大值$(p)奥法尖塔的最大范围为50,最大容量为INT,最大传输速度不能超过最大容量的1/10");
+
+        provider.add("ctnhmana.entry.mana_upgrades", "魔力升级");
+        provider.add("ctnhmana.mana_upgrades.bt",
+                "§b植物魔法系升级§r：使用植物魔法魔力来强化机器,较为基础的升级");
+        provider.add("ctnhmana.mana_upgrades.bm",
+                "§4血域系升级§r：使用LP与意志来获得强力强化的升级。");
+        provider.add("ctnhmana.mana_upgrades.gt",
+                "§9工业系升级§r：适用于巨额材料处理的大规模流线升级。");
+        provider.add("ctnhmana.mana_upgrades.index.title", "升级检索");
+        provider.add("ctnhmana.mana_upgrades.index",
+                "以下页面按图标逐个列出全部魔力升级,便于在手册中快速检索与对照。");
+        provider.add("ctnhmana.mana_upgrades.icon.clear_sky_flower_wish", "澄空之花愿");
+        provider.add("ctnhmana.mana_upgrades.icon.azure_sky_flower_dance", "苍穹之花舞");
+        provider.add("ctnhmana.mana_upgrades.icon.twisted_blood_forging", "曲血之锻造");
+        provider.add("ctnhmana.mana_upgrades.icon.twisted_soul_forging", "曲魂之锻造");
+        provider.add("ctnhmana.mana_upgrades.icon.pipeline_vision", "流水线的视野");
+        provider.add("ctnhmana.mana_upgrades.icon.pipeline_farsight", "流水线的远视");
+
         provider.add("ctnhmana.entry.tulpenmanie", "永远的奥古斯都");
         provider.add("ctnhmana.tulpenmanie.1",
-                "魔力beeeee疯了！它竟然做出来了这么一朵超模的花！$(p)永远的奥古斯都每tick会自动吸收周围魔力池100mana，而它每存储1000mana，每tick就可以自然产生1mana！$(p)最恐怖的是，这朵花有着100W的魔力缓存，魔生魔，太疯狂了!");
+                "魔力beeeee疯了！它竟然做出来了这么一朵超模的花！$(p)永远的奥古斯都每tick会自动吸收周围魔力池100mana，而它每存储1000mana,每tick就可以自然产生1mana！$(p)最恐怖的是,这朵花有着100W的魔力缓存,魔生魔,太疯狂了!");
         provider.add("ctnh.copyright.magic.info", "§bCTNH：工业魔力学");
+
+
+        provider.add("ctnhmana.entry.blackveinmarigold", "黑脉金盏花");
+        provider.add("ctnhmana.blackveinmarigold.1",
+                "  黑脉金盏花可以将周围$(k)格雷桶$()中的石油资源转化为魔力。每次会在5格范围内消耗1000mB流体，然后在20秒内持续产出魔力。在产出时不会再吸收流体");
+        provider.add("ctnhmana.blackveinmarigold.2",
+                "  可吸收的燃料类型与内燃发电机一致，燃料热值越高，产魔越多。累计产出到一定程度后，还会把相邻石头转化为金块。");
 
         provider.add("ctnhmana.copyright.info", "由CTNHMana增加");
 
@@ -617,6 +651,8 @@ public class ChineseLangHandler {
     public static Lang willinductorlang;
     @CN("§4否决原电路逻辑，执行自意志运算")
     public static Lang willsoclang;
+    @CN("§5世界的逻辑本质凝聚于此,§l凝视§r于此")
+    public static Lang zenithsoclang;
     @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
     public static Lang brokenRuneLang;
     @CN("§a大地的力量凝聚于此")
@@ -669,19 +705,29 @@ public class ChineseLangHandler {
             "最终运行速度+25%"
     })
     public static Lang[] basemanamutiblockLang;
-    @CN({
-            "要求结构中必须且仅有一个魔力凝聚仓",
-            "通过机器内升级槽放入升级",
-            "每秒消耗%d 魔力能量，电压每比IV高一级，消耗的魔力能量就翻7倍",
-            "最终运行速度+77%,任何时候都有25%并行"
-    })
-    @EN({
-            "要求结构中必须且仅有一个魔力凝聚仓",
-            "通过机器内升级槽放入升级",
-            "每秒消耗%d 魔力能量，电压每比IV高一级，消耗的魔力能量就翻7倍",
-            "最终运行速度+77%,任何时候都有25%并行"
-    })
-    public static Lang[] basezenithmutiblockLang;
+    @CN(
+            {
+                    "§5于超越现实的视线之中",
+                    "要求结构中必须且仅有一个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d 魔力能量，电压每有一级，消耗的魔力能量就翻7倍",
+                    "最终运行速度+77%,任何时候都有32并行"
+            }
+    )
+    @EN(
+            {
+                    "§5于超越现实的视线之中",
+                    "要求结构中必须且仅有一个魔力凝聚仓",
+                    "通过机器内升级槽放入升级",
+                    "每秒消耗%d 魔力能量，电压每比IV高一级，消耗的魔力能量就翻7倍",
+                    "最终运行速度+77%,任何时候都有32并行"
+            }
+    )
+    public static Lang[]basezenithmutiblockLang;
+    @CN("§5灵能之力使得该机器无视蒸馏塔的舱室规则")
+    public static Lang zenithDistillationLang;
+    @CN("§5具有特殊的天域组合配方类型,允许制作天顶SOC和价格极为低廉的魔力电路")
+    public static Lang zenithAssemblerLang;
     @CN({
             "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",
             "§4工业血祭坛§r是特殊的祭坛结构，其拥有多个等级，其等级决定了可以运行的配方，在结构成型时，将自动绑定结构中的血祭坛",
