@@ -27,6 +27,7 @@ import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.Mutiblock.parts.CentralControlBus;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.CreativeManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.SparkManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.client.render.StarCakeMachineBERProvider;
@@ -42,6 +43,7 @@ import java.util.function.BiFunction;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
+import static com.gregtechceu.gtceu.common.data.GTMachines.CREATIVE_TOOLTIPS;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.flowercakelang;
@@ -232,6 +234,17 @@ public class CMMachines {
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(ZPM)
+            .register();
+    public static final MachineDefinition CREATIVE_MANA_HATCH = REGISTRATE
+            .manamachine("creative_manahatch", CreativeManaHatch::new)
+            .cnLangValue("创造模式魔力凝聚仓")
+            .langValue("Creative Mana Hatch")
+            .modelProperty(IS_FORMED, false)
+            .rotationState(RotationState.ALL)
+            .abilities(CMPartsAbility.MANAHATCH)
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
+            .tooltipBuilder(CREATIVE_TOOLTIPS)
+            .tier(MAX)
             .register();
 
     public static final MachineDefinition[] DIGITAL_WELL_OF_SUFFER = registerTieredMachines(
