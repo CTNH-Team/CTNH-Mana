@@ -25,7 +25,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(value = CraftingTerminalTransferHandler.class, remap = false)
 public abstract class MixinEmiLecternRecipeHandler {
@@ -59,6 +61,7 @@ public abstract class MixinEmiLecternRecipeHandler {
         List<IRecipeSlotView> views = recipeSlots.getSlotViews();
         List<ItemStack[]> inputs = new ArrayList<>();
         List<StoredItemStack> storedList = term.getStoredItems();
+        Inventory inv = player.getInventory();
         for (IRecipeSlotView view : views) {
             if (view.getRole() != RecipeIngredientRole.INPUT &&
                     view.getRole() != RecipeIngredientRole.CATALYST) {
@@ -72,29 +75,9 @@ public abstract class MixinEmiLecternRecipeHandler {
                 continue;
             }
 
-            inputs.add(possibleStacks);
-            boolean found = false;
-            Inventory inv = player.getInventory();
-            for (ItemStack candidate : possibleStacks) {
-                if (candidate != null &&
-                        findSlotMatchingItemRelaxed(inv, candidate) != -1) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                outer:
-                for (ItemStack candidate : possibleStacks) {
-                    if (candidate == null || candidate.isEmpty()) continue;
-                    for (StoredItemStack stored : storedList) {
-                        if (ItemStack.isSameItem(stored.getStack(), candidate)) {
-                            found = true;
-                            break outer;
-                        }
-                    }
-                }
-            }
-            if (!found) {
+            ItemStack[] resolvedStacks = resolveAvailableStacks(possibleStacks, inv, storedList);
+            inputs.add(resolvedStacks.length == 0 ? null : resolvedStacks);
+            if (resolvedStacks.length == 0) {
                 missing.add(view);
             }
         }
@@ -102,7 +85,6 @@ public abstract class MixinEmiLecternRecipeHandler {
             ItemStack[][] stacks = inputs.toArray(new ItemStack[0][]);
             CompoundTag compound = new CompoundTag();
             ListTag list = new ListTag();
-            Inventory inv = player.getInventory();
 
             for (int i = 0; i < stacks.length; ++i) {
                 if (stacks[i] == null) continue;
@@ -115,22 +97,9 @@ public abstract class MixinEmiLecternRecipeHandler {
                     ItemStack st = stacks[i][j];
                     if (st == null || st.isEmpty()) continue;
 
-                    boolean ok = false;
-
-                    for (StoredItemStack stored : storedList) {
-                        if (ItemStack.isSameItem(stored.getStack(), st)) {
-                            ok = true;
-                            break;
-                        }
-                    }
-                    if (!ok && findSlotMatchingItemRelaxed(inv, st) != -1) {
-                        ok = true;
-                    }
-                    if (ok) {
-                        CompoundTag itemTag = new CompoundTag();
-                        st.save(itemTag);
-                        slotTag.put("i" + (k++), itemTag);
-                    }
+                    CompoundTag itemTag = new CompoundTag();
+                    st.save(itemTag);
+                    slotTag.put("i" + (k++), itemTag);
                 }
 
                 slotTag.putByte("l", (byte) Math.min(9, k));
@@ -162,5 +131,65 @@ public abstract class MixinEmiLecternRecipeHandler {
             }
         }
         return -1;
+    }
+
+    private ItemStack[] resolveAvailableStacks(ItemStack[] possibleStacks, Inventory inventory,
+                                               List<StoredItemStack> storedList) {
+        Map<String, ItemStack> resolvedStacks = new LinkedHashMap<>();
+
+        for (ItemStack candidate : possibleStacks) {
+            if (candidate == null || candidate.isEmpty()) {
+                continue;
+            }
+
+            int playerSlot = findSlotMatchingItemRelaxed(inventory, candidate);
+            if (playerSlot != -1) {
+                addResolvedStack(resolvedStacks, inventory.items.get(playerSlot));
+            }
+
+            ItemStack exactStored = findStoredMatch(storedList, candidate, false);
+            if (!exactStored.isEmpty()) {
+                addResolvedStack(resolvedStacks, exactStored);
+            }
+        }
+
+        if (!resolvedStacks.isEmpty()) {
+            return resolvedStacks.values().toArray(ItemStack[]::new);
+        }
+
+        for (ItemStack candidate : possibleStacks) {
+            if (candidate == null || candidate.isEmpty()) {
+                continue;
+            }
+
+            ItemStack relaxedStored = findStoredMatch(storedList, candidate, true);
+            if (!relaxedStored.isEmpty()) {
+                addResolvedStack(resolvedStacks, relaxedStored);
+            }
+        }
+
+        return resolvedStacks.values().toArray(ItemStack[]::new);
+    }
+
+    private ItemStack findStoredMatch(List<StoredItemStack> storedList, ItemStack candidate, boolean relaxed) {
+        for (StoredItemStack stored : storedList) {
+            ItemStack storedStack = stored.getStack();
+            if (storedStack.isEmpty() || !ItemStack.isSameItem(storedStack, candidate)) {
+                continue;
+            }
+            if (relaxed || ItemStack.matches(storedStack, candidate)) {
+                return storedStack;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private void addResolvedStack(Map<String, ItemStack> resolvedStacks, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return;
+        }
+        ItemStack resolved = stack.copy();
+        resolved.setCount(1);
+        resolvedStacks.putIfAbsent(resolved.getItem().toString() + "|" + resolved.save(new CompoundTag()), resolved);
     }
 }
