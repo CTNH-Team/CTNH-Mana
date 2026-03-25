@@ -68,7 +68,7 @@ public class BloodAltarRecipes {
                 .output(ChemicalHelper.get(TagPrefix.dust, HEMOPLATINUM, 1))
                 .circuitMeta(0)
                 .syphon(10000)
-                .minimumTier(4)
+                .minimumTier(2)
                 .consumeRate(100)
                 .drainRate(100)
                 .save(provider);
@@ -77,7 +77,7 @@ public class BloodAltarRecipes {
                 .output(ChemicalHelper.get(ingot, HEMOPLATINUM, 1))
                 .circuitMeta(0)
                 .syphon(15000)
-                .minimumTier(4)
+                .minimumTier(2)
                 .consumeRate(100)
                 .drainRate(100)
                 .save(provider);
