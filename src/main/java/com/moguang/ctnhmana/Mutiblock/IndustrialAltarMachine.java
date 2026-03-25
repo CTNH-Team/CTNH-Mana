@@ -130,7 +130,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Override
     public boolean onWorking() {
         if (!consumeLPIfEnough(Upgrade.equals("suppression") ? (int) (consumption_lp * 0.5) : consumption_lp)) {
-            getRecipeLogic().setProgress(this.getProgress() - 2);
+            getRecipeLogic().setProgress(this.getProgress() - 1);
             RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe().copy(),
                     failureManaLang_NoEnoughLP.translate());
         }
@@ -146,7 +146,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();
-            altar_tier = Math.min(tier, index + 2);
+            altar_tier = Math.max(tier, index + 2);
             this.tileAltar = new_altar;
 
             if (this.tileAltar instanceof TileAltarAccessor accessor) {

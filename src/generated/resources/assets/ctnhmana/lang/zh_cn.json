@@ -530,7 +530,7 @@
   "ctnhmana.industrialaltarlang.2": "根据自身的等级，增强§c所有§r血祭坛符文的效果，并直接扩大血祭容量",
   "ctnhmana.industrialaltarlang.3": "§c清除血祭坛的缓存容量，也不会使用血祭坛的缓存LP",
   "ctnhmana.industrialaltarlang.4": "具有与血祭坛类似的供血机制，每秒从输入总线抽取一定数量的LP注入血祭坛，该注入受到等级，符文的影响",
-  "ctnhmana.industrialaltarlang.5": "运行时，直接消耗血祭坛中的LP来进行工作。LP不足时，§c进度会缓慢倒退而不是直接归零",
+  "ctnhmana.industrialaltarlang.5": "运行时，直接消耗血祭坛中的LP来进行工作。LP不足时，§c进度会停滞直到LP足够",
   "ctnhmana.industrialaltarlang.6": "§c不可进行任何电力超频§r，自身工作速度受到血祭坛工作速度影响，同时拥有特殊的血超频机制",
   "ctnhmana.industrialaltarlang.7": "运行时，祭坛血等级每高配方等级一级，速度翻倍，LP消耗速率翻四倍",
   "ctnhmana.industrialaltarlang.8": "具有批处理功能：当配方时间<1s时，机器会尝试批处理直到运行时间≥1s",
