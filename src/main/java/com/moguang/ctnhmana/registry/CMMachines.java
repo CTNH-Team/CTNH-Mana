@@ -215,7 +215,7 @@ public class CMMachines {
             .register();
     public static final MachineDefinition BM_HATCH_T2 = REGISTRATE
             .manamachine("soulmanahatch",
-                    holder -> new BloodManaHatch(holder, 444444, 66666666, 100, 666666, 6666, 0.002))
+                    holder -> new BloodManaHatch(holder, 444444, 66666666, 100, 666666, 6666, 1))
             .cnLangValue("铸魂魔力凝聚仓")
             .modelProperty(IS_FORMED, false)
             .rotationState(RotationState.ALL)

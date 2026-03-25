@@ -429,7 +429,7 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.0", "§9魔枢巨星，重构万物尺度");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.1", "允许使用并行控制仓，§c其不会为配方提供并行§r，只修改每秒输入魔力量");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.2", "插入机器的几种§9五级符文§r决定了该机器的各种能力");
-        provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.3", "§9星空符文§r的能量降低了能源消耗并增强了机器稳定性");
+        provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.3", "§9星光符文§r的能量降低了能源消耗并增强了机器稳定性");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.4", "§c扭曲符文§r的能量降低了所用时间并增大了机器魔力注入频率，§c但会让机器更加不稳定");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.5", "§d视域符文§r的能量极大增大了魔力上限和魔力使用效率");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.6",
@@ -442,7 +442,7 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.11",
                 "§c扭曲符文§r消耗概率公式:每次运行有Math.max((twist_power-3)/3,1)*0.01+(Math.max(starlight_power-twist_power,0)*0.01)+(Math.max((100-mana/100000)*0.0005,0))概率消耗");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.12",
-                "§9星空符文§r消耗概率公式:每次运行有Math.max((starlight_power-3)/3,1)*0.01+(Math.max(twist_power-starlight_power,0)*0.01)+(mana/100000*0.005)概率消耗");
+                "§9星光符文§r消耗概率公式:每次运行有Math.max((starlight_power-3)/3,1)*0.01+(Math.max(twist_power-starlight_power,0)*0.01)+(mana/100000*0.005)概率消耗");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.13", "§d视域符文§r消耗概率公式：每次运行有0.0025*(horizen_power)概率消耗");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.14", "该机器无法超频");
         provider.add("ctnh.multiblock.nicoll_dyson_beams.tooltip.15",

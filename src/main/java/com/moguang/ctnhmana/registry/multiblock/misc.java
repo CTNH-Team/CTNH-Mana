@@ -21,6 +21,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.NicollDysonBeams;
 import com.moguang.ctnhmana.Mutiblock.Quasar_Eye;
 import com.moguang.ctnhmana.Mutiblock.TwistedFusionMachine;
+import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import vazkii.botania.common.block.BotaniaBlocks;
 
@@ -40,6 +41,7 @@ public class misc {
 
     public static MultiblockMachineDefinition NICOLL_DYSON_BEAMS = REGISTRATE.multiblock("nicoll_dyson_beams",
             NicollDysonBeams::new)
+            .cnLangValue("§9尼魔尔—戴森光束§r")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.BEAMS)
             // .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
@@ -2280,7 +2282,8 @@ public class misc {
                     .where("F", Predicates.blocks(FUSION_GLASS.get()))
                     .where("G", Predicates.blocks(FUSION_CASING_MK3.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PartAbility.PARALLEL_HATCH)))
+                            .or(abilities(PartAbility.PARALLEL_HATCH))
+                            .or(abilities(CMPartsAbility.MANAHATCH)))
                     .where("H", Predicates.frames(GTMaterials.Naquadah))
                     .where("I", Predicates.blocks(FUSION_COIL.get()))
                     .where("J", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -2304,11 +2307,12 @@ public class misc {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("A", Predicates.blocks(ALF_STEEL_CASING.get()))
                     .build())
-            .workableCasingModel(CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"),
+            .workableCasingModel(GTCEu.id("block/casings/fusion/fusion_casing_mk3"),
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
 
     public static MultiblockMachineDefinition EYE_OF_QUASAR = REGISTRATE.multiblock("eye_of_quasar", Quasar_Eye::new)
+            .cnLangValue("§5类星体§r§1之§c眼§r")
             .rotationState(RotationState.ALL)
             .recipeTypes(CMRecipeTypes.QUASAR_EYE, CMRecipeTypes.QUASAR_CREATE)
             .generator(true)
