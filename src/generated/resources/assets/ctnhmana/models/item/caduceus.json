@@ -2,69 +2,9 @@
   "parent": "minecraft:item/handheld",
   "overrides": [
     {
-      "model": "ctnhmana:item/caduceus_plunger",
+      "model": "ctnhmana:item/caduceus_sword",
       "predicate": {
-        "ctnhmana:tool_type": 1.0
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_knife",
-      "predicate": {
-        "ctnhmana:tool_type": 0.9166667
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_wire_cutter",
-      "predicate": {
-        "ctnhmana:tool_type": 0.8333333
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_screwdriver",
-      "predicate": {
-        "ctnhmana:tool_type": 0.75
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_file",
-      "predicate": {
-        "ctnhmana:tool_type": 0.6666667
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_wrench",
-      "predicate": {
-        "ctnhmana:tool_type": 0.5833333
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_saw",
-      "predicate": {
-        "ctnhmana:tool_type": 0.5
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_scythe",
-      "predicate": {
-        "ctnhmana:tool_type": 0.41666666
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_hoe",
-      "predicate": {
-        "ctnhmana:tool_type": 0.33333334
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_axe",
-      "predicate": {
-        "ctnhmana:tool_type": 0.25
-      }
-    },
-    {
-      "model": "ctnhmana:item/caduceus_shovel",
-      "predicate": {
-        "ctnhmana:tool_type": 0.16666667
+        "ctnhmana:tool_type": 0.0
       }
     },
     {
@@ -74,9 +14,69 @@
       }
     },
     {
-      "model": "ctnhmana:item/caduceus_sword",
+      "model": "ctnhmana:item/caduceus_shovel",
       "predicate": {
-        "ctnhmana:tool_type": 0.0
+        "ctnhmana:tool_type": 0.16666667
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_axe",
+      "predicate": {
+        "ctnhmana:tool_type": 0.25
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_hoe",
+      "predicate": {
+        "ctnhmana:tool_type": 0.33333334
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_scythe",
+      "predicate": {
+        "ctnhmana:tool_type": 0.41666666
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_saw",
+      "predicate": {
+        "ctnhmana:tool_type": 0.5
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_wrench",
+      "predicate": {
+        "ctnhmana:tool_type": 0.5833333
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_file",
+      "predicate": {
+        "ctnhmana:tool_type": 0.6666667
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_screwdriver",
+      "predicate": {
+        "ctnhmana:tool_type": 0.75
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_wire_cutter",
+      "predicate": {
+        "ctnhmana:tool_type": 0.8333333
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_knife",
+      "predicate": {
+        "ctnhmana:tool_type": 0.9166667
+      }
+    },
+    {
+      "model": "ctnhmana:item/caduceus_plunger",
+      "predicate": {
+        "ctnhmana:tool_type": 1.0
       }
     }
   ],

@@ -293,7 +293,7 @@ public class CMItems {
                                 .texture("layer0", prov.modLoc("item/caduceus/caduceus_" + s));
                     }
 
-                    for (int i = sub.length - 1; i >= 0; i--) {
+                    for (int i = 0; i <= sub.length - 1; i++) {
                         float v = i / (float) (sub.length - 1); // 0.0 ~ 1.0
                         baseModel.override()
                                 .predicate(prov.modLoc("tool_type"), v)
