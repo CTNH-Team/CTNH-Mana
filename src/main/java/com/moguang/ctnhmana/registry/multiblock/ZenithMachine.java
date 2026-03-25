@@ -2,6 +2,7 @@ package com.moguang.ctnhmana.registry.multiblock;
 
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
@@ -65,6 +66,7 @@ public class ZenithMachine {
                     .where("B", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
                     .where("A", Predicates.blocks(CMBlocks.ZENITH_CASING_BLOCK.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("F", Predicates.blocks(CMBlocks.ALF_STEEL_CASING.get()))
                     .where("H", Predicates.blocks(CMBlocks.ZENITH_CASING_GEARBOX.get()))
@@ -213,8 +215,14 @@ public class ZenithMachine {
                     .where("D", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
                     .where("I", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
                     .where("B", Predicates.blocks(CMBlocks.ZENITH_CASING_BLOCK.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                            .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(abilities(PartAbility.IMPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_ITEMS))
+                            .or(abilities(PartAbility.EXPORT_FLUIDS))
                             .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+
                     .where("G", Predicates.blocks(CMBlocks.ALF_STEEL_CASING.get()))
                     .where("J", Predicates.blocks(CMBlocks.ZENITH_CASING_GEARBOX.get()))
                     .where("L", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))

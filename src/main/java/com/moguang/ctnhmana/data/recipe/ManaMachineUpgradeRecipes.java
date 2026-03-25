@@ -65,8 +65,8 @@ public class ManaMachineUpgradeRecipes {
                 .output(CMItems.TWISTED_BLOOD_FORGING.asStack())
                 .minimumTier(1)
                 .syphon(1000000)
-                .drainRate(10000)
-                .consumeRate(10000)
+                .drainRate(100)
+                .consumeRate(100)
                 .save(provider);
         CMRecipeTypes.HELL_FORGE_RECIPES.recipeBuilder("bm_update_t2")
                 .inputItems(CMItems.TWISTED_BLOOD_FORGING.asStack())

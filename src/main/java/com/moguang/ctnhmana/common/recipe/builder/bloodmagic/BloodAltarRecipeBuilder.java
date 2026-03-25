@@ -168,7 +168,7 @@ public class BloodAltarRecipeBuilder {
 
         long gtEUt = (long) (128 * Math.pow(2, this.minimumTier - 2));
         gtBuilder.EUt(gtEUt);
-        int gtDuration = Math.max(syphon / consumeRate / 2, 20);
+        int gtDuration = Math.max(syphon / consumeRate, 20);
         gtBuilder.duration(gtDuration);
         if (meta >= 0)
             gtBuilder.circuitMeta(meta);

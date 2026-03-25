@@ -176,6 +176,13 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public void updateAltarData() {
+        var world = this.getLevel();
+        var index = getMatchedPatternIndex();
+        if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
+            var tier = new_altar.getTier();
+            if (tier < 2) onStructureInvalid();
+            altar_tier = Math.max(tier, index + 2);
+        }
         this.speed = 1 + altar.getConsumptionMultiplier();
         this.dislocation_modifier = tileAltar.getDislocationMultiplier();
         this.dislocation_rate = (int) (20 * dislocation_modifier * Math.pow(2, altar_tier));

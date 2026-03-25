@@ -39,7 +39,7 @@ public class BloodAltarRecipes {
         BloodAltarRecipeBuilder.builder("blankslate")// 空白石板
                 .output(new ItemStack(SLATE.get(), 1))
                 .input(new ItemStack(EMPTY_RUNE, 1))
-                .circuitMeta(0)
+                .circuitMeta(1)
                 .syphon(1000)
                 .minimumTier(1)
                 .consumeRate(5)

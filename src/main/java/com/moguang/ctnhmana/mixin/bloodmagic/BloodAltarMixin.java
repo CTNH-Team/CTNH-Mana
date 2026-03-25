@@ -160,6 +160,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
             if (CM$IndustrialPos != null && this.upgrade != null &&
                     getMachine(tileAltar.getLevel(), CM$IndustrialPos) instanceof IndustrialAltarMachine machine &&
                     machine.isFormed() && machine.altar_tier >= 2) {
+                machine.updateAltarData();
                 this.consumptionMultiplier = (float) ((0.1 + (machine.altar_tier - 1) * 0.05) *
                         this.upgrade.getLevel(BloodRuneType.SPEED));
                 int cap = upgrade.getLevel(BloodRuneType.CAPACITY);
