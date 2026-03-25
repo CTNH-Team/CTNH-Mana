@@ -149,9 +149,10 @@ public class CMBlocks {
     }
 
     @SuppressWarnings("all")
-    private static BlockEntry<CoilBlock> createCoilBlock(ICoilType coilType) {
+    private static BlockEntry<CoilBlock> createCoilBlock(String cnName, ICoilType coilType) {
         BlockEntry<CoilBlock> coilBlock = REGISTRATE
                 .block("%s_coil_block".formatted(coilType.getName()), p -> new CoilBlock(p, coilType))
+                .cnlang(cnName)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(() -> RenderType::cutoutMipped)
@@ -194,7 +195,7 @@ public class CMBlocks {
             "terra_steel_casing", "泰拉钢机械外壳", CTNHMana.id("block/casings/terra_steel_casing"));
     public static final BlockEntry<Block> SOUL_LOCKING_CASING = createCasingBlock("soul_lock_blackcasing", "黑石锢魂外壳",
             CTNHMana.id("block/casings/soul_lock_blackcasing"));
-    public static final BlockEntry<CoilBlock> SHROUD_MANA_COIL = createCoilBlock(CoilType.SHROUD_MANA);
+    public static final BlockEntry<CoilBlock> SHROUD_MANA_COIL = createCoilBlock("虚境魔力线圈", CoilType.SHROUD_MANA);
     public static final BlockEntry<Block> ZENITH_EYE = REGISTRATE
             .block("zenith_eye", Block::new)
             .cnlang("§5天顶之眼")

@@ -146,7 +146,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();
-            altar_tier = Math.max(tier, index + 2);
+            altar_tier = Math.min(tier, index + 2);
             this.tileAltar = new_altar;
 
             if (this.tileAltar instanceof TileAltarAccessor accessor) {
