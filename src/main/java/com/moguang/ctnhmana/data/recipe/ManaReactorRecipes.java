@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -76,7 +75,7 @@ public class ManaReactorRecipes {
                 .addCondition(new ZenithCondition(false))
                 .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(), 1)
                 .inputItems(INFUSED_BREATH, 1)
-                .inputItems(ENDSLATE,1)
+                .inputItems(ENDSLATE, 1)
                 .inputFluids(Mana.getFluid(10000))
                 .inputFluids(Krypton, 10000)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 10000))
