@@ -10,7 +10,7 @@ public class EnglishLangHandler {
         provider.add("ctnh.common_tooltip.mana_machine.2",
                 "Each operational parallel provides 1% time and energy reduction, up to 75% maximum reduction");
         provider.add("ctnh.common_tooltip.mana_machine.3",
-                "§4When voltage is below LUV and recipe voltage tier matches current voltage, increases processing time by 50% (Mana Assembly only increases by 1%)");
+                "§4When voltage is below LuV and recipe voltage tier matches current voltage, increases processing time by 50% (Mana Assembly only increases by 1%)");
         provider.add("ctnh.common_tooltip.mana_machine.4",
                 "Insert §5Quasar Rune§r to activate §5Eye of Astral Mode§r for 100 recipes: Parallelism becomes unlimited, but no longer provides additional time or voltage reduction. Activating this mode doesn't consume the Quasar Rune");
         provider.add("ctnh.common_tooltip.mana_generator.0",
@@ -99,9 +99,9 @@ public class EnglishLangHandler {
         provider.add("ctnh.multiblock.industrial_altar.tooltip.1",
                 "Like the Blood Altar, this structure has an LP input limit. You §4must§r use specific recipes to increase its LP§r\nSee JEI for the recipes that increase LP.");
         provider.add("ctnh.multiblock.industrial_altar.tooltip.2",
-                "Every time the voltage exceeds HV, the LP storage limit increases by 10,000. When reaching LUV, each level increases by 30,000.");
+                "Every time the voltage exceeds HV, the LP storage limit increases by 10,000. When reaching LuV, each level increases by 30,000.");
         provider.add("ctnh.multiblock.industrial_altar.tooltip.3",
-                "Each capacity rune increases the LP storage limit by 2500, and the enhanced capacity rune increases it by 5000. After reaching LUV, each level adds an extra 10,000/20,000 LP limit.");
+                "Each capacity rune increases the LP storage limit by 2500, and the enhanced capacity rune increases it by 5000. After reaching LuV, each level adds an extra 10,000/20,000 LP limit.");
 
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.0",
                 "§8Satan woke up to find himself demoted to second place.§r");
