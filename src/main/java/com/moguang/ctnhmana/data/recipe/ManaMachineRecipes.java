@@ -58,7 +58,7 @@ public class ManaMachineRecipes {
                 "ADA",
                 'A', HELLFORGED_INGOT.get().asItem(),
                 'B', ETHEREAL_SLATE.get().asItem(),
-                'C', MACHINE_CASING_IV.asStack(),
+                'C', SOUL_LOCKING_CASING.asStack(),
                 'D', SOUL_FORGE_ITEM.get().asItem(),
                 'E', CustomTags.LuV_CIRCUITS);
         VanillaRecipeHelper.addShapedRecipe(// 魔力粉碎机
