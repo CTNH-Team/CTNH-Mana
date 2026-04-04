@@ -1,11 +1,13 @@
 package com.moguang.ctnhmana.common.blockentity.flower;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
+import com.moguang.ctnhmana.registry.CMMobEffects;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.api.block_entity.FunctionalFlowerBlockEntity;
 import vazkii.botania.api.block_entity.RadiusDescriptor;
@@ -26,23 +28,21 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
     public void tickFlower() {
         super.tickFlower();
         if (!this.getLevel().isClientSide && this.redstoneSignal <= 0) {
-            if (ticksExisted % 5 == 0) {
+            if (ticksExisted % 10 == 0) {
                 var chunk = WorldDemonWillHandler.getWillChunk(getLevel(), getEffectivePos());
                 if (getMana() < getCost()) return;
-                if (chunk.getCurrentWill().getWill(EnumDemonWillType.DEFAULT) >= MAX_WILL) return;
+                addMana(-getCost());
                 for (var monster : getMonsters()) {
-                    if (getMana() < getCost()) {
-                        break;
-                    }
-                    if (monster.getHealth() <= 4 && !monster.getPersistentData().getBoolean("isDead")) {
+                    if (monster.getHealth() <= 6 && !monster.getPersistentData().getBoolean("isDead")) {
                         monster.kill();
                         monster.getPersistentData().putBoolean("isDead", true);
                         chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20,
                                 MAX_WILL);
                     } else {
-                        monster.hurt(getLevel().damageSources().magic(), 4);
+                        monster.hurt(getLevel().damageSources().magic(), 6);
+                        monster.addEffect(new MobEffectInstance(CMMobEffects.SOUL_LEECH.get(), 88, 0));
                     }
-                    addMana(-getCost());
+
                 }
             }
         }
@@ -54,11 +54,11 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
     }
 
     public int getRange() {
-        return 5;
+        return 6;
     }
 
     public int getCost() {
-        return 1000;
+        return 666;
     }
 
     @Override

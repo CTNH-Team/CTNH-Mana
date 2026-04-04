@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -20,7 +19,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
@@ -36,7 +34,6 @@ import wayoftime.bloodmagic.demonaura.WillChunk;
 import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import wayoftime.bloodmagic.util.helper.NetworkHelper;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.DoubleSupplier;
 
@@ -44,7 +41,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachineModifyDrops {
+public class BloodManaHatch extends ManaHatch implements IDistinctPart {
 
     @Getter
     @Persisted
@@ -105,11 +102,6 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart, IMachine
     }
 
     public DoubleSupplier get_MP = () -> (double) this.Mana / maxMana;
-
-    @Override
-    public void onDrops(List<ItemStack> drops) {
-        clearInventory(getInventory().storage);
-    }
 
     @Override
     public boolean isDistinct() {

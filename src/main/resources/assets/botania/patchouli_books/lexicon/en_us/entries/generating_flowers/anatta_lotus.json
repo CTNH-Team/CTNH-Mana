@@ -1,0 +1,20 @@
+{
+  "name": "ctnhmana.entry.anatta_lotus",
+  "category": "botania:generating_flowers",
+  "icon": "ctnhmana:anatta_lotus",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:anatta_lotus",
+      "text": "ctnhmana.anatta_lotus.lexicon.1"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.anatta_lotus.lexicon.2"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:anatta_lotus": 0
+  }
+}

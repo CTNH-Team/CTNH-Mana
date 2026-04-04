@@ -1,8 +1,11 @@
 package com.moguang.ctnhmana.registry;
 
+import com.moguang.ctnhmana.common.blockentity.flower.AnattaLotusBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.flower.BlackVeinMarigoldBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.flower.BloodAntiarisBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.flower.DemonFlytrapBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.flower.GenethistleBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.flower.ParaRosiaBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.flower.TulpenmanieBlockEntity;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
@@ -28,5 +31,17 @@ public class CMBlockEntities {
     public static BlockEntityEntry<TulpenmanieBlockEntity> SEMPER_AUGUSTUS = REGISTRATE
             .blockEntity("semper_augustus", TulpenmanieBlockEntity::new)
             .validBlocks(CMBlocks.SEMPER_AUGUSTUS)
+            .register();
+    public static BlockEntityEntry<ParaRosiaBlockEntity> PARAROSIA = REGISTRATE
+            .blockEntity("pararosia", ParaRosiaBlockEntity::new)
+            .validBlocks(CMBlocks.PARAROSIA)
+            .register();
+    public static BlockEntityEntry<AnattaLotusBlockEntity> ANATTA_LOTUS = REGISTRATE
+            .blockEntity("anatta_lotus", AnattaLotusBlockEntity::new)
+            .validBlocks(CMBlocks.ANATTA_LOTUS)
+            .register();
+    public static BlockEntityEntry<GenethistleBlockEntity> GENETHISTLE = REGISTRATE
+            .blockEntity("genethistle", GenethistleBlockEntity::new)
+            .validBlocks(CMBlocks.GENETHISTLE)
             .register();
 }

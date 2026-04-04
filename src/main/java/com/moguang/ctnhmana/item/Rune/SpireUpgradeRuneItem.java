@@ -15,10 +15,6 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.List;
 
-/**
- * 魔力尖塔升级符文：用于描述对尖塔参数的加成。
- * 速度/范围/传输速度/转化效率四个参数均由物品实例携带（不依赖NBT）。
- */
 public class SpireUpgradeRuneItem extends ComponentItem {
 
     @Getter

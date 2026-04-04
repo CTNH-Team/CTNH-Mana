@@ -1,0 +1,20 @@
+{
+  "name": "ctnhmana.entry.demon_flytrap",
+  "category": "botania:functional_flowers",
+  "icon": "ctnhmana:demon_flytrap",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:demon_flytrap",
+      "text": "ctnhmana.demon_flytrap.lexicon.1"
+    },
+    {
+      "type": "text",
+      "text": "ctnhmana.demon_flytrap.lexicon.2"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:demon_flytrap": 0
+  }
+}

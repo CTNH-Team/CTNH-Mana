@@ -119,7 +119,7 @@ public class BaseManaMachine extends ManaMachine {
         if (getOffsetTimer() % 20 == 0) {
             if (hatch.consumeManaIfEnough(consumption)) super.onWorking();
             else {
-                RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe().copy(),
+                RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe(),
                         failureManaLang_NoEnoughMana.translate());
                 getRecipeLogic().setProgress(0);
             }

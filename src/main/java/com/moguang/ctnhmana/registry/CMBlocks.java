@@ -323,7 +323,7 @@ public class CMBlocks {
             .lang("Demon Flytrap")
             .blockstate(GTModels::createCrossBlockState)
             .addLayer(() -> RenderType::cutoutMipped)
-            .item()
+            .item((block, props) -> (BlockItem) new TooltipsBlockItem(block, props, flyTrapLang))
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();
@@ -363,6 +363,45 @@ public class CMBlocks {
             .blockstate(GTModels::createCrossBlockState)
             .addLayer(() -> RenderType::cutoutMipped)
             .item((block, props) -> (BlockItem) new TooltipsBlockItem(block, props, tulpenmanieFlowerLang))
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<ForgeSpecialFlowerBlock> PARAROSIA = REGISTRATE
+            .block("pararosia",
+                    properties -> new ForgeSpecialFlowerBlock(MobEffects.DIG_SPEED, 20,
+                            BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.PARAROSIA.get()))
+            .cnlang("迷心蔷薇")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("ParaRosia")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem) new TooltipsBlockItem(block, props, ParaRosiaLang))
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<ForgeSpecialFlowerBlock> ANATTA_LOTUS = REGISTRATE
+            .block("anatta_lotus",
+                    properties -> new ForgeSpecialFlowerBlock(MobEffects.DIG_SPEED, 20,
+                            BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.ANATTA_LOTUS.get()))
+            .cnlang("焚我莲")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("Anatta Lotus")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem) new TooltipsBlockItem(block, props, burnMeLotusLang))
+            .model(GTModels::rubberTreeSaplingModel)
+            .build()
+            .register();
+    public static final BlockEntry<ForgeSpecialFlowerBlock> GENETHISTLE = REGISTRATE
+            .block("genethistle",
+                    properties -> new ForgeSpecialFlowerBlock(MobEffects.DIG_SPEED, 20,
+                            BlockBehaviour.Properties.copy(Blocks.POPPY), () -> CMBlockEntities.GENETHISTLE.get()))
+            .cnlang("创世蓟")
+            .initialProperties(() -> Blocks.POPPY)
+            .lang("Genethistle")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .item((block, props) -> (BlockItem) new TooltipsBlockItem(block, props, genethistleLang))
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();

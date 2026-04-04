@@ -49,7 +49,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     @Getter
     @Persisted
-    private final NotifiableItemStackHandler inventory;
+    public NotifiableItemStackHandler inventory;
     @Getter
     @Persisted
     protected final NotifiableFluidTank fluidTank;

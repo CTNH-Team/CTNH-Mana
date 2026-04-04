@@ -9,6 +9,7 @@ import vazkii.botania.api.block.WandHUD;
 import vazkii.botania.common.entity.BotaniaEntities;
 
 import static com.moguang.ctnhmana.registry.CMEntities.DELTA_SPARK;
+import static com.moguang.ctnhmana.registry.CMEntities.OMEGA_SPARK;
 
 @Mixin(value = BotaniaEntities.class, remap = false)
 public class BotaniaEntitiesMixin {
@@ -17,5 +18,6 @@ public class BotaniaEntitiesMixin {
     private static void addCustomWandHud(BotaniaEntities.ECapConsumer<WandHUD> consumer, CallbackInfo ci) {
         // 这里写新增的consumer调用，逻辑和上面一致
         consumer.accept(entity -> new DeltaSpark.WandHud((DeltaSpark) entity), DELTA_SPARK.get());
+        consumer.accept(entity -> new DeltaSpark.WandHud((DeltaSpark) entity), OMEGA_SPARK.get());
     }
 }

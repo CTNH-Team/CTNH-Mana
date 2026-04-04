@@ -3279,6 +3279,48 @@ public class CMMultiblockMachines {
             .workableCasingModel(BotaniaRL("block/corporea_block"),
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
+    public final static MultiblockMachineDefinition ZneithSpire = REGISTRATE
+            .mysticmultiblock("zenith_spire", holder -> new ZenithSpire(holder))
+            .cnLangValue("§b天顶尖塔")
+            .tooltips(spireTooltipsLang)
+            .appearanceBlock(() -> BotaniaBlocks.corporeaBlock)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("ABBBA", "#C#C#", "#####", "#####", "#####", "#####", "#####", "#####", "#####", "#####")
+                    .aisle("BBBBB", "CDDDC", "#AEA#", "#AEA#", "#AEA#", "#AEA#", "#FCF#", "#####", "#####", "#####")
+                    .aisle("BBBBB", "#DGD#", "#EGE#", "#EGE#", "#EGE#", "#EGE#", "#CGC#", "##A##", "##A##", "##A##")
+                    .aisle("BBBBB", "CD@DC", "#AEA#", "#AEA#", "#AEA#", "#AEA#", "#FCF#", "#####", "#####", "#####")
+                    .aisle("ABBBA", "#C#C#", "#####", "#####", "#####", "#####", "#####", "#####", "#####", "####H")
+                    .where("B",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:corporea_brick")))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                    .where("E",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:mana_glass"))))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("D",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:lavender_quartz"))))
+                    .where("H", Predicates.any())
+                    .where("#", Predicates.any())
+                    .where("F",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("botania:corporea_brick_slab"))))
+                    .where("A",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("botania:corporea_brick_wall"))))
+                    .where("C",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("botania:corporea_brick_stairs"))))
+                    .where("G",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("botania:lavender_quartz_pillar"))))
+                    .build())
+            .workableCasingModel(BotaniaRL("block/corporea_block"),
+                    GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+            .register();
     public final static MultiblockMachineDefinition AHCC = REGISTRATE
             .mysticmultiblock("arcane_highenergy_compression_reactor_core",
                     holder -> new ArcaneHighEnergyCompressionReactorCore(holder, 3))

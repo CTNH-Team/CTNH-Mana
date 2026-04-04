@@ -1,0 +1,16 @@
+{
+  "name": "ctnhmana.entry.genethistle",
+  "category": "botania:generating_flowers",
+  "icon": "ctnhmana:genethistle",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:genethistle",
+      "text": "ctnhmana.genethistle.lexicon.1"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:genethistle": 0
+  }
+}

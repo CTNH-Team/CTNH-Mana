@@ -26,4 +26,6 @@ public class CMMobEffects {
             BladeUnleashedEffect::new);
     public static final RegistryObject<IndexTargetEffect> indextarget = MOB_EFFECTS.register("index_target",
             IndexTargetEffect::new);
+    public static final RegistryObject<SoulLeechEffect> SOUL_LEECH = MOB_EFFECTS.register("soul_leech",
+            SoulLeechEffect::new);
 }

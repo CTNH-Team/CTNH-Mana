@@ -199,7 +199,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         consume = Math.max(consume / num, 1);
         for (ManaReceiver receiver : receivers) {
             if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower())) {
+                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
+                    !(receiver instanceof GeneratingFlowerBlockEntity)) {
                 receiver.receiveMana(consume);
                 if (isAnimationActive) particlesTowards((BlockEntity) receiver);
             }

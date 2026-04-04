@@ -1,7 +1,7 @@
 {
   "name": "ctnhmana.entry.koishi",
   "category": "botania:baubles",
-  "icon": "botania:third_eye",
+  "icon": "ctnhmana:koishi_eye",
   "advancement": "botania:main/mana_pool_pickup_lexicon",
   "pages": [
     {

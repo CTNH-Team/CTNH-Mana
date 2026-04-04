@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
@@ -28,7 +27,6 @@ import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
-import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.helper.ItemNBTHelper;
@@ -38,9 +36,6 @@ import java.util.List;
 
 public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
 
-    @Getter
-    @Persisted
-    private final NotifiableItemStackHandler inventory;
     @Nullable
     protected TickableSubscription ConvertSubs;
     // Holder初始化 持久化
@@ -63,7 +58,6 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                           int BTMANA_CONVERT_RATE, int LP_CONVERT_RATE, int FLUID_MANA_CONVERT_RATE) {
         super(holder, maxMana, maxLP, maxBTMana, capacity, BTMANA_CONVERT_RATE, LP_CONVERT_RATE,
                 FLUID_MANA_CONVERT_RATE);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         var centerPos = this.getPos();
         this.sparkConvertSpeed = 15000;
     }
@@ -73,20 +67,17 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                           int sparkConvertSpeed) {
         super(holder, maxMana, maxLP, maxBTMana, capacity, BTMANA_CONVERT_RATE, LP_CONVERT_RATE,
                 FLUID_MANA_CONVERT_RATE);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         var centerPos = this.getPos();
         this.sparkConvertSpeed = sparkConvertSpeed;
     }
 
     public SparkManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
         super(holder, maxMana, maxLP, maxBTMana, capacity);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
     }
 
     public SparkManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
                           int sparkConvertSpeed) {
         super(holder, maxMana, maxLP, maxBTMana, capacity);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         this.sparkConvertSpeed = sparkConvertSpeed;
     }
 
@@ -135,7 +126,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
             searchSpark();
             ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
-            ManaSubs = inventory.addChangedListener(this::onInventoryChanged);
+
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
         }
     }
@@ -143,9 +134,6 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
     @Override
     public void onUnload() {
         super.onUnload();
-        if (ManaSubs != null) {
-            ManaSubs.unsubscribe();
-        }
         if (ConvertSubs != null) {
             ConvertSubs.unsubscribe();
             ConvertSubs = null;

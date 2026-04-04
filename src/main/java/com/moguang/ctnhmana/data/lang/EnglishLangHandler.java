@@ -85,6 +85,7 @@ public class EnglishLangHandler {
                 "Converts mana into liquid mana or vice versa - the latter requiring significantly more energy");
         provider.add("ctnh.multiblock.mana_condenser.tooltips.2",
                 "All mana I/O operations are processed through the central mana pool in the structure");
+        provider.add("effect.ctnhmana.soul_leech", "Soul Leech");
 
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.0", "§8Endless Twisted Power§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1", "Can use laser warehouse.");
@@ -151,5 +152,21 @@ public class EnglishLangHandler {
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "Bloodalter Status");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "Manamachine Mana Status");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "Manapool Status");
+
+        provider.add("ctnhmana.entry.anatta_lotus", "Anatta Lotus");
+        provider.add("ctnhmana.anatta_lotus.lexicon.1", "");
+        provider.add("ctnhmana.anatta_lotus.lexicon.2", "");
+        provider.add("ctnhmana.entry.genethistle", "Genethistle");
+        provider.add("ctnhmana.genethistle.lexicon.1", "");
+        provider.add("ctnhmana.genethistle.lexicon.2", "");
+        provider.add("ctnhmana.entry.pararosia", "ParaRosia");
+        provider.add("ctnhmana.pararosia.lexicon.1", "");
+        provider.add("ctnhmana.pararosia.lexicon.2", "");
+        provider.add("ctnhmana.entry.demon_flytrap", "Demon Flytrap");
+        provider.add("ctnhmana.demon_flytrap.lexicon.1", "");
+        provider.add("ctnhmana.demon_flytrap.lexicon.2", "");
+        provider.add("ctnhmana.entry.blood_antiaris", "Blood Antiaris");
+        provider.add("ctnhmana.blood_antiaris.lexicon.1", "");
+        provider.add("ctnhmana.blood_antiaris.lexicon.2", "");
     }
 }

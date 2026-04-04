@@ -32,7 +32,7 @@ public class GTUpgradeItemT1 extends ManaMachineUpgradeItem {
             metric.eut -= num * 0.025;
         }
         var true_patch_parallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 256);
-        metric.speed += Math.min(5.00, true_patch_parallel * 0.025);
+        metric.speed += Math.min(5.00, true_patch_parallel * 0.05);
         metric.eut -= Math.min(0.5, 0.025 * (int) (recipe.duration * true_patch_parallel / 4000));
         metric.eut = Math.max(0.5, metric.eut);
         metric.true_parallel = true_patch_parallel;

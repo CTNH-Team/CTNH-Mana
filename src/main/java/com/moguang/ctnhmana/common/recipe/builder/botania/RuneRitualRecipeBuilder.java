@@ -70,7 +70,7 @@ public class RuneRitualRecipeBuilder {
      * @param z    相对核心Z坐标（-5~5）
      */
     public RuneRitualRecipeBuilder rune(Item rune, int x, int z) {
-        return this.rune(Ingredient.of(rune), x, z, false);
+        return this.rune(Ingredient.of(rune), x, z, true);
     }
 
     /**
@@ -98,7 +98,7 @@ public class RuneRitualRecipeBuilder {
      * 中心对称双摆：(x,z)和(-x,-z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder rune2(Item rune, int x, int z) {
-        return this.rune2(Ingredient.of(rune), x, z, false);
+        return this.rune2(Ingredient.of(rune), x, z, true);
     }
 
     /**
@@ -121,7 +121,7 @@ public class RuneRitualRecipeBuilder {
      * z轴对立双摆：(x,z)和(x,-z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder runez(Item rune, int x, int z) {
-        return this.runez(Ingredient.of(rune), x, z, false);
+        return this.runez(Ingredient.of(rune), x, z, true);
     }
 
     /**
@@ -144,7 +144,7 @@ public class RuneRitualRecipeBuilder {
      * x轴对立双摆：(x,z)和(-x,z)各摆1个，默认不消耗
      */
     public RuneRitualRecipeBuilder runex(Item rune, int x, int z) {
-        return this.runex(Ingredient.of(rune), x, z, false);
+        return this.runex(Ingredient.of(rune), x, z, true);
     }
 
     /**
@@ -168,7 +168,7 @@ public class RuneRitualRecipeBuilder {
      * x/z为0时摆十字，都非0时摆四角（保留原逻辑）
      */
     public RuneRitualRecipeBuilder rune4(Item rune, int x, int z) {
-        return this.rune4(Ingredient.of(rune), x, z, false);
+        return this.rune4(Ingredient.of(rune), x, z, true);
     }
 
     /**

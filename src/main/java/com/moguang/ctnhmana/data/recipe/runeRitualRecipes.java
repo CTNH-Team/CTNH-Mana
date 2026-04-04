@@ -5,9 +5,12 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.moguang.ctnhmana.common.recipe.builder.botania.RuneRitualRecipeBuilder;
+import com.moguang.ctnhmana.registry.CMBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.kvasir.WanderingTraderRuneInput;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -218,6 +221,26 @@ public class runeRitualRecipes {
                 .input(andwariRing)
                 .output(andwariRing.asItem())
                 .mana(0)
+                .save(provider);
+        RuneRitualRecipeBuilder.builder("brunmeflower")
+                .center(ORICHALCOS_SPIRIT.asItem())
+                .rune2(FLAME_EYE.get(), -1, 1)
+                .rune2(endoflame.asItem(), 2, 0)
+                .rune(endoflame.asItem(), 0, -2)
+                .rune(endoflame.asItem(), 0, -3)
+                .rune(endoflame.asItem(), 0, -4)
+                .rune2(thermalily.asItem(), 3, 1)
+                .rune2(thermalily.asItem(), 4, 2)
+                .rune2(mythicbotany.register.ModItems.muspelheimRune.asItem(), 2, 1)
+                .rune2(mythicbotany.register.ModItems.muspelheimRune.asItem(), 3, 2)
+                .rune2(exoblaze.asItem(), 4, 3)
+                .rune2(runeFire, 1, -2)
+                .rune2(runeFire, 2, -2)
+                .rune2(runeFire, 3, -2)
+                .rune2(runeFire, 4, -2)
+                .input(Tags.Items.SEEDS)
+                .output(CMBlocks.ANATTA_LOTUS.asStack())
+                .mana(3000)
                 .save(provider);
     }
 }

@@ -222,8 +222,44 @@ public class ChineseLangHandler {
             "§c永远高贵，永远不衰"
     })
     public static Lang[] tulpenmanieFlowerLang;
+    @CN({
+            "§aCTNH产魔花",
+            "§c大爆炸"
+    })
+    @EN({
+            "§aCTNH产魔花",
+            "§c大爆炸"
+    })
+    public static Lang[] genethistleLang;
     @CN("§7泡沫过后，一无所有")
     public static Lang bubleFlowerLang;
+    @CN({
+            "§aCTNH产魔花?",
+            "§7アナタが夢を忘れて ワタシは此処にいる"
+    })
+    @EN({
+            "§aCTNH产魔花?",
+            "§7アナタが夢を忘れて ワタシは此処にいる"
+    })
+    public static Lang[] ParaRosiaLang;
+    @CN({
+            "§cCTNH产魔花",
+            "§c焚我执相，三千大世界"
+    })
+    @EN({
+            "§cCTNH产魔花",
+            "§7アナタが夢を忘れて ワタシは此処にいる"
+    })
+    public static Lang[] burnMeLotusLang;
+    @CN({
+            "§1CTNH功能花",
+            "§1你将收获永世的折磨"
+    })
+    @EN({
+            "§1CTNH功能花",
+            "§1你将收获永世的折磨"
+    })
+    public static Lang[] flyTrapLang;
     @CN({
             "§b制作组物品§r",
             "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
@@ -292,6 +328,7 @@ public class ChineseLangHandler {
         provider.add("effect.ctnhmana.karma_fortuna", "§1业[福尔图娜]");
         provider.add("effect.ctnhmana.blade_unleashed", "§1剑刃解放");
         provider.add("effect.ctnhmana.index_target", "§1指令对象");
+        provider.add("effect.ctnhmana.soul_leech", "灵魂汲取");
         provider.add("ctnh.boss_summoner.use", "右键长按蓄力掷出，在落点处召唤一只神化boss，每次使用有五分之一的概率消耗");
         provider.add("ctnhmana.jade.manahatch.manaprogress", "魔力能量：%s / %s");
         provider.add("ctnhmana.jade.manahatch.btmanaprogress", "植物魔法魔力量：%s / %s");
@@ -553,9 +590,32 @@ public class ChineseLangHandler {
 
         provider.add("ctnhmana.entry.blackveinmarigold", "黑脉金盏花");
         provider.add("ctnhmana.blackveinmarigold.1",
-                "  黑脉金盏花可以将周围$(k)格雷桶$()中的石油资源转化为魔力。每次会在5格范围内消耗1000mB流体，然后在20秒内持续产出魔力。在产出时不会再吸收流体");
+                "  黑脉金盏花可以将周围 格雷桶 中的石油资源转化为魔力。每次会在5格范围内消耗1000mB流体，然后在20秒内持续产出魔力。在产出时不会再吸收流体");
         provider.add("ctnhmana.blackveinmarigold.2",
                 "  可吸收的燃料类型与内燃发电机一致，燃料热值越高，产魔越多。累计产出到一定程度后，还会把相邻石头转化为金块。");
+
+        provider.add("ctnhmana.entry.anatta_lotus", "焚我莲");
+        provider.add("ctnhmana.anatta_lotus.lexicon.1",
+                "作为火红莲的进阶版,焚我莲会一次性燃烧3格半径内所有的燃料并按照(总燃烧tick/30)来计算总产魔量,随后§c点燃§r所有燃料所处的方块");
+        provider.add("ctnhmana.anatta_lotus.lexicon.2",
+                "非常重要的是,焚我莲有着生命的循环周期,在它被种下时,在3000tick后将开始点燃所有燃料,然后休息300tick$(p)300tick后,焚我莲将会死亡,在原地浴火重生并且点燃周围地块$(p)请务必确保你的产魔环境足够安全$(p)另外注意,SL(save and load)行为会收到业报的惩罚,破坏它的轮回周期,务必注意");
+        provider.add("ctnhmana.entry.genethistle", "创世蓟");
+        provider.add("ctnhmana.genethistle.lexicon.1",
+                "创世蓟有着非常强大的力量,它会在白天,黑夜,雨天,晴天,雷暴天,雪天,高空,周围有水方块,周围有岩浆方块时自动产魔,这些产魔条件会相互叠加$(p)需要注意:在666秒后,创世蓟将死亡并引发一场不会破坏方块的大爆炸,随后在周围生成一朵新的创世蓟,它不会生成在自身1个半径范围内,如果没有任何点位可以生成它,那么它就会直接死亡");
+        provider.add("ctnhmana.entry.pararosia", "迷心蔷薇");
+        provider.add("ctnhmana.pararosia.lexicon.1",
+                "多少次试着理解$(p)却总是捉摸不透$(p)你的心去了何方$(p)§c如果能与你的距离更近一点的话§r$(p)我想要触碰你的那颗心$(p)在平方绽放的(11)心中");
+        provider.add("ctnhmana.pararosia.lexicon.2",
+                "用那双眼睛你看到了什么？$(p)无论是谁，我也不想交出来$(p)如果相信你的话$(p)那么将你的欲望暴露给我看吧$(p)在平方隔绝的石(514)中");
+        provider.add("ctnhmana.pararosia.lexicon.3",
+                "那双眼睛歌颂的市羁绊之物,§c成双成对§r的才是背德的模拟$(p)就让那恋心随之绽放吧，尽管这只是一场仿造的舞台$(p)如果与之相关，那么会不会绽放出更美丽的花呢？");
+
+        provider.add("ctnhmana.entry.demon_flytrap", "恶魔捕蝇草");
+        provider.add("ctnhmana.demon_flytrap.lexicon.1",
+                "恶魔捕蝇草可以捕捉怪物,每4tick消耗666mana对周围怪物造成4点伤害,并施加灵魂汲取效果,灵魂汲取将会持续对怪物造成伤害,并且怪物死亡时将就地释放最大生命值/20的普通意志.$(p)恶魔捕蝇草击杀怪物时,同样会释放最大生命值/20的普通意志,两者可以相互叠加");
+        provider.add("ctnhmana.entry.blood_antiaris", "见血封喉");
+        provider.add("ctnhmana.blood_antiaris.lexicon.1", "");
+        provider.add("ctnhmana.blood_antiaris.lexicon.2", "");
 
         provider.add("ctnhmana.copyright.info", "由CTNHMana增加");
 
@@ -782,4 +842,11 @@ public class ChineseLangHandler {
     public static Lang failureManaLang_NoEnoughTwistLevel;
     @CN("END COLOR :XD")
     public static Lang failureManaLang_BeamCrash;
+    @CN({
+            "当前存储的电压等级:%s"
+    })
+    @EN({
+            "当前存储的电压等级:%.2f"
+    })
+    public static Lang[] omegaSpireStateLang;
 }

@@ -131,7 +131,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     public boolean onWorking() {
         if (!consumeLPIfEnough(Upgrade.equals("suppression") ? (int) (consumption_lp * 0.5) : consumption_lp)) {
             getRecipeLogic().setProgress(this.getProgress() - 1);
-            RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe().copy(),
+            RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe(),
                     failureManaLang_NoEnoughLP.translate());
         }
         return super.onWorking();
@@ -146,12 +146,11 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();
-            altar_tier = Math.min(tier, index + 2);
+            altar_tier = Math.max(tier, index + 2);
             this.tileAltar = new_altar;
 
             if (this.tileAltar instanceof TileAltarAccessor accessor) {
                 this.altar = accessor.getBloodAltar();
-
             }
             if (this.altar instanceof IBloodAltarLogic altaraccessor) {
                 altaraccessor.CM$BroadcastPos(this.getPos());
@@ -178,11 +177,17 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     public void updateAltarData() {
         var world = this.getLevel();
         var index = getMatchedPatternIndex();
+        if (!this.isFormed) return;
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();
             altar_tier = Math.max(tier, index + 2);
+            this.tileAltar = new_altar;
+            if (this.tileAltar instanceof TileAltarAccessor accessor) {
+                this.altar = accessor.getBloodAltar();
+            }
         }
+        if (this.altar == null) return;
         this.speed = 1 + altar.getConsumptionMultiplier();
         this.dislocation_modifier = tileAltar.getDislocationMultiplier();
         this.dislocation_rate = (int) (20 * dislocation_modifier * Math.pow(2, altar_tier));

@@ -1,0 +1,26 @@
+{
+  "name": "ctnhmana.entry.pararosia",
+  "category": "botania:generating_flowers",
+  "icon": "ctnhmana:pararosia",
+  "advancement": "botania:main/mana_pool_pickup_lexicon",
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "botania:third_eye",
+      "text": "ctnhmana.pararosia.lexicon.1"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:koishi_eye",
+      "text": "ctnhmana.pararosia.lexicon.2"
+    },
+    {
+      "type": "spotlight",
+      "item": "ctnhmana:pararosia",
+      "text": "ctnhmana.pararosia.lexicon.2"
+    }
+  ],
+  "extra_recipe_mappings": {
+    "ctnhmana:pararosia": 0
+  }
+}

@@ -119,7 +119,7 @@ public class ManaMachineUpgradeRecipes {
                 "AAA",
                 "CBC",
                 "ACA",
-                'A', CMItems.UPGRADE_RUNE_RANGE_2.asItem(),
+                'A', CMItems.UPGRADE_RUNE_RANGE_1.asItem(),
                 'B', CMItems.MAGIC_CORE.asStack().getItem(),
                 'C', ModItems.alfsteelIngot.asItem());
         VanillaRecipeHelper.addShapedRecipe(

@@ -11,10 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
+import appeng.core.definitions.AEItems;
 import com.moguang.ctnhmana.common.recipe.builder.PetalRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
@@ -32,6 +34,7 @@ public class BotaniaRecipes {
         PetalRecipeBuilder.builder("demon_flytrap")// 恶魔捕蝇草
                 .input(LIGHTBLUE, LIGHTBLUE, GREEN, GREEN, BROWN)
                 .input(runeGreed, runeEnvy, gaiaSpirit)
+                .input(BloodMagicItems.SENTIENT_SWORD.get().getDefaultInstance())
                 .output(CMBlocks.DEMON_FLYTRAP.asStack())
                 .reagent(Items.GRASS.getDefaultInstance())
                 .save(provider);
@@ -495,6 +498,21 @@ public class BotaniaRecipes {
                 .output(new ItemStack(CMBlocks.BLACKVEIN_MARIGOLD.asItem(), 1))
                 .reagent(Tags.Items.SEEDS)
                 .save(provider);
+        PetalRecipeBuilder.builder("create_mode")// 创世纪
+                .input(BotaniaFlowerBlocks.pureDaisy.asItem().getDefaultInstance())
+                .input(BotaniaFlowerBlocks.thermalily.asItem().getDefaultInstance())
+                .input(sunshineLily.asItem().getDefaultInstance())
+                .input(moonlightLily.asItem().getDefaultInstance())
+                .input(BotaniaFlowerBlocks.hydroangeas.asItem().getDefaultInstance())
+                .input(edelweiss.asItem().getDefaultInstance())
+                .input(raindeletia.asItem().getDefaultInstance())
+                .input(bellflower.asItem().getDefaultInstance())
+                .input(theUniverse.asItem().getDefaultInstance())
+                .input(AEItems.SINGULARITY.asItem().getDefaultInstance())
+                .reagent(Tags.Items.SEEDS)
+                .output(CMBlocks.GENETHISTLE.asStack())
+                .save(provider);
+
         MANA_FORGE_RECIPES.recipeBuilder("potato")
                 .inputItems(gildedPotato)
                 .outputItems(gildedPotatoMashed)
