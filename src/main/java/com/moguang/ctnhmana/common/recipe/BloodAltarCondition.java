@@ -17,7 +17,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
-public class BloodAltarCondition extends RecipeCondition {
+public class BloodAltarCondition extends RecipeCondition<BloodAltarCondition> {
 
     public int altar_tier;
     public int consumption_rate;
@@ -32,7 +32,7 @@ public class BloodAltarCondition extends RecipeCondition {
             .apply(instance, BloodAltarCondition::new));
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<BloodAltarCondition> getType() {
         return CMRecipeConditions.BLOOD_ALTAR_CONDITION;
     }
 
@@ -92,7 +92,7 @@ public class BloodAltarCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public BloodAltarCondition createTemplate() {
         return new BloodAltarCondition();
     }
 

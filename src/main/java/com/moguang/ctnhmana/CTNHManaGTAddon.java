@@ -2,7 +2,6 @@ package com.moguang.ctnhmana;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockPreviewHighlightRegistry;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -10,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import com.google.gson.JsonObject;
-import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.data.recipe.*;
 import com.moguang.ctnhmana.registry.*;
 import org.jetbrains.annotations.Nullable;
@@ -37,10 +35,10 @@ public class CTNHManaGTAddon implements IGTAddon {
         return CTNHMana.MODID;
     }
 
-    @Override
-    public void registerMultiblockPreviewHighlighters(MultiblockPreviewHighlightRegistry registry) {
-        registry.registerAbilityHighlight(MultiblockPreviewHighlightRegistry.POWER_COLOR, CMPartsAbility.MANAHATCH);
-    }
+    // @Override
+    // public void registerMultiblockPreviewHighlighters(MultiblockPreviewHighlightRegistry registry) {
+    // registry.registerAbilityHighlight(MultiblockPreviewHighlightRegistry.POWER_COLOR, CMPartsAbility.MANAHATCH);
+    // }
 
     @Override
     public void registerTagPrefixes() {

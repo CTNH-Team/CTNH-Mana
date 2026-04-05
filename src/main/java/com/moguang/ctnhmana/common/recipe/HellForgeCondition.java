@@ -19,7 +19,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.Map;
 
-public class HellForgeCondition extends RecipeCondition {
+public class HellForgeCondition extends RecipeCondition<HellForgeCondition> {
 
     public String Willtype;
     public double consume;
@@ -106,7 +106,7 @@ public class HellForgeCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public HellForgeCondition createTemplate() {
         return new HellForgeCondition();
     }
 }
