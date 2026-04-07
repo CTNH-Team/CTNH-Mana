@@ -195,8 +195,8 @@ public class MeteorCapturerRecipes {
         METEOR_CAPTURER_RECIPES.recipeBuilder("scheelite_tungstate")
                 .inputItems(ChemicalHelper.get(block, Tungsten), 32)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000 * 1024))
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_scheelite_ore")), 512)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_tungstate_ore")), 512)
+                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_scheelite_ore")), 4096)
+                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_tungstate_ore")), 4096)
                 .duration(400)
                 .EUt(3072000 / 400)
                 .save(provider);

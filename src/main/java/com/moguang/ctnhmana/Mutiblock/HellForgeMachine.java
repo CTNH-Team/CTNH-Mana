@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT2;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -44,7 +45,7 @@ public class HellForgeMachine extends BaseManaMachine {
 
     public HellForgeMachine(IMachineBlockEntity holder) {
         super(holder, 4);
-        machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof BMUpgradeItemT1);
+        machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof BMUpgradeItemT1||itemStack.getItem() instanceof BMUpgradeItemT2);
     }
 
     @Override

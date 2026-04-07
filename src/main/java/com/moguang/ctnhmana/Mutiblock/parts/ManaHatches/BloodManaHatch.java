@@ -55,11 +55,9 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
     private int MANA_TO_POWER_RATE = 20; // 默认值为20
     private ISubscription ManaSubs = null;
     @Persisted
-    private double FLUID_LP_CONVERT_SPEED = 0.001;
+    private double FLUID_LP_CONVERT_SPEED = 0.01;
     @Persisted
     private int Blood_Mana;
-    @Persisted
-    public int DemonWill = 0;
     @Persisted
     public int maxDemonWill = 100;
     @Nullable
@@ -206,7 +204,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
 
     @Override
     public void ConvertMana() {
-        if (getOffsetTimer() % 20 == 0 && DemonWill < maxDemonWill) {
+        if (getOffsetTimer() % 20 == 0 && hasWillStorageSpace()) {
             ConvertGemsWill();
             if (willChunk != null) {
                 for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
@@ -218,6 +216,14 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
             ConvertLP();
             ConvertFluidLP();
         }
+    }
+
+    private boolean hasWillStorageSpace() {
+        return rawWill < maxDemonWill ||
+                steadfastWill < maxDemonWill ||
+                corrosiveWill < maxDemonWill ||
+                destructiveWill < maxDemonWill ||
+                vengefulWill < maxDemonWill;
     }
 
     public boolean ConsumeWillIfEnough(String type, double num) {

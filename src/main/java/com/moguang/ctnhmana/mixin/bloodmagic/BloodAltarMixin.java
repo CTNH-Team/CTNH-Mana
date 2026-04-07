@@ -129,7 +129,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
             this.maxCharge = 0;
             this.totalCharge = 0;
         } else {
-            if (!tier.equals(AltarTier.ONE)) {
+
                 this.isUpgraded = true;
                 this.accelerationUpgrades = this.upgrade.getLevel(BloodRuneType.ACCELERATION);
                 this.consumptionMultiplier = (float) (0.2 * (double) this.upgrade.getLevel(BloodRuneType.SPEED));
@@ -153,7 +153,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
                 this.maxCharge = (int) ((double) 1000.0F *
                         Math.max((double) 0.5F * (double) this.capacityMultiplier, (double) 1.0F) *
                         (double) this.upgrade.getLevel(BloodRuneType.CHARGING));
-            }
+
 
             this.capacity = (int) (10000.0F * this.capacityMultiplier);
             this.bufferCapacity = (int) (1000.0F * this.capacityMultiplier);
@@ -163,8 +163,8 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
                 machine.updateAltarData();
                 this.consumptionMultiplier = (float) ((0.1 + (machine.altar_tier - 1) * 0.05) *
                         this.upgrade.getLevel(BloodRuneType.SPEED));
-                int cap = upgrade.getLevel(BloodRuneType.CAPACITY);
-                int cap_aug = upgrade.getLevel(BloodRuneType.AUGMENTED_CAPACITY);
+                cap = upgrade.getLevel(BloodRuneType.CAPACITY);
+                cap_aug = upgrade.getLevel(BloodRuneType.AUGMENTED_CAPACITY);
                 this.capacityMultiplier = (float) ((1 + 0.20 * Math.pow(1.5, machine.altar_tier - 1) * cap) *
                         Math.pow(1.075 + 0.025 * (machine.altar_tier - 1), cap_aug)) * (machine.altar_tier - 1);
                 this.capacity = (int) (FluidType.BUCKET_VOLUME * 10 * this.capacityMultiplier);
@@ -173,9 +173,11 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
                 this.efficiencyMultiplier = (float) Math.pow(0.85,
                         upgrade.getLevel(BloodRuneType.EFFICIENCY) + machine.altar_tier - 1);
                 this.bufferCapacity = 0;
+
                 tileAltar.getLevel().sendBlockUpdated(tileAltar.getBlockPos(),
                         tileAltar.getLevel().getBlockState(tileAltar.getBlockPos()),
                         tileAltar.getLevel().getBlockState(tileAltar.getBlockPos()), 3);
+                machine.updateAltarData();
             }
             if (this.fluid.getAmount() > this.capacity) {
                 this.fluid.setAmount(this.capacity);
@@ -192,6 +194,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
             this.tileAltar.getLevel().sendBlockUpdated(this.tileAltar.getBlockPos(),
                     this.tileAltar.getLevel().getBlockState(this.tileAltar.getBlockPos()),
                     this.tileAltar.getLevel().getBlockState(this.tileAltar.getBlockPos()), 3);
+            ci.cancel();
         }
 
         ci.cancel();

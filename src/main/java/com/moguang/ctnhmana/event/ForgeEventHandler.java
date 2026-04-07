@@ -151,7 +151,7 @@ public class ForgeEventHandler {
             for (BlockEntity machine : chunk.getBlockEntities().values()) {
                 if (machine instanceof MetaMachineBlockEntity mme &&
                         mme.getMetaMachine() instanceof HellForgeMachine hmachine && hmachine.isFormed()) {
-                    hmachine.hatch.rawWill = Math.max(hmachine.hatch.maxDemonWill,
+                    hmachine.hatch.rawWill = Math.min(hmachine.hatch.maxDemonWill,
                             hmachine.hatch.rawWill + entity.getMaxHealth() / 20);
                 }
             }
