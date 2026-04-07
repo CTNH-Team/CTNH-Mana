@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.ChatFormatting;
@@ -37,6 +36,7 @@ import com.moguang.ctnhmana.item.FlowerCakeItem;
 import com.moguang.ctnhmana.machine.FlowerCakeBlock;
 import com.moguang.ctnhmana.machine.FlowerCakeMachine;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
+import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
 
 import java.util.Locale;
 import java.util.function.BiFunction;
@@ -285,7 +285,7 @@ public class CMMachines {
 
     public static MachineDefinition[] registerTieredMachines(String name,
                                                              BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                             BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
+                                                             BiFunction<Integer, CTNHMachineBuilder<MachineDefinition>, MachineDefinition> builder,
                                                              int... tiers) {
         MachineDefinition[] definitions = new MachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {

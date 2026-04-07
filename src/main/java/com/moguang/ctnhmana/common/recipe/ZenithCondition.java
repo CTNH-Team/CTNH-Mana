@@ -21,7 +21,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Prefix;
 import java.util.Map;
 
 @Prefix("recipe.condition.zenith_condition")
-public class ZenithCondition extends RecipeCondition {
+public class ZenithCondition extends RecipeCondition<ZenithCondition> {
 
     public static final Codec<ZenithCondition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("isReverse", false).forGetter(RecipeCondition::isReverse),
@@ -154,7 +154,7 @@ public class ZenithCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public ZenithCondition createTemplate() {
         return new ZenithCondition();
     }
 }
