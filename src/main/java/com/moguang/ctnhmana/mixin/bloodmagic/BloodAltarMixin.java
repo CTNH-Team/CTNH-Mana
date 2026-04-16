@@ -130,30 +130,29 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
             this.totalCharge = 0;
         } else {
 
-                this.isUpgraded = true;
-                this.accelerationUpgrades = this.upgrade.getLevel(BloodRuneType.ACCELERATION);
-                this.consumptionMultiplier = (float) (0.2 * (double) this.upgrade.getLevel(BloodRuneType.SPEED));
-                this.efficiencyMultiplier = (float) Math.pow(0.85,
-                        (double) this.upgrade.getLevel(BloodRuneType.EFFICIENCY));
-                this.sacrificeEfficiencyMultiplier = (float) (0.1 *
-                        (double) this.upgrade.getLevel(BloodRuneType.SACRIFICE));
-                this.selfSacrificeEfficiencyMultiplier = (float) (0.1 *
-                        (double) this.upgrade.getLevel(BloodRuneType.SELF_SACRIFICE));
-                int cap = this.upgrade.getLevel(BloodRuneType.CAPACITY);
-                int cap_aug = this.upgrade.getLevel(BloodRuneType.AUGMENTED_CAPACITY);
-                this.capacityMultiplier = (float) (((double) 1.0F + 0.2 * (double) cap) *
-                        Math.pow(1.075, (double) cap_aug));
-                this.dislocationMultiplier = (float) Math.pow(1.2,
-                        (double) this.upgrade.getLevel(BloodRuneType.DISPLACEMENT));
-                this.orbCapacityMultiplier = (float) ((double) 1.0F +
-                        0.02 * (double) this.upgrade.getLevel(BloodRuneType.ORB));
-                this.chargingFrequency = Math.max(20 - this.accelerationUpgrades, 1);
-                this.chargingRate = (int) ((float) (10 * this.upgrade.getLevel(BloodRuneType.CHARGING)) *
-                        (1.0F + this.consumptionMultiplier / 2.0F));
-                this.maxCharge = (int) ((double) 1000.0F *
-                        Math.max((double) 0.5F * (double) this.capacityMultiplier, (double) 1.0F) *
-                        (double) this.upgrade.getLevel(BloodRuneType.CHARGING));
-
+            this.isUpgraded = true;
+            this.accelerationUpgrades = this.upgrade.getLevel(BloodRuneType.ACCELERATION);
+            this.consumptionMultiplier = (float) (0.2 * (double) this.upgrade.getLevel(BloodRuneType.SPEED));
+            this.efficiencyMultiplier = (float) Math.pow(0.85,
+                    (double) this.upgrade.getLevel(BloodRuneType.EFFICIENCY));
+            this.sacrificeEfficiencyMultiplier = (float) (0.1 *
+                    (double) this.upgrade.getLevel(BloodRuneType.SACRIFICE));
+            this.selfSacrificeEfficiencyMultiplier = (float) (0.1 *
+                    (double) this.upgrade.getLevel(BloodRuneType.SELF_SACRIFICE));
+            int cap = this.upgrade.getLevel(BloodRuneType.CAPACITY);
+            int cap_aug = this.upgrade.getLevel(BloodRuneType.AUGMENTED_CAPACITY);
+            this.capacityMultiplier = (float) (((double) 1.0F + 0.2 * (double) cap) *
+                    Math.pow(1.075, (double) cap_aug));
+            this.dislocationMultiplier = (float) Math.pow(1.2,
+                    (double) this.upgrade.getLevel(BloodRuneType.DISPLACEMENT));
+            this.orbCapacityMultiplier = (float) ((double) 1.0F +
+                    0.02 * (double) this.upgrade.getLevel(BloodRuneType.ORB));
+            this.chargingFrequency = Math.max(20 - this.accelerationUpgrades, 1);
+            this.chargingRate = (int) ((float) (10 * this.upgrade.getLevel(BloodRuneType.CHARGING)) *
+                    (1.0F + this.consumptionMultiplier / 2.0F));
+            this.maxCharge = (int) ((double) 1000.0F *
+                    Math.max((double) 0.5F * (double) this.capacityMultiplier, (double) 1.0F) *
+                    (double) this.upgrade.getLevel(BloodRuneType.CHARGING));
 
             this.capacity = (int) (10000.0F * this.capacityMultiplier);
             this.bufferCapacity = (int) (1000.0F * this.capacityMultiplier);

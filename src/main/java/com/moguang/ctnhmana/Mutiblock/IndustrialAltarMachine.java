@@ -83,6 +83,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
     @DescSynced
     @Persisted
     public int altar_tier = 0;
@@ -177,8 +178,10 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 
     public void updateAltarData() {
         var world = this.getLevel();
+        if(this.getLevel().isClientSide())return;
         var index = getMatchedPatternIndex();
         if (!this.isFormed) return;
+        altar_pos = MachineUtils.getOffset(this, 0, 1, 2);
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
             if (tier < 2) onStructureInvalid();

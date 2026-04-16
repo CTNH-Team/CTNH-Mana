@@ -3295,7 +3295,11 @@ public class CMMultiblockMachines {
                     .where("B",
                             Predicates.blocks(
                                     ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:corporea_brick")))
-                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1))
+                                    .or(Predicates.abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(1))
+                                    .or(Predicates.abilities(PartAbility.SUBSTATION_INPUT_ENERGY).setMaxGlobalLimited(1))
+
+                    )
                     .where("E",
                             Predicates.blocks(
                                     ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:mana_glass"))))

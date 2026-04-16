@@ -26,6 +26,7 @@ public class RecipeRemoval {
         removePaths.add("bloodmagic:blood_rune_displacement");
         removePaths.add("bloodmagic:blood_rune_capacity");
         removePaths.add("mythicbotany:wither_aconite_petal_apothecary");
+        removePaths.add("extrabotany:the_origin");
         for (String path : removePaths) {
             registry.accept(ResourceLocation.parse(path));
         }

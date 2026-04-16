@@ -843,10 +843,14 @@ public class ChineseLangHandler {
     @CN("END COLOR :XD")
     public static Lang failureManaLang_BeamCrash;
     @CN({
-            "当前存储的电压等级:%s"
+            "当前允许传输的最高电压等级:%s",
+            "当前存储量:%d /%d EU",
+            "当前最高输入速度:%d EU(%dA %s)"
     })
     @EN({
-            "当前存储的电压等级:%.2f"
+            "当前存储的电压等级:%.2f",
+            "当前存储量:%d /%d EU",
+            "当前最高输入速度:%d EU(%dA/%d)"
     })
     public static Lang[] omegaSpireStateLang;
 }

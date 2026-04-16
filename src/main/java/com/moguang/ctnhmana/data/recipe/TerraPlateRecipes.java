@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -55,6 +56,10 @@ public class TerraPlateRecipes {
                 .input(new ItemStack(theEnd, 1))
                 .input(new ItemStack(theChaos, 1))
                 .input(new ItemStack(theOrigin, 1))
+                .input(new ItemStack(TWIST_RUNE,1))
+                .input(new ItemStack(STARLIGHT_RUNE,1))
+                .input(new ItemStack(PROLIFERATION_RUNE,1))
+                .input(new ItemStack(HORIZEN_RUNE,1))
                 .output(new ItemStack(theUniverse, 1))
                 .mana(4000000)
                 .save(provider);

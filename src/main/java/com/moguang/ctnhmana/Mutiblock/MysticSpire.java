@@ -43,15 +43,20 @@ import java.util.Map;
 public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMachine,
                          IDisplayUIMachine {
 
-    private static final double UI_SCALE = 1.5;
+    private static final double UI_WIDTH_SCALE = 1.5;
+    private static final double UI_HEIGHT_SCALE = 2.0;
 
     @Nullable
     protected TickableSubscription TickSubs;
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
 
-    private static int sc(int v) {
-        return (int) Math.round(v * UI_SCALE);
+    private static int scw(int v) {
+        return (int) Math.round(v * UI_WIDTH_SCALE);
+    }
+
+    private static int sch(int v) {
+        return (int) Math.round(v * UI_HEIGHT_SCALE);
     }
 
     public MysticSpire(IMachineBlockEntity holder, Object... args) {
@@ -143,11 +148,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         super.onStructureFormed();
 
         // ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
-        if (connectedSparkPos != null &&
-                !this.getLevel().getEntitiesOfClass(DeltaSpark.class, new AABB(connectedSparkPos)).isEmpty()) {
-            this.ConnectedSpark = this.getLevel().getEntitiesOfClass(DeltaSpark.class, new AABB(connectedSparkPos))
-                    .get(0);
-        }
+        refreshConnectedDeltaSparkFromWorld();
 
         getOrCreatedSpark();
     }
@@ -165,6 +166,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void getOrCreatedSpark() {
         updateSelf();
         if (this.getLevel().isClientSide) return;
+        refreshConnectedDeltaSparkFromWorld();
         AABB locate = new AABB(sparkpos);
         if (!this.getLevel().getEntitiesOfClass(DeltaSpark.class, locate).isEmpty()) {
             this.Spark = this.getLevel().getEntitiesOfClass(DeltaSpark.class, locate).get(0);
@@ -179,13 +181,26 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
             entity.mode = MODE;
             entity.setNetwork(network);
             entity.setPos(sparkpos.getX(), sparkpos.getY(), sparkpos.getZ());
-            if (connectedSparkPos != null &&
-                    !this.getLevel().getEntitiesOfClass(DeltaSpark.class, new AABB(connectedSparkPos)).isEmpty()) {
+            if (ConnectedSpark != null) {
                 entity.connectedDeltaSpark = ConnectedSpark;
                 entity.connectedDeltaSparkPos = new AABB(ConnectedSpark.getOnPos());
             }
             getLevel().addFreshEntity(entity);
         }
+    }
+
+    /**
+     * 根据 {@link #connectedSparkPos} 从世界中解析对端火花，写入 {@link #ConnectedSpark}；对端不存在时置空。
+     * 避免仅用“坐标上有实体”判断却使用未同步的 {@code ConnectedSpark} 导致 NPE。
+     */
+    private void refreshConnectedDeltaSparkFromWorld() {
+        if (this.getLevel() == null || this.getLevel().isClientSide) return;
+        if (connectedSparkPos == null) {
+            ConnectedSpark = null;
+            return;
+        }
+        var sparks = this.getLevel().getEntitiesOfClass(DeltaSpark.class, new AABB(connectedSparkPos));
+        ConnectedSpark = sparks.isEmpty() ? null : sparks.get(0);
     }
 
     @Override
@@ -205,29 +220,30 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
 
     @Override
     public Widget createUIWidget() {
-        int groupW = sc(182 + 8 + 20);
-        int groupH = sc(117 + 8);
+        int groupW = scw(182 + 8 + 20);
+        int groupH = sch(117 + 8);
         var group = new WidgetGroup(0, 0, groupW, groupH);
 
-        // 背景/信息面板区域：整体按比例缩放
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, sc(182 + 20) + 8, sc(117) + 8)
+        // 背景/信息面板区域：横向 1.5x、纵向 2.0x
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, scw(182 + 20) + 8, sch(117) + 8)
                 .setBackground(getScreenTexture())
                 .addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()))
                 .addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText)
                         .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
-                        .setMaxWidthLimit(sc(200))
+                        .setMaxWidthLimit(scw(200))
                         .clickHandler(this::handleDisplayClick)));
 
         // 中央 4 槽位（2x2），位置参考尼克尔戴森光束的 SlotWidget 写法，仅改坐标到中心区域
-        int tile = sc(18); // 槽位间距/尺寸的近似步长（与现有 UI 代码保持一致）
-        int startX = (groupW - tile * 2) / 2;
-        int slotY = (groupH - sc(18) * 2) / 2;
+        int tileW = scw(18);
+        int tileH = sch(18);
+        int startX = (groupW - tileW * 2) / 2;
+        int slotY = (groupH - tileH * 2) / 2;
 
         for (int i = 0; i < 4; i++) {
             int col = i % 2;
             int row = i / 2;
-            int x = startX + col * tile;
-            int y = slotY + row * sc(18);
+            int x = startX + col * tileW;
+            int y = slotY + row * tileH;
             group.addWidget(
                     new SlotWidget(machineStorage.storage, i, x, y, true, true)
                             .setBackground(GuiTextures.SLOT));
@@ -237,7 +253,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         int buttonW = 20;
         int buttonH = 20;
         int buttonCount = 5;
-        int bottomY = groupH - buttonH - sc(5);
+        int bottomY = groupH - buttonH - sch(5);
         double space = (groupW - buttonW * buttonCount) / (double) (buttonCount + 1);
         int x0 = (int) Math.round(space * 1 + buttonW * 0);
         int x1 = (int) Math.round(space * 2 + buttonW * 1);
@@ -293,22 +309,31 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        // 等比 1.5x：与 createUIWidget 的 group 尺寸保持一致
+        // 横向 1.5x、纵向 2.0x：与 createUIWidget 的 group 尺寸保持一致
         // 外层 UI 贴图/背景（FancyMachineUIWidget）应以原始 ModularUI 尺寸为基准
-        int w = sc(198);
-        int h = sc(208);
+        int w = scw(198);
+        int h = sch(208);
         return new ModularUI(w, h, this, entityPlayer).widget(new FancyMachineUIWidget(this, w, h));
     }
 
     public void updateSpark() {
         // 刷新火花数据
+        if (this.getLevel() != null && !this.getLevel().isClientSide) {
+            refreshConnectedDeltaSparkFromWorld();
+        }
         if (this.Spark == null) return;
         this.Spark.range = range;
         this.Spark.speed = speed;
         this.Spark.mode = MODE;
         this.Spark.isAnimationActive = isAnimationActive;
 
-        if (connectedSparkPos != null) this.Spark.connectedDeltaSparkPos = new AABB(connectedSparkPos);
+        if (ConnectedSpark != null) {
+            this.Spark.connectedDeltaSpark = ConnectedSpark;
+            this.Spark.connectedDeltaSparkPos = new AABB(ConnectedSpark.getOnPos());
+        } else if (connectedSparkPos != null) {
+            this.Spark.connectedDeltaSpark = null;
+            this.Spark.connectedDeltaSparkPos = new AABB(connectedSparkPos);
+        }
         this.Spark.setNetwork(network);
         this.Spark.initSpark();
     }
