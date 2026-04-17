@@ -9,7 +9,8 @@
     "bloodmagic.TileAltarAccessor",
     "botania.BotaniaEntitiesMixin",
     "botania.ManaPoolBlockEntityMixin",
-    "botania.MixinForgePacketHandler"
+    "botania.MixinForgePacketHandler",
+    "emi.TagEmiIngredientMixin"
   ],
   "client": [
   ],

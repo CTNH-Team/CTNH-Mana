@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -168,6 +169,19 @@ public class TerraPlateRecipes {
                 .output(orichalcos.asItem().getDefaultInstance())
                 .mana(100000)
                 .circuitMeta(17)
+                .save(provider);
+        TerraPlateRecipeBuilder.builder("the_orgin")
+                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.ManaSteel))
+                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.AlfSteel))
+                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.Elementium))
+                .input(BotaniaItems.gaiaIngot)
+                .input(photonium)
+                .input(aerialite)
+                .input(BotaniaItems.runeMana)
+                .input(BotaniaFlowerBlocks.pureDaisy.asItem())
+                .input(BotaniaBlocks.livingrock.asItem())
+                .output(theOrigin.asItem().getDefaultInstance())
+                .mana(123456)
                 .save(provider);
     }
 }

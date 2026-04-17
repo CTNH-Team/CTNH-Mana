@@ -46,6 +46,7 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.Mutiblock.HellForgeMachine.hellforgeLang;
 import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
 import static com.moguang.ctnhmana.Mutiblock.MysticSpire.spireTooltipsLang;
+import static com.moguang.ctnhmana.Mutiblock.ZenithSpire.omegaSpireLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BloodMagicRL;
@@ -3282,7 +3283,7 @@ public class CMMultiblockMachines {
     public final static MultiblockMachineDefinition ZneithSpire = REGISTRATE
             .mysticmultiblock("zenith_spire", holder -> new ZenithSpire(holder))
             .cnLangValue("§b天顶尖塔")
-            .tooltips(spireTooltipsLang)
+            .tooltips(omegaSpireLang)
             .appearanceBlock(() -> BotaniaBlocks.corporeaBlock)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)

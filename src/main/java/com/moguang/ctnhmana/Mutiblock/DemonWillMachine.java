@@ -131,7 +131,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     };
 
     public EnumDemonWillType type = EnumDemonWillType.DEFAULT;
-    public int MAX_WILL = 100;
+    public int MAX_WILL = 400;
     public List<String> enableTypes = List.of("vengeful_core", "corrosive_core", "steadfast_core", "destructive_core");
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             DemonWillMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -198,7 +198,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (will1 == will2) {
             return 0;
         }
-        return (Math.abs(will1 - will2)) * Math.pow(1.02, Augmented_rune) + Capacity_rune * 2;
+        return (Math.abs(will1 - will2)) * Math.pow(1.2, Augmented_rune) + Capacity_rune * 2;
     }
 
     public double getHigherWill(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
@@ -301,19 +301,16 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     public double difference_caculate(double difference) {
         var num = 0.0;
-        if (difference < 2000)
-            num = Math.pow(difference / 4, 2);
-        else
-            num = Math.pow(500, 2) + (difference - 2000);
+        num=difference*Math.log(difference);
         return num;
     }
 
     public double getBoostRate() {
-        return 2 + 0.2 * Sacrifice_rune;
+        return 2 + 0.25 * Sacrifice_rune;
     }
 
     public GTRecipe getBloodRecipe() {
-        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 50000))
+        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 1000))
                 .buildRawRecipe();
     }
 
@@ -377,7 +374,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * Math.pow(difference, 2) * 32;
+        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * difference * 128;
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
         textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2",
                 FormattingUtil.formatNumbers(outputEnergy), voltageName));
@@ -402,6 +399,11 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public boolean regressWhenWaiting() {
         return false;
+    }
+
+    @Override
+    public boolean alwaysTryModifyRecipe() {
+        return true;
     }
 
     // lang: info (display in UI)
@@ -432,39 +434,37 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @CN({
             "驾驭恶魔之力",
             "允许使用激光仓，变电仓",
-            "机器两侧区块内的恶魔意志符文块可替换，以提供不同强化：",
             "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
             "计算基于机器两侧恶魔合金块处的意志浓度。",
             "两侧区块内各类恶魔意志的多样性会影响发电效率。",
             "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
-            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升生命源质强化模式下的发电倍率§r\n§3速度符文§r----增加单次配方运行时长（节省恶魔意志消耗）§r\n§e增容符文§r----每个符文使恶魔意志§e最终的§r浓度差+1§r\n§c超容符文§r----每个符文使恶魔意志浓度差+5%（乘算）§r\n==============================",
-            "输入§4生命源质§r可激活强化模式，发电量翻倍，同时每秒消耗§a50000mb§r生命源质。",
+            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升困惑强化模式下的发电倍率（2+0.25*符文等级）§r\n§3速度符文§r----增加配方时长（每级+20%）§r\n§e增容符文§r----每个符文使恶魔意志浓度差+2§r\n§c超容符文§r----每个符文使恶魔意志浓度差额外*1.2（乘算）§r\n==============================",
+            "输入§4困惑液§r可激活强化模式，每秒消耗1000mb疑惑液。",
             "按住shift查看详细的计算公式"
     })
     @EN({
             "驾驭恶魔之力",
             "允许使用激光仓，变电仓",
-            "机器两侧区块内的恶魔意志符文块可替换，以提供不同强化：",
             "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
             "计算基于机器两侧恶魔合金块处的意志浓度。",
             "两侧区块内各类恶魔意志的多样性会影响发电效率。",
             "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
-            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升生命源质强化模式下的发电倍率§r\n§3速度符文§r----增加单次配方运行时长（节省恶魔意志消耗）§r\n§e增容符文§r----每个符文使恶魔意志§e最终的§r浓度差+1§r\n§c超容符文§r----每个符文使恶魔意志浓度差+5%（乘算）§r\n==============================",
-            "输入§4生命源质§r可激活强化模式，发电量翻倍，同时每秒消耗§a50000mb§r生命源质。",
+            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升困惑强化模式下的发电倍率（2+0.25*符文等级）§r\n§3速度符文§r----增加配方时长（每级+20%）§r\n§e增容符文§r----每个符文使恶魔意志浓度差+2§r\n§c超容符文§r----每个符文使恶魔意志浓度差额外*1.2（乘算）§r\n==============================",
+            "输入§4困惑液§r可激活强化模式，每秒消耗1000mb疑惑液。",
             "按住左Ctrl查看详细的计算公式"
     })
     public static Lang[] TOOLTIPS;
     @CN({
-            "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*两侧多样性之积 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+            "基础发电公式：最终发电量=浓度差*log2(浓度差)*128*多样性",
             "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-            "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+            "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
             "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
             "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
     })
     @EN({
-            "基础发电公式：当恶魔意志浓度差<=2000时，公式为(浓度差/4)^2*32*多样性 当恶魔意志浓度差>2000时，公式为{500^2+(浓度差-2000)}*32*多样性",
+            "基础发电公式：先计算有效浓度差=difference*log(difference)，最终发电量=浓度差^2*128*多样性",
             "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-            "启用生命源质强化模式时，使最终发电量*(2+0.2*强化符文等级)",
+            "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
             "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
             "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
     })

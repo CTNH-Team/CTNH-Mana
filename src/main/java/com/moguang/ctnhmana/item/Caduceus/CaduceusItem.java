@@ -415,6 +415,8 @@ public class CaduceusItem extends GTToolItem {
         tooltipComponents.add(CaduceusTooltipNormalLang[1].translate());
         tooltipComponents.add(CaduceusTooltipNormalLang[2].translate());
         tooltipComponents.add(CaduceusTooltipNormalLang[3].translate());
+        tooltipComponents.add(CaduceusTooltipNormalLang[4].translate());
+        tooltipComponents.add(CaduceusTooltipNormalLang[5].translate());
         tooltipComponents.add(CaduceusDamageLang[0].translate(getAttack(stack)));
         tooltipComponents.add(CaduceusDamageLang[1].translate(getAttackSpeed(stack)));
         if (stack.getOrCreateTag().contains("karma") && stack.getOrCreateTag().getBoolean("karma"))

@@ -80,7 +80,7 @@ public class CMMaterials {
     }
 
     public static final Material Mana = REGISTRATE.material(GTCEu.id("mana"))
-            .cnlang("魔力")
+            .cnlang("凝聚魔力能量")
             .liquid()
             .element(MANA)
             .color(0x43e7ed)

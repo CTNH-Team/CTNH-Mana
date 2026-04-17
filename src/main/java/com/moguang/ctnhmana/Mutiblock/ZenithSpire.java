@@ -35,6 +35,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -123,7 +124,7 @@ public class ZenithSpire extends MysticSpire {
 //        this.zEU= (long) (euCapacity*0.1);
         this.zEU=Math.max(0,this.zEU);
         this.zEU=Math.min(this.euCapacity,this.zEU);
-        sendEUToSpire();
+        if(this.zEU<this.euCapacity&&this.MODE==0)sendEUToSpire();
         if(this.zEU>0&&this.MODE!=3)sendEUToContainer();
 
     }
@@ -339,10 +340,28 @@ public class ZenithSpire extends MysticSpire {
             textList.add(omegaSpireStateLang[2].translate(this.euSpeed,this.euSpeed/GTValues.V[eutier],GTValues.VNF[eutier]));
         }
     }
-//    @CN(
-//            {
-//                    ""
-//            }
-//    )
-//    public static Lang[] omegaSpireLang;
+    @CN(
+            {
+                    "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
+                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能",
+                    "允许使用能源仓,变电仓,激光仓",
+                    "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
+                    "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
+                    "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
+                    "在中转模式下，天顶尖塔将只做中转"
+            }
+    )
+
+    @EN(
+            {
+                    "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
+                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能",
+                    "允许使用能源仓,变电仓,激光仓",
+                    "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
+                    "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
+                    "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
+                    "在中转模式下，天顶尖塔将只做中转"
+            }
+    )
+    public static Lang[] omegaSpireLang;
 }
