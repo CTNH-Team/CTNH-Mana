@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.moguang.ctnhmana.registry.CMItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -268,6 +269,7 @@ public class ManaReactorRecipes {
                 .inputItems(GTItems.QUANTUM_STAR)
                 .inputItems(runeMana)
                 .inputItems(vanaheimRune, 1)
+                .inputItems(STARLIGHT_RUNE)
                 .inputItems(ChemicalHelper.get(ingot, Ultra_Mana), 4)
                 .inputFluids(Mana.getFluid(360 * 1000))
                 .inputFluids(Zenith_essence.getFluid(90 * 1000))

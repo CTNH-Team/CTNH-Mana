@@ -429,7 +429,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @CN("§4血祭模式开启，生命源质强化中")
     public static Lang INFO_BOOSTED;
 
-    // lang: tooltips (multiblock description)
     @Key("tooltip")
     @CN({
             "驾驭恶魔之力",

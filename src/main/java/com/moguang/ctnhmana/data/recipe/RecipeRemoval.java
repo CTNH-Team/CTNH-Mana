@@ -12,6 +12,7 @@ public class RecipeRemoval {
 
     public static void init(Consumer<ResourceLocation> registry) {
         removePaths.add("gtceu:laser_engraver/engrave_psionic_medulla_exquisite_gem_to_flawless_gem");
+        removePaths.add("gtceu:laser_engraver/engrave_psionic_medulla_flawless_gem_to_gem");
         removePaths.add("bloodmagic:sacrificial_dagger");
         removePaths.add("botania:mana_pool");
         removePaths.add("mythicbotany:mana_collector");

@@ -2,18 +2,17 @@ package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import com.moguang.ctnhmana.registry.*;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import com.moguang.ctnhmana.common.recipe.ZenithCondition;
-import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMItems;
-import com.moguang.ctnhmana.registry.CMMaterials;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import mythicbotany.register.ModItems;
 import vazkii.botania.common.item.BotaniaItems;
@@ -42,6 +41,168 @@ public class ZenithRecipes {
                 .inputFluids(CMMaterials.Zenith_essence, 100)
                 .EUt(8192)
                 .duration(1000)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("mana_soc_to_wafer")
+                .inputItems(CMItems.MANA_SOC)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(CMItems.MANA_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("will_soc_to_wafer")
+                .inputItems(CMItems.WILL_SOC)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(CMItems.WILL_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("bloody_chip_to_wafer")
+                .inputItems(CMItems.BLOODY_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(CMItems.BLOODY_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("umlhpic_chip_to_wafer")
+                .inputItems(CMItems.UMLHPIC_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(CMItems.UMLHPIC_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("zenith_soc_to_wafer")
+                .inputItems(CMItems.ZENITH_SOC)
+                .inputFluids(CMMaterials.Shroud_Zenith_essence, 1333)
+                .outputItems(CMItems.ZENITH_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_simple_soc_to_wafer")
+                .inputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_soc_to_wafer")
+                .inputItems(GTItems.SYSTEM_ON_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.SYSTEM_ON_CHIP_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_advanced_soc_to_wafer")
+                .inputItems(GTItems.ADVANCED_SYSTEM_ON_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.ADVANCED_SYSTEM_ON_CHIP_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_highly_advanced_soc_to_wafer")
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.HIGHLY_ADVANCED_SOC_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_ram_to_wafer")
+                .inputItems(GTItems.RANDOM_ACCESS_MEMORY)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.RANDOM_ACCESS_MEMORY_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_cpu_to_wafer")
+                .inputItems(GTItems.CENTRAL_PROCESSING_UNIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.CENTRAL_PROCESSING_UNIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_ilc_to_wafer")
+                .inputItems(GTItems.INTEGRATED_LOGIC_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.INTEGRATED_LOGIC_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_nano_cpu_to_wafer")
+                .inputItems(GTItems.NANO_CENTRAL_PROCESSING_UNIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.NANO_CENTRAL_PROCESSING_UNIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_qbit_cpu_to_wafer")
+                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_nand_memory_to_wafer")
+                .inputItems(GTItems.NAND_MEMORY_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.NAND_MEMORY_CHIP_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_nor_memory_to_wafer")
+                .inputItems(GTItems.NOR_MEMORY_CHIP)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.NOR_MEMORY_CHIP_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_ulpic_to_wafer")
+                .inputItems(GTItems.ULTRA_LOW_POWER_INTEGRATED_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.ULTRA_LOW_POWER_INTEGRATED_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_lpic_to_wafer")
+                .inputItems(GTItems.LOW_POWER_INTEGRATED_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.LOW_POWER_INTEGRATED_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_mpic_to_wafer")
+                .inputItems(GTItems.POWER_INTEGRATED_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.POWER_INTEGRATED_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_hpic_to_wafer")
+                .inputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("gt_uhpic_to_wafer")
+                .inputItems(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT)
+                .inputFluids(CMMaterials.Zenith_essence, 100)
+                .outputItems(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("flaw_gem")
+                .inputItems(ChemicalHelper.get(TagPrefix.gem,CMMaterials.Psionic_Medulla,2))
+                .inputFluids(CMMaterials.Shroud_Zenith_essence, 66)
+                .outputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla))
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(200)
+                .save(provider);
+        CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("wonder_gem")
+                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla,7))
+                .inputFluids(CMMaterials.Shroud_Zenith_essence, 666)
+                .outputItems(ChemicalHelper.get(TagPrefix.gemExquisite,CMMaterials.Psionic_Medulla))
+                .EUt(GTValues.VA[GTValues.IV])
+                .addCondition(new ZenithCondition(true))
+                .duration(200)
                 .save(provider);
         CMRecipeTypes.ZENITH_CIRCUIT.recipeBuilder("zenith_soc_b")
                 .inputItems(CMItems.ZENITH_WAFER)
@@ -137,5 +298,36 @@ public class ZenithRecipes {
                 .EUt(7777)
                 .duration(7777)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("zenith_laser")// 天顶激光
+                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get(), 7)
+                .inputItems(GCYMMachines.LARGE_ENGRAVING_LASER.asStack(), 7)
+                .inputItems(CMItems.AZURE_SKY_FLOWER_DANCE)
+                .inputItems(ChemicalHelper.get(TagPrefix.screw, CMMaterials.HEMOPLATINUM), 7)
+                .inputItems(CMItems.PROLIFERATION_RUNE, 7)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 7)
+                .inputItems(CustomTags.LuV_CIRCUITS, 7)
+                .inputItems(CMItems.UMLHPIC_WAFER, 7)
+                .inputFluids(CMMaterials.Shroud_Zenith_essence, 777)
+                .inputFluids(CMMaterials.Zenith_essence, 777)
+                .inputFluids(CMMaterials.MANA_STABLE_COOLDOWN, 777)
+                .inputFluids(CMMaterials.AlfSteel, 777)
+                .outputItems(ZenithMachine.ZENITH_LASER.asStack())
+                .EUt(7777)
+                .duration(7777)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_spire")
+                .inputItems(CMMultiblockMachines.MysticSpire.get(),2)
+                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla,4))
+                .inputItems(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.Ultra_Mana,4))
+                .inputItems(CMItems.HORIZEN_RUNE,2)
+                .inputItems(CustomTags.ZPM_CIRCUITS,2)
+                .inputItems(CMItems.UMLHPIC_WAFER,8)
+                .inputItems(CMItems.UPGRADE_RUNE_ALPHA)
+                .inputFluids(CMMaterials.Zenith_essence, 777)
+                .outputItems(CMMultiblockMachines.ZenithSpire,2)
+                .EUt(77777)
+                .duration(777)
+                .save(provider);
+
     }
 }

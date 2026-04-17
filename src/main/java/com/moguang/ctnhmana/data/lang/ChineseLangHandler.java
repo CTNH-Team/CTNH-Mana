@@ -736,6 +736,8 @@ public class ChineseLangHandler {
     public static Lang orichalcosSpritLang;
     @CN("§b它会变成什么?")
     public static Lang blankRuneLang;
+    @CN("指令所编织之布")
+    public static Lang indexPaperLang;
     @CN({
             "佩戴时获得：",
             "显示§b魔力池§r，§b魔力花§r和§b魔力凝聚板§r的详细信息",
@@ -787,6 +789,8 @@ public class ChineseLangHandler {
     public static Lang zenithDistillationLang;
     @CN("§5具有特殊的天域组合配方类型,允许制作天顶SOC和价格极为低廉的魔力电路")
     public static Lang zenithAssemblerLang;
+    @CN("§5具有特殊的反相蚀刻配方类型,允许你将芯片蚀刻成晶圆")
+    public static Lang zenithLaserLang;
     @CN({
             "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",
             "§4工业血祭坛§r是特殊的祭坛结构，其拥有多个等级，其等级决定了可以运行的配方，在结构成型时，将自动绑定结构中的血祭坛",

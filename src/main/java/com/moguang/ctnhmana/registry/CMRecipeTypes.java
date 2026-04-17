@@ -155,6 +155,12 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
+    public static final GTRecipeType ANTIPHASE_ETCHING = REGISTRATE
+            .recipeType(GTCEu.id("antiphase_etching"), ELECTRIC)
+            .cnlang("反相蚀刻").setMaxIOSize(1, 1, 1, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.SCIENCE);
 
     public static void init() {}
 }

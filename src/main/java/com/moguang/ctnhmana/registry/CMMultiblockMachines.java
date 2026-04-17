@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.github.L_Ender.cataclysm.init.ModBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
@@ -3280,7 +3279,7 @@ public class CMMultiblockMachines {
             .workableCasingModel(BotaniaRL("block/corporea_block"),
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
-    public final static MultiblockMachineDefinition ZneithSpire = REGISTRATE
+    public final static MultiblockMachineDefinition ZenithSpire = REGISTRATE
             .mysticmultiblock("zenith_spire", holder -> new ZenithSpire(holder))
             .cnLangValue("§b天顶尖塔")
             .tooltips(omegaSpireLang)

@@ -192,24 +192,24 @@ public class ZenithMachine {
             .recipeModifiers(BaseManaMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("A########", "#########", "#########", "##BBBBB##", "##BCCCB##", "##BCDCB##", "##BCCCB##",
-                            "##BBBBB##", "#########", "#########", "#########")
-                    .aisle("#########", "#########", "#EEFFFGG#", "#E#####G#", "#F#####F#", "#F#####F#", "#F#####F#",
-                            "#H#####I#", "#HHFFFII#", "#########", "#########")
-                    .aisle("#########", "##BBBBB##", "#E#####G#", "B#######B", "B###G###B", "B##JDJ##B", "B###H###B",
-                            "B#######B", "#H#####I#", "##BBBBB##", "#########")
-                    .aisle("###BBB###", "##BBBBB##", "#F#####F#", "B###G###B", "C##KGK##C", "C#JJDJJ#C", "C##KHK##C",
-                            "B###H###B", "#F#####F#", "##B###B##", "###LLL###")
-                    .aisle("###BMB###", "##BBNBB##", "#F#####F#", "B##IDE##B", "C#IIDEE#C", "D#DDDDD#D", "C#EEDII#C",
-                            "B##EDI##B", "#F#####F#", "##B#D#B##", "###LOL###")
-                    .aisle("###BBB###", "##BBBBB##", "#F#####F#", "B###H###B", "C##KHK##C", "C#JJDJJ#C", "C##KGK##C",
-                            "B###G###B", "#F#####F#", "##B###B##", "###LLL###")
-                    .aisle("#########", "##BBBBB##", "#I#####H#", "B#######B", "B###H###B", "B##JDJ##B", "B###G###B",
-                            "B#######B", "#G#####E#", "##BBBBB##", "#########")
-                    .aisle("#########", "#########", "#IIFFFHH#", "#I#####H#", "#F#####F#", "#F#####F#", "#F#####F#",
-                            "#G#####E#", "#GGFFFEE#", "#########", "#########")
                     .aisle("#########", "#########", "#########", "##BBBBB##", "##BBBBB##", "##BB@BB##", "##BBBBB##",
                             "##BBBBB##", "#########", "#########", "########A")
+                    .aisle("#########", "#########", "#IIFFFHH#", "#I#####H#", "#F#####F#", "#F#####F#", "#F#####F#",
+                            "#G#####E#", "#GGFFFEE#", "#########", "#########")
+                    .aisle("#########", "##BBBBB##", "#I#####H#", "B#######B", "B###H###B", "B##JDJ##B", "B###G###B",
+                            "B#######B", "#G#####E#", "##BBBBB##", "#########")
+                    .aisle("###BBB###", "##BBBBB##", "#F#####F#", "B###H###B", "C##KHK##C", "C#JJDJJ#C", "C##KGK##C",
+                            "B###G###B", "#F#####F#", "##B###B##", "###LLL###")
+                    .aisle("###BMB###", "##BBNBB##", "#F#####F#", "B##IDE##B", "C#IIDEE#C", "D#DDDDD#D", "C#EEDII#C",
+                            "B##EDI##B", "#F#####F#", "##B#D#B##", "###LOL###")
+                    .aisle("###BBB###", "##BBBBB##", "#F#####F#", "B###G###B", "C##KGK##C", "C#JJDJJ#C", "C##KHK##C",
+                            "B###H###B", "#F#####F#", "##B###B##", "###LLL###")
+                    .aisle("#########", "##BBBBB##", "#E#####G#", "B#######B", "B###G###B", "B##JDJ##B", "B###H###B",
+                            "B#######B", "#H#####I#", "##BBBBB##", "#########")
+                    .aisle("#########", "#########", "#EEFFFGG#", "#E#####G#", "#F#####F#", "#F#####F#", "#F#####F#",
+                            "#H#####I#", "#HHFFFII#", "#########", "#########")
+                    .aisle("A########", "#########", "#########", "##BBBBB##", "##BCCCB##", "##BCDCB##", "##BCCCB##",
+                            "##BBBBB##", "#########", "#########", "#########")
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("A", Predicates.any())
                     .where("D", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
@@ -235,6 +235,55 @@ public class ZenithMachine {
                     .where("M", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where("O", Predicates.blocks(CMBlocks.ZENITH_EYE.get()))
                     .where("C", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
+                    .build())
+            .workableCasingModel(CTNHMana.id("block/casings/zenith_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
+            .register();
+    public final static MultiblockMachineDefinition ZENITH_LASER = REGISTRATE
+            .multiblock("zenith_laser",
+                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 7, 32))
+            .cnLangValue("§5天顶空间映射者")
+            .tooltips(addManaMachineTooltips(basezenithmutiblockLang, 7))
+            .tooltips(zenithLaserLang.translate())
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##", "###AABAA###")
+                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#", "##AAHIJAA##")
+                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A", "#AAHHKJJAA#")
+                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A", "#AAHBIBJAA#")
+                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A", "#AABMMMBAA#")
+                    .aisle("#ABEIIIEBA#", "A#ECIIICE#A", "D#L##I##L#D", "D#LCICICL#D", "D#L##I##L#D", "A#ECIIICE#A", "#ABEMKMEBA#")
+                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A", "#AABMMMBAA#")
+                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A", "#AANBIBOAA#")
+                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A", "#AANNKOOAA#")
+                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#", "##AANIOAA##")
+                    .aisle("###AAAAA###", "##AJJDHHA##", "#AGDDDDDGA#", "AGDDDDDDDGA", "#AGDDDDDGA#", "##ANNDOOA##", "###AABAA###")
+                    .where("F", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("C", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
+                    .where("G", Predicates.blocks(CMBlocks.ORICHALCOS_FRAME.get()))
+                    .where("O", Predicates.blocks(CMBlocks.ELEMENTIUM_CASING.get()))
+                    .where("A", Predicates.blocks(CMBlocks.ZENITH_CASING_BLOCK.get()))
+                    .where("J", Predicates.blocks(CMBlocks.ALF_STEEL_CASING.get()))
+                    .where("B", Predicates.blocks(CMBlocks.ZENITH_CASING_BLOCK.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+
+                    .where("M", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))
+                    .where("#", Predicates.any())
+                    .where("L", Predicates.blocks(CMBlocks.ARCANE_CONSTRAINT_COATED_GLASS.get()))
+                    .where("N", Predicates.blocks(CMBlocks.TERRA_STEEL_CASING.get()))
+                    .where("I", Predicates.blocks(CMBlocks.ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK.get()))
+                    .where("#", Predicates.any())
+                    .where("H", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
+                    .where("E", Predicates.blocks(CMBlocks.MANA_REFINEMENT_CORE.get()))
+                    .where("K", Predicates.blocks(CMBlocks.ZENITH_EYE.get()))
+                    .where("D", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
                     .build())
             .workableCasingModel(CTNHMana.id("block/casings/zenith_casing"),
                     CTNHMana.id("block/overlay/manamachine"))

@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -256,6 +257,8 @@ public class ZenithSpire extends MysticSpire {
                     IEnergyContainer found = null;
                     if (machine instanceof TieredEnergyMachine tieredMachine) {
                         found = tieredMachine.energyContainer;
+                    } else if (machine instanceof SimpleGeneratorMachine generatorMachine) {
+                        found = generatorMachine.energyContainer;
                     } else if (machine instanceof EnergyHatchPartMachine hatchPart) {
                         found = hatchPart.energyContainer;
                     } else if (machine instanceof LaserHatchPartMachine) {
@@ -272,8 +275,18 @@ public class ZenithSpire extends MysticSpire {
                         if (canInput && canOutput) break;
                     }
 
-                    if (machine instanceof TieredEnergyMachine && canInput&&((TieredEnergyMachine) machine).getTier()<=eutier) {
-                        smallMachines.add(found);
+                    if ((machine instanceof TieredEnergyMachine || machine instanceof SimpleGeneratorMachine) &&
+                            machine instanceof ITieredMachine tieredMachine &&
+                            tieredMachine.getTier() <= eutier) {
+                        // Small machines that can receive EU are treated as broadcast targets.
+                        if (canInput) {
+                            smallMachines.add(found);
+                        }
+                        // Generator-like small machines (output only) are treated as EU providers for spire charging.
+                        if (canOutput && !canInput) {
+                            energyOutputs.add(found);
+                            scannedOutputPos.add(candidatePos.immutable());
+                        }
                     } else if ((machine instanceof EnergyHatchPartMachine || machine instanceof LaserHatchPartMachine) &&
                             ((ITieredMachine) machine).getTier() <= eutier) {
                         if (canInput) {

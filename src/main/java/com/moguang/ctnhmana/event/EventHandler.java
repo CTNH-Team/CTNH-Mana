@@ -62,8 +62,8 @@ public class EventHandler {
                     CMItems.SABER_WAND.get(), // 目标物品
                     new ResourceLocation(CTNHMana.MODID, "wand_status"),
                     (stack, level, entity, seed) -> {
-                        if (!SaberWandItem.getBindMode(stack)) return 1.0F;
-                        return 0F;
+                        if (!SaberWandItem.getBindMode(stack)) return 1.0f;
+                        return 0f;
                     });
             ItemProperties.register(
                     CMItems.CADUCEUS.get(),

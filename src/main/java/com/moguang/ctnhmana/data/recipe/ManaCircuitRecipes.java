@@ -303,7 +303,7 @@ public class ManaCircuitRecipes {
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("ultra_mana_mainframe")
                 .inputItems(MANA_CIRCUIT_BOARD, 2)
-                .inputItems(ZENITH_WAFER, 7)
+                .inputItems(ZENITH_SOC, 7)
                 .inputItems(ChemicalHelper.get(frameGt, Ultra_Mana), 4)
                 .inputItems(STARLIGHT_RUNE)
                 .inputItems(ZENITH_STAR)

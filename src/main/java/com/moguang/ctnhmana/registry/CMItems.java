@@ -462,6 +462,11 @@ public class CMItems {
                 .lang("Heart of Flower")
                 .onRegister(attach(new TooltipBehavior(text -> text.add(flowerHeartLang.translate()))))
                 .register();
+        INDEX_CLOTH=REGISTRATE
+                .item("index_cloth",ComponentItem::create)
+                .cnlang("指令所织之布")
+                .onRegister(attach(new TooltipBehavior(text -> text.add(indexPaperLang.translate()))))
+                .register();
     }
 
     public static void init() {
@@ -512,6 +517,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> ENCAPSULATED_TWIST_MANA;
     public static ItemEntry<ComponentItem> UNIMBUED_SPIRIT;
     public static ItemEntry<ComponentItem> ORICHALCOS_SPIRIT;
+    public static ItemEntry<ComponentItem>INDEX_CLOTH;
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);

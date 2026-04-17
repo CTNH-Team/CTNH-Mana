@@ -4,8 +4,12 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import com.lowdragmc.lowdraglib.test.TestJava;
+import committee.nova.mods.avaritia.Avaritia;
+import committee.nova.mods.avaritia.init.registry.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -511,5 +515,22 @@ public class ManaRecipes {
                 .duration(200)
                 .EUt(120)
                 .save(provider);
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "caduceus", new ItemStack(CMItems.CADUCEUS),
+                "ACA",
+                "ABA",
+                "ACA",
+                'A', CMItems.INDEX_CLOTH,
+                'C', GTItems.FIELD_GENERATOR_IV,
+                'B', new ItemStack(GTMultiMachines.ACTIVE_TRANSFORMER.getItem()));
+        VanillaRecipeHelper.addShapedRecipe(
+                provider, "index_cloth", new ItemStack(CMItems.INDEX_CLOTH),
+                "AAA",
+                "ABA",
+                "ACA",
+                'A', BotaniaItems.manaString,
+                'C', GTItems.FIELD_GENERATOR_IV,
+                'B', BotaniaItems.spellCloth);
+
     }
 }
