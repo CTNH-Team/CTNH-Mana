@@ -19,20 +19,17 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.moguang.ctnhmana.common.entity.OmegaSpark;
 import com.moguang.ctnhmana.registry.CMEntities;
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
@@ -69,17 +66,17 @@ public class ZenithSpire extends MysticSpire {
     @Persisted
     public int eutier = 0;
     @Nullable
-    public List<BlockPos>euContainerPos;
+    public List<BlockPos> euContainerPos;
     @Nullable
-    public List<BlockPos>euOutputContainerPos;
+    public List<BlockPos> euOutputContainerPos;
     @Persisted
-    public Double zenithEfficiency=0.25;
+    public Double zenithEfficiency = 0.25;
     @Persisted
-    public Long euSpeed=0L;
+    public Long euSpeed = 0L;
     @Persisted
-    public Long zEU=0L;
+    public Long zEU = 0L;
     @Persisted
-    public Long euCapacity=0L;
+    public Long euCapacity = 0L;
 
     /**
      * 结构成型时记录：属于本天顶尖塔多方块的能源仓 / 激光仓方块坐标。
@@ -118,19 +115,16 @@ public class ZenithSpire extends MysticSpire {
 
     @Override
     public void metircTick() {
-
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
             getEUContainer();
         }
-//        this.zEU= (long) (euCapacity*0.1);
-        this.zEU=Math.max(0,this.zEU);
-        this.zEU=Math.min(this.euCapacity,this.zEU);
-        if(this.zEU<this.euCapacity&&this.MODE==0)sendEUToSpire();
-        if(this.zEU>0&&this.MODE!=3)sendEUToContainer();
-
+        // this.zEU= (long) (euCapacity*0.1);
+        this.zEU = Math.max(0, this.zEU);
+        this.zEU = Math.min(this.euCapacity, this.zEU);
+        if (this.zEU < this.euCapacity && this.MODE == 0) sendEUToSpire();
+        if (this.zEU > 0 && this.MODE != 3) sendEUToContainer();
     }
-
 
     @Override
     public void getOrCreatedSpark() {
@@ -199,17 +193,15 @@ public class ZenithSpire extends MysticSpire {
         selfEnergyContainer = getEnergyContainer();
         getEUContainer();
         var voltage = selfEnergyContainer.getHighestInputVoltage();
-        this.eutier = GTUtil.getFloorTierByVoltage(voltage)*4;
-        this.euSpeed=selfEnergyContainer.getInputVoltage()*this.speed/base_speed*4;
-        this.euCapacity=selfEnergyContainer.getEnergyCapacity()*this.maxMana/base_maxmana*4;
-        this.range*=4;
-        this.speed*=4;
-        this.maxMana*=4;
-
-
+        this.eutier = GTUtil.getFloorTierByVoltage(voltage) * 4;
+        this.euSpeed = selfEnergyContainer.getInputVoltage() * this.speed / base_speed * 4;
+        this.euCapacity = selfEnergyContainer.getEnergyCapacity() * this.maxMana / base_maxmana * 4;
+        this.range *= 4;
+        this.speed *= 4;
+        this.maxMana *= 4;
     }
-    public void getEUContainer()
-    {
+
+    public void getEUContainer() {
         List<IEnergyContainer> smallMachines = new ArrayList<>();
         List<IEnergyContainer> energyHatches = new ArrayList<>();
         List<IEnergyContainer> energyOutputs = new ArrayList<>();
@@ -253,7 +245,8 @@ public class ZenithSpire extends MysticSpire {
                     if (selfChamberSet.contains(candidatePos)) continue;
                     if (candidatePos.getY() < minY || candidatePos.getY() > maxY) continue;
                     if (Math.abs(candidatePos.getX() - controllerPos.getX()) > scanRange ||
-                            Math.abs(candidatePos.getZ() - controllerPos.getZ()) > scanRange) continue;
+                            Math.abs(candidatePos.getZ() - controllerPos.getZ()) > scanRange)
+                        continue;
 
                     var machine = machineHolder.getMetaMachine();
                     // Never include zenith spire controller itself to avoid loops.
@@ -292,15 +285,16 @@ public class ZenithSpire extends MysticSpire {
                             energyOutputs.add(found);
                             scannedOutputPos.add(candidatePos.immutable());
                         }
-                    } else if ((machine instanceof EnergyHatchPartMachine || machine instanceof LaserHatchPartMachine) &&
-                            ((ITieredMachine) machine).getTier() <= eutier) {
-                        if (canInput) {
-                            energyHatches.add(found);
-                        } else if (canOutput) {
-                            energyOutputs.add(found);
-                            scannedOutputPos.add(candidatePos.immutable());
-                        }
-                    }
+                    } else
+                        if ((machine instanceof EnergyHatchPartMachine || machine instanceof LaserHatchPartMachine) &&
+                                ((ITieredMachine) machine).getTier() <= eutier) {
+                                    if (canInput) {
+                                        energyHatches.add(found);
+                                    } else if (canOutput) {
+                                        energyOutputs.add(found);
+                                        scannedOutputPos.add(candidatePos.immutable());
+                                    }
+                                }
                 }
             }
         }
@@ -313,32 +307,32 @@ public class ZenithSpire extends MysticSpire {
         this.energyHatchContainer = new EnergyContainerList(energyHatches);
         this.energyoutputContainer = new EnergyContainerList(energyOutputs);
     }
-    public void sendEUToContainer()
-    {
-        var EUs=this.euSpeed;
-        if(energyInputContainer!=null)
-        {
-            var consume=Math.min(energyInputContainer.getEnergyCapacity()- energyInputContainer.getEnergyStored(),Math.min(EUs,this.zEU));
+
+    public void sendEUToContainer() {
+        var EUs = this.euSpeed;
+        if (energyInputContainer != null) {
+            var consume = Math.min(energyInputContainer.getEnergyCapacity() - energyInputContainer.getEnergyStored(),
+                    Math.min(EUs, this.zEU));
             energyInputContainer.addEnergy(consume);
-            EUs-=consume;
-            this.zEU-=consume;
+            EUs -= consume;
+            this.zEU -= consume;
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticles(this.euContainerPos);
             }
         }
     }
-    public void sendEUToSpire()
-    {
-//        if(this.selfEnergyContainer!=null&&this.zEU<this.euCapacity) {
-//            var consume=Math.min(this.euCapacity-this.zEU,this.selfEnergyContainer.getEnergyStored());
-//            this.zEU+=consume;
-//            this.selfEnergyContainer.removeEnergy(consume);
-//            this.zEU=Math.min(this.euCapacity,this.zEU);
-//        }
-        if(this.energyoutputContainer!=null&&this.zEU<this.euCapacity)
-        {
-            var consume=Math.min(this.euCapacity-this.zEU,Math.min(this.euSpeed*2,this.energyoutputContainer.getEnergyStored()));
-            this.zEU+=consume;
+
+    public void sendEUToSpire() {
+        // if(this.selfEnergyContainer!=null&&this.zEU<this.euCapacity) {
+        // var consume=Math.min(this.euCapacity-this.zEU,this.selfEnergyContainer.getEnergyStored());
+        // this.zEU+=consume;
+        // this.selfEnergyContainer.removeEnergy(consume);
+        // this.zEU=Math.min(this.euCapacity,this.zEU);
+        // }
+        if (this.energyoutputContainer != null && this.zEU < this.euCapacity) {
+            var consume = Math.min(this.euCapacity - this.zEU,
+                    Math.min(this.euSpeed * 2, this.energyoutputContainer.getEnergyStored()));
+            this.zEU += consume;
             this.energyoutputContainer.removeEnergy(consume);
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticlesReverse(this.euOutputContainerPos);
@@ -346,40 +340,36 @@ public class ZenithSpire extends MysticSpire {
         }
     }
 
-
-
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (this.isFormed && this.selfEnergyContainer != null) {
             textList.add(omegaSpireStateLang[0].translate(GTValues.VNF[eutier])
                     .withStyle(Style.EMPTY.withColor(GTValues.VC[eutier])));
-            textList.add(omegaSpireStateLang[1].translate(this.zEU,this.euCapacity));
-            textList.add(omegaSpireStateLang[2].translate(this.euSpeed,this.euSpeed/GTValues.V[eutier],GTValues.VNF[eutier]));
+            textList.add(omegaSpireStateLang[1].translate(this.zEU, this.euCapacity));
+            textList.add(omegaSpireStateLang[2].translate(this.euSpeed, this.euSpeed / GTValues.V[eutier],
+                    GTValues.VNF[eutier]));
         }
     }
-    @CN(
-            {
-                    "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
-                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能,天顶尖塔的所有数据额外翻四倍",
-                    "允许使用能源仓,变电仓,激光仓",
-                    "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
-                    "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
-                    "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
-                    "在中转模式下，天顶尖塔将只做中转"
-            }
-    )
 
-    @EN(
-            {
-                    "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
-                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能",
-                    "允许使用能源仓,变电仓,激光仓",
-                    "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
-                    "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
-                    "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
-                    "在中转模式下，天顶尖塔将只做中转"
-            }
-    )
+    @CN({
+            "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
+            "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能,天顶尖塔的所有数据额外翻四倍",
+            "允许使用能源仓,变电仓,激光仓",
+            "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
+            "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
+            "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
+            "在中转模式下，天顶尖塔将只做中转"
+    })
+
+    @EN({
+            "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
+            "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能",
+            "允许使用能源仓,变电仓,激光仓",
+            "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
+            "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",
+            "在非中转和聚焦模式下,天顶尖塔将自动广播到范围内的所有能源存储者(小机器,能源仓,激光仓,变电仓)",
+            "在中转模式下，天顶尖塔将只做中转"
+    })
     public static Lang[] omegaSpireLang;
 }

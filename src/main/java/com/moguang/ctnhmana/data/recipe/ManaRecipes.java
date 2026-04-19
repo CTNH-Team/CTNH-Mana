@@ -7,9 +7,6 @@ import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import com.lowdragmc.lowdraglib.test.TestJava;
-import committee.nova.mods.avaritia.Avaritia;
-import committee.nova.mods.avaritia.init.registry.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -536,7 +533,7 @@ public class ManaRecipes {
                 'C', GTItems.FIELD_GENERATOR_IV,
                 'B', BotaniaItems.spellCloth);
         MANA_TRANSFORMER_RECIPES.recipeBuilder("fused_mixed_mana")// 分选蕴魔粉
-                .inputItems(ChemicalHelper.get(dust, Fused_Mana),16)
+                .inputItems(ChemicalHelper.get(dust, Fused_Mana), 16)
                 .notConsumable(ELF_CATALYST)
                 .outputItems(ChemicalHelper.get(dust, Fused_Mixed_Mana), 16)
                 .outputItems(ChemicalHelper.get(dust, ManaSteel), 4)
@@ -545,6 +542,5 @@ public class ManaRecipes {
                 .outputFluids(Mana.getFluid(100))
                 .EUt(320)
                 .save(provider);
-
     }
 }

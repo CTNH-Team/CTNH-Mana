@@ -18,7 +18,6 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +27,7 @@ import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
+import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
@@ -343,8 +343,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
-            if(item.getItem() instanceof MasterBandOfManaItem mRing)
-            {
+            if (item.getItem() instanceof MasterBandOfManaItem mRing) {
                 var p = ItemNBTHelper.getLong(item, "mana", 0);
                 if (p >= 20) {
                     int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);

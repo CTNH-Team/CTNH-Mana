@@ -301,7 +301,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     public double difference_caculate(double difference) {
         var num = 0.0;
-        num=difference*Math.log(difference);
+        num = difference * Math.log(difference);
         return num;
     }
 

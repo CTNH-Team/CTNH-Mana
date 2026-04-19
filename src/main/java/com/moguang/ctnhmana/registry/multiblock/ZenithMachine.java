@@ -251,17 +251,28 @@ public class ZenithMachine {
             .recipeModifiers(BaseManaMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##", "###AABAA###")
-                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#", "##AAHIJAA##")
-                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A", "#AAHHKJJAA#")
-                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A", "#AAHBIBJAA#")
-                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A", "#AABMMMBAA#")
-                    .aisle("#ABEIIIEBA#", "A#ECIIICE#A", "D#L##I##L#D", "D#LCICICL#D", "D#L##I##L#D", "A#ECIIICE#A", "#ABEMKMEBA#")
-                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A", "#AABMMMBAA#")
-                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A", "#AANBIBOAA#")
-                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A", "#AANNKOOAA#")
-                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#", "##AANIOAA##")
-                    .aisle("###AAAAA###", "##AJJDHHA##", "#AGDDDDDGA#", "AGDDDDDDDGA", "#AGDDDDDGA#", "##ANNDOOA##", "###AABAA###")
+                    .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##",
+                            "###AABAA###")
+                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#",
+                            "##AAHIJAA##")
+                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A",
+                            "#AAHHKJJAA#")
+                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A",
+                            "#AAHBIBJAA#")
+                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A",
+                            "#AABMMMBAA#")
+                    .aisle("#ABEIIIEBA#", "A#ECIIICE#A", "D#L##I##L#D", "D#LCICICL#D", "D#L##I##L#D", "A#ECIIICE#A",
+                            "#ABEMKMEBA#")
+                    .aisle("#AABEIEBAA#", "A##ECICE##A", "D##L###L##D", "D##LCICL##D", "D##L###L##D", "A##ECICE##A",
+                            "#AABMMMBAA#")
+                    .aisle("#AAEBEBEAA#", "A###EFE###A", "D###LLL###D", "D###LCL###D", "D###LLL###D", "A###EFE###A",
+                            "#AANBIBOAA#")
+                    .aisle("#AABECEBAA#", "A#########A", "G#########G", "D#########D", "G#########G", "A#########A",
+                            "#AANNKOOAA#")
+                    .aisle("##AABEBAA##", "#A#######A#", "AF#######FA", "GE#######EG", "AF#######FA", "#A#######A#",
+                            "##AANIOAA##")
+                    .aisle("###AAAAA###", "##AJJDHHA##", "#AGDDDDDGA#", "AGDDDDDDDGA", "#AGDDDDDGA#", "##ANNDOOA##",
+                            "###AABAA###")
                     .where("F", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("C", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))

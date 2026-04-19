@@ -5,10 +5,8 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -57,10 +55,10 @@ public class TerraPlateRecipes {
                 .input(new ItemStack(theEnd, 1))
                 .input(new ItemStack(theChaos, 1))
                 .input(new ItemStack(theOrigin, 1))
-                .input(new ItemStack(TWIST_RUNE,1))
-                .input(new ItemStack(STARLIGHT_RUNE,1))
-                .input(new ItemStack(PROLIFERATION_RUNE,1))
-                .input(new ItemStack(HORIZEN_RUNE,1))
+                .input(new ItemStack(TWIST_RUNE, 1))
+                .input(new ItemStack(STARLIGHT_RUNE, 1))
+                .input(new ItemStack(PROLIFERATION_RUNE, 1))
+                .input(new ItemStack(HORIZEN_RUNE, 1))
                 .output(new ItemStack(theUniverse, 1))
                 .mana(4000000)
                 .save(provider);
@@ -171,9 +169,9 @@ public class TerraPlateRecipes {
                 .circuitMeta(17)
                 .save(provider);
         TerraPlateRecipeBuilder.builder("the_orgin")
-                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.ManaSteel))
-                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.AlfSteel))
-                .input(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.Elementium))
+                .input(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.ManaSteel))
+                .input(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.AlfSteel))
+                .input(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.Elementium))
                 .input(BotaniaItems.gaiaIngot)
                 .input(photonium)
                 .input(aerialite)

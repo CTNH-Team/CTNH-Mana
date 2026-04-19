@@ -75,7 +75,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
     @Persisted
     public double vengefulWill = 0;
     @Persisted
-    public boolean transfer_net=true;
+    public boolean transfer_net = true;
 
     WillChunk willChunk = null;
     // Holder初始化 持久化

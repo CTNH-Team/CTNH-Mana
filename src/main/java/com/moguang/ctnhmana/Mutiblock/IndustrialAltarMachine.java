@@ -178,7 +178,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 
     public void updateAltarData() {
         var world = this.getLevel();
-        if(this.getLevel().isClientSide())return;
+        if (this.getLevel().isClientSide()) return;
         var index = getMatchedPatternIndex();
         if (!this.isFormed) return;
         altar_pos = MachineUtils.getOffset(this, 0, 1, 2);

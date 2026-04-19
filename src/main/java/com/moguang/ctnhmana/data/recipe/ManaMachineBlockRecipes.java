@@ -10,12 +10,12 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
+import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
@@ -585,19 +585,19 @@ public class ManaMachineBlockRecipes {
                 'A', ChemicalHelper.get(plate, HEMOPLATINUM),
                 'B', BloodMagicItems.WEAK_BLOOD_SHARD.get());
         ASSEMBLER_RECIPES.recipeBuilder("compressed")
-                .outputItems(MANA_COMPRESSED_CORE,2)
-                .inputItems(ChemicalHelper.get(plate,HEMOPLATINUM),16)
-                .inputItems(CMItems.BLOOD_INDUCTOR,4)
+                .outputItems(MANA_COMPRESSED_CORE, 2)
+                .inputItems(ChemicalHelper.get(plate, HEMOPLATINUM), 16)
+                .inputItems(CMItems.BLOOD_INDUCTOR, 4)
                 .inputItems(BloodMagicItems.REAGENT_VOID)
-                .inputItems(ZENITH_WILL_MECHANICAL_BLOCK,2)
+                .inputItems(ZENITH_WILL_MECHANICAL_BLOCK, 2)
                 .EUt(1000)
                 .duration(100)
                 .save(provider);
         HELL_FORGE_RECIPES.recipeBuilder("zenith_will")
-                .inputItems(ChemicalHelper.get(plate,HEMOPLATINUM),8)
-                .inputItems(ChemicalHelper.get(plate, PRIMOVOLITHEST),8)
+                .inputItems(ChemicalHelper.get(plate, HEMOPLATINUM), 8)
+                .inputItems(ChemicalHelper.get(plate, PRIMOVOLITHEST), 8)
                 .addCondition(new HellForgeCondition(100))
-                .inputItems(CASING_BLOODLOGIC.get(),2)
+                .inputItems(CASING_BLOODLOGIC.get(), 2)
                 .EUt(1000)
                 .duration(100)
                 .save(provider);

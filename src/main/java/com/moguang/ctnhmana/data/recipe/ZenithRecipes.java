@@ -1,18 +1,18 @@
 package com.moguang.ctnhmana.data.recipe;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import com.moguang.ctnhmana.registry.*;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import com.moguang.ctnhmana.common.recipe.ZenithCondition;
+import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import mythicbotany.register.ModItems;
 import vazkii.botania.common.item.BotaniaItems;
@@ -190,16 +190,16 @@ public class ZenithRecipes {
                 .duration(200)
                 .save(provider);
         CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("flaw_gem")
-                .inputItems(ChemicalHelper.get(TagPrefix.gem,CMMaterials.Psionic_Medulla,2))
+                .inputItems(ChemicalHelper.get(TagPrefix.gem, CMMaterials.Psionic_Medulla, 2))
                 .inputFluids(CMMaterials.Shroud_Zenith_essence, 66)
-                .outputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla))
+                .outputItems(ChemicalHelper.get(TagPrefix.gemFlawless, CMMaterials.Psionic_Medulla))
                 .EUt(GTValues.VA[GTValues.IV])
                 .duration(200)
                 .save(provider);
         CMRecipeTypes.ANTIPHASE_ETCHING.recipeBuilder("wonder_gem")
-                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla,7))
+                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless, CMMaterials.Psionic_Medulla, 7))
                 .inputFluids(CMMaterials.Shroud_Zenith_essence, 666)
-                .outputItems(ChemicalHelper.get(TagPrefix.gemExquisite,CMMaterials.Psionic_Medulla))
+                .outputItems(ChemicalHelper.get(TagPrefix.gemExquisite, CMMaterials.Psionic_Medulla))
                 .EUt(GTValues.VA[GTValues.IV])
                 .addCondition(new ZenithCondition(true))
                 .duration(200)
@@ -316,18 +316,17 @@ public class ZenithRecipes {
                 .duration(7777)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_spire")
-                .inputItems(CMMultiblockMachines.MysticSpire.get(),2)
-                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless,CMMaterials.Psionic_Medulla,4))
-                .inputItems(ChemicalHelper.get(TagPrefix.ingot,CMMaterials.Ultra_Mana,4))
-                .inputItems(CMItems.HORIZEN_RUNE,2)
-                .inputItems(CustomTags.ZPM_CIRCUITS,2)
-                .inputItems(CMItems.UMLHPIC_WAFER,8)
+                .inputItems(CMMultiblockMachines.MysticSpire.get(), 2)
+                .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless, CMMaterials.Psionic_Medulla, 4))
+                .inputItems(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.Ultra_Mana, 4))
+                .inputItems(CMItems.HORIZEN_RUNE, 2)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 2)
+                .inputItems(CMItems.UMLHPIC_WAFER, 8)
                 .inputItems(CMItems.UPGRADE_RUNE_ALPHA)
                 .inputFluids(CMMaterials.Zenith_essence, 777)
-                .outputItems(CMMultiblockMachines.ZenithSpire,2)
+                .outputItems(CMMultiblockMachines.ZenithSpire, 2)
                 .EUt(77777)
                 .duration(777)
                 .save(provider);
-
     }
 }

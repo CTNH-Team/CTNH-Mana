@@ -17,7 +17,6 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.DyeColor;
@@ -28,6 +27,7 @@ import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
+import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.helper.ItemNBTHelper;
@@ -200,8 +200,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
-            if(item.getItem() instanceof MasterBandOfManaItem mRing)
-            {
+            if (item.getItem() instanceof MasterBandOfManaItem mRing) {
                 var p = ItemNBTHelper.getLong(item, "mana", 0);
                 if (p >= 20) {
                     int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
