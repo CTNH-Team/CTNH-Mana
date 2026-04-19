@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.DyeColor;
@@ -199,7 +200,16 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
-
+            if(item.getItem() instanceof MasterBandOfManaItem mRing)
+            {
+                var p = ItemNBTHelper.getLong(item, "mana", 0);
+                if (p >= 20) {
+                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
+                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ItemNBTHelper.setLong(item, "mana", p - (long) consume);
+                }
+            }
         }
     }
 }

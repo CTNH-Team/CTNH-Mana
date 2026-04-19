@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -30,6 +31,7 @@ import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 
 import java.util.Arrays;
@@ -63,7 +65,7 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
     public boolean diffusion_model = false; // NOT DDIM
     // 扩散系数（可调：0<D≤1，值越大扩散越快）
     private static final double DIFFUSION_COEFFICIENT = 0.25;
-
+    public static int max_will=200;
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         MachineUtils.applyContents(this, (content) -> {
@@ -125,6 +127,7 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
             return ModifierFunction.builder()
                     .parallels(maxParallel)
                     .eutMultiplier(maxParallel)
+                    .outputModifier(ContentModifier.multiplier(maxParallel))
                     .build();
         }
         return ModifierFunction.IDENTITY;
@@ -145,10 +148,10 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
         pos = pos.offset(0, -11, 0);
         if (getMachine(level, pos) instanceof HellForgeMachine hmachine) {
             if (!diffusion_model) {
-                hmachine.hatch.rawWill += willcount;
+                hmachine.hatch.rawWill = Math.min((double) max_will, hmachine.hatch.rawWill + willcount);
             } else {
                 var willchunk = getWillChunk(level, pos);
-                willchunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, willcount);
+                willchunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, willcount, max_will);
                 diffuseWillFromCenter(pos.getX(), pos.getZ(), 1);
             }
         }
@@ -257,6 +260,13 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
             originalWill[range][range][type] -= num_transfer_will;
             num_transfer_will = 0;
         }
+        for (int type = 0; type <= 4; type++) {
+            for (int i = 0; i <= 2 * range; i++) {
+                for (int j = 0; j <= 2 * range; j++) {
+                    originalWill[i][j][type] = Math.min((double) max_will, Math.max(0.0, originalWill[i][j][type]));
+                }
+            }
+        }
         changeChunkWill(centerX, centerY, range, originalWill);
     }
 
@@ -269,15 +279,32 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
                 var willchunker = getWillChunk(getDimensionResourceLocation(getLevel()), chunk_x + range_x - range,
                         chunk_y + range_y - range).getCurrentWill();
                 willchunker.clearWill();
-                willchunker.addWill(EnumDemonWillType.DEFAULT, willchunk[range_x][range_y][0], 100);
-                willchunker.addWill(EnumDemonWillType.CORROSIVE, willchunk[range_x][range_y][1], 100);
-                willchunker.addWill(EnumDemonWillType.DESTRUCTIVE, willchunk[range_x][range_y][2], 100);
-                willchunker.addWill(EnumDemonWillType.STEADFAST, willchunk[range_x][range_y][3], 100);
-                willchunker.addWill(EnumDemonWillType.VENGEFUL, willchunk[range_x][range_y][4], 100);
+                willchunker.addWill(EnumDemonWillType.DEFAULT, willchunk[range_x][range_y][0], max_will);
+                willchunker.addWill(EnumDemonWillType.CORROSIVE, willchunk[range_x][range_y][1], max_will);
+                willchunker.addWill(EnumDemonWillType.DESTRUCTIVE, willchunk[range_x][range_y][2], max_will);
+                willchunker.addWill(EnumDemonWillType.STEADFAST, willchunk[range_x][range_y][3], max_will);
+                willchunker.addWill(EnumDemonWillType.VENGEFUL, willchunk[range_x][range_y][4], max_will);
             }
         }
     }
 
     @CN("逸散模式")
     public static Lang demon_diffusion_model;
+    @CN(
+            {
+                    "折磨,折磨,永恒的折磨在齿轮之中,此地即是阿鼻地狱",
+                    "具有无限并行,不支持低级模型,使用模型获得额外的LP加成，注意：请配备足够大的输出仓来确保完全并行输出",
+                    "如果自身和工业地狱锻炉以共享岩浆池的方式(该结构主方块恰好比工业地狱锻炉高11格)连接,则转为灵魂模式：不再产生LP，而是改为给地狱锻炉供应普通意志",
+                    "在连接时开启逸散模式，将会直接把生产的意志逸散，并且扩散当前区块的意志，通过此产生的区块意志可以超越100，达到200区域区块上限"
+            }
+    )
+    @EN(
+            {
+                    "折磨,折磨,永恒的折磨在齿轮之中,此地即是地狱",
+                    "具有无限并行,不支持低级模型,使用模型获得额外的LP加成，注意：请配备足够大的输出仓来确保完全并行输出",
+                    "如果自身和工业地狱锻炉以共享岩浆池的方式(该结构主方块恰好比工业地狱锻炉高11格)连接,则转为灵魂模式：不再产生LP，而是改为给地狱锻炉供应普通意志",
+                    "在连接时开启逸散模式，将会直接把生产的意志逸散，并且扩散当前区块的意志，通过此产生的区块意志可以超越100，达到200区域区块上限"
+            }
+    )
+    public static Lang[] eternalWosLang;
 }

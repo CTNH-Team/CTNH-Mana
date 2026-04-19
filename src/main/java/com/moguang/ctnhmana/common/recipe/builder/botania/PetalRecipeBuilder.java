@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.recipe.builder;
+package com.moguang.ctnhmana.common.recipe.builder.botania;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;

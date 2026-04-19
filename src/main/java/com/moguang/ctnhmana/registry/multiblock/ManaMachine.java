@@ -284,7 +284,7 @@ public class ManaMachine {
                             .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("G", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("H", Predicates.blocks(CMBlocks.SUPERNORMAL_MAGIC_CALCULATE_CORE.get()))
+                    .where("H", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get()))
                     .where("#", Predicates.any())
                     .where("E", Predicates.blocks(CMBlocks.ORICHALCOS_FRAME.get()))
                     .where("C", Predicates.blocks(CMBlocks.PURE_LOGIC_CASING.get()))

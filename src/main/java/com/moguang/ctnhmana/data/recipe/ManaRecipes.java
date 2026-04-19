@@ -23,8 +23,12 @@ import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
-import static com.moguang.ctnhmana.registry.CMMaterials.ManaSteel;
+import static com.moguang.ctnhmana.registry.CMItems.ELF_CATALYST;
+import static com.moguang.ctnhmana.registry.CMMaterials.*;
+import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_TRANSFORMER_RECIPES;
+import static vazkii.botania.common.item.BotaniaItems.dragonstone;
 
 public class ManaRecipes {
 
@@ -531,6 +535,16 @@ public class ManaRecipes {
                 'A', BotaniaItems.manaString,
                 'C', GTItems.FIELD_GENERATOR_IV,
                 'B', BotaniaItems.spellCloth);
+        MANA_TRANSFORMER_RECIPES.recipeBuilder("fused_mixed_mana")// 分选蕴魔粉
+                .inputItems(ChemicalHelper.get(dust, Fused_Mana),16)
+                .notConsumable(ELF_CATALYST)
+                .outputItems(ChemicalHelper.get(dust, Fused_Mixed_Mana), 16)
+                .outputItems(ChemicalHelper.get(dust, ManaSteel), 4)
+                .outputItems(ChemicalHelper.get(dust, Elementium), 4)
+                .outputItems(dragonstone)
+                .outputFluids(Mana.getFluid(100))
+                .EUt(320)
+                .save(provider);
 
     }
 }

@@ -92,7 +92,7 @@ public class ManaReactorRecipes {
                 .outputItems(ChemicalHelper.get(dust, Stable_Plus_Mana), 10)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(2000))
                 .duration(200)
-                .circuitMeta(1)
+                .circuitMeta(4)
                 .EUt(1440)
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("alfsteel1")

@@ -49,6 +49,7 @@ public class ZenithSpire extends MysticSpire {
 
     public ZenithSpire(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+        this.sparkpos = MachineUtils.getOffset(this, 0, 53, 9);
     }
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ZenithSpire.class,
@@ -198,9 +199,13 @@ public class ZenithSpire extends MysticSpire {
         selfEnergyContainer = getEnergyContainer();
         getEUContainer();
         var voltage = selfEnergyContainer.getHighestInputVoltage();
-        this.eutier = GTUtil.getFloorTierByVoltage(voltage);
-        this.euSpeed=selfEnergyContainer.getInputVoltage()*this.speed/base_speed;
-        this.euCapacity=selfEnergyContainer.getEnergyCapacity()*this.maxMana/base_maxmana;
+        this.eutier = GTUtil.getFloorTierByVoltage(voltage)*4;
+        this.euSpeed=selfEnergyContainer.getInputVoltage()*this.speed/base_speed*4;
+        this.euCapacity=selfEnergyContainer.getEnergyCapacity()*this.maxMana/base_maxmana*4;
+        this.range*=4;
+        this.speed*=4;
+        this.maxMana*=4;
+
 
     }
     public void getEUContainer()
@@ -356,7 +361,7 @@ public class ZenithSpire extends MysticSpire {
     @CN(
             {
                     "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",
-                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能",
+                    "天顶尖塔包含奥法尖塔的所有功能，请查阅奥法尖塔来获知这些功能,天顶尖塔的所有数据额外翻四倍",
                     "允许使用能源仓,变电仓,激光仓",
                     "天顶尖塔将电力(EU)当作魔力束流进行传输,其初始电压等级,容量,速度与能源舱室相同,尖塔的强化同样强化这些数据",
                     "在聚焦模式下,天顶尖塔将自动吸收范围内的动力仓来为其供能，天顶尖塔同样会将电力传输至其绑定的其他尖塔",

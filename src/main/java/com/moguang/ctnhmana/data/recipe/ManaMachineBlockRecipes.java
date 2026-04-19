@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -37,6 +38,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
+import static com.moguang.ctnhmana.registry.CMRecipeTypes.HELL_FORGE_RECIPES;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.MANA_REACTOR_RECIPES;
 
 public class ManaMachineBlockRecipes {
@@ -372,7 +374,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(CMItems.ENDSLATE.asItem())
                 .inputItems(ZENITH_CASING_BLOCK.asStack())
                 .inputItems(FIELD_RESTRICTION_CASING.asStack())
-                .inputItems(ExtraBotanyItems.theUniverse.asItem())
+                .inputItems(ExtraBotanyItems.theOrigin)
                 .inputItems(CMItems.BROKEN_RUNE.asItem())
                 .inputFluids(Shroud_Zenith_essence.getFluid(1000))
                 .inputItems(CustomTags.ZPM_CIRCUITS)
@@ -385,7 +387,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(CMItems.TWIST_RUNE.asItem())
                 .inputItems(GTItems.FIELD_GENERATOR_LuV)
                 .inputItems(ZENITH_CASING_GEARBOX.asStack())
-                .inputFluids(Twist_Power_Mana.getFluid(77))
+                .inputFluids(Ultra_Mana.getFluid(77))
                 .inputItems(ExtraBotanyItems.theChaos)
                 .outputItems(MATERIAL_TWISTED_COIL.asItem())
                 .EUt(7777)
@@ -582,5 +584,22 @@ public class ManaMachineBlockRecipes {
                 "AAA",
                 'A', ChemicalHelper.get(plate, HEMOPLATINUM),
                 'B', BloodMagicItems.WEAK_BLOOD_SHARD.get());
+        ASSEMBLER_RECIPES.recipeBuilder("compressed")
+                .outputItems(MANA_COMPRESSED_CORE,2)
+                .inputItems(ChemicalHelper.get(plate,HEMOPLATINUM),16)
+                .inputItems(CMItems.BLOOD_INDUCTOR,4)
+                .inputItems(BloodMagicItems.REAGENT_VOID)
+                .inputItems(ZENITH_WILL_MECHANICAL_BLOCK,2)
+                .EUt(1000)
+                .duration(100)
+                .save(provider);
+        HELL_FORGE_RECIPES.recipeBuilder("zenith_will")
+                .inputItems(ChemicalHelper.get(plate,HEMOPLATINUM),8)
+                .inputItems(ChemicalHelper.get(plate, PRIMOVOLITHEST),8)
+                .addCondition(new HellForgeCondition(100))
+                .inputItems(CASING_BLOODLOGIC.get(),2)
+                .EUt(1000)
+                .duration(100)
+                .save(provider);
     }
 }

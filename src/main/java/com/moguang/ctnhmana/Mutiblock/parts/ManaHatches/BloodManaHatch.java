@@ -74,6 +74,8 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
     public double destructiveWill = 0;
     @Persisted
     public double vengefulWill = 0;
+    @Persisted
+    public boolean transfer_net=true;
 
     WillChunk willChunk = null;
     // Holder初始化 持久化
@@ -213,8 +215,9 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
             }
         }
         if (Mana < maxMana) {
-            ConvertLP();
             ConvertFluidLP();
+            ConvertLP();
+
         }
     }
 
