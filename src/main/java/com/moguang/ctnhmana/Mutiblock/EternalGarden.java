@@ -69,8 +69,6 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
     }
 
     @Persisted
-    private LinkedList<String> foodlist;
-    @Persisted
     private int foodlist_length = 0;
     @Persisted
     private int nutrition_length = 0;
@@ -86,10 +84,6 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
     private boolean burn = false;
     @Persisted
     private double nutrition = 1;
-    @Persisted
-    private List<ItemStack> flower;
-    @Persisted
-    private List<ItemStack> rune;
     @Persisted
     public String flower_type = "None";
     public Map<Integer, Integer> channelSignal = new HashMap<>();

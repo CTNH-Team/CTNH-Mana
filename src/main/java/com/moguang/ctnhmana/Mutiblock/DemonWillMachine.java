@@ -1,7 +1,9 @@
 package com.moguang.ctnhmana.Mutiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -213,6 +215,9 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         var difference = getWillDifference(pos1, pos2, type1);
         var high_will = getHigherWill(pos1, pos2, type1);
         if (willChunk1.getCurrentWill().getWill(type1) < willChunk2.getCurrentWill().getWill(type1)) {
+            if (Math.abs(high_will) >= 9999) {
+                willChunk2.getCurrentWill().clearWill();
+            }
             if (Math.abs(high_will) < 10) {
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
             } else {
@@ -220,10 +225,12 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
             }
         } else {
-            if (Math.abs(high_will) < 10) {
-                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
+            if (Math.abs(high_will) >= 9999) {
+                willChunk1.getCurrentWill().clearWill();
             }
-            {
+            if (Math.abs(high_will) < 10) {
+                willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference));
+            } else {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
                 willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
             }
@@ -301,7 +308,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     public double difference_caculate(double difference) {
         var num = 0.0;
-        num = difference * Math.log(difference);
+        num = difference * Math.log(difference + 1);
         return num;
     }
 
@@ -406,6 +413,11 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         return true;
     }
 
+    @Override
+    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+        return capability != EURecipeCapability.CAP;
+    }
+
     // lang: info (display in UI)
     @Key("info.default")
     @CN("专精强化：无")
@@ -454,14 +466,14 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     })
     public static Lang[] TOOLTIPS;
     @CN({
-            "基础发电公式：最终发电量=浓度差*log2(浓度差)*128*多样性",
+            "基础发电公式：最终发电量=浓度差*log2(浓度差)*256*多样性",
             "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
             "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
             "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
             "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
     })
     @EN({
-            "基础发电公式：先计算有效浓度差=difference*log(difference)，最终发电量=浓度差^2*128*多样性",
+            "基础发电公式：先计算有效浓度差=difference*log(difference)，最终发电量=浓度差^2*256*多样性",
             "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
             "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
             "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",

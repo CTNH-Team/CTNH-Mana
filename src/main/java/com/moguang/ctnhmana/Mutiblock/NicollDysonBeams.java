@@ -75,7 +75,6 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     public final NotifiableItemStackHandler machineStorage;
     @Nullable
     protected TickableSubscription TickSubs;
-    @Persisted
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             NicollDysonBeams.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 

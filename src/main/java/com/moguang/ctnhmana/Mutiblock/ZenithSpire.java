@@ -66,9 +66,9 @@ public class ZenithSpire extends MysticSpire {
     @Persisted
     public int eutier = 0;
     @Nullable
-    public List<BlockPos> euContainerPos;
+    public List<BlockPos> euContainerPos = new ArrayList<>();
     @Nullable
-    public List<BlockPos> euOutputContainerPos;
+    public List<BlockPos> euOutputContainerPos = new ArrayList<>();
     @Persisted
     public Double zenithEfficiency = 0.25;
     @Persisted

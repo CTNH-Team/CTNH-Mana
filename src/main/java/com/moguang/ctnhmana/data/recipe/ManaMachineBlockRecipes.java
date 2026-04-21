@@ -598,6 +598,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(ChemicalHelper.get(plate, PRIMOVOLITHEST), 8)
                 .addCondition(new HellForgeCondition(100))
                 .inputItems(CASING_BLOODLOGIC.get(), 2)
+                .outputItems(ZENITH_WILL_MECHANICAL_BLOCK)
                 .EUt(1000)
                 .duration(100)
                 .save(provider);

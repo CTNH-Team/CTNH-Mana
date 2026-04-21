@@ -12,7 +12,7 @@ public class DemonWillGeneratorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         CMRecipeTypes.DEMON_WILL_GENERATOR_RECIPE.recipeBuilder("generator")
                 .circuitMeta(0)
-                .EUt(-32)
+                .EUt(-256)
                 .duration(80)
                 .save(provider);
 

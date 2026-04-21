@@ -33,6 +33,7 @@ import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
@@ -45,7 +46,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
             ManaHatch.MANAGED_FIELD_HOLDER);
     private static final double SEARCH_RANGE = 8.0D;
     public AABB searchArea;
-    public List<ManaSparkEntity> sparks;
+    public List<ManaSparkEntity> sparks = new ArrayList<>();
     public int sparkConvertSpeed = 15000;
     @Persisted
     public DyeColor network = DyeColor.WHITE;
