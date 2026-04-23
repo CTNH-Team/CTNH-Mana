@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -112,6 +113,19 @@ public class CMMachines {
                     manahatchtootip_base[4].translate(10000),
                     manahatchtootip_base[5].translate(100000),
                     manahatchtootip_base[6].translate(8000))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[7].translate("凝聚魔力能量"));
+                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[3].translate("每tick至多0.1%"));
+                    tooltip.add(manaHatchDataLang[4].translate("100"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化效率"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel("manahatch")
             .tier(HV)
@@ -132,6 +146,19 @@ public class CMMachines {
                     sparkmanahatchtootip_base[5].translate(40000),
                     sparkmanahatchtootip_base[6].translate(500000),
                     sparkmanahatchtootip_base[7].translate(32000))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[7].translate("凝聚魔力能量"));
+                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[3].translate("每tick至多1%"));
+                    tooltip.add(manaHatchDataLang[7].translate("网路LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化效率"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(EV)
@@ -152,6 +179,19 @@ public class CMMachines {
                     sparkmanahatchtootip_base[5].translate(160000),
                     sparkmanahatchtootip_base[6].translate(5000000),
                     sparkmanahatchtootip_base[7].translate(128000))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[1].translate("1"));
+                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[3].translate("每tick至多1%"));
+                    tooltip.add(manaHatchDataLang[7].translate("网路LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化效率"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(LuV)
@@ -172,6 +212,19 @@ public class CMMachines {
                     sparkmanahatchtootip_base[5].translate(640000),
                     sparkmanahatchtootip_base[6].translate(100000000),
                     sparkmanahatchtootip_base[7].translate(1280000))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[1].translate("1"));
+                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[3].translate("每tick至多1%"));
+                    tooltip.add(manaHatchDataLang[7].translate("网路LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化效率"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
@@ -191,6 +244,19 @@ public class CMMachines {
                     manahatchtootip_base[4].translate(320000),
                     manahatchtootip_base[5].translate(100000),
                     manahatchtootip_base[6].translate(Integer.MAX_VALUE - 1))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[1].translate("1"));
+                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[3].translate("每tick至多0.1%"));
+                    tooltip.add(manaHatchDataLang[4].translate("100"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("液态LP转化效率"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
@@ -211,6 +277,19 @@ public class CMMachines {
                     bloodmanahatchtootip_base[5].translate(666),
                     bloodmanahatchtootip_base[6].translate(66666),
                     bloodmanahatchtootip_base[7].translate(66666))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[1].translate("1"));
+                    tooltip.add(manaHatchDataLang[7].translate("植物魔法魔力转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("戒指魔力转移效率"));
+                    tooltip.add(manaHatchDataLang[4].translate("100"));
+                    tooltip.add(manaHatchDataLang[5].translate("100"));
+                    tooltip.add(manaHatchDataLang[6].translate("1%"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(UHV)
@@ -231,6 +310,19 @@ public class CMMachines {
                     bloodmanahatchtootip_base[5].translate(6666),
                     bloodmanahatchtootip_base[6].translate(444444),
                     bloodmanahatchtootip_base[7].translate(666666))
+            .tooltips(manahatchctrltooltip_1.translate())
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(manaHatchDataLang[0].translate());
+                    tooltip.add(manaHatchDataLang[1].translate("1"));
+                    tooltip.add(manaHatchDataLang[7].translate("植物魔法魔力转化"));
+                    tooltip.add(manaHatchDataLang[7].translate("戒指魔力转移效率"));
+                    tooltip.add(manaHatchDataLang[4].translate("100"));
+                    tooltip.add(manaHatchDataLang[5].translate("100"));
+                    tooltip.add(manaHatchDataLang[6].translate("10%"));
+                }
+            })
             .abilities(CMPartsAbility.MANAHATCH)
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .tier(ZPM)

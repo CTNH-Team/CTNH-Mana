@@ -18,7 +18,7 @@ public class RitualCharger extends Ritual {
     int syphonCost = 25600;
 
     public RitualCharger() {
-        super("ritualCharger", 0, 1500000, "ritual.ctnhmana.chargerRitual");
+        super("ritualCharger", 0, 1000000, "ritual.ctnhmana.chargerRitual");
         this.addBlockRange("charge", new AreaDescriptor.Rectangle(new BlockPos(0, 1, 0), 1));
         this.setMaximumVolumeAndDistanceOfRange("charge", 1, 2, 2);
     }

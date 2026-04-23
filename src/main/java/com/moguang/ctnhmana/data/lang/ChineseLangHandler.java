@@ -34,7 +34,7 @@ public class ChineseLangHandler {
 
     @CN({
             "用于血法师的魔力机器的魔力能量输入，支持输入：灵魂网络的生命源质量，液态生命源质",
-            "不支持液态魔力，植物魔法魔力",
+            "不支持凝聚魔力能量，植物魔法魔力",
             "通过在物品槽位放入宝珠来完成与宝珠所有者的灵魂网络的绑定并自动从灵魂网络抽取生命源质",
             "直接从外部输入（不支持手动输入）来往舱室注入液态生命源质",
             "每秒自动从当前区块尽可能地吸收各种恶魔意志",
@@ -44,7 +44,7 @@ public class ChineseLangHandler {
     })
     @EN({
             "用于血法师的魔力机器的魔力能量输入，支持输入：灵魂网络的生命源质量，液态生命源质",
-            "不支持液态魔力，植物魔法魔力",
+            "不支持凝聚魔力能量，植物魔法魔力",
             "通过在物品槽位放入宝珠来完成与宝珠所有者的灵魂网络的绑定并自动从灵魂网络抽取生命源质",
             "直接从外部输入（不支持手动输入）来往舱室注入液态生命源质",
             "每秒自动从当前区块尽可能地吸收各种恶魔意志",
@@ -165,6 +165,34 @@ public class ChineseLangHandler {
     @CN("基础魔力凝聚者")
 
     public static Lang manahatchtooltip_1;
+    @CN("按住CTRL来显示具体数据")
+    @EN("Hold CTRL to show detailed data")
+    public static Lang manahatchctrltooltip_1;
+    @CN(
+            {
+                    "详细转化数据:",
+                    "凝聚魔力能量转化比例:%s:1",
+                    "植物魔法魔力转化比率:%s:1",
+                    "戒指魔力转移效率:%s",
+                    "网路LP转化比率:%s:1",
+                    "液态LP转化比率:%s:1",
+                    "液态LP转化效率:每tick之多%s 当前容量",
+                    "§c不支持%s"
+            }
+    )
+    @EN(
+            {
+                    "详细转化数据:",
+                    "凝聚魔力能量转化比例:%s:1",
+                    "植物魔法魔力转化比率:%s:1",
+                    "戒指魔力转移效率:%s",
+                    "网路LP转化比率:%s:1",
+                    "液态LP转化比率:%s:1",
+                    "液态LP转化效率:每tick之多%s 当前容量",
+                    "§c不支持%s"
+            }
+    )
+    public static Lang[] manaHatchDataLang;
     @CN("§c凝血魔力凝聚者")
     public static Lang bloodmanahatchtooltip_1;
 
@@ -861,4 +889,5 @@ public class ChineseLangHandler {
             "当前最高输入速度:%d EU(%dA/%d)"
     })
     public static Lang[] omegaSpireStateLang;
+
 }

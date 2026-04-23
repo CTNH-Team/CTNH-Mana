@@ -193,7 +193,7 @@ public class ZenithSpire extends MysticSpire {
         selfEnergyContainer = getEnergyContainer();
         getEUContainer();
         var voltage = selfEnergyContainer.getHighestInputVoltage();
-        this.eutier = GTUtil.getFloorTierByVoltage(voltage) * 4;
+        this.eutier = GTUtil.getFloorTierByVoltage(voltage);
         this.euSpeed = selfEnergyContainer.getInputVoltage() * this.speed / base_speed * 4;
         this.euCapacity = selfEnergyContainer.getEnergyCapacity() * this.maxMana / base_maxmana * 4;
         this.range *= 4;
