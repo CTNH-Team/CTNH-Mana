@@ -31,9 +31,6 @@ import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 import wayoftime.bloodmagic.common.item.BloodOrb;
@@ -295,7 +292,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void ConvertLP() {
         // 转化LP到Mana
         // 只有LP是无转化限制，会损失转化的
-        if (this.SoulNet != null&&SoulNet.getCurrentEssence()>=100) {
+        if (this.SoulNet != null && SoulNet.getCurrentEssence() >= 100) {
             var consume = SoulNet.getCurrentEssence();
             if (consume > LP_CONVERT_SPEED) {
                 SoulNet.add(new SoulTicket(-LP_CONVERT_SPEED), 100000000);
@@ -382,5 +379,4 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public boolean canShared() {
         return false;
     }
-
 }

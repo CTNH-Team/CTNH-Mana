@@ -308,9 +308,11 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
 
     public void ConvertFluidLP() {
         if (!fluidTank.isEmpty() && fluidTank.getFluidInTank(0)
-                .containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1))&&fluidTank.getFluidInTank(0).getAmount()>FLUID_MANA_CONVERT_RATE/FLUID_MANA_CONVERT_SPEED) {
+                .containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1)) &&
+                fluidTank.getFluidInTank(0).getAmount() > FLUID_MANA_CONVERT_RATE / FLUID_MANA_CONVERT_SPEED) {
             var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(),
-                    (long) Math.min((fluidTank.getFluidInTank(0).getAmount() * FLUID_LP_CONVERT_SPEED),(maxMana-Mana)*LP_CONVERT_RATE));
+                    (long) Math.min((fluidTank.getFluidInTank(0).getAmount() * FLUID_LP_CONVERT_SPEED),
+                            (maxMana - Mana) * LP_CONVERT_RATE));
             Mana = Math.min(maxMana, (long) (consume / LP_CONVERT_RATE) + Mana);
             fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount() - consume));
         }

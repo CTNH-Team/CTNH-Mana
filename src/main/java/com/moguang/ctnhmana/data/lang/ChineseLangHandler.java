@@ -168,30 +168,26 @@ public class ChineseLangHandler {
     @CN("按住CTRL来显示具体数据")
     @EN("Hold CTRL to show detailed data")
     public static Lang manahatchctrltooltip_1;
-    @CN(
-            {
-                    "详细转化数据:",
-                    "凝聚魔力能量转化比例:%s:1",
-                    "植物魔法魔力转化比率:%s:1",
-                    "戒指魔力转移效率:%s",
-                    "网路LP转化比率:%s:1",
-                    "液态LP转化比率:%s:1",
-                    "液态LP转化效率:每tick之多%s 当前容量",
-                    "§c不支持%s"
-            }
-    )
-    @EN(
-            {
-                    "详细转化数据:",
-                    "凝聚魔力能量转化比例:%s:1",
-                    "植物魔法魔力转化比率:%s:1",
-                    "戒指魔力转移效率:%s",
-                    "网路LP转化比率:%s:1",
-                    "液态LP转化比率:%s:1",
-                    "液态LP转化效率:每tick之多%s 当前容量",
-                    "§c不支持%s"
-            }
-    )
+    @CN({
+            "详细转化数据:",
+            "凝聚魔力能量转化比例:%s:1",
+            "植物魔法魔力转化比率:%s:1",
+            "戒指魔力转移效率:%s",
+            "网路LP转化比率:%s:1",
+            "液态LP转化比率:%s:1",
+            "液态LP转化效率:每tick之多%s 当前容量",
+            "§c不支持%s"
+    })
+    @EN({
+            "详细转化数据:",
+            "凝聚魔力能量转化比例:%s:1",
+            "植物魔法魔力转化比率:%s:1",
+            "戒指魔力转移效率:%s",
+            "网路LP转化比率:%s:1",
+            "液态LP转化比率:%s:1",
+            "液态LP转化效率:每tick之多%s 当前容量",
+            "§c不支持%s"
+    })
     public static Lang[] manaHatchDataLang;
     @CN("§c凝血魔力凝聚者")
     public static Lang bloodmanahatchtooltip_1;
@@ -889,5 +885,4 @@ public class ChineseLangHandler {
             "当前最高输入速度:%d EU(%dA/%d)"
     })
     public static Lang[] omegaSpireStateLang;
-
 }
