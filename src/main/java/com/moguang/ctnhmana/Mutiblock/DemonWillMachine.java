@@ -408,10 +408,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         return false;
     }
 
-    @Override
-    public boolean alwaysTryModifyRecipe() {
-        return true;
-    }
 
     @Override
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {

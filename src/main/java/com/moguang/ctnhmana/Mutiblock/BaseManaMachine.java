@@ -410,8 +410,8 @@ public class BaseManaMachine extends ManaMachine {
             } else {
                 textList.add(textList.size(), BaseManaMachineLang[1].translate(this.consumption));
                 textList.add(textList.size(), BaseManaMachineLang[2].translate(getUpdateName()));
-                textList.add(textList.size(), BaseManaMachineWorkingParallelLang.translate(recipemetric.parallel,
-                        metric.parallel + globalmetric.parallel));
+                textList.add(textList.size(), BaseManaMachineWorkingParallelLang.translate(recipemetric.true_parallel,
+                        recipemetric.parallel));
                 // textList.add(textList.size(), BaseManaMachineLang[4].translate(recipemetric.speed));
                 // textList.add(textList.size(), BaseManaMachineLang[5].translate(recipemetric.eut));
                 // textList.add(textList.size(), BaseManaMachineLang[6].translate(recipemetric.input));

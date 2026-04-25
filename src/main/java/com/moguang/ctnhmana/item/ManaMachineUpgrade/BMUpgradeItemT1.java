@@ -43,7 +43,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
                 stead = true;
             }
             if (hatch.destructiveWill >= BASE_MIN) {
-                metric.speed += 0.7;
+                metric.speed += 0.75;
                 if (!stead) metric.output -= 0.1;
 
             }
@@ -53,7 +53,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
             }
             if (hatch.corrosiveWill >= BASE_MIN) {
                 if (!stead) metric.parallel *= 0.75;
-                if (!stead) metric.output += 0.2;
+                metric.speed+=(metric.speed-1)*1.2;
             }
         }
 
@@ -78,7 +78,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
                 hatch.vengefulWill -= (tier - 1) * BASE_CONSUPTION;
             }
             if (hatch.corrosiveWill >= BASE_MIN) {
-                hatch.vengefulWill -= (tier - 1) * BASE_CONSUPTION;
+                hatch.corrosiveWill -= (tier - 1) * BASE_CONSUPTION;
             }
         }
         metric.true_parallel = ParallelLogic.getParallelAmount(machine, recipe, metric.parallel);
@@ -98,8 +98,8 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
             "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*2点恶魔意志，使最大并行翻倍",
             "如果机器中的特殊恶魔意志至少拥有10，则在运行时消耗0.5*（机器电压-1）点恶魔意志，获得以下效果:",
             "破坏意志：运行速度§a+70%§r，最终产物§c-20%§r",
-            "侵蚀意志：消耗电压§a-30%§r，运行速度§c-15%§r",
-            "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
+            "复仇意志：消耗电压§a-30%§r，运行速度§c-15%§r",
+            "侵蚀意志：使运行速度增幅§a+20%§r，最大并行§c-25%§r",
             "坚韧意志：§a消除以上所有意志的负面效果§r",
             "§c警告：不稳定的意志消耗模式§r",
             "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"
@@ -110,9 +110,9 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
             "宝珠的每一等级提供§a+1§r最大并行,灵魂网络的每250000LP提供§a+1§r最大并行（最多16）",
             "如果机器中的普通恶魔意志至少拥有20，则在运行时消耗电压等级*2点恶魔意志，使最大并行翻倍",
             "如果机器中的每种特殊恶魔意志至少拥有10，则在运行时消耗0.5*（机器电压-1）点恶魔意志，获得以下效果:",
-            "破坏意志：运行速度§a+35%§r，最终产物§c-20%§r",
-            "侵蚀意志：消耗电压§a-30%§r，运行速度§c-15%§r",
-            "复仇意志：最终产物§a+20%§r，最大并行§c-25%§r",
+            "Destructive Will: Speed §a+70%§r, Final Output §c-20%§r",
+            "Vengeful Will: EU Consumption §a-30%§r, Speed §c-15%§r",
+            "Corrosive Will: Final Output §a+20%§r, Max Parallel §c-25%§r",
             "坚韧意志：消除以上所有意志的负面效果",
             "§c警告：不稳定的意志消耗模式§r",
             "§c禁忌不会成为通向真理的阻碍，我们将利用每一种被他人称作疯狂的可能性§r"

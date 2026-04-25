@@ -45,10 +45,7 @@ import vazkii.botania.network.EffectType;
 import vazkii.botania.network.clientbound.BotaniaEffectPacket;
 import vazkii.botania.xplat.XplatAbstractions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static com.moguang.ctnhmana.item.equipment.SaberWandItem.saberWandBindingLang;
@@ -389,24 +386,25 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                 updateMachine();
                 return InteractionResult.SUCCESS;
             } else {
-                // 绑定坐标必须是「尖塔控制器 AttachPos」：火花实体在 offset(0,10,1) 等处，1×1 AABB(getOnPos) 永远搜不到
-                BlockPos bindingSpire = SaberWandItem.hasBindingSpire(stack) ? SaberWandItem.getBindingSpire(stack) :
+                BlockPos bindingSparkPos = SaberWandItem.hasBindingSpire(stack) ? SaberWandItem.getBindingSpire(stack) :
                         null;
                 DeltaSpark spark = null;
-                if (bindingSpire != null) {
-                    BlockPos finalBinding = bindingSpire;
-                    // 按 AttachPos 匹配另一端尖塔的火花；扩大 AABB 仅用于缩小扫描范围
-                    AABB search = new AABB(finalBinding).inflate(48);
+                if (bindingSparkPos != null) {
+                    BlockPos finalBinding = bindingSparkPos;
+                    // 绑定记录的是火花实体位置，因此按实体位置反查，不再依赖 AttachPos（控制器坐标）
+                    AABB search = new AABB(finalBinding).inflate(2);
                     List<DeltaSpark> sparks = level().getEntitiesOfClass(DeltaSpark.class, search,
-                            e -> e != this && e.isAlive() && !e.isRemoved() && e.AttachPos != null &&
-                                    e.AttachPos.equals(finalBinding));
+                            e -> e != this && e.isAlive() && !e.isRemoved());
                     if (!sparks.isEmpty()) {
-                        spark = sparks.get(0);
+                        spark = sparks.stream()
+                                .min(Comparator.comparingDouble(a -> a.distanceToSqr(finalBinding.getX() + 0.5, finalBinding.getY() + 0.5,
+                                        finalBinding.getZ() + 0.5)))
+                                .orElse(null);
                     }
                 }
                 if (spark == null) {
                     if (!world.isClientSide) {
-                        BlockPos record = this.AttachPos != null ? this.AttachPos : this.blockPosition();
+                        BlockPos record = this.blockPosition();
                         SaberWandItem.setBindingSpire(stack, record);
                         player.displayClientMessage(saberWandBindingLang[1].translate(), true);
                     }
