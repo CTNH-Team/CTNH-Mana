@@ -53,7 +53,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
             }
             if (hatch.corrosiveWill >= BASE_MIN) {
                 if (!stead) metric.parallel *= 0.75;
-                metric.speed+=(metric.speed-1)*1.2;
+                metric.speed += (metric.speed - 1) * 1.2;
             }
         }
 

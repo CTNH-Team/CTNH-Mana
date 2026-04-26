@@ -4197,7 +4197,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition AHCC = REGISTRATE
             .mysticmultiblock("arcane_highenergy_compression_reactor_core",
-                    holder -> new ArcaneHighEnergyCompressionReactorCore(holder, 3))
+                    holder -> new ArcaneHighEnergyCompressionReactorCore(holder, 5))
             .cnLangValue("§高能魔能压缩反应核心(AHCC)")
             .tooltips(spireTooltipsLang)
             .appearanceBlock(() -> BotaniaBlocks.livingrockPolished)

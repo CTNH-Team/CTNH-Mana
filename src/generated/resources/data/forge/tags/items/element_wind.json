@@ -17,10 +17,6 @@
       "required": false
     },
     {
-      "id": "botania:rune_pride",
-      "required": false
-    },
-    {
       "id": "botania:rune_mana",
       "required": false
     },
@@ -34,6 +30,22 @@
     },
     {
       "id": "ctnhmana:proliferation_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:asgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:alfheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:midgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:niflheim_rune",
       "required": false
     }
   ]

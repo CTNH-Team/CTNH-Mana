@@ -1,5 +1,25 @@
 {
   "values": [
+    {
+      "id": "ctnhmana:horizen_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:starlight_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:twist_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:quasar_rune",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:proliferation_rune",
+      "required": false
+    },
     "ctnhmana:horizen_rune",
     "ctnhmana:starlight_rune",
     "ctnhmana:twist_rune",

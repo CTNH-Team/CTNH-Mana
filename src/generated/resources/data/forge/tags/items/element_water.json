@@ -17,10 +17,6 @@
       "required": false
     },
     {
-      "id": "botania:rune_envy",
-      "required": false
-    },
-    {
       "id": "botania:rune_mana",
       "required": false
     },
@@ -34,6 +30,26 @@
     },
     {
       "id": "ctnhmana:proliferation_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:vanaheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:alfheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:joetunheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:niflheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:helheim_rune",
       "required": false
     }
   ]

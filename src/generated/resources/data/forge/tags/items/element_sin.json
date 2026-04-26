@@ -39,6 +39,10 @@
     {
       "id": "ctnhmana:quasar_rune",
       "required": false
+    },
+    {
+      "id": "mythicbotany:helheim_rune",
+      "required": false
     }
   ]
 }

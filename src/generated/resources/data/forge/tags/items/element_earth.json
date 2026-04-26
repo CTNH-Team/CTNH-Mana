@@ -17,10 +17,6 @@
       "required": false
     },
     {
-      "id": "botania:rune_greed",
-      "required": false
-    },
-    {
       "id": "botania:rune_mana",
       "required": false
     },
@@ -42,6 +38,26 @@
     },
     {
       "id": "ctnhmana:proliferation_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:vanaheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:midgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:joetunheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:muspelheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:nidavellir_rune",
       "required": false
     }
   ]

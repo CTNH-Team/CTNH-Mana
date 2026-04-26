@@ -26,6 +26,7 @@ import net.minecraft.world.phys.AABB;
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
+import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import lombok.Getter;
@@ -117,7 +118,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             } else {
                 this.kill();
             }
-            if (mode == 1 && !sparks.isEmpty()) sendManaToSpark();
+            if (mode == 1) {
+                if (!sparks.isEmpty()) sendManaToSpark();
+                if (!receivers.isEmpty()) sendManaToHatchReceiver();
+            }
             if (mode == 2 && !receivers.isEmpty()) sendManaToReceiver();
             if (mode == 0 && !receivers.isEmpty()) receiveManaFromSpark();
             if (mode == 0 && !flowers.isEmpty()) receiveManaFromFlower();
@@ -172,7 +176,6 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                 continue;
             if (!spark.getAttachedManaReceiver().isFull()) spark.getAttachedManaReceiver().receiveMana(consume);
             if (isAnimationActive) particlesTowards(spark.entity());
-
         }
     }
 
@@ -182,7 +185,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var num = 0;
         for (ManaReceiver receiver : receivers) {
             if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()))
+                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
+                    !(receiver instanceof GeneratingFlowerBlockEntity))
                 num++;
         }
         if (num < 1 || pool.getCurrentMana() <= 0) return;
@@ -198,6 +202,34 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
                     !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
                     !(receiver instanceof GeneratingFlowerBlockEntity)) {
+                receiver.receiveMana(consume);
+                if (isAnimationActive) particlesTowards((BlockEntity) receiver);
+            }
+        }
+    }
+
+    public void sendManaToHatchReceiver() {
+        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
+        int consume = 0;
+        var num = 0;
+        for (ManaReceiver receiver : receivers) {
+            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
+                    (receiver instanceof IManaMachineBlockEntity IManaEntity))
+                num++;
+        }
+        if (num < 1 || pool.getCurrentMana() <= 0) return;
+        if (pool.getCurrentMana() <= speed) {
+            consume = pool.getCurrentMana();
+            pool.BTMana = 0;
+        } else {
+            pool.BTMana -= speed;
+            consume = speed;
+        }
+        consume = Math.max(consume / num, 1);
+        for (ManaReceiver receiver : receivers) {
+            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
+                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
+                    receiver instanceof IManaMachineBlockEntity IManaEntity) {
                 receiver.receiveMana(consume);
                 if (isAnimationActive) particlesTowards((BlockEntity) receiver);
             }
@@ -397,8 +429,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                             e -> e != this && e.isAlive() && !e.isRemoved());
                     if (!sparks.isEmpty()) {
                         spark = sparks.stream()
-                                .min(Comparator.comparingDouble(a -> a.distanceToSqr(finalBinding.getX() + 0.5, finalBinding.getY() + 0.5,
-                                        finalBinding.getZ() + 0.5)))
+                                .min(Comparator.comparingDouble(
+                                        a -> a.distanceToSqr(finalBinding.getX() + 0.5, finalBinding.getY() + 0.5,
+                                                finalBinding.getZ() + 0.5)))
                                 .orElse(null);
                     }
                 }

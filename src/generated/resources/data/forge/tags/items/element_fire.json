@@ -9,10 +9,6 @@
       "required": false
     },
     {
-      "id": "botania:rune_lust",
-      "required": false
-    },
-    {
       "id": "botania:rune_wrath",
       "required": false
     },
@@ -34,6 +30,18 @@
     },
     {
       "id": "ctnhmana:quasar_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:asgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:muspelheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:nidavellir_rune",
       "required": false
     }
   ]

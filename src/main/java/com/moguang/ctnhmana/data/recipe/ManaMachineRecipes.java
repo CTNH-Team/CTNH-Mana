@@ -175,7 +175,7 @@ public class ManaMachineRecipes {
                 .EUt(1920)
                 .duration(200)
                 .save(provider);
-        ElfPlateRecipeBuilder.builder("twist_reactor_mk1")// 扭曲聚变反应堆mk1
+        TerraPlateRecipeBuilder.builder("twist_reactor_mk1")// 扭曲聚变反应堆mk1
                 .input(TWISTED_FUSION_CASING.asItem())
                 .input(TWISTED_FUSION_CASING.asItem())
                 .input(TWISTED_FUSION_CASING.asItem())

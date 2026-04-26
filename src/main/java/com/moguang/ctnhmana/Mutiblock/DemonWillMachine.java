@@ -57,80 +57,32 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public int Augmented_rune = 0;
     public BlockPos pos1 = BlockPos.ZERO;
     public BlockPos pos2 = BlockPos.ZERO;
-    public BlockPos[] Runes = new BlockPos[] {
-            MachineUtils.getOffset(this, 0, 34, -5),
-            MachineUtils.getOffset(this, 1, 34, -5),
-            MachineUtils.getOffset(this, 2, 34, -5),
-            MachineUtils.getOffset(this, -1, 34, -5),
-            MachineUtils.getOffset(this, -2, 34, -5),
-            MachineUtils.getOffset(this, 3, 34, -4),
-            MachineUtils.getOffset(this, -3, 34, -4),
-            MachineUtils.getOffset(this, 5, 34, -2),
-            MachineUtils.getOffset(this, -5, 34, -2),
-            MachineUtils.getOffset(this, 6, 34, -1),
-            MachineUtils.getOffset(this, 6, 34, 0),
-            MachineUtils.getOffset(this, 6, 34, 1),
-            MachineUtils.getOffset(this, 6, 34, 2),
-            MachineUtils.getOffset(this, 6, 34, 3),
-            MachineUtils.getOffset(this, -6, 34, -1),
-            MachineUtils.getOffset(this, -6, 34, 0),
-            MachineUtils.getOffset(this, -6, 34, 1),
-            MachineUtils.getOffset(this, -6, 34, 2),
-            MachineUtils.getOffset(this, -6, 34, 3),
-            MachineUtils.getOffset(this, 5, 34, 4),
-            MachineUtils.getOffset(this, -5, 34, 4),
-            MachineUtils.getOffset(this, -3, 34, 6),
-            MachineUtils.getOffset(this, 3, 34, 6),
-            MachineUtils.getOffset(this, 0, 34, 7),
-            MachineUtils.getOffset(this, -1, 34, 7),
-            MachineUtils.getOffset(this, -2, 34, 7),
-            MachineUtils.getOffset(this, 1, 34, 7),
-            MachineUtils.getOffset(this, 2, 34, 7),
-            MachineUtils.getOffset(this, 0, 32, -8),
-            MachineUtils.getOffset(this, 1, 32, -8),
-            MachineUtils.getOffset(this, 2, 32, -8),
-            MachineUtils.getOffset(this, -1, 32, -8),
-            MachineUtils.getOffset(this, -2, 32, -8),
-            MachineUtils.getOffset(this, 3, 32, -7),
-            MachineUtils.getOffset(this, 4, 32, -7),
-            MachineUtils.getOffset(this, 5, 32, -7),
-            MachineUtils.getOffset(this, -3, 32, -7),
-            MachineUtils.getOffset(this, -4, 32, -7),
-            MachineUtils.getOffset(this, -5, 32, -7),
-            MachineUtils.getOffset(this, -8, 32, -4),
-            MachineUtils.getOffset(this, -8, 32, -3),
-            MachineUtils.getOffset(this, -8, 32, -2),
-            MachineUtils.getOffset(this, 8, 32, -4),
-            MachineUtils.getOffset(this, 8, 32, -3),
-            MachineUtils.getOffset(this, 8, 32, -2),
-            MachineUtils.getOffset(this, -9, 32, -1),
-            MachineUtils.getOffset(this, -9, 32, 0),
-            MachineUtils.getOffset(this, -9, 32, 1),
-            MachineUtils.getOffset(this, -9, 32, 2),
-            MachineUtils.getOffset(this, -9, 32, 3),
-            MachineUtils.getOffset(this, 9, 32, -1),
-            MachineUtils.getOffset(this, 9, 32, 0),
-            MachineUtils.getOffset(this, 9, 32, 1),
-            MachineUtils.getOffset(this, 9, 32, 2),
-            MachineUtils.getOffset(this, 9, 32, 3),
-            MachineUtils.getOffset(this, -8, 32, 4),
-            MachineUtils.getOffset(this, -8, 32, 5),
-            MachineUtils.getOffset(this, -8, 32, 6),
-            MachineUtils.getOffset(this, 8, 32, 4),
-            MachineUtils.getOffset(this, 8, 32, 5),
-            MachineUtils.getOffset(this, 8, 32, 6),
-            MachineUtils.getOffset(this, 5, 32, 9),
-            MachineUtils.getOffset(this, 4, 32, 9),
-            MachineUtils.getOffset(this, 3, 32, 9),
-            MachineUtils.getOffset(this, -5, 32, 9),
-            MachineUtils.getOffset(this, -4, 32, 9),
-            MachineUtils.getOffset(this, -3, 32, 9),
-            MachineUtils.getOffset(this, -2, 32, 10),
-            MachineUtils.getOffset(this, -1, 32, 10),
-            MachineUtils.getOffset(this, 0, 32, 10),
-            MachineUtils.getOffset(this, 1, 32, 10),
-            MachineUtils.getOffset(this, 2, 32, 10),
+    private static final int[][] RUNE_OFFSETS = new int[][] {
+            { 0, 34, -5 }, { 1, 34, -5 }, { 2, 34, -5 }, { -1, 34, -5 }, { -2, 34, -5 },
+            { 3, 34, -4 }, { -3, 34, -4 }, { 5, 34, -2 }, { -5, 34, -2 }, { 6, 34, -1 },
+            { 6, 34, 0 }, { 6, 34, 1 }, { 6, 34, 2 }, { 6, 34, 3 }, { -6, 34, -1 },
+            { -6, 34, 0 }, { -6, 34, 1 }, { -6, 34, 2 }, { -6, 34, 3 }, { 5, 34, 4 },
+            { -5, 34, 4 }, { -3, 34, 6 }, { 3, 34, 6 }, { 0, 34, 7 }, { -1, 34, 7 },
+            { -2, 34, 7 }, { 1, 34, 7 }, { 2, 34, 7 }, { 0, 32, -8 }, { 1, 32, -8 },
+            { 2, 32, -8 }, { -1, 32, -8 }, { -2, 32, -8 }, { 3, 32, -7 }, { 4, 32, -7 },
+            { 5, 32, -7 }, { -3, 32, -7 }, { -4, 32, -7 }, { -5, 32, -7 }, { -8, 32, -4 },
+            { -8, 32, -3 }, { -8, 32, -2 }, { 8, 32, -4 }, { 8, 32, -3 }, { 8, 32, -2 },
+            { -9, 32, -1 }, { -9, 32, 0 }, { -9, 32, 1 }, { -9, 32, 2 }, { -9, 32, 3 },
+            { 9, 32, -1 }, { 9, 32, 0 }, { 9, 32, 1 }, { 9, 32, 2 }, { 9, 32, 3 },
+            { -8, 32, 4 }, { -8, 32, 5 }, { -8, 32, 6 }, { 8, 32, 4 }, { 8, 32, 5 },
+            { 8, 32, 6 }, { 5, 32, 9 }, { 4, 32, 9 }, { 3, 32, 9 }, { -5, 32, 9 },
+            { -4, 32, 9 }, { -3, 32, 9 }, { -2, 32, 10 }, { -1, 32, 10 }, { 0, 32, 10 },
+            { 1, 32, 10 }, { 2, 32, 10 }
     };
+
+    private BlockPos[] getRunes() {
+        BlockPos[] runes = new BlockPos[RUNE_OFFSETS.length];
+        for (int i = 0; i < RUNE_OFFSETS.length; i++) {
+            int[] offset = RUNE_OFFSETS[i];
+            runes[i] = MachineUtils.getOffset(this, offset[0], offset[1], offset[2]);
+        }
+        return runes;
+    }
 
     public EnumDemonWillType type = EnumDemonWillType.DEFAULT;
     public int MAX_WILL = 400;
@@ -188,7 +140,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
                 adjustWillChunk(pos1, pos2, type1);
             }
         } else {
-            difference += getWillDifference(pos1, pos2, type) * 2;
+            difference += getWillDifference(pos1, pos2, type);
             adjustWillChunk(pos1, pos2, type);
         }
         return difference;
@@ -200,7 +152,15 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (will1 == will2) {
             return 0;
         }
-        return (Math.abs(will1 - will2)) * Math.pow(1.2, Augmented_rune) + Capacity_rune * 2;
+        return Math.abs(will1 - will2);
+    }
+
+    public double getRecipeDifference(double baseDifference) {
+        var runeAdjustedDifference = baseDifference * Math.pow(1.2, Augmented_rune) + Capacity_rune * 2;
+        if (type == EnumDemonWillType.DEFAULT) {
+            return runeAdjustedDifference;
+        }
+        return runeAdjustedDifference * 2;
     }
 
     public double getHigherWill(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
@@ -217,6 +177,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (willChunk1.getCurrentWill().getWill(type1) < willChunk2.getCurrentWill().getWill(type1)) {
             if (Math.abs(high_will) >= 9999) {
                 willChunk2.getCurrentWill().clearWill();
+                difference = 0;
             }
             if (Math.abs(high_will) < 10) {
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
@@ -227,6 +188,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         } else {
             if (Math.abs(high_will) >= 9999) {
                 willChunk1.getCurrentWill().clearWill();
+                difference = 0;
             }
             if (Math.abs(high_will) < 10) {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference));
@@ -281,7 +243,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         Augmented_rune = 0;
         Capacity_rune = 0;
         Sacrifice_rune = 0;
-        for (var rune : Runes) {
+        for (var rune : getRunes()) {
             var runeBlock = Objects.requireNonNull(getLevel()).getBlockState(rune).getBlock();
             if (runeBlock.equals(BloodMagicBlocks.SPEED_RUNE.get())) {
                 Speed_rune++;
@@ -323,7 +285,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof DemonWillMachine dmachine) {
-            var difference = dmachine.difference;
+            var difference = dmachine.getRecipeDifference(dmachine.difference);
             var diversity = dmachine.diversity;
             var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.2);
             if (dmachine.isBoosted) {
@@ -381,7 +343,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * difference * 128;
+        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * getRecipeDifference(difference) * 128;
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
         textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2",
                 FormattingUtil.formatNumbers(outputEnergy), voltageName));
@@ -407,7 +369,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public boolean regressWhenWaiting() {
         return false;
     }
-
 
     @Override
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {

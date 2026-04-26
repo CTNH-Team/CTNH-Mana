@@ -121,8 +121,8 @@ public class CMMaterials {
             .element(ULTRA_MANA)
             .iconSet(ULTRA_MANA_ICON_SET)
             .color(0x7D26CD)
-            .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 77777, 77777)
-            .cableProperties(GTValues.V[GTValues.UIV], 777777, 0, true)
+            .blastTemp(7200, BlastProperty.GasTier.HIGHEST, 7, 77777*20)
+            .cableProperties(GTValues.V[GTValues.UIV], 7777777, 0, true)
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();

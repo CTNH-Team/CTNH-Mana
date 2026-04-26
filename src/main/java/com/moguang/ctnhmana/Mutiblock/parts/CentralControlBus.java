@@ -37,6 +37,11 @@ public class CentralControlBus extends ItemBusPartMachine {
     protected @Nullable ISubscription metasubs;
     protected TickableSubscription tickSubs;
 
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
     public CentralControlBus(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
     }
@@ -91,7 +96,7 @@ public class CentralControlBus extends ItemBusPartMachine {
                     if (getInputSignal() > 0 && !lastHadRedstone &&
                             !imachine.getInventory().getStackInSlot(meta).isEmpty())
                         imachine.popItem(meta);
-                    if (this.getInventory().getStackInSlot(0).isEmpty()) {
+                    if (!this.getInventory().getStackInSlot(0).isEmpty()) {
                         var item = this.getInventory().getStackInSlot(0);
                         item = imachine.getInventory().insertItem(meta, item, false);
                         if (item.isEmpty()) this.getInventory().setStackInSlot(0, ItemStack.EMPTY);
