@@ -39,6 +39,13 @@ public class ItemTags {
                 muspelheimRune, niflheimRune, nidavellirRune, helheimRune);
         create(provider, TIER5_RUNES, HORIZEN_RUNE.get(), STARLIGHT_RUNE.get(), TWIST_RUNE.get(), QUASAR_RUNE.get(),
                 PROLIFERATION_RUNE.get());
+        create(provider, SPIRE_UPDATE, UPGRADE_RUNE_SPEED_1.get(), UPGRADE_RUNE_SPEED_2.get(),
+                UPGRADE_RUNE_SPEED_3.get(),
+                UPGRADE_RUNE_RANGE_1.get(), UPGRADE_RUNE_RANGE_2.get(), UPGRADE_RUNE_RANGE_3.get(),
+                UPGRADE_RUNE_ALPHA.get(),
+                UPGRADE_RUNE_TRANSLOCATION_1.get(), UPGRADE_RUNE_TRANSLOCATION_2.get(),
+                UPGRADE_RUNE_TRANSLOCATION_3.get(),
+                UPGRADE_RUNE_OMEGA.get());
     }
 
     public static void create(RegistrateTagsProvider<Item> provider, TagKey<Item> tagKey, Item... rls) {

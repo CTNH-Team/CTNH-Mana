@@ -1,0 +1,40 @@
+{
+  "values": [
+    {
+      "id": "mythicbotany:asgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:vanaheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:alfheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:midgard_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:joetunheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:muspelheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:niflheim_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:nidavellir_rune",
+      "required": false
+    },
+    {
+      "id": "mythicbotany:helheim_rune",
+      "required": false
+    }
+  ]
+}

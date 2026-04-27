@@ -114,7 +114,6 @@ public class CMItems {
                 .cnlang("§a增殖§r符文")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
-                    properties.stacksTo(1);
                     return properties;
                 })
                 .lang("§aProliferation§r Rune")

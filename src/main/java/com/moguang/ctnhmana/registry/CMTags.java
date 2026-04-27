@@ -21,4 +21,5 @@ public class CMTags {
     public static TagKey<Item> TIER2_RUNES = TagUtil.createItemTag("tier2_runes");
     public static TagKey<Item> TIER3_RUNES = TagUtil.createItemTag("tier3_runes");
     public static TagKey<Item> TIER4_RUNES = TagUtil.createItemTag("tier4_runes");
+    public static TagKey<Item> SPIRE_UPDATE = TagUtil.createItemTag("spire_update");
 }

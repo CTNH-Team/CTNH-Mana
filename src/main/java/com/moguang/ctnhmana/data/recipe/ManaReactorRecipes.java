@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
@@ -31,6 +32,7 @@ import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
 import static vazkii.botania.common.block.BotaniaBlocks.*;
+import static vazkii.botania.common.block.BotaniaFlowerBlocks.pureDaisy;
 import static vazkii.botania.common.item.BotaniaItems.*;
 
 @SuppressWarnings("removal")
@@ -404,6 +406,23 @@ public class ManaReactorRecipes {
                 .duration(200)
                 .circuitMeta(1)
                 .EUt(9600 / 200)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("livingrock_from_stone_with_pure_daisy")
+                .addCondition(new ZenithCondition(false))
+                .inputItems(Items.STONE)
+                .notConsumable(pureDaisy.asItem())
+                .outputItems(livingrock.asItem())
+                .duration(100)
+                .EUt(MV)
+                .save(provider);
+        MANA_REACTOR_RECIPES.recipeBuilder("livingwood_from_wood_with_pure_daisy")
+                .addCondition(new ZenithCondition(false))
+                .inputItems(Items.OAK_LOG)
+                .inputItems(Tags.Items.WOOD)
+                .notConsumable(pureDaisy.asItem())
+                .outputItems(livingwoodLog.asItem())
+                .duration(100)
+                .EUt(MV)
                 .save(provider);
     }
 }
