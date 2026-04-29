@@ -415,14 +415,5 @@ public class ManaReactorRecipes {
                 .duration(100)
                 .EUt(MV)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("livingwood_from_wood_with_pure_daisy")
-                .addCondition(new ZenithCondition(false))
-                .inputItems(Items.OAK_LOG)
-                .inputItems(Tags.Items.WOOD)
-                .notConsumable(pureDaisy.asItem())
-                .outputItems(livingwoodLog.asItem())
-                .duration(100)
-                .EUt(MV)
-                .save(provider);
     }
 }
