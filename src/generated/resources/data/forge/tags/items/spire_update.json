@@ -1,0 +1,48 @@
+{
+  "values": [
+    {
+      "id": "ctnhmana:upgrade_rune_speed_1",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_speed_2",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_speed_3",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_range_1",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_range_2",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_range_3",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_alpha",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_translocation_1",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_translocation_2",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_translocation_3",
+      "required": false
+    },
+    {
+      "id": "ctnhmana:upgrade_rune_omega",
+      "required": false
+    }
+  ]
+}

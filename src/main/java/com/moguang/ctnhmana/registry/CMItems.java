@@ -33,6 +33,7 @@ import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.item.equipment.TaintedBloodWeepingEye;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.registry.items.ManaFuelItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -334,11 +335,7 @@ public class CMItems {
                         CustomTags.CRAFTING_WIRE_CUTTERS,
                         CustomTags.CRAFTING_WRENCHES)
                 .register();
-        SPARK_STICK = REGISTRATE
-                .item("spark_stick", properties -> new IManaFuelStick(properties, 5, 1, 1000))
-                .cnlang("火花级魔力燃料棒")
-                .tag(CMTags.MANA_FUEL_STACK)
-                .register();
+        SPARK_STICK = ManaFuelItems.registerSparkStick();
         BROKEN_RUNE = REGISTRATE
                 .item("broken_rune", ComponentItem::create)
                 .cnlang("破碎的符文")

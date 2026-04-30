@@ -54,6 +54,7 @@ import vazkii.botania.common.lib.BotaniaTags;
 
 import java.util.*;
 
+import static com.moguang.ctnhmana.data.lang.AHCCRuneLang.*;
 import static com.moguang.ctnhmana.item.Rune.RuneElementType.*;
 import static com.moguang.ctnhmana.registry.CMGuiTextures.AHCC_BACKGROUND;
 import static mythicbotany.register.ModItems.*;
@@ -84,9 +85,9 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     @Persisted
     public int slot_range = 2;
     @Persisted
-    public long baseMaxHeat = 100;
+    public long baseMaxHeat = 1600;
     @Persisted
-    public long maxHeat = 100;
+    public long maxHeat = 1600;
     @Persisted
     public long heat = 0;
     @Persisted
@@ -269,6 +270,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     }
 
     public void startRecipeCycle() {
+        if (!isWorkingEnabled() && !this.cooldown) return;
         GTRecipeType recipeType = getRecipeType();
         rebuildAllMaps();// 每次循环开始前重算一次符文状态
         // 在循环开始前分别计算三类时间参数
@@ -300,13 +302,25 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     public int calculateCooldownDurationTicks() {
         cooldownDurationTicks = 200;
         int windRuneCount = getRuneCount(BotaniaItems.runeAir);
+        int slothRuneCount = getRuneCount(BotaniaItems.runeSloth);
+        int waterRuneCount = getRuneCount(BotaniaItems.runeWater);
         int reduction = windRuneCount * 20;
-        return Math.max(20, cooldownDurationTicks - reduction);
+        int increase = slothRuneCount > 0 ? 20 : 0;
+        if (slothRuneCount > 0 && waterRuneCount >= 10) {
+            increase += 20;
+        }
+        return Math.max(20, cooldownDurationTicks - reduction + increase);
     }
 
     public int calculateRecipeDurationTicks() {
         recipeDurationTicks = 400;
-        return Math.max(1, recipeDurationTicks);
+        int slothRuneCount = getRuneCount(BotaniaItems.runeSloth);
+        int waterRuneCount = getRuneCount(BotaniaItems.runeWater);
+        int increase = slothRuneCount > 0 ? 20 : 0;
+        if (slothRuneCount > 0 && waterRuneCount >= 10) {
+            increase += 20;
+        }
+        return Math.max(1, recipeDurationTicks + increase);
     }
 
     public int getRuneCount(Item runeItem) {
@@ -374,12 +388,14 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             for (int j = 0; j < slot_range; j++) {
                 if (heatmap[i][j] > 0) {
                     var item = inventory.getStackInSlot(getSlotIndex(i, j));
-                    var consume = Math.min(item.getMaxDamage() - item.getDamageValue(), heatmap[i][j]);
-                    item.setDamageValue(item.getDamageValue() + (int) consume);
-                    heatmap[i][j] = consume;
-                    if (item.getDamageValue() >= item.getMaxDamage()) {
-                        popItem(getSlotIndex(i, j));
-                        stabilitymap[i][j] = 0;
+                    if (item.getItem() instanceof IManaFuelStick) {
+                        var consume = Math.min(item.getMaxDamage() - item.getDamageValue(), heatmap[i][j]);
+                        item.setDamageValue(item.getDamageValue() + (int) consume);
+                        heatmap[i][j] = consume;
+                        if (item.getDamageValue() >= item.getMaxDamage()) {
+                            popItem(getSlotIndex(i, j));
+                            stabilitymap[i][j] = 0;
+                        }
                     }
                 }
                 heat = (heatmap[i][j] >= 0) ? heat + heatmap[i][j] : heat;
@@ -403,6 +419,12 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             for (RuneElementType type : elementMap.keySet()) {
                 elementMap.put(type, elementMap.get(type) + manaRuneCount);
             }
+        }
+        // 矮人国度符文：每个额外提供5地元素
+        int nidavellirRuneCount = getRuneCount(nidavellirRune);
+        if (nidavellirRuneCount > 0) {
+            elementMap.put(RuneElementType.EARTH,
+                    elementMap.getOrDefault(RuneElementType.EARTH, 0) + nidavellirRuneCount * 5);
         }
     }
 
@@ -529,14 +551,37 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         return -1;
     }
 
+    public long getPreviewHeatBySlot(int slot) {
+        if (slot < 0 || slot >= slot_range * slot_range || heatMap == null) return 0;
+        int row = slot / slot_range;
+        int col = slot % slot_range;
+        if (!isValidLocation(row, col)) return 0;
+        return heatMap[row][col];
+    }
+
+    public long getPreviewStabilityBySlot(int slot) {
+        if (slot < 0 || slot >= slot_range * slot_range || stabilityMap == null) return 0;
+        int row = slot / slot_range;
+        int col = slot % slot_range;
+        if (!isValidLocation(row, col)) return 0;
+        return stabilityMap[row][col];
+    }
+
+    /// ///////////////////////////////
+    /// / UI/ ////
+    /// //////////////////////////
     @Override
     public void addDisplayText(List<Component> textList) {
         if (isFormed) {
             textList.add(AHCCstatusLang[0].translate(EU, maxEU));
-            textList.add(AHCCstatusLang[1].translate(heat, maxHeat));
-            textList.add(AHCCstatusLang[2].translate(stability, maxStability));
+            if (this.cooldown) {
+                textList.add(Component.literal("维度稳定模式"));
+            } else {
+                textList.add(AHCCstatusLang[1].translate(heat, maxHeat));
+                textList.add(AHCCstatusLang[2].translate(stability, maxStability));
+            }
         }
-        if (this.isActive()) {
+        if (this.isActive() && !this.cooldown) {
             var voltageName = GTValues.VNF[this.tier];
             textList.add(AHCCstatusLang[3].translate(predicateEU, (double) (predicateEU / GTValues.V[this.tier]),
                     voltageName));
@@ -576,7 +621,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             int slotX = startX + col * 18 - 2;
             int slotY = startY + row * 18 - 2;
             group.addWidget(
-                    new SlotWidget(inventory.storage, i, slotX, slotY, true, true)
+                    new AHCCFuelPreviewSlotWidget(inventory.storage, i, slotX, slotY, true, true)
                             .setBackground(GuiTextures.SLOT));
         }
         return group;
@@ -586,15 +631,101 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             "存储的EU:%d/%d",
             "积累的热量:%d/%d",
             "稳定度:%d/%d",
-            "预计发电量:%d EU (%.2fA %s)"
+            "预计发电量:%d EU (%.2fA %s)",
+            "当前状态：§b维度稳定模式",
+            "当前状态：维度压缩模式"
     })
     @EN({
             "存储的EU:%d",
             "积累的热量:%d/%d",
             "稳定度:%d/%d",
-            "预计发电量:%d EU (%.2fA %s) "
+            "预计发电量:%d EU (%.2fA %s) ",
+            "当前状态：§b维度稳定模式",
+            "当前状态：维度压缩模式"
     })
     public static Lang[] AHCCstatusLang;
+    @CN({
+            "提供热量:%d",
+            "稳定度占用:%d"
+    })
+    @EN({
+            "提供热量:%d",
+            "稳定度占用:%d"
+    })
+    public static Lang[] AHCCBarLang;
+
+    public class AHCCFuelPreviewSlotWidget extends SlotWidget {
+
+        public AHCCFuelPreviewSlotWidget() {
+            super();
+        }
+
+        public AHCCFuelPreviewSlotWidget(CustomItemStackHandler itemHandler, int slotIndex, int xPosition,
+                                         int yPosition, boolean canTakeItems, boolean canPutItems) {
+            super(itemHandler, slotIndex, xPosition, yPosition, canTakeItems, canPutItems);
+        }
+
+        @Override
+        public List<Component> getTooltipTexts() {
+            List<Component> tooltips = super.getTooltipTexts();
+            if (slotReference == null) return tooltips;
+            var stack = slotReference.getItem();
+            if (stack.getItem() instanceof IManaFuelStick stick) {
+                int slot = slotReference.getSlotIndex();
+                long previewHeat = getPreviewHeatBySlot(slot);
+                long previewStability = getPreviewStabilityBySlot(slot);
+                // 地图尚未建立时回退到燃料棒原始值，避免显示0造成误导。
+                if (heatMap == null) previewHeat = stick.heat;
+                if (stabilityMap == null) previewStability = stick.stability;
+
+                tooltips.add(AHCCBarLang[0].translate(previewHeat));
+                tooltips.add(AHCCBarLang[1].translate(previewStability));
+                return tooltips;
+            }
+
+            if (stack.is(BotaniaTags.Items.RUNES)) {
+                Lang[] runeLang = getAHCCRuneLang(stack);
+                if (runeLang != null) {
+                    for (Lang lang : runeLang) {
+                        tooltips.add(lang.translate());
+                    }
+                }
+            }
+            return tooltips;
+        }
+    }
+
+    @Nullable
+    private Lang[] getAHCCRuneLang(ItemStack stack) {
+        if (stack.getItem().equals(BotaniaItems.runeWater)) return ahccRuneWater;
+        if (stack.getItem().equals(BotaniaItems.runeFire)) return ahccRuneFire;
+        if (stack.getItem().equals(BotaniaItems.runeEarth)) return ahccRuneEarth;
+        if (stack.getItem().equals(BotaniaItems.runeAir)) return ahccRuneAir;
+        if (stack.getItem().equals(BotaniaItems.runeSpring)) return ahccRuneSpring;
+        if (stack.getItem().equals(BotaniaItems.runeSummer)) return ahccRuneSummer;
+        if (stack.getItem().equals(BotaniaItems.runeAutumn)) return ahccRuneAutumn;
+        if (stack.getItem().equals(BotaniaItems.runeWinter)) return ahccRuneWinter;
+        if (stack.getItem().equals(BotaniaItems.runeMana)) return ahccRuneMana;
+
+        if (stack.getItem().equals(BotaniaItems.runeLust)) return ahccRuneLust;
+        if (stack.getItem().equals(BotaniaItems.runeGluttony)) return ahccRuneGluttony;
+        if (stack.getItem().equals(BotaniaItems.runeGreed)) return ahccRuneGreed;
+        if (stack.getItem().equals(BotaniaItems.runeSloth)) return ahccRuneSloth;
+        if (stack.getItem().equals(BotaniaItems.runeWrath)) return ahccRuneWrath;
+        if (stack.getItem().equals(BotaniaItems.runeEnvy)) return ahccRuneEnvy;
+        if (stack.getItem().equals(BotaniaItems.runePride)) return ahccRunePride;
+
+        if (stack.getItem().equals(asgardRune)) return ahccRuneAsgard;
+        if (stack.getItem().equals(vanaheimRune)) return ahccRuneVanaheim;
+        if (stack.getItem().equals(alfheimRune)) return ahccRuneAlfheim;
+        if (stack.getItem().equals(midgardRune)) return ahccRuneMidgard;
+        if (stack.getItem().equals(joetunheimRune)) return ahccRuneJotunheim;
+        if (stack.getItem().equals(muspelheimRune)) return ahccRuneMuspelheim;
+        if (stack.getItem().equals(niflheimRune)) return ahccRuneNiflheim;
+        if (stack.getItem().equals(nidavellirRune)) return ahccRuneNidavellir;
+        if (stack.getItem().equals(helheimRune)) return ahccRuneHelheim;
+        return null;
+    }
 
     public boolean isValidLocation(int i, int j) {
         if (i >= 0 && j >= 0 && i < slot_range && j < slot_range) return true;
@@ -645,6 +776,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     // 符文运算
     public List<long[][]> calculateRune(long[][] heatmap, long[][] stabilitymap) {
         int winterApplied = 0;
+        boolean muspelheimBonusTriggered = false;
+        boolean nidavellirTerminalTriggered = false;
         for (int i = 0; i < slot_range; i++) {
             for (int j = 0; j < slot_range; j++) {
                 if (heatmap[i][j] == 0) {
@@ -679,7 +812,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     if (stack.getItem().equals(BotaniaItems.runeEarth)) {
                         // 地符文：热量上限+2x地元素总数，符文自身占用1稳定度
                         int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
-                        maxHeat += 1L * earthElements;
+                        maxHeat += 5L * earthElements;
                         stabilitymap[i][j] += 1;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeAir)) {
@@ -715,7 +848,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         stabilitymap[i][j] += fireElements;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeAutumn)) {
-                        // 秋符文：自身占用2稳定度；每有1地元素，自身每相邻一个燃料棒，热量上限+1
+                        // 秋符文：自身占用2稳定度；每有1地元素，自身每相邻一个燃料棒，热量上限+2
                         int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
                         int adjacentFuelCount = 0;
                         if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) adjacentFuelCount++;
@@ -733,52 +866,308 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         stabilitymap[i][j] += 2;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeLust)) {
-                        // 色欲符文：预留效果（暂未实现）
+                        // 色欲符文：占用等同于罪孽元素数量的稳定度；
+                        // 所有燃料棒热量+10%；自身周围1格半径（含对角）燃料热量-25%
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        stabilitymap[i][j] += sinElements;
+                        for (int y = 0; y < slot_range; y++) {
+                            for (int x = 0; x < slot_range; x++) {
+                                if (heatmap[y][x] > 0) {
+                                    heatmap[y][x] *= 1.1;
+                                }
+                            }
+                        }
+                        for (int dy = -1; dy <= 1; dy++) {
+                            for (int dx = -1; dx <= 1; dx++) {
+                                if (dy == 0 && dx == 0) continue;
+                                int ny = i + dy;
+                                int nx = j + dx;
+                                if (isValidLocation(ny, nx) && heatmap[ny][nx] > 0) {
+                                    heatmap[ny][nx] *= 0.75;
+                                }
+                            }
+                        }
                     }
                     if (stack.getItem().equals(BotaniaItems.runeGluttony)) {
-                        // 暴食符文：预留效果（暂未实现）
+                        // 暴食符文：提供 地元素*罪孽元素*3 的热量上限，
+                        // 并占用等同于罪孽元素数量的稳定度
+                        int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        maxHeat += (long) earthElements * sinElements * 2;
+                        stabilitymap[i][j] += sinElements;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeGreed)) {
-                        // 贪婪符文：预留效果（暂未实现）
+                        // 贪婪符文：自身占用等同于罪孽元素数量；
+                        // 使左侧相邻燃料棒占用稳定度x2；
+                        // 若左侧燃料棒带罪孽元素则热量x2，否则热量x1.5
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        stabilitymap[i][j] += sinElements;
+                        if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) {
+                            var leftFuelStack = inventory.getStackInSlot(getSlotIndex(i, j - 1));
+                            stabilitymap[i][j - 1] *= 2;
+                            heatmap[i][j - 1] *= leftFuelStack.is(CMTags.ELEMENT_SIN) ? 2.0 : 1.5;
+                        }
                     }
                     if (stack.getItem().equals(BotaniaItems.runeSloth)) {
-                        // 懒惰符文：预留效果（暂未实现）
+                        // 懒惰符文：自身占用改为每5点罪孽元素+2稳定度占用
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        stabilitymap[i][j] += (sinElements / 5) * 2;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeWrath)) {
-                        // 愤怒符文：预留效果（暂未实现）
+                        // 愤怒符文：自身占用等同于罪孽元素数量的稳定度；
+                        // 当稳定度<50%时，(罪孽元素+火元素)每有1，
+                        // 对角燃料棒热量+5%，并增加1稳定占用
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
+                        int wrathPower = sinElements + fireElements;
+                        stabilitymap[i][j] += sinElements;
+                        if (this.stability < this.maxStability * 0.5 && wrathPower > 0) {
+                            double multiplier = 1.0 + wrathPower * 0.05;
+                            int[][] diagonalOffsets = new int[][] { { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+                            for (int[] offset : diagonalOffsets) {
+                                int ny = i + offset[0];
+                                int nx = j + offset[1];
+                                if (isValidLocation(ny, nx) && heatmap[ny][nx] > 0) {
+                                    heatmap[ny][nx] *= multiplier;
+                                    stabilitymap[ny][nx] += wrathPower;
+                                }
+                            }
+                        }
                     }
                     if (stack.getItem().equals(BotaniaItems.runeEnvy)) {
-                        // 嫉妒符文：预留效果（暂未实现）
+                        // 嫉妒符文：占用等同于罪孽元素数量的稳定度；
+                        // 每有1罪孽元素，使正四格燃料棒产热+10%；
+                        // 若存在其他嫉妒符文，或存在产热高于正四格目标的槽位，则该效果不生效
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        stabilitymap[i][j] += sinElements;
+                        if (sinElements <= 0 || getRuneCount(BotaniaItems.runeEnvy) > 1) {
+                            continue;
+                        }
+
+                        int[][] cardinalOffsets = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+                        List<int[]> targets = new ArrayList<>();
+                        long targetMaxHeat = Long.MIN_VALUE;
+                        for (int[] offset : cardinalOffsets) {
+                            int ny = i + offset[0];
+                            int nx = j + offset[1];
+                            if (isValidLocation(ny, nx) && heatmap[ny][nx] > 0) {
+                                targets.add(new int[] { ny, nx });
+                                targetMaxHeat = Math.max(targetMaxHeat, heatmap[ny][nx]);
+                            }
+                        }
+                        if (targets.isEmpty()) {
+                            continue;
+                        }
+
+                        boolean hasHigherHeatElsewhere = false;
+                        for (int y = 0; y < slot_range; y++) {
+                            for (int x = 0; x < slot_range; x++) {
+                                if (y == i && x == j) continue;
+                                boolean isTarget = false;
+                                for (int[] target : targets) {
+                                    if (target[0] == y && target[1] == x) {
+                                        isTarget = true;
+                                        break;
+                                    }
+                                }
+                                if (isTarget) continue;
+                                if (heatmap[y][x] > targetMaxHeat) {
+                                    hasHigherHeatElsewhere = true;
+                                    break;
+                                }
+                            }
+                            if (hasHigherHeatElsewhere) break;
+                        }
+                        if (hasHigherHeatElsewhere) {
+                            continue;
+                        }
+
+                        double multiplier = 1.0 + sinElements * 0.1;
+                        for (int[] target : targets) {
+                            heatmap[target[0]][target[1]] *= multiplier;
+                        }
                     }
                     if (stack.getItem().equals(BotaniaItems.runePride)) {
-                        // 傲慢符文：预留效果（暂未实现）
+                        // 傲慢符文：自身占用等同于罪孽元素数量的稳定度；
+                        // 使正四格燃料棒产热增加100%，每有一个符文（含自身）该值减少20%
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        stabilitymap[i][j] += sinElements;
+
+                        int runeCount = 0;
+                        for (int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++) {
+                            var runeStack = inventory.getStackInSlot(slotIndex);
+                            if (!runeStack.isEmpty() && runeStack.is(BotaniaTags.Items.RUNES)) {
+                                runeCount++;
+                            }
+                        }
+
+                        // 基础+100%（x2.0），每个符文-20%（倍率-0.2），最低0.1倍率
+                        double multiplier = Math.max(0.1, 2.0 - runeCount * 0.2);
+                        if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) heatmap[i - 1][j] *= multiplier;
+                        if (isValidLocation(i + 1, j) && heatmap[i + 1][j] > 0) heatmap[i + 1][j] *= multiplier;
+                        if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) heatmap[i][j - 1] *= multiplier;
+                        if (isValidLocation(i, j + 1) && heatmap[i][j + 1] > 0) heatmap[i][j + 1] *= multiplier;
                     }
                     if (stack.getItem().equals(asgardRune)) {
-                        // 阿斯加德符文：预留效果（暂未实现）
+                        // 阿斯加德符文（神域）：预留效果（暂未实现）
                     }
                     if (stack.getItem().equals(vanaheimRune)) {
-                        // 华纳海姆符文：预留效果（暂未实现）
+                        // 华纳海姆符文（华纳神族/丰饶）：
+                        // 增加 水元素*地元素*2 的热量上限
+                        // 当(水元素+地元素)达到阈值时，额外乘算：
+                        // 20+ *2
+                        int waterElements = elementMap.getOrDefault(RuneElementType.WATER, 0);
+                        int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
+                        int waterEarthSum = waterElements + earthElements;
+                        long bonusMaxHeat = (long) waterElements * earthElements * 2;
+                        if (waterEarthSum >= 20) {
+                            bonusMaxHeat *= 2;
+                        }
+                        maxHeat += bonusMaxHeat;
+                        stabilitymap[i][j] += 2;
                     }
                     if (stack.getItem().equals(alfheimRune)) {
-                        // 亚尔夫海姆符文：预留效果（暂未实现）
+                        // 亚尔夫海姆符文（精灵之国）：预留效果（暂未实现）
                     }
                     if (stack.getItem().equals(midgardRune)) {
-                        // 米德加德符文：预留效果（暂未实现）
+                        // 米德加德符文（人类世界/中庭）：预留效果（暂未实现）
                     }
                     if (stack.getItem().equals(joetunheimRune)) {
-                        // 约顿海姆符文：预留效果（暂未实现）
+                        // 约顿海姆符文（巨人国度）：预留效果（暂未实现）
                     }
                     if (stack.getItem().equals(muspelheimRune)) {
-                        // 穆斯贝尔海姆符文：预留效果（暂未实现）
+                        // 穆斯贝尔海姆符文（火焰国度）：
+                        // 1) 自身长十字范围（整行整列）所有燃料棒产热+10%
+                        // 2) 若火元素占比最多：
+                        // - 所有带火元素的燃料棒产热+10%
+                        // - 自身长十字范围燃料棒获得额外档位加成（取最高档）：
+                        // 10+火元素:+10%，20+火元素:+30%，25+火元素:+50%
+                        // 3) 触发占比效果时自身占用5稳定度，否则占用2稳定度
+                        // 4) 额外档位（福袋）本轮最多触发一次
+                        int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
+                        int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
+                        int waterElements = elementMap.getOrDefault(RuneElementType.WATER, 0);
+                        int windElements = elementMap.getOrDefault(RuneElementType.WIND, 0);
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+
+                        int totalElements = fireElements + earthElements + waterElements + windElements + sinElements;
+                        boolean fireDominant = totalElements > 0 &&
+                                fireElements > earthElements &&
+                                fireElements > waterElements &&
+                                fireElements > windElements &&
+                                fireElements > sinElements;
+
+                        stabilitymap[i][j] += fireDominant ? 10 : 2;
+
+                        // 长十字：整列
+                        for (int y = 0; y < slot_range; y++) {
+                            if (y != i && heatmap[y][j] > 0) {
+                                heatmap[y][j] *= 1.1;
+                            }
+                        }
+                        // 长十字：整行
+                        for (int x = 0; x < slot_range; x++) {
+                            if (x != j && heatmap[i][x] > 0) {
+                                heatmap[i][x] *= 1.1;
+                            }
+                        }
+
+                        // 自身会使所有火元素燃料额外占用1稳定度
+                        for (int y = 0; y < slot_range; y++) {
+                            for (int x = 0; x < slot_range; x++) {
+                                var fuelStack = inventory.getStackInSlot(getSlotIndex(y, x));
+                                if (heatmap[y][x] > 0 && fuelStack.is(CMTags.ELEMENT_FIRE)) {
+                                    stabilitymap[y][x] += 1;
+                                }
+                            }
+                        }
+
+                        if (fireDominant) {
+                            for (int y = 0; y < slot_range; y++) {
+                                for (int x = 0; x < slot_range; x++) {
+                                    var fuelStack = inventory.getStackInSlot(getSlotIndex(y, x));
+                                    if (heatmap[y][x] > 0 && fuelStack.is(CMTags.ELEMENT_FIRE)) {
+                                        heatmap[y][x] *= 1.1;
+                                    }
+                                }
+                            }
+
+                            double extraMultiplier = 1.0;
+                            if (fireElements >= 25) {
+                                extraMultiplier = 1.5;
+                            } else if (fireElements >= 20) {
+                                extraMultiplier = 1.3;
+                            } else if (fireElements >= 10) {
+                                extraMultiplier = 1.1;
+                            }
+
+                            if (extraMultiplier > 1.0 && !muspelheimBonusTriggered) {
+                                // 长十字额外档位（福袋）本轮仅触发一次
+                                for (int y = 0; y < slot_range; y++) {
+                                    if (y != i && heatmap[y][j] > 0) {
+                                        heatmap[y][j] *= extraMultiplier;
+                                    }
+                                }
+                                for (int x = 0; x < slot_range; x++) {
+                                    if (x != j && heatmap[i][x] > 0) {
+                                        heatmap[i][x] *= extraMultiplier;
+                                    }
+                                }
+                                muspelheimBonusTriggered = true;
+                            }
+                        }
                     }
                     if (stack.getItem().equals(niflheimRune)) {
-                        // 尼福尔海姆符文：预留效果（暂未实现）
+                        // 尼福尔海姆符文（雾之国/寒雾与冰）：预留效果（暂未实现）
                     }
                     if (stack.getItem().equals(nidavellirRune)) {
-                        // 尼达维勒符文：预留效果（暂未实现）
+                        // 尼达维勒符文（矮人国度/锻造）：
+                        // 自身额外提供5地元素（已在元素统计阶段结算）
+                        // 若地元素最多，且当前热量<上限50%，触发一次地系终端：
+                        // 全部燃料棒获得产热与占用修正，档位由(水+地符文数量)决定
+                        int selfStabilityCost = 2;
+                        int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
+                        int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
+                        int waterElements = elementMap.getOrDefault(RuneElementType.WATER, 0);
+                        int windElements = elementMap.getOrDefault(RuneElementType.WIND, 0);
+                        int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
+                        int totalElements = earthElements + fireElements + waterElements + windElements + sinElements;
+                        boolean earthDominant = totalElements > 0 &&
+                                earthElements > fireElements &&
+                                earthElements > waterElements &&
+                                earthElements > windElements &&
+                                earthElements > sinElements;
+
+                        if (!nidavellirTerminalTriggered && earthDominant && this.heat < this.maxHeat * 0.5) {
+                            int earthWaterRuneSum = getRuneCount(BotaniaItems.runeEarth) +
+                                    getRuneCount(BotaniaItems.runeWater);
+                            double heatMultiplier = 1.1;
+                            int stabilityReduction = 1;
+                            if (earthWaterRuneSum >= 75) {
+                                heatMultiplier = 1.5;
+                                stabilityReduction = 2;
+                            } else if (earthWaterRuneSum >= 50) {
+                                heatMultiplier = 1.3;
+                            } else if (earthWaterRuneSum >= 20) {
+                                heatMultiplier = 1.2;
+                            }
+
+                            for (int y = 0; y < slot_range; y++) {
+                                for (int x = 0; x < slot_range; x++) {
+                                    var fuelStack = inventory.getStackInSlot(getSlotIndex(y, x));
+                                    if (heatmap[y][x] > 0 && fuelStack.getItem() instanceof IManaFuelStick) {
+                                        heatmap[y][x] *= heatMultiplier;
+                                        stabilitymap[y][x] -= stabilityReduction;
+                                    }
+                                }
+                            }
+                            nidavellirTerminalTriggered = true;
+                            selfStabilityCost = 5;
+                        }
+                        stabilitymap[i][j] += selfStabilityCost;
                     }
                     if (stack.getItem().equals(helheimRune)) {
-                        // 赫尔海姆符文：预留效果（暂未实现）
+                        // 赫尔海姆符文（冥界/死亡）：预留效果（暂未实现）
                     }
                 } else {
                     continue;

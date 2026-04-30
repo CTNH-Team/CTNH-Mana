@@ -196,7 +196,7 @@ public class ZenithSpire extends MysticSpire {
         this.eutier = GTUtil.getFloorTierByVoltage(voltage);
         this.euSpeed = selfEnergyContainer.getInputVoltage() * this.speed / base_speed * 4;
         this.euCapacity = selfEnergyContainer.getEnergyCapacity() * this.maxMana / base_maxmana * 4;
-        this.range += 77;
+        this.range = this.range * 2 + 77;
         this.speed *= 4;
         this.maxMana *= 4;
     }

@@ -156,7 +156,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     }
 
     public double getRecipeDifference(double baseDifference) {
-        var runeAdjustedDifference = baseDifference * Math.pow(1.2, Augmented_rune) + Capacity_rune * 2;
+        var runeAdjustedDifference = (baseDifference + Capacity_rune * 2) * Math.pow(1.05, Augmented_rune);
         if (type == EnumDemonWillType.DEFAULT) {
             return runeAdjustedDifference;
         }

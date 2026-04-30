@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.Mutiblock.ManaFuelInfuserMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
@@ -291,6 +292,28 @@ public class ManaMachine {
                     .where("D", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
                     .where("A", Predicates.any())
                     .where("F", Predicates.blocks(CMBlocks.ORICHALCOS_STEEL_CASING_GEARBOX.get()))
+                    .build())
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
+            .register();
+
+    public final static MultiblockMachineDefinition MANA_FUEL_INFUSER = REGISTRATE
+            .multiblock("mana_fuel_infuser", ManaFuelInfuserMachine::new)
+            .cnLangValue("§b魔力燃料灌注器")
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(CMRecipeTypes.MANA_FUEL_INFUSER_RECIPES)
+            .recipeModifiers(
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAA", "ABA", "AAA")
+                    .aisle("ABA", "BAB", "ABA")
+                    .aisle("AAA", "ACA", "AAA")
+                    .where("A", Predicates.blocks(LIVING_ROCK_CASING.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+                    .where("B", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
+                    .where("C", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
                     CTNHMana.id("block/overlay/manamachine"))

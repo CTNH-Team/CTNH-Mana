@@ -318,6 +318,17 @@ public class ChineseLangHandler {
             "§o准备好成为自动化大师了吗？§r"
     })
     public static Lang[] centralControlBusLang;
+    @CN({
+            "从魔力池处吸收魔力",
+            "当符文仪式材料准备就绪后，每秒消耗自己所有的魔力缓存并且为符文仪式累计进度",
+            "当需要的魔力累计足够时，自动执行符文仪式"
+    })
+    @EN({
+            "从魔力池处吸收魔力",
+            "当符文仪式材料准备就绪后，每秒消耗自己所有的魔力缓存并且为符文仪式累计进度",
+            "当需要的魔力累计足够时，自动执行符文仪式"
+    })
+    public static Lang[] runeAltarFowerLang;
 
     @CN({
             "该符文具有以下元素类型:",
@@ -340,6 +351,7 @@ public class ChineseLangHandler {
     public static Lang runeTierTags;
 
     public static void init(RegistrateCNLangProvider provider) {
+        AHCCRuneLang.init(provider);
         provider.add("ctnh.item.runes.starlight_rune", "Per Aspera Ad Astra");
         provider.add("ctnh.item.runes.twist_rune", "速度与人性的扭曲");
         provider.add("ctnh.item.runes.proliferation_rune", "金融与生物的本能");

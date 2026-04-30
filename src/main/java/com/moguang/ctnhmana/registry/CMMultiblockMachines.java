@@ -354,6 +354,8 @@ public class CMMultiblockMachines {
             .appearanceBlock(SOUL_LOCKING_CASING::get)
             .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
             .tooltips(hellforgeLang)
+            .recipeModifiers(HellForgeMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B",
                             "AAAAAAA", "AAAAAAA", "A#A#A#A")
@@ -4209,6 +4211,7 @@ public class CMMultiblockMachines {
                     .aisle("ABBA", "A@AA", "ABBA")
                     .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY))
                             .or(Predicates.abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY))

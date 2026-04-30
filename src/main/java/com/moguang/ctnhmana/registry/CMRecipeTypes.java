@@ -142,6 +142,14 @@ public class CMRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FORGE_HAMMER);
+    public static final GTRecipeType MANA_FUEL_INFUSER_RECIPES = REGISTRATE
+            .recipeType(GTCEu.id("mana_fuel_infuser"), ELECTRIC)
+            .cnlang("魔力燃料灌注")
+            .setMaxIOSize(1, 1, 1, 0)
+            .setEUIO(IO.IN)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType METEOR_CAPTURER_RECIPES = REGISTRATE
             .recipeType(GTCEu.id("meteor_capturer"), ELECTRIC)

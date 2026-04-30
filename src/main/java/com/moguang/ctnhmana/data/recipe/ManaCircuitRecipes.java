@@ -234,7 +234,7 @@ public class ManaCircuitRecipes {
                 .inputItems(ChemicalHelper.get(dust, CMMaterials.PRIMOVOLITHEST), 6)
                 .inputItems(BloodMagicItems.LAVA_CRYSTAL)
                 .circuitMeta(1)
-                .addCondition(new HellForgeCondition(666))
+                .addCondition(new HellForgeCondition(66))
                 .EUt(6666)
                 .duration(666 * 20)
                 .save(provider);
@@ -265,8 +265,8 @@ public class ManaCircuitRecipes {
                 .inputFluids(CMMaterials.PRIMOVOLITHEST.getFluid(288 * 2))
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 288 * 2))
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 288 * 2))
-                .outputItems(MIXIN_WILL_PROCESSOR_MAINFRAME, 2)
-                .addCondition(new HellForgeCondition(666))
+                .outputItems(MIXIN_WILL_PROCESSOR_MAINFRAME, 3)
+                .addCondition(new HellForgeCondition(66))
                 .EUt(6666)
                 .duration(66 * 20)
                 .save(provider);

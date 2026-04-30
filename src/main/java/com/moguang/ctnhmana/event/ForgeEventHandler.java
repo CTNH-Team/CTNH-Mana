@@ -41,11 +41,10 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.List;
 
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.runeElementTags;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.runeTierTags;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.satori_thirdeye_tooltip;
+import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.event.CMKeyBindings.FORTUNA;
 import static com.moguang.ctnhmana.event.CMKeyBindings.OPEN_CADUCEUS;
+import static mythicbotany.register.ModBlocks.petrunia;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
@@ -69,6 +68,9 @@ public class ForgeEventHandler {
         if (stack.getItem() instanceof ThirdEyeItem) {
             var tooltips = event.getToolTip();
             tooltips = itemTooltipsAdd(satori_thirdeye_tooltip, tooltips);
+        } else if (stack.getItem().equals(petrunia.asItem())) {
+            var tooltips = event.getToolTip();
+            tooltips = itemTooltipsAdd(runeAltarFowerLang, tooltips);
         }
         if (stack.is(BotaniaTags.Items.RUNES)) {
             var tooltips = event.getToolTip();
@@ -150,7 +152,8 @@ public class ForgeEventHandler {
         if (!chunk.getBlockEntities().isEmpty()) {
             for (BlockEntity machine : chunk.getBlockEntities().values()) {
                 if (machine instanceof MetaMachineBlockEntity mme &&
-                        mme.getMetaMachine() instanceof HellForgeMachine hmachine && hmachine.isFormed()) {
+                        mme.getMetaMachine() instanceof HellForgeMachine hmachine && hmachine.isFormed() &&
+                        hmachine.hatch != null) {
                     hmachine.hatch.rawWill = Math.min(hmachine.hatch.maxDemonWill,
                             hmachine.hatch.rawWill + entity.getMaxHealth() / 20);
                 }

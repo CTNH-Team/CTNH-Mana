@@ -8,7 +8,9 @@
     "bloodmagic.BloodAltarMixin",
     "bloodmagic.TileAltarAccessor",
     "botania.BotaniaEntitiesMixin",
+    "botania.FunctionalFlowerBaseAccessor",
     "botania.ManaPoolBlockEntityMixin",
+    "botania.PetruniaMixin",
     "botania.MixinForgePacketHandler",
     "emi.TagEmiIngredientMixin"
   ],

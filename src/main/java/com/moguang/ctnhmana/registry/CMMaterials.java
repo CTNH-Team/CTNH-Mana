@@ -75,6 +75,9 @@ public class CMMaterials {
         TagPrefix.block.setIgnored(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);
         TagPrefix.ingot.setIgnored(DEMON, () -> BloodMagicItems.HELLFORGED_INGOT.get());
         TagPrefix.block.setIgnored(DEMON, () -> BloodMagicBlocks.HELLFORGED_BLOCK.get());
+        TagPrefix.ingot.setIgnored(SHADOWIUM, () -> ExtraBotanyItems.shadowium);
+        TagPrefix.nugget.setIgnored(SHADOWIUM, () -> ExtraBotanyItems.shadowiumNugget);
+        TagPrefix.block.setIgnored(SHADOWIUM, () -> ExtraBotanyBlocks.shadowiumBlock);
 
         TagPrefix.block.setIgnored(Livingrock, () -> BotaniaBlocks.livingrock);
     }

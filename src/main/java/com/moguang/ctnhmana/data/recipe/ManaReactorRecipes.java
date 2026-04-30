@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
@@ -116,7 +115,7 @@ public class ManaReactorRecipes {
                 .inputFluids(Mana, 8000)
                 .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(ELF_CATALYST)
-                .chancedOutput(alfsteelIngot.getDefaultInstance(), (int) 7500f, 15)
+                .chancedOutput(alfsteelIngot.getDefaultInstance(), (int) 6000f, 15)
                 .duration(800)
                 .circuitMeta(1)
                 .EUt(1680)
@@ -126,7 +125,7 @@ public class ManaReactorRecipes {
                 .inputItems(elementium)
                 .inputItems(dragonstone)
                 .inputItems(BotaniaItems.elfQuartz)
-                .inputFluids(Mana, 8000)
+                .inputFluids(Mana, 4000)
                 .inputItems(elfGlass.asItem(), 1)
                 .notConsumable(TERRA_CATALYST)
                 .outputItems(alfsteelIngot)
@@ -418,7 +417,6 @@ public class ManaReactorRecipes {
         MANA_REACTOR_RECIPES.recipeBuilder("livingwood_from_wood_with_pure_daisy")
                 .addCondition(new ZenithCondition(false))
                 .inputItems(Items.OAK_LOG)
-                .inputItems(Tags.Items.WOOD)
                 .notConsumable(pureDaisy.asItem())
                 .outputItems(livingwoodLog.asItem())
                 .duration(100)

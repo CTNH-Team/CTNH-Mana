@@ -192,7 +192,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                 }
             }
         }
-        if (getOffsetTimer() % 10 == 0) {
+        if (getOffsetTimer() % 20 == 0) {
             if (wither) {
                 level = getLevel();
                 pos = getPos();
@@ -209,7 +209,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         if (!(i instanceof LivingEntity)) {
                             continue;
                         }
-                        i.hurt(damageSource, 8);
+                        i.hurt(damageSource, 6);
                     }
                 }
             }
