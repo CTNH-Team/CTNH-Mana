@@ -30,8 +30,8 @@ import net.minecraft.world.item.ItemStack;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 
 import java.util.Arrays;

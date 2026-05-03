@@ -1,8 +1,8 @@
 package com.moguang.ctnhmana.data.lang;
 
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import tech.vixhentx.mcmod.ctnhlib.registrate.lang.RegistrateCNLangProvider;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;

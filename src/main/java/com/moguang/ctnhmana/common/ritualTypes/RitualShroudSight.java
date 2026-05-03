@@ -13,7 +13,7 @@ import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import com.ctnhlang.CN;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import wayoftime.bloodmagic.ritual.*;

@@ -34,8 +34,8 @@ import com.moguang.ctnhmana.registry.CMEntities;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 
 import java.util.List;
 import java.util.Map;

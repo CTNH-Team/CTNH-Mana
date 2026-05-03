@@ -14,8 +14,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 
 public class BloodAltarCondition extends RecipeCondition<BloodAltarCondition> {
 

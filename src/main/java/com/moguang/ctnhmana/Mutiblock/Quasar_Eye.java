@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.Mutiblock;
 
+import com.ctnhlang.*;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
@@ -18,14 +19,11 @@ import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Domain;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Key;
+
 
 import java.util.List;
 
-@Domain(value = "ctnh", category = "multiblock.quasar_eye")
+@Domain("multiblock.quasar_eye")
 public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITieredMachine {
 
     private double rune_energy = 0;
@@ -163,16 +161,16 @@ public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITi
     public static Lang[] TOOLTIPS;
 
     /** 类星体之眼配方在 JEI 中显示的 dataInfo，由 LangProcessor 注册 ctnh.recipe.quasar_eye.info.0/1/2 */
-    @Domain(value = "ctnh", category = "recipe.quasar_eye")
+    @Category("recipe")
     public static class RecipeLang {
 
-        @Key("info.0")
+
         @CN("激活消耗：%.1f")
         public static Lang RECIPE_INFO_0;
-        @Key("info.1")
+
         @CN("能量等级：%d")
         public static Lang RECIPE_INFO_1;
-        @Key("info.2")
+
         @CN("激活等级：%d")
         public static Lang RECIPE_INFO_2;
     }

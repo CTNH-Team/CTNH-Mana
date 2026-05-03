@@ -12,6 +12,7 @@ import static tech.vixhentx.mcmod.ctnhlib.registrate.data.ProviderTypes.CNLANG;
 public class CMDatagen {
 
     public static void init() {
+        REGISTRATE.addLangProcessor();
         REGISTRATE.addDataGenerator(ProviderType.LANG, EnglishLangHandler::init);
         REGISTRATE.addDataGenerator(CNLANG, ChineseLangHandler::init);
         REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTypeTags::init);

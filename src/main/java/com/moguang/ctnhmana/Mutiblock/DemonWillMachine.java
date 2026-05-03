@@ -31,10 +31,10 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Domain;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.Key;
+import com.ctnhlang.CN;
+import com.ctnhlang.Domain;
+import com.ctnhlang.EN;
+import com.ctnhlang.Key;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
@@ -43,7 +43,6 @@ import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
 import java.util.List;
 import java.util.Objects;
 
-@Domain(value = "ctnh", category = "multiblock.demon_will_generator")
 public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     @Persisted

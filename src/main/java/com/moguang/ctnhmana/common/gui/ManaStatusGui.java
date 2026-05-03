@@ -20,7 +20,7 @@ import net.minecraft.network.chat.MutableComponent;
 import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import com.ctnhlang.CN;
 
 import java.util.List;
 

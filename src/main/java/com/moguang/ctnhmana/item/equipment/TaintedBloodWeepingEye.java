@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import vazkii.botania.client.render.AccessoryRenderRegistry;
 import vazkii.botania.common.item.equipment.bauble.BaubleItem;
 import vazkii.botania.common.proxy.Proxy;

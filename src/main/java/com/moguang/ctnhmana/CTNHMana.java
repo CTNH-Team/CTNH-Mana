@@ -23,7 +23,6 @@ import com.moguang.ctnhmana.registry.CMRegistrate;
 import com.moguang.ctnhmana.registry.sounds.CMSoundEvent;
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.LangProcessor;
 import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 @Mod(CTNHMana.MODID)
@@ -37,11 +36,10 @@ public class CTNHMana {
 
     @SuppressWarnings("removal")
     public CTNHMana() {
-        LangProcessor langProcessor = new LangProcessor(REGISTRATE);
-        langProcessor.processAll();
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         CMParticleTypes.PARTICLE_TYPES.register(modEventBus);
-        modEventBus.addListener(this::addCreative);
+
         modEventBus.addListener(this::onRegisterEntityRenderers);
         modEventBus.addListener(this::onFMLoadComplete);
         modEventBus.addGenericListener(MachineDefinition.class, EventHandler::registerMachines);
@@ -66,11 +64,6 @@ public class CTNHMana {
                 "CRYSTAL");
     }
 
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        // if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-        // event.accept(EXAMPLE_BLOCK_ITEM);
-    }
 
     private void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {}
 }

@@ -22,7 +22,7 @@ import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import com.ctnhlang.CN;
 import wayoftime.bloodmagic.ritual.*;
 
 import java.util.List;

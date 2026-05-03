@@ -6,7 +6,7 @@ import net.minecraft.world.item.Items;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import com.ctnhlang.CN;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 
 import java.util.function.Consumer;

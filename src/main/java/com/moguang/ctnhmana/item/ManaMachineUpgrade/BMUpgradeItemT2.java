@@ -12,8 +12,8 @@ import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 
 import java.util.List;
 

@@ -20,7 +20,7 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.overlay.DisplayHelper;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
+import com.ctnhlang.CN;
 
 public class BloodAltarStatusProvider extends CapabilityBlockProvider<IndustrialAltarMachine> {
 

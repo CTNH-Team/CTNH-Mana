@@ -18,8 +18,8 @@ import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT2;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.CN;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.annotation.EN;
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
