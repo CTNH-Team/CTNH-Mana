@@ -1,9 +1,9 @@
 package com.moguang.ctnhmana.data.lang;
 
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.ctnhlang.Prefix;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.registrate.lang.RegistrateCNLangProvider;
 
 @Prefix("ahcc_rune")
@@ -83,7 +83,7 @@ public class AHCCRuneLang {
     @EN({ "[AHCC] Asgard Rune", "Reserved effect" })
     public static Lang[] ahccRuneAsgard;
 
-    @CN({ "[AHCC] 华纳海姆符文", "每有1个水元素且每有1个地元素, 则热量上限+2", "水元素和地元素之和达到以下数量时:", "10+: 额外x2", "20+: 额外x2", "35+: 额外x2" })
+    @CN({ "[AHCC] 华纳海姆符文", "获得(水元素*地元素*2)的热量上限", "水元素和地元素之和达到以下数量时:", "10+: 额外x2", "20+: 额外x2", "35+: 额外x2" })
     @EN({ "[AHCC] Vanaheim Rune", "Max heat +(Water x Earth x2)",
             "If (Water+Earth)>=10/20/35: extra x2/x2/x2 stacked" })
     public static Lang[] ahccRuneVanaheim;

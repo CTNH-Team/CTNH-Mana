@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import vazkii.botania.client.fx.SparkleParticleData;
 import vazkii.botania.client.fx.WispParticleData;
 import vazkii.botania.common.helper.VecHelper;
+import vazkii.botania.common.proxy.Proxy;
 import vazkii.botania.network.BotaniaPacket;
 
 import static vazkii.botania.common.lib.ResourceLocationHelper.prefix;
@@ -266,49 +267,55 @@ public record BotaniaEffectPacketExtend(BotaniaExtendEffectType type, double x, 
                         // }
                         //
                         // }
-                        // case TERRA_PLATE -> {
-                        // BlockEntity te = world.getBlockEntity(BlockPos.containing(x, y, z));
-                        // if (te instanceof TerrestrialAgglomerationPlateBlockEntity) {
-                        // float percentage = Float.intBitsToFloat(args[0]);
-                        // int ticks = (int) (100.0 * percentage);
-                        //
-                        // int totalSpiritCount = 3;
-                        // double tickIncrement = 360D / totalSpiritCount;
-                        //
-                        // int speed = 5;
-                        // double wticks = ticks * speed - tickIncrement;
-                        //
-                        // double r = Math.sin((ticks - 100) / 10D) * 2;
-                        // double g = Math.sin(wticks * Math.PI / 180 * 0.55);
-                        //
-                        // for (int i = 0; i < totalSpiritCount; i++) {
-                        // double wx = x + Math.sin(wticks * Math.PI / 180) * r + 0.5;
-                        // double wy = y + 0.25 + Math.abs(r) * 0.7;
-                        // double wz = z + Math.cos(wticks * Math.PI / 180) * r + 0.5;
-                        //
-                        // wticks += tickIncrement;
-                        // float[] colorsfx = new float[] {
-                        // 0F, (float) ticks / (float) 100, 1F - (float) ticks / (float) 100
-                        // };
-                        // WispParticleData data = WispParticleData.wisp(0.85F, colorsfx[0], colorsfx[1], colorsfx[2],
-                        // 0.25F);
-                        // Proxy.INSTANCE.addParticleForceNear(world, data, wx, wy, wz, 0, (float) (-g * 0.05), 0);
-                        // data = WispParticleData.wisp((float) Math.random() * 0.1F + 0.1F, colorsfx[0], colorsfx[1],
-                        // colorsfx[2], 0.9F);
-                        // world.addParticle(data, wx, wy, wz, (float) (Math.random() - 0.5) * 0.05F, (float)
-                        // (Math.random() - 0.5) * 0.05F, (float) (Math.random() - 0.5) * 0.05F);
-                        //
-                        // if (ticks == 100) {
-                        // for (int j = 0; j < 15; j++) {
-                        // data = WispParticleData.wisp((float) Math.random() * 0.15F + 0.15F, colorsfx[0], colorsfx[1],
-                        // colorsfx[2]);
-                        // world.addParticle(data, x + 0.5, y + 0.5, z + 0.5, (float) (Math.random() - 0.5F) * 0.125F,
-                        // (float) (Math.random() - 0.5F) * 0.125F, (float) (Math.random() - 0.5F) * 0.125F);
-                        // }
-                        // }
-                        // }
-                        // }
-                        // }
+                        case TERRA_PLATE -> {
+                            if (1 == 1) {
+                                float percentage = Float.intBitsToFloat(args[0]);
+                                int ticks = (int) (100.0 * percentage);
+
+                                int totalSpiritCount = 3;
+                                double tickIncrement = 360D / totalSpiritCount;
+
+                                int speed = 5;
+                                double wticks = ticks * speed - tickIncrement;
+
+                                double r = Math.sin((ticks - 100) / 10D) * 2;
+                                double g = Math.sin(wticks * Math.PI / 180 * 0.55);
+
+                                for (int i = 0; i < totalSpiritCount; i++) {
+                                    double wx = x + Math.sin(wticks * Math.PI / 180) * r + 0.5;
+                                    double wy = y + 0.25 + Math.abs(r) * 0.7;
+                                    double wz = z + Math.cos(wticks * Math.PI / 180) * r + 0.5;
+
+                                    wticks += tickIncrement;
+                                    float[] colorsfx = new float[] {
+                                            0F, (float) ticks / (float) 100, 1F - (float) ticks / (float) 100
+                                    };
+                                    WispParticleData data = WispParticleData.wisp(0.85F, colorsfx[0], colorsfx[1],
+                                            colorsfx[2],
+                                            0.25F);
+                                    Proxy.INSTANCE.addParticleForceNear(world, data, wx, wy, wz, 0, (float) (-g * 0.05),
+                                            0);
+                                    data = WispParticleData.wisp((float) Math.random() * 0.1F + 0.1F, colorsfx[0],
+                                            colorsfx[1],
+                                            colorsfx[2], 0.9F);
+                                    world.addParticle(data, wx, wy, wz, (float) (Math.random() - 0.5) * 0.05F,
+                                            (float) (Math.random() - 0.5) * 0.05F,
+                                            (float) (Math.random() - 0.5) * 0.05F);
+
+                                    if (ticks == 100) {
+                                        for (int j = 0; j < 15; j++) {
+                                            data = WispParticleData.wisp((float) Math.random() * 0.15F + 0.15F,
+                                                    colorsfx[0], colorsfx[1],
+                                                    colorsfx[2]);
+                                            world.addParticle(data, x + 0.5, y + 0.5, z + 0.5,
+                                                    (float) (Math.random() - 0.5F) * 0.125F,
+                                                    (float) (Math.random() - 0.5F) * 0.125F,
+                                                    (float) (Math.random() - 0.5F) * 0.125F);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         // case FLUGEL_EFFECT -> {
                         // Entity entity = world.getEntity(args[0]);
                         // if (entity != null) {

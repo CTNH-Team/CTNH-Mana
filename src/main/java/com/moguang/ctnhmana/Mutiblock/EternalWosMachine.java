@@ -27,11 +27,11 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.world.item.ItemStack;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 
 import java.util.Arrays;

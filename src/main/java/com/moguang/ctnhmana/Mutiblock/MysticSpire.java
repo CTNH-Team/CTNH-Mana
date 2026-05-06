@@ -27,6 +27,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.AABB;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.moguang.ctnhmana.item.Rune.SpireUpgradeRuneItem;
@@ -34,8 +36,6 @@ import com.moguang.ctnhmana.registry.CMEntities;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 
 import java.util.List;
 import java.util.Map;
@@ -339,23 +339,32 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     }
 
     public void updateSelf() {
-        this.range = base_range;
-        this.maxMana = base_maxmana;
-        this.speed = base_speed;
+        long rangeAcc = base_range;
+        long maxManaL = base_maxmana;
+        long speedL = base_speed;
         this.effencicy = base_effencicy;
         for (int i = 0; i <= 3; i++) {
             if (!machineStorage.getStackInSlot(i).isEmpty() &&
                     machineStorage.getStackInSlot(i).getItem() instanceof SpireUpgradeRuneItem ritem) {
-                if (ritem.getRange() > 1) this.range += ritem.getRange() - 1;
-                if (ritem.getSpeed() > 1) this.speed *= ritem.getSpeed();
-                if (ritem.getCapacity() > 1) this.maxMana *= ritem.getCapacity();
+                if (ritem.getRange() > 1) {
+                    rangeAcc += (long) Math.ceil(ritem.getRange() - 1.0);
+                }
+                if (ritem.getSpeed() > 1) {
+                    speedL = SpireMath.mulLongDoubleCap(speedL, ritem.getSpeed(), Integer.MAX_VALUE);
+                }
+                if (ritem.getCapacity() > 1) {
+                    maxManaL = SpireMath.mulLongDoubleCap(maxManaL, ritem.getCapacity(), Integer.MAX_VALUE);
+                }
                 if (ritem.getConversionEfficiency() > 0.1)
                     this.effencicy = Math.max(this.effencicy, ritem.getCapacity());
 
             }
         }
-        this.range = Math.min(50, this.range);
-        this.speed = Math.min(this.maxMana / 10, this.speed);
+        this.range = (int) Math.min(50L, rangeAcc);
+        this.maxMana = (int) Math.min((long) Integer.MAX_VALUE, maxManaL);
+        this.speed = (int) Math.min((long) Integer.MAX_VALUE, speedL);
+        this.speed = (int) Math.min((long) this.maxMana / 10L, (long) this.speed);
+        this.speed = Math.max(1, this.speed);
         ((MysticSpireBlockEntity) this.holder).setMaxMana(this.maxMana);
     }
 

@@ -23,13 +23,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.*;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
 import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 import vazkii.botania.api.block.Bound;
 import vazkii.botania.api.block.WandBindable;
 import vazkii.botania.api.item.CoordBoundItem;

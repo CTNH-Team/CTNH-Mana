@@ -59,6 +59,8 @@
     {
       "id": "mythicbotany:nidavellir_rune",
       "required": false
-    }
+    },
+    "ctnhmana:terra_stick_disintegrated",
+    "ctnhmana:terra_stick"
   ]
 }

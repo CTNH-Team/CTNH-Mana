@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import com.ctnhlang.CN;
 import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
@@ -20,7 +21,6 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.overlay.DisplayHelper;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
 
 public class BloodAltarStatusProvider extends CapabilityBlockProvider<IndustrialAltarMachine> {
 

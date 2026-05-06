@@ -13,15 +13,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT2;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
-
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
 public class HellForgeMachine extends BaseManaMachine {
 

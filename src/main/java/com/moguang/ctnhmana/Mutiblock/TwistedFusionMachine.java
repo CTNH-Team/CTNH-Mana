@@ -10,9 +10,9 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.ctnhlang.CN;
 import org.jetbrains.annotations.Nullable;
-
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughTwistLevel;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
 
@@ -78,4 +78,7 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
         }
         return ModifierFunction.IDENTITY;
     }
+
+    @CN("等级不足，至少需要扭曲等级:%d")
+    public static Lang failureManaLang_NoEnoughTwistLevel;
 }

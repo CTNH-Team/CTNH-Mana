@@ -27,20 +27,18 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.moguang.ctnhmana.common.entity.OmegaSpark;
 import com.moguang.ctnhmana.registry.CMEntities;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.omegaSpireStateLang;
 
 public class ZenithSpire extends MysticSpire {
 
@@ -120,8 +118,9 @@ public class ZenithSpire extends MysticSpire {
             getEUContainer();
         }
         // this.zEU= (long) (euCapacity*0.1);
-        this.zEU = Math.max(0, this.zEU);
-        this.zEU = Math.min(this.euCapacity, this.zEU);
+        long cap = SpireMath.nonNegative(this.euCapacity);
+        this.zEU = SpireMath.nonNegative(this.zEU);
+        this.zEU = Math.min(cap, this.zEU);
         if (this.zEU < this.euCapacity && this.MODE == 0) sendEUToSpire();
         if (this.zEU > 0 && this.MODE != 3) sendEUToContainer();
     }
@@ -191,14 +190,16 @@ public class ZenithSpire extends MysticSpire {
     public void updateSelf() {
         super.updateSelf();
         selfEnergyContainer = getEnergyContainer();
-        getEUContainer();
         var voltage = selfEnergyContainer.getHighestInputVoltage();
         this.eutier = GTUtil.getFloorTierByVoltage(voltage);
-        this.euSpeed = selfEnergyContainer.getInputVoltage() * this.speed / base_speed * 4;
-        this.euCapacity = selfEnergyContainer.getEnergyCapacity() * this.maxMana / base_maxmana * 4;
-        this.range = this.range * 2 + 77;
-        this.speed *= 4;
-        this.maxMana *= 4;
+        this.euSpeed = SpireMath.euSpeedScaled(selfEnergyContainer.getInputVoltage(), this.speed, base_speed);
+        this.euCapacity = SpireMath.euCapacityScaled(selfEnergyContainer.getEnergyCapacity(), this.maxMana,
+                base_maxmana);
+        long rangeL = (long) this.range * 2L + 200L;
+        this.range = rangeL > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rangeL;
+        this.speed = SpireMath.multiplyIntPositiveCap(this.speed, 4);
+        this.maxMana = SpireMath.multiplyIntPositiveCap(this.maxMana, 4);
+        getEUContainer();
     }
 
     public void getEUContainer() {
@@ -259,7 +260,7 @@ public class ZenithSpire extends MysticSpire {
                         found = generatorMachine.energyContainer;
                     } else if (machine instanceof EnergyHatchPartMachine hatchPart) {
                         found = hatchPart.energyContainer;
-                    } else if (machine instanceof LaserHatchPartMachine) {
+                    } else if (machine instanceof LaserHatchPartMachine laserpart) {
                         found = blockEntity.getCapability(GTCapability.CAPABILITY_LASER).orElse(null);
                     }
                     if (found == null) continue;
@@ -275,7 +276,7 @@ public class ZenithSpire extends MysticSpire {
 
                     if ((machine instanceof TieredEnergyMachine || machine instanceof SimpleGeneratorMachine) &&
                             machine instanceof ITieredMachine tieredMachine &&
-                            tieredMachine.getTier() <= eutier) {
+                            tieredMachine.getTier() <= this.eutier) {
                         // Small machines that can receive EU are treated as broadcast targets.
                         if (canInput) {
                             smallMachines.add(found);
@@ -287,7 +288,7 @@ public class ZenithSpire extends MysticSpire {
                         }
                     } else
                         if ((machine instanceof EnergyHatchPartMachine || machine instanceof LaserHatchPartMachine) &&
-                                ((ITieredMachine) machine).getTier() <= eutier) {
+                                ((ITieredMachine) machine).getTier() <= this.eutier) {
                                     if (canInput) {
                                         energyHatches.add(found);
                                     } else if (canOutput) {
@@ -311,11 +312,12 @@ public class ZenithSpire extends MysticSpire {
     public void sendEUToContainer() {
         var EUs = this.euSpeed;
         if (energyInputContainer != null) {
-            var consume = Math.min(energyInputContainer.getEnergyCapacity() - energyInputContainer.getEnergyStored(),
-                    Math.min(EUs, this.zEU));
-            energyInputContainer.addEnergy(consume);
+            long capRem = energyInputContainer.getEnergyCapacity() - energyInputContainer.getEnergyStored();
+            capRem = SpireMath.nonNegative(capRem);
+            long consume = Math.min(capRem, Math.min(EUs, SpireMath.nonNegative(this.zEU)));
+            consume = energyInputContainer.addEnergy(consume);
             EUs -= consume;
-            this.zEU -= consume;
+            this.zEU = SpireMath.nonNegative(this.zEU - consume);
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticles(this.euContainerPos);
             }
@@ -330,9 +332,15 @@ public class ZenithSpire extends MysticSpire {
         // this.zEU=Math.min(this.euCapacity,this.zEU);
         // }
         if (this.energyoutputContainer != null && this.zEU < this.euCapacity) {
-            var consume = Math.min(this.euCapacity - this.zEU,
-                    Math.min(this.euSpeed * 2, this.energyoutputContainer.getEnergyStored()));
-            this.zEU += consume;
+            long room = this.euCapacity - this.zEU;
+            long pullLimit;
+            try {
+                pullLimit = Math.multiplyExact(this.euSpeed, 2L);
+            } catch (ArithmeticException e) {
+                pullLimit = Long.MAX_VALUE / 4;
+            }
+            long consume = Math.min(room, Math.min(pullLimit, this.energyoutputContainer.getEnergyStored()));
+            this.zEU = SpireMath.addCapToMax(this.zEU, consume, this.euCapacity);
             this.energyoutputContainer.removeEnergy(consume);
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticlesReverse(this.euOutputContainerPos);
@@ -344,13 +352,27 @@ public class ZenithSpire extends MysticSpire {
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (this.isFormed && this.selfEnergyContainer != null) {
-            textList.add(omegaSpireStateLang[0].translate(GTValues.VNF[eutier])
-                    .withStyle(Style.EMPTY.withColor(GTValues.VC[eutier])));
+            int ti = Math.max(0, Math.min(this.eutier, GTValues.V.length - 1));
+            long denom = Math.max(1L, GTValues.V[ti]);
+            long displayAmp = this.euSpeed / denom;
+            textList.add(omegaSpireStateLang[0].translate(GTValues.VNF[ti])
+                    .withStyle(Style.EMPTY.withColor(GTValues.VC[ti])));
             textList.add(omegaSpireStateLang[1].translate(this.zEU, this.euCapacity));
-            textList.add(omegaSpireStateLang[2].translate(this.euSpeed, this.euSpeed / GTValues.V[eutier],
-                    GTValues.VNF[eutier]));
+            textList.add(omegaSpireStateLang[2].translate(this.euSpeed, displayAmp, GTValues.VNF[ti]));
         }
     }
+
+    @CN({
+            "当前允许传输的最高电压等级:%s",
+            "当前存储量:%d /%d EU",
+            "当前最高输入速度:%d EU(%dA %s)"
+    })
+    @EN({
+            "当前存储的电压等级:%.2f",
+            "当前存储量:%d /%d EU",
+            "当前最高输入速度:%d EU(%dA/%d)"
+    })
+    public static Lang[] omegaSpireStateLang;
 
     @CN({
             "§b星空§r是魔法,§4血欲§r是魔法,§a大地§r是魔法,§5科技§r自然也是魔法.在超越现实的思维洪流之中,现实正逐渐塑造成我们心中所想",

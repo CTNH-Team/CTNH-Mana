@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
@@ -16,11 +17,17 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.gregtechceu.gtceu.utils.DummyMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.InfiniteEnergyContainer;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -35,28 +42,31 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.Rune.RuneElementType;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
+import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.registry.CMTags;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
 
 import java.util.*;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.moguang.ctnhmana.data.lang.AHCCRuneLang.*;
 import static com.moguang.ctnhmana.item.Rune.RuneElementType.*;
 import static com.moguang.ctnhmana.registry.CMGuiTextures.AHCC_BACKGROUND;
+import static com.moguang.ctnhmana.registry.CMMaterials.Livingrock;
 import static mythicbotany.register.ModItems.*;
 
 public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMachine implements IFancyUIMachine,
@@ -190,8 +200,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         rebuildAllMaps();
         if (this.isActive()) return;
         for (int i = 0; i <= slot_range * slot_range - 1; i++) {
-            if (!this.inventory.getStackInSlot(i).isEmpty() &&
-                    this.inventory.getStackInSlot(i).getItem() instanceof IManaFuelStick) {
+            if ((!this.inventory.getStackInSlot(i).isEmpty() &&
+                    this.inventory.getStackInSlot(i).getItem() instanceof IManaFuelStick) || this.cooldown) {
                 startRecipeCycle();
                 return;
             }
@@ -460,17 +470,75 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
     }
 
+    /**
+     * 仅保留物品与数量 1、以及可损坏物品的损坏值，去除附魔、GT 组件/旧版 NBT 等，使与数据包中
+     * {@code Ingredient.of(无 tag 的 ItemStack)} 一致，避免 {@code SizedIngredient} 退化为 StrictNBT 后无法匹配。
+     */
+    @NotNull
+    private static ItemStack normalizeStackForTwistCollapseMatch(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        Item item = stack.getItem();
+        ItemStack out = new ItemStack(item, 1);
+        return out;
+    }
+
+    /**
+     * Test-only helper: try executing TwistCollapse once immediately.
+     * This method does not alter current AHCC disintegration behavior.
+     */
+    public ItemStack testTryTwistCollapseRecipeOnce(ItemStack runeInput) {
+        ItemStack crash = new ItemStack(ChemicalHelper.get(dust, Livingrock).getItemHolder(), 1);
+        if (runeInput.isEmpty()) return crash;
+
+        ItemStack matchInput = normalizeStackForTwistCollapseMatch(runeInput);
+        if (matchInput.isEmpty()) return crash;
+
+        DummyMachineBlockEntity be = new DummyMachineBlockEntity(
+                GTValues.LV, CMRecipeTypes.TwistCollapse, GTMachineUtils.defaultTankSizeFunction,
+                Collections.emptyList());
+        var inputHandler = new NotifiableItemStackHandler(be.getMetaMachine(), 1, IO.IN, IO.IN,
+                slots -> new CustomItemStackHandler(matchInput));
+        var outputHandler = new NotifiableItemStackHandler(be.getMetaMachine(), 2, IO.OUT);
+        RecipeHandlerList dummyInputs = RecipeHandlerList.of(IO.IN,
+                new InfiniteEnergyContainer(be.getMetaMachine(), GTValues.V[GTValues.LV], GTValues.V[GTValues.LV], 1,
+                        GTValues.V[GTValues.LV], 1),
+                inputHandler);
+        RecipeHandlerList dummyOutputs = RecipeHandlerList.of(IO.OUT, outputHandler);
+        be.getMetaMachine().reinitializeHandlers(List.of(dummyInputs, dummyOutputs));
+
+        Iterator<GTRecipe> recipes = CMRecipeTypes.TwistCollapse.searchRecipe(be.metaMachine,
+                recipe -> RecipeHelper.matchContents(be.metaMachine, recipe).isSuccess());
+        if (!recipes.hasNext()) return crash;
+
+        GTRecipe recipe = recipes.next();
+        if (!RecipeHelper
+                .handleRecipeIO(be.metaMachine, recipe, IO.IN, be.getMetaMachine().recipeLogic.getChanceCaches())
+                .isSuccess()) {
+            return crash;
+        }
+
+        for (Content output : recipe.getOutputContents(ItemRecipeCapability.CAP)) {
+            ItemStack[] outputs = ItemRecipeCapability.CAP.of(output.content).getItems();
+            if (outputs.length > 0 && !outputs[0].isEmpty()) {
+                return outputs[0].copy();
+            }
+        }
+        return crash;
+    }
+
     public ItemStack disintegration(ItemStack stack) {
         if (stack.getItem() instanceof IManaFuelStick stick) {
             var random = Math.random();
             if (random <= 1 - (double) stability / maxStability) return (stick.disintegration != null) ?
-                    new ItemStack(stick.disintegration) : new ItemStack(BotaniaBlocks.livingrock.asItem());
+                    testTryTwistCollapseRecipeOnce(stack) : new ItemStack(BotaniaBlocks.livingrock.asItem());
             else return stack;
         } else if (stack.is(BotaniaTags.Items.RUNES)) {
             // 符文产物分流：基础20%破碎，稳定度<25%后每下降1%再+2%
             double brokenChance = getRuneBrokenChance(this.stability);
             if (Math.random() <= brokenChance) {
-                return new ItemStack(CMItems.BROKEN_RUNE);
+                return testTryTwistCollapseRecipeOnce(stack);
             }
             return new ItemStack(CMItems.EMPTY_RUNE);
         }
@@ -502,13 +570,13 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     public Long calculateEU() {
         var now_eu = 0L;
         if (this.heat < this.maxHeat * 0.5) {
-            now_eu = (long) (Math.pow(heat, 1.5) * GTValues.VA[GTValues.HV]);
+            now_eu = (long) (Math.pow(heat, 2) * GTValues.VA[GTValues.HV]);
         }
         if (this.heat >= this.maxHeat * 0.5 && this.heat <= this.maxHeat) {
-            now_eu = (long) (Math.pow(heat, 1.5) * GTValues.VA[GTValues.EV]);
+            now_eu = (long) (Math.pow(heat, 2) * GTValues.VA[GTValues.EV]);
         }
         if (this.heat > this.maxHeat) {
-            now_eu = (long) (Math.pow(this.maxHeat, 1.5) * GTValues.VA[GTValues.EV] *
+            now_eu = (long) (Math.pow(this.maxHeat, 2) * GTValues.VA[GTValues.EV] *
                     (1 + (double) (this.heat - this.maxHeat) / this.maxHeat) + Math.pow(this.heat - this.maxHeat, 3));
         }
         now_eu = Math.min(now_eu, maxEU);
@@ -684,6 +752,9 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             }
 
             if (stack.is(BotaniaTags.Items.RUNES)) {
+                int slot = slotReference.getSlotIndex();
+                long previewStability = getPreviewStabilityBySlot(slot);
+                tooltips.add(AHCCBarLang[1].translate(previewStability));
                 Lang[] runeLang = getAHCCRuneLang(stack);
                 if (runeLang != null) {
                     for (Lang lang : runeLang) {
@@ -1171,6 +1242,18 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                 } else {
                     continue;
+                }
+            }
+        }
+        // 统一约束：
+        // 1) 能降低燃料稳定占用的符文，不能把占用降到0以下
+        // 2) 若燃料原始占用本身<0，则不做任何调整
+        for (int i = 0; i < slot_range; i++) {
+            for (int j = 0; j < slot_range; j++) {
+                var stack = inventory.getStackInSlot(getSlotIndex(i, j));
+                if (!stack.isEmpty() && stack.getItem() instanceof IManaFuelStick stick &&
+                        stick.stability >= 0 && stabilitymap[i][j] < 0) {
+                    stabilitymap[i][j] = 0;
                 }
             }
         }

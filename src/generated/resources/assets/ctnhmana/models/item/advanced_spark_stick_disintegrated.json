@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ctnhmana:item/manaspark/advanced_spark_stick_disintegrated"
+  }
+}

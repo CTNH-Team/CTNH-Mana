@@ -1,6 +1,5 @@
 package com.moguang.ctnhmana.Mutiblock;
 
-import com.ctnhlang.*;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
@@ -13,13 +12,13 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
+import com.ctnhlang.*;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-
 
 import java.util.List;
 
@@ -129,7 +128,7 @@ public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITi
     public static Lang INFO_ACCUMULATED;
 
     // lang: tooltips (multiblock description)
-    @Key("tooltip")
+    @Key("ctnh.multiblock.quasar_eye.tooltip")
     @CN({
             "§9魔力§r的§c终极奥秘§r，能够创造§5类星体§r的装置如今握在§6你§r手中",
             "机器激活需要§r消耗初始魔力燃料§r，具体数值请查阅JEI",
@@ -163,7 +162,6 @@ public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITi
     /** 类星体之眼配方在 JEI 中显示的 dataInfo，由 LangProcessor 注册 ctnh.recipe.quasar_eye.info.0/1/2 */
     @Category("recipe")
     public static class RecipeLang {
-
 
         @CN("激活消耗：%.1f")
         public static Lang RECIPE_INFO_0;

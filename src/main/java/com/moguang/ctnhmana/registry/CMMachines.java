@@ -22,6 +22,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.Mutiblock.parts.CentralControlBus;
@@ -37,6 +39,7 @@ import com.moguang.ctnhmana.item.FlowerCakeItem;
 import com.moguang.ctnhmana.machine.FlowerCakeBlock;
 import com.moguang.ctnhmana.machine.FlowerCakeMachine;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.registrate.builders.CTNHMachineBuilder;
 
 import java.util.Locale;
@@ -47,7 +50,6 @@ import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelPropertie
 import static com.gregtechceu.gtceu.common.data.GTMachines.CREATIVE_TOOLTIPS;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.flowercakelang;
 
 public class CMMachines {
 
@@ -56,6 +58,20 @@ public class CMMachines {
     }
 
     public static void init() {}
+
+    @CN({
+            "§b制作组物品§r",
+            "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+            "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+            "可连续食用！"
+    })
+    @EN({
+            "§b制作组物品§r",
+            "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
+            "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
+            "可连续食用！"
+    })
+    public static Lang[] flowercakelang;
 
     public static final MachineDefinition STAR_FLOWER_CAKE = REGISTRATE.machine(
             "flower_cake",

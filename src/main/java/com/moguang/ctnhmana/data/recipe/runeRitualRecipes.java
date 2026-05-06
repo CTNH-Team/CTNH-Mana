@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -186,6 +187,42 @@ public class runeRitualRecipes {
                 .input(Zenith_essence.getBucket())
                 .output(STARLIGHT_RUNE.asItem())
                 .mana(500000)
+                .save(provider);
+        RuneRitualRecipeBuilder.builder("starlight_rune_from_proliferation")
+                .center(PROLIFERATION_RUNE.asItem())
+                .rune(NETHER_STAR.asItem(), 0, -1, true)
+                .rune(NETHER_STAR.asItem(), 1, 0, true)
+                .rune(NETHER_STAR.asItem(), 0, 1, true)
+                .rune(NETHER_STAR.asItem(), -1, 0, true)
+                .input(STARLIGHT_RUNE.asItem())
+                .input(Zenith_essence.getBucket())
+                .input(Zenith_essence.getBucket())
+                .output(new ItemStack(STARLIGHT_RUNE.asItem(), 2))
+                .mana(250000)
+                .save(provider);
+        RuneRitualRecipeBuilder.builder("twist_rune_from_proliferation")
+                .center(PROLIFERATION_RUNE.asItem())
+                .rune(STEADFAST_CORE.get(), 0, -1, true)
+                .rune(VENGEFUL_CORE.get(), 1, 0, true)
+                .rune(CORROSIVE_CORE.get(), 0, 1, true)
+                .rune(DESTRUCTIVE_CORE.get(), -1, 0, true)
+                .input(TWIST_RUNE.asItem())
+                .input(Zenith_essence.getBucket())
+                .input(Zenith_essence.getBucket())
+                .output(new ItemStack(TWIST_RUNE.asItem(), 2))
+                .mana(250000)
+                .save(provider);
+        RuneRitualRecipeBuilder.builder("horizen_rune_from_proliferation")
+                .center(PROLIFERATION_RUNE.asItem())
+                .rune(QUANTUM_EYE.asItem(), 0, -1, true)
+                .rune(QUANTUM_EYE.asItem(), 1, 0, true)
+                .rune(QUANTUM_EYE.asItem(), 0, 1, true)
+                .rune(QUANTUM_EYE.asItem(), -1, 0, true)
+                .input(HORIZEN_RUNE.asItem())
+                .input(Zenith_essence.getBucket())
+                .input(Zenith_essence.getBucket())
+                .output(new ItemStack(HORIZEN_RUNE.asItem(), 2))
+                .mana(250000)
                 .save(provider);
         RuneRitualRecipeBuilder.builder("kvasirblood")// 克瓦希尔之血
                 .center(fimbultyrTablet.asItem())

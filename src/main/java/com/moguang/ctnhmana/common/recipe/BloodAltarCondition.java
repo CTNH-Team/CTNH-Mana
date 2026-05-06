@@ -7,15 +7,15 @@ import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
 import net.minecraft.network.chat.Component;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
-import com.moguang.ctnhmana.data.lang.ChineseLangHandler;
+import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 
 public class BloodAltarCondition extends RecipeCondition<BloodAltarCondition> {
 
@@ -68,15 +68,15 @@ public class BloodAltarCondition extends RecipeCondition<BloodAltarCondition> {
         else if (upgrade.equals("etching")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),
                 altar_consumption_lang[1].translate(min_consumption),
                 altar_consumption_lang[0].translate(consumption_rate),
-                altar_upgrade_lang.translate(ChineseLangHandler.etching_jade_upgrade.translate()));
+                altar_upgrade_lang.translate(CMItems.etching_jade_upgrade.translate()));
         else if (upgrade.equals("suppression")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),
                 altar_consumption_lang[1].translate(min_consumption),
                 altar_consumption_lang[0].translate(consumption_rate),
-                altar_upgrade_lang.translate(ChineseLangHandler.suppression_jade_upgrade.translate()));
+                altar_upgrade_lang.translate(CMItems.suppression_jade_upgrade.translate()));
         else if (upgrade.equals("ephemeral")) return altar_lang_1.translate(altar_tier_lang.translate(altar_tier),
                 altar_consumption_lang[1].translate(min_consumption),
                 altar_consumption_lang[0].translate(consumption_rate),
-                altar_upgrade_lang.translate(ChineseLangHandler.ephemeral_jade_upgrade.translate()));
+                altar_upgrade_lang.translate(CMItems.ephemeral_jade_upgrade.translate()));
         return null;
     }
 

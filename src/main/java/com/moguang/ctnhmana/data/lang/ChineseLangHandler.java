@@ -1,8 +1,8 @@
 package com.moguang.ctnhmana.data.lang;
 
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import tech.vixhentx.mcmod.ctnhlib.registrate.lang.RegistrateCNLangProvider;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -53,94 +53,6 @@ public class ChineseLangHandler {
             "最大的液态魔力生命源质：%d mB"
     })
     public static Lang[] bloodmanahatchtootip_base;
-    @CN("神谕终端[赫尔墨斯]")
-    public static Lang CaduceusLang;
-    @CN({
-            "应该用大剑将躯干劈开时:",
-            "应该用矿镐将骨骼凿碎时:",
-            "应该用铁铲将皮肉铲削时:",
-            "应该用战斧将肢体斩断时:",
-            "应该用耕锄将筋脉割裂时:",
-            "应该用镰刀将脖颈勾断时:",
-            "应该用锯子将骨肉锯开时:",
-            "应该用扳手将关节拧折时:",
-            "应该用锉刀将皮肉磨烂时:",
-            "应该用螺丝刀将颅骨撬开时:",
-            "应该用剪线钳将筋腱剪断时:",
-            "应该用小刀将动脉划开时:",
-            "应该用马桶搋子将面门砸瘪时:"
-    })
-    @EN({
-            "应该用大剑将躯干劈开时",
-            "应该用矿镐将骨骼凿碎时",
-            "应该用铁铲将皮肉铲削时",
-            "应该用战斧将肢体斩断时",
-            "应该用耕锄将筋脉割裂时",
-            "应该用镰刀将脖颈勾断时",
-            "应该用锯子将骨肉锯开时",
-            "应该用扳手将关节拧折时",
-            "应该用锉刀将皮肉磨烂时",
-            "应该用螺丝刀将颅骨撬开时",
-            "应该用剪线钳将筋腱剪断时",
-            "应该用小刀将动脉划开时",
-            "应该用马桶搋子将面门砸瘪时"
-    })
-    //
-    public static Lang[] CaduceusWeaponLang;
-    @CN({
-            "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
-            "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
-            "这种液体会随着终端所吸收到的指令改变其外观，根据对象的情况与限制而变换成合适的武器。",
-            "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块",
-            "按N键来打开形态滚轮，切换神谕之杖的模式，按C激活福尔图娜模式：停止发放指令，获得负面效果业：福尔图娜",
-            "这个物品还在测试状态！如果有任何bug，请反馈给魔力蜜蜂！"
-    })
-    @EN({
-            "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
-            "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
-            "这种液体会随着终端所吸收到的指令改变其外观，根据暗杀对象的情况与限制而变换成合适的武器。",
-            "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块",
-            "按V键来打开形态滚轮，切换神谕之杖的模式，按C激活福尔图娜模式：停止发放指令，获得负面效果业：福尔图娜",
-            "这个物品还在测试状态！如果有任何bug，请反馈给魔力蜜蜂！"
-    })
-    public static Lang[] CaduceusTooltipNormalLang;
-    @CN({
-            "+§8%d§r攻击力",
-            "+§8%d§r攻击速度"
-    })
-    @EN({
-            "+%d攻击力",
-            "+%d攻击速度"
-    })
-    public static Lang[] CaduceusDamageLang;
-    @CN({
-            "根据自身§1§n剑刃解放§r层数造成更多伤害",
-            "对§1§n指令目标§r造成更多伤害",
-            "命中时获得§4力量§r，根据自身§1§n剑刃解放§r层数或者命中§1§n指令目标§1§r获得额外§4力量§r",
-            ""
-    })
-    @EN({
-            "根据自身剑刃解放层数造成更多伤害",
-            "对指令目标造成更多伤害",
-            "命中时获得力量，根据自身剑刃解放层数或者命中指令目标获得额外力量"
-    })
-    public static Lang[] CaduceusStatusLang;
-
-    @CN({
-            "致%s：",
-            "等待直至收到下一条指令",
-            "在限定时间内消灭指令对象",
-            "在限定时间内，确保指令对象位置没有机器"
-    })
-    @EN({
-            "致%s：",
-            "等待直至收到下一条指令",
-            "在限定时间内前消灭指令对象",
-            "在限定时间内，确保指令对象位置没有机器"
-    })
-    public static Lang[] IndexLang;
-    @CN("§1§o哦，命运，如月亮般变化无常")
-    public static Lang CaduceusFortunaLang;
     @CN({
             "用于魔力机器的魔力能量输入，支持输入：植物魔法魔力与液态魔力",
             "不支持输入生命源质",
@@ -192,46 +104,6 @@ public class ChineseLangHandler {
     @CN("§c凝血魔力凝聚者")
     public static Lang bloodmanahatchtooltip_1;
 
-    @CN("蚀刻强化")
-    @EN("Etching Upgrade")
-    public static Lang etching_jade_upgrade;
-    @CN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-    })
-    @EN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-    })
-    public static Lang[] etchingJadeLang;
-    @CN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-            "减少一半的LP消耗"
-    })
-    @EN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-            "减少一半的LP消耗"
-    })
-    public static Lang[] suppressionJadeLang;
-    @CN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-            "将工业血祭坛的超频改为无损超频"
-    })
-    @EN({
-            "放置在血祭坛中时：",
-            "使工业血祭坛可以执行额外的配方",
-            "将工业血祭坛的超频改为无损超频"
-    })
-    public static Lang[] ephemeralJadeLang;
-    @CN("抑液强化")
-    @EN("Suppression Upgrade")
-    public static Lang suppression_jade_upgrade;
-    @CN("须臾强化")
-    @EN("Ephemeral Upgrade")
-    public static Lang ephemeral_jade_upgrade;
     @CN({
             "§aCTNH产魔花",
             "§6工业时代的炼金术师"
@@ -288,19 +160,6 @@ public class ChineseLangHandler {
             "§1你将收获永世的折磨"
     })
     public static Lang[] flyTrapLang;
-    @CN({
-            "§b制作组物品§r",
-            "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
-            "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
-            "可连续食用！"
-    })
-    @EN({
-            "§b制作组物品§r",
-            "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
-            "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
-            "可连续食用！"
-    })
-    public static Lang[] flowercakelang;
     @CN({
             "§6完美§r地控制每一个中央槽位",
             "该机器用于精确控制§n多方块结构主机器UI§r的存储槽位",
@@ -664,116 +523,6 @@ public class ChineseLangHandler {
     }
     // 物品tooltips
 
-    @CN("§b将信息本身作为能量的非物质运算§r")
-    @EN("§bNon-physical computation that takes information itself as energy§r")
-    public static Lang umlhpic;
-    @CN({
-            "§b魔力逻辑UHV电路板§r",
-            "§b超越因果，在两世之间纠缠的有限运算§r"
-
-    })
-    @EN({
-            "§bMagic Logic UHV Circuit Board§r",
-            "§bTranscending Karma, a Finite Computation Entwined Between Two Existences§r"
-    })
-    public static Lang[] magic_quantum_processor_mainframe;
-
-    @CN({
-            "§4血染逻辑LuV电路§r",
-            "§4残酷工业的哲学§r"
-    })
-    @EN({
-            "§4血染逻辑LuV电路§r",
-            "§4残酷工业的哲学§r"
-    })
-    public static Lang[] bloody_nano_circuit_lang;
-
-    @CN({
-            "§1意志逻辑ZPM电路§r",
-            "§1扭曲主导的运算法则§r"
-    })
-    @EN({
-            "§1意志逻辑ZPM电路§r",
-            "§1扭曲主导的运算法则§r"
-    })
-    public static Lang[] mixin_will_circuit_lang;
-    @CN("将逻辑映射在符文之上")
-    public static Lang rune_circuit_board_lang;
-
-    @CN({
-            "§b魔力逻辑HV电路",
-            "§b魔力逻辑电路的第一步"
-    })
-    @EN({
-            "§b魔力逻辑HV电路",
-            "§b魔力电路化的第一步"
-    })
-    public static Lang[] mana_circuit_lang;
-
-    @CN({
-            "§a精灵逻辑EV电路",
-            "§a超越精灵的逻辑运算因式"
-    })
-    @EN({
-            "§a精灵逻辑EV电路",
-            "§a超越精灵的逻辑运算因式"
-    })
-    public static Lang[] advanced_mana_circuit_lang;
-    @CN({
-            "§1意志逻辑IV电路",
-            "§1意志结晶的逻辑拓展"
-    })
-    @EN({
-            "§1意志逻辑IV电路",
-            "§1意志结晶的逻辑拓展"
-    })
-    public static Lang[] will_crystal_circuit_lang;
-    @CN("§4单向涌血控制")
-    public static Lang blooddiodelang;
-    @CN("§1非静态意志限制器")
-    public static Lang willdiodelang;
-    @CN("§4调整源质流动")
-    public static Lang bloodresistorlang;
-    @CN("§1阻遏过度思维")
-    public static Lang willresistorlang;
-    @CN("§4存储命结电荷")
-    public static Lang bloodcapacitorlang;
-    @CN("§1增生困惑思维")
-    public static Lang willcapacitorlang;
-    @CN("§4放大源质信号")
-    public static Lang bloodtransistorlang;
-    @CN("§1实体化意志扭曲")
-    public static Lang willtransistorlang;
-    @CN("§4提供血涌缓冲")
-    public static Lang bloodinductorlang;
-    @CN("§4提供矛盾缓冲")
-    public static Lang willinductorlang;
-    @CN("§4否决原电路逻辑，执行自意志运算")
-    public static Lang willsoclang;
-    @CN("§5世界的逻辑本质凝聚于此,§l凝视§r于此")
-    public static Lang zenithsoclang;
-    @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
-    public static Lang brokenRuneLang;
-    @CN("§a大地的力量凝聚于此")
-    public static Lang terra_catalyst;
-    @CN("§5宛如天上的繁星")
-    public static Lang zenith_star;
-    @CN("高能魔力蚀刻基板")
-    public static Lang mana_circuit_board;
-    @CN("调谐电力与魔力的核心")
-    public static Lang magicCoreLang;
-    @CN("永恒的十二面体")
-    public static Lang flowerHeartLang;
-    @CN("封藏着魔力的奥义")
-    public static Lang encapsulated_twist_mana;
-    @CN("放置在魔力凝聚仓内，每个消耗10000魔力能量来转化为奥利哈精魄")
-    public static Lang unimbudSpritLang;
-    @CN("通过未注魂的精魄在魔力凝聚仓中消耗魔力能量转化而来")
-    public static Lang orichalcosSpritLang;
-    @CN("§b它会变成什么?")
-    public static Lang blankRuneLang;
-    @CN("指令所编织之布")
-    public static Lang indexPaperLang;
     @CN({
             "佩戴时获得：",
             "显示§b魔力池§r，§b魔力花§r和§b魔力凝聚板§r的详细信息",
@@ -791,21 +540,6 @@ public class ChineseLangHandler {
             "§5§o以自己的幸福，换来可以看见真实的眼睛，这就是身为§r§n觉§r§5§o之妖怪的被厌恶者的觉悟"
     })
     public static Lang[] satori_thirdeye_tooltip;
-    @CN({
-            "魔法之力！",
-            "要求结构中必须且仅有1个魔力凝聚仓",
-            "通过机器内升级槽放入升级",
-            "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-            "最终运行速度+25%"
-    })
-    @EN({
-            "§b魔法之力！",
-            "要求结构中必须且仅有1个魔力凝聚仓",
-            "通过机器内升级槽放入升级",
-            "每秒消耗%d魔力能量，电压每有1级，消耗的魔力能量就翻倍",
-            "最终运行速度+25%"
-    })
-    public static Lang[] basemanamutiblockLang;
     @CN({
             "§5于超越现实的视线之中",
             "要求结构中必须且仅有一个魔力凝聚仓",
@@ -878,23 +612,4 @@ public class ChineseLangHandler {
             "基础供血速率：20lp*(2^工业血祭坛等级)/s 该速率受到转位符文，促速符文的影响"
     })
     public static Lang[] industrialAltarctrlLang;
-    @CN("魔力不足")
-    public static Lang failureManaLang_NoEnoughMana;
-    @CN("LP不足")
-    public static Lang failureManaLang_NoEnoughLP;
-    @CN("等级不足，至少需要扭曲等级:%d")
-    public static Lang failureManaLang_NoEnoughTwistLevel;
-    @CN("END COLOR :XD")
-    public static Lang failureManaLang_BeamCrash;
-    @CN({
-            "当前允许传输的最高电压等级:%s",
-            "当前存储量:%d /%d EU",
-            "当前最高输入速度:%d EU(%dA %s)"
-    })
-    @EN({
-            "当前存储的电压等级:%.2f",
-            "当前存储量:%d /%d EU",
-            "当前最高输入速度:%d EU(%dA/%d)"
-    })
-    public static Lang[] omegaSpireStateLang;
 }

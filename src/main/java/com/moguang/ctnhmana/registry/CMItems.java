@@ -19,9 +19,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.item.BloodMagicJade.JadeItem;
 import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
-import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.*;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.BTUpgradeItemT1;
@@ -42,7 +43,6 @@ import vazkii.botania.common.lib.BotaniaTags;
 import java.util.List;
 
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.item.Rune.RuneElementType.*;
 import static com.moguang.ctnhmana.item.Rune.RuneElementType.WATER;
 
@@ -335,7 +335,7 @@ public class CMItems {
                         CustomTags.CRAFTING_WIRE_CUTTERS,
                         CustomTags.CRAFTING_WRENCHES)
                 .register();
-        SPARK_STICK = ManaFuelItems.registerSparkStick();
+
         BROKEN_RUNE = REGISTRATE
                 .item("broken_rune", ComponentItem::create)
                 .cnlang("破碎的符文")
@@ -466,6 +466,7 @@ public class CMItems {
 
     public static void init() {
         registerItem();
+        ManaFuelItems.registerItem();
         // registercircuit.init();
         // registerJade.init();
     }
@@ -504,7 +505,6 @@ public class CMItems {
     public static ItemEntry<JadeItem> EPHEMERAL_JADE;
     public static ItemEntry<SaberWandItem> SABER_WAND;
     public static ItemEntry<CaduceusItem> CADUCEUS;
-    public static ItemEntry<IManaFuelStick> SPARK_STICK;
     public static ItemEntry<ComponentItem> BROKEN_RUNE;
     public static ItemEntry<ComponentItem> EMPTY_RUNE;
     public static ItemEntry<TaintedBloodWeepingEye> TAINTED_BLOOD_EYE;
@@ -551,6 +551,143 @@ public class CMItems {
     private static TagKey<Item> accessory(String name) {
         return ItemTags.create(new ResourceLocation("curios", name));
     }
+
+    @CN({
+            "§4血染逻辑LuV电路§r",
+            "§4残酷工业的哲学§r"
+    })
+    @EN({
+            "§4血染逻辑LuV电路§r",
+            "§4残酷工业的哲学§r"
+    })
+    public static Lang[] bloody_nano_circuit_lang;
+    @CN({
+            "§1意志逻辑ZPM电路§r",
+            "§1扭曲主导的运算法则§r"
+    })
+    @EN({
+            "§1意志逻辑ZPM电路§r",
+            "§1扭曲主导的运算法则§r"
+    })
+    public static Lang[] mixin_will_circuit_lang;
+    @CN("将逻辑映射在符文之上")
+    public static Lang rune_circuit_board_lang;
+    @CN("§b将信息本身作为能量的非物质运算§r")
+    @EN("§bNon-physical computation that takes information itself as energy§r")
+    public static Lang umlhpic;
+    @CN({
+            "§b魔力逻辑UHV电路板§r",
+            "§b超越因果，在两世之间纠缠的有限运算§r"
+    })
+    @EN({
+            "§bMagic Logic UHV Circuit Board§r",
+            "§bTranscending Karma, a Finite Computation Entwined Between Two Existences§r"
+    })
+    public static Lang[] magic_quantum_processor_mainframe;
+    @CN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+    })
+    @EN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+    })
+    public static Lang[] etchingJadeLang;
+    @CN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "减少一半的LP消耗"
+    })
+    @EN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "减少一半的LP消耗"
+    })
+    public static Lang[] suppressionJadeLang;
+    @CN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "将工业血祭坛的超频改为无损超频"
+    })
+    @EN({
+            "放置在血祭坛中时：",
+            "使工业血祭坛可以执行额外的配方",
+            "将工业血祭坛的超频改为无损超频"
+    })
+    public static Lang[] ephemeralJadeLang;
+    @CN({
+            "§1意志逻辑IV电路",
+            "§1意志结晶的逻辑拓展"
+    })
+    @EN({
+            "§1意志逻辑IV电路",
+            "§1意志结晶的逻辑拓展"
+    })
+    public static Lang[] will_crystal_circuit_lang;
+    @CN({
+            "§b魔力逻辑HV电路",
+            "§b魔力逻辑电路的第一步"
+    })
+    @EN({
+            "§b魔力逻辑HV电路",
+            "§b魔力电路化的第一步"
+    })
+    public static Lang[] mana_circuit_lang;
+    @CN({
+            "§a精灵逻辑EV电路",
+            "§a超越精灵的逻辑运算因式"
+    })
+    @EN({
+            "§a精灵逻辑EV电路",
+            "§a超越精灵的逻辑运算因式"
+    })
+    public static Lang[] advanced_mana_circuit_lang;
+    @CN("§4单向涌血控制")
+    public static Lang blooddiodelang;
+    @CN("§1非静态意志限制器")
+    public static Lang willdiodelang;
+    @CN("§4调整源质流动")
+    public static Lang bloodresistorlang;
+    @CN("§1阻遏过度思维")
+    public static Lang willresistorlang;
+    @CN("§4存储命结电荷")
+    public static Lang bloodcapacitorlang;
+    @CN("§1增生困惑思维")
+    public static Lang willcapacitorlang;
+    @CN("§4放大源质信号")
+    public static Lang bloodtransistorlang;
+    @CN("§1实体化意志扭曲")
+    public static Lang willtransistorlang;
+    @CN("§4提供血涌缓冲")
+    public static Lang bloodinductorlang;
+    @CN("§4提供矛盾缓冲")
+    public static Lang willinductorlang;
+    @CN("§4否决原电路逻辑，执行自意志运算")
+    public static Lang willsoclang;
+    @CN("§5世界的逻辑本质凝聚于此,§l凝视§r于此")
+    public static Lang zenithsoclang;
+    @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
+    public static Lang brokenRuneLang;
+    @CN("§a大地的力量凝聚于此")
+    public static Lang terra_catalyst;
+    @CN("§5宛如天上的繁星")
+    public static Lang zenith_star;
+    @CN("高能魔力蚀刻基板")
+    public static Lang mana_circuit_board;
+    @CN("调谐电力与魔力的核心")
+    public static Lang magicCoreLang;
+    @CN("永恒的十二面体")
+    public static Lang flowerHeartLang;
+    @CN("封藏着魔力的奥义")
+    public static Lang encapsulated_twist_mana;
+    @CN("放置在魔力凝聚仓内，每个消耗10000魔力能量来转化为奥利哈精魄")
+    public static Lang unimbudSpritLang;
+    @CN("通过未注魂的精魄在魔力凝聚仓中消耗魔力能量转化而来")
+    public static Lang orichalcosSpritLang;
+    @CN("§b它会变成什么?")
+    public static Lang blankRuneLang;
+    @CN("指令所编织之布")
+    public static Lang indexPaperLang;
 
     public static ItemEntry<ComponentItem> BLOOD_DIODE = REGISTRATE
             .item("blood_diode", ComponentItem::create)
@@ -769,4 +906,14 @@ public class CMItems {
     public static ItemEntry<BTUpgradeItemT3> AZURE_SKY_FLOWER_DANCE;
     public static ItemEntry<ComponentItem> MAGIC_CORE;
     public static ItemEntry<ComponentItem> HEART_OF_FLOWER;
+
+    @CN("蚀刻强化")
+    @EN("Etching Upgrade")
+    public static Lang etching_jade_upgrade;
+    @CN("抑液强化")
+    @EN("Suppression Upgrade")
+    public static Lang suppression_jade_upgrade;
+    @CN("须臾强化")
+    @EN("Ephemeral Upgrade")
+    public static Lang ephemeral_jade_upgrade;
 }

@@ -19,10 +19,10 @@ import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.basemanamutiblockLang;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_MANASTEEL_GEARBOX;
 import static com.moguang.ctnhmana.registry.CMBlocks.LIVING_ROCK_CASING;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.addManaMachineTooltips;
+import static com.moguang.ctnhmana.registry.CMMultiblockMachines.basemanamutiblockLang;
 
 public class ManaMachine {
 

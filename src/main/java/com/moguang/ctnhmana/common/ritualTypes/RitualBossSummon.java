@@ -17,12 +17,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+import com.ctnhlang.CN;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
 import wayoftime.bloodmagic.ritual.*;
 
 import java.util.List;

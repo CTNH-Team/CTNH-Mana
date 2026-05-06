@@ -43,6 +43,8 @@
     {
       "id": "mythicbotany:helheim_rune",
       "required": false
-    }
+    },
+    "ctnhmana:mixed_will_stick_disintegrated",
+    "ctnhmana:mixed_will_stick"
   ]
 }

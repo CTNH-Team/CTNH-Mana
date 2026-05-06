@@ -133,7 +133,7 @@ public class ManaMachineRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_mixer")// 魔力搅拌机
                 .inputItems(ELECTRIC_PISTON_MV, 1)
                 .inputItems(MAGIC_CORE.asItem())
-                .inputItems(LATHE[4], 2)
+                .inputItems(MIXER[4], 2)
                 .inputItems(CustomTags.LuV_CIRCUITS, 4)
                 .inputFluids(Mana.getFluid(1000))
                 .outputItems(MANA_MIXER)

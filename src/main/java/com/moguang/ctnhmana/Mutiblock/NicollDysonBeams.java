@@ -31,16 +31,17 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
+import com.ctnhlang.CN;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_BeamCrash;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
+import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class NicollDysonBeams extends WorkableElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
 
@@ -383,4 +384,7 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
+    @CN("END COLOR :XD")
+    public static Lang failureManaLang_BeamCrash;
 }

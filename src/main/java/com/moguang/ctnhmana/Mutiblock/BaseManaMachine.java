@@ -31,6 +31,8 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.gui.ManaStatusGui;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.ManaMachineUpgradeItem;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
@@ -38,12 +40,8 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 
 import java.util.List;
-
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughMana;
 
 public class BaseManaMachine extends ManaMachine {
 
@@ -419,4 +417,7 @@ public class BaseManaMachine extends ManaMachine {
             }
         }
     }
+
+    @CN("魔力不足")
+    public static Lang failureManaLang_NoEnoughMana;
 }

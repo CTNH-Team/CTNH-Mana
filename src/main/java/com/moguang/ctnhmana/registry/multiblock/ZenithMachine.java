@@ -23,6 +23,7 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.LIVING_ROCK_CASING;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.addManaMachineTooltips;
+import static com.moguang.ctnhmana.registry.CMMultiblockMachines.basemanamutiblockLang;
 
 public class ZenithMachine {
 

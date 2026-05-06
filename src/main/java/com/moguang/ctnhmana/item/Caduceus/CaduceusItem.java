@@ -43,16 +43,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.*;
 
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.sounds.CMSoundEvent.INDEX_BEEP_EFFECT;
 
 /**
@@ -593,4 +595,92 @@ public class CaduceusItem extends GTToolItem {
 
         public void tick() {}
     }
+
+    @CN("神谕终端[赫尔墨斯]")
+    public static Lang CaduceusLang;
+    @CN({
+            "应该用大剑将躯干劈开时:",
+            "应该用矿镐将骨骼凿碎时:",
+            "应该用铁铲将皮肉铲削时:",
+            "应该用战斧将肢体斩断时:",
+            "应该用耕锄将筋脉割裂时:",
+            "应该用镰刀将脖颈勾断时:",
+            "应该用锯子将骨肉锯开时:",
+            "应该用扳手将关节拧折时:",
+            "应该用锉刀将皮肉磨烂时:",
+            "应该用螺丝刀将颅骨撬开时:",
+            "应该用剪线钳将筋腱剪断时:",
+            "应该用小刀将动脉划开时:",
+            "应该用马桶搋子将面门砸瘪时:"
+    })
+    @EN({
+            "应该用大剑将躯干劈开时",
+            "应该用矿镐将骨骼凿碎时",
+            "应该用铁铲将皮肉铲削时",
+            "应该用战斧将肢体斩断时",
+            "应该用耕锄将筋脉割裂时",
+            "应该用镰刀将脖颈勾断时",
+            "应该用锯子将骨肉锯开时",
+            "应该用扳手将关节拧折时",
+            "应该用锉刀将皮肉磨烂时",
+            "应该用螺丝刀将颅骨撬开时",
+            "应该用剪线钳将筋腱剪断时",
+            "应该用小刀将动脉划开时",
+            "应该用马桶搋子将面门砸瘪时"
+    })
+    public static Lang[] CaduceusWeaponLang;
+    @CN({
+            "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
+            "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
+            "这种液体会随着终端所吸收到的指令改变其外观，根据对象的情况与限制而变换成合适的武器。",
+            "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块",
+            "按N键来打开形态滚轮，切换神谕之杖的模式，按C激活福尔图娜模式：停止发放指令，获得负面效果业：福尔图娜",
+            "这个物品还在测试状态！如果有任何bug，请反馈给魔力蜜蜂！"
+    })
+    @EN({
+            "由通过电波传达指令的都市之神赫尔墨斯所赐的最强的武器，同时也是诅咒",
+            "终端内部有着一种类似金属的液体，使用与奇点相同的技术，可以改变其形状与质量。",
+            "这种液体会随着终端所吸收到的指令改变其外观，根据暗杀对象的情况与限制而变换成合适的武器。",
+            "参与合成时被视为§6所有§r工具，可以破坏§6所有§r常规方块",
+            "按V键来打开形态滚轮，切换神谕之杖的模式，按C激活福尔图娜模式：停止发放指令，获得负面效果业：福尔图娜",
+            "这个物品还在测试状态！如果有任何bug，请反馈给魔力蜜蜂！"
+    })
+    public static Lang[] CaduceusTooltipNormalLang;
+    @CN({
+            "+§8%d§r攻击力",
+            "+§8%d§r攻击速度"
+    })
+    @EN({
+            "+%d攻击力",
+            "+%d攻击速度"
+    })
+    public static Lang[] CaduceusDamageLang;
+    @CN({
+            "根据自身§1§n剑刃解放§r层数造成更多伤害",
+            "对§1§n指令目标§r造成更多伤害",
+            "命中时获得§4力量§r，根据自身§1§n剑刃解放§r层数或者命中§1§n指令目标§1§r获得额外§4力量§r",
+            ""
+    })
+    @EN({
+            "根据自身剑刃解放层数造成更多伤害",
+            "对指令目标造成更多伤害",
+            "命中时获得力量，根据自身剑刃解放层数或者命中指令目标获得额外力量"
+    })
+    public static Lang[] CaduceusStatusLang;
+
+    @CN({
+            "致%s：",
+            "等待直至收到下一条指令",
+            "在限定时间内消灭指令对象",
+            "在限定时间内，确保指令对象位置没有机器"
+    })
+    @EN({
+            "致%s：",
+            "等待直至收到下一条指令",
+            "在限定时间内前消灭指令对象",
+            "在限定时间内，确保指令对象位置没有机器"
+    })
+    public static Lang[] IndexLang;
+    @CN("§1§o哦，命运，如月亮般变化无常")
+    public static Lang CaduceusFortunaLang;
 }

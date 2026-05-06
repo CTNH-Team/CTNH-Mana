@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
+import com.moguang.ctnhmana.Mutiblock.SpireMath;
 import com.moguang.ctnhmana.Mutiblock.ZenithSpire;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
@@ -46,9 +47,11 @@ public class OmegaSpark extends DeltaSpark {
         if (SpireMachine instanceof ZenithSpire zspire && connectedDeltaSpark instanceof OmegaSpark ospark &&
                 ospark.SpireMachine instanceof ZenithSpire targetspire) {
             var eus = zspire.euSpeed;
-            var consume = Math.min(targetspire.euCapacity - targetspire.zEU, Math.min(eus, zspire.zEU));
-            zspire.zEU -= consume;
-            targetspire.zEU += consume;
+            long room = SpireMath.nonNegative(targetspire.euCapacity - targetspire.zEU);
+            long srcAvail = SpireMath.nonNegative(zspire.zEU);
+            long consume = Math.min(room, Math.min(eus, srcAvail));
+            zspire.zEU = SpireMath.nonNegative(zspire.zEU - consume);
+            targetspire.zEU = SpireMath.addCapToMax(targetspire.zEU, consume, targetspire.euCapacity);
         }
     }
 }

@@ -3,10 +3,10 @@ package com.moguang.ctnhmana.data.recipe;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 
+import com.ctnhlang.CN;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
 
 import java.util.function.Consumer;

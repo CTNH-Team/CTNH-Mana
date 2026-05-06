@@ -72,7 +72,7 @@ public class ForgeEventHandler {
             var tooltips = event.getToolTip();
             tooltips = itemTooltipsAdd(runeAltarFowerLang, tooltips);
         }
-        if (stack.is(BotaniaTags.Items.RUNES)) {
+        if (stack.is(BotaniaTags.Items.RUNES) || stack.is(CMTags.MANA_FUEL_STACK)) {
             var tooltips = event.getToolTip();
 
             int tier = 0;

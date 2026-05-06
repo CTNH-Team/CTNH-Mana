@@ -13,10 +13,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import com.moguang.ctnhmana.utils.CTNHManaUtils;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.client.render.AccessoryRenderRegistry;
 import vazkii.botania.common.item.equipment.bauble.BaubleItem;
 import vazkii.botania.common.proxy.Proxy;

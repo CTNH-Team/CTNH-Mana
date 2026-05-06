@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -36,7 +35,6 @@ public class CTNHMana {
 
     @SuppressWarnings("removal")
     public CTNHMana() {
-
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         CMParticleTypes.PARTICLE_TYPES.register(modEventBus);
 
@@ -63,7 +61,6 @@ public class CTNHMana {
                 CMBlocks.CASING_BLOODLOGIC.getDefaultState(),
                 "CRYSTAL");
     }
-
 
     private void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {}
 }

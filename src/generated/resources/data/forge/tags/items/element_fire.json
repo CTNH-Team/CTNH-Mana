@@ -43,6 +43,10 @@
     {
       "id": "mythicbotany:nidavellir_rune",
       "required": false
-    }
+    },
+    "ctnhmana:spark_stick_disintegrated",
+    "ctnhmana:advanced_spark_stick_disintegrated",
+    "ctnhmana:spark_stick",
+    "ctnhmana:advanced_spark_stick"
   ]
 }

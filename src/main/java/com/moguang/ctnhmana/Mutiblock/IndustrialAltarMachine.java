@@ -38,6 +38,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
@@ -49,8 +51,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 import wayoftime.bloodmagic.altar.BloodAltar;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
@@ -65,7 +65,6 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.autoAbilities;
-import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.failureManaLang_NoEnoughLP;
 
 @SuppressWarnings("removal")
 public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implements ITieredMachine {
@@ -1020,4 +1019,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             return pattern.getPreview(repetition);
         }
     }
+
+    @CN("LP不足")
+    public static Lang failureManaLang_NoEnoughLP;
 }

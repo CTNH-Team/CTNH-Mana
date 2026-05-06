@@ -28,13 +28,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
+import com.ctnhlang.Key;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
-import com.ctnhlang.Domain;
-import com.ctnhlang.EN;
-import com.ctnhlang.Key;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
@@ -155,7 +154,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     }
 
     public double getRecipeDifference(double baseDifference) {
-        var runeAdjustedDifference = (baseDifference + Capacity_rune * 2) * Math.pow(1.05, Augmented_rune);
+        var runeAdjustedDifference = (baseDifference + Capacity_rune * 1) * (1 + 0.05 * Augmented_rune);
         if (type == EnumDemonWillType.DEFAULT) {
             return runeAdjustedDifference;
         }
@@ -286,7 +285,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (machine instanceof DemonWillMachine dmachine) {
             var difference = dmachine.getRecipeDifference(dmachine.difference);
             var diversity = dmachine.diversity;
-            var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.2);
+            var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.25);
             if (dmachine.isBoosted) {
                 modifierFunction
                         .eutMultiplier(diversity * dmachine.difference_caculate(difference) * dmachine.getBoostRate());
@@ -342,7 +341,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * getRecipeDifference(difference) * 128;
+        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * getRecipeDifference(difference) * 256;
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
         textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2",
                 FormattingUtil.formatNumbers(outputEnergy), voltageName));
@@ -397,7 +396,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @CN("§4血祭模式开启，生命源质强化中")
     public static Lang INFO_BOOSTED;
 
-    @Key("tooltip")
+    @Key("ctnh.multiblock.demon_will_generator.tooltip")
     @CN({
             "驾驭恶魔之力",
             "允许使用激光仓，变电仓",

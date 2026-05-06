@@ -17,10 +17,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
+import com.ctnhlang.CN;
 import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import com.ctnhlang.CN;
 
 import java.util.List;
 
