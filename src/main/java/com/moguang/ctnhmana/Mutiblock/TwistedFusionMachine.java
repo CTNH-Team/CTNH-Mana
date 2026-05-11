@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -80,5 +81,6 @@ public class TwistedFusionMachine extends WorkableElectricMultiblockMachine {
     }
 
     @CN("等级不足，至少需要扭曲等级:%d")
+    @EN("Insufficient twist tier — need at least twist tier %d")
     public static Lang failureManaLang_NoEnoughTwistLevel;
 }

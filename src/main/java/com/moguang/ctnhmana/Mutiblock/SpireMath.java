@@ -18,24 +18,15 @@ public final class SpireMath {
         return Math.min(Math.max(1L, asLong), maxResult);
     }
 
-    /** (inputVoltage * speed / baseSpeed) * 4，溢出时返回保守上限。 */
+    /**
+     * (inputVoltage * speed / baseSpeed) * 4，溢出时返回保守上限。
+     * 天顶尖塔调用时应传入<strong>奥法档</strong>{@code speed}，勿传入已对魔力乘过天顶 ×4 的值（EU ×4 仅此一处）。
+     */
     public static long euSpeedScaled(long inputVoltage, int speed, int baseSpeed) {
         if (baseSpeed <= 0 || speed <= 0 || inputVoltage <= 0) return 0L;
         try {
             long q = Math.multiplyExact(inputVoltage, (long) speed);
             q /= baseSpeed;
-            return Math.multiplyExact(q, 4L);
-        } catch (ArithmeticException e) {
-            return Long.MAX_VALUE / 8;
-        }
-    }
-
-    /** (energyCapacity * maxMana / baseMaxMana) * 4 */
-    public static long euCapacityScaled(long energyCapacity, int maxMana, int baseMaxMana) {
-        if (baseMaxMana <= 0 || maxMana <= 0 || energyCapacity <= 0) return 0L;
-        try {
-            long q = Math.multiplyExact(energyCapacity, (long) maxMana);
-            q /= baseMaxMana;
             return Math.multiplyExact(q, 4L);
         } catch (ArithmeticException e) {
             return Long.MAX_VALUE / 8;

@@ -100,11 +100,12 @@ public class AHCCRuneLang {
     @EN({ "[AHCC] Jotunheim Rune", "Reserved effect" })
     public static Lang[] ahccRuneJotunheim;
 
-    @CN({ "[AHCC] 穆斯贝尔海姆符文", "1) 自身长十字范围（整行整列）所有燃料棒产热+10%", "2) 若火元素占比最多：", " - 所有带火元素的燃料棒产热+10%",
-            " - 自身长十字范围燃料棒获得额外档位加成（取最高档）：", "10+火元素: +10%", "20+火元素: +30%", "25+火元素: +50%",
+    @CN({ "[AHCC] 穆斯贝尔海姆符文", "1) 自身长十字范围（整行整列）所有注术单元产热+10%", "2) 若火元素占比最多：", " - 所有带火元素的注术单元产热+10%",
+            " - 自身长十字范围注术单元获得额外档位加成（取最高档）：", "10+火元素: +10%", "20+火元素: +30%", "25+火元素: +50%",
             "3) 触发占比效果时自身占用5稳定度，否则占用2稳定度", "4) 额外档位（福袋）本轮最多触发一次" })
-    @EN({ "[AHCC] Muspelheim Rune", "Long-cross fuels: Heat x1.1", "All fire-element fuels: extra stability use +1",
-            "If fire is dominant: terminal (fire fuels x1.1 + long-cross extra tier once per cycle)",
+    @EN({ "[AHCC] Muspelheim Rune", "Long-cross infusion cells: Heat x1.1",
+            "All fire-element infusion cells: extra stability use +1",
+            "If fire is dominant: terminal (fire infusion cells x1.1 + long-cross extra tier once per cycle)",
             "Self use: +5 on terminal, else +2" })
     public static Lang[] ahccRuneMuspelheim;
 

@@ -44,7 +44,7 @@ public class CMRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
     public static final GTRecipeType BLOOD_ALTAR_RECIPES = REGISTRATE
             .recipeType(GTCEu.id("blood_altar"), GTRecipeTypes.ELECTRIC)
             .cnlang("工业血祭").setMaxIOSize(9, 9, 3, 3)
@@ -53,7 +53,7 @@ public class CMRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
     public static final GTRecipeType WISHING_RECIPES = REGISTRATE
             .recipeType(GTCEu.id("genshin_wishing"), GTRecipeTypes.MULTIBLOCK)
             .cnlang("§c许§6☆§e愿§a☆§9池§d☆§c幸§6☆§e运§a☆§9抽§d☆§c奖").setMaxIOSize(1, 18, 0, 0)
@@ -121,7 +121,7 @@ public class CMRecipeTypes {
             .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_2.translate(data.getInt("active")).getString());
 
     public static final GTRecipeType TWISTED_FUSION = REGISTRATE.recipeType(GTCEu.id("twisted_fusion"), ELECTRIC)
-            .cnlang("扭曲聚变反应堆").setMaxIOSize(0, 0, 2, 2)
+            .cnlang("扭曲聚变").setMaxIOSize(0, 0, 3, 3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE);
@@ -133,7 +133,7 @@ public class CMRecipeTypes {
             .setMaxIOSize(1, 0, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
 
     public static final GTRecipeType GAIA_REACTOR_RECIPES = REGISTRATE.recipeType(GTCEu.id("gaia_reactor"), ELECTRIC)
             .cnlang("盖亚反应").setMaxIOSize(2, 24, 2, 2)
@@ -151,8 +151,8 @@ public class CMRecipeTypes {
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_FUEL_INFUSER_RECIPES = REGISTRATE
             .recipeType(GTCEu.id("mana_fuel_infuser"), ELECTRIC)
-            .cnlang("魔力燃料灌注")
-            .setMaxIOSize(1, 1, 1, 0)
+            .cnlang("注术单元铸造")
+            .setMaxIOSize(6, 1, 3, 0)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
@@ -181,8 +181,7 @@ public class CMRecipeTypes {
             .cnlang("扭曲崩解").setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+            .setSound(GTSoundEntries.SCIENCE);
 
     public static void init() {}
 }

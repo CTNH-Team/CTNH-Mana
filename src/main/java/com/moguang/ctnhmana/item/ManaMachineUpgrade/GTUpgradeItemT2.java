@@ -52,6 +52,7 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
     }
 
     @CN("§5超序之观测")
+    @EN("§5Transcendent Observation")
     public static Lang GT_UPDATE_NAME_T2;
     @CN({
             "偏向于大规模工业流水线的升级",

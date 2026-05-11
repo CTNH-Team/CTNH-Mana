@@ -120,5 +120,6 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
     public static Lang[] bmcoreLang_t1;
 
     @CN("§4赤痕之铸造")
+    @EN("§4Scarlet Foundry")
     public static Lang BM_UPDATE_NAME_T1;
 }

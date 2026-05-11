@@ -130,5 +130,6 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
     public static Lang[] bmcoreLang_t2;
 
     @CN("§4魂痕之铸造")
+    @EN("§4Soul-Scar Foundry")
     public static Lang BM_UPDATE_NAME_T2;
 }

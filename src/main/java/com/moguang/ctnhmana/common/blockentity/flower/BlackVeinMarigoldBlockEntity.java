@@ -62,7 +62,7 @@ public class BlackVeinMarigoldBlockEntity extends GeneratingFlowerBlockEntity {
         FUEL_HEAT_MAP.put(GTMaterials.Oil.getFluid(), 2000);
         FUEL_HEAT_MAP.put(GTMaterials.OilLight.getFluid(), 3000);                // 轻油（基准锚点）
         FUEL_HEAT_MAP.put(GTMaterials.RawOil.getFluid(), 375);                   // 石油
-        FUEL_HEAT_MAP.put(GTMaterials.Naphtha.getFluid(), 16000);                // 石脑油
+        FUEL_HEAT_MAP.put(GTMaterials.Naphtha.getFluid(), 8000);                // 石脑油
         FUEL_HEAT_MAP.put(GTMaterials.SulfuricLightFuel.getFluid(), 1000);       // 含硫轻燃料
         FUEL_HEAT_MAP.put(GTMaterials.Methanol.getFluid(), 4800);                // 甲醇
         FUEL_HEAT_MAP.put(GTMaterials.Ethanol.getFluid(), 6900);                 // 乙醇
@@ -70,10 +70,10 @@ public class BlackVeinMarigoldBlockEntity extends GeneratingFlowerBlockEntity {
         FUEL_HEAT_MAP.put(GTMaterials.BioDiesel.getFluid(), 12800);              // 生物柴油
         FUEL_HEAT_MAP.put(GTMaterials.LightFuel.getFluid(), 16000);              // 轻燃料
         FUEL_HEAT_MAP.put(GTMaterials.Diesel.getFluid(), 36000);                 // 柴油
-        FUEL_HEAT_MAP.put(GTMaterials.CetaneBoostedDiesel.getFluid(), 64000);    // 十六烷增强柴油
+        FUEL_HEAT_MAP.put(GTMaterials.CetaneBoostedDiesel.getFluid(), 48000);    // 十六烷增强柴油
         FUEL_HEAT_MAP.put(GTMaterials.RocketFuel.getFluid(), 125000);             // 火箭燃料
         FUEL_HEAT_MAP.put(GTMaterials.Gasoline.getFluid(), 80000);               // 汽油
-        FUEL_HEAT_MAP.put(GTMaterials.HighOctaneGasoline.getFluid(), 160000);    // 高辛烷汽油（热值最高）
+        FUEL_HEAT_MAP.put(GTMaterials.HighOctaneGasoline.getFluid(), 240000);    // 高辛烷汽油（热值最高）
         FUEL_HEAT_MAP.put(GTMaterials.Toluene.getFluid(), 16000);                // 甲苯
 
     }

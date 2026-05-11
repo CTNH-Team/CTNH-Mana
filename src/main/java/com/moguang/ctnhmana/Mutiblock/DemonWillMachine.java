@@ -154,7 +154,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     }
 
     public double getRecipeDifference(double baseDifference) {
-        var runeAdjustedDifference = (baseDifference + Capacity_rune * 1) * (1 + 0.05 * Augmented_rune);
+        var runeAdjustedDifference = (baseDifference + Capacity_rune * 1) * (1 + 0.1 * Augmented_rune);
         if (type == EnumDemonWillType.DEFAULT) {
             return runeAdjustedDifference;
         }
@@ -273,11 +273,13 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     }
 
     public double getBoostRate() {
-        return 2 + 0.25 * Sacrifice_rune;
+        return 2 + 0.2 * Sacrifice_rune;
     }
 
     public GTRecipe getBloodRecipe() {
-        return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 1000))
+        return GTRecipeBuilder.ofRaw()
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),
+                        (int) (1000 * (1 + 0.2 * Sacrifice_rune))))
                 .buildRawRecipe();
     }
 
@@ -285,7 +287,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (machine instanceof DemonWillMachine dmachine) {
             var difference = dmachine.getRecipeDifference(dmachine.difference);
             var diversity = dmachine.diversity;
-            var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.25);
+            var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.2);
             if (dmachine.isBoosted) {
                 modifierFunction
                         .eutMultiplier(diversity * dmachine.difference_caculate(difference) * dmachine.getBoostRate());
@@ -376,24 +378,31 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     // lang: info (display in UI)
     @Key("info.default")
     @CN("专精强化：无")
+    @EN("Specialty boost: None")
     public static Lang INFO_SPECIALTY_DEFAULT;
     @Key("info.vengeful")
     @CN("专精强化：复仇")
+    @EN("Specialty boost: Vengeful")
     public static Lang INFO_SPECIALTY_VENGEFUL;
     @Key("info.corrosive")
     @CN("专精强化：腐蚀")
+    @EN("Specialty boost: Corrosive")
     public static Lang INFO_SPECIALTY_CORROSIVE;
     @Key("info.steadfast")
     @CN("专精强化：坚韧")
+    @EN("Specialty boost: Steadfast")
     public static Lang INFO_SPECIALTY_STEADFAST;
     @Key("info.destructive")
     @CN("专精强化：破坏")
+    @EN("Specialty boost: Destructive")
     public static Lang INFO_SPECIALTY_DESTRUCTIVE;
     @Key("info.1")
     @CN("浓度差异：%s")
+    @EN("Concentration difference: %s")
     public static Lang INFO_DIFFERENCE;
     @Key("info.boosted")
     @CN("§4血祭模式开启，生命源质强化中")
+    @EN("§4Blood altar mode — vital essence boost active")
     public static Lang INFO_BOOSTED;
 
     @Key("ctnh.multiblock.demon_will_generator.tooltip")

@@ -4,6 +4,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -37,11 +38,15 @@ public class EternalGardenSpecialRecipes {
     }
 
     @CN("任意食物")
+    @EN("Any food")
     public static Lang eternal_food_lang;
     @CN("任意燃料")
+    @EN("Any fuel")
     public static Lang eternal_coal_lang;
     @CN("实际产出与食物饱食度相关")
+    @EN("Actual output scales with food saturation")
     public static Lang eternalFoodRecipeLang;
     @CN("实际产出与机器热值相关")
+    @EN("Actual output scales with machine heating value")
     public static Lang eternalCoalRecipeLang;
 }

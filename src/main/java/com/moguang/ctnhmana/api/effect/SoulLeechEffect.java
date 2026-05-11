@@ -21,7 +21,7 @@ public class SoulLeechEffect extends MobEffect {
         if (livingEntity.level().isClientSide()) return;
         float damage = 4.4F + amplifier;
         if (livingEntity.getHealth() < 4.4F + amplifier || livingEntity.isDeadOrDying()) {
-            var health = livingEntity.getMaxHealth() / 20;
+            var health = livingEntity.getMaxHealth() / 15;
             var chunk = WorldDemonWillHandler.getWillChunk(livingEntity.level(), livingEntity.getOnPos());
             if (chunk.getCurrentWill().getWill(EnumDemonWillType.DEFAULT) >= 110) return;
             chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, health,

@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
@@ -78,5 +79,6 @@ public class BloodAltarStatusProvider extends CapabilityBlockProvider<Industrial
     }
 
     @CN("§4LP消耗速度:%d/t")
+    @EN("§4LP consumption: %d/t")
     public static Lang Lpconsumelang;
 }

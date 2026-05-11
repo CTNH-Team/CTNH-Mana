@@ -5,9 +5,16 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
+import com.moguang.ctnhmana.common.recipe.InfusionCellCastingCondition;
 import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 
 public class CMRecipeConditions {
+
+    /** 注术单元铸造：参数为所需凝聚仓魔力能量（long） */
+    public static RecipeConditionType<InfusionCellCastingCondition> INFUSION_CELL_CASTING_CONDITION = GTRegistries.RECIPE_CONDITIONS
+            .register(
+                    "infusion_cell_casting_condition",
+                    new RecipeConditionType<>(InfusionCellCastingCondition::new, InfusionCellCastingCondition.CODEC));
 
     public static RecipeConditionType<ZenithCondition> MANA_REACTOR_CONDITION = GTRegistries.RECIPE_CONDITIONS
             .register(

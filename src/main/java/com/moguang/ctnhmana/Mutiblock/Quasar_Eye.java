@@ -107,24 +107,31 @@ public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITi
     // lang: info (display in UI)
     @Key("info.mana_model")
     @CN("当前魔力燃料等级:%d")
+    @EN("Current mana fuel tier: %d")
     public static Lang INFO_MANA_MODEL;
     @Key("info.rune_energy")
     @CN("符文能量：%.2f")
+    @EN("Rune energy: %.2f")
     public static Lang INFO_RUNE_ENERGY;
     @Key("info.mana_production")
     @CN("当前发电效率:%.2f")
+    @EN("Current generation efficiency: %.2f")
     public static Lang INFO_MANA_PRODUCTION;
     @Key("info.rune_consumption")
     @CN("当前消耗符文能量速率:%.2f /100tick")
+    @EN("Rune energy consumption rate: %.2f / 100 ticks")
     public static Lang INFO_RUNE_CONSUMPTION;
     @Key("info.quasar_parallel")
     @CN("时间并行:%.2f")
+    @EN("Time parallelism: %.2f")
     public static Lang INFO_QUASAR_PARALLEL;
     @Key("info.consumption_parallel")
     @CN("能源消耗率:%.2f")
+    @EN("Energy consumption factor: %.2f")
     public static Lang INFO_CONSUMPTION_PARALLEL;
     @Key("info.0")
     @CN("积累的能量:%s")
+    @EN("Accumulated energy: %s")
     public static Lang INFO_ACCUMULATED;
 
     // lang: tooltips (multiblock description)
@@ -164,12 +171,15 @@ public class Quasar_Eye extends WorkableElectricMultiblockMachine implements ITi
     public static class RecipeLang {
 
         @CN("激活消耗：%.1f")
+        @EN("Activation cost: %.1f")
         public static Lang RECIPE_INFO_0;
 
         @CN("能量等级：%d")
+        @EN("Energy tier: %d")
         public static Lang RECIPE_INFO_1;
 
         @CN("激活等级：%d")
+        @EN("Activation tier: %d")
         public static Lang RECIPE_INFO_2;
     }
 

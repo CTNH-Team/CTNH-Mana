@@ -49,6 +49,7 @@ public class BTUpgradeItemT2 extends ManaMachineUpgradeItem {
     }
 
     @CN("§9繁蕊之簇拥")
+    @EN("§9Bloom Throng")
     public static Lang BT_UPDATE_NAME_T2;
     @CN({
             "偏向于植物魔法与魔力的升级",

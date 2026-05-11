@@ -115,6 +115,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     level().getBlockEntity(AttachPos) instanceof MysticSpireBlockEntity entity &&
                     entity.getMetaMachine() instanceof MysticSpire machine && machine.isFormed()) {
                 this.SpireMachine = machine;
+                entity.syncMysticManaCacheFromTrue();
             } else {
                 this.kill();
             }
@@ -160,14 +161,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) continue;
             if (!spark.getAttachedManaReceiver().isFull()) num++;
         }
-        if (num < 1 || pool.getCurrentMana() <= 0) return;
-        if (pool.getCurrentMana() <= speed) {
-            consume = pool.getCurrentMana();
-            pool.BTMana = 0;
-        } else {
-            pool.BTMana -= speed;
-            consume = speed;
-        }
+        int avail = pool.mysticOutboundTickCap(speed);
+        if (num < 1 || avail <= 0) return;
+        consume = avail;
+        pool.mysticDrainMana(avail);
 
         consume = Math.max(consume / num, 1);
         for (ManaSpark spark : sparks) {
@@ -189,14 +186,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     !(receiver instanceof GeneratingFlowerBlockEntity))
                 num++;
         }
-        if (num < 1 || pool.getCurrentMana() <= 0) return;
-        if (pool.getCurrentMana() <= speed) {
-            consume = pool.getCurrentMana();
-            pool.BTMana = 0;
-        } else {
-            pool.BTMana -= speed;
-            consume = speed;
-        }
+        int avail = pool.mysticOutboundTickCap(speed);
+        if (num < 1 || avail <= 0) return;
+        consume = avail;
+        pool.mysticDrainMana(avail);
         consume = Math.max(consume / num, 1);
         for (ManaReceiver receiver : receivers) {
             if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
@@ -217,14 +210,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     (receiver instanceof IManaMachineBlockEntity IManaEntity))
                 num++;
         }
-        if (num < 1 || pool.getCurrentMana() <= 0) return;
-        if (pool.getCurrentMana() <= speed) {
-            consume = pool.getCurrentMana();
-            pool.BTMana = 0;
-        } else {
-            pool.BTMana -= speed;
-            consume = speed;
-        }
+        int hatchAvail = pool.mysticOutboundTickCap(speed);
+        if (num < 1 || hatchAvail <= 0) return;
+        consume = hatchAvail;
+        pool.mysticDrainMana(hatchAvail);
         consume = Math.max(consume / num, 1);
         for (ManaReceiver receiver : receivers) {
             if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
@@ -240,7 +229,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int consume = 0;
         var num = 0;
-        consume = Math.min(pool.maxBTMana - pool.BTMana, speed);
+        consume = pool.mysticInboundTickBudget(speed);
         for (ManaSpark spark : sparks) {
             if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) {
                 continue;
@@ -269,7 +258,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int consume = 0;
         var num = 0;
-        consume = Math.min(pool.maxBTMana - pool.BTMana, (int) (speed * effencicy));
+        long flowerLim = (long) (speed * effencicy);
+        if (flowerLim > Integer.MAX_VALUE) flowerLim = Integer.MAX_VALUE;
+        if (flowerLim < 1) flowerLim = 1;
+        consume = pool.mysticInboundTickBudget((int) flowerLim);
         for (GeneratingFlowerBlockEntity flower : flowers) {
             if (!flower.isRemoved() && flower.getMana() > 0) num++;
         }
@@ -293,10 +285,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         if (connectedDeltaSpark == null || connectedDeltaSpark.SpireMachine == null) return;
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         var target_pool = (MysticSpireBlockEntity) connectedDeltaSpark.SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
-        consume = Math.min(pool.BTMana, speed);
-        consume = Math.min(consume, target_pool.maxBTMana - target_pool.BTMana);
+        int consume = Math.min(pool.mysticOutboundTickCap(speed),
+                target_pool.mysticInboundTickBudget(Integer.MAX_VALUE));
         if (consume <= 0) return;
         pool.receiveMana(-consume);
         target_pool.receiveMana(consume);

@@ -44,6 +44,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.Mutiblock.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
 import static com.moguang.ctnhmana.Mutiblock.EternalWosMachine.eternalWosLang;
 import static com.moguang.ctnhmana.Mutiblock.HellForgeMachine.hellforgeLang;
 import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
@@ -4219,7 +4220,7 @@ public class CMMultiblockMachines {
             .mysticmultiblock("arcane_highenergy_compression_reactor_core",
                     holder -> new ArcaneHighEnergyCompressionReactorCore(holder, 5))
             .cnLangValue("§高能魔能压缩反应核心(AHCC)")
-            .tooltips(spireTooltipsLang)
+            .tooltips(AHCC_TOOLTIPS)
             .appearanceBlock(CASING_FORCE_FILED)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.TwistCollapse)

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "ctnhcore:block/plasma_cooled_core"
+    "all": "ctnhmana:block/plasma_cooled_mana_core"
   }
 }

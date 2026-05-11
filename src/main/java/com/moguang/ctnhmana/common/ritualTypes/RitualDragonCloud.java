@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 @RitualRegister("dragoncloud")
 public class RitualDragonCloud extends Ritual {
 
-    private final int costs = 1;
+    private final int costs = 2500;
 
     public RitualDragonCloud() {
         super("ritualdragoncloud", 0, 1, "ritual.ctnhmana.dragon_cloudritual");
@@ -65,7 +65,7 @@ public class RitualDragonCloud extends Ritual {
 
     @Override
     public int getRefreshCost() {
-        return 1;
+        return 100000;
     }
 
     @Override

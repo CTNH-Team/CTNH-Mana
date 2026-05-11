@@ -206,6 +206,14 @@ public class CMMaterials {
             .element(TWIST_MANA)
             .color(0xE73EF0)
             .buildAndRegister();
+    /** 粉紫色基质：粉尘与液态并存 */
+    public static final Material Twisted_Aggregate_Matrix = REGISTRATE.material(GTCEu.id("twisted_aggregate_matrix"))
+            .cnlang("扭曲聚合基质")
+            .dust()
+            .liquid()
+            .color(0xE895DA)
+            .secondaryColor(0x9D4EDD)
+            .buildAndRegister();
     public static final Material Fused_demon_mixed = REGISTRATE.material(GTCEu.id("fused_demon_mixed"))
             .cnlang("恶魔意志筛选蕴魔")
             .dust()

@@ -151,5 +151,6 @@ public class YurikoRingItem extends BaubleItem {
     })
     public static Lang[] yuriko_ring_lang;
     @CN("剩余冷却时间：%s s")
+    @EN("Remaining cooldown: %s s")
     public static Lang yuriko_heal_cooldown;
 }

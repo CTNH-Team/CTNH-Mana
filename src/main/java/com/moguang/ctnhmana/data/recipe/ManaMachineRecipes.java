@@ -8,10 +8,12 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.*;
+import mythicbotany.register.ModItems;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.function.Consumer;
@@ -24,6 +26,8 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
+import static com.moguang.ctnhmana.registry.CMMachines.BROADCAST_HATCH;
+import static com.moguang.ctnhmana.registry.CMMachines.CENTRALCONTROL_BUS;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.multiblock.BloodMagic.*;
@@ -61,16 +65,6 @@ public class ManaMachineRecipes {
                 'C', SOUL_LOCKING_CASING.asStack(),
                 'D', SOUL_FORGE_ITEM.get().asItem(),
                 'E', CustomTags.LuV_CIRCUITS);
-        VanillaRecipeHelper.addShapedRecipe(// 魔力粉碎机
-                provider, "mana_macerator",
-                MANA_MACERATOR.asStack(1),
-                "AAA",
-                "BCB",
-                "DDD",
-                'A', LIVING_ROCK_CASING.get().asItem(),
-                'B', ELECTRIC_MOTOR_MV.get().asItem(),
-                'C', MAGIC_CORE.get().asItem(),
-                'D', COMPONENT_GRINDER_DIAMOND.get().asItem());
         VanillaRecipeHelper.addShapedRecipe(// 魔力卷板机
                 provider, "mana_bender",
                 MANA_BENDER.asStack(1),
@@ -313,6 +307,64 @@ public class ManaMachineRecipes {
                 .outputItems(ETERNAL_WELL_OF_SUFFER.asStack())
                 .EUt(32768)
                 .duration(1000)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("redstone_signal_broadcast_hatch")// 红石信号广播仓
+                .inputItems(MACHINE_CASING_EV.asStack(1))
+                .inputItems(new ItemStack(Items.REDSTONE_TORCH, 1))
+                .inputItems(COVER_MACHINE_CONTROLLER.asStack(1))
+                .inputItems(ChemicalHelper.get(screw, StainlessSteel), 2)
+                .inputItems(COVER_ACTIVITY_DETECTOR.asStack(1))
+                .outputItems(BROADCAST_HATCH.asStack(1))
+                .EUt(VA[EV])
+                .duration(200)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("centralcontrol_bus")// 中央存储控制总线
+                .inputItems(MACHINE_CASING_EV.asStack(1))
+                .inputItems(CustomTags.EV_CIRCUITS, 1)
+                .inputItems(ITEM_IMPORT_BUS[EV].asStack(1))
+                .inputItems(ITEM_EXPORT_BUS[EV].asStack(1))
+                .inputItems(ROBOT_ARM_EV.asStack(1))
+                .inputItems(ChemicalHelper.get(plate, Lead), 1)
+                .inputItems(ChemicalHelper.get(plate, Bismuth), 1)
+                .outputItems(CENTRALCONTROL_BUS.asStack(1))
+                .EUt(VA[EV])
+                .duration(200)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_fuel_infuser")
+                .inputItems(ELECTRIC_PUMP_IV.asStack(4))
+                .inputItems(FLUID_CELL_LARGE_STAINLESS_STEEL.asStack(4))
+                .inputItems(UNFADING_GARDEN_CASING.asStack())
+                .inputItems(MANA_SOC.asStack(4))
+                .inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1440))
+                .outputItems(MANA_FUEL_INFUSER.asStack())
+                .EUt(VA[EV])
+                .duration(200)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("ahcc_assembly_line")
+                .inputItems(MANA_REACTOR.asStack(4))
+                .inputItems(GAIA_REACTOR.asStack(4))
+                .inputItems(MACHINE_CASING_LuV.asStack(1))
+                .inputItems(TERRA_STEEL_FRAME.asStack(16))
+                .inputItems(CustomTags.ZPM_CIRCUITS, 32)
+                .inputItems(CustomTags.LuV_CIRCUITS, 64)
+                .inputItems(MAGIC_CORE.asStack(16))
+                .inputItems(WILL_WAFER.asStack(16))
+                .inputItems(MANA_SOC.asStack(64))
+                .inputItems(PURE_MAGIC_CALCULATE_CORE.asStack(16))
+                .inputItems(ARCANE_SHIELDING_COATED_GLASS.asStack(16))
+                .inputItems(ChemicalHelper.get(gear, Orichalcos), 16)
+                .inputItems(FIELD_GENERATOR_IV.asStack(16))
+                .inputItems(ChemicalHelper.get(plate, NiobiumTitanium), 64)
+                .inputItems(ChemicalHelper.get(wireGtOctal, Aerialite), 32)
+                .inputItems(ModItems.alfheimRune, 64)
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(14400))
+                .inputFluids(Mana.getFluid(14400))
+                .inputFluids(Zenith_essence.getFluid(14400))
+                .inputFluids(SolderingAlloy.getFluid(14400))
+                .outputItems(AHCC.asStack())
+                .EUt(VA[IV])
+                .duration((int) (1000 * SECONDS))
                 .save(provider);
     }
 }

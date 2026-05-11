@@ -75,6 +75,7 @@ public class ChineseLangHandler {
     })
     public static Lang[] sparkmanahatchtootip_base;
     @CN("基础魔力凝聚者")
+    @EN("Basic Mana Condenser")
 
     public static Lang manahatchtooltip_1;
     @CN("按住CTRL来显示具体数据")
@@ -102,6 +103,8 @@ public class ChineseLangHandler {
     })
     public static Lang[] manaHatchDataLang;
     @CN("§c凝血魔力凝聚者")
+    @EN("§cCoagulated-Blood Mana Condenser")
+
     public static Lang bloodmanahatchtooltip_1;
 
     @CN({
@@ -132,6 +135,8 @@ public class ChineseLangHandler {
     })
     public static Lang[] genethistleLang;
     @CN("§7泡沫过后，一无所有")
+    @EN("§7After the foam, nothing remains")
+
     public static Lang bubleFlowerLang;
     @CN({
             "§aCTNH产魔花?",
@@ -207,6 +212,8 @@ public class ChineseLangHandler {
     })
     public static Lang[] runeElementTags;
     @CN("%d级符文")
+    @EN("Tier %d Rune")
+
     public static Lang runeTierTags;
 
     public static void init(RegistrateCNLangProvider provider) {
@@ -556,10 +563,16 @@ public class ChineseLangHandler {
     })
     public static Lang[] basezenithmutiblockLang;
     @CN("§5灵能之力使得该机器无视蒸馏塔的舱室规则")
+    @EN("§5Psychic power lets this machine ignore Distillery casing rules")
+
     public static Lang zenithDistillationLang;
     @CN("§5具有特殊的天域组合配方类型,允许制作天顶SOC和价格极为低廉的魔力电路")
+    @EN("§5Special zenith assembly recipes: Zenith SOC and very cheap mana circuits")
+
     public static Lang zenithAssemblerLang;
     @CN("§5具有特殊的反相蚀刻配方类型,允许你将芯片蚀刻成晶圆")
+    @EN("§5Special inverse-etching recipes: turn chips into wafers")
+
     public static Lang zenithLaserLang;
     @CN({
             "§4然而，轰鸣机器的齿轮中流淌的鲜血，也只是另一场名为'工业化'的血祭",

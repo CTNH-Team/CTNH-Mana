@@ -350,8 +350,10 @@ public class BaseManaMachine extends ManaMachine {
     }
 
     @CN("没有升级")
+    @EN("No upgrade installed")
     public static Lang NULL_UPDATE_NAME;
     @CN("Null Pointer Exception发生在魔力凝聚器丢失")
+    @EN("Null Pointer Exception: Mana Condenser hatch missing")
     public static Lang MANAHATCH_NPE_ERROR;
 
     public MutableComponent getUpdateName() {
@@ -372,18 +374,19 @@ public class BaseManaMachine extends ManaMachine {
             "天顶强化已启动",
     })
     @EN({
-            "当前魔力能量数：%d",
-            "运行时消耗魔力能量:%d",
-            "当前升级:%s",
-            "最大并行数:%d",
-            "当前速度倍率:%.2f",
-            "当前EU消耗倍率:%.2f",
-            "当前输入材料倍率:%.2f",
-            "当前输出产物倍率:%.2f",
-            "天顶强化已启动",
+            "Mana Energy stored: %d",
+            "Mana Energy drain while running: %d/s",
+            "Current upgrade: %s",
+            "Max parallelism: %d",
+            "Current speed multiplier: %.2f",
+            "Current EU cost multiplier: %.2f",
+            "Current input material multiplier: %.2f",
+            "Current output item multiplier: %.2f",
+            "Zenith boost active",
     })
     public static Lang[] BaseManaMachineLang;
     @CN("当前并行数:%d / %d")
+    @EN("Current parallelism: %d / %d")
     public static Lang BaseManaMachineWorkingParallelLang;
 
     @Override
@@ -419,5 +422,6 @@ public class BaseManaMachine extends ManaMachine {
     }
 
     @CN("魔力不足")
+    @EN("Insufficient mana")
     public static Lang failureManaLang_NoEnoughMana;
 }

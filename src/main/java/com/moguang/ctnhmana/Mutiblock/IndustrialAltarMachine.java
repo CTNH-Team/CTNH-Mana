@@ -328,6 +328,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     @CN("当前等级:%d")
+    @EN("Current tier: %d")
     public static Lang level_lang;
     @CN({
             "祭坛最大容量:%d",
@@ -1021,5 +1022,6 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     @CN("LP不足")
+    @EN("Insufficient LP")
     public static Lang failureManaLang_NoEnoughLP;
 }

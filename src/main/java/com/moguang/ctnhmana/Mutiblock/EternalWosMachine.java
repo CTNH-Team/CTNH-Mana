@@ -290,6 +290,7 @@ public class EternalWosMachine extends WorkableElectricMultiblockMachine {
     }
 
     @CN("逸散模式")
+    @EN("Diffusion mode")
     public static Lang demon_diffusion_model;
     @CN({
             "折磨,折磨,永恒的折磨在齿轮之中,此地即是阿鼻地狱",

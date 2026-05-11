@@ -18,6 +18,7 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -37,10 +38,13 @@ public class ManaStatusGui implements IFancyUIProvider {
     protected BaseManaMachine machine;
 
     @CN("查看机器详细数据")
+    @EN("View detailed machine data")
     public static Lang ManaStatusGuiTooltips;
     @CN("机器状态数据")
+    @EN("Machine status data")
     public static Lang ManaStatusProviderTooltips;
     @CN("错误")
+    @EN("Error")
     public static Lang ManaStatusGuiError;
 
     public ManaStatusGui(BaseManaMachine machine) {

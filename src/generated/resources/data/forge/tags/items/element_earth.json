@@ -61,6 +61,7 @@
       "required": false
     },
     "ctnhmana:terra_stick_disintegrated",
-    "ctnhmana:terra_stick"
+    "ctnhmana:terra_stick",
+    "ctnhmana:terra_substrate"
   ]
 }

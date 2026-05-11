@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
@@ -15,6 +16,7 @@ import com.moguang.ctnhmana.Mutiblock.ManaFuelInfuserMachine;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -299,21 +301,102 @@ public class ManaMachine {
 
     public final static MultiblockMachineDefinition MANA_FUEL_INFUSER = REGISTRATE
             .multiblock("mana_fuel_infuser", ManaFuelInfuserMachine::new)
-            .cnLangValue("§b魔力燃料灌注器")
+            .cnLangValue("§b注魔单元灌注器")
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_FUEL_INFUSER_RECIPES)
             .recipeModifiers(
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .tooltips(ManaFuelInfuserMachine.ManaFuelerLang)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("AAA", "ABA", "AAA")
-                    .aisle("ABA", "BAB", "ABA")
-                    .aisle("AAA", "ACA", "AAA")
-                    .where("A", Predicates.blocks(LIVING_ROCK_CASING.get())
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
-                    .where("B", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
-                    .where("C", Predicates.controller(Predicates.blocks(definition.get())))
+                    .aisle("#####AAAAA###", "#####ABBBA###", "#####CBBBC###", "#####CBBBC###", "#####CCCCC###",
+                            "######CDC####", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#######E#####", "######AFA####", "######AFA####", "######CCC####",
+                            "#############")
+                    .aisle("####AAAAAAA##", "####AC###CA##", "####F#####F##", "####F#####F##", "####CCGGGCC##",
+                            "#####CBBBC###", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#######C#####", "#####CECEC###", "#####CHIHC###", "#####C#I#C###", "#####JCCCJ###",
+                            "#######A#####")
+                    .aisle("###AAAAAAAAA#", "###ACH###HCA#", "###F#######F#", "###F#H###H#F#", "###CKHCCCHKC#",
+                            "####DBDDDB###", "####D########", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#####AAAA####",
+                            "####AACCC####", "####CLLLLLC##", "####ML###LM##", "####ML###LM##", "####JJCCCJJ##",
+                            "######JAJ####")
+                    .aisle("#AAAAAAAAAAAA", "#AACH#####HCE", "#CC########FE", "#FF#H#####HFE", "#CCCH#####HCE",
+                            "#EECBAAAAABCE", "##ECDAFFFA##A", "##END#######A", "##NN########A", "##N##########",
+                            "##N##########", "##N###OOO####", "##N##CPPPC###", "##N##CPPPC###", "##N###OOO####",
+                            "##N##########", "##N##########", "##NN#########", "##ENN########", "###EAAFFFA###",
+                            "###EECCBCC###", "##ECHLC#CLLC#", "##CCL#####LC#", "##CCL#####LC#", "###JJCC#CCJJ#",
+                            "#####JJAJJ###")
+                    .aisle("AAAAAAAAAAAAA", "C#####QQQ###A", "CA##########A", "CAAA########A", "CA##C#QQQ#CGA",
+                            "CAAAAAPPPADBA", "CCAAJFPPPF##A", "OCCJJ#DBD###A", "#OCJ###F####A", "##CJ###F####A",
+                            "##CJ###F####A", "##CJ#OOFOOOOA", "##CJ#P#F#PCCA", "##CJ#P#F#PCCA", "##CJ#OOFOOOOA",
+                            "##CJ###F#####", "##CJ###F#####", "##JJ###F#####", "##JJJ#DBD####", "##CCAFPPPFA##",
+                            "##CBBBPPPCC##", "#ELBCC###CLE#", "ACC########HA", "AK##########A", "CCCCCC###CCCC",
+                            "####JJAAAJJ##")
+                    .aisle("AAAAAAAAAAAAA", "C#####QKQRRRR", "DJ#####D####R", "DJAA###D####R", "DJ##C#QKQ#CGR",
+                            "DAAAAAPPPADBR", "ODDF#FPIPF##R", "#ODF##BIB###R", "##DF##FIF###R", "##DF##FIF###R",
+                            "##DF##FIF###R", "##DF#OFIFODDR", "##DF#PFIFPCCK", "##DF#PFIFPCCK", "##DF#OFIFODDD",
+                            "##DF##FIF####", "##DF##FIF####", "##DF##FIF####", "##DDF#BIB####", "##KKAFPIPFA##",
+                            "##CBBBPPPBCC#", "EAA#######LCE", "AA#########IF", "AC#########IF", "AC#########CC",
+                            "AAAAAAASAAAA#")
+                    .aisle("AAAAAAAAAAAAA", "C#####QQQ###A", "CA##########A", "CAAA########A", "CA##C#QQQ#CGA",
+                            "CAAAAAPPPADBA", "CCAAJFPPPF##A", "OCCJJ#DBD###A", "#OCJ###F####A", "##CJ###F####A",
+                            "##CJ###F####A", "##CJ#OOFOOOOA", "##CJ#P#F#PCCA", "##CJ#P#F#PCCA", "##CJ#OOFOOOOA",
+                            "##CJ###F#####", "##CJ###F#####", "##JJ###F#####", "##JJJ#DBD####", "##CCAFPPPFA##",
+                            "##CBBBPPPCC##", "#ELBCC###CLE#", "ACC########HA", "AK##########A", "CCCCCC###CCCC",
+                            "####JJAAAJJ##")
+                    .aisle("#AAAAAAAAAAAA", "#AACH#####HCE", "#CC########FE", "#FF#H#####HFE", "#CCCH#####HCE",
+                            "#EECBAAAAABCE", "##ECDAFFFA##A", "##END#######A", "##NN########A", "##N##########",
+                            "##N##########", "##N###OOO####", "##N##CPPPC###", "##N##CPPPC###", "##N###OOO####",
+                            "##N##########", "##N##########", "##NN#########", "##ENN########", "###EAAFFFA###",
+                            "###EECCBCC###", "##ECLLC#CLLC#", "##CCL#####LC#", "##CCL#####LC#", "###JJCC#CCJJ#",
+                            "#####JJAJJ###")
+                    .aisle("###AAAAAAAAA#", "###ACH###HCA#", "###F#######F#", "###F#H###H#F#", "###CKHCCCHKC#",
+                            "####DBDDDB###", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#####AAAA####",
+                            "####AACCC####", "####CLLLLLC##", "####ML###LM##", "####ML###LM##", "####JJC#CJJ##",
+                            "######JAJ####")
+                    .aisle("####AAAAAAA##", "####AC###CA##", "####F#####F##", "####F#####F##", "####CCGGGCC##",
+                            "#####CBBBC###", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#######C#####", "#####CECEC###", "#####CHIHC###", "#####C#I#C###", "#####JCCCJ###",
+                            "#######A#####")
+                    .aisle("#####AAAAA###", "#####ABBBA###", "#####CBTBC###", "#####CBBBC###", "#####CCCCC###",
+                            "######CDC####", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#############", "#############", "#############", "#############",
+                            "#############", "#######E#####", "######AFA####", "######AFA####", "######CCC####",
+                            "#############")
+                    .where("A", Predicates.blocks(CMBlocks.ELEMENTAL_RADIATION_SUPPRESSION_BLOCK.get()))
+                    .where("C", Predicates.blocks(LIVING_ROCK_CASING.get()))
+                    .where("H", Predicates.blocks(CMBlocks.PURE_MAGIC_CALCULATE_CORE.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
+                    .where("Q", Predicates.blocks(CMBlocks.MANA_FORGE_CORE.get()))
+                    .where("P", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
+                    .where("S", Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .where("D", Predicates.blocks(CMBlocks.ORICHALCOS_FRAME.get()))
+                    .where("B", Predicates.blocks(CMBlocks.ZENITH_CASING_BLOCK.get()))
+                    .where("G", Predicates.blocks(CMBlocks.ALF_STEEL_CASING.get()))
+                    .where("M", Predicates.blocks(CMBlocks.ARCANE_SHIELDING_COATED_GLASS.get()))
+                    .where("E", Predicates.blocks(CMBlocks.MANA_STEEL_FRAME.get()))
+                    .where("O", Predicates.blocks(BotaniaBlocks.corporeaSlab))
+                    .where("I", Predicates.blocks(CMBlocks.ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK.get()))
+                    .where("J", Predicates.blocks(CMBlocks.ARCANE_REACTOR_BLOCK.get()))
+                    .where("R", Predicates.blocks(CMBlocks.ELEMENTIUM_PIPE_CASING.get()))
+                    .where("T", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("L", Predicates.blocks(CMBlocks.PURE_LOGIC_CASING.get()))
+                    .where("N", Predicates.blocks(BotaniaBlocks.corporeaBrickWall))
+                    .where("F", Predicates.blocks(CMBlocks.ENHANCED_MANA_GLASS.get()))
+                    .where("K", Predicates.blocks(CMBlocks.ORICHALCOS_STEEL_CASING_GEARBOX.get()))
+                    .where("#", Predicates.any())
                     .build())
             .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
                     CTNHMana.id("block/overlay/manamachine"))

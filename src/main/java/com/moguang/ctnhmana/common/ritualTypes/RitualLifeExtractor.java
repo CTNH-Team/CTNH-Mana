@@ -34,12 +34,12 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.gem;
 public class RitualLifeExtractor extends Ritual {
 
     public int START_COST = 1000000;
-    public int COSTS = 1;
+    public int COSTS = 500000;
     public int REFRESH_TIME = 100;
 
     public RitualLifeExtractor() {
         super("ritualextractor", 0, 1, "ritual.ctnhmana.ritualextractor");
-        this.addBlockRange("extraction_range", new AreaDescriptor.Rectangle(new BlockPos(-6, -2, -6), 6, 9, 12));
+        this.addBlockRange("extraction_range", new AreaDescriptor.Rectangle(new BlockPos(-8, -2, -8), 8, 9, 18));
         this.setMaximumVolumeAndDistanceOfRange("extraction_range", 1, 16, 16);
     }
 

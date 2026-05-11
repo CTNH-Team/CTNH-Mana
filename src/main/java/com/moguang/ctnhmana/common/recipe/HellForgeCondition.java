@@ -56,18 +56,21 @@ public class HellForgeCondition extends RecipeCondition<HellForgeCondition> {
             "§c复仇",
     })
     @EN({
-            "§9普通",
-            "§5坚韧",
-            "§a侵蚀",
-            "§6破坏",
-            "§c复仇",
+            "§9Raw",
+            "§5Steadfast",
+            "§aCorrosive",
+            "§6Destructive",
+            "§cVengeful",
     })
     public static Lang[] WillLang;
     @CN("需求的恶魔意志类型:%s")
+    @EN("Required demon will type: %s")
     public static Lang WillWilltypeLang;
     @CN("需求的数量:%d")
+    @EN("Amount required: %d")
     public static Lang WillNumLang;
     @CN("%s\n%s")
+    @EN("%s\n%s")
     public static Lang WillAllLang;
 
     @Override

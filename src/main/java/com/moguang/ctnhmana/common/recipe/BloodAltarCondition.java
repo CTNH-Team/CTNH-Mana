@@ -97,21 +97,24 @@ public class BloodAltarCondition extends RecipeCondition<BloodAltarCondition> {
     }
 
     @CN("需要血祭坛等级:%d")
+    @EN("Blood Altar tier required: %d")
     public static Lang altar_tier_lang;
     @CN({
             "消耗LP速率：%d/tick",
             "至少消耗的LP总量: %d",
     })
     @EN({
-
-            "每tick消耗的生命源质数量:%d",
-            "配方执行至少需要的生命源质总量:%d",
+            "LP consumption rate: %d/tick",
+            "Minimum total LP consumed: %d",
     })
     public static Lang[] altar_consumption_lang;
     @CN("需要的升级: %s")
+    @EN("Required upgrade: %s")
     public static Lang altar_upgrade_lang;
     @CN("%s\n%s\n%s\n%s")
+    @EN("%s\n%s\n%s\n%s")
     public static Lang altar_lang_1;
     @CN("%s\n%s\n%s\n")
+    @EN("%s\n%s\n%s\n")
     public static Lang altar_lang_2;
 }

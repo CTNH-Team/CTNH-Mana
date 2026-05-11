@@ -64,7 +64,7 @@ public class ManaHatchRecipes {
                 .inputItems(GTMachines.FLUID_IMPORT_HATCH[5].asStack())
                 .inputItems(BotaniaItems.corporeaSpark)
                 .inputItems(CMItems.STARLIGHT_RUNE)
-                .inputItems(CustomTags.IV_CIRCUITS, 2)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 2)
                 .inputFluids(CMMaterials.Zenith_essence.getFluid(144))
                 .outputItems(CMMachines.SKY_MANA_HATCH.asStack())
                 .EUt(8192)

@@ -87,7 +87,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
 
     @Getter
     @Persisted
-    public long maxEU = 10000000000L;
+    public long maxEU = 281474976710656L;
     @Getter
     @Persisted
     public long EU = 0L;
@@ -242,11 +242,17 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             calculateStability();
             changeSignal();
             if (stability < 0) {
+                explosion();
                 // doExplosion(10f);
             }
             predicateEU = calculateEU();
         }
         return super.onWorking();
+    }
+
+    public void explosion() {
+        this.EU = 0;
+        this.heat = 0;
     }
 
     // 强冷：输入魔力冷却剂，降低热量并提高稳定度
@@ -742,7 +748,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                 int slot = slotReference.getSlotIndex();
                 long previewHeat = getPreviewHeatBySlot(slot);
                 long previewStability = getPreviewStabilityBySlot(slot);
-                // 地图尚未建立时回退到燃料棒原始值，避免显示0造成误导。
+                // 地图尚未建立时回退到注术单元原始值，避免显示0造成误导。
                 if (heatMap == null) previewHeat = stick.heat;
                 if (stabilityMap == null) previewStability = stick.stability;
 
@@ -854,7 +860,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                 if (heatmap[i][j] == 0) {
                     var stack = inventory.getStackInSlot(getSlotIndex(i, j));
                     if (stack.getItem().equals(BotaniaItems.runeWater)) {
-                        // 水符文：相邻燃料棒热量-1，且相邻燃料棒占用-2稳定度
+                        // 水符文：相邻注术单元热量-1，且相邻注术单元占用-2稳定度
                         if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) {
                             heatmap[i - 1][j] -= 1;
                             stabilitymap[i - 1][j] -= 2;
@@ -873,7 +879,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         }
                     }
                     if (stack.getItem().equals(BotaniaItems.runeFire)) {
-                        // 火符文：相邻燃料棒热量x1.2，符文自身占用1稳定度
+                        // 火符文：相邻注术单元热量x1.2，符文自身占用1稳定度
                         if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) heatmap[i - 1][j] *= 1.2;
                         if (isValidLocation(i + 1, j) && heatmap[i + 1][j] > 0) heatmap[i + 1][j] *= 1.2;
                         if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) heatmap[i][j - 1] *= 1.2;
@@ -891,7 +897,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         stabilitymap[i][j] += 1;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeSpring)) {
-                        // 春符文：稳定度>50%时，占用2稳定度并使所有燃料棒热量+1；
+                        // 春符文：稳定度>50%时，占用2稳定度并使所有注术单元热量+1；
                         // 稳定度<=50%时，改为提供1稳定度
                         if (this.stability > this.maxStability * 0.5) {
                             stabilitymap[i][j] += 2;
@@ -907,7 +913,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         }
                     }
                     if (stack.getItem().equals(BotaniaItems.runeSummer)) {
-                        // 夏符文：每有1火元素，相邻燃料棒热量+5%；符文自身占用1稳定度,额外获得等同于火元素数量的稳定度占用
+                        // 夏符文：每有1火元素，相邻注术单元热量+5%；符文自身占用1稳定度,额外获得等同于火元素数量的稳定度占用
                         int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
                         double multiplier = 1.0 + fireElements * 0.05;
                         if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) heatmap[i - 1][j] *= multiplier;
@@ -919,7 +925,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         stabilitymap[i][j] += fireElements;
                     }
                     if (stack.getItem().equals(BotaniaItems.runeAutumn)) {
-                        // 秋符文：自身占用2稳定度；每有1地元素，自身每相邻一个燃料棒，热量上限+2
+                        // 秋符文：自身占用2稳定度；每有1地元素，自身每相邻一个注术单元，热量上限+2
                         int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
                         int adjacentFuelCount = 0;
                         if (isValidLocation(i - 1, j) && heatmap[i - 1][j] > 0) adjacentFuelCount++;
@@ -938,7 +944,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if (stack.getItem().equals(BotaniaItems.runeLust)) {
                         // 色欲符文：占用等同于罪孽元素数量的稳定度；
-                        // 所有燃料棒热量+10%；自身周围1格半径（含对角）燃料热量-25%
+                        // 所有注术单元热量+10%；自身周围1格半径（含对角）燃料热量-25%
                         int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
                         stabilitymap[i][j] += sinElements;
                         for (int y = 0; y < slot_range; y++) {
@@ -969,8 +975,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if (stack.getItem().equals(BotaniaItems.runeGreed)) {
                         // 贪婪符文：自身占用等同于罪孽元素数量；
-                        // 使左侧相邻燃料棒占用稳定度x2；
-                        // 若左侧燃料棒带罪孽元素则热量x2，否则热量x1.5
+                        // 使左侧相邻注术单元占用稳定度x2；
+                        // 若左侧注术单元带罪孽元素则热量x2，否则热量x1.5
                         int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
                         stabilitymap[i][j] += sinElements;
                         if (isValidLocation(i, j - 1) && heatmap[i][j - 1] > 0) {
@@ -987,7 +993,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     if (stack.getItem().equals(BotaniaItems.runeWrath)) {
                         // 愤怒符文：自身占用等同于罪孽元素数量的稳定度；
                         // 当稳定度<50%时，(罪孽元素+火元素)每有1，
-                        // 对角燃料棒热量+5%，并增加1稳定占用
+                        // 对角注术单元热量+5%，并增加1稳定占用
                         int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
                         int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
                         int wrathPower = sinElements + fireElements;
@@ -1007,7 +1013,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if (stack.getItem().equals(BotaniaItems.runeEnvy)) {
                         // 嫉妒符文：占用等同于罪孽元素数量的稳定度；
-                        // 每有1罪孽元素，使正四格燃料棒产热+10%；
+                        // 每有1罪孽元素，使正四格注术单元产热+10%；
                         // 若存在其他嫉妒符文，或存在产热高于正四格目标的槽位，则该效果不生效
                         int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
                         stabilitymap[i][j] += sinElements;
@@ -1060,7 +1066,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if (stack.getItem().equals(BotaniaItems.runePride)) {
                         // 傲慢符文：自身占用等同于罪孽元素数量的稳定度；
-                        // 使正四格燃料棒产热增加100%，每有一个符文（含自身）该值减少20%
+                        // 使正四格注术单元产热增加100%，每有一个符文（含自身）该值减少20%
                         int sinElements = elementMap.getOrDefault(RuneElementType.SIN, 0);
                         stabilitymap[i][j] += sinElements;
 
@@ -1108,10 +1114,10 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                     }
                     if (stack.getItem().equals(muspelheimRune)) {
                         // 穆斯贝尔海姆符文（火焰国度）：
-                        // 1) 自身长十字范围（整行整列）所有燃料棒产热+10%
+                        // 1) 自身长十字范围（整行整列）所有注术单元产热+10%
                         // 2) 若火元素占比最多：
-                        // - 所有带火元素的燃料棒产热+10%
-                        // - 自身长十字范围燃料棒获得额外档位加成（取最高档）：
+                        // - 所有带火元素的注术单元产热+10%
+                        // - 自身长十字范围注术单元获得额外档位加成（取最高档）：
                         // 10+火元素:+10%，20+火元素:+30%，25+火元素:+50%
                         // 3) 触发占比效果时自身占用5稳定度，否则占用2稳定度
                         // 4) 额外档位（福袋）本轮最多触发一次
@@ -1195,7 +1201,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
                         // 尼达维勒符文（矮人国度/锻造）：
                         // 自身额外提供5地元素（已在元素统计阶段结算）
                         // 若地元素最多，且当前热量<上限50%，触发一次地系终端：
-                        // 全部燃料棒获得产热与占用修正，档位由(水+地符文数量)决定
+                        // 全部注术单元获得产热与占用修正，档位由(水+地符文数量)决定
                         int selfStabilityCost = 2;
                         int earthElements = elementMap.getOrDefault(RuneElementType.EARTH, 0);
                         int fireElements = elementMap.getOrDefault(RuneElementType.FIRE, 0);
@@ -1259,4 +1265,46 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
         return List.of(heatmap, stabilitymap);
     }
+
+    @CN({
+            "§l将一切咒术与秘法交融凝缩§r,在无尽的§9解析与推演§r之中,我们终铸造那§d超越世界§r(§5Zenith§r)的§b§l奥术新星§r",
+            "§e§l此乃奇迹§r",
+            "!§c本机器还在测试中§r,最终机制还不完善,随时可能更改,如遇bug,请联系魔力beeeeeeeeeeeee!",
+            "允许使用§9§l激光仓§r，§6§l变电仓§r，§c§l红石信号控制仓§r，§d§l中央控制总线§r",
+            "本机器具有极为特殊的运行机制,请§c§l认真阅读以下机制§r,如有不理解，请致电魔力beeeeeeeeeeeee",
+            "本机器UI内部具有放置§6§l注术单元§r和§b§l符文§r的槽位，每个注魔单元可以为本机器提供§c热量§r(名字待定),当机器UI内部放置任意注术单元时,机器开始执行循环",
+            "机器具有两种执行模式,并进行循环,在§6§l产热模式§r下,机器将工作§e20s§r,并且每§e0.5s§r执行一次机器热流程,获取来自注术单元的热并且减少§a稳定度§r,在执行完毕后,切换为§b§l维度稳定模式§r",
+            "在§b§l维度稳定模式§r下,机器将执行维度稳定,§e10s§r内不进行任何操作,在执行完毕后,切换为§6产热模式§r",
+            "在产热模式下,注术单元将给机器注入§c热量§r,当注术单元枯竭时,其将会被弹出到输出IO中，如果机器的§a稳定度§r较低,那么注术单元有可能发生崩解(具体崩解产物请查阅配方类型：§5扭曲崩解§r)",
+            "在产热模式下,符文具有一定特效：当将符文放入UI内部槽位时，符文的效果将会显现。符文本身不产生任何§c热量§r，而是给机器提供增益并占用一定§a稳定度§r，当配方执行完毕后，如果机器稳定度较低，符文可能发生崩解并被弹出到输出IO中，崩解会产出§5扭曲符文§r",
+            "在产热模式下，§c热量§r会逐渐积累，并且在配方执行完毕后一次性全部转化为电量，热量越高，产生的电量越高，同时当热量大于上限的§650%§r和§c100%§r时，热量对电量的转化比会大幅度上升（由于公式未定，请先咨询魔力beeeee对应公式）",
+            "在产热模式下，§a稳定度§r是空间稳定的重要指标，当其低于§c0§r时将会造成重大灾难（但由于魔力beeeeee还没写爆炸，所以现在我们只会把存储热降为零，享受这不会爆炸的时光吧）,符文和注术单元会占用稳定度，与此同时热量占上限超过§650%§r,§c100%§r时，稳定度会随每§e0.5s§r降低，当热量超过§c100%§r时，稳定度会迅速降低",
+            "在产热模式执行完毕时，§c热量§r被转化为电量，弹出损坏符文，§a稳定度§r将会回复到满值，随后进入§b维度稳定§r（冷却）模式",
+            "具有§e§l两个红石信号频道§r，使用§c§l红石信号控制仓§r来调频",
+            "§9§l频道0§r（§c热量§r）：§e每10tick§r刷新（仅在§6产热§r且§7非冷却§r时）；§c热量§r§7≤§70§r→§70§r；§70§r§7<§r§c热量§r§7<§r上限§650%§r→§b2§r；§650%§r§7≤§r§c热量§r§7<§r上限§6100%§r→§65§r；§c热量§r§7≥§r上限→§c10§r",
+            "§d§l频道1§r（§a稳定度§r）：同上刷新节奏；若§a稳定度§r§7>§r上限§610%§r，则输出§7max(§70§r,⌊§a上限§r/max(§a当前稳定度§r,1)⌋§7-1§r)；否则输出§c12§r",
+            "放置§c红石信号控制仓§r并§e选择频道§r后，仓室输出的§e红石强度§r即为对应频道当前值（§9频道0§r反映§c热量§r阈值档，§d频道1§r反映§a稳定度§r危急程度）",
+            "中央控制总线可以精确控制主UI的槽位，请查阅它的tooltip",
+            "这个机器仍然非常不完善，所以一定要去多咨询魔力beeeeee反馈bug"
+    })
+    @EN({
+            "§lAll curses and secrets arc blended and distilled§r; across endless §9parsing and deduction§r, we at last forge the arcane nova that transcends the world—§5Zenith§r.",
+            "§e§lThis we call a miracle.§r",
+            "!§cWork in progress§r — mechanics unfinished; changes likely; bugs → Mana bee.",
+            "Allows §9§lLaser Hatch§r, §6§lEnergy Hatch§r, §c§lRedstone Signal Control Hatch§r, §d§lCentral Control Bus§r.",
+            "Highly unusual rules — §c§lread below§r; call Mana bee if unclear.",
+            "UI slots for §6§linfusion cells§r and §brunes§r; each cell supplies §cHeat§r (name TBD); any cell starts the cycle.",
+            "Two phases: in §6§lHeating§r, runs §e20s§r, §cHeat§r logic every §e0.5s§r and consumes §aStability§r; then §b§lDimensional Stabilization§r.",
+            "In §b§lDimensional Stabilization§r, §e10s§r idle; then back to §6Heating§r.",
+            "Heating: cells add §cHeat§r; depleted cells export; low §aStability§r may §5TwistCollapse§r (see §5TwistCollapse§r recipes).",
+            "Runes: no §cHeat§r, buffs and §aStability§r cost; low stability may break runes into §5Twisted Runes§r.",
+            "§cHeat§r banks then converts to EU; higher §cHeat§r → more EU; above §650%§r / §c100%§r cap, conversion spikes (formula TBD — ask Mana bee).",
+            "§aStability§r anchors space; below §c0§r is disaster (currently only clears stored §cHeat§r). Above §650%§r / §c100%§r cap, §aStability§r drains every §e0.5s§r; over §c100%§r cap it drops faster.",
+            "Heating ends: EU credited, broken runes popped, §aStability§r full, then §bcooldown§r (stabilization).",
+            "§e§lTwo redstone channels§r — tune with §c§lRedstone Broadcast Hatch§r.",
+            "§9§lCh0§r (§cHeat§r): refreshes every §e10 ticks§r while §6heating§r & §7not cooling§r: §cHeat§r§7≤§70§r→§70§r; §70§r§7<§r§cHeat§r§7<§r §650%§r cap→§b2§r; §650%§r§7≤§r§cHeat§r§7<§r§6100%§r cap→§65§r; §cHeat§r§7≥§r cap→§c10§r.",
+            "§d§lCh1§r (§aStability§r): same cadence; if §aStability§r§7>§r §610%§r cap → §7max(§70§r,⌊§amax§r/max(§acurrent§r,1)⌋§7-1§r); else §c12§r.",
+            "Place §cRedstone Signal Control Hatch§r and §epick channel§r; output §estrength§r equals that channel (§9Ch0§r = §cHeat§r tier, §dCh1§r = §aStability§r stress)."
+    })
+    public static Lang[] AHCC_TOOLTIPS;
 }

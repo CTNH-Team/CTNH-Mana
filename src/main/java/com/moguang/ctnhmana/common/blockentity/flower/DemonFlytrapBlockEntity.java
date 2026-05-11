@@ -28,7 +28,7 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
     public void tickFlower() {
         super.tickFlower();
         if (!this.getLevel().isClientSide && this.redstoneSignal <= 0) {
-            if (ticksExisted % 10 == 0) {
+            if (ticksExisted % 20 == 0) {
                 var chunk = WorldDemonWillHandler.getWillChunk(getLevel(), getEffectivePos());
                 if (getMana() < getCost() || getMonsters() == null) return;
 
@@ -41,7 +41,7 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
                             chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20,
                                     MAX_WILL);
                     } else {
-                        monster.hurt(getLevel().damageSources().magic(), 6);
+                        monster.hurt(getLevel().damageSources().magic(), 12);
                         monster.addEffect(new MobEffectInstance(CMMobEffects.SOUL_LEECH.get(), 88, 0));
                     }
 

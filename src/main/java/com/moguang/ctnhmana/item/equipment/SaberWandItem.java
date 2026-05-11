@@ -637,19 +637,22 @@ public class SaberWandItem extends WandOfTheForestItem {
     }
 
     @CN("切换为模式: %s")
+    @EN("Switched to mode: %s")
     public static Lang updateSpireLang;
     @CN({
             "§b电子精灵法杖(工作模式)",
             "§a电子精灵法杖(绑定模式)"
     })
     @EN({
-            "§b电子精灵法杖(工作模式)",
-            "§a电子精灵法杖(绑定模式)"
+            "§bDigital Sprite Staff (work mode)",
+            "§aDigital Sprite Staff (bind mode)"
     })
     public static Lang[] saberwandNamelang;
     @CN("§b§l[精灵朋克]§r§d2077")
+    @EN("§b§l[Elfpunk]§r§d2077")
     public static Lang saberWandTooltip;
     @CN("已绑定的目标火花位置:%d %d %d")
+    @EN("Bound spark position: %d %d %d")
     public static Lang saberWandSparkLocationTooltip;
     @CN({
             "绑定已清除",
@@ -658,10 +661,10 @@ public class SaberWandItem extends WandOfTheForestItem {
             "绑定出现错误",
     })
     @EN({
-            "绑定已清除",
-            "已选定初始目标火花",
-            "已完成绑定",
-            "绑定出现错误",
+            "Binding cleared",
+            "Initial target spark selected",
+            "Binding complete",
+            "Binding error",
     })
     public static Lang[] saberWandBindingLang;
 }

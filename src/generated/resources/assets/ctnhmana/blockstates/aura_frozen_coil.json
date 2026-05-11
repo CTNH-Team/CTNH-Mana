@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "ctnhmana:block/flux/aura_frozen_coil"
+    },
+    "active=true": {
+      "model": "ctnhmana:block/flux/aura_frozen_coil_active"
+    }
+  }
+}

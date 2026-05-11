@@ -62,7 +62,7 @@ public class AnattaLotusBlockEntity extends GeneratingFlowerBlockEntity {
             this.rebirth = true;
             this.waiting_time = 300;
             if (totalBurnTime > 0) {
-                this.addMana(Math.min(getMaxMana() - getMana(), totalBurnTime / 30));
+                this.addMana(Math.min(getMaxMana() - getMana(), totalBurnTime / 10));
             }
         }
     }

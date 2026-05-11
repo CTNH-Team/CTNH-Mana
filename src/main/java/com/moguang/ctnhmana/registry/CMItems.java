@@ -34,7 +34,7 @@ import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.item.equipment.TaintedBloodWeepingEye;
 import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
-import com.moguang.ctnhmana.registry.items.ManaFuelItems;
+import com.moguang.ctnhmana.registry.items.CMFuelItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -338,7 +338,7 @@ public class CMItems {
 
         BROKEN_RUNE = REGISTRATE
                 .item("broken_rune", ComponentItem::create)
-                .cnlang("破碎的符文")
+                .cnlang("破碎符文")
                 .onRegister(attach(new TooltipBehavior(text -> text.add(brokenRuneLang.translate()))))
                 .register();
         EMPTY_RUNE = REGISTRATE
@@ -466,7 +466,7 @@ public class CMItems {
 
     public static void init() {
         registerItem();
-        ManaFuelItems.registerItem();
+        CMFuelItems.registerItem();
         // registercircuit.init();
         // registerJade.init();
     }
@@ -571,6 +571,7 @@ public class CMItems {
     })
     public static Lang[] mixin_will_circuit_lang;
     @CN("将逻辑映射在符文之上")
+    @EN("Map logic onto runes")
     public static Lang rune_circuit_board_lang;
     @CN("§b将信息本身作为能量的非物质运算§r")
     @EN("§bNon-physical computation that takes information itself as energy§r")
@@ -643,50 +644,73 @@ public class CMItems {
     })
     public static Lang[] advanced_mana_circuit_lang;
     @CN("§4单向涌血控制")
+    @EN("§4One-way blood surge control")
     public static Lang blooddiodelang;
     @CN("§1非静态意志限制器")
+    @EN("§1Non-static will limiter")
     public static Lang willdiodelang;
     @CN("§4调整源质流动")
+    @EN("§4Tune vital essence flow")
     public static Lang bloodresistorlang;
     @CN("§1阻遏过度思维")
+    @EN("§1Restrain runaway thought")
     public static Lang willresistorlang;
     @CN("§4存储命结电荷")
+    @EN("§4Store lifeforce charge")
     public static Lang bloodcapacitorlang;
     @CN("§1增生困惑思维")
+    @EN("§1Proliferate perplexity")
     public static Lang willcapacitorlang;
     @CN("§4放大源质信号")
+    @EN("§4Amplify vital signal")
     public static Lang bloodtransistorlang;
     @CN("§1实体化意志扭曲")
+    @EN("§1Embody will distortion")
     public static Lang willtransistorlang;
     @CN("§4提供血涌缓冲")
+    @EN("§4Blood-surge buffering")
     public static Lang bloodinductorlang;
     @CN("§4提供矛盾缓冲")
+    @EN("§4Paradox buffering")
     public static Lang willinductorlang;
     @CN("§4否决原电路逻辑，执行自意志运算")
+    @EN("§4Overrides base circuit logic; runs self-will computation")
     public static Lang willsoclang;
     @CN("§5世界的逻辑本质凝聚于此,§l凝视§r于此")
+    @EN("§5The world's logical essence gathers here—§llook§r upon it")
     public static Lang zenithsoclang;
     @CN("被高能魔力击碎的符文，其残余显现出了空间扭曲的性质")
+    @EN("A rune shattered by intense mana; its residue warps space")
     public static Lang brokenRuneLang;
     @CN("§a大地的力量凝聚于此")
+    @EN("§aEarth's power condensed here")
     public static Lang terra_catalyst;
     @CN("§5宛如天上的繁星")
+    @EN("§5Like stars in the sky")
     public static Lang zenith_star;
     @CN("高能魔力蚀刻基板")
+    @EN("High-energy mana etched substrate")
     public static Lang mana_circuit_board;
     @CN("调谐电力与魔力的核心")
+    @EN("Core that tunes electricity and magic")
     public static Lang magicCoreLang;
     @CN("永恒的十二面体")
+    @EN("The eternal dodecahedron")
     public static Lang flowerHeartLang;
     @CN("封藏着魔力的奥义")
+    @EN("Arcane secrets of magic sealed within")
     public static Lang encapsulated_twist_mana;
     @CN("放置在魔力凝聚仓内，每个消耗10000魔力能量来转化为奥利哈精魄")
+    @EN("Place in Mana Condenser: each consumes 10000 Mana Energy to convert into Orichalcum spirit")
     public static Lang unimbudSpritLang;
     @CN("通过未注魂的精魄在魔力凝聚仓中消耗魔力能量转化而来")
+    @EN("Made from unimbued spirit in the Mana Condenser using Mana Energy")
     public static Lang orichalcosSpritLang;
     @CN("§b它会变成什么?")
+    @EN("§bWhat will it become?")
     public static Lang blankRuneLang;
     @CN("指令所编织之布")
+    @EN("Cloth woven from commands")
     public static Lang indexPaperLang;
 
     public static ItemEntry<ComponentItem> BLOOD_DIODE = REGISTRATE

@@ -120,9 +120,9 @@ public class RedstoneSignalBroadcastHatch extends TieredPartMachine {
             "多个红石信号广播仓可以输出同一频道的信号，通过UI来调整对应的频道"
     })
     @EN({
-            "调整链接的机器信号频道，如果机器没有这个频道则默认输出0红石强度",
-            "用于广播多方块提供地特定频道的红石信息",
-            "多个红石信号广播仓可以广播同一频道，通过UI来调整对应的频道"
+            "Adjust the linked machine's channel; outputs §70§r if it has no such channel",
+            "Outputs the multiblock's redstone strength for the §eselected channel§r",
+            "Multiple hatches can share one channel — pick it in the UI"
     })
     public static Lang[] broadcasthatchLang;
 }

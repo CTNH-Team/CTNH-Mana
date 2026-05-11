@@ -52,6 +52,7 @@ public class GTUpgradeItemT1 extends ManaMachineUpgradeItem {
     }
 
     @CN("§5流线之视野")
+    @EN("§5Streamlined Horizon")
     public static Lang GT_UPDATE_NAME;
     @CN({
             "偏向于大规模工业流水线的升级",

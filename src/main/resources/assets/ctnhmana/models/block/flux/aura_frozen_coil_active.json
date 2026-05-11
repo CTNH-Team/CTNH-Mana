@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "ctnhmana:block/plasma_cooled_mana_core",
+    "top_all": "ctnhmana:block/plasma_cooled_mana_corebloom"
+  }
+}

@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -37,6 +38,7 @@ import com.moguang.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -119,6 +121,9 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Override
     public void onLoad() {
         super.onLoad();
+        if (this.holder instanceof MysticSpireBlockEntity mbe) {
+            mbe.migrateLegacyMysticManaIfNeeded();
+        }
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTick));
         }
@@ -138,6 +143,9 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     }
 
     public void metircTick() {
+        if (this.holder instanceof MysticSpireBlockEntity mbe) {
+            mbe.syncMysticManaCacheFromTrue();
+        }
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
         }
@@ -207,7 +215,9 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void addDisplayText(List<Component> textList) {
         if (isFormed()) {
             var pool = ((MysticSpireBlockEntity) this.holder);
-            textList.add(spireDataLang[0].translate(pool.BTMana, pool.maxBTMana));
+            textList.add(spireDataLang[0].translate(
+                    FormattingUtil.formatNumbers(pool.getTrueManaBig()),
+                    FormattingUtil.formatNumbers(pool.getTrueManaCapBig())));
             textList.add(spireDataLang[1].translate(mode_MAP.get(MODE).translate()));
             textList.add(spireDataLang[2].translate(speed));
             textList.add(spireDataLang[4].translate(range));
@@ -236,8 +246,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         // 中央 4 槽位（2x2），位置参考尼克尔戴森光束的 SlotWidget 写法，仅改坐标到中心区域
         int tileW = scw(18);
         int tileH = sch(18);
-        int startX = (groupW - tileW * 2) / 2;
-        int slotY = (groupH - tileH * 2) / 2;
+        int startX = (groupW - tileW * 2) / 2 + 6;
+        int slotY = (groupH - tileH * 2) / 2 + 36;
 
         for (int i = 0; i < 4; i++) {
             int col = i % 2;
@@ -341,6 +351,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void updateSelf() {
         long rangeAcc = base_range;
         long maxManaL = base_maxmana;
+        BigInteger trueManaCapBig = BigInteger.valueOf(base_maxmana);
         long speedL = base_speed;
         this.effencicy = base_effencicy;
         for (int i = 0; i <= 3; i++) {
@@ -354,6 +365,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
                 }
                 if (ritem.getCapacity() > 1) {
                     maxManaL = SpireMath.mulLongDoubleCap(maxManaL, ritem.getCapacity(), Integer.MAX_VALUE);
+                    trueManaCapBig = SpireBigMath.mulBigDoubleCap(trueManaCapBig, ritem.getCapacity(),
+                            SpireBigMath.TRUE_MANA_ABS_CEILING);
                 }
                 if (ritem.getConversionEfficiency() > 0.1)
                     this.effencicy = Math.max(this.effencicy, ritem.getCapacity());
@@ -365,7 +378,10 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         this.speed = (int) Math.min((long) Integer.MAX_VALUE, speedL);
         this.speed = (int) Math.min((long) this.maxMana / 10L, (long) this.speed);
         this.speed = Math.max(1, this.speed);
-        ((MysticSpireBlockEntity) this.holder).setMaxMana(this.maxMana);
+
+        MysticSpireBlockEntity pool = (MysticSpireBlockEntity) this.holder;
+        pool.setTrueManaCapacityBig(trueManaCapBig);
+        pool.setMaxMana(SpireBigMath.interactionManaBarCap(trueManaCapBig));
     }
 
     @CN({
@@ -386,7 +402,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     })
     public static Lang[] spireModeLang;
     @CN({
-            "当前尖塔存储:%d/%d mana",
+            "当前尖塔存储:%s/%s mana",
             "当前模式: %s",
             "传输速率:%d mana/t",
             "接受速率:%d mana/t",
@@ -394,7 +410,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
             "已与尖塔网络链接,链接的火花坐标：(%d %d %d)"
     })
     @EN({
-            "当前尖塔存储:%d/%d",
+            "当前尖塔存储:%s/%s",
             "当前模式: %s",
             "传输速率:%d mana/t",
             "接受速率:%d mana/t",

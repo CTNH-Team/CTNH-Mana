@@ -54,6 +54,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     }
 
     @CN("§9群蕊之天思")
+    @EN("§9Garden of Celestial Thought")
     public static Lang BT_UPDATE_NAME_T3;
     @CN({
             "偏向于植物魔法与魔力的升级",
@@ -65,13 +66,13 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     @EN({
-            "偏向于植物魔法与魔力的升级",
-            "机器获得：",
-            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最高16)",
-            "运行时的每一并行提供§a+2.5%§r机器工作速度（最高25%）",
-            "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度（最高25%）",
-            "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量则提供单次的供§a+50%§r运行速度",
-            "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
+            "Favors Botania mana and machine throughput",
+            "The machine gains:",
+            "For every 50k Botania mana in the condenser, and for every 200k max storage, gain +2 parallelism (max 256)",
+            "Each active parallel grants §a+5%§r processing speed (capped at +200%)",
+            "Every 100k Botania mana stored grants §a+2.5%§r speed (capped at +50%)",
+            "If base recipe time exceeds 100s, spend up to 50k Mana Energy: +25% speed per 10k Mana Energy consumed",
+            "§o§9Dance with the flowers — even machines cannot hide the beauty of the stars§r"
     })
     public static Lang[] botaniacoreLang_t3;
 }

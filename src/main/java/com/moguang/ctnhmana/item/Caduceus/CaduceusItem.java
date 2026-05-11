@@ -597,6 +597,7 @@ public class CaduceusItem extends GTToolItem {
     }
 
     @CN("神谕终端[赫尔墨斯]")
+    @EN("Oracle Terminal [Hermes]")
     public static Lang CaduceusLang;
     @CN({
             "应该用大剑将躯干劈开时:",
@@ -682,5 +683,6 @@ public class CaduceusItem extends GTToolItem {
     })
     public static Lang[] IndexLang;
     @CN("§1§o哦，命运，如月亮般变化无常")
+    @EN("§1§oO Fortune, inconstant as the moon")
     public static Lang CaduceusFortunaLang;
 }

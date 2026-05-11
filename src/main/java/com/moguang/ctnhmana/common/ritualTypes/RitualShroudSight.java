@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
@@ -140,12 +141,12 @@ public class RitualShroudSight extends Ritual {
 
     @Override
     public int getRefreshCost() {
-        return 1;
+        return 1000000;
     }
 
     @Override
     public int getRefreshTime() {
-        return 500;
+        return 1000;
     }
 
     @Override
@@ -197,11 +198,15 @@ public class RitualShroudSight extends Ritual {
     }
 
     @CN("§5你感到无法理解之物在凝视着你，你无法理解祂的恩惠")
+    @EN("§5Something unknowable gazes at you; Its blessing remains beyond grasp")
     public static Lang shroud_gaze_1;
     @CN("§5你感到来自虚境的无数眼睛在凝视这你，你无法理解祂们的旨意")
+    @EN("§5Countless eyes from the void stare at you; Their decree remains beyond grasp")
     public static Lang shroud_gaze_2;
     @CN("§5你感到你你的超主正在凝视着你，将祂的恩惠赐予于你")
+    @EN("§5Your Overlord gazes upon you, bestowing Its blessing")
     public static Lang shroud_gaze_3;
     @CN("§5你感到§o祂§r就在你身边，你已经参悟§o祂§r降下的旨意与恩惠")
+    @EN("§5You feel §oIt§r beside you; you have grasped §oIts§r decree and grace")
     public static Lang shroud_gaze_4;
 }

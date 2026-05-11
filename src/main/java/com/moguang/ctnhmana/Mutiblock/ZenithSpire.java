@@ -15,8 +15,10 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
@@ -29,12 +31,14 @@ import net.minecraft.world.phys.AABB;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.moguang.ctnhmana.common.entity.OmegaSpark;
 import com.moguang.ctnhmana.registry.CMEntities;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,10 +75,34 @@ public class ZenithSpire extends MysticSpire {
     public Double zenithEfficiency = 0.25;
     @Persisted
     public Long euSpeed = 0L;
+
+    /**
+     * 内部 EU 储量（十进制字符串持久化，兼容 LDL/GT 同步；{@link BigInteger} 运算请用 {@link #getStoredEuBig()}）。
+     */
     @Persisted
-    public Long zEU = 0L;
+    @DescSynced
+    public String zenithStoredEu = "0";
+
+    /**
+     * 内部 EU 上限（十进制字符串）。
+     */
     @Persisted
-    public Long euCapacity = 0L;
+    @DescSynced
+    public String zenithCapacityEu = "0";
+
+    /**
+     * 旧存档：曾为 {@code long zEU}，加载后迁移至 {@link #zenithStoredEu} 并清空。
+     */
+    @Persisted(key = "zEU")
+    @Nullable
+    Long legacyZenithZeu = null;
+
+    /**
+     * 旧存档：曾为 {@code long euCapacity}。
+     */
+    @Persisted(key = "euCapacity")
+    @Nullable
+    Long legacyZenithEuCapacity = null;
 
     /**
      * 结构成型时记录：属于本天顶尖塔多方块的能源仓 / 激光仓方块坐标。
@@ -111,18 +139,67 @@ public class ZenithSpire extends MysticSpire {
         }
     }
 
+    /** 运行时读取 EU 储量（BigInteger）。 */
+    public BigInteger getStoredEuBig() {
+        return SpireBigMath.parsePersisted(zenithStoredEu);
+    }
+
+    /** 写入储量并触发同步（已非负化）。 */
+    public void setStoredEuBig(BigInteger v) {
+        zenithStoredEu = SpireBigMath.toPersistString(SpireBigMath.nonNegative(v));
+    }
+
+    public BigInteger getEuCapacityBig() {
+        return SpireBigMath.parsePersisted(zenithCapacityEu);
+    }
+
+    private void setEuCapacityBig(BigInteger v) {
+        zenithCapacityEu = SpireBigMath.toPersistString(SpireBigMath.nonNegative(v));
+    }
+
+    /**
+     * 旧存档 long 字段迁移为字符串 BigInteger（仅一次）。
+     */
+    private void migrateLegacyZenithEuPersistence() {
+        boolean touched = false;
+        if (legacyZenithZeu != null) {
+            zenithStoredEu = SpireBigMath.toPersistString(BigInteger.valueOf(legacyZenithZeu));
+            legacyZenithZeu = null;
+            touched = true;
+        }
+        if (legacyZenithEuCapacity != null) {
+            zenithCapacityEu = SpireBigMath.toPersistString(BigInteger.valueOf(legacyZenithEuCapacity));
+            legacyZenithEuCapacity = null;
+            touched = true;
+        }
+        if (touched) {
+            onChanged();
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        migrateLegacyZenithEuPersistence();
+    }
+
     @Override
     public void metircTick() {
+        if (this.holder instanceof MysticSpireBlockEntity mbe) {
+            mbe.syncMysticManaCacheFromTrue();
+        }
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
             getEUContainer();
         }
-        // this.zEU= (long) (euCapacity*0.1);
-        long cap = SpireMath.nonNegative(this.euCapacity);
-        this.zEU = SpireMath.nonNegative(this.zEU);
-        this.zEU = Math.min(cap, this.zEU);
-        if (this.zEU < this.euCapacity && this.MODE == 0) sendEUToSpire();
-        if (this.zEU > 0 && this.MODE != 3) sendEUToContainer();
+        BigInteger cap = getEuCapacityBig();
+        BigInteger z = SpireBigMath.nonNegative(getStoredEuBig());
+        if (z.compareTo(cap) > 0) {
+            z = cap;
+            setStoredEuBig(z);
+        }
+        if (z.compareTo(cap) < 0 && this.MODE == 0) sendEUToSpire();
+        if (z.signum() > 0 && this.MODE != 3) sendEUToContainer();
     }
 
     @Override
@@ -189,16 +266,44 @@ public class ZenithSpire extends MysticSpire {
     @Override
     public void updateSelf() {
         super.updateSelf();
+        // EU 倍率独立于魔力侧天顶 ×4：速度用奥法档 int speed；容量因子用真实魔力上限 BigInteger（避免 maxMana 钳 int 导致 EU 上限偏小）
+        final int euSpeedFactor = this.speed;
+        final BigInteger euMaxManaCapBig = this.holder instanceof MysticSpireBlockEntity poolEu ?
+                poolEu.getTrueManaCapBig() : BigInteger.valueOf(Math.max(0, this.maxMana));
+        final BigInteger euBaseMaxManaBig = BigInteger.valueOf(base_maxmana);
+
         selfEnergyContainer = getEnergyContainer();
         var voltage = selfEnergyContainer.getHighestInputVoltage();
         this.eutier = GTUtil.getFloorTierByVoltage(voltage);
-        this.euSpeed = SpireMath.euSpeedScaled(selfEnergyContainer.getInputVoltage(), this.speed, base_speed);
-        this.euCapacity = SpireMath.euCapacityScaled(selfEnergyContainer.getEnergyCapacity(), this.maxMana,
-                base_maxmana);
+
         long rangeL = (long) this.range * 2L + 200L;
         this.range = rangeL > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rangeL;
+
+        // 天顶魔力：与奥法池同源 BigInteger 真实上限再 ×4；公开 int maxMana 仅作柱条/火花窗口（与 pool.setMaxMana 一致）
+        if (this.holder instanceof MysticSpireBlockEntity pool) {
+            BigInteger zenithTrueCap = pool.getTrueManaCapBig()
+                    .multiply(BigInteger.valueOf(4L))
+                    .min(SpireBigMath.TRUE_MANA_ABS_CEILING);
+            pool.setTrueManaCapacityBig(zenithTrueCap);
+            int barCap = SpireBigMath.interactionManaBarCap(zenithTrueCap);
+            pool.setMaxMana(barCap);
+            this.maxMana = barCap;
+        } else {
+            this.maxMana = SpireMath.multiplyIntPositiveCap(this.maxMana, 4);
+            this.maxMana = Math.min(this.maxMana, Integer.MAX_VALUE);
+        }
+
+        // 天顶传输速率 ×4（与 EU 倍率无关）
         this.speed = SpireMath.multiplyIntPositiveCap(this.speed, 4);
-        this.maxMana = SpireMath.multiplyIntPositiveCap(this.maxMana, 4);
+        this.speed = Math.min(this.speed, Integer.MAX_VALUE);
+        // 与 MysticSpire.updateSelf 相同规则：传输速率不超过魔力容量的 1/10
+        this.speed = (int) Math.min((long) this.maxMana / 10L, (long) this.speed);
+        this.speed = Math.max(1, this.speed);
+
+        // EU：(电压×奥法speed/base)×4、(舱室×真实魔力上限/base_maxmana)×4 — BigInteger，不在此叠加魔力侧天顶 ×4
+        this.euSpeed = SpireMath.euSpeedScaled(selfEnergyContainer.getInputVoltage(), euSpeedFactor, base_speed);
+        setEuCapacityBig(SpireBigMath.euCapacityScaled(selfEnergyContainer.getEnergyCapacity(), euMaxManaCapBig,
+                euBaseMaxManaBig));
         getEUContainer();
     }
 
@@ -314,10 +419,11 @@ public class ZenithSpire extends MysticSpire {
         if (energyInputContainer != null) {
             long capRem = energyInputContainer.getEnergyCapacity() - energyInputContainer.getEnergyStored();
             capRem = SpireMath.nonNegative(capRem);
-            long consume = Math.min(capRem, Math.min(EUs, SpireMath.nonNegative(this.zEU)));
-            consume = energyInputContainer.addEnergy(consume);
-            EUs -= consume;
-            this.zEU = SpireMath.nonNegative(this.zEU - consume);
+            BigInteger stored = getStoredEuBig();
+            long takeFromSpire = SpireBigMath.clampToLong(
+                    SpireBigMath.min(BigInteger.valueOf(capRem), BigInteger.valueOf(EUs), stored));
+            long consume = energyInputContainer.addEnergy(takeFromSpire);
+            setStoredEuBig(SpireBigMath.subtractNonNegative(stored, BigInteger.valueOf(consume)));
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticles(this.euContainerPos);
             }
@@ -331,18 +437,25 @@ public class ZenithSpire extends MysticSpire {
         // this.selfEnergyContainer.removeEnergy(consume);
         // this.zEU=Math.min(this.euCapacity,this.zEU);
         // }
-        if (this.energyoutputContainer != null && this.zEU < this.euCapacity) {
-            long room = this.euCapacity - this.zEU;
-            long pullLimit;
+        if (this.energyoutputContainer != null) {
+            BigInteger stored = getStoredEuBig();
+            BigInteger cap = getEuCapacityBig();
+            if (stored.compareTo(cap) >= 0) return;
+
+            BigInteger room = cap.subtract(stored);
+            BigInteger pullLimitBd;
             try {
-                pullLimit = Math.multiplyExact(this.euSpeed, 2L);
+                pullLimitBd = BigInteger.valueOf(Math.multiplyExact(this.euSpeed, 2L));
             } catch (ArithmeticException e) {
-                pullLimit = Long.MAX_VALUE / 4;
+                pullLimitBd = BigInteger.valueOf(Long.MAX_VALUE / 4);
             }
-            long consume = Math.min(room, Math.min(pullLimit, this.energyoutputContainer.getEnergyStored()));
-            this.zEU = SpireMath.addCapToMax(this.zEU, consume, this.euCapacity);
+            BigInteger avail = BigInteger.valueOf(this.energyoutputContainer.getEnergyStored());
+            BigInteger take = SpireBigMath.min(room, pullLimitBd, avail);
+            long consume = SpireBigMath.clampToLong(take);
+            if (consume <= 0) return;
+            setStoredEuBig(SpireBigMath.addCapToMax(stored, BigInteger.valueOf(consume), cap));
             this.energyoutputContainer.removeEnergy(consume);
-            if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
+            if (this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticlesReverse(this.euOutputContainerPos);
             }
         }
@@ -357,19 +470,21 @@ public class ZenithSpire extends MysticSpire {
             long displayAmp = this.euSpeed / denom;
             textList.add(omegaSpireStateLang[0].translate(GTValues.VNF[ti])
                     .withStyle(Style.EMPTY.withColor(GTValues.VC[ti])));
-            textList.add(omegaSpireStateLang[1].translate(this.zEU, this.euCapacity));
+            textList.add(omegaSpireStateLang[1].translate(
+                    FormattingUtil.formatNumbers(getStoredEuBig()),
+                    FormattingUtil.formatNumbers(getEuCapacityBig())));
             textList.add(omegaSpireStateLang[2].translate(this.euSpeed, displayAmp, GTValues.VNF[ti]));
         }
     }
 
     @CN({
             "当前允许传输的最高电压等级:%s",
-            "当前存储量:%d /%d EU",
+            "当前存储量:%s / %s EU",
             "当前最高输入速度:%d EU(%dA %s)"
     })
     @EN({
             "当前存储的电压等级:%.2f",
-            "当前存储量:%d /%d EU",
+            "当前存储量:%s / %s EU",
             "当前最高输入速度:%d EU(%dA/%d)"
     })
     public static Lang[] omegaSpireStateLang;

@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
@@ -15,11 +17,17 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
+import com.moguang.ctnhmana.common.recipe.InfusionCellCastingCondition;
 import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
+
+import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class ManaFuelInfuserMachine extends ManaMachine {
 
@@ -56,6 +64,17 @@ public class ManaFuelInfuserMachine extends ManaMachine {
         if (tickSubs != null) {
             tickSubs.unsubscribe();
             tickSubs = null;
+        }
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        if (!recipe.conditions.isEmpty() && recipe.conditions.get(0) instanceof InfusionCellCastingCondition cond &&
+                this.hatch != null && this.hatch.consumeManaIfEnough(cond.getManaCost()))
+            return super.beforeWorking(recipe);
+        else {
+            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
+            return false;
         }
     }
 
@@ -145,4 +164,18 @@ public class ManaFuelInfuserMachine extends ManaMachine {
         stack.shrink(moved);
         inputHandler.setStackInSlot(slot, stack.isEmpty() ? ItemStack.EMPTY : stack);
     }
+
+    @CN({
+            "灌灌你的",
+            "要求有且仅有一个魔力凝聚仓",
+            "自动为输入总线内的注魔单元填充魔力，10魔力能量转化1魔力",
+            "需要消耗魔力能量才能执行制造魔力单元配方"
+    })
+    @EN({
+            "§bKeep infusing",
+            "Requires §cexactly one§r Mana Condenser hatch",
+            "§eAuto-refills§r infusion cells in input buses: §e10 Mana Energy§r restores §e1§r durability",
+            "§cMana Energy§r is required to run infusion-cell crafting recipes"
+    })
+    public static Lang[] ManaFuelerLang;
 }

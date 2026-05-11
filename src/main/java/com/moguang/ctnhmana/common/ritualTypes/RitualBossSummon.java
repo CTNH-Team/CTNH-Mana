@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
@@ -225,7 +226,9 @@ public class RitualBossSummon extends Ritual {
     }
 
     @CN("§c战争在逼近......")
+    @EN("§cWar draws near...")
     public static Lang boss_fight_1;
     @CN("§c无尽的战争在逼近......")
+    @EN("§cEndless war draws near...")
     public static Lang boss_fight_2;
 }

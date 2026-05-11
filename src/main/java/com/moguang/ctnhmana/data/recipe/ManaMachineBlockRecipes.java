@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
+import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
 import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
 import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
@@ -366,7 +367,7 @@ public class ManaMachineBlockRecipes {
                 .inputItems(ELF_STEEL_CASING_GEARBOX.asStack())
                 .inputItems(ChemicalHelper.get(plateDouble, SHADOWIUM), 2)
                 .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1000))
-                .outputItems(ELEMENTAL_RADIATION_SUPPRESSION_BLOCK.asStack())
+                .outputItems(ELEMENTAL_RADIATION_SUPPRESSION_BLOCK.asStack(), 2)
                 .EUt(1920)
                 .duration(100)
                 .save(provider);
@@ -601,6 +602,47 @@ public class ManaMachineBlockRecipes {
                 .outputItems(ZENITH_WILL_MECHANICAL_BLOCK)
                 .EUt(1000)
                 .duration(100)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("arcane_can")// 奥能覆层
+                .inputItems(ChemicalHelper.get(screw, Photonium), 16)
+                .inputItems(ChemicalHelper.get(screw, Aerialite), 8)
+                .inputItems(ChemicalHelper.get(plate, Orichalcos), 2)
+                .inputItems(UNFADING_GARDEN_CASING)
+                .outputItems(ARCANE_REACTOR_BLOCK)
+                .duration(200)
+                .EUt(1000)
+                .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("arcane_laser")// 奥能激光
+                .inputItems(ARCANE_REACTOR_BLOCK)
+                .inputItems(GTBlocks.LASER_PIPES[0], 4)
+                .inputItems(GTItems.LAPOTRON_CRYSTAL)
+                .inputItems(ItemsRegistry.SOURCE_GEM.asItem(), 16)
+                .inputItems(ExtraBotanyItems.lensPush, 4)
+                .outputItems(ARCANE_LASER_CONDUIT_BLOCK)
+                .duration(200)
+                .EUt(8192)
+                .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("arcane_laser_tower")// 奥能激光塔
+                .inputItems(ARCANE_REACTOR_BLOCK)
+                .inputItems(GTBlocks.LASER_PIPES[0], 4)
+                .inputItems(GTItems.LAPOTRON_CRYSTAL)
+                .inputItems(ItemsRegistry.SOURCE_GEM.asItem(), 16)
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_IV)
+                .inputItems(ExtraBotanyItems.lensPotion, 4)
+                .outputItems(ARCANE_LASER_CONDUIT_BLOCK)
+                .duration(200)
+                .EUt(8192)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("aura_frozen_coil") // 立场冰封线圈
+                .inputFluids(MANA_STABLE_COOLDOWN.getFluid(1444))
+                .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asStack(1))
+                .inputItems(BotaniaItems.runeWinter, 1)
+                .inputItems(CustomTags.IV_CIRCUITS, 1)
+                .inputItems(ChemicalHelper.get(plate, ManaSteel), 4)
+                .circuitMeta(1)
+                .outputItems(AURA_FROZEN_COIL.asStack(2))
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(400)
                 .save(provider);
     }
 }

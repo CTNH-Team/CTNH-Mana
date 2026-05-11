@@ -466,7 +466,7 @@ public class ManaRecipes {
         GTRecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder("broken_rune")
                 .inputItems(BotaniaItems.runeMana, 32)
                 .inputFluids(CMMaterials.Mana.getFluid(10000))
-                .chancedOutput(CMItems.BROKEN_RUNE.asStack(), 2500, 1000)
+                .chancedOutput(CMItems.BROKEN_RUNE.asStack(), 2000, 1000)
                 .EUt(GTValues.VA[GTValues.EV])
                 .duration(100 * 20)
                 .save(provider);

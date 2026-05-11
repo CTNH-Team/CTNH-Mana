@@ -212,9 +212,12 @@ public class CMMachines {
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(LuV)
             .register();
+    @CN("植物魔法mana转化为魔力能量时，具有双倍转化率(10mana转化1魔力能量)")
+    @EN("When converting Botania mana to Mana Energy, conversion is doubled (10 Botania mana → 1 Mana Energy).")
+    public static Lang SkyhatchLang;
     public static final MachineDefinition SKY_MANA_HATCH = REGISTRATE
             .manamachine("sky_manahatch",
-                    holder -> new SparkManaHatch(holder, 640000, 100000, 100000000, 1280000, 40000))
+                    holder -> new SparkManaHatch(holder, 1280000, 100000, 100000000, 1280000, 40000))
             .cnLangValue("天域·魔力凝聚仓")
             .modelProperty(IS_FORMED, false)
             .rotationState(RotationState.ALL)
@@ -225,16 +228,17 @@ public class CMMachines {
                     sparkmanahatchtootip_base[2].translate(),
                     sparkmanahatchtootip_base[3].translate(),
                     sparkmanahatchtootip_base[4].translate(40000),
-                    sparkmanahatchtootip_base[5].translate(640000),
+                    sparkmanahatchtootip_base[5].translate(1280000),
                     sparkmanahatchtootip_base[6].translate(100000000),
-                    sparkmanahatchtootip_base[7].translate(1280000))
+                    sparkmanahatchtootip_base[7].translate(1280000),
+                    SkyhatchLang.translate())
             .tooltips(manahatchctrltooltip_1.translate())
             .tooltipBuilder((stack, tooltip) -> {
                 if (GTUtil.isCtrlDown()) {
                     tooltip.add(Component.empty());
                     tooltip.add(manaHatchDataLang[0].translate());
                     tooltip.add(manaHatchDataLang[1].translate("1"));
-                    tooltip.add(manaHatchDataLang[2].translate("20"));
+                    tooltip.add(manaHatchDataLang[2].translate("10"));
                     tooltip.add(manaHatchDataLang[3].translate("每tick至多1%"));
                     tooltip.add(manaHatchDataLang[7].translate("网路LP转化"));
                     tooltip.add(manaHatchDataLang[7].translate("液态LP转化"));
@@ -245,6 +249,7 @@ public class CMMachines {
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/manahatch"))
             .tier(UHV)
             .register();
+
     public static final MachineDefinition INDUSTRY_MANA_HATCH = REGISTRATE
             .manamachine("industry_manahatch",
                     holder -> new ManaHatch(holder, 320000, 10000, 200000, Integer.MAX_VALUE - 1))

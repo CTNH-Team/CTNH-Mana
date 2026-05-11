@@ -32,6 +32,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import org.jetbrains.annotations.NotNull;
@@ -386,5 +387,6 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     }
 
     @CN("END COLOR :XD")
+    @EN("END COLOR :XD")
     public static Lang failureManaLang_BeamCrash;
 }

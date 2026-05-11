@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMMachines;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -18,6 +19,7 @@ import java.awt.*;
 public class ShroudUi implements IFancyUIProvider {
 
     @CN("当前升级")
+    @EN("Current upgrades")
     public static Lang TitleLangShroud;
     public boolean a = false;
     private final int x_position = (int) ((275 - 92) / 2 * 1.5);

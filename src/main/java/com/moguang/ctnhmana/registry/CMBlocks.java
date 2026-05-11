@@ -465,6 +465,8 @@ public class CMBlocks {
             "material_twisted_coil", "物质扭曲线圈", "block/coil/material_twisted_coil");
     public static final BlockEntry<ActiveBlock> TERMINAL_TWISTED_COIL = createActiveCasing(
             "terminal_twisted_coil", "终末扭曲线圈", "block/coil/terminal_twisted_coil");
+    public static final BlockEntry<ActiveBlock> AURA_FROZEN_COIL = createActiveCasing(
+            "aura_frozen_coil", "立场冰封线圈", "block/flux/aura_frozen_coil");
 
     // 2.17 方块（材质路径 block/casings/）
     public static final BlockEntry<Block> ARCANE_LASER_CONDUIT_BLOCK = createCasingBlock(
