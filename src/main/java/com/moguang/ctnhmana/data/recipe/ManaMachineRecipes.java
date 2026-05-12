@@ -366,5 +366,17 @@ public class ManaMachineRecipes {
                 .EUt(VA[IV])
                 .duration((int) (1000 * SECONDS))
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_martix")
+                .inputItems(ZENITH_EYE.asItem(), 2)
+                .inputItems(ChemicalHelper.get(gemChipped, Psionic_Medulla), 4)
+                .inputItems(TWIST_RUNE)
+                .inputItems(HORIZEN_RUNE)
+                .inputItems(STARLIGHT_RUNE)
+                .inputItems(PROLIFERATION_RUNE)
+                .inputItems(CustomTags.UV_CIRCUITS, 4)
+                .inputFluids(Shroud_Zenith_essence, 1440)
+                .EUt(32768)
+                .duration(20 * 1000)
+                .save(provider);
     }
 }

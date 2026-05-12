@@ -248,7 +248,7 @@ public class ZenithMachine {
             .tooltips(zenithLaserLang.translate())
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
+            .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
             .recipeModifiers(BaseManaMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
