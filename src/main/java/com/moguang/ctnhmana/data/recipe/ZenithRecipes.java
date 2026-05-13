@@ -267,7 +267,7 @@ public class ZenithRecipes {
                 .duration(777)
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("zenith_dis")// 天顶蒸馏
-                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get(), 7)
+                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.asItem(), 7)
                 .inputItems(GTMultiMachines.DISTILLATION_TOWER.asStack(), 7)
                 .inputItems(CMItems.PIPELINE_FARSIGHT)
                 .inputItems(ChemicalHelper.get(TagPrefix.screw, CMMaterials.Aerialite), 7)
@@ -282,7 +282,7 @@ public class ZenithRecipes {
                 .duration(777)
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("zenith_ass")// 天顶电组
-                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get(), 7)
+                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get().asItem(), 7)
                 .inputItems(GCYMMachines.LARGE_CIRCUIT_ASSEMBLER.asStack(), 7)
                 .inputItems(CMItems.AZURE_SKY_FLOWER_DANCE)
                 .inputItems(ChemicalHelper.get(TagPrefix.screw, CMMaterials.DEMON), 7)
@@ -299,7 +299,7 @@ public class ZenithRecipes {
                 .duration(7777)
                 .save(provider);
         GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("zenith_laser")// 天顶激光
-                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get(), 7)
+                .inputItems(CMBlocks.ZENITH_CASING_BLOCK.get().asItem(), 7)
                 .inputItems(GCYMMachines.LARGE_ENGRAVING_LASER.asStack(), 7)
                 .inputItems(CMItems.AZURE_SKY_FLOWER_DANCE)
                 .inputItems(ChemicalHelper.get(TagPrefix.screw, CMMaterials.HEMOPLATINUM), 7)
@@ -316,7 +316,7 @@ public class ZenithRecipes {
                 .duration(7777)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("zenith_spire")
-                .inputItems(CMMultiblockMachines.MysticSpire.get(), 2)
+                .inputItems(CMMultiblockMachines.MysticSpire.asStack(), 2)
                 .inputItems(ChemicalHelper.get(TagPrefix.gemFlawless, CMMaterials.Psionic_Medulla, 4))
                 .inputItems(ChemicalHelper.get(TagPrefix.ingot, CMMaterials.Ultra_Mana, 4))
                 .inputItems(CMItems.HORIZEN_RUNE, 2)

@@ -7760,6 +7760,7 @@ public class CMMultiblockMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_LASER))
                             .or(Predicates.abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY))
                             .or(Predicates.abilities(CMPartsAbility.SIGNALHATCH))
                             .or(Predicates.abilities(CMPartsAbility.CentralControlBus)))

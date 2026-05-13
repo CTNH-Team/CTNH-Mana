@@ -87,7 +87,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
 
     @Getter
     @Persisted
-    public long maxEU = 281474976710656L;
+    public long maxEU = Integer.MAX_VALUE;
     @Getter
     @Persisted
     public long EU = 0L;
@@ -101,11 +101,11 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
     @Persisted
     public long heat = 0;
     @Persisted
-    public long stability = 100;
+    public long stability = 150;
     @Persisted
     public long used_stability = 0;
     @Persisted
-    public long maxStability = 100;
+    public long maxStability = 150;
     @Persisted
     public double stabilityPressure = 0;
     @Persisted
@@ -262,7 +262,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
         var winter_count = Math.min(getRuneCount(BotaniaItems.runeWinter), 5);
         heat = (long) Math.max(0, heat * Math.min(1, 0.7 + 0.025 * winter_count));
-        stability = Math.min(maxStability, stability + Math.round(maxStability * 0.05));
+        used_stability = Math.max(0, used_stability -10-2*winter_count);
         return true;
     }
 
@@ -278,7 +278,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             }
         }
         this.stability = maxStability;
-        changeSignal();
+        resetSignal();
         shouldChecked = true; // 需要检查是否需要立即进入下一轮
         stabilityPressure = 0;
         used_stability = 0;
@@ -476,10 +476,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
     }
 
-    /**
-     * 仅保留物品与数量 1、以及可损坏物品的损坏值，去除附魔、GT 组件/旧版 NBT 等，使与数据包中
-     * {@code Ingredient.of(无 tag 的 ItemStack)} 一致，避免 {@code SizedIngredient} 退化为 StrictNBT 后无法匹配。
-     */
+    //返回原始的无stack物品
     @NotNull
     private static ItemStack normalizeStackForTwistCollapseMatch(ItemStack stack) {
         if (stack.isEmpty()) {
@@ -833,16 +830,21 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         if (this.heat <= 0) channelSignal.put(0, 0);
         if (this.heat < this.maxHeat * 0.5 && this.heat > 0) channelSignal.put(0, 2);
         if (this.heat >= this.maxHeat * 0.5 && this.heat < this.maxHeat) channelSignal.put(0, 5);
-        if (this.heat >= maxHeat) channelSignal.put(0, 10);
+        if (this.heat >= maxHeat) channelSignal.put(0, 15);
         if (stability > 0.1 * maxStability)
             channelSignal.put(1, (int) (this.maxStability / Math.max(this.stability, 1)) - 1);
-        else channelSignal.put(1, 12);
+        else channelSignal.put(1, 15);
 
         if (!hatchList.isEmpty()) {
             for (RedstoneSignalBroadcastHatch hatch : hatchList) {
                 hatch.setRedstoneSignalOutput(getChannelSignal(hatch.channel));
             }
         }
+    }
+    public void resetSignal()
+    {
+        channelSignal.put(0,0);
+        channelSignal.put(1,0);
     }
 
     /// ///////////////////////////////
@@ -1270,7 +1272,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             "§l将一切咒术与秘法交融凝缩§r,在无尽的§9解析与推演§r之中,我们终铸造那§d超越世界§r(§5Zenith§r)的§b§l奥术新星§r",
             "§e§l此乃奇迹§r",
             "!§c本机器还在测试中§r,最终机制还不完善,随时可能更改,如遇bug,请联系魔力beeeeeeeeeeeee!",
-            "允许使用§9§l激光仓§r，§6§l变电仓§r，§c§l红石信号控制仓§r，§d§l中央控制总线§r",
+            "允许使用§9§l激光仓§r，§6§l变电仓§r，§c§l红石信号广播仓§r，§d§l中央存储控制总线§r",
             "本机器具有极为特殊的运行机制,请§c§l认真阅读以下机制§r,如有不理解，请致电魔力beeeeeeeeeeeee",
             "本机器UI内部具有放置§6§l注术单元§r和§b§l符文§r的槽位，每个注魔单元可以为本机器提供§c热量§r(名字待定),当机器UI内部放置任意注术单元时,机器开始执行循环",
             "机器具有两种执行模式,并进行循环,在§6§l产热模式§r下,机器将工作§e20s§r,并且每§e0.5s§r执行一次机器热流程,获取来自注术单元的热并且减少§a稳定度§r,在执行完毕后,切换为§b§l维度稳定模式§r",
@@ -1280,11 +1282,12 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             "在产热模式下，§c热量§r会逐渐积累，并且在配方执行完毕后一次性全部转化为电量，热量越高，产生的电量越高，同时当热量大于上限的§650%§r和§c100%§r时，热量对电量的转化比会大幅度上升（由于公式未定，请先咨询魔力beeeee对应公式）",
             "在产热模式下，§a稳定度§r是空间稳定的重要指标，当其低于§c0§r时将会造成重大灾难（但由于魔力beeeeee还没写爆炸，所以现在我们只会把存储热降为零，享受这不会爆炸的时光吧）,符文和注术单元会占用稳定度，与此同时热量占上限超过§650%§r,§c100%§r时，稳定度会随每§e0.5s§r降低，当热量超过§c100%§r时，稳定度会迅速降低",
             "在产热模式执行完毕时，§c热量§r被转化为电量，弹出损坏符文，§a稳定度§r将会回复到满值，随后进入§b维度稳定§r（冷却）模式",
-            "具有§e§l两个红石信号频道§r，使用§c§l红石信号控制仓§r来调频",
+            "在产热模式下,可以输入10000mb魔力稳定剂进行强冷，强冷会立即使稳定值+10,同时立即扣除一部分热量,每一轮至多强冷一次，冬之符文等符文可以强化强冷的效果",
+            "具有§e§l两个红石信号频道§r，使用§c§l红石信号广播仓§r来调频",
             "§9§l频道0§r（§c热量§r）：§e每10tick§r刷新（仅在§6产热§r且§7非冷却§r时）；§c热量§r§7≤§70§r→§70§r；§70§r§7<§r§c热量§r§7<§r上限§650%§r→§b2§r；§650%§r§7≤§r§c热量§r§7<§r上限§6100%§r→§65§r；§c热量§r§7≥§r上限→§c10§r",
             "§d§l频道1§r（§a稳定度§r）：同上刷新节奏；若§a稳定度§r§7>§r上限§610%§r，则输出§7max(§70§r,⌊§a上限§r/max(§a当前稳定度§r,1)⌋§7-1§r)；否则输出§c12§r",
-            "放置§c红石信号控制仓§r并§e选择频道§r后，仓室输出的§e红石强度§r即为对应频道当前值（§9频道0§r反映§c热量§r阈值档，§d频道1§r反映§a稳定度§r危急程度）",
-            "中央控制总线可以精确控制主UI的槽位，请查阅它的tooltip",
+            "放置§c红石信号广播仓§r并§e选择频道§r后，仓室输出的§e红石强度§r即为对应频道当前值（§9频道0§r反映§c热量§r阈值档，§d频道1§r反映§a稳定度§r危急程度）",
+            "中央存储控制总线可以精确控制主UI的槽位，请查阅它的tooltip",
             "这个机器仍然非常不完善，所以一定要去多咨询魔力beeeeee反馈bug"
     })
     @EN({
@@ -1300,6 +1303,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             "Runes: no §cHeat§r, buffs and §aStability§r cost; low stability may break runes into §5Twisted Runes§r.",
             "§cHeat§r banks then converts to EU; higher §cHeat§r → more EU; above §650%§r / §c100%§r cap, conversion spikes (formula TBD — ask Mana bee).",
             "§aStability§r anchors space; below §c0§r is disaster (currently only clears stored §cHeat§r). Above §650%§r / §c100%§r cap, §aStability§r drains every §e0.5s§r; over §c100%§r cap it drops faster.",
+            "在产热模式下,可以输入10000mb魔力稳定剂进行强冷，强冷会立即使稳定值+10,同时立即扣除一部分热量,每一轮至多强冷一次，冬之符文等符文可以强化强冷的效果",
             "Heating ends: EU credited, broken runes popped, §aStability§r full, then §bcooldown§r (stabilization).",
             "§e§lTwo redstone channels§r — tune with §c§lRedstone Broadcast Hatch§r.",
             "§9§lCh0§r (§cHeat§r): refreshes every §e10 ticks§r while §6heating§r & §7not cooling§r: §cHeat§r§7≤§70§r→§70§r; §70§r§7<§r§cHeat§r§7<§r §650%§r cap→§b2§r; §650%§r§7≤§r§cHeat§r§7<§r§6100%§r cap→§65§r; §cHeat§r§7≥§r cap→§c10§r.",

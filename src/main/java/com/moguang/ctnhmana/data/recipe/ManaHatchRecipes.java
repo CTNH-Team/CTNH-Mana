@@ -25,7 +25,7 @@ public class ManaHatchRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("base_mana_hatch")// 魔力凝聚者
-                .inputItems(CMBlocks.LIVING_ROCK_CASING)
+                .inputItems(CMBlocks.LIVING_ROCK_CASING.asStack())
                 .inputItems(CMBlocks.MANA_STEEL_CASING.asStack())
                 .inputItems(BotaniaBlocks.manaPool.asItem())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, CMMaterials.ManaSteel), 4)

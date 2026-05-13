@@ -33,7 +33,7 @@ import static net.minecraft.core.Direction.*;
 public class CentralControlBus extends ItemBusPartMachine {
 
     private ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            RedstoneSignalBroadcastHatch.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
+            CentralControlBus.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
     protected @Nullable ISubscription metasubs;
     protected TickableSubscription tickSubs;
 

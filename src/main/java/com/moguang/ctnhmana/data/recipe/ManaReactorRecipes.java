@@ -74,7 +74,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("zenith_essence")
                 .addCondition(new ZenithCondition(false))
-                .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.asItem(), 1)
+                .inputItems(BlockRegistry.SOURCE_GEM_BLOCK.get().asItem(), 1)
                 .inputItems(INFUSED_BREATH, 1)
                 .inputItems(ENDSLATE, 1)
                 .inputFluids(Mana.getFluid(10000))
@@ -177,9 +177,9 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("dreamwood_from_livingwood")
                 .addCondition(new ZenithCondition(false))
-                .inputItems(livingwoodLog)
+                .inputItems(livingwoodLog.asItem())
                 .notConsumable(ELF_CATALYST)
-                .outputItems(dreamwoodLog)
+                .outputItems(dreamwoodLog.asItem())
                 .duration(100)
                 .circuitMeta(12)
                 .EUt(480)
@@ -261,7 +261,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("life_essence")
                 .addCondition(new ZenithCondition(false))
-                .inputItems(runeFire.asItem())
+                .inputItems(runeFire)
                 .inputItems(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse("biomesoplenty:eyebulb")))
                 .inputFluids(Mana.getFluid(1000))
                 .outputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
@@ -359,7 +359,7 @@ public class ManaReactorRecipes {
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_resistor")// 高级注魔电阻
                 .addCondition(new ZenithCondition(false))
                 .inputItems(MANA_RESISTOR, 2)
-                .notConsumable(ELF_CATALYST.asItem())
+                .notConsumable(ELF_CATALYST.get())
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_RESISTOR)
                 .duration(200)
@@ -368,7 +368,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_diode")// 高级注魔二极管
                 .addCondition(new ZenithCondition(false))
-                .notConsumable(ELF_CATALYST.asItem())
+                .notConsumable(ELF_CATALYST.get())
                 .inputItems(MANA_DIODE, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_DIODE)
@@ -378,7 +378,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")// 高级注魔晶体管
                 .addCondition(new ZenithCondition(false))
-                .notConsumable(ELF_CATALYST.asItem())
+                .notConsumable(ELF_CATALYST.get())
                 .inputItems(MANA_TRANSISTOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_TRANSISTOR)
@@ -388,7 +388,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")// 高级注魔电容
                 .addCondition(new ZenithCondition(false))
-                .notConsumable(ELF_CATALYST.asItem())
+                .notConsumable(ELF_CATALYST.get())
                 .inputItems(MANA_CAPACITOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_CAPACITOR)
@@ -398,7 +398,7 @@ public class ManaReactorRecipes {
                 .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_inductor")// 高级注魔电感
                 .addCondition(new ZenithCondition(false))
-                .notConsumable(ELF_CATALYST.asItem())
+                .notConsumable(ELF_CATALYST.get())
                 .inputItems(MANA_INDUCTOR, 2)
                 .inputFluids(Mana.getFluid(10))
                 .outputItems(ADVANCED_MANA_INDUCTOR)

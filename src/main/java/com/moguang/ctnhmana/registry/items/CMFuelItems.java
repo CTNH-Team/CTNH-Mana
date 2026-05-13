@@ -94,7 +94,7 @@ public final class CMFuelItems {
 
         SPARK_STICK = REGISTRATE
                 .item("spark_stick",
-                        p -> new IManaFuelStick(p, 5, 1, 250, SPARK_STICK_DISINTEGRATED.get()))
+                        p -> new IManaFuelStick(p, 5, 1, 500, SPARK_STICK_DISINTEGRATED.get()))
                 .cnlang("火花级注术单元")
                 .model(manasparkModel())
 
@@ -103,7 +103,7 @@ public final class CMFuelItems {
                 .register();
         ADVANCED_SPARK_STICK = REGISTRATE
                 .item("advanced_spark_stick",
-                        p -> new IManaFuelStick(p, 8, 2, 500, ADVANCED_SPARK_STICK_DISINTEGRATED.get()))
+                        p -> new IManaFuelStick(p, 8, 2, 1000, ADVANCED_SPARK_STICK_DISINTEGRATED.get()))
                 .cnlang("进阶注术单元")
                 .model(manasparkModel())
 
@@ -112,7 +112,7 @@ public final class CMFuelItems {
                 .register();
         TERRA_STICK = REGISTRATE
                 .item("terra_stick",
-                        p -> new IManaFuelStick(p, 8, 1, 1000, TERRA_STICK_DISINTEGRATED.get()))
+                        p -> new IManaFuelStick(p, 8, 1, 2000, TERRA_STICK_DISINTEGRATED.get()))
                 .cnlang("大地注术单元")
                 .model(manasparkModel())
 
@@ -137,7 +137,7 @@ public final class CMFuelItems {
                 .register();
         URANIUM_NUCLEON_FLUCTUATION_INFUSION_CELL = REGISTRATE
                 .item("uranium_nucleon_fluctuation_infusion_cell",
-                        p -> new IManaFuelStick(p, 12, 8, 720,
+                        p -> new IManaFuelStick(p, 12, 8, 1440,
                                 URANIUM_NUCLEON_FLUCTUATION_INFUSION_CELL_CLEAVED.get()))
                 .cnlang("铀-核子涨落注术单元")
                 .model(manasparkModel())
