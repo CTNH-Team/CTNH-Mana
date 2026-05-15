@@ -18,7 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -38,8 +38,6 @@ import static com.gregtechceu.gtceu.data.recipe.CustomTags.CIRCUITS;
 
 public class WishingWill extends WorkableMultiblockMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WishingWill.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
     @Persisted
@@ -50,11 +48,6 @@ public class WishingWill extends WorkableMultiblockMachine {
         super(holder, args);
         this.machineStorage = new NotifiableItemStackHandler(this, 1, IO.IN, IO.IN);
         dummyOutputStorage = new NotifiableItemStackHandler(this, 114514, IO.OUT, IO.OUT);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public void GetPoolItems() {

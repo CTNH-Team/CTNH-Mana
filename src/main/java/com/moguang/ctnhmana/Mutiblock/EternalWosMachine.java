@@ -23,7 +23,7 @@ import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.world.item.ItemStack;
 
@@ -43,14 +43,6 @@ import static wayoftime.bloodmagic.demonaura.WorldDemonWillHandler.getDimensionR
 import static wayoftime.bloodmagic.demonaura.WorldDemonWillHandler.getWillChunk;
 
 public class EternalWosMachine extends WorkableElectricMultiblockMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            EternalWosMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public double multiplier = 1;
 

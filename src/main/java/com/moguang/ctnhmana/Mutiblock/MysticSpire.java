@@ -18,7 +18,7 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -70,13 +70,6 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
 
                 });
         this.machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof SpireUpgradeRuneItem);
-    }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MysticSpire.class,
-            WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Persisted

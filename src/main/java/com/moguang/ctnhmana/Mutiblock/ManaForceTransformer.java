@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
@@ -20,14 +20,6 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class ManaForceTransformer extends ManaMachine implements IExplosionMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaForceTransformer.class, ManaMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     public int baseconsumption = 1;

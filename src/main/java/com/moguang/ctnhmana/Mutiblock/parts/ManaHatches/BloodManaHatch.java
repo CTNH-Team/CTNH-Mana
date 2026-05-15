@@ -14,7 +14,7 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.TickTask;
@@ -79,14 +79,6 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
 
     WillChunk willChunk = null;
     // Holder初始化 持久化
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BloodManaHatch.class,
-            ManaHatch.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     // 宝珠链接
     @Persisted
     private int LP_TO_POWER_RATE = 10; // 默认值为10转1

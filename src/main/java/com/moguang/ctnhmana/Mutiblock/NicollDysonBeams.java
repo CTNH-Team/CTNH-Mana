@@ -23,7 +23,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -77,9 +77,6 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     public final NotifiableItemStackHandler machineStorage;
     @Nullable
     protected TickableSubscription TickSubs;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NicollDysonBeams.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
     public NicollDysonBeams(IMachineBlockEntity holder) {
         super(holder);
         this.machineStorage = createMachineStorage((byte) 64);
@@ -379,11 +376,6 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
         max_mana = tag.contains(MAX_MANA) ? tag.getDouble(MAX_MANA) : 0;
         mana = tag.contains(MANA) ? tag.getDouble(MANA) : 0;
         overload = tag.contains(OVERLOAD) ? tag.getInt(OVERLOAD) : 0;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @CN("END COLOR :XD")

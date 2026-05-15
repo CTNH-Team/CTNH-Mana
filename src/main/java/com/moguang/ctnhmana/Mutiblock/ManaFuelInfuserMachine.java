@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -30,14 +30,6 @@ import java.util.List;
 import static com.moguang.ctnhmana.Mutiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class ManaFuelInfuserMachine extends ManaMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaFuelInfuserMachine.class, ManaMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Nullable
     protected TickableSubscription tickSubs;

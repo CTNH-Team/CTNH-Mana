@@ -18,7 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -58,14 +58,6 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
 
     public EternalGarden(IMachineBlockEntity holder) {
         super(holder);
-    }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            EternalGarden.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Persisted

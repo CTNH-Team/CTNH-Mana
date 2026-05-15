@@ -7,7 +7,6 @@ import com.lowdragmc.lowdraglib.syncdata.IManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,8 +24,6 @@ import java.math.BigInteger;
 public class MysticSpireBlockEntity extends IManaMachineBlockEntity
                                     implements IMachineBlockEntity, IManaged, ManaReceiver {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MysticSpireBlockEntity.class, IManaMachineBlockEntity.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -43,11 +40,6 @@ public class MysticSpireBlockEntity extends IManaMachineBlockEntity
     public MysticSpireBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
         this.renderState = this.getDefinition().defaultRenderState();
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public BigInteger getTrueManaBig() {

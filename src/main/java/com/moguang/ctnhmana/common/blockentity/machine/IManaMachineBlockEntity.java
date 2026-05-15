@@ -10,7 +10,6 @@ import com.lowdragmc.lowdraglib.syncdata.IManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -23,8 +22,6 @@ import vazkii.botania.api.mana.ManaReceiver;
 public class IManaMachineBlockEntity extends MetaMachineBlockEntity
                                      implements IMachineBlockEntity, IManaged, ManaReceiver {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            IManaMachineBlockEntity.class, MetaMachineBlockEntity.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -67,11 +64,6 @@ public class IManaMachineBlockEntity extends MetaMachineBlockEntity
     @Override
     public void onChanged() {
         super.onChanged(); // 调用父类逻辑
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     // 魔力接受单位

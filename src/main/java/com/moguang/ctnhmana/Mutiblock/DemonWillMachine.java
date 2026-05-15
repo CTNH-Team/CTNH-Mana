@@ -22,7 +22,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -85,9 +85,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public EnumDemonWillType type = EnumDemonWillType.DEFAULT;
     public int MAX_WILL = 400;
     public List<String> enableTypes = List.of("vengeful_core", "corrosive_core", "steadfast_core", "destructive_core");
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            DemonWillMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
     public DemonWillMachine(IMachineBlockEntity holder) {
         super(holder);
         machineStorage = createMachineStorage((byte) 1);
@@ -358,11 +355,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         if (isBoosted) {
             textList.add(INFO_BOOSTED.translate());
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

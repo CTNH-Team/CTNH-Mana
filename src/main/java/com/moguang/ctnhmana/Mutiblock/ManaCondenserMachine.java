@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.BlockPos;
 
@@ -15,14 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 public class ManaCondenserMachine extends WorkableElectricMultiblockMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaCondenserMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public BlockPos poolPos = MachineUtils.getOffset(this, 0, 4, 0);
     public int parallel = 1;

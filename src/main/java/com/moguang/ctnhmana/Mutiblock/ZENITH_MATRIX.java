@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -40,14 +40,6 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
     @Getter
     @Nullable
     private Collection<ManaMachine> ManaReceivers;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ZENITH_MATRIX.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     public ZENITH_MATRIX(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }

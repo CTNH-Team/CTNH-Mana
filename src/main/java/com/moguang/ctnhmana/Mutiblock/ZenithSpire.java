@@ -20,7 +20,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -49,13 +49,6 @@ public class ZenithSpire extends MysticSpire {
     public ZenithSpire(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.sparkpos = MachineUtils.getOffset(this, 0, 53, 9);
-    }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ZenithSpire.class,
-            MysticSpire.MANAGED_FIELD_HOLDER);
-
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     // Zenith spire controller's own energy container.

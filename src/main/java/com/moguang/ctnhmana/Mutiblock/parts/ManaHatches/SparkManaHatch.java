@@ -15,7 +15,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -42,19 +42,12 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
     protected TickableSubscription ConvertSubs;
     // Holder初始化 持久化
     private ISubscription ManaSubs = null;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SparkManaHatch.class,
-            ManaHatch.MANAGED_FIELD_HOLDER);
     private static final double SEARCH_RANGE = 8.0D;
     public AABB searchArea;
     public List<ManaSparkEntity> sparks = new ArrayList<>();
     public int sparkConvertSpeed = 15000;
     @Persisted
     public DyeColor network = DyeColor.WHITE;
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public SparkManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
                           int BTMANA_CONVERT_RATE, int LP_CONVERT_RATE, int FLUID_MANA_CONVERT_RATE) {

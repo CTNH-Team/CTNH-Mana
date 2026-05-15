@@ -16,7 +16,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,15 +32,8 @@ import static net.minecraft.core.Direction.*;
 
 public class CentralControlBus extends ItemBusPartMachine {
 
-    private ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            CentralControlBus.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
     protected @Nullable ISubscription metasubs;
     protected TickableSubscription tickSubs;
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public CentralControlBus(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
