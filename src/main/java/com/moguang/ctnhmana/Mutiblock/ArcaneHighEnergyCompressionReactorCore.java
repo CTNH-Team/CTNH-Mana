@@ -34,7 +34,6 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -253,7 +252,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
         var winter_count = Math.min(getRuneCount(BotaniaItems.runeWinter), 5);
         heat = (long) Math.max(0, heat * Math.min(1, 0.7 + 0.025 * winter_count));
-        used_stability = Math.max(0, used_stability -10-2*winter_count);
+        used_stability = Math.max(0, used_stability - 10 - 2 * winter_count);
         return true;
     }
 
@@ -467,7 +466,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
         }
     }
 
-    //返回原始的无stack物品
+    // 返回原始的无stack物品
     @NotNull
     private static ItemStack normalizeStackForTwistCollapseMatch(ItemStack stack) {
         if (stack.isEmpty()) {
@@ -832,10 +831,10 @@ public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMa
             }
         }
     }
-    public void resetSignal()
-    {
-        channelSignal.put(0,0);
-        channelSignal.put(1,0);
+
+    public void resetSignal() {
+        channelSignal.put(0, 0);
+        channelSignal.put(1, 0);
     }
 
     /// ///////////////////////////////

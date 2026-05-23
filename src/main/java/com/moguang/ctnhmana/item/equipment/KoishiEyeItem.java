@@ -3,9 +3,7 @@ package com.moguang.ctnhmana.item.equipment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +11,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -21,10 +20,8 @@ import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.client.core.handler.ClientTickHandler;
-import vazkii.botania.client.core.handler.MiscellaneousModels;
 import vazkii.botania.client.render.AccessoryRenderRegistry;
 import vazkii.botania.client.render.AccessoryRenderer;
 import vazkii.botania.common.item.equipment.bauble.BaubleItem;
@@ -74,37 +71,33 @@ public class KoishiEyeItem extends BaubleItem {
 
     public static class Renderer implements AccessoryRenderer {
 
-        public static final int NUM_LAYERS = 1;
-
         @Override
         public void doRender(HumanoidModel<?> bipedModel, ItemStack stack, LivingEntity living, PoseStack ms,
                              MultiBufferSource buffers, int light, float limbSwing, float limbSwingAmount,
                              float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             boolean armor = !living.getItemBySlot(EquipmentSlot.CHEST).isEmpty();
 
-            for (int i = 0; i < NUM_LAYERS; i++) {
-                ms.pushPose();
-                bipedModel.body.translateAndRotate(ms);
+            ms.pushPose();
+            bipedModel.body.translateAndRotate(ms);
 
-                switch (i) {
-                    case 0:
-                        double time = ClientTickHandler.total() * 0.12;
-                        double dist = 0.05;
-                        ms.translate(Math.sin(time) * dist, Math.cos(time * 0.5) * dist, 0);
+            double time = ClientTickHandler.total() * 0.12;
+            double dist = 0.05;
+            ms.translate(Math.sin(time) * dist, Math.cos(time * 0.5) * dist, 0);
+            ms.scale(0.75F, 0.75F, 1F);
+            ms.translate(0, 0.1, -0.025);
 
-                        ms.scale(0.75F, 0.75F, 1F);
-                        ms.translate(0, 0.1, -0.025);
-                        break;
-                }
-
-                ms.translate(-0.3, 0.6, armor ? 0.10 : 0.15);
-                ms.scale(0.6F, -0.6F, -0.6F);
-                BakedModel model = MiscellaneousModels.INSTANCE.thirdEyeLayers[i];
-                VertexConsumer buffer = buffers.getBuffer(Sheets.cutoutBlockSheet());
-                Minecraft.getInstance().getBlockRenderer().getModelRenderer()
-                        .renderModel(ms.last(), buffer, null, model, 1, 1, 1, light, OverlayTexture.NO_OVERLAY);
-                ms.popPose();
-            }
+            ms.translate(-0.3, 0.6, armor ? 0.10 : 0.15);
+            ms.scale(0.6F, -0.6F, -0.6F);
+            Minecraft.getInstance().getItemRenderer().renderStatic(
+                    stack,
+                    ItemDisplayContext.NONE,
+                    light,
+                    OverlayTexture.NO_OVERLAY,
+                    ms,
+                    buffers,
+                    living.level(),
+                    living.getId());
+            ms.popPose();
         }
     }
 

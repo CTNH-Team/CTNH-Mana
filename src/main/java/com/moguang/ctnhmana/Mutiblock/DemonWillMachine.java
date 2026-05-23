@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -19,42 +20,88 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.ctnhlang.Key;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
+import com.moguang.ctnhmana.registry.CMItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.client.render.ColorData;
+import tech.vixhentx.mcmod.ctnhlib.client.render.highlight.HighlightHandler;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
+import wayoftime.bloodmagic.common.item.BloodOrb;
+import wayoftime.bloodmagic.common.item.ItemBloodOrb;
+import wayoftime.bloodmagic.core.data.SoulNetwork;
+import wayoftime.bloodmagic.core.data.SoulTicket;
 import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
+import wayoftime.bloodmagic.util.helper.NetworkHelper;
 
 import java.util.List;
 import java.util.Objects;
 
 public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
+    private static final double UI_WIDTH_SCALE = 1.5;
+    private static final double UI_HEIGHT_SCALE = 1.5;
+
+    private static final EnumDemonWillType[] TYPED_DEMON_WILLS = {
+            EnumDemonWillType.VENGEFUL,
+            EnumDemonWillType.CORROSIVE,
+            EnumDemonWillType.STEADFAST,
+            EnumDemonWillType.DESTRUCTIVE
+    };
+
+    public static final int BASE_GENERATION_EU = 256;
+    public static final double ORB_LP_CAP_FRACTION = 0.01;
+    public static final double ORB_LP_BASE_FRACTION = 0.001;
+    public static final double ORB_LP_PER_RUNE_FRACTION = 0.001;
+    /** Each speed rune level adds this much to recipe duration (×(1 + level × this)). */
+    public static final double SPEED_DURATION_PER_RUNE = 0.1;
+    /** Typed will gained per displacement rune level (tooltip: level×2 uses level = rune level × this). */
+    public static final double DISPLACEMENT_PER_RUNE_MULTIPLIER = 2.0;
+
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
     public boolean isBoosted = false;
     public double diversity = 1;
     public double difference = 0;
+    public static final int BASE_MAX_WILL_TRANSFER = 400;
+
     public int Sacrifice_rune = 0;
     public int Speed_rune = 0;
     public int Capacity_rune = 0;
     public int Augmented_rune = 0;
+    public int Orb_rune = 0;
+    public int Charging_rune = 0;
+    public int Displacement_rune = 0;
+    private long displacementAppliedTick = -1;
+    @Persisted
+    @DescSynced
     public BlockPos pos1 = BlockPos.ZERO;
+    @Persisted
+    @DescSynced
     public BlockPos pos2 = BlockPos.ZERO;
+    @Persisted
+    public int orb_capacity = 0;
+    @Persisted
+    @DescSynced
+    public double energy_cache = 0;
     private static final int[][] RUNE_OFFSETS = new int[][] {
             { 0, 34, -5 }, { 1, 34, -5 }, { 2, 34, -5 }, { -1, 34, -5 }, { -2, 34, -5 },
             { 3, 34, -4 }, { -3, 34, -4 }, { 5, 34, -2 }, { -5, 34, -2 }, { 6, 34, -1 },
@@ -83,23 +130,80 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     }
 
     public EnumDemonWillType type = EnumDemonWillType.DEFAULT;
-    public int MAX_WILL = 400;
-    public List<String> enableTypes = List.of("vengeful_core", "corrosive_core", "steadfast_core", "destructive_core");
+    @Nullable
+    public SoulNetwork soulNetwork;
+    public boolean soulNetworkLinked = false;
+    public int lastLpPerTick = 0;
+
     public DemonWillMachine(IMachineBlockEntity holder) {
         super(holder);
         machineStorage = createMachineStorage((byte) 1);
     }
 
+    private static int scw(int v) {
+        return (int) Math.round(v * UI_WIDTH_SCALE);
+    }
+
+    private static int sch(int v) {
+        return (int) Math.round(v * UI_HEIGHT_SCALE);
+    }
+
     @Override
     public @NotNull Widget createUIWidget() {
-        var widget = super.createUIWidget();
-        if (widget instanceof WidgetGroup group) {
-            var size = group.getSize();
-            group.addWidget(
-                    new SlotWidget(machineStorage.storage, 0, size.width - 30, size.height - 30, true, true)
-                            .setBackground(GuiTextures.SLOT));
+        int groupW = scw(182 + 8);
+        int groupH = sch(117 + 8);
+        var group = new WidgetGroup(0, 0, groupW, groupH);
+
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, scw(182), sch(117))
+                .setBackground(getScreenTexture())
+                .addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()))
+                .addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText)
+                        .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
+                        .setMaxWidthLimit(scw(200))
+                        .clickHandler(this::handleDisplayClick)));
+
+        int rowY = groupH - sch(30);
+        group.addWidget(
+                new SlotWidget(machineStorage.storage, 0, groupW - scw(30), rowY, true, true)
+                        .setBackground(CMGuiTextures.SLOT_ORB));
+
+        int buttonW = 20;
+        int buttonH = 20;
+        int anchorX = (groupW - buttonW) / 2;
+        var anchorHighlightButton = new SwitchWidget(anchorX, rowY, buttonW, buttonH, (clickData, pressed) -> {
+            highlightAnchorBlocks();
+        })
+                .setTexture(new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), CMGuiTextures.SPIRE_ANIMATION_OFF),
+                        new GuiTextureGroup(ColorPattern.T_CYAN.rectTexture(), CMGuiTextures.SPIRE_ANIMATION_ON))
+                .setSupplier(() -> false)
+                .setHoverTooltips(INFO_ANCHOR_HIGHLIGHT.translate());
+        group.addWidget(anchorHighlightButton);
+
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        return group;
+    }
+
+    /** Highlights hellforged anchor blocks at {@link #pos1} and {@link #pos2} (client only). */
+    public void highlightAnchorBlocks() {
+        var level = getLevel();
+        if (level == null || !level.isClientSide() || !isFormed()) {
+            return;
         }
-        return widget;
+        var dim = level.dimension();
+        long until = System.currentTimeMillis() + 20_000L;
+        if (!pos1.equals(BlockPos.ZERO)) {
+            HighlightHandler.highlight(pos1, dim, until, ColorData.RED);
+        }
+        if (!pos2.equals(BlockPos.ZERO)) {
+            HighlightHandler.highlight(pos2, dim, until, ColorData.RED);
+        }
+    }
+
+    @Override
+    public ModularUI createUI(Player entityPlayer) {
+        int w = scw(198);
+        int h = sch(208);
+        return new ModularUI(w, h, this, entityPlayer).widget(new FancyMachineUIWidget(this, w, h));
     }
 
     protected NotifiableItemStackHandler createMachineStorage(byte value) {
@@ -113,14 +217,68 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
                     @Override
                     public void onContentsChanged(int slot) {
-                        resetMode();
+                        updateMachineStorage();
                         super.onContentsChanged(slot);
                     }
-                }).setFilter(itemStack -> enableTypes.contains(itemStack.getItem().toString()));
+                }).setFilter(DemonWillMachine::isAllowedMachineStorageItem);
+    }
+
+    public static boolean isWillCore(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        var item = stack.getItem();
+        return item == CMItems.VENGEFUL_CORE.get() || item == CMItems.CORROSIVE_CORE.get() ||
+                item == CMItems.STEADFAST_CORE.get() || item == CMItems.DESTRUCTIVE_CORE.get();
+    }
+
+    public static boolean isAllowedMachineStorageItem(ItemStack stack) {
+        return stack.isEmpty() || stack.getItem() instanceof ItemBloodOrb || isWillCore(stack);
     }
 
     public ItemStack getMachineStorageItem() {
         return machineStorage.getStackInSlot(0);
+    }
+
+    /** Updates specialty mode and soul network link from the controller storage slot. */
+    public void updateMachineStorage() {
+        soulNetworkLinked = false;
+        soulNetwork = null;
+        type = EnumDemonWillType.DEFAULT;
+
+        var stack = getMachineStorageItem();
+        if (stack.isEmpty()) {
+            return;
+        }
+        if (stack.getItem() instanceof ItemBloodOrb bloodOrb) {
+            var binding = bloodOrb.getBinding(stack);
+            BloodOrb orb = bloodOrb.getOrb(stack);
+            if (binding != null) {
+                soulNetwork = NetworkHelper.getSoulNetwork(binding);
+                orb_capacity = orb.getCapacity();
+                soulNetworkLinked = soulNetwork != null;
+            }
+            return;
+        }
+        if (isWillCore(stack)) {
+            type = resolveCoreType(stack);
+        }
+    }
+
+    private static EnumDemonWillType resolveCoreType(ItemStack stack) {
+        if (stack.is(CMItems.VENGEFUL_CORE.get())) {
+            return EnumDemonWillType.VENGEFUL;
+        }
+        if (stack.is(CMItems.CORROSIVE_CORE.get())) {
+            return EnumDemonWillType.CORROSIVE;
+        }
+        if (stack.is(CMItems.STEADFAST_CORE.get())) {
+            return EnumDemonWillType.STEADFAST;
+        }
+        if (stack.is(CMItems.DESTRUCTIVE_CORE.get())) {
+            return EnumDemonWillType.DESTRUCTIVE;
+        }
+        return EnumDemonWillType.DEFAULT;
     }
 
     public double getTotalWillDifference() {
@@ -144,14 +302,15 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public double getWillDifference(BlockPos pos1, BlockPos pos2, EnumDemonWillType type1) {
         var will1 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos1, type1);
         var will2 = WorldDemonWillHandler.getCurrentWill(Objects.requireNonNull(getLevel()), pos2, type1);
-        if (will1 == will2) {
+        if (will1 == will2 || Math.max(will1, will2) < 5) {
             return 0;
         }
         return Math.abs(will1 - will2);
     }
 
     public double getRecipeDifference(double baseDifference) {
-        var runeAdjustedDifference = (baseDifference + Capacity_rune * 1) * (1 + 0.1 * Augmented_rune);
+        if (baseDifference <= 5) return 0;
+        var runeAdjustedDifference = (baseDifference + Capacity_rune) * (1 + 0.1 * Augmented_rune);
         if (type == EnumDemonWillType.DEFAULT) {
             return runeAdjustedDifference;
         }
@@ -177,7 +336,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             if (Math.abs(high_will) < 10) {
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
             } else {
-                willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
+                willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, getMaxWillTransfer());
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
             }
         } else {
@@ -189,7 +348,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference));
             } else {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
-                willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, MAX_WILL);
+                willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, getMaxWillTransfer());
             }
         }
     }
@@ -220,17 +379,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         diversity = diversity1 * diversity2;
     }
 
-    public void resetMode() {
-        if (getMachineStorageItem() == null) {
-            type = EnumDemonWillType.DEFAULT;
-        } else {
-            switch (getMachineStorageItem().getItem().toString()) {
-                case "vengeful_core" -> type = EnumDemonWillType.VENGEFUL;
-                case "corrosive_core" -> type = EnumDemonWillType.CORROSIVE;
-                case "steadfast_core" -> type = EnumDemonWillType.STEADFAST;
-                case "destructive_core" -> type = EnumDemonWillType.DESTRUCTIVE;
-            }
-        }
+    public int getMaxWillTransfer() {
+        return BASE_MAX_WILL_TRANSFER;
     }
 
     public void calculateRune() {
@@ -238,6 +388,9 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         Augmented_rune = 0;
         Capacity_rune = 0;
         Sacrifice_rune = 0;
+        Orb_rune = 0;
+        Charging_rune = 0;
+        Displacement_rune = 0;
         for (var rune : getRunes()) {
             var runeBlock = Objects.requireNonNull(getLevel()).getBlockState(rune).getBlock();
             if (runeBlock.equals(BloodMagicBlocks.SPEED_RUNE.get())) {
@@ -252,6 +405,18 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
                 Capacity_rune++;
             } else if (runeBlock.equals(BloodMagicBlocks.CAPACITY_RUNE_2.get())) {
                 Capacity_rune += 2;
+            } else if (runeBlock.equals(BloodMagicBlocks.ORB_RUNE.get())) {
+                Orb_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.ORB_RUNE_2.get())) {
+                Orb_rune += 2;
+            } else if (runeBlock.equals(BloodMagicBlocks.CHARGING_RUNE.get())) {
+                Charging_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.CHARGING_RUNE_2.get())) {
+                Charging_rune += 2;
+            } else if (runeBlock.equals(BloodMagicBlocks.DISPLACEMENT_RUNE.get())) {
+                Displacement_rune++;
+            } else if (runeBlock.equals(BloodMagicBlocks.DISPLACEMENT_RUNE_2.get())) {
+                Displacement_rune += 2;
             } else if (runeBlock.equals(BloodMagicBlocks.SACRIFICE_RUNE.get()) ||
                     runeBlock.equals(BloodMagicBlocks.SELF_SACRIFICE_RUNE.get())) {
                         Sacrifice_rune++;
@@ -273,6 +438,73 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         return 2 + 0.2 * Sacrifice_rune;
     }
 
+    /** Converts raw (DEFAULT) will into each typed will on both sampling chunks; once per tick. */
+    public void applyDisplacementRunes() {
+        if (Displacement_rune <= 0) {
+            return;
+        }
+        var level = getLevel();
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        var tick = getOffsetTimer();
+        if (tick == displacementAppliedTick) {
+            return;
+        }
+        displacementAppliedTick = tick;
+        var perType = Displacement_rune * DISPLACEMENT_PER_RUNE_MULTIPLIER;
+        convertDefaultWillAtChunk(level, pos1, perType);
+        convertDefaultWillAtChunk(level, pos2, perType);
+    }
+
+    private static void convertDefaultWillAtChunk(
+                                                  net.minecraft.world.level.Level level, BlockPos pos, double perType) {
+        var will = WorldDemonWillHandler.getWillChunk(level, pos).getCurrentWill();
+        var available = will.getWill(EnumDemonWillType.DEFAULT);
+        var units = Math.min(perType, Math.floor(available / TYPED_DEMON_WILLS.length));
+        if (units <= 0) {
+            return;
+        }
+        var drain = units * TYPED_DEMON_WILLS.length;
+        will.drainWill(EnumDemonWillType.DEFAULT, drain);
+        for (var willType : TYPED_DEMON_WILLS) {
+            will.addWill(willType, units, DemonWillMachine.BASE_MAX_WILL_TRANSFER);
+        }
+    }
+
+    /**
+     * Net EU/t output. When soul network is linked, a fraction of gross generation is converted to LP
+     * (capped at {@link #ORB_LP_CAP_FRACTION}) and deducted from output.
+     *
+     * @param depositLp if true and on server, adds LP to the linked soul network this cycle
+     */
+    public double computeGenerationEutMultiplier(boolean depositLp) {
+        var effectiveDifference = getRecipeDifference(difference);
+        var multiplier = diversity * difference_caculate(effectiveDifference);
+        if (isBoosted) {
+            multiplier *= getBoostRate();
+        }
+        var gross = multiplier * BASE_GENERATION_EU;
+
+        if (!soulNetworkLinked) {
+            return gross;
+        }
+
+        var lpFraction = Math.min(ORB_LP_CAP_FRACTION, ORB_LP_BASE_FRACTION + ORB_LP_PER_RUNE_FRACTION * Orb_rune);
+        if (depositLp && soulNetwork != null) {
+            var level = getLevel();
+            if (level != null && !level.isClientSide() && lpFraction > 0) {
+                var lp = (int) (gross * lpFraction);
+                if (lp > 0) {
+                    soulNetwork.add(new SoulTicket(lp), this.orb_capacity);
+                    lastLpPerTick = lp;
+                }
+            }
+        }
+
+        return gross * (1 - lpFraction);
+    }
+
     public GTRecipe getBloodRecipe() {
         return GTRecipeBuilder.ofRaw()
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),
@@ -282,16 +514,13 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof DemonWillMachine dmachine) {
-            var difference = dmachine.getRecipeDifference(dmachine.difference);
-            var diversity = dmachine.diversity;
-            var modifierFunction = ModifierFunction.builder().durationMultiplier(1 + dmachine.Speed_rune * 0.2);
-            if (dmachine.isBoosted) {
-                modifierFunction
-                        .eutMultiplier(diversity * dmachine.difference_caculate(difference) * dmachine.getBoostRate());
-            } else {
-                modifierFunction.eutMultiplier(diversity * dmachine.difference_caculate(difference));
-            }
-            return modifierFunction.build();
+            dmachine.applyDisplacementRunes();
+            var eu = dmachine.computeGenerationEutMultiplier(false);
+            dmachine.energy_cache = eu;
+            return ModifierFunction.builder()
+                    .durationMultiplier(1 + dmachine.Speed_rune * SPEED_DURATION_PER_RUNE)
+                    .eutMultiplier(eu)
+                    .build();
         }
         return ModifierFunction.IDENTITY;
     }
@@ -300,10 +529,11 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     public boolean onWorking() {
         boolean value = super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            if (!type.equals(EnumDemonWillType.DEFAULT)) {
-                double random = Math.random();
-                if (random < 0.05)
-                    getMachineStorageItem().shrink(1);
+            if (!soulNetworkLinked && !type.equals(EnumDemonWillType.DEFAULT)) {
+                var stack = getMachineStorageItem();
+                if (isWillCore(stack) && Math.random() < 0.05) {
+                    stack.shrink(1);
+                }
             }
         }
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
@@ -325,14 +555,21 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         } else {
             diversity = 0.8;
         }
+        computeGenerationEutMultiplier(true);
         return super.beforeWorking(recipe);
     }
 
     @Override
+    public void onLoad() {
+        super.onLoad();
+        updateMachineStorage();
+    }
+
+    @Override
     public void onStructureFormed() {
-        pos1 = MachineUtils.getOffset(this, 10, 0, -10);
-        pos2 = MachineUtils.getOffset(this, -10, 0, 10);
-        resetMode();
+        pos1 = MachineUtils.getOffset(this, 10, 41, -9);
+        pos2 = MachineUtils.getOffset(this, -10, 41, 11);
+        updateMachineStorage();
         calculateRune();
         super.onStructureFormed();
     }
@@ -340,10 +577,12 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        var outputEnergy = (isBoosted ? getBoostRate() : 1) * diversity * getRecipeDifference(difference) * 256;
+        var outputEnergy = energy_cache;
         var voltageName = GTValues.VNF[GTUtil.getTierByVoltage((long) outputEnergy)];
-        textList.add(Component.translatable("ctnh.multiblock.photovoltaic_power_station.info.2",
-                FormattingUtil.formatNumbers(outputEnergy), voltageName));
+        textList.add(INFO_POWER.translate(FormattingUtil.formatNumbers((long) outputEnergy), voltageName));
+        textList.add(INFO_RUNE_LEVELS.translate(
+                Speed_rune, Capacity_rune, Augmented_rune, Sacrifice_rune, Orb_rune, Charging_rune,
+                Displacement_rune));
         switch (type) {
             case DEFAULT -> textList.add(INFO_SPECIALTY_DEFAULT.translate());
             case VENGEFUL -> textList.add(INFO_SPECIALTY_VENGEFUL.translate());
@@ -352,6 +591,16 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             case DESTRUCTIVE -> textList.add(INFO_SPECIALTY_DESTRUCTIVE.translate());
         }
         textList.add(INFO_DIFFERENCE.translate(String.format("%.1f", difference)));
+        if (soulNetworkLinked) {
+            textList.add(INFO_SOUL_NETWORK_LINKED.translate());
+            if (lastLpPerTick > 0) {
+                var lpPercent = Math.min(ORB_LP_CAP_FRACTION,
+                        ORB_LP_BASE_FRACTION + ORB_LP_PER_RUNE_FRACTION * Orb_rune) * 100;
+                textList.add(INFO_LP_CONVERSION.translate(
+                        String.format("%.2f", lpPercent),
+                        FormattingUtil.formatNumbers(lastLpPerTick)));
+            }
+        }
         if (isBoosted) {
             textList.add(INFO_BOOSTED.translate());
         }
@@ -393,47 +642,78 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
     @EN("Concentration difference: %s")
     public static Lang INFO_DIFFERENCE;
     @Key("info.boosted")
-    @CN("§4血祭模式开启，生命源质强化中")
-    @EN("§4Blood altar mode — vital essence boost active")
+    @CN("§4困惑强化开启§r（困惑液消耗中）")
+    @EN("§4Doubt boost active§r (consuming doubt fluid)")
     public static Lang INFO_BOOSTED;
+    @Key("info.power")
+    @CN("当前发电量：%s EU/t（%s）")
+    @EN("Output: %s EU/t (%s)")
+    public static Lang INFO_POWER;
+    @Key("info.rune_levels")
+    @CN("符文等级：速度 %d | 增容 %d | 超容 %d | 牺牲 %d | 宝珠 %d | 充能 %d | 转位 %d")
+    @EN("Rune levels — Speed %d | Capacity %d | Augmented %d | Sacrifice %d | Orb %d | Charging %d | Displacement %d")
+    public static Lang INFO_RUNE_LEVELS;
+    @Key("info.soul_network_linked")
+    @CN("§a灵魂网络已链接")
+    @EN("§aSoul network linked")
+    public static Lang INFO_SOUL_NETWORK_LINKED;
+    @Key("info.lp_conversion")
+    @CN("宝珠转化：§a%.2f%%§r EU/t → LP，上周期 +%s LP")
+    @EN("Orb conversion: §a%.2f%%§r EU/t → LP, last cycle +%s LP")
+    public static Lang INFO_LP_CONVERSION;
+    @Key("info.anchor_highlight")
+    @CN("显示锚定的恶魔合金")
+    @EN("Show anchored demon alloy")
+    public static Lang INFO_ANCHOR_HIGHLIGHT;
 
     @Key("ctnh.multiblock.demon_will_generator.tooltip")
     @CN({
             "驾驭恶魔之力",
-            "允许使用激光仓，变电仓",
-            "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
-            "计算基于机器两侧恶魔合金块处的意志浓度。",
-            "两侧区块内各类恶魔意志的多样性会影响发电效率。",
-            "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
-            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升困惑强化模式下的发电倍率（2+0.25*符文等级）§r\n§3速度符文§r----增加配方时长（每级+20%）§r\n§e增容符文§r----每个符文使恶魔意志浓度差+2§r\n§c超容符文§r----每个符文使恶魔意志浓度差额外*1.2（乘算）§r\n==============================",
-            "输入§4困惑液§r可激活强化模式，每秒消耗1000mb疑惑液。",
-            "按住shift查看详细的计算公式"
+            "允许使用激光仓、变电仓",
+            "利用机器两侧区块的恶魔意志浓度差发电；有效浓度差越大，发电量增长越快（含 ln 项）",
+            "警告：§4当两侧意志浓度差小于5时，将无视所有符文加成，直接将该意志浓度差计算为0§r",
+            "计算基于机器两侧恶魔合金所在区块的意志浓度，可以点击UI内 显示锚定的恶魔合金 来高亮它们正下方的位点，定位对应的区块（注意：检测的是恶魔合金块所在位置的区块，请注意可能发生的结构跨多个区块问题）",
+            "两侧区块内各类恶魔意志的多样性会影响发电效率",
+            "控制器槽位可放入 §4血魔法宝珠§r（须已绑定）或意志核心；宝珠链接其主人的灵魂网络，核心开启专精（每秒 5% 概率消耗 1 个）",
+            "结构符文可替换（T2 符文计 2 级）：\n§4牺牲/自我牺牲符文§r——每级使困惑强化模式的困惑液消耗量和发电量+20%§r\n§3速度符文§r——每级使配方时长+10%§r\n§e增容符文§r——每级使有效浓度差+1§r\n§c超容符文§r——每级使有效浓度差+10%§r\n§d宝珠符文§r——已链接灵魂网络时，将实际发电量的1%转化为灵魂网络内的LP，转化率为0.1%*宝珠符文数\n§b转位符文§r——在配方开始前每周期将两侧区块空白意志转为复仇/腐蚀/坚韧/破坏各 §a等级*2§r 点\n§7充能符文§r——仅统计，暂无效果\n==============================",
+            "输入 §4困惑液§r 开启困惑强化；约每秒消耗 §a1000×(1+0.2×牺牲等级) mb§r",
+            "按住 Shift 查看详细公式；控制器界面显示各符文等级统计"
     })
     @EN({
-            "驾驭恶魔之力",
-            "允许使用激光仓，变电仓",
-            "利用机器两侧区块的恶魔意志浓度差发电，浓度差越大发电量呈指数增长。",
-            "计算基于机器两侧恶魔合金块处的意志浓度。",
-            "两侧区块内各类恶魔意志的多样性会影响发电效率。",
-            "在机器内放入意志核心可切换为专精模式，仅针对某种意志类型。",
-            "机器内的符文块可替换以提供不同强化：\n§4牺牲符文与自我牺牲符文§r----提升困惑强化模式下的发电倍率（2+0.25*符文等级）§r\n§3速度符文§r----增加配方时长（每级+20%）§r\n§e增容符文§r----每个符文使恶魔意志浓度差+2§r\n§c超容符文§r----每个符文使恶魔意志浓度差额外*1.2（乘算）§r\n==============================",
-            "输入§4困惑液§r可激活强化模式，每秒消耗1000mb疑惑液。",
-            "按住左Ctrl查看详细的计算公式"
+            "Harness demon will",
+            "Supports laser and transformer hatches",
+            "Generates power from demon will difference between the two chunk sides; higher effective difference scales output faster (includes ln term)",
+            "Per will type: §4counts toward raw difference only if max(both sides) ≥ 5 and the sides differ; otherwise that type is 0§r",
+            "Uses will concentration in the chunks at the hellforged blocks on each side of the structure",
+            "Diversity of will types on both sides affects generation efficiency",
+            "Controller slot: §4blood orb§r (must be bound) or will core; orb links the owner's soul network, core enables specialty (5%/s chance to consume 1 per second)",
+            "Replaceable structure runes (tier II counts as 2 levels):\n§4Sacrifice / Self-Sacrifice§r — each level adds §a+20%§r doubt-fluid use and output while doubt boost is active\n§3Speed§r — each level adds §a+10%§r recipe duration\n§eCapacity§r — each level adds §a+1§r to effective concentration difference\n§cAugmented Capacity§r — each level adds §a+10%§r effective concentration difference\n§dOrb§r — when soul network is linked, converts §a1%§r of actual output into LP at §a0.1%×orb rune levels§r conversion rate\n§bDisplacement§r — each cycle before the recipe starts, converts raw will on both sides into §alevel×2§r of each typed will (Vengeful / Corrosive / Steadfast / Destructive)\n§7Charging§r — counted only, no effect yet\n==============================",
+            "Supply §4doubt fluid§r for doubt boost; consumes about §a1000×(1+0.2×sacrifice level) mB§r per second",
+            "Hold Shift for detailed formulas; controller UI shows rune level totals"
     })
     public static Lang[] TOOLTIPS;
+    @Key("ctnh.multiblock.demon_will_generator.shift_tooltip")
     @CN({
-            "基础发电公式：最终发电量=浓度差*log2(浓度差)*256*多样性",
-            "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-            "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
-            "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
-            "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+            "真实浓度差（单类型）= 两侧不等且 max(两侧)≥5 时取 |差值|，否则为 0",
+            "有效浓度差 = (真实浓度差 + 增容等级) × (1 + 0.1×超容等级)；专精模式再 ×2",
+            "EU/t = 256 × 多样性 × 有效浓度差 × ln(有效浓度差+1) × [困惑强化倍率]",
+            "困惑强化倍率 = 2 + 0.2×牺牲等级（需持续输入困惑液）",
+            "多样性：两侧各按 1.2−Σ(占比²) 计算后相乘；无意志侧为 0.2；专精固定 0.8；两侧均衡时最高约 1.44",
+            "意志迁移：高侧扣除差值×8%，低侧获得差值×4%；高侧该类型意志<10 时只清空不迁移；单侧≥9999 时清空该侧全部意志",
+            "专精模式仅处理对应意志；默认模式累加所有类型的浓度差",
+            "已链接灵魂网络时：每周期 LP = 毛发电 × min(1%, 0.1%+0.1%×宝珠等级)；实际 EU/t = 毛发电 × (1 − 转化比例)",
+            "转位：每侧区块消耗 4×min(等级×2, floor(空白/4)) 空白意志，四种类型意志各 +min(等级×2, floor(空白/4))"
     })
     @EN({
-            "基础发电公式：先计算有效浓度差=difference*log(difference)，最终发电量=浓度差^2*256*多样性",
-            "启用专精模式时，使基础浓度差额外*2，且只消耗对应专精的意志",
-            "启用生命源质强化模式时，使最终发电量*(2+0.25*牺牲符文等级)",
-            "多样性会影响发电效率，其按照辛普森多样性指数来计算，当只有一种意志时为0.2,最多为1,当启用专精强化时固定为0.8",
-            "每次恶魔意志迁移时，消耗一方8%的恶魔意志，并且使另一方获得消耗量一半的恶魔意志，当恶魔意志量<10时，将会一次性消耗所有恶魔意志并且不发生意志迁移"
+            "Raw difference (per type) = |side1−side2| only if sides differ and max(both sides) ≥ 5; otherwise 0",
+            "Effective difference = raw difference × (1 + 0.1×capacity levels) × (1 + 0.1×augmented levels); ×2 in specialty mode",
+            "EU/t = 256 × diversity × effective difference × ln(effective difference+1) × [doubt boost]",
+            "Doubt boost = 2 + 0.2×sacrifice levels (requires continuous doubt fluid input)",
+            "Diversity: per side 1.2−Σ(ratio²), then multiply both sides; 0.2 if a side has no will; 0.8 in specialty; up to ~1.44 when both sides are balanced",
+            "Will migration: high side −8% of difference, low side +4%; if high side <10 for that type, drain only (no transfer); if either side ≥9999, clear all will on that side",
+            "Specialty mode processes one will type only; default mode sums concentration differences of all types",
+            "With linked soul network: LP per cycle = gross EU/t × min(1%, 0.1%+0.1%×orb levels); actual EU/t = gross × (1 − conversion fraction)",
+            "Displacement: per side drains 4×min(level×2, floor(raw/4)) raw will; each typed will gains +min(level×2, floor(raw/4))"
     })
     public static Lang[] SHIFT_TOOLTIPS;
 }

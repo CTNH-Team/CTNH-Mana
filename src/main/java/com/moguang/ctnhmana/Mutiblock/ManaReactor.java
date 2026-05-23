@@ -3,8 +3,6 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-
-
 import net.minecraft.util.Mth;
 
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;

@@ -6,8 +6,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 
-
-
 import net.minecraft.core.BlockPos;
 
 import com.moguang.ctnhmana.registry.CMMaterials;

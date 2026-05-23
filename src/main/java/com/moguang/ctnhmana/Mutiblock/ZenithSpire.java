@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -374,7 +373,7 @@ public class ZenithSpire extends MysticSpire {
 
                     if ((machine instanceof TieredEnergyMachine || machine instanceof SimpleGeneratorMachine) &&
                             machine instanceof ITieredMachine tieredMachine &&
-                            tieredMachine.getTier() <= this.eutier) {
+                            tieredMachine.getTier() <= this.eutier + 1) {
                         // Small machines that can receive EU are treated as broadcast targets.
                         if (canInput) {
                             smallMachines.add(found);

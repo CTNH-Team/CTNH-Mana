@@ -17,6 +17,7 @@ import appeng.core.definitions.AEBlocks;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.DemonWillMachine;
 import com.moguang.ctnhmana.Mutiblock.MeteorCaptureMachine;
+import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -954,17 +955,7 @@ public class BloodMagic {
                     .where("K", Predicates.blocks(Blocks.RED_CONCRETE))
                     .where("L", Predicates.blocks(Blocks.POLISHED_BLACKSTONE_STAIRS))
                     .where("M", Predicates.blocks(BloodMagicBlocks.DUNGEON_BRICK_1.get()))
-                    .where("N", Predicates.blocks(BloodMagicBlocks.BLANK_RUNE.get())
-                            .or(Predicates.blocks(BloodMagicBlocks.SPEED_RUNE.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.SPEED_RUNE_2.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.SACRIFICE_RUNE.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.SACRIFICE_RUNE_2.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.SELF_SACRIFICE_RUNE.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.SELF_SACRIFICE_RUNE_2.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.CAPACITY_RUNE.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.CAPACITY_RUNE_2.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE.get()))
-                            .or(Predicates.blocks(BloodMagicBlocks.AUGMENTED_CAPACITY_RUNE_2.get())))
+                    .where("N", CMPredicates.BMRuneBlocks)
                     .where("O", Predicates.blocks(BloodMagicBlocks.OBSIDIAN_TILE_PATH.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes(), true, false, true, true, true,
                                     true))

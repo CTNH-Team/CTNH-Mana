@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import org.jetbrains.annotations.Nullable;

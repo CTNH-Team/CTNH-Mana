@@ -11,8 +11,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 
-
-
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.google.common.collect.ImmutableSet;
@@ -40,6 +38,7 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
     @Getter
     @Nullable
     private Collection<ManaMachine> ManaReceivers;
+
     public ZENITH_MATRIX(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }

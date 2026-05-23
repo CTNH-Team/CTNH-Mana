@@ -24,7 +24,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
@@ -77,6 +76,7 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     public final NotifiableItemStackHandler machineStorage;
     @Nullable
     protected TickableSubscription TickSubs;
+
     public NicollDysonBeams(IMachineBlockEntity holder) {
         super(holder);
         this.machineStorage = createMachineStorage((byte) 64);

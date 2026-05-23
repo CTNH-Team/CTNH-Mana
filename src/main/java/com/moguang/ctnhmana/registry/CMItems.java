@@ -163,17 +163,17 @@ public class CMItems {
                 .lang("Spire Conversion Efficiency Rune (Alpha)")
                 .register();
         UPGRADE_RUNE_TRANSLOCATION_1 = REGISTRATE
-                .item("upgrade_rune_translocation_1", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 2.0, 0.25))
+                .item("upgrade_rune_translocation_1", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 4.0, 0.25))
                 .cnlang("§9尖塔转位符文I§r")
                 .lang("Spire Translocation Rune I")
                 .register();
         UPGRADE_RUNE_TRANSLOCATION_2 = REGISTRATE
-                .item("upgrade_rune_translocation_2", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 4.0, 0.5))
+                .item("upgrade_rune_translocation_2", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 32.0, 0.5))
                 .cnlang("§9尖塔转位符文II§r")
                 .lang("Spire Translocation Rune II (0.5 Conversion)")
                 .register();
         UPGRADE_RUNE_TRANSLOCATION_3 = REGISTRATE
-                .item("upgrade_rune_translocation_3", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 16.0, 1.0))
+                .item("upgrade_rune_translocation_3", props -> new SpireUpgradeRuneItem(props, 1.0, 1.0, 256.0, 1.0))
                 .cnlang("§9尖塔转位符文III§r")
                 .lang("Spire Translocation Rune III")
                 .register();
