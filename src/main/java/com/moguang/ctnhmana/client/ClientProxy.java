@@ -2,13 +2,16 @@ package com.moguang.ctnhmana.client;
 
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
@@ -29,6 +32,11 @@ public class ClientProxy extends CommonProxy {
         DynamicRenderManager.register(CTNHMana.id("zenith_laser"), ZenithMatrixBlockEntityRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("eternal_garden"), EternalGardenRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
+    }
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> PonderIndex.addPlugin(new CTNHManaPonderPlugin()));
     }
 
     @SubscribeEvent

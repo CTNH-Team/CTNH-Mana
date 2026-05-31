@@ -20,10 +20,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.moguang.ctnhmana.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.networking.packets.CMNetworking;
 import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
+import tech.vixhentx.mcmod.ctnhlib.client.ponder.CTNHPonderLang;
 
 @SuppressWarnings("removal")
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -86,6 +88,7 @@ public class EventHandler {
         var registries = event.getLookupProvider();
         if (event.includeClient()) {
             generator.addProvider(true, new CMSoundDefinitionsProvider(packOutput, CTNHMana.MODID, existingFileHelper));
+            CTNHPonderLang.init(new CTNHManaPonderPlugin());
         }
     }
 }

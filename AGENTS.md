@@ -11,8 +11,8 @@ CTNH-Mana adds magic-themed CTNH content, Botania/Blood Magic style integrations
 - Multiblocks: `src/main/java/com/moguang/ctnhmana/Mutiblock/`. Existing directory name is `Mutiblock`; keep references exact.
 - Registries: `src/main/java/com/moguang/ctnhmana/registry/`. Items, machines, recipes, multiblock registrations.
 - Rituals/items: `src/main/java/com/moguang/ctnhmana/common/ritualTypes/`, `item/`. Ritual and magic item behavior.
-- Client UI: `src/main/java/com/moguang/ctnhmana/client/gui/radial/`. Caduceus radial menu.
-- Datagen/lang: `src/main/java/com/moguang/ctnhmana/data/`. Source for generated resources and lang.
+- Client UI/Ponder: `src/main/java/com/moguang/ctnhmana/client/`. Caduceus radial menu plus Mana-owned Ponder plugin, tags, scenes, and adapter builder.
+- Datagen/lang/Ponder: `src/main/java/com/moguang/ctnhmana/data/`. Source for generated resources, lang, and Ponder scene language extraction.
 
 ## REGISTRATION ENTRYPOINTS
 - Registrate/root: `registry/CMRegistrate.java`; mod/addon entrypoints are `CTNHMana.java` and `CTNHManaGTAddon.java`.
@@ -22,12 +22,13 @@ CTNH-Mana adds magic-themed CTNH content, Botania/Blood Magic style integrations
 - Recipe types/conditions: `registry/CMRecipeTypes.java`, `CMRecipeConditions.java`.
 - Effects/sounds/particles/client registries: `CMMobEffects.java`, `CMParticleTypes.java`, `registry/sounds/`, `CMModelLayers.java`, `CMGuiTextures.java`.
 - Recipe generation: `CTNHManaGTAddon.addRecipes()` dispatches `data/recipe/**`; keep magic-only recipes here, broad cross-module recipes in Core.
-- Datagen/lang: `data/CMDatagen.java`, `data/lang/`.
+- Datagen/lang: `data/CMDatagen.java`, `data/lang/`; `event/EventHandler.gatherData()` uses CTNH-Lib's `CTNHPonderLang.init(new CTNHManaPonderPlugin())` to extract Mana Ponder scene text during client datagen.
+- Ponder: `client/ponder/CTNHManaPonderPlugin.java` registers `CTNHManaPonderScenes` and `CTNHManaPonderTags`; Mystic Spire scenes live in `client/ponder/Mana/` and use `scene.title(..., en, cn)` / `scene.showText(..., en, cn)` with text embedded directly in scene files.
 
 ## CONVENTIONS
 - Namespace is `com.moguang.ctnhmana`; registry prefixes generally use `CM`.
-- Generated resources are large; use `:modules:CTNH-Mana:runData` after datagen changes.
-- Some resource docs such as `Custom-Material-Textures-Guide.md` are hand-authored and should not be treated as generated output.
+- Generated resources are large; use `:modules:CTNH-Mana:runData` after datagen or Ponder text changes.
+- Ponder `CTNHManaPonderSceneBuilder` is a thin adapter around CTNH-Lib's shared builder; keep Mana-specific scenes/tags/plugins in CTNH-Mana, not Core or Lib.
 
 ## COMMANDS
 ```bash
