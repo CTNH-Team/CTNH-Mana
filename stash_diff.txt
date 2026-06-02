@@ -1,0 +1,275 @@
+diff --git a/src/generated/resources/assets/ctnhmana/lang/en_ud.json b/src/generated/resources/assets/ctnhmana/lang/en_ud.json
+index 8cdb3f8..6815150 100644
+--- a/src/generated/resources/assets/ctnhmana/lang/en_ud.json
++++ b/src/generated/resources/assets/ctnhmana/lang/en_ud.json
+@@ -281,7 +281,7 @@
+   "ctnhmana.blood_antiaris.lexicon.1": "",
+   "ctnhmana.blood_antiaris.lexicon.2": "",
+   "ctnhmana.bloodmanahatchtootip_base.0": "璐ㄦ簮鍛界敓鎬佹恫锛岄噺璐ㄦ簮鍛界敓鐨勭粶缃戦瓊鐏碉細鍏ヨ緭鎸佹敮锛屽叆杈撻噺鑳藉姏榄旂殑鍣ㄦ満鍔涢瓟鐨勫笀娉曡浜庣敤",
+-  "ctnhmana.bloodmanahatchtootip_base.1": "鍔涢瓟娉曢瓟鐗╂锛屽姏榄旀€佹恫鎸佹敮涓?,
++  "ctnhmana.bloodmanahatchtootip_base.1": "鍔涢瓟娉曢瓟鐗╂锛岄噺鑳藉姏榄旇仛鍑濇寔鏀笉",
+   "ctnhmana.bloodmanahatchtootip_base.2": "璐ㄦ簮鍛界敓鍙栨娊缁滅綉榄傜伒浠庡姩鑷苟瀹氱粦鐨勭粶缃戦瓊鐏电殑鑰呮湁鎵€鐝犲疂涓庢垚瀹屾潵鐝犲疂鍏ユ斁浣嶆Ы鍝佺墿鍦ㄨ繃閫?,
+   "ctnhmana.bloodmanahatchtootip_base.3": "璐ㄦ簮鍛界敓鎬佹恫鍏ユ敞瀹よ埍寰€鏉ワ級鍏ヨ緭鍔ㄦ墜鎸佹敮涓嶏紙鍏ヨ緭閮ㄥ浠庢帴鐩?,
+   "ctnhmana.bloodmanahatchtootip_base.4": "蹇楁剰榄旀伓绉嶅悇鏀跺惛鍦拌兘鍙敖鍧楀尯鍓嶅綋浠庡姩鑷姣?,
+@@ -296,22 +296,22 @@
+   "ctnhmana.bmcorelang_t1.2": "锛?茤澶氭渶锛堣骞跺ぇ鏈€晒搂茤+蓯搂渚涙彁詟隇€0000蠜釀呮瘡鐨勭粶缃戦瓊鐏?琛屽苟澶ф渶晒搂茤+蓯搂渚涙彁绾х瓑涓€姣忕殑鐝犲疂",
+   "ctnhmana.bmcorelang_t1.3": "鍊嶇炕琛屽苟澶ф渶浣匡紝蹇楁剰榄旀伓鐐贯剠*绾х瓑鍘嬬數鑰楁秷鏃惰杩愬湪鍒欙紝0釀呮湁鎷ュ皯鑷冲織鎰忛瓟鎭堕€氭櫘鐨勪腑鍣ㄦ満鏋滃",
+   "ctnhmana.bmcorelang_t1.4": ":鏋滄晥涓嬩互寰楄幏锛屽織鎰忛瓟鎭剁偣锛壠?鍘嬬數鍣ㄦ満锛?蠜藱0鑰楁秷鏃惰杩愬湪鍒欙紝0茤鏈夋嫢灏戣嚦蹇楁剰榄旀伓娈婄壒绉嶆瘡鐨勪腑鍣ㄦ満鏋滃",
+-  "ctnhmana.bmcorelang_t1.5": "晒搂%0釀?蓴搂鐗╀骇缁堟渶锛屔孤?蠜茞+蓯搂搴﹂€熻杩愶細蹇楁剰鍧忕牬",
+-  "ctnhmana.bmcorelang_t1.6": "晒搂%蠜茤-蓴搂搴﹂€熻杩愶紝晒搂%0茞-蓯搂鍘嬬數鑰楁秷锛氬織鎰忚殌渚?,
+-  "ctnhmana.bmcorelang_t1.7": "晒搂%蠜釀?蓴搂琛屽苟澶ф渶锛屔孤?0釀?蓯搂鐗╀骇缁堟渶锛氬織鎰忎粐澶?,
++  "ctnhmana.bmcorelang_t1.5": "晒搂%0釀?蓴搂 蕠nd蕠nO 谉蓯u谋鈩?'晒搂%0銊?蓯搂 p菨菨dS :谉谉谋M 菨蕦谋蕠蓴n晒蕠s菨釛?,
++  "ctnhmana.bmcorelang_t1.6": "晒搂%蠜茤-蓴搂 p菨菨dS '晒搂%0茞-蓯搂 uo谋蕠d莎nsuo茊 鈭┢?:谉谉谋M 谉n蔁菨bu菨螞",
++  "ctnhmana.bmcorelang_t1.7": "晒搂%蠜釀?蓴搂 谉菨谉谉蓯晒蓯詟 x蓯W '晒搂%0釀?蓯搂 蕠nd蕠nO 谉蓯u谋鈩?:谉谉谋M 菨蕦谋so晒晒o茊",
+   "ctnhmana.bmcorelang_t1.8": "鏋滄晥闈㈣礋鐨勫織鎰忔湁鎵€涓婁互闄ゆ秷锛氬織鎰忛煣鍧?,
+   "ctnhmana.bmcorelang_t1.9": "晒搂寮忔ā鑰楁秷蹇楁剰鐨勫畾绋充笉锛氬憡璀ι斅?,
+   "ctnhmana.bmcorelang_t2.0": "绾у崌鐨勫織鎰忛瓟鎭跺拰璐ㄦ簮鍛界敓浜庡悜鍋?,
+   "ctnhmana.bmcorelang_t2.1": "锛氬緱鑾峰櫒鏈?,
+   "ctnhmana.bmcorelang_t2.10": "晒搂寮忔ā鑰楁秷蹇楁剰鐨勫畾绋充笉锛氬憡璀ι斅?,
+   "ctnhmana.bmcorelang_t2.11": "晒搂鎬ц兘鍙殑鐙傜柉浣滅О浜轰粬琚涓€姣忕敤鍒╁皢浠垜锛岀闃荤殑鐞嗙湡鍚戦€氫负鎴愪細涓嶅繉绂伾斅?,
+-  "ctnhmana.bmcorelang_t2.2": "锛夈劊9澶氭渶锛堣骞跺ぇ鏈€晒搂茤+蓯搂渚涙彁詟隇€0000蠜釀呮瘡鐨勭粶缃戦瓊鐏?琛屽苟澶ф渶晒搂茤+蓯搂渚涙彁绾х瓑涓€姣忕殑鐝犲疂",
+-  "ctnhmana.bmcorelang_t2.3": "鍊嶇炕琛屽苟澶ф渶浣匡紝蹇楁剰榄旀伓鐐贯剠*绾х瓑鍘嬬數鑰楁秷鏃惰杩愬湪鍒欙紝0釀呮湁鎷ュ皯鑷冲織鎰忛瓟鎭堕€氭櫘鐨勪腑鍣ㄦ満鏋滃",
++  "ctnhmana.bmcorelang_t2.2": ")銊? o蕠 dn( 谉菨谉谉蓯晒蓯d x蓯莎 晒搂釀?蓯搂 s菨蕦谋b 蕿晒o蕧蕠菨N 谉noS u谋 詟隇€ 0000蠜釀?蕩晒菨蕦菨 pu蓯 '丧蓴蓯菨 谉菨谉谉蓯晒蓯d x蓯莎 晒搂釀?蓯搂 s菨蕦谋b 晒菨谋蕠 q晒O",
++  "ctnhmana.bmcorelang_t2.3": "谉菨谉谉蓯晒蓯d x蓯莎 菨谉d谋晒蕠 o蕠 uo谋蕠蓯晒菨do bu谋晒np 谉谉谋蕧 蕧蓯晒 蔁o 蕠uno莎蓯 晒菨谋蕠-菨b蓯蕠谉o蕦 菨莎nsuo蓴 '0釀?蕠s蓯菨谉 蕠蓯 s谋 谉谉谋蕧 uo莎菨p 蕧蓯晒 蔁I",
+   "ctnhmana.bmcorelang_t2.4": ":鏋滄晥涓嬩互寰楄幏锛屽織鎰忛瓟鎭剁偣锛壠?鍘嬬數鍣ㄦ満锛?蠜藱0鑰楁秷鏃惰杩愬湪鍒欙紝0茤鏈夋嫢灏戣嚦蹇楁剰榄旀伓娈婄壒绉嶆瘡鐨勪腑鍣ㄦ満鏋滃",
+-  "ctnhmana.bmcorelang_t2.5": "晒搂%0釀?蓴搂鐗╀骇缁堟渶锛屔孤?0蠜+蓯搂搴﹂€熻杩愶細蹇楁剰鍧忕牬",
+-  "ctnhmana.bmcorelang_t2.6": "晒搂%蠜茤-蓴搂搴﹂€熻杩愶紝晒搂%0茞-蓯搂鍘嬬數鑰楁秷锛氬織鎰忚殌渚?,
+-  "ctnhmana.bmcorelang_t2.7": "晒搂%蠜釀?蓴搂琛屽苟澶ф渶锛屔孤?0釀?蓯搂鐗╀骇缁堟渶锛氬織鎰忎粐澶?,
+-  "ctnhmana.bmcorelang_t2.8": "鏋滄晥闈㈣礋鐨勫織鎰忔湁鎵€涓婁互闄ゆ秷锛氬織鎰忛煣鍧?,
++  "ctnhmana.bmcorelang_t2.5": "晒搂%0釀?蓴搂 蕠nd蕠nO 谉蓯u谋鈩?'晒搂%0蠜釀?蓯搂 p菨菨dS :谉谉谋M 菨蕦谋蕠蓴n晒蕠s菨釛?,
++  "ctnhmana.bmcorelang_t2.6": "晒搂%蠜茤-蓴搂 p菨菨dS '晒搂%0銊?蓯搂 uo谋蕠d莎nsuo茊 鈭┢?:谉谉谋M 谉n蔁菨bu菨螞",
++  "ctnhmana.bmcorelang_t2.7": "晒搂%蠜釀?蓴搂 谉菨谉谉蓯晒蓯詟 x蓯W '晒搂%0釀?蓯搂 蕠nd蕠nO 谉蓯u谋鈩?:谉谉谋M 菨蕦谋so晒晒o茊",
++  "ctnhmana.bmcorelang_t2.8": "菨蕦oq蓯 s蕠蓴菨蔁蔁菨 菨蕦谋蕠蓯b菨u 谉谉蓯 s菨蕦o莎菨晒 :谉谉谋M 蕠s蓯蔁p蓯菨蕠S",
+   "ctnhmana.bmcorelang_t2.9": "闄愭棤銊Ｂт负鏀硅骞跺ぇ鏈€鏃惰杩愬垯锛屾灉鏁堢殑蹇楁剰绉嶄竴姣忎簡鍙戣Е鏋滃",
+   "ctnhmana.botaniacorelang_t1.0": "绾у崌鐨勫姏榄斾笌娉曢瓟鐗╂浜庡悜鍋?,
+   "ctnhmana.botaniacorelang_t1.1": "锛氬緱鑾峰櫒鏈?,
+diff --git a/src/generated/resources/assets/ctnhmana/lang/en_us.json b/src/generated/resources/assets/ctnhmana/lang/en_us.json
+index a7fa807..2cd1862 100644
+--- a/src/generated/resources/assets/ctnhmana/lang/en_us.json
++++ b/src/generated/resources/assets/ctnhmana/lang/en_us.json
+@@ -281,7 +281,7 @@
+   "ctnhmana.blood_antiaris.lexicon.1": "",
+   "ctnhmana.blood_antiaris.lexicon.2": "",
+   "ctnhmana.bloodmanahatchtootip_base.0": "鐢ㄤ簬琛€娉曞笀鐨勯瓟鍔涙満鍣ㄧ殑榄斿姏鑳介噺杈撳叆锛屾敮鎸佽緭鍏ワ細鐏甸瓊缃戠粶鐨勭敓鍛芥簮璐ㄩ噺锛屾恫鎬佺敓鍛芥簮璐?,
+-  "ctnhmana.bloodmanahatchtootip_base.1": "涓嶆敮鎸佹恫鎬侀瓟鍔涳紝妞嶇墿榄旀硶榄斿姏",
++  "ctnhmana.bloodmanahatchtootip_base.1": "涓嶆敮鎸佸嚌鑱氶瓟鍔涜兘閲忥紝妞嶇墿榄旀硶榄斿姏",
+   "ctnhmana.bloodmanahatchtootip_base.2": "閫氳繃鍦ㄧ墿鍝佹Ы浣嶆斁鍏ュ疂鐝犳潵瀹屾垚涓庡疂鐝犳墍鏈夎€呯殑鐏甸瓊缃戠粶鐨勭粦瀹氬苟鑷姩浠庣伒榄傜綉缁滄娊鍙栫敓鍛芥簮璐?,
+   "ctnhmana.bloodmanahatchtootip_base.3": "鐩存帴浠庡閮ㄨ緭鍏ワ紙涓嶆敮鎸佹墜鍔ㄨ緭鍏ワ級鏉ュ線鑸卞娉ㄥ叆娑叉€佺敓鍛芥簮璐?,
+   "ctnhmana.bloodmanahatchtootip_base.4": "姣忕鑷姩浠庡綋鍓嶅尯鍧楀敖鍙兘鍦板惛鏀跺悇绉嶆伓榄旀剰蹇?,
+@@ -296,22 +296,22 @@
+   "ctnhmana.bmcorelang_t1.2": "瀹濈彔鐨勬瘡涓€绛夌骇鎻愪緵搂a+1搂r鏈€澶у苟琛?鐏甸瓊缃戠粶鐨勬瘡250000LP鎻愪緵搂a+1搂r鏈€澶у苟琛岋紙鏈€澶?6锛?,
+   "ctnhmana.bmcorelang_t1.3": "濡傛灉鏈哄櫒涓殑鏅€氭伓榄旀剰蹇楄嚦灏戞嫢鏈?0锛屽垯鍦ㄨ繍琛屾椂娑堣€楃數鍘嬬瓑绾?2鐐规伓榄旀剰蹇楋紝浣挎渶澶у苟琛岀炕鍊?,
+   "ctnhmana.bmcorelang_t1.4": "濡傛灉鏈哄櫒涓殑姣忕鐗规畩鎭堕瓟鎰忓織鑷冲皯鎷ユ湁10锛屽垯鍦ㄨ繍琛屾椂娑堣€?.5*锛堟満鍣ㄧ數鍘?1锛夌偣鎭堕瓟鎰忓織锛岃幏寰椾互涓嬫晥鏋?",
+-  "ctnhmana.bmcorelang_t1.5": "鐮村潖鎰忓織锛氳繍琛岄€熷害搂a+35%搂r锛屾渶缁堜骇鐗┞-20%搂r",
+-  "ctnhmana.bmcorelang_t1.6": "渚佃殌鎰忓織锛氭秷鑰楃數鍘嬄-30%搂r锛岃繍琛岄€熷害搂c-15%搂r",
+-  "ctnhmana.bmcorelang_t1.7": "澶嶄粐鎰忓織锛氭渶缁堜骇鐗┞+20%搂r锛屾渶澶у苟琛屄-25%搂r",
++  "ctnhmana.bmcorelang_t1.5": "Destructive Will: Speed 搂a+70%搂r, Final Output 搂c-20%搂r",
++  "ctnhmana.bmcorelang_t1.6": "Vengeful Will: EU Consumption 搂a-30%搂r, Speed 搂c-15%搂r",
++  "ctnhmana.bmcorelang_t1.7": "Corrosive Will: Final Output 搂a+20%搂r, Max Parallel 搂c-25%搂r",
+   "ctnhmana.bmcorelang_t1.8": "鍧氶煣鎰忓織锛氭秷闄や互涓婃墍鏈夋剰蹇楃殑璐熼潰鏁堟灉",
+   "ctnhmana.bmcorelang_t1.9": "搂c璀﹀憡锛氫笉绋冲畾鐨勬剰蹇楁秷鑰楁ā寮徛",
+   "ctnhmana.bmcorelang_t2.0": "鍋忓悜浜庣敓鍛芥簮璐ㄥ拰鎭堕瓟鎰忓織鐨勫崌绾?,
+   "ctnhmana.bmcorelang_t2.1": "鏈哄櫒鑾峰緱锛?,
+   "ctnhmana.bmcorelang_t2.10": "搂c璀﹀憡锛氫笉绋冲畾鐨勬剰蹇楁秷鑰楁ā寮徛",
+   "ctnhmana.bmcorelang_t2.11": "搂c绂佸繉涓嶄細鎴愪负閫氬悜鐪熺悊鐨勯樆纰嶏紝鎴戜滑灏嗗埄鐢ㄦ瘡涓€绉嶈浠栦汉绉颁綔鐤媯鐨勫彲鑳芥€",
+-  "ctnhmana.bmcorelang_t2.2": "瀹濈彔鐨勬瘡涓€绛夌骇鎻愪緵搂a+1搂r鏈€澶у苟琛?鐏甸瓊缃戠粶鐨勬瘡250000LP鎻愪緵搂a+1搂r鏈€澶у苟琛岋紙鏈€澶?4锛?,
+-  "ctnhmana.bmcorelang_t2.3": "濡傛灉鏈哄櫒涓殑鏅€氭伓榄旀剰蹇楄嚦灏戞嫢鏈?0锛屽垯鍦ㄨ繍琛屾椂娑堣€楃數鍘嬬瓑绾?2鐐规伓榄旀剰蹇楋紝浣挎渶澶у苟琛岀炕鍊?,
++  "ctnhmana.bmcorelang_t2.2": "Orb tier gives 搂a+2搂r max parallel each, and every 250000 LP in Soul Network gives 搂a+2搂r max parallel (up to 64)",
++  "ctnhmana.bmcorelang_t2.3": "If raw demon will is at least 20, consume voltage-tier amount of raw will during operation to triple max parallel",
+   "ctnhmana.bmcorelang_t2.4": "濡傛灉鏈哄櫒涓殑姣忕鐗规畩鎭堕瓟鎰忓織鑷冲皯鎷ユ湁10锛屽垯鍦ㄨ繍琛屾椂娑堣€?.5*锛堟満鍣ㄧ數鍘?1锛夌偣鎭堕瓟鎰忓織锛岃幏寰椾互涓嬫晥鏋?",
+-  "ctnhmana.bmcorelang_t2.5": "鐮村潖鎰忓織锛氳繍琛岄€熷害搂a+50%搂r锛屾渶缁堜骇鐗┞-20%搂r",
+-  "ctnhmana.bmcorelang_t2.6": "渚佃殌鎰忓織锛氭秷鑰楃數鍘嬄-30%搂r锛岃繍琛岄€熷害搂c-15%搂r",
+-  "ctnhmana.bmcorelang_t2.7": "澶嶄粐鎰忓織锛氭渶缁堜骇鐗┞+20%搂r锛屾渶澶у苟琛屄-25%搂r",
+-  "ctnhmana.bmcorelang_t2.8": "鍧氶煣鎰忓織锛氭秷闄や互涓婃墍鏈夋剰蹇楃殑璐熼潰鏁堟灉",
++  "ctnhmana.bmcorelang_t2.5": "Destructive Will: Speed 搂a+250%搂r, Final Output 搂c-20%搂r",
++  "ctnhmana.bmcorelang_t2.6": "Vengeful Will: EU Consumption 搂a-40%搂r, Speed 搂c-15%搂r",
++  "ctnhmana.bmcorelang_t2.7": "Corrosive Will: Final Output 搂a+20%搂r, Max Parallel 搂c-25%搂r",
++  "ctnhmana.bmcorelang_t2.8": "Steadfast Will: removes all negative effects above",
+   "ctnhmana.bmcorelang_t2.9": "濡傛灉瑙﹀彂浜嗘瘡涓€绉嶆剰蹇楃殑鏁堟灉锛屽垯杩愯鏃舵渶澶у苟琛屾敼涓郝?鏃犻檺",
+   "ctnhmana.botaniacorelang_t1.0": "鍋忓悜浜庢鐗╅瓟娉曚笌榄斿姏鐨勫崌绾?,
+   "ctnhmana.botaniacorelang_t1.1": "鏈哄櫒鑾峰緱锛?,
+diff --git a/src/generated/resources/assets/ctnhmana/lang/zh_cn.json b/src/generated/resources/assets/ctnhmana/lang/zh_cn.json
+index 5542fe1..65eb7c8 100644
+--- a/src/generated/resources/assets/ctnhmana/lang/zh_cn.json
++++ b/src/generated/resources/assets/ctnhmana/lang/zh_cn.json
+@@ -357,7 +357,7 @@
+   "ctnhmana.bloodinductorlang": "搂4鎻愪緵琛€娑岀紦鍐?,
+   "ctnhmana.bloodmanahatchtooltip_1": "搂c鍑濊榄斿姏鍑濊仛鑰?,
+   "ctnhmana.bloodmanahatchtootip_base.0": "鐢ㄤ簬琛€娉曞笀鐨勯瓟鍔涙満鍣ㄧ殑榄斿姏鑳介噺杈撳叆锛屾敮鎸佽緭鍏ワ細鐏甸瓊缃戠粶鐨勭敓鍛芥簮璐ㄩ噺锛屾恫鎬佺敓鍛芥簮璐?,
+-  "ctnhmana.bloodmanahatchtootip_base.1": "涓嶆敮鎸佹恫鎬侀瓟鍔涳紝妞嶇墿榄旀硶榄斿姏",
++  "ctnhmana.bloodmanahatchtootip_base.1": "涓嶆敮鎸佸嚌鑱氶瓟鍔涜兘閲忥紝妞嶇墿榄旀硶榄斿姏",
+   "ctnhmana.bloodmanahatchtootip_base.2": "閫氳繃鍦ㄧ墿鍝佹Ы浣嶆斁鍏ュ疂鐝犳潵瀹屾垚涓庡疂鐝犳墍鏈夎€呯殑鐏甸瓊缃戠粶鐨勭粦瀹氬苟鑷姩浠庣伒榄傜綉缁滄娊鍙栫敓鍛芥簮璐?,
+   "ctnhmana.bloodmanahatchtootip_base.3": "鐩存帴浠庡閮ㄨ緭鍏ワ紙涓嶆敮鎸佹墜鍔ㄨ緭鍏ワ級鏉ュ線鑸卞娉ㄥ叆娑叉€佺敓鍛芥簮璐?,
+   "ctnhmana.bloodmanahatchtootip_base.4": "姣忕鑷姩浠庡綋鍓嶅尯鍧楀敖鍙兘鍦板惛鏀跺悇绉嶆伓榄旀剰蹇?,
+@@ -377,8 +377,8 @@
+   "ctnhmana.bmcorelang_t1.3": "濡傛灉鏈哄櫒涓殑鏅€氭伓榄旀剰蹇楄嚦灏戞嫢鏈?0锛屽垯鍦ㄨ繍琛屾椂娑堣€楃數鍘嬬瓑绾?2鐐规伓榄旀剰蹇楋紝浣挎渶澶у苟琛岀炕鍊?,
+   "ctnhmana.bmcorelang_t1.4": "濡傛灉鏈哄櫒涓殑鐗规畩鎭堕瓟鎰忓織鑷冲皯鎷ユ湁10锛屽垯鍦ㄨ繍琛屾椂娑堣€?.5*锛堟満鍣ㄧ數鍘?1锛夌偣鎭堕瓟鎰忓織锛岃幏寰椾互涓嬫晥鏋?",
+   "ctnhmana.bmcorelang_t1.5": "鐮村潖鎰忓織锛氳繍琛岄€熷害搂a+70%搂r锛屾渶缁堜骇鐗┞-20%搂r",
+-  "ctnhmana.bmcorelang_t1.6": "渚佃殌鎰忓織锛氭秷鑰楃數鍘嬄-30%搂r锛岃繍琛岄€熷害搂c-15%搂r",
+-  "ctnhmana.bmcorelang_t1.7": "澶嶄粐鎰忓織锛氭渶缁堜骇鐗┞+20%搂r锛屾渶澶у苟琛屄-25%搂r",
++  "ctnhmana.bmcorelang_t1.6": "澶嶄粐鎰忓織锛氭秷鑰楃數鍘嬄-30%搂r锛岃繍琛岄€熷害搂c-15%搂r",
++  "ctnhmana.bmcorelang_t1.7": "渚佃殌鎰忓織锛氫娇杩愯閫熷害澧炲箙搂a+20%搂r锛屾渶澶у苟琛屄-25%搂r",
+   "ctnhmana.bmcorelang_t1.8": "鍧氶煣鎰忓織锛毬娑堥櫎浠ヤ笂鎵€鏈夋剰蹇楃殑璐熼潰鏁堟灉搂r",
+   "ctnhmana.bmcorelang_t1.9": "搂c璀﹀憡锛氫笉绋冲畾鐨勬剰蹇楁秷鑰楁ā寮徛",
+   "ctnhmana.bmcorelang_t2.0": "鍋忓悜浜庣敓鍛芥簮璐ㄥ拰鎭堕瓟鎰忓織鐨勫崌绾?,
+@@ -386,11 +386,11 @@
+   "ctnhmana.bmcorelang_t2.10": "搂c璀﹀憡锛氭瀬涓轰笉绋冲畾鐨勬剰蹇楁秷鑰楁ā寮徛",
+   "ctnhmana.bmcorelang_t2.11": "搂c绂佸繉涓嶄細鎴愪负閫氬悜鐪熺悊鐨勯樆纰嶏紝鎴戜滑灏嗗埄鐢ㄦ瘡涓€绉嶈浠栦汉绉颁綔鐤媯鐨勫彲鑳芥€",
+   "ctnhmana.bmcorelang_t2.2": "瀹濈彔鐨勬瘡涓€绛夌骇鎻愪緵搂a+2搂r鏈€澶у苟琛?鐏甸瓊缃戠粶鐨勬瘡 250000LP鎻愪緵搂a+2搂r鏈€澶у苟琛岋紙鏈€澶?4锛?,
+-  "ctnhmana.bmcorelang_t2.3": "濡傛灉鏈哄櫒涓殑鏅€氭伓榄旀剰蹇楄嚦灏戞嫢鏈?0锛屽垯鍦ㄨ繍琛屾椂娑堣€楃數鍘嬬瓑绾?3鐐规伓榄旀剰蹇楋紝浣挎渶澶у苟琛岀炕涓夊€?,
+-  "ctnhmana.bmcorelang_t2.4": "濡傛灉鏈哄櫒涓殑鐗规畩鎭堕瓟鎰忓織鑷冲皯鎷ユ湁10锛屽垯鍦ㄨ繍琛屾椂娑堣€楋紙鏈哄櫒鐢靛帇-1锛夌偣鎭堕瓟鎰忓織锛岃幏寰椾互涓嬫晥鏋?",
++  "ctnhmana.bmcorelang_t2.3": "濡傛灉鏈哄櫒涓殑鏅€氭伓榄旀剰蹇楄嚦灏戞嫢鏈?0锛屽垯鍦ㄨ繍琛屾椂娑堣€楃數鍘嬬瓑绾х偣鎭堕瓟鎰忓織锛屼娇鏈€澶у苟琛岀炕涓夊€?,
++  "ctnhmana.bmcorelang_t2.4": "濡傛灉鏈哄櫒涓殑鐗规畩鎭堕瓟鎰忓織鑷冲皯鎷ユ湁10锛屽垯鍦ㄨ繍琛屾椂娑堣€?.5*锛堟満鍣ㄧ數鍘?1锛夌偣鎭堕瓟鎰忓織锛岃幏寰椾互涓嬫晥鏋?",
+   "ctnhmana.bmcorelang_t2.5": "鐮村潖鎰忓織锛氳繍琛岄€熷害搂a+250%搂r锛屾渶缁堜骇鐗┞-20%搂r",
+-  "ctnhmana.bmcorelang_t2.6": "渚佃殌鎰忓織锛氭秷鑰楃數鍘嬄-40%搂r锛岃繍琛岄€熷害搂c-15%搂r",
+-  "ctnhmana.bmcorelang_t2.7": "澶嶄粐鎰忓織锛氭渶缁堜骇鐗┞+20%搂r锛屾渶澶у苟琛屄-25%搂r",
++  "ctnhmana.bmcorelang_t2.6": "澶嶄粐鎰忓織锛氭秷鑰楃數鍘嬄-40%搂r锛岃繍琛岄€熷害搂c-15%搂r",
++  "ctnhmana.bmcorelang_t2.7": "渚佃殌鎰忓織锛氫娇杩愯閫熷害澧炲箙搂a+50%搂r锛屾渶澶у苟琛屄-25%搂r",
+   "ctnhmana.bmcorelang_t2.8": "鍧氶煣鎰忓織锛毬娑堥櫎浠ヤ笂鎵€鏈夋剰蹇楃殑璐熼潰鏁堟灉搂r",
+   "ctnhmana.bmcorelang_t2.9": "濡傛灉瑙﹀彂浜嗘瘡涓€绉嶆剰蹇楃殑鏁堟灉锛屽垯杩愯鏃舵渶澶у苟琛屾敼涓郝?鏃犻檺",
+   "ctnhmana.boss_fight_1": "搂c鎴樹簤鍦ㄩ€艰繎......",
+diff --git a/src/main/java/com/moguang/ctnhmana/Mutiblock/BaseManaMachine.java b/src/main/java/com/moguang/ctnhmana/Mutiblock/BaseManaMachine.java
+index 0d93f9e..1cd4d70 100644
+--- a/src/main/java/com/moguang/ctnhmana/Mutiblock/BaseManaMachine.java
++++ b/src/main/java/com/moguang/ctnhmana/Mutiblock/BaseManaMachine.java
+@@ -419,4 +419,4 @@ public class BaseManaMachine extends ManaMachine {
+             }
+         }
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/Mutiblock/DemonWillMachine.java b/src/main/java/com/moguang/ctnhmana/Mutiblock/DemonWillMachine.java
+index 54d6d7a..e09dff0 100644
+--- a/src/main/java/com/moguang/ctnhmana/Mutiblock/DemonWillMachine.java
++++ b/src/main/java/com/moguang/ctnhmana/Mutiblock/DemonWillMachine.java
+@@ -408,7 +408,6 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
+         return false;
+     }
+ 
+-
+     @Override
+     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+         return capability != EURecipeCapability.CAP;
+@@ -476,4 +475,4 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
+             "姣忔鎭堕瓟鎰忓織杩佺Щ鏃讹紝娑堣€椾竴鏂?%鐨勬伓榄旀剰蹇楋紝骞朵笖浣垮彟涓€鏂硅幏寰楁秷鑰楅噺涓€鍗婄殑鎭堕瓟鎰忓織锛屽綋鎭堕瓟鎰忓織閲?10鏃讹紝灏嗕細涓€娆℃€ф秷鑰楁墍鏈夋伓榄旀剰蹇楀苟涓斾笉鍙戠敓鎰忓織杩佺Щ"
+     })
+     public static Lang[] SHIFT_TOOLTIPS;
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/Mutiblock/ZenithSpire.java b/src/main/java/com/moguang/ctnhmana/Mutiblock/ZenithSpire.java
+index 3ccfd06..1f6b2a1 100644
+--- a/src/main/java/com/moguang/ctnhmana/Mutiblock/ZenithSpire.java
++++ b/src/main/java/com/moguang/ctnhmana/Mutiblock/ZenithSpire.java
+@@ -196,7 +196,7 @@ public class ZenithSpire extends MysticSpire {
+         this.eutier = GTUtil.getFloorTierByVoltage(voltage);
+         this.euSpeed = selfEnergyContainer.getInputVoltage() * this.speed / base_speed * 4;
+         this.euCapacity = selfEnergyContainer.getEnergyCapacity() * this.maxMana / base_maxmana * 4;
+-        this.range +=77;
++        this.range += 77;
+         this.speed *= 4;
+         this.maxMana *= 4;
+     }
+@@ -372,4 +372,4 @@ public class ZenithSpire extends MysticSpire {
+             "鍦ㄤ腑杞ā寮忎笅锛屽ぉ椤跺皷濉斿皢鍙仛涓浆"
+     })
+     public static Lang[] omegaSpireLang;
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/common/blockentity/flower/DemonFlytrapBlockEntity.java b/src/main/java/com/moguang/ctnhmana/common/blockentity/flower/DemonFlytrapBlockEntity.java
+index 5b0eba2..35bfa36 100644
+--- a/src/main/java/com/moguang/ctnhmana/common/blockentity/flower/DemonFlytrapBlockEntity.java
++++ b/src/main/java/com/moguang/ctnhmana/common/blockentity/flower/DemonFlytrapBlockEntity.java
+@@ -30,16 +30,16 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
+         if (!this.getLevel().isClientSide && this.redstoneSignal <= 0) {
+             if (ticksExisted % 10 == 0) {
+                 var chunk = WorldDemonWillHandler.getWillChunk(getLevel(), getEffectivePos());
+-                if (getMana() < getCost()||getMonsters()==null) return;
++                if (getMana() < getCost() || getMonsters() == null) return;
+ 
+                 addMana(-getCost());
+                 for (var monster : getMonsters()) {
+                     if (monster.getHealth() <= 6 && !monster.getPersistentData().getBoolean("isDead")) {
+                         monster.kill();
+                         monster.getPersistentData().putBoolean("isDead", true);
+-                        if(chunk.getCurrentWill().getWill(EnumDemonWillType.DEFAULT)<110)
+-                        chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20,
+-                                MAX_WILL);
++                        if (chunk.getCurrentWill().getWill(EnumDemonWillType.DEFAULT) < 110)
++                            chunk.getCurrentWill().addWill(EnumDemonWillType.DEFAULT, monster.getMaxHealth() / 20,
++                                    MAX_WILL);
+                     } else {
+                         monster.hurt(getLevel().damageSources().magic(), 6);
+                         monster.addEffect(new MobEffectInstance(CMMobEffects.SOUL_LEECH.get(), 88, 0));
+@@ -77,4 +77,4 @@ public class DemonFlytrapBlockEntity extends FunctionalFlowerBlockEntity {
+     public @Nullable RadiusDescriptor getRadius() {
+         return RadiusDescriptor.Rectangle.square(bindingPos, getRange());
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/common/entity/DeltaSpark.java b/src/main/java/com/moguang/ctnhmana/common/entity/DeltaSpark.java
+index 6a24508..cd6e375 100644
+--- a/src/main/java/com/moguang/ctnhmana/common/entity/DeltaSpark.java
++++ b/src/main/java/com/moguang/ctnhmana/common/entity/DeltaSpark.java
+@@ -397,8 +397,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
+                             e -> e != this && e.isAlive() && !e.isRemoved());
+                     if (!sparks.isEmpty()) {
+                         spark = sparks.stream()
+-                                .min(Comparator.comparingDouble(a -> a.distanceToSqr(finalBinding.getX() + 0.5, finalBinding.getY() + 0.5,
+-                                        finalBinding.getZ() + 0.5)))
++                                .min(Comparator.comparingDouble(
++                                        a -> a.distanceToSqr(finalBinding.getX() + 0.5, finalBinding.getY() + 0.5,
++                                                finalBinding.getZ() + 0.5)))
+                                 .orElse(null);
+                     }
+                 }
+@@ -502,4 +503,4 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
+             gui.drawString(mc.font, networkColorName, centerX - networkColorTextStart, centerY + (46), textColor);
+         }
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT1.java b/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT1.java
+index 6f1a1d3..f306dca 100644
+--- a/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT1.java
++++ b/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT1.java
+@@ -53,7 +53,7 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
+             }
+             if (hatch.corrosiveWill >= BASE_MIN) {
+                 if (!stead) metric.parallel *= 0.75;
+-                metric.speed+=(metric.speed-1)*1.2;
++                metric.speed += (metric.speed - 1) * 1.2;
+             }
+         }
+ 
+@@ -121,4 +121,4 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
+ 
+     @CN("搂4璧ょ棔涔嬮摳閫?)
+     public static Lang BM_UPDATE_NAME_T1;
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT2.java b/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT2.java
+index ba4e4bf..a8ebd61 100644
+--- a/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT2.java
++++ b/src/main/java/com/moguang/ctnhmana/item/ManaMachineUpgrade/BMUpgradeItemT2.java
+@@ -53,7 +53,7 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
+             }
+             if (hatch.corrosiveWill >= BASE_MIN) {
+                 if (!stead) metric.parallel *= 0.75;
+-                metric.speed+=(metric.speed-1)*1.5;
++                metric.speed += (metric.speed - 1) * 1.5;
+             }
+         }
+ 
+@@ -131,4 +131,4 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
+ 
+     @CN("搂4榄傜棔涔嬮摳閫?)
+     public static Lang BM_UPDATE_NAME_T2;
+-}
+\ No newline at end of file
++}

@@ -1,5 +1,7 @@
 package com.moguang.ctnhmana.client.ponder;
 
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.createmod.ponder.api.registration.TagBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -14,8 +16,7 @@ public final class CTNHManaPonderTags {
 
     public static final ResourceLocation Mana = ResourceLocation.tryBuild(CTNHMana.MODID, "mana");
 
-    private CTNHManaPonderTags() {
-    }
+    private CTNHManaPonderTags() {}
 
     public static void register(PonderTagRegistrationHelper<ResourceLocation> helper) {
         registerTag(helper, Mana,
@@ -25,8 +26,11 @@ public final class CTNHManaPonderTags {
                 .item(Items.AMETHYST_SHARD, true, false)
                 .register();
 
-        helper.addToTag(Mana)
+        var manaTag = helper.addToTag(Mana)
                 .add(CMMultiblockMachines.MysticSpire.getId());
+        for (MachineDefinition manaHatch : CTNHManaPonderScenes.MANA_HATCHES) {
+            manaTag.add(manaHatch.getId());
+        }
 
         CTNHMana.LOGGER.info("Mana Ponder tags initialized");
     }
