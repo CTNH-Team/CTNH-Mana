@@ -7,8 +7,7 @@ import vazkii.botania.client.fx.WispParticleData;
 
 public final class PonderParticleUtil {
 
-    private PonderParticleUtil() {
-    }
+    private PonderParticleUtil() {}
 
     /**
      * 在 Ponder 场景中创建由 A 到 B 的 Botania 火花传魔粒子特效。
