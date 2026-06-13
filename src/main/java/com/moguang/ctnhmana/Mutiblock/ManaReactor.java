@@ -3,13 +3,8 @@ package com.moguang.ctnhmana.Mutiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import net.minecraft.util.Mth;
-
-import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
-import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.recipe.ZenithCondition;
 import org.jetbrains.annotations.Nullable;
-import vazkii.botania.xplat.XplatAbstractions;
 
 import java.util.List;
 
@@ -22,21 +17,6 @@ public class ManaReactor extends BaseManaMachine {
     @Override
     public boolean alwaysTryModifyRecipe() {
         return true;
-    }
-
-    @Override
-    public boolean onWorking() {
-        float progress = Mth.clamp((float) this.getProgress() / this.getMaxProgress(), 0.0F, 1.0F);
-        int proportion = Float.floatToIntBits(progress);
-        var pos = MachineUtils.getOffset(this, 0, 10, -10);
-        XplatAbstractions.INSTANCE.sendToNear(
-                this.getLevel(),
-                pos,
-                new BotaniaEffectPacketExtend(
-                        BotaniaExtendEffectType.TERRA_PLATE,
-                        pos.getX(), pos.getY(), pos.getZ(),
-                        proportion));
-        return super.onWorking();
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;
+import com.moguang.ctnhmana.client.render.ManaReactorRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.client.render.particle.IconParticle;
 import com.moguang.ctnhmana.common.CommonProxy;
@@ -32,6 +33,7 @@ public class ClientProxy extends CommonProxy {
         DynamicRenderManager.register(CTNHMana.id("zenith_laser"), ZenithMatrixBlockEntityRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("eternal_garden"), EternalGardenRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
+        DynamicRenderManager.register(CTNHMana.id("mana_reactor"), ManaReactorRender.TYPE);
     }
 
     @SubscribeEvent
