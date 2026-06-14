@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "ctnhmana:demon_will_generator"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "ctnhmana:demon_will_generator",
   "texture_overrides": {

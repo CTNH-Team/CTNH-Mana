@@ -2,9 +2,14 @@ package com.moguang.ctnhmana.client;
 
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.moguang.ctnhmana.client.render.*;
+import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
+import com.moguang.ctnhmana.registry.CMItems;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,10 +17,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
-import com.moguang.ctnhmana.client.render.EternalGardenRender;
-import com.moguang.ctnhmana.client.render.ManaCondenserRender;
-import com.moguang.ctnhmana.client.render.ManaReactorRender;
-import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.client.render.particle.IconParticle;
 import com.moguang.ctnhmana.common.CommonProxy;
 import com.moguang.ctnhmana.registry.CMModelLayers;
@@ -34,6 +35,7 @@ public class ClientProxy extends CommonProxy {
         DynamicRenderManager.register(CTNHMana.id("eternal_garden"), EternalGardenRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_reactor"), ManaReactorRender.TYPE);
+        DynamicRenderManager.register(CTNHMana.id("demon_will_generator"), DemonWillRender.TYPE);
     }
 
     @SubscribeEvent
