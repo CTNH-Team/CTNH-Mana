@@ -18,6 +18,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.DemonWillMachine;
 import com.moguang.ctnhmana.Mutiblock.MeteorCaptureMachine;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
+import com.moguang.ctnhmana.client.render.DemonWillRender;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -25,6 +26,7 @@ import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_STEEL_SOLID;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.LAMPS;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.Mutiblock.DemonWillMachine.SHIFT_TOOLTIPS;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_BLOOD;
@@ -975,8 +977,9 @@ public class BloodMagic {
                     .where("Z", Predicates.blocks(BloodMagicBlocks.HELLFORGED_BLOCK.get()))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(wayoftime.bloodmagic.BloodMagic.rl("block/obsidiantilepath"),
+            .model(createWorkableCasingMachineModel(wayoftime.bloodmagic.BloodMagic.rl("block/obsidiantilepath"),
                     GTCEu.id("block/multiblock/vacuum_freezer"))
+                    .andThen(b -> b.addDynamicRenderer(DemonWillRender::new)))
             .register();
 
     public static final MultiblockMachineDefinition METEOR_CAPTURER = REGISTRATE

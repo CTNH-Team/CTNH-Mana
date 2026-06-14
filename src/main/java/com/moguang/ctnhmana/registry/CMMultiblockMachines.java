@@ -26,6 +26,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.*;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
+import com.moguang.ctnhmana.client.render.ManaReactorRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
@@ -219,8 +220,9 @@ public class CMMultiblockMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
 
-            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+            .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/living_rock_casing"),
                     CTNHMana.id("block/overlay/manamachine"))
+                    .andThen(b -> b.addDynamicRenderer(ManaReactorRender::new)))
             .register();
     public final static MultiblockMachineDefinition MANA_FORCE_TRANSFORMER = REGISTRATE
             .multiblock("mana_force_transformer", holder -> new ManaForceTransformer(holder, 4))

@@ -10,9 +10,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.model.MagicCubeModel;
@@ -96,6 +98,18 @@ public class EternalGardenRender extends DynamicRender<IMachineFeature, EternalG
 
     @Override
     public int getViewDistance() {
-        return 32;
+        return 64;
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(IMachineFeature machine) {
+        return true;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(IMachineFeature machine) {
+        BlockPos pos = machine.self().getPos();
+
+        return new AABB(pos).inflate(64.0, 64.0, 64.0);
     }
 }

@@ -49,7 +49,7 @@ public class ManaReactorRender extends DynamicRender<ManaReactor, ManaReactorRen
 
     private final Map<BlockPos, RenderState> stateMap = new HashMap<>();
 
-    private ManaReactorRender() {}
+    public ManaReactorRender() {}
 
     @Override
     public DynamicRenderType<ManaReactor, ManaReactorRender> getType() {
