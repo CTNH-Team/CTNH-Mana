@@ -19,7 +19,6 @@ import com.moguang.ctnhmana.Mutiblock.MachineUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
-
 import org.joml.Matrix4f;
 
 public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRender> {
@@ -49,7 +48,7 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
 
     // 四个小塔坐标
     private static final int[][] SMALL_TOWER_OFFSETS = {
-            {9, 30, 9}, {-9, 30, 9}, {9, 30, -9}, {-9, 30, -9}
+            { 9, 30, 9 }, { -9, 30, 9 }, { 9, 30, -9 }, { -9, 30, -9 }
     };
 
     private static final float SMALL_TOWER_BASE_Y = 5.0f;
@@ -73,7 +72,7 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
     public void render(IMachineFeature feature, float gameTime, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
         var metaMachine = feature.self();
-        if (metaMachine instanceof DemonWillMachine machine && machine.isFormed() && (machine.isActive()||
+        if (metaMachine instanceof DemonWillMachine machine && machine.isFormed() && (machine.isActive() ||
                 machine.getLevel() instanceof TrackedDummyWorld)) {
 
             float time = machine.getLevel().getGameTime() + gameTime;
@@ -91,9 +90,10 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
         }
     }
 
-    private void renderMainTowerAnimation(DemonWillMachine machine, BlockPos controllerPos, float time, PoseStack poseStack, VertexConsumer builder) {
-
-        BlockPos targetPos = MachineUtils.getOffset(machine, MAIN_TOWER_OFFSET_X, MAIN_TOWER_OFFSET_Y, MAIN_TOWER_OFFSET_Z);
+    private void renderMainTowerAnimation(DemonWillMachine machine, BlockPos controllerPos, float time,
+                                          PoseStack poseStack, VertexConsumer builder) {
+        BlockPos targetPos = MachineUtils.getOffset(machine, MAIN_TOWER_OFFSET_X, MAIN_TOWER_OFFSET_Y,
+                MAIN_TOWER_OFFSET_Z);
 
         double offsetX = targetPos.getX() - controllerPos.getX() + 0.5;
         double offsetY = targetPos.getY() - controllerPos.getY() + 0.5;
@@ -131,7 +131,8 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
         }
     }
 
-    private void renderSmallTowersAnimation(DemonWillMachine machine, BlockPos controllerPos, float time, PoseStack poseStack, VertexConsumer builder) {
+    private void renderSmallTowersAnimation(DemonWillMachine machine, BlockPos controllerPos, float time,
+                                            PoseStack poseStack, VertexConsumer builder) {
         float distance = SMALL_TOWER_TIP_Y - SMALL_TOWER_BASE_Y;
 
         for (int[] offset : SMALL_TOWER_OFFSETS) {
@@ -159,7 +160,8 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
         }
     }
 
-    private void renderRing(Matrix4f matrix, VertexConsumer builder, float radius, float width, float r, float g, float b, float a) {
+    private void renderRing(Matrix4f matrix, VertexConsumer builder, float radius, float width, float r, float g,
+                            float b, float a) {
         int segments = 32;
         float innerRadius = Math.max(0.01f, radius - width);
         float outerRadius = radius + width;
@@ -179,9 +181,9 @@ public class DemonWillRender extends DynamicRender<IMachineFeature, DemonWillRen
             builder.vertex(matrix, innerRadius * cos2, 0, innerRadius * sin2).color(r, g, b, a).endVertex();
         }
     }
+
     @Override
     public AABB getRenderBoundingBox(IMachineFeature machine) {
-
         BlockPos pos = machine.self().getPos();
 
         return new AABB(pos).inflate(64.0, 64.0, 64.0);
