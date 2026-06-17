@@ -11,22 +11,22 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.moguang.ctnhmana.Mutiblock.ZENITH_MATRIX;
+import com.moguang.ctnhmana.Mutiblock.ZenithMatrixMachine;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 
 import static com.hollingsworth.arsnouveau.client.ClientInfo.partialTicks;
 
-public class ZenithMatrixBlockEntityRender extends DynamicRender<IMachineFeature, ZenithMatrixBlockEntityRender> {
+public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMatrixRender> {
 
-    public static Codec<ZenithMatrixBlockEntityRender> CODEC = Codec.unit(ZenithMatrixBlockEntityRender::new);
-    public static final DynamicRenderType<IMachineFeature, ZenithMatrixBlockEntityRender> TYPE = new DynamicRenderType<>(
-            ZenithMatrixBlockEntityRender.CODEC);
+    public static Codec<ZenithMatrixRender> CODEC = Codec.unit(ZenithMatrixRender::new);
+    public static final DynamicRenderType<IMachineFeature, ZenithMatrixRender> TYPE = new DynamicRenderType<>(
+            ZenithMatrixRender.CODEC);
 
-    public ZenithMatrixBlockEntityRender() {}
+    public ZenithMatrixRender() {}
 
     @Override
-    public DynamicRenderType<IMachineFeature, ZenithMatrixBlockEntityRender> getType() {
+    public DynamicRenderType<IMachineFeature, ZenithMatrixRender> getType() {
         return TYPE;
     }
 
@@ -41,7 +41,7 @@ public class ZenithMatrixBlockEntityRender extends DynamicRender<IMachineFeature
                        int combinedLight, int combinedOverlay) {
         var metaMachine = feature.self();
         float[] color = { 1.0F, 0.2F, 0.8F, 1.0F };
-        if (metaMachine instanceof ZENITH_MATRIX machine && machine.isFormed()) {
+        if (metaMachine instanceof ZenithMatrixMachine machine && machine.isFormed()) {
             var locate = machine.getPos();
             BeaconRenderer.renderBeaconBeam(
                     poseStack,
@@ -51,14 +51,11 @@ public class ZenithMatrixBlockEntityRender extends DynamicRender<IMachineFeature
                     1F,  // 纹理缩放（值越小纹理重复越密集）
                     machine.getLevel().getGameTime(),
                     locate.getY() + 1,  // 起始Y坐标（方块顶部）
-                    200,  // 光束高度
+                    320,  // 光束高度
                     color,
                     0.25F,  // 主体半径
                     0.25F   // 光晕半径
             );
-
-            // EnderDragonRenderer.renderCrystalBeams(locate.getX(), locate.getY()+4, locate.getZ(),
-            // machine.getLevel().getGameTime() + gameTime, 2000, poseStack, buffer, 15);
 
         }
     }

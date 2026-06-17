@@ -27,7 +27,7 @@ import com.moguang.ctnhmana.Mutiblock.*;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ManaReactorRender;
-import com.moguang.ctnhmana.client.render.ZenithMatrixBlockEntityRender;
+import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
@@ -437,7 +437,7 @@ public class CMMultiblockMachines {
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
     public final static MultiblockMachineDefinition ZENITH_MATRIX = REGISTRATE.multiblock("zenith_matrix",
-            holder -> new ZENITH_MATRIX(holder))
+            holder -> new ZenithMatrixMachine(holder))
             .cnLangValue("天顶矩阵")
             .appearanceBlock(() -> BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -3158,7 +3158,7 @@ public class CMMultiblockMachines {
             .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
             .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/depth_force_field_stabilizing_casing"),
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
-                    .andThen(b -> b.addDynamicRenderer(ZenithMatrixBlockEntityRender::new)))
+                    .andThen(b -> b.addDynamicRenderer(ZenithMatrixRender::new)))
             .register();
 
     public static MultiblockMachineDefinition ETERNAL_WELL_OF_SUFFER = REGISTRATE
