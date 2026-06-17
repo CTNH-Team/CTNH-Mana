@@ -27,7 +27,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     public static void init() {
-        DynamicRenderManager.register(CTNHMana.id("zenith_laser"), ZenithMatrixBlockEntityRender.TYPE);
+        DynamicRenderManager.register(CTNHMana.id("zenith_laser"), ZenithMatrixRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("eternal_garden"), EternalGardenRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_reactor"), ManaReactorRender.TYPE);

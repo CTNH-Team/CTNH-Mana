@@ -28,7 +28,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CLEANROOM_GLASS;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 
-public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements ICleanroomProvider {
+public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine implements ICleanroomProvider {
 
     @Nullable
     private CleanroomType cleanroomType = CleanroomType.CLEANROOM;
@@ -39,7 +39,7 @@ public class ZENITH_MATRIX extends WorkableElectricMultiblockMachine implements 
     @Nullable
     private Collection<ManaMachine> ManaReceivers;
 
-    public ZENITH_MATRIX(IMachineBlockEntity holder, Object... args) {
+    public ZenithMatrixMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
