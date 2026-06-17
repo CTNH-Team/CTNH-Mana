@@ -90,8 +90,14 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
         if (metaMachine instanceof ZenithMatrixMachine machine && machine.isFormed()) {
 
             var level = machine.getLevel();
-            var pos = machine.getPos();
+            if (level == null) return;
+            var eyePos = machine.getZenithEyePos();
+            var localEyeX = eyePos.getX() - machine.getPos().getX();
+            var localEyeY = eyePos.getY() - machine.getPos().getY();
+            var localEyeZ = eyePos.getZ() - machine.getPos().getZ();
 
+            poseStack.pushPose();
+            poseStack.translate(localEyeX, localEyeY, localEyeZ);
             BeaconRenderer.renderBeaconBeam(
                     poseStack,
                     buffer,
@@ -99,11 +105,12 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
                     partialTick,
                     1F,
                     level.getGameTime(),
-                    pos.getY() + 1,
+                    0,
                     320,
                     color,
                     0.25F,
                     0.25F);
+            poseStack.popPose();
         }
     }
 

@@ -79,7 +79,8 @@ void main() {
 
     float warpedX = riftUV.x + zigzag + organic;
 
-    float riftSDF = length(vec2(warpedX * 0.4, y * 2.0));
+    // 让“眼睛”更饱满一些，别拉得太细长
+    float riftSDF = length(vec2(warpedX * 0.3, y * 1.8));
 
     float riftMask = 1.0 - smoothstep(1.0, 1.15, riftSDF);
     float sharpGlow = smoothstep(0.9, 1.0, riftSDF) *
@@ -123,10 +124,10 @@ void main() {
     vec3(0.9, 0.3, 1.0),
     fog * 0.9);
 
-    float irisMask = 1.0 - smoothstep(0.6, 1.5, dEye);
+    float irisMask = 1.0 - smoothstep(0.58, 1.42, dEye);
 
-    float dPupil = abs(eyeUV.x * 5.0) + abs(eyeUV.y * 1.2);
-    float pupilMask = 1.0 - smoothstep(0.28, 0.35, dPupil);
+    float dPupil = abs(eyeUV.x * 3.8) + abs(eyeUV.y * 1.45);
+    float pupilMask = 1.0 - smoothstep(0.30, 0.40, dPupil);
 
     vec3 eyeColor = mix(dimSpaceColor, nebulaColor, irisMask);
     eyeColor = mix(eyeColor, vec3(0.0), pupilMask * irisMask);
