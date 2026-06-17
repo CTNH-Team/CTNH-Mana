@@ -164,8 +164,8 @@ public class ClientForgeRegister {
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, skyAlpha);
 
-            if (galaxyShader.safeGetUniform("GameTime") != null) {
-                galaxyShader.safeGetUniform("GameTime").set((ticks + partialTick) * 0.01f);
+            if (galaxyShader.safeGetUniform("Time") != null) {
+                galaxyShader.safeGetUniform("Time").set((ticks + partialTick) * 0.05f);
             }
 
             RenderSystem.disableCull();

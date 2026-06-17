@@ -3,7 +3,7 @@
 in vec3 localDir;
 in vec2 texCoord;
 
-uniform float GameTime;
+uniform float Time;
 
 out vec4 fragColor;
 
@@ -47,7 +47,7 @@ float tri(float x) {
 // ================= 主函数 =================
 void main() {
 
-    float t = GameTime * 3.0;
+    float t = Time * 3.0;
 
     vec2 uv = texCoord * 4.0;
 
@@ -63,24 +63,31 @@ void main() {
 
     float y = riftUV.y;
 
-    // ================= 🔥 强化锯齿裂痕 =================
+    // ================= 🔥 强化裂缝边缘 =================
     float zigzag = 0.0;
 
-    zigzag += tri(y * 3.0 + fbm(vec3(y, t * 0.2, 0.0)) * 2.0) * 0.7;
-    zigzag += tri(y * 7.0 - t * 0.6) * 0.35;
-    zigzag += tri(y * 15.0 + sin(t + y * 10.0)) * 0.18;
+    zigzag += tri(y * 3.0 + fbm(vec3(y, t * 0.2, 0.0)) * 2.0) * 0.4;
+    zigzag += tri(y * 7.0 + sin(t * 0.4)) * 0.2;
+    zigzag += tri(y * 15.0 + sin(t + y * 10.0)) * 0.08;
 
     float stepBreak = floor(y * 25.0) * 0.03;
-    zigzag += tri(stepBreak + t * 0.5) * 0.25;
+    zigzag += tri(stepBreak + t * 0.3) * 0.12;
 
-    zigzag += (fbm(vec3(y * 8.0, t * 1.2, 0.0)) - 0.5) * 0.4;
+    zigzag += (fbm(vec3(y * 8.0, t * 0.8, 0.0)) - 0.5) * 0.2;
 
-    float organic = fbm(vec3(y * 4.0, t * 0.3, 0.0)) * 0.3;
+    float organic = fbm(vec3(y * 4.0, t * 0.25, 0.0)) * 0.18;
+    float sideMask = smoothstep(0.35, 0.95, abs(riftUV.x));
+    float sideWave = fbm(vec3(abs(riftUV.x) * 4.0, y * 4.0, t * 0.45)) - 0.5;
+    float sideFlow = sin(t * 0.9 + y * 6.0 + sideWave * 4.0) * 0.08;
+    float sideRipple = fbm(vec3(abs(riftUV.x) * 7.0, y * 6.5, t * 0.7)) - 0.5;
+    float sideZigzag = (sideWave * 0.35 + sideFlow + sideRipple * 0.25) * sideMask;
 
-    float warpedX = riftUV.x + zigzag + organic;
+    float warpedX = riftUV.x + zigzag + organic + sideZigzag;
 
-    // 让“眼睛”更饱满一些，别拉得太细长
-    float riftSDF = length(vec2(warpedX * 0.3, y * 1.8));
+    // 让上下边缘带一点眼睑弧度，越靠近眼角越向中间收
+    float eyelidCurve = pow(abs(warpedX) * 0.28, 2.0) * 0.55;
+    float curvedY = y + sign(y) * eyelidCurve;
+    float riftSDF = length(vec2(warpedX * 0.3, curvedY * 1.8));
 
     float riftMask = 1.0 - smoothstep(1.0, 1.15, riftSDF);
     float sharpGlow = smoothstep(0.9, 1.0, riftSDF) *
@@ -97,13 +104,31 @@ void main() {
     dimSpaceColor *= 1.5;
 
     // ================= 🌌 动态星云 =================
+    float gazeStep = floor(t * 0.18);
+    float gazePhase = fract(t * 0.18);
+    vec2 gazeFrom = vec2(
+    hash31(vec3(gazeStep, 1.7, 0.0)) - 0.5,
+    hash31(vec3(gazeStep, 5.3, 0.0)) - 0.5
+    );
+    vec2 gazeTo = vec2(
+    hash31(vec3(gazeStep + 1.0, 1.7, 0.0)) - 0.5,
+    hash31(vec3(gazeStep + 1.0, 5.3, 0.0)) - 0.5
+    );
+    float gazeHold = smoothstep(0.72, 0.92, gazePhase);
+    vec2 gaze = mix(gazeFrom, gazeTo, gazeHold) * vec2(0.34, 0.22);
+    gaze += vec2(
+    hash31(vec3(gazeStep, 2.1, 0.0)) - 0.5,
+    hash31(vec3(gazeStep, 7.9, 0.0)) - 0.5
+    ) * 0.008 * (1.0 - gazeHold);
+
     vec2 eyeUV = uv;
-    float dEye = length(eyeUV);
+    vec2 irisUV = eyeUV - gaze * 0.28;
+    float dEye = length(irisUV);
 
     float swirlAngle = dEye * 1.5 - t * 0.4;
     float sa = sin(swirlAngle), ca = cos(swirlAngle);
-    vec2 swirlUV = vec2(ca * eyeUV.x - sa * eyeUV.y,
-    sa * eyeUV.x + ca * eyeUV.y);
+    vec2 swirlUV = vec2(ca * irisUV.x - sa * irisUV.y,
+    sa * irisUV.x + ca * irisUV.y);
 
     // 🔥 动态流体星云
     vec2 flow = vec2(
@@ -126,8 +151,9 @@ void main() {
 
     float irisMask = 1.0 - smoothstep(0.58, 1.42, dEye);
 
-    float dPupil = abs(eyeUV.x * 3.8) + abs(eyeUV.y * 1.45);
-    float pupilMask = 1.0 - smoothstep(0.30, 0.40, dPupil);
+    vec2 pupilUV = eyeUV - gaze * 0.65;
+    float dPupil = abs(pupilUV.x * 4.2) + abs(pupilUV.y * 1.6);
+    float pupilMask = 1.0 - smoothstep(0.24, 0.36, dPupil);
 
     vec3 eyeColor = mix(dimSpaceColor, nebulaColor, irisMask);
     eyeColor = mix(eyeColor, vec3(0.0), pupilMask * irisMask);
