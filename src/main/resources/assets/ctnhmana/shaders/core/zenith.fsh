@@ -1,9 +1,9 @@
 #version 150
 
 in vec3 localDir;
+in vec2 texCoord;
 
 uniform float GameTime;
-uniform vec2 CameraYawPitch;
 
 out vec4 fragColor;
 
@@ -44,35 +44,15 @@ float tri(float x) {
     return abs(fract(x) - 0.5) * 2.0 - 0.5;
 }
 
-// ================= 旋转 =================
-vec3 rotateX(vec3 p, float a) {
-    float c = cos(a), s = sin(a);
-    return vec3(p.x, c*p.y - s*p.z, s*p.y + c*p.z);
-}
-
-vec3 rotateY(vec3 p, float a) {
-    float c = cos(a), s = sin(a);
-    return vec3(c*p.x + s*p.z, p.y, -s*p.x + c*p.z);
-}
-
-vec3 rotateCameraToWorld(vec3 p, vec2 yawPitch) {
-    p = rotateX(p, -yawPitch.y);
-    p = rotateY(p, -yawPitch.x);
-    return normalize(p);
-}
-
 // ================= 主函数 =================
 void main() {
 
     float t = GameTime * 3.0;
 
-    vec2 cam = radians(CameraYawPitch);
-    vec3 dir = rotateCameraToWorld(normalize(localDir), cam);
-
-    vec2 uv = dir.xz / max(dir.y, 0.02);
+    vec2 uv = texCoord * 4.0;
 
     // ================= 背景 =================
-    float heightFactor = smoothstep(-0.1, 0.5, dir.y);
+    float heightFactor = smoothstep(0.0, 0.8, 1.0 - length(uv) * 0.22);
     vec3 baseSkyColor = vec3(0.02, 0.0, 0.05) * heightFactor;
     float baseAlpha = 0.8 * heightFactor;
 
@@ -110,7 +90,7 @@ void main() {
     // ================= 裂缝内部空间 =================
     vec3 dimSpaceColor =
     vec3(0.1, 0.0, 0.3) +
-    fbm(dir * 12.0 - vec3(0.0, t * 0.6, 0.0)) *
+    fbm(vec3(uv * 4.0, 0.0) - vec3(0.0, t * 0.6, 0.0)) *
     vec3(0.8, 0.1, 1.0);
 
     dimSpaceColor *= 1.5;
@@ -165,7 +145,6 @@ void main() {
     finalColor += glowColor * softGlow * 1.5;
 
     finalAlpha = clamp(finalAlpha + sharpGlow + softGlow, 0.0, 1.0);
-    finalAlpha *= smoothstep(-0.05, 0.1, dir.y);
 
     fragColor = vec4(finalColor, finalAlpha);
 }

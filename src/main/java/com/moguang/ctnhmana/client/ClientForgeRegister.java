@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -20,7 +21,6 @@ import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 
 import java.util.Random;
@@ -103,19 +103,14 @@ public class ClientForgeRegister {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            if (ZenithMatrixRender.skyEffectTicks > 0) {
-                ZenithMatrixRender.skyEffectTicks--;
-            }
-            if (ZenithMatrixRender.formationAnimTicks > 0) {
-                ZenithMatrixRender.formationAnimTicks--;
-            }
+            ZenithMatrixRender.tickClientEffects();
         }
     }
 
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
-            if (ZenithMatrixRender.skyEffectTicks > 0) {
+            if (ZenithMatrixRender.hasSkyEffectSource()) {
                 renderZenithSkyEffect(event);
             }
         }
@@ -131,6 +126,10 @@ public class ClientForgeRegister {
         Camera camera = event.getCamera();
         float partialTick = event.getPartialTick();
         int ticks = (int) level.getGameTime();
+        Vec3 anchorOffset = ZenithMatrixRender.getSkyEffectAnchorOffset(
+                camera.getPosition(),
+                level.getMaxBuildHeight());
+        if (anchorOffset == null) return;
 
         float skyAlpha = 1.0f;
         int animTicks = ZenithMatrixRender.formationAnimTicks;
@@ -155,11 +154,10 @@ public class ClientForgeRegister {
 
         ShaderInstance galaxyShader = ClientProxy.getZenithShader();
         if (galaxyShader != null) {
-            poseStack.pushPose();
-
-            float timeOfDay = level.getTimeOfDay(partialTick);
-            poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
-            poseStack.mulPose(Axis.XP.rotationDegrees(timeOfDay * 360.0F));
+            float radius = ZenithMatrixRender.SKY_EFFECT_RADIUS;
+            float centerX = (float) anchorOffset.x;
+            float centerY = (float) anchorOffset.y;
+            float centerZ = (float) anchorOffset.z;
             Matrix4f skyMatrix = poseStack.last().pose();
 
             RenderSystem.setShader(ClientProxy::getZenithShader);
@@ -169,53 +167,21 @@ public class ClientForgeRegister {
             if (galaxyShader.safeGetUniform("GameTime") != null) {
                 galaxyShader.safeGetUniform("GameTime").set((ticks + partialTick) * 0.01f);
             }
-            if (galaxyShader.safeGetUniform("CameraYawPitch") != null) {
-                galaxyShader.safeGetUniform("CameraYawPitch").set(
-                        camera.getYRot(), camera.getXRot());
-            }
 
             RenderSystem.disableCull();
             RenderSystem.depthMask(false);
 
-            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
+            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            float radius = 512.0F;
-            int stacks = 48;
-            int slices = 96;
-
-            for (int i = 0; i < stacks; i++) {
-                float v0 = (float) i / stacks;
-                float v1 = (float) (i + 1) / stacks;
-                float theta0 = (float) Math.PI * v0;
-                float theta1 = (float) Math.PI * v1;
-                float y0 = (float) Math.cos(theta0) * radius;
-                float y1 = (float) Math.cos(theta1) * radius;
-                float r0 = (float) Math.sin(theta0) * radius;
-                float r1 = (float) Math.sin(theta1) * radius;
-
-                for (int j = 0; j < slices; j++) {
-                    float u0 = (float) j / slices;
-                    float u1 = (float) (j + 1) / slices;
-                    float phi0 = (float) (u0 * Math.PI * 2.0);
-                    float phi1 = (float) (u1 * Math.PI * 2.0);
-
-                    float x00 = (float) Math.cos(phi0) * r0, z00 = (float) Math.sin(phi0) * r0;
-                    float x01 = (float) Math.cos(phi1) * r0, z01 = (float) Math.sin(phi1) * r0;
-                    float x10 = (float) Math.cos(phi0) * r1, z10 = (float) Math.sin(phi0) * r1;
-                    float x11 = (float) Math.cos(phi1) * r1, z11 = (float) Math.sin(phi1) * r1;
-
-                    bufferbuilder.vertex(skyMatrix, x00, y0, z00).endVertex();
-                    bufferbuilder.vertex(skyMatrix, x10, y1, z10).endVertex();
-                    bufferbuilder.vertex(skyMatrix, x11, y1, z11).endVertex();
-                    bufferbuilder.vertex(skyMatrix, x01, y0, z01).endVertex();
-                }
-            }
+            bufferbuilder.vertex(skyMatrix, centerX - radius, centerY, centerZ - radius).uv(-1.0F, -1.0F).endVertex();
+            bufferbuilder.vertex(skyMatrix, centerX + radius, centerY, centerZ - radius).uv(1.0F, -1.0F).endVertex();
+            bufferbuilder.vertex(skyMatrix, centerX + radius, centerY, centerZ + radius).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(skyMatrix, centerX - radius, centerY, centerZ + radius).uv(-1.0F, 1.0F).endVertex();
 
             tesselator.end();
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.enableCull();
-            poseStack.popPose();
         }
 
         RenderSystem.depthMask(true);

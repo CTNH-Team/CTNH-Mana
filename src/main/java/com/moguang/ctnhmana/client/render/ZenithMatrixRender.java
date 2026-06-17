@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,6 +28,10 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
     public static final int SHAKE_DELAY = 20;
     public static final int SHAKE_DURATION = 30;
     public static final int FLASH_DURATION = 15;
+    public static final float SKY_EFFECT_RADIUS = 512.0F;
+    private static final double SKY_ANCHOR_HEIGHT_OFFSET = 96.0D;
+    private static final double SKY_ANCHOR_TOP_PADDING = 32.0D;
+    private static BlockPos skyEffectSourcePos;
 
     public ZenithMatrixRender() {}
 
@@ -38,6 +43,40 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
     @Override
     public int getViewDistance() {
         return 1024;
+    }
+
+    public static void markSkyEffectSource(BlockPos sourcePos) {
+        skyEffectTicks = 2;
+        skyEffectSourcePos = sourcePos.immutable();
+    }
+
+    public static void tickClientEffects() {
+        if (skyEffectTicks > 0) {
+            skyEffectTicks--;
+        }
+        if (skyEffectTicks <= 0) {
+            skyEffectSourcePos = null;
+        }
+        if (formationAnimTicks > 0) {
+            formationAnimTicks--;
+        }
+    }
+
+    public static boolean hasSkyEffectSource() {
+        return skyEffectTicks > 0 && skyEffectSourcePos != null;
+    }
+
+    public static Vec3 getSkyEffectAnchorOffset(Vec3 cameraPos, int maxBuildHeight) {
+        if (!hasSkyEffectSource()) return null;
+
+        double anchorY = Math.max(
+                maxBuildHeight + SKY_ANCHOR_TOP_PADDING,
+                skyEffectSourcePos.getY() + SKY_ANCHOR_HEIGHT_OFFSET);
+        Vec3 anchorPos = new Vec3(
+                skyEffectSourcePos.getX() + 0.5D,
+                anchorY,
+                skyEffectSourcePos.getZ() + 0.5D);
+        return anchorPos.subtract(cameraPos);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class ClientProxy extends CommonProxy {
                 new ShaderInstance(
                         event.getResourceProvider(),
                         new ResourceLocation(CTNHMana.MODID, "zenith"),
-                        DefaultVertexFormat.POSITION),
+                        DefaultVertexFormat.POSITION_TEX),
                 shaderInstance -> zenithShader = shaderInstance);
     }
 

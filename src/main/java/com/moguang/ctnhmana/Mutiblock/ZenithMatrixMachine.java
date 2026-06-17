@@ -86,7 +86,7 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
         super.clientTick();
         boolean formed = this.isFormed();
         if (formed) {
-            ZenithMatrixRender.skyEffectTicks = 2;
+            ZenithMatrixRender.markSkyEffectSource(getPos());
             if (!wasFormedLastTick) {
                 ZenithMatrixRender.formationAnimTicks = ZenithMatrixRender.FORMATION_DURATION;
             }
