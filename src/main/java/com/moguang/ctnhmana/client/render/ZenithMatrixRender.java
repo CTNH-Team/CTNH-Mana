@@ -172,7 +172,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             float time = level.getGameTime() + partialTick;
 
             // ========== 光柱动态参数 ==========
-            float baseRadius = 0.35F;
+            float baseRadius = 0.45F;
             // 亚空间能量束：半径稳定，不呼吸抖动。
             // 形成瞬间的能量爆发。
             float formationBoost = 1.0F;
@@ -215,7 +215,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             }
             // 传递 Uniform：BeamAlpha 控制整体不透明度。
             if (beamShader.safeGetUniform("BeamAlpha") != null) {
-                beamShader.safeGetUniform("BeamAlpha").set(0.85f);
+                beamShader.safeGetUniform("BeamAlpha").set(0.95f);
             }
 
             // ========== 构建圆柱网格 ==========

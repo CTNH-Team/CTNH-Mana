@@ -42,10 +42,8 @@ float fbm(vec3 p) {
 }
 
 void main() {
-    // 稳定但缓慢变化的时间，用于产生“能量涌动”而非“呼吸抖动”
     float t = Time * 0.5;
 
-    // 圆柱坐标
     float r = length(localPos.xz);
     float angle = atan(localPos.z, localPos.x);
     float y = localPos.y;
@@ -59,32 +57,39 @@ void main() {
     float stream = fbm(vec3(angle * 3.0, y * 0.04 - t * 0.12, t * 0.05));
     float streamSharp = pow(stream, 2.0) * smoothstep(0.0, 0.45, r);
 
-    // 裂缝边缘的撕裂辉光：越靠近圆柱侧面越亮
+    // 内部电弧：短促、高对比，增强力量感
+    float arc = fbm(vec3(angle * 8.0, y * 0.15 - t * 0.4, t * 0.2));
+    float arcSharp = pow(smoothstep(0.45, 0.85, arc), 3.0) * smoothstep(0.0, 0.3, r);
+
+    // 裂缝边缘的撕裂辉光
     float tearGlow = exp(-pow(max(0.0, r - 0.42), 2.0) * 60.0);
 
-    // 核心：稳定的亚空间能量柱
-    float core = exp(-r * r * 12.0);
+    // 核心：非常集中的高亮能量柱
+    float core = exp(-r * r * 18.0);
 
     // 中层能量晕
-    float mid = exp(-r * r * 3.0) * 0.5;
+    float mid = exp(-r * r * 4.0) * 0.6;
 
-    // 高度衰减：顶部像被吸入裂缝般消散
+    // 高度衰减
     float topFade = 1.0 - smoothstep(0.7, 1.0, heightRatio);
     float bottomBurst = 1.0 - smoothstep(0.0, 0.08, heightRatio);
 
-    // 能量强度合成
-    float intensity = core + mid + streamSharp * 0.7 + spiralTear * 0.6 + tearGlow * 0.8;
+    // 能量强度合成：核心 + 中层 + 能量流 + 电弧 + 边缘撕裂
+    float intensity = core * 2.5 + mid + streamSharp * 1.2 + arcSharp * 1.5 + spiralTear * 0.8 + tearGlow * 1.2;
     intensity *= topFade;
     intensity *= 1.0 + bottomBurst * 0.5;
 
-    // 颜色：主体 BeamColor + 裂缝边缘更亮的粉白高光
-    vec3 coreColor = BeamColor;
-    vec3 tearColor = vec3(1.0, 0.7, 0.95);
-    vec3 color = mix(coreColor, tearColor, clamp(tearGlow + spiralTear * 0.5, 0.0, 1.0));
+    // 颜色：核心偏白亮，外层 BeamColor，裂缝边缘粉白高光
+    vec3 coreColor = vec3(1.0, 0.85, 1.0);
+    vec3 midColor = BeamColor * 1.4;
+    vec3 tearColor = vec3(1.0, 0.6, 0.95);
+
+    vec3 color = mix(midColor, coreColor, clamp(core * 3.0, 0.0, 1.0));
+    color = mix(color, tearColor, clamp(tearGlow + spiralTear * 0.6 + arcSharp, 0.0, 1.0));
     color *= intensity;
 
-    // alpha：核心实心，边缘随能量流淡出
-    float alpha = BeamAlpha * clamp(core * 0.95 + mid * 0.6 + streamSharp * 0.4 + tearGlow * 0.5, 0.0, 1.0);
+    // alpha：核心更实体，整体更高不透明
+    float alpha = BeamAlpha * clamp(core * 1.2 + mid * 0.8 + streamSharp * 0.6 + arcSharp * 0.8 + tearGlow * 0.7, 0.0, 1.0);
     alpha *= topFade;
 
     fragColor = vec4(color, alpha);
