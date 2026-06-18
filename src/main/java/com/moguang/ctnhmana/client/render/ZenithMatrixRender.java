@@ -189,6 +189,8 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(false);
             RenderSystem.disableCull();
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthFunc(515);
 
             // 传递 Uniform：Time 驱动 shader 内部动画。
             if (beamShader.safeGetUniform("Time") != null) {
@@ -230,6 +232,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             tesselator.end();
 
             // 恢复渲染状态。
+            RenderSystem.disableDepthTest();// 恢复渲染状态。
             RenderSystem.enableCull();
             RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
