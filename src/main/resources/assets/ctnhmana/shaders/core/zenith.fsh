@@ -4,10 +4,17 @@ in vec3 localDir;
 in vec2 texCoord;
 
 uniform float Time;
+uniform float EyeOpen;
 
 out vec4 fragColor;
 
 #define PI 3.14159265359
+
+// 天顶主题色
+const vec3 ZENITH_DEEP   = vec3(0.05, 0.0, 0.12);
+const vec3 ZENITH_CORE   = vec3(0.6, 0.1, 0.9);
+const vec3 ZENITH_BRIGHT = vec3(1.0, 0.3, 0.85);
+const vec3 ZENITH_DARK   = vec3(0.02, 0.0, 0.05);
 
 // ================= 噪声与基础函数 =================
 float hash31(vec3 p) {
@@ -20,11 +27,11 @@ float noise(vec3 p) {
     f = f * f * (3.0 - 2.0 * f);
 
     return mix(
-    mix(mix(hash31(i + vec3(0.0, 0.0, 0.0)), hash31(i + vec3(1.0, 0.0, 0.0)), f.x),
-    mix(hash31(i + vec3(0.0, 1.0, 0.0)), hash31(i + vec3(1.0, 1.0, 0.0)), f.x), f.y),
-    mix(mix(hash31(i + vec3(0.0, 0.0, 1.0)), hash31(i + vec3(1.0, 0.0, 1.0)), f.x),
-    mix(hash31(i + vec3(0.0, 1.0, 1.0)), hash31(i + vec3(1.0, 1.0, 1.0)), f.x), f.y),
-    f.z
+        mix(mix(hash31(i + vec3(0.0, 0.0, 0.0)), hash31(i + vec3(1.0, 0.0, 0.0)), f.x),
+            mix(hash31(i + vec3(0.0, 1.0, 0.0)), hash31(i + vec3(1.0, 1.0, 0.0)), f.x), f.y),
+        mix(mix(hash31(i + vec3(0.0, 0.0, 1.0)), hash31(i + vec3(1.0, 0.0, 1.0)), f.x),
+            mix(hash31(i + vec3(0.0, 1.0, 1.0)), hash31(i + vec3(1.0, 1.0, 1.0)), f.x), f.y),
+        f.z
     );
 }
 
@@ -39,21 +46,38 @@ float fbm(vec3 p) {
     return v;
 }
 
-// 锯齿波
 float tri(float x) {
     return abs(fract(x) - 0.5) * 2.0 - 0.5;
+}
+
+// ease-out 曲线
+float easeOutCubic(float x) {
+    return 1.0 - pow(1.0 - x, 3.0);
+}
+
+float easeOutBack(float x) {
+    float c1 = 1.70158;
+    float c3 = c1 + 1.0;
+    return 1.0 + c3 * pow(x - 1.0, 3.0) + c1 * pow(x - 1.0, 2.0);
 }
 
 // ================= 主函数 =================
 void main() {
 
     float t = Time * 3.0;
+    float eyeOpen = clamp(EyeOpen, 0.0, 1.0);
 
     vec2 uv = texCoord * 4.0;
 
+    // 睁开动画：垂直方向先展开，水平略滞后，增强眼睑感
+    float verticalOpen = easeOutBack(eyeOpen);
+    float horizontalOpen = mix(0.05, 1.0, easeOutCubic(eyeOpen));
+    uv.y /= max(verticalOpen, 0.001);
+    uv.x /= max(horizontalOpen, 0.001);
+
     // ================= 背景 =================
     float heightFactor = smoothstep(0.0, 0.8, 1.0 - length(uv) * 0.22);
-    vec3 baseSkyColor = vec3(0.02, 0.0, 0.05) * heightFactor;
+    vec3 baseSkyColor = ZENITH_DARK * heightFactor;
     float baseAlpha = 0.8 * heightFactor;
 
     // ================= 裂缝 UV =================
@@ -63,7 +87,7 @@ void main() {
 
     float y = riftUV.y;
 
-    // ================= 🔥 强化裂缝边缘 =================
+    // ================= 强化裂缝边缘 =================
     float zigzag = 0.0;
 
     zigzag += tri(y * 3.0 + fbm(vec3(y, t * 0.2, 0.0)) * 2.0) * 0.4;
@@ -91,35 +115,40 @@ void main() {
 
     float riftMask = 1.0 - smoothstep(1.0, 1.15, riftSDF);
     float sharpGlow = smoothstep(0.9, 1.0, riftSDF) *
-    (1.0 - smoothstep(1.0, 1.08, riftSDF));
+        (1.0 - smoothstep(1.0, 1.08, riftSDF));
     float softGlow = smoothstep(0.7, 1.0, riftSDF) *
-    (1.0 - smoothstep(1.0, 1.5, riftSDF));
+        (1.0 - smoothstep(1.0, 1.5, riftSDF));
 
     // ================= 裂缝内部空间 =================
     vec3 dimSpaceColor =
-    vec3(0.1, 0.0, 0.3) +
-    fbm(vec3(uv * 4.0, 0.0) - vec3(0.0, t * 0.6, 0.0)) *
-    vec3(0.8, 0.1, 1.0);
+        vec3(0.1, 0.0, 0.3) +
+        fbm(vec3(uv * 4.0, 0.0) - vec3(0.0, t * 0.6, 0.0)) *
+        vec3(0.8, 0.1, 1.0);
 
     dimSpaceColor *= 1.5;
 
-    // ================= 🌌 动态星云 =================
-    float gazeStep = floor(t * 0.18);
-    float gazePhase = fract(t * 0.18);
+    // ================= 快速扫视瞳孔 =================
+    float gazeCycle = 8.0;
+    float gazePhase = fract(t / gazeCycle);
+    float saccadeWindow = 0.15;
+    float gazeHold = smoothstep(0.0, saccadeWindow, gazePhase);
+    float saccadeT = easeOutCubic(gazeHold);
+
+    float gazeStep = floor(t / gazeCycle);
     vec2 gazeFrom = vec2(
-    hash31(vec3(gazeStep, 1.7, 0.0)) - 0.5,
-    hash31(vec3(gazeStep, 5.3, 0.0)) - 0.5
+        hash31(vec3(gazeStep, 1.7, 0.0)) - 0.5,
+        hash31(vec3(gazeStep, 5.3, 0.0)) - 0.5
     );
     vec2 gazeTo = vec2(
-    hash31(vec3(gazeStep + 1.0, 1.7, 0.0)) - 0.5,
-    hash31(vec3(gazeStep + 1.0, 5.3, 0.0)) - 0.5
+        hash31(vec3(gazeStep + 1.0, 1.7, 0.0)) - 0.5,
+        hash31(vec3(gazeStep + 1.0, 5.3, 0.0)) - 0.5
     );
-    float gazeHold = smoothstep(0.72, 0.92, gazePhase);
-    vec2 gaze = mix(gazeFrom, gazeTo, gazeHold) * vec2(0.34, 0.22);
-    gaze += vec2(
-    hash31(vec3(gazeStep, 2.1, 0.0)) - 0.5,
-    hash31(vec3(gazeStep, 7.9, 0.0)) - 0.5
-    ) * 0.008 * (1.0 - gazeHold);
+
+    vec2 gaze = mix(gazeFrom, gazeTo, saccadeT) * vec2(0.34, 0.22);
+
+    // 眨眼时瞳孔收缩微颤
+    float blink = smoothstep(0.82, 0.92, sin(t * 0.7 + hash31(vec3(gazeStep, 3.1, 0.0)) * 2.0));
+    gaze *= 1.0 - blink * 0.15;
 
     vec2 eyeUV = uv;
     vec2 irisUV = eyeUV - gaze * 0.28;
@@ -128,12 +157,12 @@ void main() {
     float swirlAngle = dEye * 1.5 - t * 0.4;
     float sa = sin(swirlAngle), ca = cos(swirlAngle);
     vec2 swirlUV = vec2(ca * irisUV.x - sa * irisUV.y,
-    sa * irisUV.x + ca * irisUV.y);
+                        sa * irisUV.x + ca * irisUV.y);
 
-    // 🔥 动态流体星云
+    // 动态流体星云
     vec2 flow = vec2(
-    fbm(vec3(swirlUV * 2.0, t * 0.2)),
-    fbm(vec3(swirlUV * 2.0 + 5.2, t * 0.2))
+        fbm(vec3(swirlUV * 2.0, t * 0.2)),
+        fbm(vec3(swirlUV * 2.0 + 5.2, t * 0.2))
     );
 
     swirlUV += (flow - 0.5) * 0.6;
@@ -145,9 +174,9 @@ void main() {
     fog += sin(fogCoord.x * 10.0 + t * 2.0) * 0.03;
 
     vec3 nebulaColor =
-    mix(vec3(0.1, 0.0, 0.4),
-    vec3(0.9, 0.3, 1.0),
-    fog * 0.9);
+        mix(ZENITH_DEEP * 2.0,
+            ZENITH_BRIGHT,
+            fog * 0.9);
 
     float irisMask = 1.0 - smoothstep(0.58, 1.42, dEye);
 
@@ -167,11 +196,13 @@ void main() {
         finalAlpha = mix(finalAlpha, 1.0, riftMask);
     }
 
-    vec3 glowColor = vec3(0.9, 0.5, 1.0);
-    finalColor += glowColor * sharpGlow * 3.0;
-    finalColor += glowColor * softGlow * 1.5;
+    finalColor += ZENITH_BRIGHT * sharpGlow * 3.0;
+    finalColor += ZENITH_CORE * softGlow * 1.5;
 
     finalAlpha = clamp(finalAlpha + sharpGlow + softGlow, 0.0, 1.0);
+
+    // 睁开时 alpha 也受 eyeOpen 影响，闭合时完全透明
+    finalAlpha *= smoothstep(0.0, 0.2, eyeOpen);
 
     fragColor = vec4(finalColor, finalAlpha);
 }

@@ -33,6 +33,9 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
     private static final double SKY_ANCHOR_TOP_PADDING = 32.0D;
     private static BlockPos skyEffectSourcePos;
 
+    // 天顶主题色：紫-粉，与 zenith.fsh 统一
+    public static final float[] ZENITH_BEAM_COLOR = { 0.9F, 0.15F, 1.0F, 1.0F };
+
     public ZenithMatrixRender() {}
 
     @Override
@@ -85,7 +88,6 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
                        PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
         var metaMachine = feature.self();
-        float[] color = { 1.0F, 0.2F, 0.8F, 1.0F };
 
         if (metaMachine instanceof ZenithMatrixMachine machine && machine.isFormed()) {
 
@@ -107,7 +109,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
                     level.getGameTime(),
                     0,
                     320,
-                    color,
+                    ZENITH_BEAM_COLOR,
                     0.25F,
                     0.25F);
             poseStack.popPose();

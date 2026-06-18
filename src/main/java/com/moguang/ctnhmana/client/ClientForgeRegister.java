@@ -30,6 +30,10 @@ public class ClientForgeRegister {
 
     private static final Random SHAKE_RANDOM = new Random();
 
+    // 天顶主题色：紫-粉
+    private static final int FLASH_PEAK_COLOR = 0xF5D0FF;
+    private static final int FLASH_TAIL_COLOR = 0xB866FF;
+
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiOverlayEvent.Post event) {
         ShroudGazingRender.renderPurpleTint(event.getGuiGraphics().pose(), event.getPartialTick());
@@ -53,8 +57,9 @@ public class ClientForgeRegister {
             alpha = Math.max(0, Math.min(1, 1.0f - flashProgress));
             int alphaInt = (int) (alpha * 180);
             if (alphaInt > 0) {
+                int color = lerpColor(FLASH_PEAK_COLOR, FLASH_TAIL_COLOR, alpha);
                 guiGraphics.fill(0, 0, screenW, screenH,
-                        (alphaInt << 24) | 0xFFFFFF);
+                        (alphaInt << 24) | color);
             }
         }
 
@@ -62,7 +67,7 @@ public class ClientForgeRegister {
         int shakeEnd = shakeStart + ZenithMatrixRender.SHAKE_DURATION;
         if (elapsed >= shakeStart && elapsed < shakeEnd) {
             float shakeProgress = (float) (elapsed - shakeStart) / ZenithMatrixRender.SHAKE_DURATION;
-            float intensity = (1.0f - shakeProgress) * 4.0f; // 随时间衰减，最大4像素偏移
+            float intensity = (1.0f - shakeProgress) * 4.0f;
             float offsetX = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
             float offsetY = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
 
@@ -76,6 +81,13 @@ public class ClientForgeRegister {
             }
             guiGraphics.pose().popPose();
         }
+    }
+
+    private static int lerpColor(int from, int to, float t) {
+        int r = (int) (((from >> 16) & 0xFF) * t + ((to >> 16) & 0xFF) * (1.0f - t));
+        int g = (int) (((from >> 8) & 0xFF) * t + ((to >> 8) & 0xFF) * (1.0f - t));
+        int b = (int) ((from & 0xFF) * t + (to & 0xFF) * (1.0f - t));
+        return (r << 16) | (g << 8) | b;
     }
 
     @SubscribeEvent
@@ -131,17 +143,34 @@ public class ClientForgeRegister {
                 level.getMaxBuildHeight());
         if (anchorOffset == null) return;
 
+        int elapsed = 0;
+        boolean forming = ZenithMatrixRender.formationAnimTicks > 0;
+        if (forming) {
+            elapsed = ZenithMatrixRender.FORMATION_DURATION - ZenithMatrixRender.formationAnimTicks;
+        }
+
+        // 天空裂缝睁开动画：比 alpha 渐入提前几帧开始，带轻微回弹
+        float eyeOpen = 1.0f;
         float skyAlpha = 1.0f;
-        int animTicks = ZenithMatrixRender.formationAnimTicks;
-        if (animTicks > 0) {
-            int elapsed = ZenithMatrixRender.FORMATION_DURATION - animTicks;
+        if (forming) {
+            int eyeOpenStart = 8;
+            int eyeOpenDuration = 36;
+            if (elapsed < eyeOpenStart) {
+                eyeOpen = 0.0f;
+            } else if (elapsed < eyeOpenStart + eyeOpenDuration) {
+                float p = (float) (elapsed - eyeOpenStart) / eyeOpenDuration;
+                eyeOpen = p < 0.85f ? easeOutBack(p / 0.85f) : 1.0f;
+            } else {
+                eyeOpen = 1.0f;
+            }
 
             int skyFadeStart = ZenithMatrixRender.SHAKE_DELAY + ZenithMatrixRender.SHAKE_DURATION;
             int skyFadeDuration = 30;
             if (elapsed < skyFadeStart) {
                 skyAlpha = 0.0f;
             } else if (elapsed < skyFadeStart + skyFadeDuration) {
-                skyAlpha = (float) (elapsed - skyFadeStart) / skyFadeDuration; // 渐入
+                float p = (float) (elapsed - skyFadeStart) / skyFadeDuration;
+                skyAlpha = p * p * (3.0f - 2.0f * p);
             }
         }
 
@@ -168,6 +197,10 @@ public class ClientForgeRegister {
                 galaxyShader.safeGetUniform("Time").set((ticks + partialTick) * 0.05f);
             }
 
+            if (galaxyShader.safeGetUniform("EyeOpen") != null) {
+                galaxyShader.safeGetUniform("EyeOpen").set(eyeOpen);
+            }
+
             RenderSystem.disableCull();
             RenderSystem.depthMask(false);
 
@@ -186,5 +219,11 @@ public class ClientForgeRegister {
 
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
+    }
+
+    private static float easeOutBack(float x) {
+        float c1 = 1.70158f;
+        float c3 = c1 + 1.0f;
+        return 1.0f + c3 * (float) Math.pow(x - 1.0f, 3) + c1 * (float) Math.pow(x - 1.0f, 2);
     }
 }
