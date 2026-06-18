@@ -46,7 +46,7 @@ void main() {
     float angle = atan(localPos.z, localPos.x);
     float y = localPos.y;
 
-    // 亚空间裂缝螺旋：基于世界空间角度，不随视角旋转
+    // 亚空间裂缝螺旋
     float spiralPhase = angle * 5.0 + y * 0.06 - t * 0.15;
     float spiral = sin(spiralPhase);
     float spiralTear = smoothstep(0.55, 0.85, abs(spiral)) * smoothstep(0.0, 0.35, r);
@@ -62,7 +62,7 @@ void main() {
     // 裂缝边缘撕裂辉光
     float tearGlow = exp(-pow(max(0.0, r - 0.42), 2.0) * 60.0);
 
-    // 极亮核心：半径内完全不透明
+    // 极亮核心
     float core = exp(-r * r * 22.0);
 
     // 中层能量晕
@@ -73,24 +73,27 @@ void main() {
     float bottomBurst = 1.0 - smoothstep(0.0, 0.08, heightRatio);
 
     // 能量强度
-    float intensity = core * 4.0 + mid * 2.0 + streamSharp * 1.5 + arcSharp * 2.0 + spiralTear * 1.2 + tearGlow * 1.8;
+    float intensity = core * 3.0 + mid * 1.6 + streamSharp * 1.2 + arcSharp * 1.5 + spiralTear * 1.0 + tearGlow * 1.4;
     intensity *= topFade;
-    intensity *= 1.0 + bottomBurst * 0.6;
+    intensity *= 1.0 + bottomBurst * 0.5;
+    // 限制峰值避免近处过曝成纯白
+    intensity = min(intensity, 1.6);
 
     // 颜色：核心白热，中层深紫，边缘粉白撕裂
-    vec3 coreColor = vec3(1.0, 0.9, 1.0);
-    vec3 midColor = BeamColor * 1.8;
-    vec3 tearColor = vec3(1.0, 0.5, 0.95);
+    vec3 coreColor = vec3(1.0, 0.85, 1.0);
+    vec3 midColor = BeamColor * 1.5;
+    vec3 tearColor = vec3(1.0, 0.55, 0.95);
 
-    vec3 color = mix(midColor, coreColor, clamp(core * 4.0, 0.0, 1.0));
-    color = mix(color, tearColor, clamp(tearGlow + spiralTear * 0.8 + arcSharp, 0.0, 1.0));
+    vec3 color = mix(midColor, coreColor, clamp(core * 3.0, 0.0, 1.0));
+    color = mix(color, tearColor, clamp(tearGlow + spiralTear * 0.7 + arcSharp, 0.0, 1.0));
     color *= intensity;
 
-    // alpha：核心完全不透明，整体强制高不透明
-    float alpha = clamp(core * 1.5 + mid * 1.2 + streamSharp * 0.9 + arcSharp * 1.0 + tearGlow * 0.9, 0.0, 1.0);
-    alpha = mix(alpha, 1.0, core * 0.9);
+    // 全柱接近完全不透明，只在最边缘微淡出以避免锯齿
+    float edgeFade = smoothstep(0.65, 0.0, r);
+    float alpha = clamp(core * 1.2 + mid * 1.0 + streamSharp * 0.8 + arcSharp * 0.9 + tearGlow * 0.8, 0.0, 1.0);
+    alpha = mix(alpha, 1.0, core * 0.85);
     alpha *= topFade;
-    alpha = clamp(alpha * BeamAlpha, 0.0, 1.0);
+    alpha = clamp(alpha * BeamAlpha, edgeFade, 1.0);
 
     fragColor = vec4(color, alpha);
 }

@@ -36,7 +36,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             ZenithMatrixRender.CODEC);
 
     /** 光柱侧面的细分段数。 */
-    private static final int BEAM_SIDES = 16;
+    private static final int BEAM_SIDES = 48;
     /** 光柱高度：从眼睛直达天空锚点。 */
     private static final float BEAM_HEIGHT = 320.0F;
 
@@ -170,7 +170,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             float time = level.getGameTime() + partialTick;
 
             // ========== 光柱动态参数 ==========
-            float baseRadius = 0.45F;
+            float baseRadius = 0.65F;
             // 亚空间能量束：半径稳定，不呼吸抖动。
             // 形成瞬间的能量爆发。
             float formationBoost = 1.0F;
