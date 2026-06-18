@@ -173,15 +173,14 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
 
             // ========== 光柱动态参数 ==========
             float baseRadius = 0.35F;
-            // 呼吸式脉动。
-            float pulse = 1.0F + 0.2F * Mth.sin(time * 0.25F);
+            // 亚空间能量束：半径稳定，不呼吸抖动。
             // 形成瞬间的能量爆发。
             float formationBoost = 1.0F;
             if (formationAnimTicks > 0) {
                 float p = 1.0F - (float) formationAnimTicks / FORMATION_DURATION;
                 formationBoost = 1.0F + 2.0F * Mth.sin(p * Mth.PI) * (1.0F - p);
             }
-            float radius = baseRadius * pulse * formationBoost;
+            float radius = baseRadius * formationBoost;
 
             // 让光柱始终面向相机（billboard），并随时间缓慢自旋。
             Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
@@ -193,7 +192,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             double dz = cameraPos.z - beamBase.z;
             float yaw = (float) Math.atan2(dx, dz);
             poseStack.mulPose(Axis.YP.rotation(yaw));
-            poseStack.mulPose(Axis.YP.rotation(time * 0.02F));
+            poseStack.mulPose(Axis.YP.rotation(time * 0.005F));
 
             // ========== 设置自定义 shader ==========
             ShaderInstance beamShader = ClientProxy.getZenithBeamShader();

@@ -42,38 +42,50 @@ float fbm(vec3 p) {
 }
 
 void main() {
-    float t = Time * 2.0;
+    // 稳定但缓慢变化的时间，用于产生“能量涌动”而非“呼吸抖动”
+    float t = Time * 0.5;
 
     // 圆柱坐标
     float r = length(localPos.xz);
     float angle = atan(localPos.z, localPos.x);
     float y = localPos.y;
 
-    // 垂直向上的能量流
-    float flow = fbm(vec3(angle * 2.0, y * 0.05 - t * 0.3, t * 0.1));
+    // 缓慢旋转的亚空间裂缝螺旋
+    float spiralPhase = angle * 5.0 + y * 0.06 - t * 0.15;
+    float spiral = sin(spiralPhase);
+    float spiralTear = smoothstep(0.55, 0.85, abs(spiral)) * smoothstep(0.0, 0.35, r);
 
-    // 螺旋结构
-    float spiral = sin(angle * 6.0 + y * 0.08 - t * 0.5);
-    float spiralMask = smoothstep(0.3, 0.7, spiral) * smoothstep(0.0, 0.4, r);
+    // 多股能量流，从裂缝中向上涌动
+    float stream = fbm(vec3(angle * 3.0, y * 0.04 - t * 0.12, t * 0.05));
+    float streamSharp = pow(stream, 2.0) * smoothstep(0.0, 0.45, r);
 
-    // 径向衰减：中心亮，边缘暗但带光晕
-    float coreGlow = exp(-r * r * 8.0);
-    float midGlow = exp(-r * r * 2.0) * 0.6;
-    float edgeGlow = exp(-pow(max(0.0, r - 0.5), 2.0) * 20.0) * 0.4;
+    // 裂缝边缘的撕裂辉光：越靠近圆柱侧面越亮
+    float tearGlow = exp(-pow(max(0.0, r - 0.42), 2.0) * 60.0);
 
-    // 高度衰减：顶部略淡，模拟能量消散
-    float heightFade = 1.0 - pow(heightRatio, 3.0) * 0.4;
+    // 核心：稳定的亚空间能量柱
+    float core = exp(-r * r * 12.0);
 
-    // 脉动
-    float pulse = 1.0 + 0.25 * sin(t * 0.4 + y * 0.02);
+    // 中层能量晕
+    float mid = exp(-r * r * 3.0) * 0.5;
 
-    // 合成颜色
-    vec3 energy = BeamColor * (coreGlow + midGlow + edgeGlow + spiralMask * 0.5 + flow * 0.25);
-    energy *= heightFade * pulse;
+    // 高度衰减：顶部像被吸入裂缝般消散
+    float topFade = 1.0 - smoothstep(0.7, 1.0, heightRatio);
+    float bottomBurst = 1.0 - smoothstep(0.0, 0.08, heightRatio);
 
-    // alpha：核心不透明，边缘淡出
-    float alpha = BeamAlpha * (coreGlow * 0.9 + midGlow * 0.5 + edgeGlow * 0.3);
-    alpha = clamp(alpha, 0.0, 1.0);
+    // 能量强度合成
+    float intensity = core + mid + streamSharp * 0.7 + spiralTear * 0.6 + tearGlow * 0.8;
+    intensity *= topFade;
+    intensity *= 1.0 + bottomBurst * 0.5;
 
-    fragColor = vec4(energy, alpha);
+    // 颜色：主体 BeamColor + 裂缝边缘更亮的粉白高光
+    vec3 coreColor = BeamColor;
+    vec3 tearColor = vec3(1.0, 0.7, 0.95);
+    vec3 color = mix(coreColor, tearColor, clamp(tearGlow + spiralTear * 0.5, 0.0, 1.0));
+    color *= intensity;
+
+    // alpha：核心实心，边缘随能量流淡出
+    float alpha = BeamAlpha * clamp(core * 0.95 + mid * 0.6 + streamSharp * 0.4 + tearGlow * 0.5, 0.0, 1.0);
+    alpha *= topFade;
+
+    fragColor = vec4(color, alpha);
 }
