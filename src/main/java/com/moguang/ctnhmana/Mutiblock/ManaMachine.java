@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
@@ -36,11 +37,14 @@ public class ManaMachine extends WorkableElectricMultiblockMachine {
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName = Arrays.asList("BT", "BM", "ARS", "GT"); // Waiting for NANE CHANGING
     public ManaData Manadata;
+    @DescSynced
+    public boolean isZenithOpen = false;
 
     protected void SyncManaData() {
         if (this.getLevel() instanceof ServerLevel serverLevel) {
             var manadata = ManaData.getOrCreate(serverLevel);
             ManaLevel = manadata.get();
+            isZenithOpen = manadata.isZenithOpen;
         }
     }
 

@@ -1,7 +1,6 @@
 package com.moguang.ctnhmana.common.entity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,8 +21,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
-
 import com.moguang.ctnhmana.Mutiblock.MysticSpire;
+
+import com.moguang.ctnhmana.Mutiblock.SpireBigMath;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
@@ -46,6 +46,7 @@ import vazkii.botania.network.EffectType;
 import vazkii.botania.network.clientbound.BotaniaEffectPacket;
 import vazkii.botania.xplat.XplatAbstractions;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -155,129 +156,166 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
 
     public void sendManaToSpark() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
-        for (ManaSpark spark : sparks) {
-            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) continue;
-            if (!spark.getAttachedManaReceiver().isFull()) num++;
-        }
-        int avail = pool.mysticOutboundTickCap(speed);
-        if (num < 1 || avail <= 0) return;
-        consume = avail;
-        pool.mysticDrainMana(avail);
-
-        consume = Math.max(consume / num, 1);
-        for (ManaSpark spark : sparks) {
-            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null ||
-                    spark.getAttachedManaReceiver().isFull())
-                continue;
-            if (!spark.getAttachedManaReceiver().isFull()) spark.getAttachedManaReceiver().receiveMana(consume);
-            if (isAnimationActive) particlesTowards(spark.entity());
-        }
+        int remaining = pool.mysticOutboundTickCap(speed);
+        distributeOutboundToSparksEvenly(pool, remaining);
     }
 
     public void sendManaToReceiver() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
-        for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
-                    !(receiver instanceof GeneratingFlowerBlockEntity))
-                num++;
-        }
-        int avail = pool.mysticOutboundTickCap(speed);
-        if (num < 1 || avail <= 0) return;
-        consume = avail;
-        pool.mysticDrainMana(avail);
-        consume = Math.max(consume / num, 1);
-        for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
-                    !(receiver instanceof GeneratingFlowerBlockEntity)) {
-                receiver.receiveMana(consume);
-                if (isAnimationActive) particlesTowards((BlockEntity) receiver);
-            }
-        }
+        int remaining = pool.mysticOutboundTickCap(speed);
+        distributeOutboundToReceiversEvenly(pool, remaining, DeltaSpark::canSpreadToReceiver);
+    }
+
+    private static boolean canSpreadToReceiver(ManaReceiver receiver) {
+        return !receiver.isFull()
+                && !((BlockEntity) receiver).isRemoved()
+                && !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower())
+                && !(receiver instanceof GeneratingFlowerBlockEntity);
     }
 
     public void sendManaToHatchReceiver() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
-        for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    (receiver instanceof IManaMachineBlockEntity IManaEntity))
-                num++;
-        }
-        int hatchAvail = pool.mysticOutboundTickCap(speed);
-        if (num < 1 || hatchAvail <= 0) return;
-        consume = hatchAvail;
-        pool.mysticDrainMana(hatchAvail);
-        consume = Math.max(consume / num, 1);
-        for (ManaReceiver receiver : receivers) {
-            if (!receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                    !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
-                    receiver instanceof IManaMachineBlockEntity IManaEntity) {
-                receiver.receiveMana(consume);
-                if (isAnimationActive) particlesTowards((BlockEntity) receiver);
+        int remaining = pool.mysticOutboundTickCap(speed);
+        distributeOutboundToReceiversEvenly(pool, remaining, receiver ->
+                !receiver.isFull()
+                        && !((BlockEntity) receiver).isRemoved()
+                        && receiver instanceof IManaMachineBlockEntity);
+    }
+
+    /** 本 tick 预算在多个火花目标间均分；单目标满则跳过，余量下一轮再分 */
+    private void distributeOutboundToSparksEvenly(MysticSpireBlockEntity pool, int remaining) {
+        if (remaining <= 0) return;
+        while (remaining > 0) {
+            List<ManaSpark> active = new ArrayList<>();
+            for (ManaSpark spark : sparks) {
+                if (!spark.entity().isAlive()) continue;
+                var receiver = spark.getAttachedManaReceiver();
+                if (receiver == null || receiver.isFull()) continue;
+                active.add(spark);
             }
+            if (active.isEmpty()) break;
+
+            int share = remaining / active.size();
+            boolean progress = false;
+            for (ManaSpark spark : active) {
+                if (remaining <= 0) break;
+                var receiver = spark.getAttachedManaReceiver();
+                if (receiver == null) continue;
+                int attempt = share == 0 ? 1 : Math.min(share, remaining);
+                int sent = tryTransferMana(receiver, attempt);
+                if (sent <= 0) continue;
+                pool.mysticDrainMana(sent);
+                remaining -= sent;
+                if (isAnimationActive) particlesTowards(spark.entity());
+                progress = true;
+            }
+            if (!progress) break;
+        }
+    }
+
+    /** 本 tick 预算在多个 ManaReceiver 间均分；单目标满则跳过，余量下一轮再分 */
+    private void distributeOutboundToReceiversEvenly(MysticSpireBlockEntity pool, int remaining,
+                                                     Predicate<ManaReceiver> eligible) {
+        if (remaining <= 0) return;
+        while (remaining > 0) {
+            List<ManaReceiver> active = new ArrayList<>();
+            for (ManaReceiver receiver : receivers) {
+                if (eligible.test(receiver)) active.add(receiver);
+            }
+            if (active.isEmpty()) break;
+
+            int share = remaining / active.size();
+            boolean progress = false;
+            for (ManaReceiver receiver : active) {
+                if (remaining <= 0) break;
+                int attempt = share == 0 ? 1 : Math.min(share, remaining);
+                int sent = tryTransferMana(receiver, attempt);
+                if (sent <= 0) continue;
+                pool.mysticDrainMana(sent);
+                remaining -= sent;
+                if (isAnimationActive) particlesTowards((BlockEntity) receiver);
+                progress = true;
+            }
+            if (!progress) break;
         }
     }
 
     public void receiveManaFromSpark() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
-        consume = pool.mysticInboundTickBudget(speed);
-        for (ManaSpark spark : sparks) {
-            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null) {
-                continue;
-            }
-            if (spark.getAttachedManaReceiver().getCurrentMana() > 0) num++;
-        }
-        if (num < 1 || pool.isFull()) return;
-        consume = Math.max(consume / num, 1);
-        for (ManaSpark spark : sparks) {
-            if (!spark.entity().isAlive() || spark.getAttachedManaReceiver() == null ||
-                    spark.getAttachedManaReceiver().getCurrentMana() <= 0 || pool.isFull())
-                continue;
-            var mana = spark.getAttachedManaReceiver().getCurrentMana();
-            if (mana < consume) {
-                spark.getAttachedManaReceiver().receiveMana(-mana);
-                pool.receiveMana(mana);
-            } else {
-                spark.getAttachedManaReceiver().receiveMana(-consume);
-                pool.receiveMana(consume);
-            }
-            if (isAnimationActive) particlesTowardsReverse(spark.entity());
-        }
+        if (pool.isFull()) return;
+        int remaining = pool.mysticInboundTickBudget(speed);
+        distributeInboundFromSparksEvenly(pool, remaining);
     }
 
     public void receiveManaFromFlower() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int consume = 0;
-        var num = 0;
+        if (pool.isFull()) return;
         long flowerLim = (long) (speed * effencicy);
         if (flowerLim > Integer.MAX_VALUE) flowerLim = Integer.MAX_VALUE;
         if (flowerLim < 1) flowerLim = 1;
-        consume = pool.mysticInboundTickBudget((int) flowerLim);
-        for (GeneratingFlowerBlockEntity flower : flowers) {
-            if (!flower.isRemoved() && flower.getMana() > 0) num++;
-        }
-        if (num < 1 || pool.isFull()) return;
-        consume = Math.max(consume / num, 1);
-        for (GeneratingFlowerBlockEntity flower : flowers) {
-            if (flower.isRemoved() || flower.getMana() <= 0 || pool.isFull()) continue;
-            var mana = flower.getMana();
-            if (mana < consume) {
-                flower.addMana(-mana);
-                pool.receiveMana(mana);
-            } else {
-                flower.addMana(-consume);
-                pool.receiveMana(consume);
+        int remaining = pool.mysticInboundTickBudget((int) flowerLim);
+        distributeInboundFromFlowersEvenly(pool, remaining);
+    }
+
+    /** 本 tick 吸收预算在多个火花来源间均分；尖塔满或来源空则跳过，余量下一轮再分 */
+    private void distributeInboundFromSparksEvenly(MysticSpireBlockEntity pool, int remaining) {
+        if (remaining <= 0) return;
+        while (remaining > 0 && !pool.isFull()) {
+            List<ManaSpark> active = new ArrayList<>();
+            for (ManaSpark spark : sparks) {
+                if (!spark.entity().isAlive()) continue;
+                var src = spark.getAttachedManaReceiver();
+                if (src == null || src.getCurrentMana() <= 0) continue;
+                active.add(spark);
             }
-            if (isAnimationActive) particlesTowardsReverse((BlockEntity) flower);
+            if (active.isEmpty()) break;
+
+            int share = remaining / active.size();
+            boolean progress = false;
+            for (ManaSpark spark : active) {
+                if (remaining <= 0 || pool.isFull()) break;
+                var src = spark.getAttachedManaReceiver();
+                if (src == null) continue;
+                int avail = src.getCurrentMana();
+                if (avail <= 0) continue;
+                int attempt = share == 0 ? 1 : Math.min(share, Math.min(remaining, avail));
+                int accepted = tryReceiveMana(pool, attempt);
+                if (accepted <= 0) continue;
+                src.receiveMana(-accepted);
+                remaining -= accepted;
+                if (isAnimationActive) particlesTowardsReverse(spark.entity());
+                progress = true;
+            }
+            if (!progress) break;
+        }
+    }
+
+    /** 本 tick 吸收预算在多个产魔花间均分；尖塔满或花空则跳过，余量下一轮再分 */
+    private void distributeInboundFromFlowersEvenly(MysticSpireBlockEntity pool, int remaining) {
+        if (remaining <= 0) return;
+        while (remaining > 0 && !pool.isFull()) {
+            List<GeneratingFlowerBlockEntity> active = new ArrayList<>();
+            for (GeneratingFlowerBlockEntity flower : flowers) {
+                if (flower.isRemoved() || flower.getMana() <= 0) continue;
+                active.add(flower);
+            }
+            if (active.isEmpty()) break;
+
+            int share = remaining / active.size();
+            boolean progress = false;
+            for (GeneratingFlowerBlockEntity flower : active) {
+                if (remaining <= 0 || pool.isFull()) break;
+                int avail = flower.getMana();
+                if (avail <= 0) continue;
+                int attempt = share == 0 ? 1 : Math.min(share, Math.min(remaining, avail));
+                int accepted = tryReceiveMana(pool, attempt);
+                if (accepted <= 0) continue;
+                flower.addMana(-accepted);
+                remaining -= accepted;
+                if (isAnimationActive) particlesTowardsReverse((BlockEntity) flower);
+                progress = true;
+            }
+            if (!progress) break;
         }
     }
 
@@ -291,6 +329,28 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         pool.receiveMana(-consume);
         target_pool.receiveMana(consume);
         if (isAnimationActive) particlesTowards((connectedDeltaSpark));
+    }
+    private static int tryTransferMana(ManaReceiver receiver, int attempt) {
+        if (attempt <= 0 || receiver.isFull()) {
+            return 0;
+        }
+        int before = receiver.getCurrentMana();
+        receiver.receiveMana(attempt);
+        return receiver.getCurrentMana() - before;
+    }
+
+    /** 先尝试注入尖塔，返回真实进入量（基于 BigInteger 储量，避免 int 窗口计量失真） */
+    private static int tryReceiveMana(MysticSpireBlockEntity pool, int attempt) {
+        if (attempt <= 0 || pool.isFull()) {
+            return 0;
+        }
+        BigInteger before = pool.getTrueManaBig();
+        pool.receiveMana(attempt);
+        BigInteger accepted = pool.getTrueManaBig().subtract(before);
+        if (accepted.signum() <= 0) {
+            return 0;
+        }
+        return SpireBigMath.clampToIntNonNegative(accepted);
     }
 
     public List<ManaSpark> getSparksAround(Level world, double x, double y, double z, DyeColor color) {
@@ -496,7 +556,6 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     (int) connectedDeltaSpark.getY(), (int) connectedDeltaSpark.getZ());
         this.SpireMachine.getOrCreatedSpark();
     }
-
     public record WandHud(DeltaSpark entity) implements WandHUD {
 
         @Override

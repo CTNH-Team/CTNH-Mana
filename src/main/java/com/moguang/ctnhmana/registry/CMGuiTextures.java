@@ -7,10 +7,20 @@ import com.moguang.ctnhmana.common.gui.AnimationTextureY;
 
 public class CMGuiTextures {
 
-    public static final ResourceTexture PROGRESS_BAR_MANA_EMPTY = new ResourceTexture(
-            "ctnhmana:textures/gui/mana_bar_empty.png");
-    public static final ResourceTexture PROGRESS_BAR_MANA_FULL = new ResourceTexture(
-            "ctnhmana:textures/gui/progress_bar_mana_full.png");
+    /** 植物魔法机器进度条：上半为空、下半为满，通过 getSubTexture 切分 */
+    public static final ResourceTexture PROGRESS_BAR_MANA = new ResourceTexture(
+            "ctnhmana:textures/gui/progress_bar/progress_bar_mana.png");
+    public static final ResourceTexture PROGRESS_BAR_MANA_EMPTY = (ResourceTexture) PROGRESS_BAR_MANA
+            .getSubTexture(0, 0, 1, 0.5f);
+    public static final ResourceTexture PROGRESS_BAR_MANA_FULL = (ResourceTexture) PROGRESS_BAR_MANA
+            .getSubTexture(0, 0.5f, 1, 0.5f);
+    /** 血魔法机器进度条：上半为空、下半为满，通过 getSubTexture 切分 */
+    public static final ResourceTexture PROGRESS_BAR_BLOOD = new ResourceTexture(
+            "ctnhmana:textures/gui/progress_bar/progress_bar_blood.png");
+    public static final ResourceTexture PROGRESS_BAR_BLOOD_EMPTY = (ResourceTexture) PROGRESS_BAR_BLOOD
+            .getSubTexture(0, 0, 1, 0.5f);
+    public static final ResourceTexture PROGRESS_BAR_BLOOD_FULL = (ResourceTexture) PROGRESS_BAR_BLOOD
+            .getSubTexture(0, 0.5f, 1, 0.5f);
     public static final ResourceTexture SHROUND_RING = new ResourceTexture(
             "ctnhmana:textures/gui/shroud/plane_center.png");
     public static final ResourceTexture SHROUND_BACKGROUND = new ResourceTexture(

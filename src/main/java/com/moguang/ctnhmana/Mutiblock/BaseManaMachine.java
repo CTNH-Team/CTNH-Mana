@@ -33,6 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.gui.ManaStatusGui;
+import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.item.ManaMachineUpgrade.ManaMachineUpgradeItem;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
@@ -280,7 +281,7 @@ public class BaseManaMachine extends ManaMachine {
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
         if (this.getRecipeTypes().length > 0) {
-            // sideTabs.attachSubTab(new ShroudUi());
+            sideTabs.attachSubTab(new ShroudUi(this));
             sideTabs.attachSubTab(new ManaStatusGui(this));
         }
         if (this.getRecipeTypes().length > 1) {

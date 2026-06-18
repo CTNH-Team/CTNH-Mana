@@ -28,6 +28,7 @@ import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMachines.BROADCAST_HATCH;
 import static com.moguang.ctnhmana.registry.CMMachines.CENTRALCONTROL_BUS;
+import static com.moguang.ctnhmana.registry.CMMachines.EXTENDED_CENTRALCONTROL_BUS;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.multiblock.BloodMagic.*;
@@ -329,6 +330,18 @@ public class ManaMachineRecipes {
                 .outputItems(CENTRALCONTROL_BUS.asStack(1))
                 .EUt(VA[EV])
                 .duration(200)
+                .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("extended_centralcontrol_bus")// 拓展中央存储控制总线
+                .inputItems(CENTRALCONTROL_BUS.asStack(1))
+                .inputItems(MACHINE_CASING_IV.asStack(1))
+                .inputItems(CustomTags.IV_CIRCUITS, 2)
+                .inputItems(ITEM_IMPORT_BUS[IV].asStack(1))
+                .inputItems(ITEM_EXPORT_BUS[IV].asStack(1))
+                .inputItems(ROBOT_ARM_IV.asStack(2))
+                .inputItems(COVER_MACHINE_CONTROLLER.asStack(1))
+                .outputItems(EXTENDED_CENTRALCONTROL_BUS.asStack(1))
+                .EUt(VA[IV])
+                .duration(400)
                 .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_fuel_infuser")
                 .inputItems(ELECTRIC_PUMP_IV.asStack(4))

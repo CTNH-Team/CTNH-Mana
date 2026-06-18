@@ -12,8 +12,8 @@ public class DemonWillGeneratorRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         CMRecipeTypes.DEMON_WILL_GENERATOR_RECIPE.recipeBuilder("generator")
                 .circuitMeta(0)
-                .EUt(-256)
-                .duration(80)
+                .EUt(-1)
+                .duration(66)
                 .save(provider);
 
         CMRecipeTypes.QUASAR_EYE.recipeBuilder("generator1")

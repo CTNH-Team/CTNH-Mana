@@ -4225,7 +4225,7 @@ public class CMMultiblockMachines {
             .tooltips(AHCC_TOOLTIPS)
             .appearanceBlock(CASING_FORCE_FILED)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(CMRecipeTypes.TwistCollapse)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("########AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA########",
                             "###################################################",
@@ -7765,7 +7765,8 @@ public class CMMultiblockMachines {
                             .or(Predicates.abilities(PartAbility.OUTPUT_LASER))
                             .or(Predicates.abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY))
                             .or(Predicates.abilities(CMPartsAbility.SIGNALHATCH))
-                            .or(Predicates.abilities(CMPartsAbility.CentralControlBus)))
+                            .or(Predicates.abilities(CMPartsAbility.CentralControlBus))
+                            .or(Predicates.abilities(CMPartsAbility.ExtendedCentralControlBus)))
                     .where("#", Predicates.any())
                     .where("I", Predicates.blocks(ARCANE_CONSTRAINT_COATED_GLASS.get()))
                     .where("H", Predicates.blocks(ARCANE_FLOW_ACCELERATED_CONDUIT_BLOCK.get()))
