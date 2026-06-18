@@ -11,11 +11,13 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +31,10 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.CLEANROOM_GLASS;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 
 public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine implements ICleanroomProvider {
+
+    private static final int ZENITH_EYE_BACK_OFFSET = 24;
+
+    private boolean wasFormedLastTick = false;
 
     @Nullable
     private CleanroomType cleanroomType = CleanroomType.CLEANROOM;
@@ -76,6 +82,23 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
                 return true;
             }
         };
+    }
+
+    @Override
+    public void clientTick() {
+        super.clientTick();
+        boolean formed = this.isFormed();
+        if (formed) {
+            ZenithMatrixRender.markSkyEffectSource(getZenithEyePos());
+            if (!wasFormedLastTick) {
+                ZenithMatrixRender.formationAnimTicks = ZenithMatrixRender.FORMATION_DURATION;
+            }
+        }
+        wasFormedLastTick = formed;
+    }
+
+    public BlockPos getZenithEyePos() {
+        return getPos().relative(getFrontFacing().getOpposite(), ZENITH_EYE_BACK_OFFSET);
     }
 
     @Override

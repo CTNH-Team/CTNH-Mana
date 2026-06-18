@@ -1,39 +1,17 @@
 #version 150
 
 in vec3 localDir;
+in vec2 texCoord;
 
-uniform float GameTime;
-uniform vec2 CameraYawPitch;
+uniform float Time;
 
 out vec4 fragColor;
 
 #define PI 3.14159265359
 
-float hash11(float n) {
-    return fract(sin(n) * 43758.5453123);
-}
-
-float hash21(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-}
-
+// ================= 噪声与基础函数 =================
 float hash31(vec3 p) {
     return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453123);
-}
-
-vec2 hash22(vec2 p) {
-    return fract(sin(vec2(
-    dot(p, vec2(127.1, 311.7)),
-    dot(p, vec2(269.5, 183.3))
-    )) * 43758.5453123);
-}
-
-vec3 hash33(vec3 p) {
-    return fract(sin(vec3(
-    dot(p, vec3(127.1, 311.7, 74.7)),
-    dot(p, vec3(269.5, 183.3, 246.1)),
-    dot(p, vec3(113.5, 271.9, 124.6))
-    )) * 43758.5453123);
 }
 
 float noise(vec3 p) {
@@ -42,16 +20,10 @@ float noise(vec3 p) {
     f = f * f * (3.0 - 2.0 * f);
 
     return mix(
-    mix(
-    mix(hash31(i + vec3(0.0, 0.0, 0.0)), hash31(i + vec3(1.0, 0.0, 0.0)), f.x),
-    mix(hash31(i + vec3(0.0, 1.0, 0.0)), hash31(i + vec3(1.0, 1.0, 0.0)), f.x),
-    f.y
-    ),
-    mix(
-    mix(hash31(i + vec3(0.0, 0.0, 1.0)), hash31(i + vec3(1.0, 0.0, 1.0)), f.x),
-    mix(hash31(i + vec3(0.0, 1.0, 1.0)), hash31(i + vec3(1.0, 1.0, 1.0)), f.x),
-    f.y
-    ),
+    mix(mix(hash31(i + vec3(0.0, 0.0, 0.0)), hash31(i + vec3(1.0, 0.0, 0.0)), f.x),
+    mix(hash31(i + vec3(0.0, 1.0, 0.0)), hash31(i + vec3(1.0, 1.0, 0.0)), f.x), f.y),
+    mix(mix(hash31(i + vec3(0.0, 0.0, 1.0)), hash31(i + vec3(1.0, 0.0, 1.0)), f.x),
+    mix(hash31(i + vec3(0.0, 1.0, 1.0)), hash31(i + vec3(1.0, 1.0, 1.0)), f.x), f.y),
     f.z
     );
 }
@@ -59,177 +31,147 @@ float noise(vec3 p) {
 float fbm(vec3 p) {
     float v = 0.0;
     float a = 0.5;
-
     for (int i = 0; i < 5; i++) {
         v += noise(p) * a;
         p *= 2.0;
         a *= 0.5;
     }
-
     return v;
 }
 
-vec3 rotateX(vec3 p, float a) {
-    float c = cos(a);
-    float s = sin(a);
-    return vec3(
-    p.x,
-    c * p.y - s * p.z,
-    s * p.y + c * p.z
+// 锯齿波
+float tri(float x) {
+    return abs(fract(x) - 0.5) * 2.0 - 0.5;
+}
+
+// ================= 主函数 =================
+void main() {
+
+    float t = Time * 3.0;
+
+    vec2 uv = texCoord * 4.0;
+
+    // ================= 背景 =================
+    float heightFactor = smoothstep(0.0, 0.8, 1.0 - length(uv) * 0.22);
+    vec3 baseSkyColor = vec3(0.02, 0.0, 0.05) * heightFactor;
+    float baseAlpha = 0.8 * heightFactor;
+
+    // ================= 裂缝 UV =================
+    float angle = 0.6;
+    float s = sin(angle), c = cos(angle);
+    vec2 riftUV = vec2(c * uv.x - s * uv.y, s * uv.x + c * uv.y);
+
+    float y = riftUV.y;
+
+    // ================= 🔥 强化裂缝边缘 =================
+    float zigzag = 0.0;
+
+    zigzag += tri(y * 3.0 + fbm(vec3(y, t * 0.2, 0.0)) * 2.0) * 0.4;
+    zigzag += tri(y * 7.0 + sin(t * 0.4)) * 0.2;
+    zigzag += tri(y * 15.0 + sin(t + y * 10.0)) * 0.08;
+
+    float stepBreak = floor(y * 25.0) * 0.03;
+    zigzag += tri(stepBreak + t * 0.3) * 0.12;
+
+    zigzag += (fbm(vec3(y * 8.0, t * 0.8, 0.0)) - 0.5) * 0.2;
+
+    float organic = fbm(vec3(y * 4.0, t * 0.25, 0.0)) * 0.18;
+    float sideMask = smoothstep(0.35, 0.95, abs(riftUV.x));
+    float sideWave = fbm(vec3(abs(riftUV.x) * 4.0, y * 4.0, t * 0.45)) - 0.5;
+    float sideFlow = sin(t * 0.9 + y * 6.0 + sideWave * 4.0) * 0.08;
+    float sideRipple = fbm(vec3(abs(riftUV.x) * 7.0, y * 6.5, t * 0.7)) - 0.5;
+    float sideZigzag = (sideWave * 0.35 + sideFlow + sideRipple * 0.25) * sideMask;
+
+    float warpedX = riftUV.x + zigzag + organic + sideZigzag;
+
+    // 让上下边缘带一点眼睑弧度，越靠近眼角越向中间收
+    float eyelidCurve = pow(abs(warpedX) * 0.28, 2.0) * 0.55;
+    float curvedY = y + sign(y) * eyelidCurve;
+    float riftSDF = length(vec2(warpedX * 0.3, curvedY * 1.8));
+
+    float riftMask = 1.0 - smoothstep(1.0, 1.15, riftSDF);
+    float sharpGlow = smoothstep(0.9, 1.0, riftSDF) *
+    (1.0 - smoothstep(1.0, 1.08, riftSDF));
+    float softGlow = smoothstep(0.7, 1.0, riftSDF) *
+    (1.0 - smoothstep(1.0, 1.5, riftSDF));
+
+    // ================= 裂缝内部空间 =================
+    vec3 dimSpaceColor =
+    vec3(0.1, 0.0, 0.3) +
+    fbm(vec3(uv * 4.0, 0.0) - vec3(0.0, t * 0.6, 0.0)) *
+    vec3(0.8, 0.1, 1.0);
+
+    dimSpaceColor *= 1.5;
+
+    // ================= 🌌 动态星云 =================
+    float gazeStep = floor(t * 0.18);
+    float gazePhase = fract(t * 0.18);
+    vec2 gazeFrom = vec2(
+    hash31(vec3(gazeStep, 1.7, 0.0)) - 0.5,
+    hash31(vec3(gazeStep, 5.3, 0.0)) - 0.5
     );
-}
-
-vec3 rotateY(vec3 p, float a) {
-    float c = cos(a);
-    float s = sin(a);
-    return vec3(
-    c * p.x + s * p.z,
-    p.y,
-    -s * p.x + c * p.z
+    vec2 gazeTo = vec2(
+    hash31(vec3(gazeStep + 1.0, 1.7, 0.0)) - 0.5,
+    hash31(vec3(gazeStep + 1.0, 5.3, 0.0)) - 0.5
     );
-}
+    float gazeHold = smoothstep(0.72, 0.92, gazePhase);
+    vec2 gaze = mix(gazeFrom, gazeTo, gazeHold) * vec2(0.34, 0.22);
+    gaze += vec2(
+    hash31(vec3(gazeStep, 2.1, 0.0)) - 0.5,
+    hash31(vec3(gazeStep, 7.9, 0.0)) - 0.5
+    ) * 0.008 * (1.0 - gazeHold);
 
-vec3 rotateZ(vec3 p, float a) {
-    float c = cos(a);
-    float s = sin(a);
-    return vec3(
-    c * p.x - s * p.y,
-    s * p.x + c * p.y,
-    p.z
+    vec2 eyeUV = uv;
+    vec2 irisUV = eyeUV - gaze * 0.28;
+    float dEye = length(irisUV);
+
+    float swirlAngle = dEye * 1.5 - t * 0.4;
+    float sa = sin(swirlAngle), ca = cos(swirlAngle);
+    vec2 swirlUV = vec2(ca * irisUV.x - sa * irisUV.y,
+    sa * irisUV.x + ca * irisUV.y);
+
+    // 🔥 动态流体星云
+    vec2 flow = vec2(
+    fbm(vec3(swirlUV * 2.0, t * 0.2)),
+    fbm(vec3(swirlUV * 2.0 + 5.2, t * 0.2))
     );
-}
 
-vec3 rotateCameraToWorld(vec3 p, vec2 yawPitch) {
-    float yaw = -yawPitch.x;
-    float pitch = -yawPitch.y;
+    swirlUV += (flow - 0.5) * 0.6;
 
-    p = rotateX(p, pitch);
-    p = rotateY(p, yaw);
+    vec3 fogCoord = vec3(swirlUV * 3.5, t * 0.35);
 
-    return normalize(p);
-}
+    float fog = fbm(fogCoord);
+    fog += fbm(fogCoord * 2.2 + vec3(flow * 2.0, t * 0.1)) * 0.5;
+    fog += sin(fogCoord.x * 10.0 + t * 2.0) * 0.03;
 
-vec3 cubemapUV(vec3 d) {
-    vec3 a = abs(d);
-    vec2 uv;
-    float face;
+    vec3 nebulaColor =
+    mix(vec3(0.1, 0.0, 0.4),
+    vec3(0.9, 0.3, 1.0),
+    fog * 0.9);
 
-    if (a.x >= a.y && a.x >= a.z) {
-        if (d.x > 0.0) {
-            uv = vec2(-d.z, d.y) / a.x;
-            face = 0.0;
-        } else {
-            uv = vec2(d.z, d.y) / a.x;
-            face = 1.0;
-        }
-    } else if (a.y >= a.x && a.y >= a.z) {
-        if (d.y > 0.0) {
-            uv = vec2(d.x, -d.z) / a.y;
-            face = 2.0;
-        } else {
-            uv = vec2(d.x, d.z) / a.y;
-            face = 3.0;
-        }
-    } else {
-        if (d.z > 0.0) {
-            uv = vec2(d.x, d.y) / a.z;
-            face = 4.0;
-        } else {
-            uv = vec2(-d.x, d.y) / a.z;
-            face = 5.0;
-        }
+    float irisMask = 1.0 - smoothstep(0.58, 1.42, dEye);
+
+    vec2 pupilUV = eyeUV - gaze * 0.65;
+    float dPupil = abs(pupilUV.x * 4.2) + abs(pupilUV.y * 1.6);
+    float pupilMask = 1.0 - smoothstep(0.24, 0.36, dPupil);
+
+    vec3 eyeColor = mix(dimSpaceColor, nebulaColor, irisMask);
+    eyeColor = mix(eyeColor, vec3(0.0), pupilMask * irisMask);
+
+    // ================= 合成 =================
+    vec3 finalColor = baseSkyColor;
+    float finalAlpha = baseAlpha;
+
+    if (riftMask > 0.0) {
+        finalColor = mix(finalColor, eyeColor, riftMask);
+        finalAlpha = mix(finalAlpha, 1.0, riftMask);
     }
 
-    uv = uv * 0.5 + 0.5;
-    return vec3(uv, face);
-}
+    vec3 glowColor = vec3(0.9, 0.5, 1.0);
+    finalColor += glowColor * sharpGlow * 3.0;
+    finalColor += glowColor * softGlow * 1.5;
 
-float starCubeLayer(vec3 dir, float grid, float threshold, float radius) {
-    vec3 cuv = cubemapUV(dir);
+    finalAlpha = clamp(finalAlpha + sharpGlow + softGlow, 0.0, 1.0);
 
-    vec2 p = cuv.xy * grid;
-    vec2 cell = floor(p);
-    vec2 local = fract(p);
-
-    vec2 id = cell + vec2(cuv.z * 1000.0, cuv.z * 217.0);
-
-    vec2 starPos = hash22(id);
-    starPos = mix(vec2(0.18), vec2(0.82), starPos);
-
-    float rnd = hash21(id + vec2(17.13, 8.91));
-    float appear = step(threshold, rnd);
-
-    float dist = length(local - starPos);
-    float star = smoothstep(radius, 0.0, dist);
-
-    float bright = mix(0.45, 1.8, hash21(id + vec2(91.7, 44.2)));
-
-    return star * appear * bright;
-}
-
-vec3 stars(vec3 dir, float t) {
-    float s = 0.0;
-
-    s += starCubeLayer(dir, 42.0, 0.82, 0.055);
-    s += starCubeLayer(dir, 78.0, 0.90, 0.040);
-    s += starCubeLayer(dir, 138.0, 0.955, 0.030);
-
-    float twinkle = 0.88 + 0.12 * sin(t * 2.2 + noise(dir * 90.0) * 18.0);
-    s *= twinkle;
-
-    vec3 col = vec3(
-    0.78 + 0.22 * noise(dir * 70.0 + vec3(1.0)),
-    0.80 + 0.20 * noise(dir * 80.0 + vec3(2.0)),
-    0.90 + 0.10 * noise(dir * 90.0 + vec3(3.0))
-    );
-
-    return s * col;
-}
-
-vec3 galaxy(vec3 dir, float t) {
-    vec3 gdir = dir;
-
-    vec3 normal = normalize(vec3(0.22, 0.58, 0.78));
-    vec3 center = normalize(vec3(-0.68, 0.16, 0.72));
-
-    float plane = abs(dot(gdir, normal));
-
-    float wide = exp(-plane * plane * 12.0);
-    float core = exp(-plane * plane * 64.0);
-
-    float centerGlow = pow(max(dot(gdir, center) * 0.5 + 0.5, 0.0), 3.2);
-
-    float cloud =
-    fbm(gdir * 3.5 + vec3(0.0, t * 0.015, 0.0)) * 0.50 +
-    fbm(gdir * 9.0 + vec3(t * 0.010, 0.0, -t * 0.008)) * 0.35 +
-    fbm(gdir * 24.0 + vec3(0.0, 0.0, t * 0.006)) * 0.15;
-
-    float dust =
-    fbm(gdir * 15.0 + vec3(4.1, 2.7 + t * 0.06, 1.3)) *
-    fbm(gdir * 38.0 + vec3(1.7 - t * 0.04, 8.2, 3.4));
-
-    float brightness = wide * cloud;
-    brightness += core * 0.22;
-    brightness *= 0.35 + centerGlow * 1.35;
-    brightness *= 1.0 - dust * core * 0.75;
-
-    vec3 cold = vec3(0.26, 0.36, 0.85);
-    vec3 warm = vec3(0.85, 0.62, 0.42);
-
-    return mix(cold, warm, centerGlow) * brightness * 0.85;
-}
-
-
-void main() {
-    float t = GameTime * 24000.0;
-
-    vec2 cam = radians(CameraYawPitch);
-    vec3 dir = rotateCameraToWorld(normalize(localDir), cam);
-
-    vec3 color = vec3(0.0);
-
-    color += galaxy(dir, t);
-    color += stars(dir, t);
-
-    fragColor = vec4(color, 1.0);
+    fragColor = vec4(finalColor, finalAlpha);
 }

@@ -5,9 +5,10 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "ctnhmana:zenith",
-  "fragment": "ctnhamana:zenith",
+  "fragment": "ctnhmana:zenith",
   "attributes": [
-    "Position"
+    "Position",
+    "UV0"
   ],
   "uniforms": [
     {
@@ -23,16 +24,10 @@
       "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
     },
     {
-      "name": "GameTime",
+      "name": "Time",
       "type": "float",
       "count": 1,
       "values": [ 0.0 ]
-    },
-    {
-      "name": "CameraYawPitch",
-      "type": "float",
-      "count": 2,
-      "values": [0.0, 0.0]
     }
   ]
 }
