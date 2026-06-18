@@ -71,41 +71,41 @@ void main() {
     // 1. 多层圆柱壳（Layered Shells）
     //    三条以不同角速度旋转的噪声壳，形成“亚空间裂缝”的层叠结构。
     // ============================================================
-    float shell1 = fbm(vec3(angle * 4.0 + t * 0.3, y * 0.08 - t * 0.25, t * 0.1));
-    float shell2 = fbm(vec3(angle * 7.0 - t * 0.5, y * 0.12 - t * 0.35, t * 0.15));
-    float shell3 = fbm(vec3(angle * 11.0 + t * 0.7, y * 0.18 - t * 0.5, t * 0.2));
+    float shell1 = fbm(vec3(angle * 2.2 + t * 0.3, y * 0.06 - t * 0.22, t * 0.1));
+    float shell2 = fbm(vec3(angle * 3.4 - t * 0.5, y * 0.09 - t * 0.30, t * 0.15));
+    float shell3 = fbm(vec3(angle * 4.8 + t * 0.7, y * 0.12 - t * 0.42, t * 0.2));
 
-    // 用阈值把平滑噪声切成“暗隙 / 亮丝”两种状态，避免糊成一片。
-    float tear1 = smoothstep(0.42, 0.58, shell1);
-    float tear2 = smoothstep(0.38, 0.62, shell2) * 1.2;
-    float tear3 = smoothstep(0.45, 0.55, shell3) * 1.5;
+    // 使用较宽的阈值保留流动纹理，避免切出密集刺眼的竖向亮丝。
+    float tear1 = smoothstep(0.32, 0.78, shell1);
+    float tear2 = smoothstep(0.30, 0.82, shell2) * 0.7;
+    float tear3 = smoothstep(0.36, 0.80, shell3) * 0.55;
 
     // ============================================================
     // 2. 强对比螺旋裂缝（Spiral Tear）
     //    像拧开的裂缝一样盘旋上升，边缘高亮，中间留暗。
     // ============================================================
-    float spiralPhase = angle * 6.0 + y * 0.14 - t * 0.9;
+    float spiralPhase = angle * 3.0 + y * 0.09 - t * 0.65;
     float spiral = sin(spiralPhase);
     float spiralEdge = abs(spiral);
-    float spiralTear = smoothstep(0.5, 0.95, spiralEdge) * smoothstep(0.0, 0.6, r);
+    float spiralTear = smoothstep(0.65, 1.0, spiralEdge) * smoothstep(0.0, 0.6, r) * 0.45;
 
     // ============================================================
     // 3. 向上喷射的能量流（Upward Streams）
     //    多条细流以不同速度向上涌动，产生“能量被抽上天”的动感。
     // ============================================================
-    float streamA = fbm(vec3(angle * 5.0 + 1.7, y * 0.25 - t * 1.4, t * 0.1));
-    float streamB = fbm(vec3(angle * 6.0 - 2.3, y * 0.30 - t * 1.1, t * 0.15));
-    float streamC = fbm(vec3(angle * 8.0 + 0.5, y * 0.35 - t * 1.7, t * 0.12));
+    float streamA = fbm(vec3(angle * 2.4 + 1.7, y * 0.18 - t * 1.1, t * 0.1));
+    float streamB = fbm(vec3(angle * 3.2 - 2.3, y * 0.22 - t * 0.9, t * 0.15));
+    float streamC = fbm(vec3(angle * 4.0 + 0.5, y * 0.26 - t * 1.3, t * 0.12));
 
-    float streamSharp = pow(max(streamA, max(streamB, streamC)), 3.0);
+    float streamSharp = smoothstep(0.45, 0.95, max(streamA, max(streamB, streamC))) * 0.45;
 
     // ============================================================
     // 4. 内部电弧（Arcs）
     //    高频闪烁的枝状电弧，随机出现、快速消失，增强“不稳定”感。
     // ============================================================
-    float arcNoise = fbm(vec3(angle * 14.0, y * 0.35 - ft * 0.6, ft * 0.4));
+    float arcNoise = fbm(vec3(angle * 8.0, y * 0.30 - ft * 0.5, ft * 0.4));
     float arcFlicker = step(0.72, hash31(vec3(floor(ft * 4.0), floor(y * 2.0), floor(angle * 3.0))));
-    float arcSharp = pow(smoothstep(0.45, 0.85, arcNoise), 4.0) * arcFlicker;
+    float arcSharp = pow(smoothstep(0.50, 0.88, arcNoise), 4.0) * arcFlicker * 0.45;
 
     // ============================================================
     // 5. 核心与径向分布
@@ -118,13 +118,13 @@ void main() {
     // 6. 亮度合成
     //    细节层之间做“加性高亮”，暗隙通过低 alpha 体现，而不是把亮度压黑。
     // ============================================================
-    float detail = tear1 * 0.55 + tear2 * 0.45 + tear3 * 0.35
-                 + spiralTear * 0.85
-                 + streamSharp * 0.9
-                 + arcSharp * 1.3;
+    float detail = tear1 * 0.24 + tear2 * 0.18 + tear3 * 0.14
+                 + spiralTear * 0.30
+                 + streamSharp * 0.35
+                 + arcSharp * 0.50;
 
     float intensity = core * 1.8 + innerShell + detail;
-    intensity = clamp(intensity, 0.0, 2.0);
+    intensity = clamp(intensity, 0.0, 1.8);
 
     // ============================================================
     // 7. 高度衰减与底部爆发
@@ -147,7 +147,7 @@ void main() {
     vec3 deepColor = vec3(0.35, 0.0, 0.65);
 
     vec3 color = mix(deepColor, baseColor, clamp(innerShell * 2.0, 0.0, 1.0));
-    color = mix(color, brightColor, clamp((streamSharp + spiralTear) * 0.8, 0.0, 1.0));
+    color = mix(color, brightColor, clamp((streamSharp + spiralTear) * 0.35, 0.0, 1.0));
     color = mix(color, coreColor, clamp(core * 2.5, 0.0, 1.0));
     color *= intensity;
 
@@ -157,8 +157,8 @@ void main() {
     //    这样既保留“有力量感”的实体感，又不会糊成纯色柱子。
     // ============================================================
     float alphaBase = 0.92;
-    float alphaDetail = detail * 0.18;
-    float alphaVoid = -(tear1 * 0.18 + tear2 * 0.14 + tear3 * 0.1);
+    float alphaDetail = detail * 0.08;
+    float alphaVoid = -(tear1 * 0.06 + tear2 * 0.05 + tear3 * 0.04);
     float alpha = alphaBase + alphaDetail + alphaVoid;
     alpha *= topFade;
     alpha = clamp(alpha * BeamAlpha, 0.0, 1.0);

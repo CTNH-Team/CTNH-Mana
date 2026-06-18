@@ -18,7 +18,6 @@ import com.moguang.ctnhmana.client.ClientProxy;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.serialization.Codec;
-import org.joml.Matrix4f;
 
 /**
  * 天顶矩阵的动态渲染器，负责：
@@ -157,6 +156,9 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             var level = machine.getLevel();
             if (level == null) return;
 
+            ShaderInstance beamShader = ClientProxy.getZenithBeamShader();
+            if (beamShader == null) return;
+
             // 将坐标系原点从机器控制器移动到天顶之眼方块中心。
             var eyePos = machine.getZenithEyePos();
             var localEyeX = eyePos.getX() - machine.getPos().getX();
@@ -181,9 +183,6 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             float radius = baseRadius * formationBoost;
 
             // ========== 设置自定义 shader ==========
-            ShaderInstance beamShader = ClientProxy.getZenithBeamShader();
-            if (beamShader == null) return;
-
             RenderSystem.setShader(() -> beamShader);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -211,25 +210,34 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             BufferBuilder builder = tesselator.getBuilder();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            Matrix4f matrix = poseStack.last().pose();
-            for (int i = 0; i < BEAM_SIDES; i++) {
-                float a0 = (float) i / BEAM_SIDES * Mth.TWO_PI;
-                float a1 = (float) (i + 1) / BEAM_SIDES * Mth.TWO_PI;
-                float x0 = Mth.cos(a0) * radius;
-                float z0 = Mth.sin(a0) * radius;
-                float x1 = Mth.cos(a1) * radius;
-                float z1 = Mth.sin(a1) * radius;
-                float u0 = (float) i / BEAM_SIDES;
-                float u1 = (float) (i + 1) / BEAM_SIDES;
+            PoseStack modelViewStack = RenderSystem.getModelViewStack();
+            modelViewStack.pushPose();
+            try {
+                modelViewStack.mulPoseMatrix(poseStack.last().pose());
+                RenderSystem.applyModelViewMatrix();
 
-                // 底部
-                builder.vertex(matrix, x0, 0, z0).uv(u0, 0).endVertex();
-                builder.vertex(matrix, x0, BEAM_HEIGHT, z0).uv(u0, 1).endVertex();
-                builder.vertex(matrix, x1, BEAM_HEIGHT, z1).uv(u1, 1).endVertex();
-                builder.vertex(matrix, x1, 0, z1).uv(u1, 0).endVertex();
+                for (int i = 0; i < BEAM_SIDES; i++) {
+                    float a0 = (float) i / BEAM_SIDES * Mth.TWO_PI;
+                    float a1 = (float) (i + 1) / BEAM_SIDES * Mth.TWO_PI;
+                    float x0 = Mth.cos(a0) * radius;
+                    float z0 = Mth.sin(a0) * radius;
+                    float x1 = Mth.cos(a1) * radius;
+                    float z1 = Mth.sin(a1) * radius;
+                    float u0 = (float) i / BEAM_SIDES;
+                    float u1 = (float) (i + 1) / BEAM_SIDES;
+
+                    // 顶点保持在光柱局部空间，避免 shader 动画随相机矩阵变化。
+                    builder.vertex(x0, 0, z0).uv(u0, 0).endVertex();
+                    builder.vertex(x0, BEAM_HEIGHT, z0).uv(u0, 1).endVertex();
+                    builder.vertex(x1, BEAM_HEIGHT, z1).uv(u1, 1).endVertex();
+                    builder.vertex(x1, 0, z1).uv(u1, 0).endVertex();
+                }
+
+                tesselator.end();
+            } finally {
+                modelViewStack.popPose();
+                RenderSystem.applyModelViewMatrix();
             }
-
-            tesselator.end();
 
             // 恢复渲染状态。
             RenderSystem.disableDepthTest();// 恢复渲染状态。
