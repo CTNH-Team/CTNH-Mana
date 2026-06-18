@@ -170,7 +170,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             float time = level.getGameTime() + partialTick;
 
             // ========== 光柱动态参数 ==========
-            float baseRadius = 0.65F;
+            float baseRadius = 0.4F;
             // 亚空间能量束：半径稳定，不呼吸抖动。
             // 形成瞬间的能量爆发。
             float formationBoost = 1.0F;
