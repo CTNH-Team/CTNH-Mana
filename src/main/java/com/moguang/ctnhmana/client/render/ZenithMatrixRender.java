@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,6 @@ import com.moguang.ctnhmana.Mutiblock.ZenithMatrixMachine;
 import com.moguang.ctnhmana.client.ClientProxy;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
 import org.joml.Matrix4f;
 
@@ -182,18 +180,6 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             }
             float radius = baseRadius * formationBoost;
 
-            // 让光柱始终面向相机（billboard），并随时间缓慢自旋。
-            Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-            Vec3 beamBase = new Vec3(
-                    eyePos.getX() + 0.5D,
-                    eyePos.getY(),
-                    eyePos.getZ() + 0.5D);
-            double dx = cameraPos.x - beamBase.x;
-            double dz = cameraPos.z - beamBase.z;
-            float yaw = (float) Math.atan2(dx, dz);
-            poseStack.mulPose(Axis.YP.rotation(yaw));
-            poseStack.mulPose(Axis.YP.rotation(time * 0.005F));
-
             // ========== 设置自定义 shader ==========
             ShaderInstance beamShader = ClientProxy.getZenithBeamShader();
             if (beamShader == null) return;
@@ -215,7 +201,7 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             }
             // 传递 Uniform：BeamAlpha 控制整体不透明度。
             if (beamShader.safeGetUniform("BeamAlpha") != null) {
-                beamShader.safeGetUniform("BeamAlpha").set(0.95f);
+                beamShader.safeGetUniform("BeamAlpha").set(1.0f);
             }
 
             // ========== 构建圆柱网格 ==========

@@ -10,8 +10,6 @@ uniform float BeamAlpha;
 
 out vec4 fragColor;
 
-#define PI 3.14159265359
-
 float hash31(vec3 p) {
     return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453123);
 }
@@ -48,49 +46,51 @@ void main() {
     float angle = atan(localPos.z, localPos.x);
     float y = localPos.y;
 
-    // 缓慢旋转的亚空间裂缝螺旋
+    // 亚空间裂缝螺旋：基于世界空间角度，不随视角旋转
     float spiralPhase = angle * 5.0 + y * 0.06 - t * 0.15;
     float spiral = sin(spiralPhase);
     float spiralTear = smoothstep(0.55, 0.85, abs(spiral)) * smoothstep(0.0, 0.35, r);
 
-    // 多股能量流，从裂缝中向上涌动
+    // 向上涌动的能量流
     float stream = fbm(vec3(angle * 3.0, y * 0.04 - t * 0.12, t * 0.05));
     float streamSharp = pow(stream, 2.0) * smoothstep(0.0, 0.45, r);
 
-    // 内部电弧：短促、高对比，增强力量感
+    // 内部电弧
     float arc = fbm(vec3(angle * 8.0, y * 0.15 - t * 0.4, t * 0.2));
     float arcSharp = pow(smoothstep(0.45, 0.85, arc), 3.0) * smoothstep(0.0, 0.3, r);
 
-    // 裂缝边缘的撕裂辉光
+    // 裂缝边缘撕裂辉光
     float tearGlow = exp(-pow(max(0.0, r - 0.42), 2.0) * 60.0);
 
-    // 核心：非常集中的高亮能量柱
-    float core = exp(-r * r * 18.0);
+    // 极亮核心：半径内完全不透明
+    float core = exp(-r * r * 22.0);
 
     // 中层能量晕
-    float mid = exp(-r * r * 4.0) * 0.6;
+    float mid = exp(-r * r * 5.0) * 0.7;
 
     // 高度衰减
     float topFade = 1.0 - smoothstep(0.7, 1.0, heightRatio);
     float bottomBurst = 1.0 - smoothstep(0.0, 0.08, heightRatio);
 
-    // 能量强度合成：核心 + 中层 + 能量流 + 电弧 + 边缘撕裂
-    float intensity = core * 2.5 + mid + streamSharp * 1.2 + arcSharp * 1.5 + spiralTear * 0.8 + tearGlow * 1.2;
+    // 能量强度
+    float intensity = core * 4.0 + mid * 2.0 + streamSharp * 1.5 + arcSharp * 2.0 + spiralTear * 1.2 + tearGlow * 1.8;
     intensity *= topFade;
-    intensity *= 1.0 + bottomBurst * 0.5;
+    intensity *= 1.0 + bottomBurst * 0.6;
 
-    // 颜色：核心偏白亮，外层 BeamColor，裂缝边缘粉白高光
-    vec3 coreColor = vec3(1.0, 0.85, 1.0);
-    vec3 midColor = BeamColor * 1.4;
-    vec3 tearColor = vec3(1.0, 0.6, 0.95);
+    // 颜色：核心白热，中层深紫，边缘粉白撕裂
+    vec3 coreColor = vec3(1.0, 0.9, 1.0);
+    vec3 midColor = BeamColor * 1.8;
+    vec3 tearColor = vec3(1.0, 0.5, 0.95);
 
-    vec3 color = mix(midColor, coreColor, clamp(core * 3.0, 0.0, 1.0));
-    color = mix(color, tearColor, clamp(tearGlow + spiralTear * 0.6 + arcSharp, 0.0, 1.0));
+    vec3 color = mix(midColor, coreColor, clamp(core * 4.0, 0.0, 1.0));
+    color = mix(color, tearColor, clamp(tearGlow + spiralTear * 0.8 + arcSharp, 0.0, 1.0));
     color *= intensity;
 
-    // alpha：核心更实体，整体更高不透明
-    float alpha = BeamAlpha * clamp(core * 1.2 + mid * 0.8 + streamSharp * 0.6 + arcSharp * 0.8 + tearGlow * 0.7, 0.0, 1.0);
+    // alpha：核心完全不透明，整体强制高不透明
+    float alpha = clamp(core * 1.5 + mid * 1.2 + streamSharp * 0.9 + arcSharp * 1.0 + tearGlow * 0.9, 0.0, 1.0);
+    alpha = mix(alpha, 1.0, core * 0.9);
     alpha *= topFade;
+    alpha = clamp(alpha * BeamAlpha, 0.0, 1.0);
 
     fragColor = vec4(color, alpha);
 }
