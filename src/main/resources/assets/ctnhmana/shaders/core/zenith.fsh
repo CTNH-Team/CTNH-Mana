@@ -69,9 +69,19 @@ void main() {
 
     vec2 uv = texCoord * 4.0;
 
-    // 睁开动画：垂直方向先展开，水平略滞后，增强眼睑感
-    float verticalOpen = easeOutBack(eyeOpen);
-    float horizontalOpen = mix(0.05, 1.0, easeOutCubic(eyeOpen));
+    // 周期性的自然眨眼，仅在完全睁开（EyeOpen == 1）后生效
+    float naturalBlink = 0.0;
+    if (eyeOpen >= 0.99) {
+        float blinkCycle = t * 0.25;
+        float blinkPhase = fract(blinkCycle);
+        // 大部分时间为 0，偶尔快速闭合再睁开
+        float blinkTrigger = step(0.96, fract(blinkCycle * 0.125));
+        naturalBlink = blinkTrigger * smoothstep(0.0, 0.5, blinkPhase) * (1.0 - smoothstep(0.5, 1.0, blinkPhase));
+    }
+
+    // 最终垂直开合度 = 睁开动画 * (1 - 自然眨眼)
+    float verticalOpen = easeOutBack(eyeOpen) * (1.0 - naturalBlink * 0.95);
+    float horizontalOpen = mix(0.05, 1.0, easeOutCubic(eyeOpen)) * (1.0 - naturalBlink * 0.6);
     uv.y /= max(verticalOpen, 0.001);
     uv.x /= max(horizontalOpen, 0.001);
 
