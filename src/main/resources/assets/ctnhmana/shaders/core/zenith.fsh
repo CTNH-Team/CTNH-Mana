@@ -80,22 +80,9 @@ void main() {
     // UV 范围 [-4, 4]，中央是眼睛注视区域。
     vec2 uv = texCoord * 4.0;
 
-    // ========== 自然眨眼 ==========
-    // 仅在初次睁开动画完成后（eyeOpen >= 0.99）才开始周期性眨眼。
-    float naturalBlink = 0.0;
-    if (eyeOpen >= 0.99) {
-        float blinkCycle = t * 0.25;
-        float blinkPhase = fract(blinkCycle);
-        // blinkTrigger 控制“什么时候眨眼”，利用低频 fract 产生稀疏触发。
-        float blinkTrigger = step(0.96, fract(blinkCycle * 0.125));
-        // smoothstep 构造从 0 -> 1 -> 0 的闭合曲线。
-        naturalBlink = blinkTrigger * smoothstep(0.0, 0.5, blinkPhase) * (1.0 - smoothstep(0.5, 1.0, blinkPhase));
-    }
-
-    // ========== 眼睛开合对 UV 的影响 ==========
-    // verticalOpen 主导上下眼睑开合；horizontalOpen 让水平方向略有收缩。
-    float verticalOpen = easeOutBack(eyeOpen) * (1.0 - naturalBlink * 0.95);
-    float horizontalOpen = mix(0.05, 1.0, easeOutCubic(eyeOpen)) * (1.0 - naturalBlink * 0.6);
+    // 完全移除自然眨眼与上下眼睑裁剪，仅保留整体缩放作为眼睛开合效果。
+    float verticalOpen = easeOutBack(eyeOpen);
+    float horizontalOpen = mix(0.05, 1.0, easeOutCubic(eyeOpen));
     // 防止除以 0，避免 NaN。
     uv.y /= max(verticalOpen, 0.001);
     uv.x /= max(horizontalOpen, 0.001);
@@ -182,10 +169,6 @@ void main() {
     // 实际注视位置，乘以系数限制在眼白范围内。
     vec2 gaze = mix(gazeFrom, gazeTo, saccadeT) * vec2(0.34, 0.22);
 
-    // 眨眼时瞳孔收缩微颤，幅度 15%。
-    float blink = smoothstep(0.82, 0.92, sin(t * 0.7 + hash31(vec3(gazeStep, 3.1, 0.0)) * 2.0));
-    gaze *= 1.0 - blink * 0.15;
-
     vec2 eyeUV = uv;
     // 虹膜中心随 gaze 偏移。
     vec2 irisUV = eyeUV - gaze * 0.28;
@@ -249,3 +232,4 @@ void main() {
 
     fragColor = vec4(finalColor, finalAlpha);
 }
+
