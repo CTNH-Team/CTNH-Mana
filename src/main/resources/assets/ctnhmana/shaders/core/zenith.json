@@ -1,15 +1,20 @@
 {
+  // 混合模式：源颜色按源 alpha 加入，目标颜色按 1-源 alpha 保留。
+  // 这样天空裂缝的辉光会叠加到天空上，而非完全覆盖。
   "blend": {
     "func": "add",
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
+  // 顶点与片段 shader 的资源位置，均为 assets/ctnhmana/shaders/core/zenith(.vsh/.fsh)。
   "vertex": "ctnhmana:zenith",
   "fragment": "ctnhmana:zenith",
+  // 顶点属性：位置与 UV。
   "attributes": [
     "Position",
     "UV0"
   ],
+  // Uniform 列表，名字、类型、数量与默认值需与 shader 代码匹配。
   "uniforms": [
     {
       "name": "ModelViewMat",
@@ -24,12 +29,14 @@
       "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
     },
     {
+      // Time：由 Java 端传入，驱动 shader 内部所有时间相关动画。
       "name": "Time",
       "type": "float",
       "count": 1,
       "values": [ 0.0 ]
     },
     {
+      // EyeOpen：由 Java 端传入，控制天空眼睛的开合程度。
       "name": "EyeOpen",
       "type": "float",
       "count": 1,
