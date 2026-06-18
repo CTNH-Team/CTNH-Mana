@@ -75,14 +75,9 @@ public class ClientForgeRegister {
             float offsetX = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
             float offsetY = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
 
+            // 仅保留屏幕位移，不叠加黑色层，避免遮挡睁眼
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(offsetX, offsetY, 0);
-
-            int shakeAlpha = (int) ((1.0f - shakeProgress) * 40);
-            if (shakeAlpha > 0) {
-                guiGraphics.fill(0, 0, screenW, screenH,
-                        (shakeAlpha << 24) | 0x000000);
-            }
             guiGraphics.pose().popPose();
         }
     }
