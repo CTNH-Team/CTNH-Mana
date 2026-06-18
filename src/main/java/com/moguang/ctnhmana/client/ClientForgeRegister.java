@@ -34,6 +34,9 @@ public class ClientForgeRegister {
     private static final int FLASH_PEAK_COLOR = 0xF5D0FF;
     private static final int FLASH_TAIL_COLOR = 0xB866FF;
 
+    // 闪屏在睁眼之前结束，避免遮挡天空裂缝睁开
+    private static final int FLASH_MAX_ALPHA = 70;
+
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiOverlayEvent.Post event) {
         ShroudGazingRender.renderPurpleTint(event.getGuiGraphics().pose(), event.getPartialTick());
@@ -53,9 +56,10 @@ public class ClientForgeRegister {
         if (elapsed < ZenithMatrixRender.FLASH_DURATION) {
             float flashProgress = (float) elapsed / ZenithMatrixRender.FLASH_DURATION;
 
-            float alpha = elapsed < 3 ? (float) elapsed / 3.0f : 1.0f - (flashProgress - 0.3f / 0.7f);
-            alpha = Math.max(0, Math.min(1, 1.0f - flashProgress));
-            int alphaInt = (int) (alpha * 180);
+            // 快速起峰后衰减，持续时间短、不透明度低
+            float alpha = elapsed < 2 ? (float) elapsed / 2.0f : 1.0f - flashProgress;
+            alpha = Math.max(0, Math.min(1, alpha));
+            int alphaInt = (int) (alpha * FLASH_MAX_ALPHA);
             if (alphaInt > 0) {
                 int color = lerpColor(FLASH_PEAK_COLOR, FLASH_TAIL_COLOR, alpha);
                 guiGraphics.fill(0, 0, screenW, screenH,
@@ -149,11 +153,11 @@ public class ClientForgeRegister {
             elapsed = ZenithMatrixRender.FORMATION_DURATION - ZenithMatrixRender.formationAnimTicks;
         }
 
-        // 天空裂缝睁开动画：比 alpha 渐入提前几帧开始，带轻微回弹
+        // 天空裂缝睁开动画：闪屏结束后开始，带轻微回弹
         float eyeOpen = 1.0f;
         float skyAlpha = 1.0f;
         if (forming) {
-            int eyeOpenStart = 8;
+            int eyeOpenStart = ZenithMatrixRender.FLASH_DURATION + 2;
             int eyeOpenDuration = 36;
             if (elapsed < eyeOpenStart) {
                 eyeOpen = 0.0f;
