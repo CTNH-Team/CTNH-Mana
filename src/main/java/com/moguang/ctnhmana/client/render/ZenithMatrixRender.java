@@ -4,21 +4,27 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BeaconRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.moguang.ctnhmana.Mutiblock.ZenithMatrixMachine;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.moguang.ctnhmana.client.ClientProxy;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
+import org.joml.Matrix4f;
 
 /**
  * 天顶矩阵的动态渲染器，负责：
- * 1. 在天顶之眼位置渲染向上的信标光柱。
+ * 1. 在天顶之眼位置渲染向上的自定义 shader 光柱。
  * 2. 管理天空裂缝（zenith sky rift）的客户端状态（位置、形成动画计时）。
  *
  * 该类继承自 GTCEu 的 DynamicRender，会在多方块机器被加载时由 DynamicRenderManager 调用。
@@ -30,6 +36,11 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
     /** 注册到 DynamicRenderManager 的渲染类型。 */
     public static final DynamicRenderType<IMachineFeature, ZenithMatrixRender> TYPE = new DynamicRenderType<>(
             ZenithMatrixRender.CODEC);
+
+    /** 光柱侧面的细分段数。 */
+    private static final int BEAM_SIDES = 16;
+    /** 光柱高度：从眼睛直达天空锚点。 */
+    private static final float BEAM_HEIGHT = 320.0F;
 
     /**
      * 天空裂缝效果的剩余存活刻数。
@@ -132,7 +143,8 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
 
     /**
      * 实际渲染光柱。
-     * 这里绘制两层信标光束：外层宽光晕 + 内层亮核心，并加入时间脉动与形成爆发效果。
+     * 使用自定义 GLSL shader（zenith_beam）绘制一个圆柱形能量柱，
+     * 在片段着色器中生成螺旋、噪声流动与边缘发光效果。
      */
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -147,64 +159,95 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
             var level = machine.getLevel();
             if (level == null) return;
 
-            // 将坐标系原点从机器控制器移动到天顶之眼方块。
+            // 将坐标系原点从机器控制器移动到天顶之眼方块中心。
             var eyePos = machine.getZenithEyePos();
             var localEyeX = eyePos.getX() - machine.getPos().getX();
             var localEyeY = eyePos.getY() - machine.getPos().getY();
             var localEyeZ = eyePos.getZ() - machine.getPos().getZ();
 
             poseStack.pushPose();
-            poseStack.translate(localEyeX, localEyeY, localEyeZ);
+            poseStack.translate(localEyeX + 0.5D, localEyeY, localEyeZ + 0.5D);
 
             // 连续时间，包含 partialTick 保证动画流畅。
             float time = level.getGameTime() + partialTick;
 
-            // ========== 光柱半径计算 ==========
-            // 基础半径。
-            float baseRadius = 0.25F;
-            // 核心半径：以 sin 波做呼吸式脉动，幅度 25%。
-            float pulse = 1.0F + 0.25F * (float) Math.sin(time * 0.25D);
-            float coreRadius = baseRadius * pulse;
-            // 外层光晕：更宽、相位略有偏移，产生“光圈荡漾”感。
-            float glowRadius = baseRadius * (1.4F + 0.35F * (float) Math.sin(time * 0.18D + 1.0D));
-
-            // 形成瞬间的能量爆发：在 formationAnimTicks 期间额外放大半径，形成“睁开时能量喷涌”的视觉。
+            // ========== 光柱动态参数 ==========
+            float baseRadius = 0.35F;
+            // 呼吸式脉动。
+            float pulse = 1.0F + 0.2F * Mth.sin(time * 0.25F);
+            // 形成瞬间的能量爆发。
             float formationBoost = 1.0F;
             if (formationAnimTicks > 0) {
-                // p: 0 -> 1，表示形成动画进度。
                 float p = 1.0F - (float) formationAnimTicks / FORMATION_DURATION;
-                // sin(p * π) 在 0 与 1 处为 0，中间达到峰值；(1-p) 让爆发后段逐渐回落。
-                formationBoost = 1.0F + 1.5F * (float) Math.sin(p * Math.PI) * (1.0F - p);
+                formationBoost = 1.0F + 2.0F * Mth.sin(p * Mth.PI) * (1.0F - p);
+            }
+            float radius = baseRadius * pulse * formationBoost;
+
+            // 让光柱始终面向相机（billboard），并随时间缓慢自旋。
+            Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            Vec3 beamBase = new Vec3(
+                    eyePos.getX() + 0.5D,
+                    eyePos.getY(),
+                    eyePos.getZ() + 0.5D);
+            double dx = cameraPos.x - beamBase.x;
+            double dz = cameraPos.z - beamBase.z;
+            float yaw = (float) Math.atan2(dx, dz);
+            poseStack.mulPose(Axis.YP.rotation(yaw));
+            poseStack.mulPose(Axis.YP.rotation(time * 0.02F));
+
+            // ========== 设置自定义 shader ==========
+            ShaderInstance beamShader = ClientProxy.getZenithBeamShader();
+            if (beamShader == null) return;
+
+            RenderSystem.setShader(() -> beamShader);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.depthMask(false);
+            RenderSystem.disableCull();
+
+            // 传递 Uniform：Time 驱动 shader 内部动画。
+            if (beamShader.safeGetUniform("Time") != null) {
+                beamShader.safeGetUniform("Time").set(time * 0.05f);
+            }
+            // 传递 Uniform：BeamColor 使用天顶主题色。
+            if (beamShader.safeGetUniform("BeamColor") != null) {
+                beamShader.safeGetUniform("BeamColor").set(
+                        ZENITH_BEAM_COLOR[0], ZENITH_BEAM_COLOR[1], ZENITH_BEAM_COLOR[2]);
+            }
+            // 传递 Uniform：BeamAlpha 控制整体不透明度。
+            if (beamShader.safeGetUniform("BeamAlpha") != null) {
+                beamShader.safeGetUniform("BeamAlpha").set(0.85f);
             }
 
-            // ========== 外层淡光晕 ==========
-            // 宽而柔和，X/Z 半径相同，呈现基础辉光。
-            BeaconRenderer.renderBeaconBeam(
-                    poseStack,
-                    buffer,
-                    BeaconRenderer.BEAM_LOCATION,
-                    partialTick,
-                    1F, level.getGameTime(),
-                    0,
-                    320,
-                    ZENITH_BEAM_COLOR,
-                    glowRadius * formationBoost,
-                    glowRadius * 0.6F * formationBoost);
+            // ========== 构建圆柱网格 ==========
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder builder = tesselator.getBuilder();
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            // ========== 内层核心 ==========
-            // 颜色比外层略暗一点（G 通道降低），半径更小，显得“实心”。
-            float[] coreColor = { ZENITH_BEAM_COLOR[0], ZENITH_BEAM_COLOR[1] * 0.85F, ZENITH_BEAM_COLOR[2], 1.0F };
-            BeaconRenderer.renderBeaconBeam(
-                    poseStack,
-                    buffer,
-                    BeaconRenderer.BEAM_LOCATION,
-                    partialTick,
-                    1F, level.getGameTime(),
-                    0,
-                    320,
-                    coreColor,
-                    coreRadius * formationBoost,
-                    coreRadius * 0.5F * formationBoost);
+            Matrix4f matrix = poseStack.last().pose();
+            for (int i = 0; i < BEAM_SIDES; i++) {
+                float a0 = (float) i / BEAM_SIDES * Mth.TWO_PI;
+                float a1 = (float) (i + 1) / BEAM_SIDES * Mth.TWO_PI;
+                float x0 = Mth.cos(a0) * radius;
+                float z0 = Mth.sin(a0) * radius;
+                float x1 = Mth.cos(a1) * radius;
+                float z1 = Mth.sin(a1) * radius;
+                float u0 = (float) i / BEAM_SIDES;
+                float u1 = (float) (i + 1) / BEAM_SIDES;
+
+                // 底部
+                builder.vertex(matrix, x0, 0, z0).uv(u0, 0).endVertex();
+                builder.vertex(matrix, x0, BEAM_HEIGHT, z0).uv(u0, 1).endVertex();
+                builder.vertex(matrix, x1, BEAM_HEIGHT, z1).uv(u1, 1).endVertex();
+                builder.vertex(matrix, x1, 0, z1).uv(u1, 0).endVertex();
+            }
+
+            tesselator.end();
+
+            // 恢复渲染状态。
+            RenderSystem.enableCull();
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
 
             poseStack.popPose();
         }
