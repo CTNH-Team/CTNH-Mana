@@ -100,18 +100,51 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
 
             poseStack.pushPose();
             poseStack.translate(localEyeX, localEyeY, localEyeZ);
+
+            float time = level.getGameTime() + partialTick;
+
+            // 主光柱：与天空裂缝同步的脉冲
+            float baseRadius = 0.25F;
+            float pulse = 1.0F + 0.25F * (float) Math.sin(time * 0.25D);
+            float coreRadius = baseRadius * pulse;
+            float glowRadius = baseRadius * (1.4F + 0.35F * (float) Math.sin(time * 0.18D + 1.0D));
+
+            // 形成瞬间能量爆发：半径随 formationAnimTicks 放大
+            float formationBoost = 1.0F;
+            if (formationAnimTicks > 0) {
+                float p = 1.0F - (float) formationAnimTicks / FORMATION_DURATION;
+                formationBoost = 1.0F + 1.5F * (float) Math.sin(p * Math.PI) * (1.0F - p);
+            }
+
+            // 外层淡光晕：宽而柔和
             BeaconRenderer.renderBeaconBeam(
                     poseStack,
                     buffer,
                     BeaconRenderer.BEAM_LOCATION,
                     partialTick,
                     1F,
-                    level.getGameTime(),
+                    time,
                     0,
                     320,
                     ZENITH_BEAM_COLOR,
-                    0.25F,
-                    0.25F);
+                    glowRadius * formationBoost,
+                    glowRadius * 0.6F * formationBoost);
+
+            // 内层核心：较亮、较细
+            float[] coreColor = { ZENITH_BEAM_COLOR[0], ZENITH_BEAM_COLOR[1] * 0.85F, ZENITH_BEAM_COLOR[2], 1.0F };
+            BeaconRenderer.renderBeaconBeam(
+                    poseStack,
+                    buffer,
+                    BeaconRenderer.BEAM_LOCATION,
+                    partialTick,
+                    1F,
+                    time,
+                    0,
+                    320,
+                    coreColor,
+                    coreRadius * formationBoost,
+                    coreRadius * 0.5F * formationBoost);
+
             poseStack.popPose();
         }
     }
