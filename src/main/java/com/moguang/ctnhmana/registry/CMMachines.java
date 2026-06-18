@@ -27,6 +27,7 @@ import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
 import com.moguang.ctnhmana.Mutiblock.parts.CentralControlBus;
+import com.moguang.ctnhmana.Mutiblock.parts.ExtendedCentralControlBus;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.CreativeManaHatch;
@@ -393,6 +394,16 @@ public class CMMachines {
             .rotationState(RotationState.ALL)
             .abilities(CMPartsAbility.SIGNALHATCH)
             .tooltips(CTNHManaUtils.addMachineTooltips(centralControlBusLang))
+            .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
+            .register();
+    public static final MachineDefinition EXTENDED_CENTRALCONTROL_BUS = REGISTRATE
+            .machine("extended_centralcontrol_bus", holder -> new ExtendedCentralControlBus(holder, IV))
+            .cnLangValue("拓展中央存储控制总线")
+            .tier(IV)
+            .modelProperty(IS_FORMED, false)
+            .rotationState(RotationState.ALL)
+            .abilities(CMPartsAbility.ExtendedCentralControlBus)
+            .tooltips(CTNHManaUtils.addMachineTooltips(ExtendedCentralControlBus.extendedCentralControlBusLang))
             .overlayTieredHullModel(CTNHMana.id("block/machine/part/bloodmanahatch"))
             .register();
 

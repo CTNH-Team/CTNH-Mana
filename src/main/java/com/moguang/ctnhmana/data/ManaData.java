@@ -14,6 +14,7 @@ public class ManaData extends SavedData {
     private final ServerLevel serverLevel;
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName = Arrays.asList("BT", "BM", "ARS", "GT"); // Waiting for NANE CHANGING
+    public boolean isZenithOpen = false;
 
     public static ManaData getOrCreate(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new ManaData(serverLevel, tag),
@@ -30,7 +31,13 @@ public class ManaData extends SavedData {
             ManaList.add(tag);
         });
         nbt.put("ManaInfo", ManaList);
+        nbt.putBoolean("isZenithOpen", isZenithOpen);
         return nbt;
+    }
+
+    public void setZenithOpen(boolean open) {
+        isZenithOpen = open;
+        setDirty();
     }
 
     public void ChangeLevel(String id, int level) {
@@ -53,6 +60,7 @@ public class ManaData extends SavedData {
                             "I HATE STREAM AND LAMABDA WHY JAVA HAVE ALL THESE THINGS"));
             ManaLevel.put(key, compoundTag.getInt(key));
         }
+        isZenithOpen = tag.getBoolean("isZenithOpen");
     }
 
     public ManaData(ServerLevel serverLevel) {

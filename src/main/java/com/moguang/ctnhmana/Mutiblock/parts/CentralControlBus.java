@@ -90,7 +90,7 @@ public class CentralControlBus extends ItemBusPartMachine {
                     if (!this.getInventory().getStackInSlot(0).isEmpty()) {
                         var item = this.getInventory().getStackInSlot(0);
                         item = imachine.getInventory().insertItem(meta, item, false);
-                        if (item.isEmpty()) this.getInventory().setStackInSlot(0, ItemStack.EMPTY);
+                        this.getInventory().setStackInSlot(0, item);
                     }
                 }
                 this.lastHadRedstone = getInputSignal() > 0;

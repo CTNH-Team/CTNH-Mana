@@ -490,8 +490,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             return gross;
         }
 
-        var lpFraction = Math.min(ORB_LP_CAP_FRACTION, ORB_LP_BASE_FRACTION + ORB_LP_PER_RUNE_FRACTION * Orb_rune);
-        if (depositLp && soulNetwork != null) {
+        var lpFraction = Math.min(ORB_LP_CAP_FRACTION, ORB_LP_PER_RUNE_FRACTION * Orb_rune);
+        if (depositLp && soulNetwork != null && Orb_rune >= 1) {
             var level = getLevel();
             if (level != null && !level.isClientSide() && lpFraction > 0) {
                 var lp = (int) (gross * lpFraction);
@@ -567,8 +567,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
 
     @Override
     public void onStructureFormed() {
-        pos1 = MachineUtils.getOffset(this, 10, 41, -9);
-        pos2 = MachineUtils.getOffset(this, -10, 41, 11);
+        pos1 = MachineUtils.getOffset(this, 10, 40, -9);
+        pos2 = MachineUtils.getOffset(this, -10, 40, 11);
         updateMachineStorage();
         calculateRune();
         super.onStructureFormed();

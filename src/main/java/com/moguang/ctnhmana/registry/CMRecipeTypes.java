@@ -24,7 +24,7 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setMaxTooltips(5)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_TRANSFORMER_RECIPES = REGISTRATE
@@ -33,7 +33,7 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setMaxTooltips(5)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType HELL_FORGE_RECIPES = REGISTRATE
@@ -42,7 +42,7 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setMaxTooltips(5)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
     public static final GTRecipeType BLOOD_ALTAR_RECIPES = REGISTRATE
@@ -51,7 +51,7 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setMaxTooltips(7)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
     public static final GTRecipeType WISHING_RECIPES = REGISTRATE
@@ -131,7 +131,7 @@ public class CMRecipeTypes {
             .cnlang("数字化苦难之井")
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 0, 0, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
 
@@ -139,14 +139,14 @@ public class CMRecipeTypes {
             .cnlang("盖亚反应").setMaxIOSize(2, 24, 2, 2)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CUT)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE.recipeType(GTCEu.id("mana_forge"), ELECTRIC)
             .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FORGE_HAMMER)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_FUEL_INFUSER_RECIPES = REGISTRATE

@@ -18,7 +18,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import lombok.Getter;
 
 import java.io.IOException;
-
+@SuppressWarnings("removal")
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeRegister {
 

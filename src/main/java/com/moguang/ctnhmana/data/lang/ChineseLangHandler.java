@@ -218,6 +218,8 @@ public class ChineseLangHandler {
 
     public static void init(RegistrateCNLangProvider provider) {
         AHCCRuneLang.init(provider);
+        provider.add("ctnhmana.extended_centralcontrol_bus.channel_toggle.enabled", "启用该通道");
+        provider.add("ctnhmana.extended_centralcontrol_bus.channel_toggle.disabled", "禁用该通道");
         provider.add("ctnh.item.runes.starlight_rune", "Per Aspera Ad Astra");
         provider.add("ctnh.item.runes.twist_rune", "速度与人性的扭曲");
         provider.add("ctnh.item.runes.proliferation_rune", "金融与生物的本能");
