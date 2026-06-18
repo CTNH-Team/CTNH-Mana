@@ -46,43 +46,44 @@ void main() {
     float angle = atan(localPos.z, localPos.x);
     float y = localPos.y;
 
-    // 亚空间裂缝螺旋
-    float spiralPhase = angle * 5.0 + y * 0.06 - t * 0.15;
+    // 强对比螺旋裂缝
+    float spiralPhase = angle * 5.0 + y * 0.08 - t * 0.2;
     float spiral = sin(spiralPhase);
-    float spiralTear = smoothstep(0.55, 0.85, abs(spiral)) * smoothstep(0.0, 0.5, r);
+    float spiralTear = smoothstep(0.45, 0.85, abs(spiral)) * smoothstep(0.0, 0.5, r);
 
     // 向上涌动的能量流
-    float stream = fbm(vec3(angle * 3.0, y * 0.04 - t * 0.12, t * 0.05));
-    float streamSharp = pow(stream, 2.0);
+    float stream = fbm(vec3(angle * 3.0, y * 0.05 - t * 0.15, t * 0.05));
+    float streamSharp = pow(stream, 2.5);
 
     // 内部电弧
-    float arc = fbm(vec3(angle * 8.0, y * 0.15 - t * 0.4, t * 0.2));
-    float arcSharp = pow(smoothstep(0.45, 0.85, arc), 3.0);
+    float arc = fbm(vec3(angle * 9.0, y * 0.18 - t * 0.5, t * 0.25));
+    float arcSharp = pow(smoothstep(0.4, 0.85, arc), 4.0);
 
     // 高度衰减
     float topFade = 1.0 - smoothstep(0.7, 1.0, heightRatio);
     float bottomBurst = 1.0 - smoothstep(0.0, 0.08, heightRatio);
 
-    // 管状均匀亮度：底座高亮 + 核心微增强 + 细节纹理
-    float baseGlow = 0.9;
-    float coreBoost = exp(-r * r * 8.0) * 0.5;
-    float detail = streamSharp * 0.5 + arcSharp * 0.6 + spiralTear * 0.4;
+    // 基础管状亮度（保证外部也能看到），细节在此基础上做加减
+    float baseGlow = 0.55;
+    float coreBoost = exp(-r * r * 8.0) * 0.6;
+    float detail = spiralTear * 0.9 + streamSharp * 0.7 + arcSharp * 1.0;
     float intensity = baseGlow + coreBoost + detail;
     intensity *= topFade;
     intensity *= 1.0 + bottomBurst * 0.5;
-    intensity = min(intensity, 1.3);
+    intensity = min(intensity, 1.5);
 
-    // 颜色：主体饱和紫，核心微白，纹理粉白
+    // 颜色：基础饱和紫，细节处混入亮粉/白热
+    vec3 baseColor = BeamColor * 1.6;
     vec3 coreColor = vec3(1.0, 0.9, 1.0);
-    vec3 tubeColor = BeamColor * 1.8;
-    vec3 detailColor = vec3(1.0, 0.65, 0.95);
+    vec3 detailColor = vec3(1.0, 0.55, 0.95);
 
-    vec3 color = mix(tubeColor, coreColor, clamp(coreBoost * 2.0, 0.0, 1.0));
-    color = mix(color, detailColor, clamp(streamSharp + arcSharp * 0.8 + spiralTear, 0.0, 1.0));
+    vec3 color = mix(baseColor, coreColor, clamp(coreBoost * 2.0, 0.0, 1.0));
+    // 细节在颜色上做高亮，不只是亮度
+    color = mix(color, detailColor, clamp(detail * 0.7, 0.0, 1.0));
     color *= intensity;
 
-    // 几乎整柱完全不透明
-    float alpha = clamp(0.95 + coreBoost * 0.3 + detail * 0.2, 0.0, 1.0);
+    // 接近完全不透明
+    float alpha = clamp(0.92 + coreBoost * 0.3 + detail * 0.25, 0.0, 1.0);
     alpha *= topFade;
     alpha = clamp(alpha * BeamAlpha, 0.0, 1.0);
 
