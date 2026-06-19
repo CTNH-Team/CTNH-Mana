@@ -31,6 +31,8 @@ public class ClientProxy extends CommonProxy {
 
     @Getter
     private static ShaderInstance zenithShader;
+    @Getter
+    private static ShaderInstance zenithBeamShader;
 
     public ClientProxy() {
         super();
@@ -53,6 +55,12 @@ public class ClientProxy extends CommonProxy {
                         new ResourceLocation(CTNHMana.MODID, "zenith"),
                         DefaultVertexFormat.POSITION_TEX),
                 shaderInstance -> zenithShader = shaderInstance);
+        event.registerShader(
+                new ShaderInstance(
+                        event.getResourceProvider(),
+                        new ResourceLocation(CTNHMana.MODID, "zenith_beam"),
+                        DefaultVertexFormat.POSITION_TEX),
+                shaderInstance -> zenithBeamShader = shaderInstance);
     }
 
     @SubscribeEvent
