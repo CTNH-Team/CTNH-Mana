@@ -183,5 +183,21 @@ public class CMRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
 
+    /**
+     * 工业血祭仪式阵配方类型（{@code ctnhmana:blood_ritual}）。
+     * <p>
+     * 基于 DUMMY，仅需极低 EU；配方 {@code duration} 为冷却，{@code ritual_id} 数据字段指定
+     * 配方完成后执行的血魔法仪式。详见 {@link com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine}。
+     */
+    public static final GTRecipeType RITUAL_RECIPES = REGISTRATE
+            .recipeType(GTCEu.id("blood_ritual"), DUMMY)
+            .cnlang("血祭仪式").setMaxIOSize(1, 0, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .addDataInfo(data -> LocalizationUtils.format("ctnhmana.recipe.blood_ritual.ritual_id",
+                    data.getString(com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine.RECIPE_DATA_RITUAL_ID)))
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
+
     public static void init() {}
 }

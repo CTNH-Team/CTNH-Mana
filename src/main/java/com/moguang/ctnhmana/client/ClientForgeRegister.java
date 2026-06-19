@@ -22,10 +22,10 @@ import com.moguang.ctnhmana.registry.CMMobEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import org.joml.Matrix4f;
-
+import java.util.Random;
 import java.io.IOException;
 @SuppressWarnings("removal")
-import java.util.Random;
+
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeRegister {

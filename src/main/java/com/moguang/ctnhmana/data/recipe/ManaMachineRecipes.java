@@ -225,6 +225,16 @@ public class ManaMachineRecipes {
                 .EUt(240)
                 .duration(100)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
+                .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
+                .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
+                .inputItems(MASTER_RITUAL_STONE.get().asItem(), 1)
+                .inputItems(BLANK_RITUAL_STONE.get().asItem(), 4)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
+                .outputItems(RITUAL_MECHANICAL_ARRAY.getItem())
+                .EUt(480)
+                .duration(200)
+                .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("demon_will_generator")// 恶魔意志发电机
                 .inputItems(CustomTags.LuV_CIRCUITS, 2)
                 .inputItems(HELLFORGED_BLOCK.get().asItem(), 2)

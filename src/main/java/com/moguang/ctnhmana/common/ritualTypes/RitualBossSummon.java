@@ -60,6 +60,15 @@ public class RitualBossSummon extends Ritual {
                 area);
         var boss_summon_1 = new ItemStack(BOSS_SUMMONER, 1);
         var boss_summon_2 = new ItemStack(ADVANCED_BOSS_SUMMONER, 1);
+        var ownerId = MasterRitualStone.getOwner();
+        if (ownerId == null || MasterRitualStone.getOwnerNetwork() == null) {
+            return;
+        }
+        var entity = level.getPlayerByUUID(ownerId);
+        if (entity == null) {
+            return;
+        }
+
         for (ItemEntity itemEntity : droppedItems) {
             var items = itemEntity.getItem();
             if (items.equals(boss_summon_1, false) || items.equals(boss_summon_2, false)) {
@@ -79,7 +88,6 @@ public class RitualBossSummon extends Ritual {
                 if (currentEssence < 1) {
                     MasterRitualStone.getOwnerNetwork().causeNausea();
                 } else {
-                    var entity = level.getPlayerByUUID(MasterRitualStone.getOwner());
                     entity.sendSystemMessage(fight.translate());
                     level.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(),
                             SoundEvents.ENDER_PEARL_THROW, SoundSource.NEUTRAL, 0.5F,

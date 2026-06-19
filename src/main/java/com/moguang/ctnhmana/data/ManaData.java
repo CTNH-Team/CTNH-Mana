@@ -60,7 +60,6 @@ public class ManaData extends SavedData {
                             "I HATE STREAM AND LAMABDA WHY JAVA HAVE ALL THESE THINGS"));
             ManaLevel.put(key, compoundTag.getInt(key));
         }
-        isZenithOpen = tag.getBoolean("isZenithOpen");
     }
 
     public ManaData(ServerLevel serverLevel) {

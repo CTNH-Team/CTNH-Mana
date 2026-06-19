@@ -78,7 +78,6 @@ public class RitualShroudSight extends Ritual {
         NEGATIVE_EFFECTS.add(UNLUCK);                // 霉运
         NEGATIVE_EFFECTS.add(BAD_OMEN);              // 不祥之兆
         NEGATIVE_EFFECTS.add(DARKNESS);
-        var time_muti = 1;
         var areas = 3.0F;
         var request_level = 100;
         Level world = MasterRitualStone.getWorldObj();
@@ -86,6 +85,11 @@ public class RitualShroudSight extends Ritual {
         List<EnumDemonWillType> willConfig = MasterRitualStone.getActiveWillConfig();
         List<MobEffect> EFFECTS = new ArrayList<>();
         BlockPos pos = MasterRitualStone.getMasterBlockPos();
+
+        var player = world.getPlayerByUUID(MasterRitualStone.getOwner());
+        if (player == null) {
+            return;
+        }
         double rawWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.DEFAULT, willConfig);
         double steadfastWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.STEADFAST, willConfig);
         AABB axis = growingRange.getAABB(MasterRitualStone.getMasterBlockPos());
@@ -97,24 +101,18 @@ public class RitualShroudSight extends Ritual {
             request_level -= muti * 10;
             WorldDemonWillHandler.drainWill(world, pos, EnumDemonWillType.DEFAULT, muti * 5, true);
         }
-        var player = world.getPlayerByUUID(MasterRitualStone.getOwner());
-        if (1 == 1) {
-            var rand = Math.random();
-            for (int i = 1; i <= 2; i++) {
-                EFFECTS.add(NEGATIVE_EFFECTS.get((int) ((NEGATIVE_EFFECTS.size() - 1) * rand)));
-                EFFECTS.add(POSITIVE_EFFECTS.get((int) ((NEGATIVE_EFFECTS.size() - 1) * rand)));
-            }
-
-            // if判断预留给后面使用
-            player.sendSystemMessage(shroud_gaze_1.translate());
-            player.addEffect(new MobEffectInstance(CMMobEffects.ShroudGazing.get(), 666));
-            player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 666));
-            for (MobEffect effect : EFFECTS) {
-                player.addEffect(new MobEffectInstance(effect, 666, 6));
-            }
+        var rand = Math.random();
+        for (int i = 1; i <= 2; i++) {
+            EFFECTS.add(NEGATIVE_EFFECTS.get((int) ((NEGATIVE_EFFECTS.size() - 1) * rand)));
+            EFFECTS.add(POSITIVE_EFFECTS.get((int) ((NEGATIVE_EFFECTS.size() - 1) * rand)));
         }
-        if (player == null) return;
-        int current_level = player.experienceLevel;
+
+        player.sendSystemMessage(shroud_gaze_1.translate());
+        player.addEffect(new MobEffectInstance(CMMobEffects.ShroudGazing.get(), 666));
+        player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 666));
+        for (MobEffect effect : EFFECTS) {
+            player.addEffect(new MobEffectInstance(effect, 666, 6));
+        }
         for (ItemEntity itemEntity : droppedItems) {
             if (itemEntity.getItem().getItem().equals(Items.DRAGON_BREATH)) {
                 var num = itemEntity.getItem().getCount();
