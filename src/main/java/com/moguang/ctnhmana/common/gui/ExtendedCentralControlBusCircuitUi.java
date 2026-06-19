@@ -84,34 +84,32 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
         private static final int SELECT_SLOT = 0;
         private static final int SET_CONFIG = 1;
 
-        /** 上方通道网格：稍大槽位便于点选 */
         public static final int SLOT = 20;
         public static final int GAP = 6;
         public static final int STEP = SLOT + GAP;
+        /** 上方通道网格列数 */
         public static final int COLS = 8;
-        private static final int PANEL_W = COLS * STEP + 12;
-
-        /** 下方 0~32 配置区：与 GT {@code createConfigurator} 相同（18px、无间隙） */
-        private static final int CFG_SLOT = 18;
-        private static final int CFG_STEP = 18;
-        private static final int CFG_PANEL_W = 174;
-        private static final int CFG_PANEL_H = 132;
-        private static final int CFG_BTN_LEFT = 5;
-        private static final int CFG_ROW0_Y = 48;
-        private static final int CFG_LAST_ROW_COLS = 6;
+        /** 下方 0~26 编号按钮为 9 列（同 GT createConfigurator） */
+        private static final int CONFIG_BTN_COLS = 9;
+        private static final int CONFIG_PANEL_W = CONFIG_BTN_COLS * STEP + 12;
+        private static final int CONFIG_ROW_TOP = 58;
+        private static final int CONFIG_LAST_ROW_TOP = CONFIG_ROW_TOP + STEP * 3 + 8;
+        /** 容纳标题 + 预览槽 + 4 行按钮 + 底边距 */
+        private static final int CONFIG_PANEL_H = CONFIG_LAST_ROW_TOP + SLOT + 14;
 
         private final ExtendedCentralControlBus bus;
         private SlotWidget previewSlot;
 
         public ExtendedCentralControlBusCircuitPanel(ExtendedCentralControlBus bus) {
-            super(0, 0, PANEL_W, computePanelHeight());
+            super(0, 0, CONFIG_PANEL_W, computePanelHeight());
             this.bus = bus;
             IItemHandlerModifiable handler = bus.getCircuitInventory().storage;
 
             addWidget(new LabelWidget(4, 4, extendedCentralControlBusUiLang[0].translate().getString()));
 
             int gridTop = 22;
-            int gridLeft = (PANEL_W - COLS * STEP) / 2;
+            // 8 列通道网格在 9 列配置面板宽度内居中
+            int gridLeft = (CONFIG_PANEL_W - COLS * STEP) / 2;
             for (int i = 0; i < ExtendedCentralControlBus.CIRCUIT_SLOT_COUNT; i++) {
                 int x = gridLeft + (i % COLS) * STEP;
                 int y = gridTop + (i / COLS) * STEP;
@@ -132,43 +130,42 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
         private static int computePanelHeight() {
             int gridTop = 22;
             int gridH = (ExtendedCentralControlBus.CIRCUIT_SLOT_COUNT / COLS) * STEP;
-            return gridTop + gridH + 14 + 14 + 16 + CFG_PANEL_H + 10;
+            return gridTop + gridH + 14 + 14 + 16 + CONFIG_PANEL_H + 10;
         }
 
         private WidgetGroup buildConfigurator(int y) {
-            int configX = (PANEL_W - CFG_PANEL_W) / 2;
-            var group = new WidgetGroup(configX, y, CFG_PANEL_W, CFG_PANEL_H);
+            var group = new WidgetGroup(0, y, CONFIG_PANEL_W, CONFIG_PANEL_H);
             var handler = bus.getCircuitInventory().storage;
             boolean ghost = ConfigHolder.INSTANCE.machines.ghostCircuit;
-            int previewX = (CFG_PANEL_W - CFG_SLOT) / 2;
+            int previewX = (CONFIG_PANEL_W - SLOT) / 2;
 
-            group.addWidget(new LabelWidget(9, 8, "Programmed Circuit Configuration"));
-            previewSlot = new SlotWidget(handler, bus.selectedCircuitSlot, previewX, 20, !ghost, !ghost);
+            group.addWidget(new LabelWidget(12, 8, "Programmed Circuit Configuration"));
+            previewSlot = new SlotWidget(handler, bus.selectedCircuitSlot, previewX, 26, !ghost, !ghost);
             previewSlot.setBackground(new GuiTextureGroup(GuiTextures.SLOT, GuiTextures.INT_CIRCUIT_OVERLAY));
             group.addWidget(previewSlot);
             if (ghost) {
-                group.addWidget(new ButtonWidget(previewX, 20, CFG_SLOT, CFG_SLOT, IGuiTexture.EMPTY,
+                group.addWidget(new ButtonWidget(previewX, 26, SLOT, SLOT, IGuiTexture.EMPTY,
                         clickData -> onCircuitSet(-1)));
             }
 
             int idx = 0;
+            int btnLeft = (CONFIG_PANEL_W - CONFIG_BTN_COLS * STEP) / 2;
             for (int row = 0; row <= 2; row++) {
                 for (int col = 0; col <= 8; col++) {
-                    group.addWidget(configButton(CFG_BTN_LEFT + CFG_STEP * col, CFG_ROW0_Y + CFG_STEP * row, idx++));
+                    group.addWidget(configButton(btnLeft + STEP * col, CONFIG_ROW_TOP + STEP * row, idx++));
                 }
             }
-            int lastRowLeft = (CFG_PANEL_W - CFG_LAST_ROW_COLS * CFG_SLOT) / 2;
-            for (int col = 0; col < CFG_LAST_ROW_COLS; col++) {
-                group.addWidget(configButton(lastRowLeft + CFG_STEP * col, CFG_ROW0_Y + CFG_STEP * 3, col + 27));
+            for (int col = 0; col <= 5; col++) {
+                group.addWidget(configButton(btnLeft + STEP * col, CONFIG_LAST_ROW_TOP, col + 27));
             }
             group.setBackground(GuiTextures.BACKGROUND);
             return group;
         }
 
         private ButtonWidget configButton(int x, int y, int configuration) {
-            var button = new ButtonWidget(x, y, CFG_SLOT, CFG_SLOT,
+            var button = new ButtonWidget(x, y, SLOT, SLOT,
                     new GuiTextureGroup(GuiTextures.SLOT,
-                            new ItemStackTexture(IntCircuitBehaviour.stack(configuration)).scale(16f / 18)),
+                            new ItemStackTexture(IntCircuitBehaviour.stack(configuration)).scale((SLOT - 2f) / 18)),
                     clickData -> onCircuitSet(configuration));
             button.setHoverTooltips(String.valueOf(configuration));
             return button;

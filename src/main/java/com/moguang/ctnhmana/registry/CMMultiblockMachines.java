@@ -48,6 +48,7 @@ import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.Mutiblock.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
 import static com.moguang.ctnhmana.Mutiblock.EternalWosMachine.eternalWosLang;
 import static com.moguang.ctnhmana.Mutiblock.HellForgeMachine.hellforgeLang;
+import static com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine.ritualMechanicalLang;
 import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
 import static com.moguang.ctnhmana.Mutiblock.MysticSpire.spireTooltipsLang;
 import static com.moguang.ctnhmana.Mutiblock.ZenithSpire.omegaSpireLang;
@@ -3262,6 +3263,35 @@ public class CMMultiblockMachines {
                 return shapeInfos;
             })
             .workableCasingModel(BloodMagicRL("block/blankrune"), CTNHMana.id("block/overlay/manamachine_bm"))
+            .register();
+    /**
+     * 工业血祭仪式阵：3×3×3 小型结构。
+     * <ul>
+     *   <li>{@code @} — 控制器 {@link RitualMechanicalMachine}</li>
+     *   <li>{@code X} — 血魔法凝聚仓（成型时校验必须为 {@link com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch}）</li>
+     *   <li>{@code B} — 仪祭/血祭机械方块 + 配方所需自动能力（物品、能量等）</li>
+     * </ul>
+     */
+    public final static MultiblockMachineDefinition RITUAL_MECHANICAL_ARRAY = REGISTRATE
+            .multiblock("ritual_mechanical_array", RitualMechanicalMachine::new)
+            .cnLangValue("§4工业血祭仪式阵")
+            .tooltips(ritualMechanicalLang)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(CMRecipeTypes.RITUAL_RECIPES)
+            .appearanceBlock(() -> RITUAL_MECHANICAL_BLOCK.get())
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("BBB", "B#B", "BBB")
+                    .aisle("BBB", "B@X", "BBB")
+                    .aisle("BBB", "B#B", "BBB")
+                    .where("B", Predicates.blocks(RITUAL_MECHANICAL_BLOCK.get())
+                            .or(Predicates.blocks(BLOOD_RITUAL_MECHANICAL_BLOCK.get()))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0)))
+                    .where("#", Predicates.any())
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("X", Predicates.abilities(CMPartsAbility.MANAHATCH))
+                    .build())
+            .workableCasingModel(CTNHMana.id("block/altar/ritual_mechanical_block"),
+                    CTNHMana.id("block/overlay/manamachine_bm"))
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE
             .mysticmultiblock("mystic_spire", holder -> new MysticSpire(holder))

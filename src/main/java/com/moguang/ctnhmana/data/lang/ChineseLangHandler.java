@@ -213,7 +213,6 @@ public class ChineseLangHandler {
     public static Lang[] runeElementTags;
     @CN("%d级符文")
     @EN("Tier %d Rune")
-
     public static Lang runeTierTags;
 
     public static void init(RegistrateCNLangProvider provider) {
@@ -230,6 +229,7 @@ public class ChineseLangHandler {
         provider.add("ritual.ctnhmana.ritualbosssummon", "战争呼唤仪式");
         provider.add("ritual.ctnhmana.dragon_cloudritual", "龙吟仪式");
         provider.add("ritual.ctnhmana.dragon_shroudsight", "虚境之视");
+        provider.add("ctnhmana.recipe.blood_ritual.ritual_id", "仪式：%s");
         provider.add("effect.ctnhmana.shroud_gaze", "虚境的凝视");
         provider.add("effect.ctnhmana.helian_blessing", "赫利安的祝福");
         provider.add("effect.ctnhmana.karma", "§1业");
