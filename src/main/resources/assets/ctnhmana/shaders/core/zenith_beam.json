@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "ctnhmana:zenith",
-  "fragment": "ctnhmana:zenith",
+  "vertex": "ctnhmana:zenith_beam",
+  "fragment": "ctnhmana:zenith_beam",
   "attributes": [
     "Position",
     "UV0"
@@ -30,10 +30,16 @@
       "values": [ 0.0 ]
     },
     {
-      "name": "EyeOpen",
+      "name": "BeamColor",
+      "type": "float",
+      "count": 3,
+      "values": [ 0.9, 0.15, 1.0 ]
+    },
+    {
+      "name": "BeamAlpha",
       "type": "float",
       "count": 1,
-      "values": [ 1.0 ]
+      "values": [ 0.85 ]
     }
   ]
 }
