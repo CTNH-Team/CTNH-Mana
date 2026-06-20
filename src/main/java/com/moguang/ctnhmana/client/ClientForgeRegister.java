@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
@@ -297,5 +298,15 @@ public class ClientForgeRegister {
         float c1 = 1.70158f;
         float c3 = c1 + 1.0f;
         return 1.0f + c3 * (float) Math.pow(x - 1.0f, 3) + c1 * (float) Math.pow(x - 1.0f, 2);
+    }
+
+    @SubscribeEvent
+    public static void registerShaders(RegisterShadersEvent event) throws IOException {
+        event.registerShader(
+                new ShaderInstance(
+                        event.getResourceProvider(),
+                        new ResourceLocation(CTNHMana.MODID, "zenith"),
+                        DefaultVertexFormat.POSITION),
+                shaderInstance -> zenithShader = shaderInstance);
     }
 }
