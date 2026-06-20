@@ -1,7 +1,12 @@
 package com.moguang.ctnhmana.Mutiblock;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -12,6 +17,12 @@ import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.ritual.MachineRitualSoulNetwork;
 import com.moguang.ctnhmana.common.ritual.MachineRitualStoneHost;
 import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -21,6 +32,8 @@ import wayoftime.bloodmagic.common.item.ItemBloodOrb;
 import wayoftime.bloodmagic.core.data.Binding;
 import wayoftime.bloodmagic.ritual.Ritual;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,6 +50,12 @@ public class RitualMechanicalMachine extends ManaMachine {
     /** 需要主人在线（{@code ServerPlayer}）的仪式 ID */
     private static final Set<String> ONLINE_OWNER_RITUALS = Set.of("bosssummon", "shroudsight");
 
+    /** 成型后每 5 秒检查凝聚仓血 Orb 并刷新虚拟灵魂网络 */
+    private static final int ORB_CHECK_INTERVAL = 100;
+
+    @Nullable
+    protected TickableSubscription ritualTickSubs;
+
     public BloodManaHatch hatch;
 
     @Persisted
@@ -51,6 +70,9 @@ public class RitualMechanicalMachine extends ManaMachine {
         super(holder);
     }
 
+    //////////////////////////////////////
+    // ******** HatchVision ********//
+    //////////////////////////////////////
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
@@ -82,29 +104,9 @@ public class RitualMechanicalMachine extends ManaMachine {
         return null;
     }
 
-    /** Orb 放入/更换后由凝聚仓回调或每配方前调用，重建虚拟灵魂网络。 */
-    public void refreshRitualSoulNetwork() {
-        if (hatch == null) {
-            ritualSoulNetwork = null;
-            ritualOwnerId = null;
-            return;
-        }
-        UUID owner = getOrbOwnerId(hatch);
-        ritualOwnerId = owner;
-        if (owner == null) {
-            ritualSoulNetwork = null;
-            return;
-        }
-        if (ritualSoulNetwork == null || !owner.equals(ritualSoulNetwork.getOwnerId())) {
-            ritualSoulNetwork = new MachineRitualSoulNetwork(owner, hatch);
-        }
-    }
-
-    @Nullable
-    public MachineRitualSoulNetwork getRitualSoulNetwork() {
-        return ritualSoulNetwork;
-    }
-
+    //////////////////////////////////////
+    // ******** Recipe ********//
+    //////////////////////////////////////
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) {
@@ -146,40 +148,82 @@ public class RitualMechanicalMachine extends ManaMachine {
                 ritualSoulNetwork.applyDrainToHatch(essenceBefore);
             }
         }
+        if (getLevel() != null && !getLevel().isClientSide) {
+            collectDroppedItemsAbove();
+        }
         super.afterWorking();
     }
 
-    @CN({
-            "§4工业血祭仪式阵§r",
-            "§c必须§r安装 §4血魔法凝聚仓§r，并在凝聚仓中放入 §4已绑定的血Orb§r 以指定仪式主人",
-            "每完成一次配方，在控制器周围 §n5×5§r 范围内执行一次血魔法仪式",
-            "配方持续时间即为仪式冷却；LP 从凝聚仓内魔力/液态生命源质扣除，§c不消耗§r玩家灵魂网络",
-            "配方需消耗红石粉作为仪式触媒",
-            "战争呼唤、虚境之视仪式需要主人在线"
-    })
-    @EN({
-            "§4Industrial Blood Ritual Array§r",
-            "§cRequires§r a §4Blood Mana Condenser§r with a §4bound blood orb§r to designate the ritual owner",
-            "Each completed recipe runs one Blood Magic ritual in a fixed §n5×5§r area centered on the controller",
-            "Recipe duration is the ritual cooldown; LP is drained from condenser storage, §cnot§r the player's soul network",
-            "Recipes consume redstone dust as a ritual catalyst",
-            "War Call and Shroud Sight rituals require the owner to be online"
-    })
-    public static Lang[] ritualMechanicalLang;
+    /**
+     * 将控制器上方 5×5 区域内的掉落物收入输出仓。
+     * 仅当每个物品堆叠都能完整放入输出仓时才拾取（输出空间不足则留在原地）。
+     */
+    private void collectDroppedItemsAbove() {
+        if (getLevel() == null || getLevel().isClientSide) {
+            return;
+        }
+        List<IRecipeHandler<?>> outputHandlers = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP);
+        if (outputHandlers.isEmpty()) {
+            return;
+        }
 
-    @CN("凝聚仓未放入已绑定的血Orb")
-    @EN("Blood condenser has no bound blood orb")
-    public static Lang failureNoBloodOrb;
+        AABB collectArea = MachineRitualStoneHost.FIXED_RANGE.getAABB(getPos()).move(0, 1, 0);
+        List<ItemEntity> droppedItems = new ArrayList<>(
+                getLevel().getEntitiesOfClass(ItemEntity.class, collectArea));
 
-    @CN("未知仪式：%s")
-    @EN("Unknown ritual: %s")
-    public static Lang failureUnknownRitual;
+        for (ItemEntity entity : droppedItems) {
+            ItemStack stack = entity.getItem();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            ItemStack simulated = insertIntoOutputs(outputHandlers, stack.copy(), true);
+            if (!simulated.isEmpty()) {
+                continue;
+            }
+            insertIntoOutputs(outputHandlers, stack.copy(), false);
+            entity.discard();
+        }
+    }
 
-    @CN("仪式主人必须在线")
-    @EN("Ritual owner must be online")
-    public static Lang failureOwnerOffline;
+    private static ItemStack insertIntoOutputs(List<IRecipeHandler<?>> outputHandlers, ItemStack stack,
+                                               boolean simulate) {
+        ItemStack remain = stack;
+        for (IRecipeHandler<?> outputHandler : outputHandlers) {
+            if (remain.isEmpty()) {
+                break;
+            }
+            if (outputHandler instanceof NotifiableItemStackHandler outHandler) {
+                remain = CTNHManaUtils.insertItemToOutput(outHandler, remain, simulate);
+            }
+        }
+        return remain;
+    }
 
-    // ── 凝聚仓 LP 换算（虚拟灵魂网络用，不扣玩家全局 LP）────────────────
+    //////////////////////////////////////
+    // ******** LP & SoulNetwork ********//
+    //////////////////////////////////////
+    /** Orb 放入/更换后由凝聚仓回调、每配方前或定时 tick 调用，重建虚拟灵魂网络。 */
+    public void refreshRitualSoulNetwork() {
+        if (hatch == null) {
+            ritualSoulNetwork = null;
+            ritualOwnerId = null;
+            return;
+        }
+        UUID owner = getOrbOwnerId(hatch);
+        ritualOwnerId = owner;
+        if (owner == null) {
+            ritualSoulNetwork = null;
+            return;
+        }
+        if (ritualSoulNetwork == null || !owner.equals(ritualSoulNetwork.getOwnerId())) {
+            ritualSoulNetwork = new MachineRitualSoulNetwork(owner, hatch);
+        }
+    }
+
+    @Nullable
+    public MachineRitualSoulNetwork getRitualSoulNetwork() {
+        return ritualSoulNetwork;
+    }
 
     /** 凝聚仓血 Orb 绑定主人的 UUID；未绑定则 null。 */
     @Nullable
@@ -237,4 +281,77 @@ public class RitualMechanicalMachine extends ManaMachine {
         }
         return amount - remaining;
     }
+
+    //////////////////////////////////////
+    // ******** Subscriptions&Ticks ********//
+    //////////////////////////////////////
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(0, this::subscribeRitualTick));
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        if (ritualTickSubs != null) {
+            ritualTickSubs.unsubscribe();
+            ritualTickSubs = null;
+        }
+        super.onUnload();
+    }
+
+    private void subscribeRitualTick() {
+        ritualTickSubs = subscribeServerTick(ritualTickSubs, this::ritualServerTick);
+    }
+
+    // 每 5 秒检查凝聚仓血 Orb 是否就绪并刷新绑定 / 虚拟灵魂网络
+    private void ritualServerTick() {
+        if (!isFormed() || getLevel() == null || getLevel().isClientSide) {
+            return;
+        }
+        if (getOffsetTimer() % ORB_CHECK_INTERVAL != 0) {
+            return;
+        }
+        if (hatch == null) {
+            hatch = getHatch();
+        }
+        refreshRitualSoulNetwork();
+    }
+
+    //////////////////////////////////////
+    // ******** Lang ********//
+    //////////////////////////////////////
+    @CN({
+            "§4工业血祭仪式阵§r",
+            "§c必须§r安装 §4血魔法凝聚仓§r，并在凝聚仓中放入 §4已绑定的血Orb§r 以指定仪式主人",
+            "每完成一次配方，在控制器周围 §n5×5§r 范围内执行一次血魔法仪式",
+            "配方持续时间即为仪式冷却；LP 从凝聚仓内魔力/液态生命源质扣除，§c不消耗§r玩家灵魂网络",
+            "配方需消耗红石粉作为仪式触媒",
+            "战争呼唤、虚境之视仪式需要主人在线",
+            "每完成一次配方，将控制器上方 5×5 区域内的掉落物收入输出仓（输出空间不足则保留）"
+    })
+    @EN({
+            "§4Industrial Blood Ritual Array§r",
+            "§cRequires§r a §4Blood Mana Condenser§r with a §4bound blood orb§r to designate the ritual owner",
+            "Each completed recipe runs one Blood Magic ritual in a fixed §n5×5§r area centered on the controller",
+            "Recipe duration is the ritual cooldown; LP is drained from condenser storage, §cnot§r the player's soul network",
+            "Recipes consume redstone dust as a ritual catalyst",
+            "War Call and Shroud Sight rituals require the owner to be online",
+            "After each recipe, dropped items in the 5×5 area above the controller are moved to output buses if space allows"
+    })
+    public static Lang[] ritualMechanicalLang;
+
+    @CN("凝聚仓未放入已绑定的血Orb")
+    @EN("Blood condenser has no bound blood orb")
+    public static Lang failureNoBloodOrb;
+
+    @CN("未知仪式：%s")
+    @EN("Unknown ritual: %s")
+    public static Lang failureUnknownRitual;
+
+    @CN("仪式主人必须在线")
+    @EN("Ritual owner must be online")
+    public static Lang failureOwnerOffline;
 }
