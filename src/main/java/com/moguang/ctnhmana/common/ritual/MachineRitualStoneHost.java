@@ -25,7 +25,7 @@ import java.util.UUID;
  * <p>
  * 原版仪式通过 {@link Ritual#performRitual(IMasterRitualStone)} 获取上下文（世界坐标、作用范围、
  * 灵魂网络等），并不关心调用方是主仪式石方块还是 GT 机器。本类负责把机器的坐标、凝聚仓绑定的
- * {@link MachineRitualSoulNetwork} 以及固定的 5×5 范围注入到仪式逻辑中。
+ * {@link MachineRitualSoulNetwork} 以及以控制器为中心、半径 {@link #RITUAL_RADIUS} 格的范围注入到仪式逻辑中。
  * <p>
  * <b>设计要点：</b>
  * <ul>
@@ -40,21 +40,26 @@ import java.util.UUID;
  */
 public class MachineRitualStoneHost implements IMasterRitualStone {
 
+    /** 以控制器为中心的作用半径（含 X/Y/Z 三个方向）。 */
+    public static final int RITUAL_RADIUS = 21;
+
+    private static final int RITUAL_DIAMETER = RITUAL_RADIUS * 2 + 1;
+
     /**
-     * 固定作用范围：以控制器方块为原点，水平 5×5、仅一层（Y 与控制器相同）。
+     * 固定作用范围：以控制器方块为中心，各轴 ±{@link #RITUAL_RADIUS} 格的立方体区域。
      * <p>
-     * {@link AreaDescriptor.Rectangle} 的偏移相对于 {@link #getMasterBlockPos()}：
-     * X/Z 从 -2 到 +2（共 5 格），Y 偏移 0（高度 1 格）。
+     * {@link AreaDescriptor.Rectangle} 的偏移相对于 {@link #getMasterBlockPos()}，
      * 世界坐标 = 控制器坐标 + 偏移。
      */
     public static final AreaDescriptor FIXED_RANGE = new AreaDescriptor.Rectangle(
-            new BlockPos(-2, 0, -2), 5, 1, 5);
+            new BlockPos(-RITUAL_RADIUS, -RITUAL_RADIUS, -RITUAL_RADIUS),
+            RITUAL_DIAMETER, RITUAL_DIAMETER, RITUAL_DIAMETER);
 
     /** 提供坐标与世界信息的 GT 多方块控制器 */
     private final RitualMechanicalMachine machine;
     /** 提供 LP 储量的血魔法凝聚仓 */
     private final BloodManaHatch hatch;
-    /** 工业机虚拟灵魂网络（仪式前 sync、仪式后 applyDrain） */
+    /** 工业机虚拟灵魂网络（仪式前 sync 缓存、仪式后扣减缓存） */
     private final MachineRitualSoulNetwork soulNetwork;
     /** 当前要执行的一次性仪式实例（应为 {@link Ritual#getNewCopy()} 的副本） */
     private Ritual currentRitual;
@@ -83,7 +88,7 @@ public class MachineRitualStoneHost implements IMasterRitualStone {
     }
 
     /**
-     * LP 来源：{@link MachineRitualSoulNetwork} 在仪式前从凝聚仓同步的虚拟网络。
+     * LP 来源：{@link MachineRitualSoulNetwork} 在仪式前从控制器 LP 缓存同步的虚拟网络。
      * 各仪式子类在 performRitual 内通过 {@code getOwnerNetwork().syphon(ticket(...))} 扣 LP。
      */
     @Override
@@ -195,7 +200,7 @@ public class MachineRitualStoneHost implements IMasterRitualStone {
     }
 
     /**
-     * 无论仪式定义了多少个 range key，工业机初版均使用同一 5×5 区域。
+     * 无论仪式定义了多少个 range key，工业机均使用同一以控制器为中心、半径 {@link #RITUAL_RADIUS} 的区域。
      * 多 range 仪式（如折磨之井的 altar + damage）在此版本中共享该范围。
      */
     @Override

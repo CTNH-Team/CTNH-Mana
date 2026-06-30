@@ -18,10 +18,10 @@ import java.util.function.Consumer;
 @RitualRegister("dragoncloud")
 public class RitualDragonCloud extends Ritual {
 
-    private final int costs = 2500;
+    private static final int REFRESH_COST = 2500;
 
     public RitualDragonCloud() {
-        super("ritualdragoncloud", 0, 1, "ritual.ctnhmana.dragon_cloudritual");
+        super("ritualdragoncloud", 0, REFRESH_COST, "ritual.ctnhmana.dragon_cloudritual");
         this.addBlockRange("dragon_cloud", new AreaDescriptor.Rectangle(new BlockPos(-5, -5, -5), 7));
         this.setMaximumVolumeAndDistanceOfRange("dragon_cloud", 1, 30, 30);
     }
@@ -35,6 +35,15 @@ public class RitualDragonCloud extends Ritual {
         List<EnumDemonWillType> willConfig = MasterRitualStone.getActiveWillConfig();
 
         BlockPos pos = MasterRitualStone.getMasterBlockPos();
+        var ownerNetwork = MasterRitualStone.getOwnerNetwork();
+        if (ownerNetwork == null) {
+            return;
+        }
+        int currentEssence = ownerNetwork.getCurrentEssence();
+        if (currentEssence < getRefreshCost()) {
+            ownerNetwork.causeNausea();
+            return;
+        }
         double rawWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.DEFAULT, willConfig);
         double steadfastWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.STEADFAST, willConfig);
         if (rawWill >= 2) {
@@ -61,11 +70,12 @@ public class RitualDragonCloud extends Ritual {
 
         cloud.setParticle(ParticleTypes.DRAGON_BREATH);
         world.addFreshEntity(cloud);
+        ownerNetwork.syphon(MasterRitualStone.ticket(getRefreshCost()));
     }
 
     @Override
     public int getRefreshCost() {
-        return 100000;
+        return REFRESH_COST;
     }
 
     @Override

@@ -85,7 +85,7 @@ public class RitualBossSummon extends Ritual {
                 itemEntity.remove(DISCARDED);
 
                 int currentEssence = MasterRitualStone.getOwnerNetwork().getCurrentEssence();
-                if (currentEssence < 1) {
+                if (currentEssence < getRefreshCost()) {
                     MasterRitualStone.getOwnerNetwork().causeNausea();
                 } else {
                     entity.sendSystemMessage(fight.translate());
@@ -102,17 +102,16 @@ public class RitualBossSummon extends Ritual {
                         summon(entity, level, tier, new BlockPos(pos.getX() + 7, pos.getY(), pos.getZ() - 7));
                         summon(entity, level, tier, new BlockPos(pos.getX() - 7, pos.getY(), pos.getZ() - 7));
                     }
-                    MasterRitualStone.getOwnerNetwork().syphon(MasterRitualStone.ticket(1));
+                    MasterRitualStone.getOwnerNetwork().syphon(MasterRitualStone.ticket(getRefreshCost()));
                     break;
                 }
             }
         }
-        int currentEssence = MasterRitualStone.getOwnerNetwork().getCurrentEssence();
     }
 
     @Override
     public int getRefreshCost() {
-        return 0;
+        return 1;
     }
 
     @Override
