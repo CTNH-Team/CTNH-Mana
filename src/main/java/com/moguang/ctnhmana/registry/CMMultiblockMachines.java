@@ -3266,7 +3266,7 @@ public class CMMultiblockMachines {
             .register();
     public final static MultiblockMachineDefinition RITUAL_MECHANICAL_ARRAY = REGISTRATE
             .multiblock("ritual_mechanical_array", RitualMechanicalMachine::new)
-            .cnLangValue("§4工业血祭仪式阵")
+            .cnLangValue("§4仪祭索引者")
             .tooltips(ritualMechanicalLang)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.RITUAL_RECIPES)
@@ -3330,7 +3330,7 @@ public class CMMultiblockMachines {
                     .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:polished_obsidian"))))
                     .where("J", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:chargingrune"))))
                     .where("P", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:masterritualstone"))))
-                    .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("avaritia:neutron"))))
+                    .where("C", Predicates.blocks(RITUAL_COLUM_BLOCK.get()))
                     .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:chiseled_deepslate"))))
                     .where("#", Predicates.any())
                     .where("K", Predicates.blocks(RITUAL_MECHANICAL_BLOCK.get())

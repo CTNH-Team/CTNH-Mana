@@ -396,7 +396,7 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.0", "§8以不可思议的伟力。§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.1", "§e核聚变反应堆模式：§r");
-        provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.2", "不需要启动电量，不限制仓室等级，进行4/2超频。提供取决于配方启动电量的并行：");
+        provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.2", "不需要启动电量，不限制仓室等级，进行4/4超频。提供取决于配方启动电量的并行：");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.3", "小于160MEU：16+16*反应堆等级并行");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.4", "大于160MEU，小于320MEU：4+4*聚变反应堆等级并行");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.5", "大于320MEU，小于480MEU：1+聚变反应堆等级并行");

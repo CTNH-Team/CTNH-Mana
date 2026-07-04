@@ -146,6 +146,14 @@ public class CMRecipeTypes {
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CUT)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+    public static final GTRecipeType INDUSTRIAL_PETAL_APOTHECARY_RECIPES = REGISTRATE
+            .recipeType(GTCEu.id("industrial_petal_apothecary"), ELECTRIC)
+            .cnlang("工业花药").setMaxIOSize(16, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CUT)
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE.recipeType(GTCEu.id("mana_forge"), ELECTRIC)
             .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
@@ -199,8 +207,7 @@ public class CMRecipeTypes {
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setMaxTooltips(4)
-            .addDataInfo(data->lp_cost.translate(data.getInt("meteor_lp")).getString())
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
+            .addDataInfo(data->lp_cost.translate(data.getInt("meteor_lp")).getString());
 
     /**
      * 工业血祭仪式阵配方类型（{@code ctnhmana:blood_ritual}）。
@@ -209,15 +216,14 @@ public class CMRecipeTypes {
      * 配方完成后执行的血魔法仪式。详见 {@link com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine}。
      */
     public static final GTRecipeType RITUAL_RECIPES = REGISTRATE
-            .recipeType(GTCEu.id("blood_ritual"), DUMMY)
+            .recipeType(GTCEu.id("blood_ritual"), ELECTRIC)
             .cnlang("血祭仪式").setMaxIOSize(1, 1, 2, 0)
             .setEUIO(IO.IN)
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setMaxTooltips(5)
             .addDataInfo(RitualMechanicalMachine::formatRitualRecipeTip)
-            .addDataInfo(RitualMechanicalMachine::formatRitualLpTip)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
+            .addDataInfo(RitualMechanicalMachine::formatRitualLpTip);
 
     public static void init() {}
 }

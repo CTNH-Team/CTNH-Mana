@@ -506,14 +506,14 @@ public class RitualMechanicalMachine extends ManaMachine {
     // ******** Lang ********//
     //////////////////////////////////////
     @CN({
-            "§4工业血祭仪式阵§r",
+            "§4如果我们能把所有仪式收录在脑子里，为什么不能把它们收录在机器里？§r",
             "§c必须§r安装 §4血魔法凝聚仓§r，并在凝聚仓中放入 §4已绑定的宝珠§r 以指定仪式主人",
             "每完成一次配方，在整个机器占地范围内（半径21格）执行一次仪式",
             "配方持续时间即为仪式冷却；LP 从凝聚仓内魔力/液态生命源质扣除，§c不消耗§r玩家灵魂网络",
-            "虚拟灵魂网络拥有 10000 万 LP 缓存；每次配方运行前从凝聚仓尽可能补满",
-            "配方需消耗各不相同的触媒物品",
+            "虚拟灵魂网络拥有 1亿 LP 缓存，每次运行前都尝试向内充能尽可能多的LP",
             "战争呼唤、虚境之视仪式需要主人在线",
-            "每完成一次配方，将仪式作用范围内的掉落物收入输出舱室"
+            "每完成一次配方，将仪式作用范围内的掉落物收入输出舱室",
+            "警告：执行坠星位标仪式，后果自负"
     })
     @EN({
             "§4Industrial Blood Ritual Array§r",
@@ -523,7 +523,8 @@ public class RitualMechanicalMachine extends ManaMachine {
             "Virtual soul network holds up to 100 million LP cache; refilled from the condenser before each recipe run",
             "Each recipe consumes a unique catalyst item",
             "War Call and Shroud Sight rituals require the owner to be online",
-            "After each recipe, dropped items within the ritual area are moved to output buses if space allows"
+            "After each recipe, dropped items within the ritual area are moved to output buses if space allows",
+            "警告：执行坠星位标仪式，后果自负"
     })
     public static Lang[] ritualMechanicalLang;
 
