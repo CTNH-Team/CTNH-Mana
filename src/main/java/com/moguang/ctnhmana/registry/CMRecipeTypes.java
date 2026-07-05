@@ -1,17 +1,21 @@
 package com.moguang.ctnhmana.registry;
 
+import com.ctnhlang.CN;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import com.moguang.ctnhmana.Mutiblock.Quasar_Eye;
+import com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
@@ -142,6 +146,14 @@ public class CMRecipeTypes {
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CUT)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+    public static final GTRecipeType INDUSTRIAL_PETAL_APOTHECARY_RECIPES = REGISTRATE
+            .recipeType(GTCEu.id("industrial_petal_apothecary"), ELECTRIC)
+            .cnlang("工业花药").setMaxIOSize(16, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CUT)
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
     public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE.recipeType(GTCEu.id("mana_forge"), ELECTRIC)
             .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
@@ -184,20 +196,34 @@ public class CMRecipeTypes {
             .setSound(GTSoundEntries.SCIENCE);
 
     /**
+     * 坠星位标参考配方（{@code ctnhmana:meteor_ritual_guide}），仅 EMI/JEI 展示，机器不处理。
+     */
+    @CN("需要消耗的LP：%d")
+    public static Lang lp_cost;
+    public static final GTRecipeType METEOR_RITUAL_GUIDE = REGISTRATE
+            .recipeType(GTCEu.id("meteor_ritual_guide"), DUMMY)
+            .cnlang("坠星位标").setMaxIOSize(1, 16, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .setMaxTooltips(4)
+            .addDataInfo(data->lp_cost.translate(data.getInt("meteor_lp")).getString());
+
+    /**
      * 工业血祭仪式阵配方类型（{@code ctnhmana:blood_ritual}）。
      * <p>
      * 基于 DUMMY，仅需极低 EU；配方 {@code duration} 为冷却，{@code ritual_id} 数据字段指定
      * 配方完成后执行的血魔法仪式。详见 {@link com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine}。
      */
     public static final GTRecipeType RITUAL_RECIPES = REGISTRATE
-            .recipeType(GTCEu.id("blood_ritual"), DUMMY)
-            .cnlang("血祭仪式").setMaxIOSize(1, 0, 0, 0)
+            .recipeType(GTCEu.id("blood_ritual"), ELECTRIC)
+            .cnlang("血祭仪式").setMaxIOSize(1, 1, 2, 0)
             .setEUIO(IO.IN)
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .addDataInfo(data -> LocalizationUtils.format("ctnhmana.recipe.blood_ritual.ritual_id",
-                    data.getString(com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine.RECIPE_DATA_RITUAL_ID)))
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
+            .setMaxTooltips(5)
+            .addDataInfo(RitualMechanicalMachine::formatRitualRecipeTip)
+            .addDataInfo(RitualMechanicalMachine::formatRitualLpTip);
 
     public static void init() {}
 }

@@ -230,6 +230,39 @@ public class ChineseLangHandler {
         provider.add("ritual.ctnhmana.dragon_cloudritual", "龙吟仪式");
         provider.add("ritual.ctnhmana.dragon_shroudsight", "虚境之视");
         provider.add("ctnhmana.recipe.blood_ritual.ritual_id", "仪式：%s");
+        provider.add("ctnhmana.recipe.blood_ritual.lp_cost", "消耗 LP：%s");
+        provider.add("ctnhmana.recipe.meteor_ritual.lp_cost", "消耗 LP：%s");
+        provider.add("ctnhmana.recipe.meteor_ritual.marker_tip", "标定物需以掉落物形式落在控制器 21 格范围内");
+        // Blood Magic 仪式中文名（配方 tip / JEI）
+        provider.add("ritual.bloodmagic.waterRitual", "满春之仪");
+        provider.add("ritual.bloodmagic.speedRitual", "速度之仪");
+        provider.add("ritual.bloodmagic.animalGrowthRitual", "牧者之仪");
+        provider.add("ritual.bloodmagic.armourEvolveRitual", "活性进化之仪");
+        provider.add("ritual.bloodmagic.condorRitual", "神鹰敬拜");
+        provider.add("ritual.bloodmagic.craftingRitual", "锻砧律动");
+        provider.add("ritual.bloodmagic.crushingRitual", "粉碎之仪");
+        provider.add("ritual.bloodmagic.crystalHarvestRitual", "裂晶仪式");
+        provider.add("ritual.bloodmagic.crystalSplitRitual", "晶体共鸣仪式");
+        provider.add("ritual.bloodmagic.ellipseRitual", "椭球聚焦");
+        provider.add("ritual.bloodmagic.featheredKnifeRitual", "羽刃之仪");
+        provider.add("ritual.bloodmagic.fellingRitual", "砍伐仪式");
+        provider.add("ritual.bloodmagic.forsakenSoulRitual", "弃魂聚集");
+        provider.add("ritual.bloodmagic.fullStomachRitual", "饱足之仪");
+        provider.add("ritual.bloodmagic.geode", "晶洞丰饶之仪");
+        provider.add("ritual.bloodmagic.greenGroveRitual", "翠谷之仪");
+        provider.add("ritual.bloodmagic.groundingRitual", "罪人之负");
+        provider.add("ritual.bloodmagic.jumpRitual", "跳跃之仪");
+        provider.add("ritual.bloodmagic.lavaRitual", "下界小夜曲");
+        provider.add("ritual.bloodmagic.downgradeRitual", "铅魂忏悔");
+        provider.add("ritual.bloodmagic.magneticRitual", "磁力之仪");
+        provider.add("ritual.bloodmagic.meteorRitual", "坠星位标");
+        provider.add("ritual.bloodmagic.placerRitual", "填充领域");
+        provider.add("ritual.bloodmagic.regenerationRitual", "再生之仪");
+        provider.add("ritual.bloodmagic.sphereRitual", "新月破晓");
+        provider.add("ritual.bloodmagic.upgradeRemoveRitual", "净化之魂");
+        provider.add("ritual.bloodmagic.wellOfSufferingRitual", "苦难之井");
+        provider.add("ritual.bloodmagic.yawningVoidRitual", "虚空哈欠");
+        provider.add("ritual.bloodmagic.zephyrRitual", "西风召唤");
         provider.add("effect.ctnhmana.shroud_gaze", "虚境的凝视");
         provider.add("effect.ctnhmana.helian_blessing", "赫利安的祝福");
         provider.add("effect.ctnhmana.karma", "§1业");
@@ -363,7 +396,7 @@ public class ChineseLangHandler {
 
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.0", "§8以不可思议的伟力。§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.1", "§e核聚变反应堆模式：§r");
-        provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.2", "不需要启动电量，不限制仓室等级，进行4/2超频。提供取决于配方启动电量的并行：");
+        provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.2", "不需要启动电量，不限制仓室等级，进行4/4超频。提供取决于配方启动电量的并行：");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.3", "小于160MEU：16+16*反应堆等级并行");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.4", "大于160MEU，小于320MEU：4+4*聚变反应堆等级并行");
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.5", "大于320MEU，小于480MEU：1+聚变反应堆等级并行");

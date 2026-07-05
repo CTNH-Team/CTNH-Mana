@@ -55,6 +55,17 @@ public class ManaMachineRecipes {
                 .EUt(120)
                 .duration(200)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("industrial_petal_apothecary")// 工业花药台
+                .inputItems(LIVING_ROCK_CASING.asItem(), 8)
+                .inputItems(PURE_MAGIC_CALCULATE_CORE.asItem(), 1)
+                .inputItems(corporeaIndex.asItem(), 1)
+                .inputItems(ELEMENTIUM_FRAME.asItem(), 4)
+                .inputItems(CustomTags.LV_CIRCUITS, 2)
+                .inputItems(ELECTRIC_MOTOR_LV)
+                .outputItems(INDUSTRIAL_PETAL_APOTHECARY)
+                .EUt(30)
+                .duration(200)
+                .save(provider);
         VanillaRecipeHelper.addShapedRecipe(// 工业狱火锻炉
                 provider, "hell_forge",
                 HELLFORGE.asStack(1),

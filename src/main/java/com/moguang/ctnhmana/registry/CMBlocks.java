@@ -254,6 +254,8 @@ public class CMBlocks {
             CTNHMana.id("block/altar/blood_ritual_mechanical_block"));
     public static final BlockEntry<Block> RITUAL_MECHANICAL_BLOCK = createCasingBlock(
             "ritual_mechanical_block", "仪祭机械方块", CTNHMana.id("block/altar/ritual_mechanical_block"));
+    public static final BlockEntry<Block> RITUAL_COLUM_BLOCK = createCasingBlock(
+            "ritual_colum_block", "仪祭基柱方块", CTNHMana.id("block/altar/ritual_mechanical_block"));
     public static final BlockEntry<Block> CASING_FORCE_FILED = createCasingBlock(
             "force_field_casing", "力场领域机械方块", CTNHMana.id("block/casings/force_field_casing"));
     public static final BlockEntry<Block> CASING_BLOODLOGIC = createCasingBlock(

@@ -33,12 +33,12 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.gem;
 @RitualRegister("extractor")
 public class RitualLifeExtractor extends Ritual {
 
-    public int START_COST = 1000000;
-    public int COSTS = 500000;
-    public int REFRESH_TIME = 100;
+    public static final int START_COST = 1_000_000;
+    public static final int COSTS = 500_000;
+    public static final int REFRESH_TIME = 100;
 
     public RitualLifeExtractor() {
-        super("ritualextractor", 0, 1, "ritual.ctnhmana.ritualextractor");
+        super("ritualextractor", 0, COSTS, "ritual.ctnhmana.ritualextractor");
         this.addBlockRange("extraction_range", new AreaDescriptor.Rectangle(new BlockPos(-8, -2, -8), 8, 9, 18));
         this.setMaximumVolumeAndDistanceOfRange("extraction_range", 1, 16, 16);
     }
@@ -50,6 +50,17 @@ public class RitualLifeExtractor extends Ritual {
         AreaDescriptor growingRange = MasterRitualStone.getBlockRange("extraction_range");
         BlockPos pos = MasterRitualStone.getMasterBlockPos();
         List<EnumDemonWillType> willConfig = MasterRitualStone.getActiveWillConfig();
+        var ownerNetwork = MasterRitualStone.getOwnerNetwork();
+        if (ownerNetwork == null) {
+            return;
+        }
+        int currentEssence = ownerNetwork.getCurrentEssence();
+        if (currentEssence < getRefreshCost()) {
+            ownerNetwork.causeNausea();
+            return;
+        }
+        int maxEffects = currentEssence / getRefreshCost();
+        int totalEffects = 0;
 
         AABB axis = growingRange.getAABB(MasterRitualStone.getMasterBlockPos());
         double rawWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.DEFAULT, willConfig);
@@ -75,6 +86,9 @@ public class RitualLifeExtractor extends Ritual {
         material.add(GTMaterials.Americium);
         material.add(GTMaterials.YellowLimonite);
         for (Animal animal : animalList) {
+            if (totalEffects >= maxEffects) {
+                break;
+            }
             var px = animal.getX();
             var py = animal.getY();
             var pz = animal.getZ();
@@ -129,8 +143,12 @@ public class RitualLifeExtractor extends Ritual {
                     pz,
                     gems);
             ((ServerLevel) world).addFreshEntity(itemEntity);
+            totalEffects++;
         }
         for (AlfPixie pixie : pixielList) {
+            if (totalEffects >= maxEffects) {
+                break;
+            }
 
             var px = pixie.getX();
             var py = pixie.getY();
@@ -186,7 +204,10 @@ public class RitualLifeExtractor extends Ritual {
                     pz,
                     gems);
             ((ServerLevel) world).addFreshEntity(itemEntity);
-
+            totalEffects++;
+        }
+        if (totalEffects > 0) {
+            ownerNetwork.syphon(MasterRitualStone.ticket(getRefreshCost() * totalEffects));
         }
     }
 

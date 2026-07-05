@@ -168,5 +168,11 @@ public class EnglishLangHandler {
         provider.add("ctnhmana.entry.blood_antiaris", "Blood Antiaris");
         provider.add("ctnhmana.blood_antiaris.lexicon.1", "");
         provider.add("ctnhmana.blood_antiaris.lexicon.2", "");
+
+        provider.add("ctnhmana.recipe.blood_ritual.ritual_id", "Ritual: %s");
+        provider.add("ctnhmana.recipe.blood_ritual.lp_cost", "LP Cost: %s");
+        provider.add("ctnhmana.recipe.meteor_ritual.lp_cost", "LP Cost: %s");
+        provider.add("ctnhmana.recipe.meteor_ritual.marker_tip",
+                "Marker item must be a dropped item within 21 blocks of the controller");
     }
 }

@@ -34,10 +34,10 @@ public class RitualShroudSight extends Ritual {
     public static final List<MobEffect> POSITIVE_EFFECTS = new ArrayList<>();
     // 负面效果列表（对玩家/实体有害的效果）
     public static final List<MobEffect> NEGATIVE_EFFECTS = new ArrayList<>();
-    private final int costs = 1;
+    private static final int REFRESH_COST = 1_000_000;
 
     public RitualShroudSight() {
-        super("ritualshroudsight", 0, 1, "ritual.ctnhmana.dragon_shroudsight");
+        super("ritualshroudsight", 0, REFRESH_COST, "ritual.ctnhmana.dragon_shroudsight");
         this.addBlockRange("shroud_range", new AreaDescriptor.Rectangle(new BlockPos(-5, -5, -5), 10));
         this.setMaximumVolumeAndDistanceOfRange("shroud_range", 1, 30, 30);
     }
@@ -90,6 +90,15 @@ public class RitualShroudSight extends Ritual {
         if (player == null) {
             return;
         }
+        var ownerNetwork = MasterRitualStone.getOwnerNetwork();
+        if (ownerNetwork == null) {
+            return;
+        }
+        int currentEssence = ownerNetwork.getCurrentEssence();
+        if (currentEssence < getRefreshCost()) {
+            ownerNetwork.causeNausea();
+            return;
+        }
         double rawWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.DEFAULT, willConfig);
         double steadfastWill = this.getWillRespectingConfig(world, pos, EnumDemonWillType.STEADFAST, willConfig);
         AABB axis = growingRange.getAABB(MasterRitualStone.getMasterBlockPos());
@@ -135,11 +144,12 @@ public class RitualShroudSight extends Ritual {
             areas += 2.5F;
             WorldDemonWillHandler.drainWill(world, pos, EnumDemonWillType.STEADFAST, 2, true);
         }
+        ownerNetwork.syphon(MasterRitualStone.ticket(getRefreshCost()));
     }
 
     @Override
     public int getRefreshCost() {
-        return 1000000;
+        return REFRESH_COST;
     }
 
     @Override
