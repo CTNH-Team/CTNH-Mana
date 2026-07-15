@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.common.item.manamachineupgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -24,9 +25,9 @@ public class BTUpgradeItemT2 extends ManaMachineUpgradeItem {
 
     @Override
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine) {
+                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
         var hatch = machine.getHatch();
-        var true_parallel = ParallelLogic.getParallelAmount(machine, recipe, metric.parallel);
+        var true_parallel = ParallelLogic.getParallelAmount(group, recipe, metric.parallel);
         metric.speed += Math.min(0.75, true_parallel * 0.05);
         metric.true_parallel = true_parallel;
         return metric;
@@ -45,26 +46,26 @@ public class BTUpgradeItemT2 extends ManaMachineUpgradeItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t2, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信息
+        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t2, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信�?
     }
 
-    @CN("§9繁蕊之簇拥")
+    @CN("§9繁蕊之簇�?)
     @EN("§9Bloom Throng")
     public static Lang BT_UPDATE_NAME_T2;
     @CN({
-            "偏向于植物魔法与魔力的升级",
-            "机器获得：",
-            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行(最高64)",
-            "运行时的每一并行提供§a+5%§r机器工作速度(最高75%)",
-            "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度(最高25%)",
+            "偏向于植物魔法与魔力的升�?,
+            "机器获得�?,
+            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并�?最�?4)",
+            "运行时的每一并行提供§a+5%§r机器工作速度(最�?5%)",
+            "魔力凝聚仓存有的�?0W魔力提供§a+2.5%§r机器工作速度(最�?5%)",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     @EN({
-            "偏向于植物魔法与魔力的升级",
-            "机器获得：",
-            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最高64)",
-            "运行时的每一并行提供§a+5%§r机器工作速度（最高25%）",
-            "魔力凝聚仓存有的每10W魔力提供§a+2.5%§r机器工作速度（最高25%）",
+            "偏向于植物魔法与魔力的升�?,
+            "机器获得�?,
+            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最�?4)",
+            "运行时的每一并行提供§a+5%§r机器工作速度（最�?5%�?,
+            "魔力凝聚仓存有的�?0W魔力提供§a+2.5%§r机器工作速度（最�?5%�?,
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     public static Lang[] botaniacoreLang_t2;

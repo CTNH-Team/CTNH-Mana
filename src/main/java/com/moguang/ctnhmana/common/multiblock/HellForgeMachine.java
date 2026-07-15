@@ -1,14 +1,14 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 
@@ -39,7 +39,7 @@ public class HellForgeMachine extends BaseManaMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         // 在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
         if (isManaConsumedInstantly && hatch.getBTMana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
@@ -48,8 +48,7 @@ public class HellForgeMachine extends BaseManaMachine {
             if (hatch.consumeManaIfEnough(consumption)) {
                 return super.beforeWorking(recipe);
             }
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
-            return false;
+            return failureManaLang_NoEnoughMana.translate();
         }
     }
 

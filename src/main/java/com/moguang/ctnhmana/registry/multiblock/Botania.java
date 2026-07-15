@@ -15,8 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multi.EternalGarden;
-import com.moguang.ctnhmana.common.multi.ManaCondenserMachine;
+import com.moguang.ctnhmana.common.multiblock.EternalGarden;
+import com.moguang.ctnhmana.common.multiblock.ManaCondenserMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.client.render.EternalGardenRender;
 import com.moguang.ctnhmana.client.render.ManaCondenserRender;

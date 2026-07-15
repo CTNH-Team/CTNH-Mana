@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -53,7 +53,7 @@ import java.util.*;
 
 import javax.annotation.Nullable;
 
-public class EternalGarden extends WorkableElectricMultiblockMachine implements ITieredMachine, IChannelMachine {
+public class EternalGarden extends RecipeElectricMultiblockMachine implements ITieredMachine, IChannelMachine {
 
     public EternalGarden(IMachineBlockEntity holder) {
         super(holder);
@@ -309,7 +309,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         var burns = stack.copy().getBurnTime(RecipeType.SMELTING);
                         var builder = CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("burns")
                                 .notConsumable(BotaniaFlowerBlocks.endoflame.asItem())
-                                .inputItems(stack.copyWithCount(1)) // 输入1个食物
+                                .inputItems(stack.copyWithCount(1)) // 输入1个食�?
                                 .outputFluids(CMMaterials.Mana.getFluid((int) (1)))
                                 .duration(1)
                                 .EUt(GTValues.HV, 1)
@@ -331,7 +331,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
             var base_overclock = 1.1;
             double overclock = Math.pow(base_overclock, tier - recipe_tier);
             if (recipe.data.getString("type").equals("water")) {
-                // 水绣球
+                // 水绣�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -346,7 +346,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         .build();
             }
             if (recipe.data.getString("type").equals("eat")) {
-                // 彼方兰
+                // 彼方�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -361,7 +361,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         .build();
             }
             if (recipe.data.getString("type").equals("fire")) {
-                // 烧煤草
+                // 烧煤�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -372,7 +372,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         Objects.requireNonNull(
                                 ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("gtceu:cryotheum"))),
                         1000);
-                // 检查输入仓是否有足够流体
+                // 检查输入仓是否有足够流�?
                 boolean isFluidSufficient = MachineUtils.inputFluid(pyrotheumFluid, mmachine);
                 if (isFluidSufficient) mmachine.Temperature -= 100000;
                 double rate = Math.sqrt(12500 * 12500 - Math.abs(temp - 12500 * 12500));
@@ -385,7 +385,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         .build();
             }
             if (recipe.data.getString("type").equals("boom")) {
-                // 热爆花
+                // 热爆�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -415,7 +415,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         .build();
             }
             if (recipe.data.getString("type").equals("lighting")) {
-                // 雷德花
+                // 雷德�?
                 mmachine.wither = false;
                 mmachine.thunder = true;
                 mmachine.burn = false;
@@ -441,7 +441,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
 
             }
             if (recipe.data.getString("type").equals("blame")) {
-                // 热绣球
+                // 热绣�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = true;
@@ -456,7 +456,7 @@ public class EternalGarden extends WorkableElectricMultiblockMachine implements 
                         .build();
             }
             if (recipe.data.getString("type").equals("fly")) {
-                // 勿落草
+                // 勿落�?
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;

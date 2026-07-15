@@ -23,8 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.common.multi.MysticSpire;
-import com.moguang.ctnhmana.common.multi.SpireBigMath;
+import com.moguang.ctnhmana.common.multiblock.MysticSpire;
+import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;

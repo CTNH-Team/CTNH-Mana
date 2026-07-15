@@ -1,13 +1,13 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 
-public class MeteorCaptureMachine extends WorkableElectricMultiblockMachine {
+public class MeteorCaptureMachine extends RecipeElectricMultiblockMachine {
 
     public MeteorCaptureMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);

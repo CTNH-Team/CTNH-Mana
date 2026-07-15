@@ -17,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.common.multi.MachineUtils;
-import com.moguang.ctnhmana.common.multi.ManaReactor;
+import com.moguang.ctnhmana.common.multiblock.MachineUtils;
+import com.moguang.ctnhmana.common.multiblock.ManaReactor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;

@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
@@ -67,7 +67,7 @@ import static com.moguang.ctnhmana.registry.CMGuiTextures.AHCC_BACKGROUND;
 import static com.moguang.ctnhmana.registry.CMMaterials.Livingrock;
 import static mythicbotany.register.ModItems.*;
 
-public class ArcaneHighEnergyCompressionReactorCore extends WorkableMultiblockMachine implements IFancyUIMachine,
+public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMachine implements IFancyUIMachine,
                                                     IDisplayUIMachine, IExplosionMachine, IChannelMachine,
                                                     ICentralStorageMachine {
 

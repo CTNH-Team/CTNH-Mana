@@ -11,8 +11,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multi.BaseManaMachine;
-import com.moguang.ctnhmana.common.multi.ManaFuelInfuserMachine;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;

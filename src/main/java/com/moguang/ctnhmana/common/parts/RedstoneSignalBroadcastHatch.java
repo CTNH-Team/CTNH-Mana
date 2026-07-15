@@ -18,7 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.IChannelMachine;
+import com.moguang.ctnhmana.common.multiblock.IChannelMachine;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 

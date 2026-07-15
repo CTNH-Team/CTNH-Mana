@@ -16,8 +16,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.moguang.ctnhmana.common.multi.MachineUtils;
-import com.moguang.ctnhmana.common.multi.ManaCondenserMachine;
+import com.moguang.ctnhmana.common.multiblock.MachineUtils;
+import com.moguang.ctnhmana.common.multiblock.ManaCondenserMachine;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;

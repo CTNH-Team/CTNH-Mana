@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -7,9 +7,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +25,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-import static com.moguang.ctnhmana.common.multi.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.moguang.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class ManaFuelInfuserMachine extends ManaMachine {
 
@@ -58,14 +58,11 @@ public class ManaFuelInfuserMachine extends ManaMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (!recipe.conditions.isEmpty() && recipe.conditions.get(0) instanceof InfusionCellCastingCondition cond &&
                 this.hatch != null && this.hatch.consumeManaIfEnough(cond.getManaCost()))
             return super.beforeWorking(recipe);
-        else {
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
-            return false;
-        }
+        return failureManaLang_NoEnoughMana.translate();
     }
 
     @Override

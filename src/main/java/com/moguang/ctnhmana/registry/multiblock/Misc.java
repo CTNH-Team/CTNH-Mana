@@ -18,9 +18,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multi.NicollDysonBeams;
-import com.moguang.ctnhmana.common.multi.QuasarEye;
-import com.moguang.ctnhmana.common.multi.TwistedFusionMachine;
+import com.moguang.ctnhmana.common.multiblock.NicollDysonBeams;
+import com.moguang.ctnhmana.common.multiblock.QuasarEye;
+import com.moguang.ctnhmana.common.multiblock.TwistedFusionMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import vazkii.botania.common.block.BotaniaBlocks;

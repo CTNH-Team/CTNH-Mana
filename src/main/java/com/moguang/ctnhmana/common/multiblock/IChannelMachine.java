@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.moguang.ctnhmana.common.parts.RedstoneSignalBroadcastHatch;
 

@@ -10,7 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.HellForgeMachine;
+import com.moguang.ctnhmana.common.multiblock.HellForgeMachine;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

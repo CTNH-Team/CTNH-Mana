@@ -30,7 +30,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.ICentralStorageMachine;
+import com.moguang.ctnhmana.common.multiblock.ICentralStorageMachine;
 import com.moguang.ctnhmana.common.gui.ExtendedCentralControlBusCircuitUi;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;

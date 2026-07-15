@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 
-import com.moguang.ctnhmana.common.multi.IndustrialAltarMachine;
+import com.moguang.ctnhmana.common.multiblock.IndustrialAltarMachine;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

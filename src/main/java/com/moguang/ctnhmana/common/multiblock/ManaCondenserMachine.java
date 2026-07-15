@@ -1,8 +1,8 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 
@@ -12,7 +12,7 @@ import com.moguang.ctnhmana.registry.CMMaterials;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
-public class ManaCondenserMachine extends WorkableElectricMultiblockMachine {
+public class ManaCondenserMachine extends RecipeElectricMultiblockMachine {
 
     public BlockPos poolPos = MachineUtils.getOffset(this, 0, 4, 0);
     public int parallel = 1;

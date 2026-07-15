@@ -12,7 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.moguang.ctnhmana.common.multi.SpireBigMath;
+import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import vazkii.botania.api.mana.ManaReceiver;
 
 import java.math.BigInteger;

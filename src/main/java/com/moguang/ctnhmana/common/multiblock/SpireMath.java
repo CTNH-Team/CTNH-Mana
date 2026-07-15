@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 /**
  * 尖塔相关安全算术：避免 int/long 乘加溢出导致负数或错误广播。

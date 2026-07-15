@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
@@ -110,21 +109,19 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         updateAltarData();
         if (consumeLPIfEnough(consumption_lp)) {
             return super.beforeWorking(recipe);
         }
-        RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughLP.translate());
-        return false;
+        return failureManaLang_NoEnoughLP.translate();
     }
 
     @Override
     public boolean onWorking() {
         if (!consumeLPIfEnough(Upgrade.equals("suppression") ? (int) (consumption_lp * 0.5) : consumption_lp)) {
             getRecipeLogic().setProgress(this.getProgress() - 1);
-            RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe(),
-                    failureManaLang_NoEnoughLP.translate());
+            getRecipeLogic().setWaiting(failureManaLang_NoEnoughLP.translate());
         }
         return super.onWorking();
     }

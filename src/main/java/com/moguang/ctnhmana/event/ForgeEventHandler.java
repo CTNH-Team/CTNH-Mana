@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multi.HellForgeMachine;
+import com.moguang.ctnhmana.common.multiblock.HellForgeMachine;
 import com.moguang.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.moguang.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;

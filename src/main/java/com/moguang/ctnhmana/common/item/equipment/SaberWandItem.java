@@ -25,7 +25,7 @@ import net.minecraft.world.phys.*;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.MysticSpire;
+import com.moguang.ctnhmana.common.multiblock.MysticSpire;
 import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

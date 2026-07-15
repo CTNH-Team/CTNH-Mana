@@ -22,7 +22,7 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-import com.moguang.ctnhmana.common.multi.ICentralStorageMachine;
+import com.moguang.ctnhmana.common.multiblock.ICentralStorageMachine;
 import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.core.Direction.*;
@@ -52,7 +52,7 @@ public class CentralControlBus extends ItemBusPartMachine {
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateIOTickSubscription));
         }
-        if (this.isHasCircuitSlot() && this.circuitInventory != null) {
+        if (this.isCircuitSlotEnabled() && this.circuitInventory != null) {
             metasubs = circuitInventory.addChangedListener(this::updateMetaSubscription);
         }
     }

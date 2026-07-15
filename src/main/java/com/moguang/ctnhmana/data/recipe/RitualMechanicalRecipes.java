@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.common.multi.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.item.BotaniaItems;

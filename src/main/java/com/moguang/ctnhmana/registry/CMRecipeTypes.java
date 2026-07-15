@@ -11,8 +11,8 @@ import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import com.ctnhlang.CN;
-import com.moguang.ctnhmana.common.multi.QuasarEye;
-import com.moguang.ctnhmana.common.multi.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.multiblock.QuasarEye;
+import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 

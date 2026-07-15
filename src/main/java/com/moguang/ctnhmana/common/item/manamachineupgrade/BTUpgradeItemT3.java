@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.common.item.manamachineupgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -24,9 +25,9 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
 
     @Override
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine) {
+                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
         var hatch = machine.getHatch();
-        var true_parallel = ParallelLogic.getParallelAmount(machine, recipe, metric.parallel);
+        var true_parallel = ParallelLogic.getParallelAmount(group, recipe, metric.parallel);
         if (recipe.duration >= 100 * 20) {
             var accelerate = Math.min(5, (int) machine.getHatch().Mana / 10000);
             metric.speed += accelerate * 0.5;
@@ -50,19 +51,19 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t3, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信息
+        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t3, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信�?
     }
 
-    @CN("§9群蕊之天思")
+    @CN("§9群蕊之天�?)
     @EN("§9Garden of Celestial Thought")
     public static Lang BT_UPDATE_NAME_T3;
     @CN({
-            "偏向于植物魔法与魔力的升级",
-            "机器获得：",
-            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得2点并行(最高256)",
-            "运行时的每一并行提供§a+5%§r机器工作速度（最高200%）",
-            "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2.5%§r机器工作速度（最高50%）",
-            "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量使运行速度增加25%",
+            "偏向于植物魔法与魔力的升�?,
+            "机器获得�?,
+            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得2点并�?最�?56)",
+            "运行时的每一并行提供§a+5%§r机器工作速度（最�?00%�?,
+            "魔力凝聚仓存有的�?0W植物魔法魔力提供§a+2.5%§r机器工作速度（最�?0%�?,
+            "如果配方的原始时间大�?00s,则消耗至�?W魔力能量，每消�?W魔力能量使运行速度增加25%",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     @EN({
@@ -72,7 +73,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
             "Each active parallel grants §a+5%§r processing speed (capped at +200%)",
             "Every 100k Botania mana stored grants §a+2.5%§r speed (capped at +50%)",
             "If base recipe time exceeds 100s, spend up to 50k Mana Energy: +25% speed per 10k Mana Energy consumed",
-            "§o§9Dance with the flowers — even machines cannot hide the beauty of the stars§r"
+            "§o§9Dance with the flowers �?even machines cannot hide the beauty of the stars§r"
     })
     public static Lang[] botaniacoreLang_t3;
 }

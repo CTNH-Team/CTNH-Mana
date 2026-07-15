@@ -2,10 +2,11 @@ package com.moguang.ctnhmana.common.item.manamachineupgrade;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
 import net.minecraft.network.chat.Component;
 
-import com.moguang.ctnhmana.common.multi.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import lombok.Getter;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -25,7 +26,7 @@ public class ManaMachineUpgradeItem extends ComponentItem {
     }
 
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine) {
+                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
         return metric;
     }
 

@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -9,12 +9,13 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -55,7 +56,7 @@ import wayoftime.bloodmagic.util.helper.NetworkHelper;
 import java.util.List;
 import java.util.Objects;
 
-public class DemonWillMachine extends WorkableElectricMultiblockMachine {
+public class DemonWillMachine extends RecipeElectricMultiblockMachine {
 
     private static final double UI_WIDTH_SCALE = 1.5;
     private static final double UI_HEIGHT_SCALE = 1.5;
@@ -509,20 +510,21 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
         return GTRecipeBuilder.ofRaw()
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(),
                         (int) (1000 * (1 + 0.2 * Sacrifice_rune))))
-                .buildRawRecipe();
+                .buildRawRecipe()
+                .toRuntime();
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (machine instanceof DemonWillMachine dmachine) {
-            dmachine.applyDisplacementRunes();
-            var eu = dmachine.computeGenerationEutMultiplier(false);
-            dmachine.energy_cache = eu;
-            return ModifierFunction.builder()
-                    .durationMultiplier(1 + dmachine.Speed_rune * SPEED_DURATION_PER_RUNE)
-                    .eutMultiplier(eu)
-                    .build();
+    public static @Nullable Component recipeModifier(@NotNull MetaMachine machine, RecipeHandlerGroup group,
+                                                     @NotNull GTRecipe recipe) {
+        if (!(machine instanceof DemonWillMachine dmachine)) {
+            return RecipeModifier.nullWrongType(DemonWillMachine.class, machine);
         }
-        return ModifierFunction.IDENTITY;
+        dmachine.applyDisplacementRunes();
+        var eu = dmachine.computeGenerationEutMultiplier(false);
+        dmachine.energy_cache = eu;
+        recipe.multiplyDuration(1 + dmachine.Speed_rune * SPEED_DURATION_PER_RUNE);
+        recipe.multiplyEUt(eu);
+        return null;
     }
 
     @Override
@@ -535,20 +537,16 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
                     stack.shrink(1);
                 }
             }
-        }
-        long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
-        // check boost fluid
-        if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0)) {
             var boosterRecipe = getBloodRecipe();
-            this.isBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
-                            .isSuccess();
+            var group = getRecipeLogic().getLastGroup();
+            this.isBoosted = RecipeHelper.matchRecipe(group, boosterRecipe).isSuccess() &&
+                    RecipeHelper.handleRecipeIO(group, boosterRecipe, IO.IN).isSuccess();
         }
         return value;
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         difference = getTotalWillDifference();
         if (type == EnumDemonWillType.DEFAULT) {
             calculateDiversity();
@@ -672,10 +670,10 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             "允许使用激光仓、变电仓",
             "利用机器两侧区块的恶魔意志浓度差发电；有效浓度差越大，发电量增长越快（含 ln 项）",
             "警告：§4当两侧意志浓度差小于5时，将无视所有符文加成，直接将该意志浓度差计算为0§r",
-            "计算基于机器两侧恶魔合金所在区块的意志浓度，可以点击UI内 显示锚定的恶魔合金 来高亮它们正下方的位点，定位对应的区块（注意：检测的是恶魔合金块所在位置的区块，请注意可能发生的结构跨多个区块问题）",
+            "计算基于机器两侧恶魔合金所在区块的意志浓度，可以点击UI「显示锚定的恶魔合金」来高亮它们正下方的位点，定位对应的区块（注意：检测的是恶魔合金块所在位置的区块，请注意可能发生的结构跨多个区块问题）",
             "两侧区块内各类恶魔意志的多样性会影响发电效率",
             "控制器槽位可放入 §4血魔法宝珠§r（须已绑定）或意志核心；宝珠链接其主人的灵魂网络，核心开启专精（每秒 5% 概率消耗 1 个）",
-            "结构符文可替换（T2 符文计 2 级）：\n§4牺牲/自我牺牲符文§r——每级使困惑强化模式的困惑液消耗量和发电量+20%§r\n§3速度符文§r——每级使配方时长+10%§r\n§e增容符文§r——每级使有效浓度差+1§r\n§c超容符文§r——每级使有效浓度差+10%§r\n§d宝珠符文§r——已链接灵魂网络时，将实际发电量的1%转化为灵魂网络内的LP，转化率为0.1%*宝珠符文数\n§b转位符文§r——在配方开始前每周期将两侧区块空白意志转为复仇/腐蚀/坚韧/破坏各 §a等级*2§r 点\n§7充能符文§r——仅统计，暂无效果\n==============================",
+            "结构符文可替换（T2 符文=2 级）：\n§4牺牲/自我牺牲符文§r——每级使困惑强化模式的困惑液消耗量和发电量+20%§r\n§3速度符文§r——每级使配方时长+10%§r\n§e增容符文§r——每级使有效浓度差+1§r\n§c超容符文§r——每级使有效浓度差+10%§r\n§d宝珠符文§r——已链接灵魂网络时，将实际发电量的一部分转化为灵魂网络内的LP，转化率=0.1%*宝珠符文数\n§b转位符文§r——在配方开始前每周期将两侧区块空白意志转为复仇/腐蚀/坚韧/破坏各 §a等级*2§r 点\n§7充能符文§r——仅统计，暂无效果\n==============================",
             "输入 §4困惑液§r 开启困惑强化；约每秒消耗 §a1000×(1+0.2×牺牲等级) mb§r",
             "按住 Shift 查看详细公式；控制器界面显示各符文等级统计"
     })
@@ -698,8 +696,8 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             "有效浓度差 = (真实浓度差 + 增容等级) × (1 + 0.1×超容等级)；专精模式再 ×2",
             "EU/t = 256 × 多样性 × 有效浓度差 × ln(有效浓度差+1) × [困惑强化倍率]",
             "困惑强化倍率 = 2 + 0.2×牺牲等级（需持续输入困惑液）",
-            "多样性：两侧各按 1.2−Σ(占比²) 计算后相乘；无意志侧为 0.2；专精固定 0.8；两侧均衡时最高约 1.44",
-            "意志迁移：高侧扣除差值×8%，低侧获得差值×4%；高侧该类型意志<10 时只清空不迁移；单侧≥9999 时清空该侧全部意志",
+            "多样性：两侧各按 1.2−Σ(占比²) 计算后相乘；无意志侧取 0.2；专精固定 0.8；两侧均衡时最高约 1.44",
+            "意志迁移：高侧扣除差值4%，低侧获得差值4%；高侧该类型意志<10 时只清空不迁移；单侧≥999 时清空该侧全部意志",
             "专精模式仅处理对应意志；默认模式累加所有类型的浓度差",
             "已链接灵魂网络时：每周期 LP = 毛发电 × min(1%, 0.1%+0.1%×宝珠等级)；实际 EU/t = 毛发电 × (1 − 转化比例)",
             "转位：每侧区块消耗 4×min(等级×2, floor(空白/4)) 空白意志，四种类型意志各 +min(等级×2, floor(空白/4))"
@@ -710,7 +708,7 @@ public class DemonWillMachine extends WorkableElectricMultiblockMachine {
             "EU/t = 256 × diversity × effective difference × ln(effective difference+1) × [doubt boost]",
             "Doubt boost = 2 + 0.2×sacrifice levels (requires continuous doubt fluid input)",
             "Diversity: per side 1.2−Σ(ratio²), then multiply both sides; 0.2 if a side has no will; 0.8 in specialty; up to ~1.44 when both sides are balanced",
-            "Will migration: high side −8% of difference, low side +4%; if high side <10 for that type, drain only (no transfer); if either side ≥9999, clear all will on that side",
+            "Will migration: high side −4% of difference, low side +4%; if high side <10 for that type, drain only (no transfer); if either side ≥999, clear all will on that side",
             "Specialty mode processes one will type only; default mode sums concentration differences of all types",
             "With linked soul network: LP per cycle = gross EU/t × min(1%, 0.1%+0.1%×orb levels); actual EU/t = gross × (1 − conversion fraction)",
             "Displacement: per side drains 4×min(level×2, floor(raw/4)) raw will; each typed will gains +min(level×2, floor(raw/4))"

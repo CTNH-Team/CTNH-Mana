@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.moguang.ctnhmana.common.multi.*;
+import com.moguang.ctnhmana.common.multiblock.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -46,13 +46,13 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.common.multi.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
-import static com.moguang.ctnhmana.common.multi.EternalWosMachine.eternalWosLang;
-import static com.moguang.ctnhmana.common.multi.HellForgeMachine.hellforgeLang;
-import static com.moguang.ctnhmana.common.multi.ManaForceTransformer.MFT_Lang;
-import static com.moguang.ctnhmana.common.multi.MysticSpire.spireTooltipsLang;
-import static com.moguang.ctnhmana.common.multi.RitualMechanicalMachine.ritualMechanicalLang;
-import static com.moguang.ctnhmana.common.multi.ZenithSpire.omegaSpireLang;
+import static com.moguang.ctnhmana.common.multiblock.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
+import static com.moguang.ctnhmana.common.multiblock.EternalWosMachine.eternalWosLang;
+import static com.moguang.ctnhmana.common.multiblock.HellForgeMachine.hellforgeLang;
+import static com.moguang.ctnhmana.common.multiblock.ManaForceTransformer.MFT_Lang;
+import static com.moguang.ctnhmana.common.multiblock.MysticSpire.spireTooltipsLang;
+import static com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine.ritualMechanicalLang;
+import static com.moguang.ctnhmana.common.multiblock.ZenithSpire.omegaSpireLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BloodMagicRL;
@@ -109,8 +109,8 @@ public class CMMultiblockMachines {
             .appearanceBlock(() -> BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_REACTOR_RECIPES)
-            .recipeModifiers(ManaReactor::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+            .recipeModifiers(BaseManaMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAAAAAAAAAAAA", "###BB#######BB###", "#################", "#################",
                             "#################", "#################", "#################", "#################",
@@ -365,7 +365,7 @@ public class CMMultiblockMachines {
             .appearanceBlock(SOUL_LOCKING_CASING::get)
             .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
             .tooltips(hellforgeLang)
-            .recipeModifiers(HellForgeMachine::recipeModifier,
+            .recipeModifiers(BaseManaMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B",

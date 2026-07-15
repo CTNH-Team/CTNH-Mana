@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -11,10 +11,9 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.MachineModeFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -36,6 +35,7 @@ import com.moguang.ctnhmana.common.gui.ManaStatusGui;
 import com.moguang.ctnhmana.common.gui.ShroudUi;
 import com.moguang.ctnhmana.common.item.manamachineupgrade.ManaMachineUpgradeItem;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -89,7 +89,7 @@ public class BaseManaMachine extends ManaMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         // 在魔力一次性消耗模式下一次性消耗，否则在onworking每秒消耗
         if (isManaConsumedInstantly && hatch.getBTMana() > consumption * recipe.duration / 20) {
             hatch.consumeMana(consumption * recipe.duration / 20);
@@ -98,8 +98,7 @@ public class BaseManaMachine extends ManaMachine {
             if (hatch.consumeManaIfEnough(consumption)) {
                 return super.beforeWorking(recipe);
             }
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
-            return false;
+            return failureManaLang_NoEnoughMana.translate();
         }
     }
 
@@ -107,11 +106,10 @@ public class BaseManaMachine extends ManaMachine {
     public boolean onWorking() {
         if (isManaConsumedInstantly) return super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            if (hatch.consumeManaIfEnough(consumption)) super.onWorking();
-            else {
-                RecipeLogic.putFailureReason(this, this.getRecipeLogic().getLastOriginRecipe(),
-                        failureManaLang_NoEnoughMana.translate());
+            if (!hatch.consumeManaIfEnough(consumption)) {
+                getRecipeLogic().setWaiting(failureManaLang_NoEnoughMana.translate());
                 getRecipeLogic().setProgress(0);
+                return false;
             }
         }
         return super.onWorking();
@@ -247,31 +245,45 @@ public class BaseManaMachine extends ManaMachine {
     // ******** RecipeLogic ********//
     //////////////////////////////////////
     ///
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
-        if (machine instanceof BaseManaMachine mmachine) {
-            // 复制metric 检查metric 计算metric
-            mmachine.recipemetric.Copy(mmachine.metric);
-            mmachine.recipemetric.plus(mmachine.globalmetric);
-            MachineMetric metric = mmachine.recipemetric;
-            if (mmachine.upgrade != null) metric = mmachine.upgrade.calculateUpgrade(metric, recipe, mmachine);
-            if (metric.parallel == -1) {
-                return ModifierFunction.builder()
-                        .parallels(metric.true_parallel)
-                        .eutMultiplier(metric.eut)
-                        .inputModifier(ContentModifier.multiplier(metric.true_parallel * metric.input))
-                        .outputModifier(ContentModifier.multiplier(metric.true_parallel * metric.output))
-                        .durationMultiplier(1 / metric.speed * Math.min(64, metric.true_parallel))
-                        .build();
-            }
-            return ModifierFunction.builder()
-                    .parallels(metric.true_parallel)
-                    .eutMultiplier(metric.true_parallel * metric.eut)
-                    .inputModifier(ContentModifier.multiplier(metric.true_parallel * metric.input))
-                    .outputModifier(ContentModifier.multiplier(metric.true_parallel * metric.output))
-                    .durationMultiplier(1 / metric.speed)
-                    .build();
+    public static @Nullable Component recipeModifier(@NotNull MetaMachine machine, RecipeHandlerGroup group,
+                                                     @NotNull GTRecipe recipe) {
+        if (!(machine instanceof BaseManaMachine mmachine)) {
+            return RecipeModifier.nullWrongType(BaseManaMachine.class, machine);
         }
-        return ModifierFunction.IDENTITY;
+        // 复制metric 检查metric 计算metric
+        mmachine.recipemetric.Copy(mmachine.metric);
+        mmachine.recipemetric.plus(mmachine.globalmetric);
+        MachineMetric metric = mmachine.recipemetric;
+        if (mmachine.upgrade != null) {
+            metric = mmachine.upgrade.calculateUpgrade(metric, recipe, mmachine, group);
+        }
+
+        int pa = Math.max(1, metric.true_parallel);
+        if (metric.parallel == -1) {
+            // GT 升级：IO 乘并行，EU 不乘并行，时长 * (1/speed) * min(64, pa)
+            double inMul = pa * metric.input;
+            double outMul = pa * metric.output;
+            recipe.multiplyInputs(Math.max(1, (int) Math.round(inMul)));
+            recipe.multiplyOutputs(Math.max(1, (int) Math.round(outMul)));
+            recipe.parallels *= pa;
+            recipe.multiplyEUt(metric.eut);
+            recipe.multiplyDuration(1.0 / metric.speed * Math.min(64, pa));
+            return null;
+        }
+
+        // 普通：加电压并行，再叠 input/output/eut/speed 倍率
+        CTNHManaUtils.applyParallel(recipe, pa);
+        if (metric.input != 1.0) {
+            recipe.multiplyInputs(Math.max(1, (int) Math.round(metric.input)));
+        }
+        if (metric.output != 1.0) {
+            recipe.multiplyOutputs(Math.max(1, (int) Math.round(metric.output)));
+        }
+        if (metric.eut != 1.0) {
+            recipe.multiplyEUt(metric.eut);
+        }
+        recipe.multiplyDuration(1.0 / metric.speed);
+        return null;
     }
 
     //////////////////////////////////////

@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -11,9 +11,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -41,9 +40,9 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.moguang.ctnhmana.common.multi.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.moguang.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
-public class NicollDysonBeams extends WorkableElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
+public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
 
     @Persisted
     public int SLOT_COUNT = 4;
@@ -218,21 +217,18 @@ public class NicollDysonBeams extends WorkableElectricMultiblockMachine implemen
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (broken == 2) {
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_BeamCrash.translate());
             doExplosion(100000f);
-            return false;
+            return failureManaLang_BeamCrash.translate();
         }
         if (mana >= recipe.data.getInt("required_mana")) {
             max_mana = 1000000 * (1 + 0.125 * horizen_power);
             rune_consume();
             mana -= recipe.data.getInt("mana");
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
-            return super.beforeWorking(recipe);
+            return null;
         }
-
-        return false;
+        return failureManaLang_NoEnoughMana.translate();
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {

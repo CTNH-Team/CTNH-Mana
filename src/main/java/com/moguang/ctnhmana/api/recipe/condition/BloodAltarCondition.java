@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.IndustrialAltarMachine;
+import com.moguang.ctnhmana.common.multiblock.IndustrialAltarMachine;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;

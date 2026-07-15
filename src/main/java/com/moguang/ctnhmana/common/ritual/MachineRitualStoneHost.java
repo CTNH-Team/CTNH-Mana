@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import com.moguang.ctnhmana.common.multi.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.core.data.SoulNetwork;

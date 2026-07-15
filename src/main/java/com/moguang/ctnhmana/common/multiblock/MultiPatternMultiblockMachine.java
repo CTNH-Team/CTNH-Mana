@@ -1,7 +1,7 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-public class MultiPatternMultiblockMachine extends WorkableElectricMultiblockMachine {
+public class MultiPatternMultiblockMachine extends RecipeElectricMultiblockMachine {
 
     /**
      * 存储所有可用的模式

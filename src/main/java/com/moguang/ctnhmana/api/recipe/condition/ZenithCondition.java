@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.ctnhlang.Prefix;
-import com.moguang.ctnhmana.common.multi.ManaReactor;
+import com.moguang.ctnhmana.common.multiblock.ManaReactor;
 import com.moguang.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

@@ -1,9 +1,8 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -11,12 +10,14 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.network.chat.Component;
+
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
-import static com.moguang.ctnhmana.common.multi.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.moguang.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
 
 public class ManaForceTransformer extends ManaMachine implements IExplosionMachine {
 
@@ -33,12 +34,11 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         var mana = this.hatch.getMana();
         this.hatch.setMana(0);
         if (mana < 100000) {
-            RecipeLogic.putFailureReason(this, recipe, failureManaLang_NoEnoughMana.translate());
-            return false;
+            return failureManaLang_NoEnoughMana.translate();
         }
         this.consume_mana = mana;
         return super.beforeWorking(recipe);

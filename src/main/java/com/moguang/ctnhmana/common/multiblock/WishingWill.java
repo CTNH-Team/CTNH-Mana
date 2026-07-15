@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -35,7 +35,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.CIRCUITS;
 
-public class WishingWill extends WorkableMultiblockMachine {
+public class WishingWill extends RecipeMultiblockMachine {
 
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
@@ -55,7 +55,7 @@ public class WishingWill extends WorkableMultiblockMachine {
         AABB area = new AABB(new BlockPos(pos.getX() - 1, pos.getY() - 10, pos.getZ() - 1),
                 new BlockPos(pos.getX() + 1, pos.getY() + 10, pos.getZ() + 1));
         List<ItemEntity> droppedItems = world.getEntitiesOfClass(
-                ItemEntity.class,  // 只筛选物品实体
+                ItemEntity.class,  // åªç­›é€‰ç‰©å“å®žä½?
                 area);
         for (ItemEntity item : droppedItems) {
             if (item.getItem().is(CIRCUITS)) {
@@ -82,7 +82,7 @@ public class WishingWill extends WorkableMultiblockMachine {
                     0.0,
                     0.5 + level.random.nextDouble() * 2.0,
                     0.0);
-            itemEntity.setPickUpDelay(10); // 设置拾取延迟
+            itemEntity.setPickUpDelay(10); // è®¾ç½®æ‹¾å–å»¶è¿Ÿ
             level.addFreshEntity(itemEntity);
         }
     }
@@ -130,7 +130,7 @@ public class WishingWill extends WorkableMultiblockMachine {
         @Override
         protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.IN) {
-                // 输入处理：正常处理
+                // è¾“å…¥å¤„ç†ï¼šæ­£å¸¸å¤„ç?
                 return super.handleRecipeIO(recipe, io);
             }
             if (io == IO.OUT) {
@@ -139,7 +139,7 @@ public class WishingWill extends WorkableMultiblockMachine {
                 if (!outputContents.isEmpty()) {
                     for (Content content : outputContents) {
                         var safe_content = content.copy(ItemRecipeCapability.CAP);
-                        // 从Content中获取ItemStack
+                        // ä»ŽContentä¸­èŽ·å–ItemStack
                         Ingredient ingredient = ItemRecipeCapability.CAP.of(safe_content.getContent());
                         if (ingredient != null) {
                             ItemStack[] stacks = ingredient.getItems();

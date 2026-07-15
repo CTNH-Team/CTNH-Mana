@@ -19,13 +19,13 @@ import net.minecraft.network.chat.MutableComponent;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.multi.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-import static com.moguang.ctnhmana.common.multi.BaseManaMachine.BaseManaMachineLang;
+import static com.moguang.ctnhmana.common.multiblock.BaseManaMachine.BaseManaMachineLang;
 
 public class ManaStatusGui implements IFancyUIProvider {
 

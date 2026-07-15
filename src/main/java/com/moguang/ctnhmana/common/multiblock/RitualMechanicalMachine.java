@@ -1,4 +1,4 @@
-package com.moguang.ctnhmana.common.multi;
+package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -146,25 +145,22 @@ public class RitualMechanicalMachine extends ManaMachine {
     // ******** Recipe ********//
     //////////////////////////////////////
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) {
-            return false;
+            return failureUnknownRitual.translate("");
         }
         refreshRitualSoulNetwork();
         if (hatch == null || !hatch.HAVE_ORB || ritualSoulNetwork == null || ritualOwnerId == null) {
-            RecipeLogic.putFailureReason(this, recipe, failureNoBloodOrb.translate());
-            return false;
+            return failureNoBloodOrb.translate();
         }
         String ritualId = recipe.data.getString(RECIPE_DATA_RITUAL_ID);
         if (ritualId.isEmpty() || BloodMagic.RITUAL_MANAGER.getRitual(ritualId) == null) {
-            RecipeLogic.putFailureReason(this, recipe, failureUnknownRitual.translate(ritualId));
-            return false;
+            return failureUnknownRitual.translate(ritualId);
         }
         if (ONLINE_OWNER_RITUALS.contains(ritualId)) {
             var server = getLevel() != null ? getLevel().getServer() : null;
             if (server == null || server.getPlayerList().getPlayer(ritualOwnerId) == null) {
-                RecipeLogic.putFailureReason(this, recipe, failureOwnerOffline.translate());
-                return false;
+                return failureOwnerOffline.translate();
             }
         }
         fillLpCacheFromHatch();
