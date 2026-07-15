@@ -1,6 +1,6 @@
 package com.moguang.ctnhmana.common.ritual;
 
-import com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.multi.RitualMechanicalMachine;
 import wayoftime.bloodmagic.core.data.SoulNetwork;
 import wayoftime.bloodmagic.core.data.SoulTicket;
 

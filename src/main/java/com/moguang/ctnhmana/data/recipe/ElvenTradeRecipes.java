@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.data.recipe;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
-import com.moguang.ctnhmana.common.recipe.builder.botania.ElvenTradeRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ElvenTradeRecipeBuilder;
 
 import java.util.function.Consumer;
 

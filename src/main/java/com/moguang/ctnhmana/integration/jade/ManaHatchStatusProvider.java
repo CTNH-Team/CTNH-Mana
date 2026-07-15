@@ -12,8 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import com.moguang.ctnhmana.Mutiblock.parts.ManaHatch;
-import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.common.parts.ManaHatch;
+import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;

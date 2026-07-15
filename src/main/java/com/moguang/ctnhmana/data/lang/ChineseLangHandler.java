@@ -7,7 +7,7 @@ import tech.vixhentx.mcmod.ctnhlib.registrate.lang.RegistrateCNLangProvider;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.moguang.ctnhmana.registry.CMMachines.DIGITAL_WELL_OF_SUFFER;
-import static com.moguang.ctnhmana.registry.multiblock.misc.*;
+import static com.moguang.ctnhmana.registry.multiblock.Misc.*;
 
 public class ChineseLangHandler {
 

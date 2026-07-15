@@ -25,7 +25,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.blocks.CoilType;
 import com.moguang.ctnhmana.common.blocks.FrameBlock;
 import com.moguang.ctnhmana.common.blocks.RuneBlock;
-import com.moguang.ctnhmana.item.TooltipsBlockItem;
+import com.moguang.ctnhmana.common.item.TooltipsBlockItem;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;

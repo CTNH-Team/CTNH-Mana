@@ -35,20 +35,6 @@ public class CTNHMana {
 
     @SuppressWarnings("removal")
     public CTNHMana() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        CMParticleTypes.PARTICLE_TYPES.register(modEventBus);
-
-        modEventBus.addListener(this::onRegisterEntityRenderers);
-        modEventBus.addListener(this::onFMLoadComplete);
-        modEventBus.addGenericListener(MachineDefinition.class, EventHandler::registerMachines);
-        modEventBus.addGenericListener(GTRecipeType.class, EventHandler::registerRecipeTypes);
-        modEventBus.addGenericListener(RecipeConditionType.class, EventHandler::registerRecipeConditions);
-        CMMobEffects.MOB_EFFECTS.register(modEventBus);
-        CMSoundEvent.SOUNDS.register(modEventBus);
-
-        // modEventBus.addGenericListener(GTRecipeCategory.class, EventHandler::onRecipeCategoryRegister);
-        // modEventBus.addGenericListener(ChanceLogic.class,EventHandler::registerChanceLogic);
-
         DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
 
@@ -56,11 +42,5 @@ public class CTNHMana {
         return ResourceLocation.tryParse(MODID + ":" + name);
     }
 
-    public void onFMLoadComplete(FMLLoadCompleteEvent event) {
-        BloodMagicAPI.INSTANCE.registerAltarComponent(
-                CMBlocks.CASING_BLOODLOGIC.getDefaultState(),
-                "CRYSTAL");
-    }
 
-    private void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {}
 }

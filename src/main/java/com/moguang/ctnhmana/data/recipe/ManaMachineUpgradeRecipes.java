@@ -12,10 +12,10 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.api.recipe.condition.HellForgeCondition;
+import com.moguang.ctnhmana.data.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.RuneAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.*;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;

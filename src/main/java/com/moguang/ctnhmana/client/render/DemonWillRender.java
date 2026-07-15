@@ -14,8 +14,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.moguang.ctnhmana.Mutiblock.DemonWillMachine;
-import com.moguang.ctnhmana.Mutiblock.MachineUtils;
+import com.moguang.ctnhmana.common.multi.DemonWillMachine;
+import com.moguang.ctnhmana.common.multi.MachineUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;

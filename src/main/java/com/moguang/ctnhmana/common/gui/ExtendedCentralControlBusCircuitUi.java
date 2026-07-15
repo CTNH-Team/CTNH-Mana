@@ -16,7 +16,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
-import com.moguang.ctnhmana.Mutiblock.parts.ExtendedCentralControlBus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +23,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.common.parts.ExtendedCentralControlBus;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 /**

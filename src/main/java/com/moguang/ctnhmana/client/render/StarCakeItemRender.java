@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-import com.moguang.ctnhmana.item.FlowerCakeItem;
+import com.moguang.ctnhmana.common.item.FlowerCakeItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;

@@ -15,7 +15,7 @@ import com.moguang.ctnhmana.networking.packets.IndexTargetBlockPacket;
 import com.moguang.ctnhmana.registry.CMMobEffects;
 
 import static com.lowdragmc.lowdraglib.networking.LDLNetworking.NETWORK;
-import static com.moguang.ctnhmana.item.Caduceus.CaduceusItem.playIndexMusic;
+import static com.moguang.ctnhmana.common.item.caduceus.CaduceusItem.playIndexMusic;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class IndexEventHandler {

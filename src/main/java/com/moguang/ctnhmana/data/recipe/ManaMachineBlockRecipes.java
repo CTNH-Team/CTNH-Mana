@@ -16,10 +16,10 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.api.recipe.condition.HellForgeCondition;
+import com.moguang.ctnhmana.data.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;

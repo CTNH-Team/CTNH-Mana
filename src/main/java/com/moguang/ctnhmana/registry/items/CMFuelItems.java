@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 
 import net.minecraft.world.item.Item;
 
-import com.moguang.ctnhmana.item.ManaFuelStick.IManaFuelStick;
+import com.moguang.ctnhmana.common.item.manafuelstick.IManaFuelStick;
 import com.moguang.ctnhmana.registry.CMCreativeModeTabs;
 import com.moguang.ctnhmana.registry.CMTags;
 import com.tterrag.registrate.providers.DataGenContext;

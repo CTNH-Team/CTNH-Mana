@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.DemonWillMachine;
-import com.moguang.ctnhmana.Mutiblock.MeteorCaptureMachine;
+import com.moguang.ctnhmana.common.multi.DemonWillMachine;
+import com.moguang.ctnhmana.common.multi.MeteorCaptureMachine;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.DemonWillRender;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
@@ -28,7 +28,7 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_STEEL_SOLID;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.LAMPS;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.Mutiblock.DemonWillMachine.SHIFT_TOOLTIPS;
+import static com.moguang.ctnhmana.common.multi.DemonWillMachine.SHIFT_TOOLTIPS;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_BLOOD;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_FORCE_FILED;
 

@@ -4,8 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-import com.moguang.ctnhmana.Mutiblock.SpireBigMath;
-import com.moguang.ctnhmana.Mutiblock.ZenithSpire;
+import com.moguang.ctnhmana.common.multi.SpireBigMath;
+import com.moguang.ctnhmana.common.multi.ZenithSpire;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import vazkii.botania.common.helper.ColorHelper;

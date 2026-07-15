@@ -1,19 +1,13 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.common.data.GTItems.*;
-import com.gregtechceu.gtceu.common.data.GTMachines.*;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.Mutiblock.Quasar_Eye.*;
-import wayoftime.bloodmagic.common.item.BloodMagicItems.*;
-
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.PLASMA;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
@@ -21,11 +15,8 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.hollingsworth.arsnouveau.setup.registry.BlockRegistry.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
-import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
 import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
-import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
-import static mythicbotany.register.ModItems.*;
 import static net.minecraft.world.item.Items.*;
 import static vazkii.botania.common.block.BotaniaBlocks.*;
 import static vazkii.botania.common.item.BotaniaItems.*;

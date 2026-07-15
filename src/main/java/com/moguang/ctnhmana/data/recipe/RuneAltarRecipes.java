@@ -11,7 +11,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
-import com.moguang.ctnhmana.common.recipe.builder.botania.RuneAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.RuneAltarRecipeBuilder;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 

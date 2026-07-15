@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.moguang.ctnhmana.common.multi.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -24,14 +25,14 @@ import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.Mutiblock.*;
-import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ManaReactorRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
-import com.moguang.ctnhmana.registry.multiblock.misc;
+import com.moguang.ctnhmana.registry.multiblock.Misc;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
@@ -45,13 +46,13 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.Mutiblock.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
-import static com.moguang.ctnhmana.Mutiblock.EternalWosMachine.eternalWosLang;
-import static com.moguang.ctnhmana.Mutiblock.HellForgeMachine.hellforgeLang;
-import static com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine.ritualMechanicalLang;
-import static com.moguang.ctnhmana.Mutiblock.ManaForceTransformer.MFT_Lang;
-import static com.moguang.ctnhmana.Mutiblock.MysticSpire.spireTooltipsLang;
-import static com.moguang.ctnhmana.Mutiblock.ZenithSpire.omegaSpireLang;
+import static com.moguang.ctnhmana.common.multi.ArcaneHighEnergyCompressionReactorCore.AHCC_TOOLTIPS;
+import static com.moguang.ctnhmana.common.multi.EternalWosMachine.eternalWosLang;
+import static com.moguang.ctnhmana.common.multi.HellForgeMachine.hellforgeLang;
+import static com.moguang.ctnhmana.common.multi.ManaForceTransformer.MFT_Lang;
+import static com.moguang.ctnhmana.common.multi.MysticSpire.spireTooltipsLang;
+import static com.moguang.ctnhmana.common.multi.RitualMechanicalMachine.ritualMechanicalLang;
+import static com.moguang.ctnhmana.common.multi.ZenithSpire.omegaSpireLang;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.utils.ModUtils.BloodMagicRL;
@@ -69,7 +70,7 @@ public class CMMultiblockMachines {
     public static void init() {
         com.moguang.ctnhmana.registry.multiblock.BloodMagic.init();
         Botania.init();
-        misc.init();
+        Misc.init();
         ManaMachine.init();
         ZenithMachine.init();
     }
@@ -100,18 +101,6 @@ public class CMMultiblockMachines {
             "最终运行速度+25%"
     })
     public static Lang[] basemanamutiblockLang;
-
-    // 不需要这个，lib自带
-    // public static List<Component> addMachineTooltips(Lang[] langs)
-    // {
-    // List<Component> list=new ArrayList<>();
-    // int y=0;
-    // for(Lang lang:langs)
-    // {
-    // list.add(lang.translate());
-    // }
-    // return list;
-    // }
 
     public final static MultiblockMachineDefinition MANA_REACTOR = REGISTRATE
             .multiblock("mana_reactor", holder -> new ManaReactor(holder, 4))
@@ -3275,74 +3264,241 @@ public class CMMultiblockMachines {
                     RitualMechanicalMachine::recipeModifier)
             .appearanceBlock(() -> RITUAL_MECHANICAL_BLOCK.get())
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("#################AAAAAAAAA#################", "###########################################", "###########################################", "###########################################", "###########################################")
-                    .aisle("##############AAAAAAAAAAAAAAA##############", "###########################################", "###########################################", "###########################################", "###########################################")
-                    .aisle("###########AAABBAAAAAAAAAAABBAAA###########", "#############C###############C#############", "#############C###############C#############", "###########################################", "###########################################")
-                    .aisle("##########AABDDBBBBAAAAABBBBDDBAA##########", "#############CC#############CC#############", "#############CC#############CC#############", "###########################################", "###########################################")
-                    .aisle("########AAABBDDDDDBBBBBBBDDDDDBBAAA########", "#############CCC#####E#####CCC#############", "#############CFC###########CGC#############", "###########################################", "###########################################")
-                    .aisle("#######AAAABDDDDDDDDDDDDDDDDDDDBAAAA#######", "#############CCCC####E####CCCC#############", "#############CFFC#########CGGC#############", "###########################################", "###########################################")
-                    .aisle("######AAAABBDDDDDDDDDDDDDDDDDDDBBAAAA######", "#############CCCCC###E###CCCCC#############", "#############CFFFC#######CGGGC#############", "###########################################", "###########################################")
-                    .aisle("#####AAAAABDDDDDDDDDDDDDDDDDDDDDBAAAAA#####", "#############CCCCCC#EHE#CCCCCC#############", "#############CFFFFC#####CGGGGC#############", "###########################################", "###########################################")
-                    .aisle("####AAAAABBDDDDDDDDDDDDDDDDDDDDDBBAAAAA####", "#############CCCCCCCEHECCCCCCC#############", "#############CFFFFCC###CCGGGGC#############", "###########################################", "###########################################")
-                    .aisle("####AAAABBDDDDDDDDDDDDDDDDDDDDDDDBBAAAA####", "#############CCCCC#EHHHE#CCCCC#############", "#############CFFFC#######CGGGC#############", "###########################################", "###########################################")
-                    .aisle("###AAABBBDDDDDDDDDDDDDDDDDDDDDDDDDBBBAAA###", "##########EE#CCCCC#EHCHE#CCCCC#EE##########", "#############CCCCC###C###CCCCC#############", "#####################C#####################", "###########################################")
-                    .aisle("##AABBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBAA##", "##########EHEE####EECECEE####EEHE##########", "####################CIC####################", "####################C#C####################", "###########################################")
-                    .aisle("##ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA##", "###########EHHE#EEHCCCCCHEE#EHHE###########", "###################CIIIC###################", "###################C###C###################", "###########################################")
-                    .aisle("##ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA##", "##CCCCCCCCCEHCCCCCCCCCCCCCCCCCHECCCCCCCCC##", "##CCCCCCCCC##CCCCCCIIIIICCCCCC##CCCCCCCCC##", "#############CCCCCC#####CCCCCC#############", "###########################################")
-                    .aisle("#ABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBA#", "###CCCCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCCCC###", "###CJJJJJJC##CCIIIIKKKKKIIIICC##CLLLLLLC###", "#############CM#############MC#############", "###########################################")
-                    .aisle("#ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA#", "####CCCCCCC##CCCCCCCCCCCCCCCCC##CCCCCCC####", "####CJJJJJC##CIIIKKKNNNKKKIIIC##CLLLLLC####", "#############C###############C#############", "###########################################")
-                    .aisle("#AABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAA#", "#####CCCCCC#ECCDCCCCCCCCCCCCCCE#CCCCCC#####", "#####CJJJJC##CIIKKNNNONNNKKIIC##CLLLLC#####", "#############C###############C#############", "###########################################")
-                    .aisle("AAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAA", "######CCCCC#ECCCCCCCCCCCCCCCCCE#CCCCC######", "######CJJCC##CIKKNNNNONNNNKKIC##CCLLC######", "#############C###############C#############", "###########################################")
-                    .aisle("AAABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBAAA", "#######CC##EHCCCCCCCCCCCCCCCCCHE##CC#######", "#######CC####CIKNNONOOONONNKIC####CC#######", "#############C###############C#############", "###########################################")
-                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "########CEEECCCCCCCCCCCCCCCCCCCEEEC########", "########C###CIKKNNNOPOPONNNKKIC###C########", "############C#################C############", "###########################################")
-                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "#######EEHHCCCCCCCCCCCCCCCCCCCCCHHEE#######", "###########CIIKNNNOPPPPPONNNKIIC###########", "###########C###################C###########", "###########################################")
-                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "####EEEHHHCECCCCCCCCCCCCCCCCCCCECHHHEEE####", "##########CIIIKNOOOOPQPOOOONKIIIC##########", "##########K##########@##########C##########", "###########################################")
-                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "#######EEHHCCCCCCCCCCCCCCCCCCCCCHHEE#######", "###########CIIKNNNOPPPPPONNNKIIC###########", "###########C###################C###########", "###########################################")
-                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "########CEEECCCCCCCCCCCCCCCCCCCEEEC########", "########C###CIKKNNNOPOPONNNKKIC###C########", "############C#################C############", "###########################################")
-                    .aisle("AAABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBAAA", "#######CC##EHCCCCCCCCCCCCCCCCCHE##CC#######", "#######CC####CIKNNONOOONONNKIC####CC#######", "#############C###############C#############", "###########################################")
-                    .aisle("AAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAA", "######CCCCC#ECCCCCCCCCCCCCCCCCE#CCCCC######", "######CRRCC##CIKKNNNNONNNNKKIC##CCSSC######", "#############C###############C#############", "###########################################")
-                    .aisle("#AABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAA#", "#####CCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCC#####", "#####CRRRRC##CIIKKNNNONNNKKIIC##CSSSSC#####", "#############C###############C#############", "###########################################")
-                    .aisle("#ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA#", "####CCCCCCC##CCCCCCCCCCCCCCCCC##CCCCCCC####", "####CRRRRRC##CIIIKKKNNNKKKIIIC##CSSSSSC####", "#############C###############C#############", "###########################################")
-                    .aisle("#ABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBA#", "###CCCCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCCCC###", "###CRRRRRRC##CCIIIIKKKKKIIIICC##CSSSSSSC###", "#############CM#############MC#############", "###########################################")
-                    .aisle("##ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA##", "##CCCCCCCCCEHCCCCCCCCCCCCCCCCCHECCCCCCCCC##", "##CCCCCCCCC##CCCCCCIIIIICCCCCC##CCCCCCCCC##", "#############CCCCCC#####CCCCCC#############", "###########################################")
-                    .aisle("##ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA##", "###########EHHE#EEHCCCCEHEE#EHHE###########", "###################CIIIC###################", "###################C###C###################", "###########################################")
-                    .aisle("##AABBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBAA##", "##########EHEE####EECECEE####EEHE##########", "####################CIC####################", "####################C#C####################", "###########################################")
-                    .aisle("###AAABBBDDDDDDDDDDDDDDDDDDDDDDDDDBBBAAA###", "##########EE#CCCCC#EHCHE#CCCCC#EE##########", "#############CCCCC###C###CCCCC#############", "#####################C#####################", "###########################################")
-                    .aisle("####AAAABBDDDDDDDDDDDDDDDDDDDDDDDBBAAAA####", "#############CCCCC#EHHHE#CCCCC#############", "#############CTTTC#######CUUUC#############", "###########################################", "###########################################")
-                    .aisle("####AAAAABBDDDDDDDDDDDDDDDDDDDDDBBAAAAA####", "#############CCCCCCCEHECCCCCCC#############", "#############CTTTTCC###CCUUUUC#############", "###########################################", "###########################################")
-                    .aisle("#####AAAAABDDDDDDDDDDDDDDDDDDDDDBAAAAA#####", "#############CCCCCC#EHE#CCCCCC#############", "#############CTTTTC#####CUUUUC#############", "###########################################", "###########################################")
-                    .aisle("######AAAABBDDDDDDDDDDDDDDDDDDDBBAAAA######", "#############CCCCC###E###CCCCC#############", "#############CTTTC#######CUUUC#############", "###########################################", "###########################################")
-                    .aisle("#######AAAABDDDDDDDDDDDDDDDDDDDBAAAA#######", "#############CCCC####E####CCCC#############", "#############CTTC#########CUUC#############", "###########################################", "###########################################")
-                    .aisle("########AAABBDDDDDBBBBBBBDDDDDBBAAA########", "#############CCC#####E#####CCC#############", "#############CTC###########CUC#############", "###########################################", "###########################################")
-                    .aisle("##########AABDDBBBBAAAAABBBBDDBAA##########", "#############CC#############CC#############", "#############CC#############CC#############", "###########################################", "###########################################")
-                    .aisle("###########AAABBAAAAAAAAAAABBAAA###########", "#############C###############C#############", "#############C###############C#############", "###########################################", "###########################################")
-                    .aisle("##############AAAAAAAAAAAAAAA##############", "###########################################", "###########################################", "###########################################", "###########################################")
-                    .aisle("#################AAAAAAAAA#################", "###########################################", "###########################################", "###########################################", "###########################################")
-                    .where("M", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))))
-                    .where("A", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:largebloodstonebrick"))))
-                    .where("N", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:ritualstone"))))
-                    .where("I", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_garnet_block"))))
+                    .aisle("#################AAAAAAAAA#################", "###########################################",
+                            "###########################################",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("##############AAAAAAAAAAAAAAA##############", "###########################################",
+                            "###########################################",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("###########AAABBAAAAAAAAAAABBAAA###########", "#############C###############C#############",
+                            "#############C###############C#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("##########AABDDBBBBAAAAABBBBDDBAA##########", "#############CC#############CC#############",
+                            "#############CC#############CC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("########AAABBDDDDDBBBBBBBDDDDDBBAAA########", "#############CCC#####E#####CCC#############",
+                            "#############CFC###########CGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("#######AAAABDDDDDDDDDDDDDDDDDDDBAAAA#######", "#############CCCC####E####CCCC#############",
+                            "#############CFFC#########CGGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("######AAAABBDDDDDDDDDDDDDDDDDDDBBAAAA######", "#############CCCCC###E###CCCCC#############",
+                            "#############CFFFC#######CGGGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("#####AAAAABDDDDDDDDDDDDDDDDDDDDDBAAAAA#####", "#############CCCCCC#EHE#CCCCCC#############",
+                            "#############CFFFFC#####CGGGGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("####AAAAABBDDDDDDDDDDDDDDDDDDDDDBBAAAAA####", "#############CCCCCCCEHECCCCCCC#############",
+                            "#############CFFFFCC###CCGGGGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("####AAAABBDDDDDDDDDDDDDDDDDDDDDDDBBAAAA####", "#############CCCCC#EHHHE#CCCCC#############",
+                            "#############CFFFC#######CGGGC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("###AAABBBDDDDDDDDDDDDDDDDDDDDDDDDDBBBAAA###", "##########EE#CCCCC#EHCHE#CCCCC#EE##########",
+                            "#############CCCCC###C###CCCCC#############",
+                            "#####################C#####################",
+                            "###########################################")
+                    .aisle("##AABBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBAA##", "##########EHEE####EECECEE####EEHE##########",
+                            "####################CIC####################",
+                            "####################C#C####################",
+                            "###########################################")
+                    .aisle("##ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA##", "###########EHHE#EEHCCCCCHEE#EHHE###########",
+                            "###################CIIIC###################",
+                            "###################C###C###################",
+                            "###########################################")
+                    .aisle("##ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA##", "##CCCCCCCCCEHCCCCCCCCCCCCCCCCCHECCCCCCCCC##",
+                            "##CCCCCCCCC##CCCCCCIIIIICCCCCC##CCCCCCCCC##",
+                            "#############CCCCCC#####CCCCCC#############",
+                            "###########################################")
+                    .aisle("#ABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBA#", "###CCCCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCCCC###",
+                            "###CJJJJJJC##CCIIIIKKKKKIIIICC##CLLLLLLC###",
+                            "#############CM#############MC#############",
+                            "###########################################")
+                    .aisle("#ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA#", "####CCCCCCC##CCCCCCCCCCCCCCCCC##CCCCCCC####",
+                            "####CJJJJJC##CIIIKKKNNNKKKIIIC##CLLLLLC####",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("#AABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAA#", "#####CCCCCC#ECCDCCCCCCCCCCCCCCE#CCCCCC#####",
+                            "#####CJJJJC##CIIKKNNNONNNKKIIC##CLLLLC#####",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("AAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAA", "######CCCCC#ECCCCCCCCCCCCCCCCCE#CCCCC######",
+                            "######CJJCC##CIKKNNNNONNNNKKIC##CCLLC######",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("AAABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBAAA", "#######CC##EHCCCCCCCCCCCCCCCCCHE##CC#######",
+                            "#######CC####CIKNNONOOONONNKIC####CC#######",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "########CEEECCCCCCCCCCCCCCCCCCCEEEC########",
+                            "########C###CIKKNNNOPOPONNNKKIC###C########",
+                            "############C#################C############",
+                            "###########################################")
+                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "#######EEHHCCCCCCCCCCCCCCCCCCCCCHHEE#######",
+                            "###########CIIKNNNOPPPPPONNNKIIC###########",
+                            "###########C###################C###########",
+                            "###########################################")
+                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "####EEEHHHCECCCCCCCCCCCCCCCCCCCECHHHEEE####",
+                            "##########CIIIKNOOOOPQPOOOONKIIIC##########",
+                            "##########K##########@##########C##########",
+                            "###########################################")
+                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "#######EEHHCCCCCCCCCCCCCCCCCCCCCHHEE#######",
+                            "###########CIIKNNNOPPPPPONNNKIIC###########",
+                            "###########C###################C###########",
+                            "###########################################")
+                    .aisle("AAAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAAA", "########CEEECCCCCCCCCCCCCCCCCCCEEEC########",
+                            "########C###CIKKNNNOPOPONNNKKIC###C########",
+                            "############C#################C############",
+                            "###########################################")
+                    .aisle("AAABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBAAA", "#######CC##EHCCCCCCCCCCCCCCCCCHE##CC#######",
+                            "#######CC####CIKNNONOOONONNKIC####CC#######",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("AAABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAAA", "######CCCCC#ECCCCCCCCCCCCCCCCCE#CCCCC######",
+                            "######CRRCC##CIKKNNNNONNNNKKIC##CCSSC######",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("#AABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBAA#", "#####CCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCC#####",
+                            "#####CRRRRC##CIIKKNNNONNNKKIIC##CSSSSC#####",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("#ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA#", "####CCCCCCC##CCCCCCCCCCCCCCCCC##CCCCCCC####",
+                            "####CRRRRRC##CIIIKKKNNNKKKIIIC##CSSSSSC####",
+                            "#############C###############C#############",
+                            "###########################################")
+                    .aisle("#ABDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBA#", "###CCCCCCCC#ECCCCCCCCCCCCCCCCCE#CCCCCCCC###",
+                            "###CRRRRRRC##CCIIIIKKKKKIIIICC##CSSSSSSC###",
+                            "#############CM#############MC#############",
+                            "###########################################")
+                    .aisle("##ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA##", "##CCCCCCCCCEHCCCCCCCCCCCCCCCCCHECCCCCCCCC##",
+                            "##CCCCCCCCC##CCCCCCIIIIICCCCCC##CCCCCCCCC##",
+                            "#############CCCCCC#####CCCCCC#############",
+                            "###########################################")
+                    .aisle("##ABBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBA##", "###########EHHE#EEHCCCCEHEE#EHHE###########",
+                            "###################CIIIC###################",
+                            "###################C###C###################",
+                            "###########################################")
+                    .aisle("##AABBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBAA##", "##########EHEE####EECECEE####EEHE##########",
+                            "####################CIC####################",
+                            "####################C#C####################",
+                            "###########################################")
+                    .aisle("###AAABBBDDDDDDDDDDDDDDDDDDDDDDDDDBBBAAA###", "##########EE#CCCCC#EHCHE#CCCCC#EE##########",
+                            "#############CCCCC###C###CCCCC#############",
+                            "#####################C#####################",
+                            "###########################################")
+                    .aisle("####AAAABBDDDDDDDDDDDDDDDDDDDDDDDBBAAAA####", "#############CCCCC#EHHHE#CCCCC#############",
+                            "#############CTTTC#######CUUUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("####AAAAABBDDDDDDDDDDDDDDDDDDDDDBBAAAAA####", "#############CCCCCCCEHECCCCCCC#############",
+                            "#############CTTTTCC###CCUUUUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("#####AAAAABDDDDDDDDDDDDDDDDDDDDDBAAAAA#####", "#############CCCCCC#EHE#CCCCCC#############",
+                            "#############CTTTTC#####CUUUUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("######AAAABBDDDDDDDDDDDDDDDDDDDBBAAAA######", "#############CCCCC###E###CCCCC#############",
+                            "#############CTTTC#######CUUUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("#######AAAABDDDDDDDDDDDDDDDDDDDBAAAA#######", "#############CCCC####E####CCCC#############",
+                            "#############CTTC#########CUUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("########AAABBDDDDDBBBBBBBDDDDDBBAAA########", "#############CCC#####E#####CCC#############",
+                            "#############CTC###########CUC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("##########AABDDBBBBAAAAABBBBDDBAA##########", "#############CC#############CC#############",
+                            "#############CC#############CC#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("###########AAABBAAAAAAAAAAABBAAA###########", "#############C###############C#############",
+                            "#############C###############C#############",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("##############AAAAAAAAAAAAAAA##############", "###########################################",
+                            "###########################################",
+                            "###########################################",
+                            "###########################################")
+                    .aisle("#################AAAAAAAAA#################", "###########################################",
+                            "###########################################",
+                            "###########################################",
+                            "###########################################")
+                    .where("M",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:witherite_block"))))
+                    .where("A",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:largebloodstonebrick"))))
+                    .where("N",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:ritualstone"))))
+                    .where("I",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("gtceu:red_garnet_block"))))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("F", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:speedrune"))))
-                    .where("G", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:sacrificerune"))))
-                    .where("T", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:bettercapacityrune"))))
-                    .where("R", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:accelerationrune"))))
-                    .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("cataclysm:polished_obsidian"))))
-                    .where("J", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:chargingrune"))))
-                    .where("P", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:masterritualstone"))))
+                    .where("F",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:speedrune"))))
+                    .where("G",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:sacrificerune"))))
+                    .where("T",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:bettercapacityrune"))))
+                    .where("R",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:accelerationrune"))))
+                    .where("H",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("cataclysm:polished_obsidian"))))
+                    .where("J",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:chargingrune"))))
+                    .where("P",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:masterritualstone"))))
                     .where("C", Predicates.blocks(RITUAL_COLUM_BLOCK.get()))
-                    .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:chiseled_deepslate"))))
+                    .where("B",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("minecraft:chiseled_deepslate"))))
                     .where("#", Predicates.any())
                     .where("K", Predicates.blocks(RITUAL_MECHANICAL_BLOCK.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()).setPreviewCount(0))
                             .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
-                    .where("Q", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:netherite_block"))))
-                    .where("L", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:selfsacrificerune"))))
-                    .where("S", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:dislocationrune"))))
-                    .where("O", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))))
-                    .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("botania:chiseled_dark_quartz"))))
-                    .where("E", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:crying_obsidian"))))
-                    .where("U", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:altarcapacityrune"))))
+                    .where("Q",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:netherite_block"))))
+                    .where("L",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:selfsacrificerune"))))
+                    .where("S",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:dislocationrune"))))
+                    .where("O",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("bloodmagic:teleposer"))))
+                    .where("D",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("botania:chiseled_dark_quartz"))))
+                    .where("E",
+                            Predicates.blocks(
+                                    ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:crying_obsidian"))))
+                    .where("U",
+                            Predicates.blocks(ForgeRegistries.BLOCKS
+                                    .getValue(new ResourceLocation("bloodmagic:altarcapacityrune"))))
                     .build())
             .workableCasingModel(CTNHMana.id("block/altar/ritual_mechanical_block"),
                     CTNHMana.id("block/overlay/manamachine_bm"))

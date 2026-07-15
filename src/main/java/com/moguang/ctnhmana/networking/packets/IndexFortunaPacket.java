@@ -7,7 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
+import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
 
 public class IndexFortunaPacket implements IPacket {
 

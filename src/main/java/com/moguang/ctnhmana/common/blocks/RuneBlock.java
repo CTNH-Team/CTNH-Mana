@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("removal")
 public class RuneBlock extends Block {
 
     public RuneBlock(Properties properties) {

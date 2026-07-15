@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.multi.BaseManaMachine;
 import com.moguang.ctnhmana.data.ManaData;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMMachines;

@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
+import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.moguang.ctnhmana.networking.packets.CaduceusPacket;
 
 import java.util.ArrayList;

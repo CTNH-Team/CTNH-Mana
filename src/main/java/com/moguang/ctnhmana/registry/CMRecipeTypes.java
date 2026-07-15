@@ -1,19 +1,18 @@
 package com.moguang.ctnhmana.registry;
 
-import com.ctnhlang.CN;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
-import com.moguang.ctnhmana.Mutiblock.Quasar_Eye;
-import com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine;
+import com.ctnhlang.CN;
+import com.moguang.ctnhmana.common.multi.QuasarEye;
+import com.moguang.ctnhmana.common.multi.RitualMechanicalMachine;
 import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -119,10 +118,10 @@ public class CMRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE)
-            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_0
+            .addDataInfo(data -> QuasarEye.RecipeLang.RECIPE_INFO_0
                     .translate(String.format("%.1f", data.getFloat("consumption"))).getString())
-            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_1.translate(data.getInt("tier")).getString())
-            .addDataInfo(data -> Quasar_Eye.RecipeLang.RECIPE_INFO_2.translate(data.getInt("active")).getString());
+            .addDataInfo(data -> QuasarEye.RecipeLang.RECIPE_INFO_1.translate(data.getInt("tier")).getString())
+            .addDataInfo(data -> QuasarEye.RecipeLang.RECIPE_INFO_2.translate(data.getInt("active")).getString());
 
     public static final GTRecipeType TWISTED_FUSION = REGISTRATE.recipeType(GTCEu.id("twisted_fusion"), ELECTRIC)
             .cnlang("扭曲聚变").setMaxIOSize(0, 0, 3, 3)
@@ -207,13 +206,13 @@ public class CMRecipeTypes {
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
             .setMaxTooltips(4)
-            .addDataInfo(data->lp_cost.translate(data.getInt("meteor_lp")).getString());
+            .addDataInfo(data -> lp_cost.translate(data.getInt("meteor_lp")).getString());
 
     /**
      * 工业血祭仪式阵配方类型（{@code ctnhmana:blood_ritual}）。
      * <p>
      * 基于 DUMMY，仅需极低 EU；配方 {@code duration} 为冷却，{@code ritual_id} 数据字段指定
-     * 配方完成后执行的血魔法仪式。详见 {@link com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine}。
+     * 配方完成后执行的血魔法仪式。详见 {@link RitualMechanicalMachine}。
      */
     public static final GTRecipeType RITUAL_RECIPES = REGISTRATE
             .recipeType(GTCEu.id("blood_ritual"), ELECTRIC)

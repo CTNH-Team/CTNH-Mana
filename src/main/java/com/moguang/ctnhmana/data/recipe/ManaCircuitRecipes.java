@@ -13,11 +13,11 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.api.recipe.condition.BloodAltarCondition;
+import com.moguang.ctnhmana.api.recipe.condition.HellForgeCondition;
+import com.moguang.ctnhmana.data.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;

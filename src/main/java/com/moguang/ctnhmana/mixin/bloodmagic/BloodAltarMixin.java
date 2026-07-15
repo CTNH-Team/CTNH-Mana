@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 
-import com.moguang.ctnhmana.Mutiblock.IndustrialAltarMachine;
+import com.moguang.ctnhmana.common.multi.IndustrialAltarMachine;
 import com.moguang.ctnhmana.api.mixin.IBloodAltarLogic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,55 +25,55 @@ import static com.gregtechceu.gtceu.api.machine.MetaMachine.getMachine;
 @Mixin(value = BloodAltar.class, remap = false)
 public abstract class BloodAltarMixin implements IBloodAltarLogic {
 
-    @Shadow(remap = false)
+    @Shadow
     private AltarTier altarTier;
-    @Shadow(remap = false)
+    @Shadow
     private AltarTier currentTierDisplayed;
-    @Shadow(remap = false)
+    @Shadow
     private AltarUpgrade upgrade;
-    @Shadow(remap = false)
+    @Shadow
     private boolean isUpgraded;
-    @Shadow(remap = false)
+    @Shadow
     private float consumptionMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float efficiencyMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float sacrificeEfficiencyMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float selfSacrificeEfficiencyMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float capacityMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float orbCapacityMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private float dislocationMultiplier;
-    @Shadow(remap = false)
+    @Shadow
     private int accelerationUpgrades;
-    @Shadow(remap = false)
+    @Shadow
     private int chargingFrequency;
-    @Shadow(remap = false)
+    @Shadow
     private int chargingRate;
-    @Shadow(remap = false)
+    @Shadow
     private int maxCharge;
-    @Shadow(remap = false)
+    @Shadow
     private int totalCharge;
-    @Shadow(remap = false)
+    @Shadow
     private int capacity;
-    @Shadow(remap = false)
+    @Shadow
     private int bufferCapacity;
-    @Shadow(remap = false)
+    @Shadow
     private FluidStack fluid;
-    @Shadow(remap = false)
-    private FluidStack fluidOutput;
-    @Shadow(remap = false)
-    private FluidStack fluidInput;
-    @Shadow(remap = false)
+    @Shadow
+    protected FluidStack fluidOutput;
+    @Shadow
+    protected FluidStack fluidInput;
+    @Shadow
     private TileAltar tileAltar;
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract FluidStack getFluid();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int getFluidAmount();
 
     @Unique
@@ -104,7 +104,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
     /**
      * 与 Blood Magic 反编译 {@code BloodAltar#checkTier} 等价，末尾接工业祭坛逻辑，并 cancel 跳过原版方法。
      */
-    @Inject(method = "checkTier", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "checkTier", at = @At("HEAD"), cancellable = true)
     private void ctnhmana$replaceCheckTier(CallbackInfo ci) {
         AltarTier tier = AltarUtil.getTier(this.tileAltar.getLevel(), this.tileAltar.getBlockPos());
         this.altarTier = tier;
@@ -199,7 +199,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
         ci.cancel();
     }
 
-    @Inject(method = "readFromNBT", at = @At("TAIL"), remap = false)
+    @Inject(method = "readFromNBT", at = @At("TAIL"))
     private void ctnhmana$readIndustrialPos(CompoundTag tagCompound, CallbackInfo ci) {
         if (tagCompound.contains(CTNH_INDUSTRIAL_X) && tagCompound.contains(CTNH_INDUSTRIAL_Y) &&
                 tagCompound.contains(CTNH_INDUSTRIAL_Z)) {
@@ -212,7 +212,7 @@ public abstract class BloodAltarMixin implements IBloodAltarLogic {
         }
     }
 
-    @Inject(method = "writeToNBT", at = @At("TAIL"), remap = false)
+    @Inject(method = "writeToNBT", at = @At("TAIL"))
     private void ctnhmana$writeIndustrialPos(CompoundTag tagCompound, CallbackInfo ci) {
         if (this.CM$IndustrialPos != null) {
             tagCompound.putInt(CTNH_INDUSTRIAL_X, this.CM$IndustrialPos.getX());

@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.InfusionCellCastingCondition;
+import com.moguang.ctnhmana.api.recipe.condition.HellForgeCondition;
+import com.moguang.ctnhmana.api.recipe.condition.InfusionCellCastingCondition;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.items.CMFuelItems;

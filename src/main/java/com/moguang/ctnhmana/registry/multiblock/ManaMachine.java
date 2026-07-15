@@ -11,15 +11,14 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.Mutiblock.ManaFuelInfuserMachine;
-import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.common.multi.BaseManaMachine;
+import com.moguang.ctnhmana.common.multi.ManaFuelInfuserMachine;
+import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.registry.CMBlocks.CASING_MANASTEEL_GEARBOX;
 import static com.moguang.ctnhmana.registry.CMBlocks.LIVING_ROCK_CASING;

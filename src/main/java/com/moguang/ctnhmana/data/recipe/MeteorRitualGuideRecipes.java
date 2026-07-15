@@ -92,7 +92,8 @@ public class MeteorRitualGuideRecipes {
 
         // bloodmagic:meteor/mekanism — syphon 500_000，标定物 forge:alloys/advanced
         METEOR_RITUAL_GUIDE.recipeBuilder("mekanism")
-                .inputItems(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "alloys/advanced")), 1)
+                .inputItems(TagKey.create(Registries.ITEM,
+                        ResourceLocation.fromNamespaceAndPath("forge", "alloys/advanced")), 1)
                 .outputItems(ChemicalHelper.get(ore, Osmium), 100)
                 .outputItems(Items.COPPER_ORE, 100)
                 .outputItems(ChemicalHelper.get(ore, Tin), 80)
