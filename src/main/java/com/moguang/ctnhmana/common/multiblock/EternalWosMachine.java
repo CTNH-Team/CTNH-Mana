@@ -22,14 +22,14 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-import dev.shadowsoffire.hostilenetworks.Hostile;
-import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
+import dev.shadowsoffire.hostilenetworks.Hostile;
+import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
@@ -55,14 +55,14 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     public double will_adder = 0;
     @Persisted
     public boolean diffusion_model = false; // NOT DDIM
-    // æ‰©æ•£ç³»æ•°ï¼ˆå¯è°ƒï¼š0<Dâ‰?ï¼Œå€¼è¶Šå¤§æ‰©æ•£è¶Šå¿«ï¼‰
+    // 扩散系数（可调：0<D≤1，值越大扩散越快）
     private static final double DIFFUSION_COEFFICIENT = 0.25;
     public static int max_will = 200;
 
     @Override
     public Component beforeWorking(@Nullable GTRecipe recipe) {
         MachineUtils.applyContents(this, (content) -> {
-            if(content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
+            if (content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
                 var count = DataModelItem.getData(stack);
                 if (count < 6) multiplier = 0;
                 else if (count < 48) multiplier = 1;
@@ -77,7 +77,7 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     @Override
     public void afterWorking() {
         MachineUtils.applyContents(this, (content) -> {
-            if(content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
+            if (content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
                 var count = DataModelItem.getData(stack);
                 if (count < 54) {
                     DataModelItem.setData(stack, count + 1);
@@ -106,7 +106,7 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
         return widget;
     }
 
-    // å­©å­ä»¬recipelogicå¤ªå¥½ç”¨äº†ï¼Œä»€ä¹ˆå«unsafeå¬ä¸æ‡‚å–µ
+    // 孩子们recipelogic太好用了，什么叫unsafe听不懂喵
     @Override
     protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
         return new EternalWosLogic(this);
@@ -162,7 +162,7 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
         @Override
         protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.IN) {
-                // è¾“å…¥å¤„ç†ï¼šæ­£å¸¸å¤„ç?
+                // 输入处理：正常处理
                 return super.handleRecipeIO(recipe, io);
             }
             if (io == IO.OUT) {
@@ -172,10 +172,10 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
                 if (!outputContents.isEmpty()) {
                     for (FluidIngredient content : outputContents) {
                         var safe_content = content.copy();
-                        // ä»ŽContentä¸­èŽ·å–ItemStack
+                        // 从Content中获取ItemStack
                         if (safe_content != null) {
                             long count = Arrays.stream(safe_content.getFluids())
-                                    .mapToLong(fluidStack -> fluidStack.getAmount()) // å–æ¯ä¸ªæµä½“æ ˆçš„å®žé™…æ•°é‡ï¼ˆmbï¼?
+                                    .mapToLong(fluidStack -> fluidStack.getAmount()) // 取每个流体栈的实际数量（mb）
                                     .sum();
                             if (count < 1) return ActionResult.PASS_NO_CONTENTS;
                             AddWill(count);
@@ -208,7 +208,7 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     }
 
     public void diffuseWillFromCenter(int centerX, int centerY, int range) {
-        // 1. èŽ·å–æ‰©æ•£å‰çš„åŽŸå§‹æ„å¿—æ•°æ®ï¼ˆåŸºäºŽä½ æœ€ç»ˆç‰ˆçš„getChunkWillï¼?
+        // 1. 获取扩散前的原始意志数据（基于你最终版的getChunkWill）
         centerX = centerX >> 4;
         centerY = centerY >> 4;
         double[][][] originalWill = getChunkWill(centerX, centerY, range);
@@ -283,20 +283,20 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
         }
     }
 
-    @CN("é€¸æ•£æ¨¡å¼")
+    @CN("逸散模式")
     @EN("Diffusion mode")
     public static Lang demon_diffusion_model;
     @CN({
-            "æŠ˜ç£¨,æŠ˜ç£¨,æ°¸æ’çš„æŠ˜ç£¨åœ¨é½¿è½®ä¹‹ä¸­,æ­¤åœ°å³æ˜¯é˜¿é¼»åœ°ç‹±",
-            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?",
-            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?",
-            "åœ¨è¿žæŽ¥æ—¶å¼€å¯é€¸æ•£æ¨¡å¼ï¼Œå°†ä¼šç›´æŽ¥æŠŠç”Ÿäº§çš„æ„å¿—é€¸æ•£ï¼Œå¹¶ä¸”æ‰©æ•£å½“å‰åŒºå—çš„æ„å¿—ï¼Œé€šè¿‡æ­¤äº§ç”Ÿçš„åŒºå—æ„å¿—å¯ä»¥è¶…è¶Š100ï¼Œè¾¾åˆ?00åŒºåŸŸåŒºå—ä¸Šé™"
+            "折磨,折磨,永恒的折磨在齿轮之中,此地即是阿鼻地狱",
+            "具有无限并行,不支持低级模型,使用模型获得额外的LP加成，注意：请配备足够大的输出仓来确保完全并行输出",
+            "如果自身和工业地狱锻炉以共享岩浆池的方式(该结构主方块恰好比工业地狱锻炉高11格)连接,则转为灵魂模式：不再产生LP，而是改为给地狱锻炉供应普通意志",
+            "在连接时开启逸散模式，将会直接把生产的意志逸散，并且扩散当前区块的意志，通过此产生的区块意志可以超越100，达到200区域区块上限"
     })
     @EN({
-            "æŠ˜ç£¨,æŠ˜ç£¨,æ°¸æ’çš„æŠ˜ç£¨åœ¨é½¿è½®ä¹‹ä¸­,æ­¤åœ°å³æ˜¯åœ°ç‹±",
-            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?",
-            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?",
-            "åœ¨è¿žæŽ¥æ—¶å¼€å¯é€¸æ•£æ¨¡å¼ï¼Œå°†ä¼šç›´æŽ¥æŠŠç”Ÿäº§çš„æ„å¿—é€¸æ•£ï¼Œå¹¶ä¸”æ‰©æ•£å½“å‰åŒºå—çš„æ„å¿—ï¼Œé€šè¿‡æ­¤äº§ç”Ÿçš„åŒºå—æ„å¿—å¯ä»¥è¶…è¶Š100ï¼Œè¾¾åˆ?00åŒºåŸŸåŒºå—ä¸Šé™"
+            "折磨,折磨,永恒的折磨在齿轮之中,此地即是地狱",
+            "具有无限并行,不支持低级模型,使用模型获得额外的LP加成，注意：请配备足够大的输出仓来确保完全并行输出",
+            "如果自身和工业地狱锻炉以共享岩浆池的方式(该结构主方块恰好比工业地狱锻炉高11格)连接,则转为灵魂模式：不再产生LP，而是改为给地狱锻炉供应普通意志",
+            "在连接时开启逸散模式，将会直接把生产的意志逸散，并且扩散当前区块的意志，通过此产生的区块意志可以超越100，达到200区域区块上限"
     })
     public static Lang[] eternalWosLang;
 }

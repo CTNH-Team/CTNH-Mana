@@ -6,11 +6,11 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
-import dev.shadowsoffire.hostilenetworks.Hostile;
-import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import dev.shadowsoffire.hostilenetworks.Hostile;
+import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +27,7 @@ public class DigitalWosMachine extends SimpleTieredMachine {
     public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
-            if(stack.is(Hostile.Items.DATA_MODEL.get())) {
+            if (stack.is(Hostile.Items.DATA_MODEL.get())) {
                 var count = DataModelItem.getData(stack);
                 if (count < 6) multiplier = 0;
                 else if (count < 48) multiplier = 1;
@@ -43,7 +43,7 @@ public class DigitalWosMachine extends SimpleTieredMachine {
     public void afterWorking() {
         if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
-            if(stack.is(Hostile.Items.DATA_MODEL.get())) {
+            if (stack.is(Hostile.Items.DATA_MODEL.get())) {
                 var count = DataModelItem.getData(stack);
                 if (count < 54) {
                     DataModelItem.setData(stack, count + 1);

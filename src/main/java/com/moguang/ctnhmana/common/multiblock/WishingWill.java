@@ -54,7 +54,7 @@ public class WishingWill extends RecipeMultiblockMachine {
         AABB area = new AABB(new BlockPos(pos.getX() - 1, pos.getY() - 10, pos.getZ() - 1),
                 new BlockPos(pos.getX() + 1, pos.getY() + 10, pos.getZ() + 1));
         List<ItemEntity> droppedItems = world.getEntitiesOfClass(
-                ItemEntity.class,  // åªç­›é€‰ç‰©å“å®žä½?
+                ItemEntity.class,  // 只筛选物品实体
                 area);
         for (ItemEntity item : droppedItems) {
             if (item.getItem().is(CIRCUITS)) {
@@ -81,7 +81,7 @@ public class WishingWill extends RecipeMultiblockMachine {
                     0.0,
                     0.5 + level.random.nextDouble() * 2.0,
                     0.0);
-            itemEntity.setPickUpDelay(10); // è®¾ç½®æ‹¾å–å»¶è¿Ÿ
+            itemEntity.setPickUpDelay(10); // 设置拾取延迟
             level.addFreshEntity(itemEntity);
         }
     }
@@ -137,7 +137,7 @@ public class WishingWill extends RecipeMultiblockMachine {
         @Override
         protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.IN) {
-                // è¾“å…¥å¤„ç†ï¼šæ­£å¸¸å¤„ç?
+                // 输入处理：正常处理
                 return super.handleRecipeIO(recipe, io);
             }
             if (io == IO.OUT) {
@@ -146,7 +146,7 @@ public class WishingWill extends RecipeMultiblockMachine {
                 if (!outputContents.isEmpty()) {
                     for (ItemIngredient content : outputContents) {
                         var safe_content = content.copy();
-                        // ä»ŽContentä¸­èŽ·å–ItemStack
+                        // 从Content中获取ItemStack
                         if (safe_content != null) {
                             ItemStack[] stacks = safe_content.getItems();
                             if (stacks != null && stacks.length > 0) {

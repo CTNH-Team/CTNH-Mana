@@ -105,81 +105,81 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
 
     // lang: info (display in UI)
     @Key("info.mana_model")
-    @CN("å½“å‰é­”åŠ›ç‡ƒæ–™ç­‰çº§:%d")
+    @CN("当前魔力燃料等级:%d")
     @EN("Current mana fuel tier: %d")
     public static Lang INFO_MANA_MODEL;
     @Key("info.rune_energy")
-    @CN("ç¬¦æ–‡èƒ½é‡ï¼?.2f")
+    @CN("符文能量：%.2f")
     @EN("Rune energy: %.2f")
     public static Lang INFO_RUNE_ENERGY;
     @Key("info.mana_production")
-    @CN("å½“å‰å‘ç”µæ•ˆçŽ‡:%.2f")
+    @CN("当前发电效率:%.2f")
     @EN("Current generation efficiency: %.2f")
     public static Lang INFO_MANA_PRODUCTION;
     @Key("info.rune_consumption")
-    @CN("å½“å‰æ¶ˆè€—ç¬¦æ–‡èƒ½é‡é€ŸçŽ‡:%.2f /100tick")
+    @CN("当前消耗符文能量速率:%.2f /100tick")
     @EN("Rune energy consumption rate: %.2f / 100 ticks")
     public static Lang INFO_RUNE_CONSUMPTION;
     @Key("info.quasar_parallel")
-    @CN("æ—¶é—´å¹¶è¡Œ:%.2f")
+    @CN("时间并行:%.2f")
     @EN("Time parallelism: %.2f")
     public static Lang INFO_QUASAR_PARALLEL;
     @Key("info.consumption_parallel")
-    @CN("èƒ½æºæ¶ˆè€—çŽ‡:%.2f")
+    @CN("能源消耗率:%.2f")
     @EN("Energy consumption factor: %.2f")
     public static Lang INFO_CONSUMPTION_PARALLEL;
     @Key("info.0")
-    @CN("ç§¯ç´¯çš„èƒ½é‡?%s")
+    @CN("积累的能量:%s")
     @EN("Accumulated energy: %s")
     public static Lang INFO_ACCUMULATED;
 
     // lang: tooltips (multiblock description)
     @Key("ctnh.multiblock.quasar_eye.tooltip")
     @CN({
-            "Â§9é­”åŠ›Â§rçš„Â§cç»ˆæžå¥¥ç§˜Â§rï¼Œèƒ½å¤Ÿåˆ›é€ Â?ç±»æ˜Ÿä½“Â§rçš„è£…ç½®å¦‚ä»Šæ¡åœ¨Â?ä½ Â§ræ‰‹ä¸­",
-            "æœºå™¨æ¿€æ´»éœ€è¦Â§ræ¶ˆè€—åˆå§‹é­”åŠ›ç‡ƒæ–™Â§rï¼Œå…·ä½“æ•°å€¼è¯·æŸ¥é˜…JEI",
-            "åœ¨é«˜èƒ½é‡ç­‰çº§ä¸‹æ¿€æ´»ä½Žç­‰çº§é…æ–¹æ—¶Â§bå¯å…é™¤æ¿€æ´»æ¶ˆè€—Â§r",
-            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?",
-            "ç¬¦æ–‡èƒ½é‡èŽ·å–é€»è¾‘ï¼šÂ?æ¯æ¬¡é…æ–¹å‘¨æœŸå‰Â§rï¼Œæ¯ç§å¯æ¶ˆè€—ç¬¦æ–‡ç±»åž‹Â§cæœ€å¤šæ¶ˆè€—ä¸€ä¸ªÂ§r",
-            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?",
-            "èƒ½é‡æ•ˆçŽ‡å…¬å¼ï¼šlog((ç¬¦æ–‡èƒ½é‡)/50)+1ã€‚æœ€å¤§æ•ˆçŽ‡ï¼š(1+èƒ½é‡ç­‰çº§)",
-            "å…·æœ‰æ—¶é—´å¹¶è¡Œã€‚æ¶ˆè€—ä¸Žæ—¶é•¿å‡ä¹˜ä»¥å¹¶è¡Œç³»æ•?æ•ˆçŽ‡*5)",
-            "ç‡ƒæ–™æ¶ˆè€—å…¬å¼ï¼š1-0.05*Math.max((ç¬¦æ–‡èƒ½é‡-50)/50,0.75)",
-            "å‘ç”µæ¨¡å¼ä¸‹ï¼Œå°?%çš„EUäº§å‡ºç§¯ç´¯è¿›ç±»æ˜Ÿä½“ä¹‹çœ¼ã€‚æ¯25ç‚¹ç¬¦æ–‡èƒ½é‡é¢å¤?1%ç§¯ç´¯",
-            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?",
-            "Â§bå¥½æ¶ˆæ¯Â§rï¼šè¿™å°æœºå™¨ä¸ä¼šçˆ†ç‚¸ã€‚Â§cä½†æ— æ³•ä¿è¯ä»¥åŽç‰ˆæœ¬ï¼Â§r"
+            "§9魔力§r的§c终极奥秘§r，能够创造§5类星体§r的装置如今握在§6你§r手中",
+            "机器激活需要§r消耗初始魔力燃料§r，具体数值请查阅JEI",
+            "在高能量等级下激活低等级配方时§b可免除激活消耗§r",
+            "§5符文能量§r决定产出强度。投入§b五级符文§r可放大符文能量并提升产出。使用§5类星体符文§r可大量生成符文能量",
+            "符文能量获取逻辑：§5每次配方周期前§r，每种可消耗符文类型§c最多消耗一个§r",
+            "§c警告§r：符文能量越高，§c消耗速率§r越快。符文能量低于50时效率§c减半§r！",
+            "能量效率公式：log((符文能量)/50)+1。最大效率：(1+能量等级)",
+            "具有时间并行。消耗与时长均乘以并行系数(效率*5)",
+            "燃料消耗公式：1-0.05*Math.max((符文能量-50)/50,0.75)",
+            "发电模式下，将1%的EU产出积累进类星体之眼。每25点符文能量额外+1%积累",
+            "创造模式下，释放全部储存EU。高级燃料可放大产出。每1000E EU产生额外气体副产物。储存EU<1E时创造模式禁用",
+            "§b好消息§r：这台机器不会爆炸。§c但无法保证以后版本！§r"
     })
     @EN({
-            "Â§9é­”åŠ›Â§rçš„Â§cç»ˆæžå¥¥ç§˜Â§rï¼Œèƒ½å¤Ÿåˆ›é€ Â?ç±»æ˜Ÿä½“Â§rçš„è£…ç½®å¦‚ä»Šæ¡åœ¨Â?ä½ Â§ræ‰‹ä¸­",
-            "æœºå™¨æ¿€æ´»éœ€è¦Â§ræ¶ˆè€—åˆå§‹é­”åŠ›ç‡ƒæ–™Â§rï¼Œå…·ä½“æ•°å€¼è¯·æŸ¥é˜…JEI",
-            "åœ¨é«˜èƒ½é‡ç­‰çº§ä¸‹æ¿€æ´»ä½Žç­‰çº§é…æ–¹æ—¶Â§bå¯å…é™¤æ¿€æ´»æ¶ˆè€—Â§r",
-            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?",
-            "ç¬¦æ–‡èƒ½é‡èŽ·å–é€»è¾‘ï¼šÂ?æ¯æ¬¡é…æ–¹å‘¨æœŸå‰Â§rï¼Œæ¯ç§å¯æ¶ˆè€—ç¬¦æ–‡ç±»åž‹Â§cæœ€å¤šæ¶ˆè€—ä¸€ä¸ªÂ§r",
-            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?",
-            "èƒ½é‡æ•ˆçŽ‡å…¬å¼ï¼šlog((ç¬¦æ–‡èƒ½é‡)/50)+1ã€‚æœ€å¤§æ•ˆçŽ‡ï¼š(1+èƒ½é‡ç­‰çº§)",
-            "å…·æœ‰æ—¶é—´å¹¶è¡Œã€‚æ¶ˆè€—ä¸Žæ—¶é•¿å‡ä¹˜ä»¥å¹¶è¡Œç³»æ•?æ•ˆçŽ‡*5)",
-            "ç‡ƒæ–™æ¶ˆè€—å…¬å¼ï¼š1-0.05*Math.max((ç¬¦æ–‡èƒ½é‡-50)/50,0.75)",
-            "å‘ç”µæ¨¡å¼ä¸‹ï¼Œå°?%çš„EUäº§å‡ºç§¯ç´¯è¿›ç±»æ˜Ÿä½“ä¹‹çœ¼ã€‚æ¯25ç‚¹ç¬¦æ–‡èƒ½é‡é¢å¤?1%ç§¯ç´¯",
-            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?",
-            "Â§bå¥½æ¶ˆæ¯Â§rï¼šè¿™å°æœºå™¨ä¸ä¼šçˆ†ç‚¸ã€‚Â§cä½†æ— æ³•ä¿è¯ä»¥åŽç‰ˆæœ¬ï¼Â§r"
+            "§9Mana§r's §cultimate mystery§r, a device capable of creating §5quasars§r, is now in §6your§r hands",
+            "Machine activation requires §rinitial mana fuel§r; see JEI for exact values",
+            "Activating lower-tier recipes at higher energy tiers §bwaives the activation cost§r",
+            "§5Rune energy§r determines output strength. Feed §bTier V Runes§r to amplify rune energy and output. §5Quasar Runes§r generate large amounts of rune energy",
+            "Rune energy gain logic: §5before each recipe cycle§r, at most §cone§r of each consumable rune type is used",
+            "§cWarning§r: higher rune energy means a faster §cconsumption rate§r. Below 50 rune energy, efficiency is §chalved§r!",
+            "Energy efficiency formula: log((rune energy)/50)+1. Maximum efficiency: (1+energy tier)",
+            "Has time parallelism. Consumption and duration are multiplied by the parallel factor (efficiency*5)",
+            "Fuel consumption formula: 1-0.05*Math.max((rune energy-50)/50,0.75)",
+            "In generation mode, 1% of EU output is accumulated in the Quasar Eye. Every 25 rune energy adds 1% accumulation",
+            "In creation mode, all stored EU is released. Advanced fuel amplifies output. Every 1000E EU produces extra gaseous byproducts. Creation mode is disabled when stored EU is below 1E",
+            "§bGood news§r: this machine will not explode. §cFuture versions are not guaranteed!§r"
     })
     public static Lang[] TOOLTIPS;
 
     /**
-     * ç±»æ˜Ÿä½“ä¹‹çœ¼é…æ–¹åœ¨ JEI ä¸­æ˜¾ç¤ºçš„ dataInfoï¼Œç”± LangProcessor æ³¨å†Œ ctnh.recipe.quasar_eye.info.0/1/2
+     * 类星体之眼配方在 JEI 中显示的 dataInfo，由 LangProcessor 注册 ctnh.recipe.quasar_eye.info.0/1/2
      */
     @Category("recipe")
     public static class RecipeLang {
 
-        @CN("æ¿€æ´»æ¶ˆè€—ï¼š%.1f")
+        @CN("激活消耗：%.1f")
         @EN("Activation cost: %.1f")
         public static Lang RECIPE_INFO_0;
 
-        @CN("èƒ½é‡ç­‰çº§ï¼?d")
+        @CN("能量等级：%d")
         @EN("Energy tier: %d")
         public static Lang RECIPE_INFO_1;
 
-        @CN("æ¿€æ´»ç­‰çº§ï¼š%d")
+        @CN("激活等级：%d")
         @EN("Activation tier: %d")
         public static Lang RECIPE_INFO_2;
     }
