@@ -17,17 +17,11 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
-import com.gregtechceu.gtceu.utils.DummyMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.InfiniteEnergyContainer;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -43,12 +37,11 @@ import net.minecraft.world.item.ItemStack;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.common.item.manafuelstick.IManaFuelStick;
 import com.moguang.ctnhmana.common.item.rune.RuneElementType;
+import com.moguang.ctnhmana.common.parts.RedstoneSignalBroadcastHatch;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.registry.CMTags;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import lombok.Getter;
@@ -214,7 +207,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         }
         var consume = Math.min(EU, energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored());
         EU -= consume;
-        energyContainer.addEnergy(consume);
+        energyContainer.changeEnergy(consume);
     }
 
     /// ///////////////////////////////
@@ -261,7 +254,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         EU += calculateEU();
         EU = Math.min(EU, maxEU);
         double runeBreakChance = getRuneBreakChance(this.stability);
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             if (!inventory.getStackInSlot(i).isEmpty() && inventory.getStackInSlot(i).is(BotaniaTags.Items.RUNES)) {
                 if (Math.random() <= runeBreakChance) popItem(i);
             }
@@ -291,7 +284,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         GTRecipe emptyRecipe = recipeType
                 .recipeBuilder(GTCEu.id("empty_recipe_25s"))
                 .duration(time)
-                .buildRawRecipe();
+                .buildRawRecipe().toRuntime();
         stabilityPressure = 0;
         used_stability = 0;
         this.heat = 0;
@@ -330,7 +323,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
 
     public int getRuneCount(Item runeItem) {
         int count = 0;
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             var stack = inventory.getStackInSlot(i);
             if (!stack.isEmpty() && stack.getItem().equals(runeItem)) {
                 count++;
@@ -413,7 +406,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         for (RuneElementType type : elementMap.keySet()) {
             elementMap.put(type, 0);
         }
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             var stack = inventory.getStackInSlot(i);
             if (stack.isEmpty() || !stack.is(BotaniaTags.Items.RUNES)) continue;
             calculateElementMap(stack);
@@ -482,41 +475,6 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
      */
     public ItemStack testTryTwistCollapseRecipeOnce(ItemStack runeInput) {
         ItemStack crash = new ItemStack(ChemicalHelper.get(dust, Livingrock).getItemHolder(), 1);
-        if (runeInput.isEmpty()) return crash;
-
-        ItemStack matchInput = normalizeStackForTwistCollapseMatch(runeInput);
-        if (matchInput.isEmpty()) return crash;
-
-        DummyMachineBlockEntity be = new DummyMachineBlockEntity(
-                GTValues.LV, CMRecipeTypes.TwistCollapse, GTMachineUtils.defaultTankSizeFunction,
-                Collections.emptyList());
-        var inputHandler = new NotifiableItemStackHandler(be.getMetaMachine(), 1, IO.IN, IO.IN,
-                slots -> new CustomItemStackHandler(matchInput));
-        var outputHandler = new NotifiableItemStackHandler(be.getMetaMachine(), 2, IO.OUT);
-        RecipeHandlerList dummyInputs = RecipeHandlerList.of(IO.IN,
-                new InfiniteEnergyContainer(be.getMetaMachine(), GTValues.V[GTValues.LV], GTValues.V[GTValues.LV], 1,
-                        GTValues.V[GTValues.LV], 1),
-                inputHandler);
-        RecipeHandlerList dummyOutputs = RecipeHandlerList.of(IO.OUT, outputHandler);
-        be.getMetaMachine().reinitializeHandlers(List.of(dummyInputs, dummyOutputs));
-
-        Iterator<GTRecipe> recipes = CMRecipeTypes.TwistCollapse.searchRecipe(be.metaMachine,
-                recipe -> RecipeHelper.matchContents(be.metaMachine, recipe).isSuccess());
-        if (!recipes.hasNext()) return crash;
-
-        GTRecipe recipe = recipes.next();
-        if (!RecipeHelper
-                .handleRecipeIO(be.metaMachine, recipe, IO.IN, be.getMetaMachine().recipeLogic.getChanceCaches())
-                .isSuccess()) {
-            return crash;
-        }
-
-        for (Content output : recipe.getOutputContents(ItemRecipeCapability.CAP)) {
-            ItemStack[] outputs = ItemRecipeCapability.CAP.of(output.content).getItems();
-            if (outputs.length > 0 && !outputs[0].isEmpty()) {
-                return outputs[0].copy();
-            }
-        }
         return crash;
     }
 
@@ -1062,7 +1020,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
                         stabilitymap[i][j] += sinElements;
 
                         int runeCount = 0;
-                        for (int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++) {
+                        for (int slotIndex = 0; slotIndex < inventory.getSlots(); slotIndex++) {
                             var runeStack = inventory.getStackInSlot(slotIndex);
                             if (!runeStack.isEmpty() && runeStack.is(BotaniaTags.Items.RUNES)) {
                                 runeCount++;

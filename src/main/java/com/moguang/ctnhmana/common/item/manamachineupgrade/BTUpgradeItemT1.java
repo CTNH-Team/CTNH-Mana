@@ -46,26 +46,26 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t1, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信�?
+        super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t1, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信??
     }
 
-    @CN("§9孤蕊之独�?)
+    @CN("§9孤蕊之独??")
     @EN("§9Solo Bloom Waltz")
     public static Lang BT_UPDATE_NAME;
     @CN({
-            "偏向于植物魔法与魔力的升�?,
-            "机器获得�?,
-            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得一点并�?最�?6)",
-            "运行时的每一并行提供§a+1%§r机器工作速度(最�?6%)",
-            "魔力凝聚仓存有的�?0W植物魔法魔力提供§a+2%§r机器工作速度(最�?0%)",
+            "偏向于植物魔法与魔力的升级",
+            "机器获得：",
+            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得一点并行(最高16)",
+            "运行时的每一并行提供§a+1%§r机器工作速度(最高16%)",
+            "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2%§r机器工作速度(最高10%)",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     @EN({
-            "偏向于植物魔法与魔力的升�?,
-            "机器获得�?,
-            "魔力凝聚仓每存有2.5W魔力，每存有20W魔力存储上限，就获得一点并行（最�?6)",
-            "运行时的每一并行提供§a+2.5%§r机器工作速度（最�?5%�?,
-            "魔力凝聚仓存有的�?0W魔力提供§a+2.5%§r机器工作速度（最�?5%�?,
+            "偏向于植物魔法与魔力的升级",
+            "机器获得：",
+            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得一点并行(最高16)",
+            "运行时的每一并行提供§a+1%§r机器工作速度(最高16%)",
+            "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2%§r机器工作速度(最高10%)",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
     })
     public static Lang[] botaniacoreLang_t1;

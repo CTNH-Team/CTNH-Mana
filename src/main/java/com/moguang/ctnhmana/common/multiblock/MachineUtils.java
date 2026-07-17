@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -26,19 +26,19 @@ import java.util.function.Consumer;
 
 public class MachineUtils {
 
-    public static boolean inputItem(ItemStack itemStack, WorkableMultiblockMachine machine) {
+    public static boolean inputItem(ItemStack itemStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().inputItems(itemStack).buildRawRecipe();
-        if (RecipeHelper.matchRecipe(machine, Recipe).isSuccess()) {
-            RecipeHelper.handleRecipeIO(machine, Recipe, IO.IN, machine.getRecipeLogic().getChanceCaches());
+        if (RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess()) {
+            RecipeHelper.handleRecipeIO(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime(), IO.IN);
             return true;
         }
         return false;
     }
 
-    public static boolean inputFluid(FluidStack fluidStack, WorkableMultiblockMachine machine) {
+    public static boolean inputFluid(FluidStack fluidStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().inputFluids(fluidStack).buildRawRecipe();
-        if (RecipeHelper.matchRecipe(machine, Recipe).isSuccess()) {
-            RecipeHelper.handleRecipeIO(machine, Recipe, IO.IN, machine.getRecipeLogic().getChanceCaches());
+        if (RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess()) {
+            RecipeHelper.handleRecipeIO(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime(), IO.IN);
             return true;
         }
         return false;
@@ -74,37 +74,37 @@ public class MachineUtils {
         return ret;
     }
 
-    public static boolean outputFluid(FluidStack fluidStack, WorkableMultiblockMachine machine) {
+    public static boolean outputFluid(FluidStack fluidStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().outputFluids(fluidStack).buildRawRecipe();
-        if (RecipeHelper.matchRecipe(machine, Recipe).isSuccess()) {
-            RecipeHelper.handleRecipeIO(machine, Recipe, IO.OUT, machine.getRecipeLogic().getChanceCaches());
+        if (RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess()) {
+            RecipeHelper.handleRecipeIO(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime(), IO.OUT);
             return true;
         }
         return false;
     }
 
-    public static boolean inputCWUT(int CWU, WorkableMultiblockMachine machine) {
+    public static boolean inputCWUT(int CWU, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().inputCWU(CWU).buildRawRecipe();
-        if (RecipeHelper.matchRecipe(machine, Recipe).isSuccess()) {
-            RecipeHelper.handleRecipeIO(machine, Recipe, IO.IN, machine.getRecipeLogic().getChanceCaches());
+        if (RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess()) {
+            RecipeHelper.handleRecipeIO(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime(), IO.IN);
             return true;
         }
         return false;
     }
 
-    public static boolean canInputFluid(FluidStack fluidStack, WorkableMultiblockMachine machine) {
+    public static boolean canInputFluid(FluidStack fluidStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().inputFluids(fluidStack).buildRawRecipe();
-        return RecipeHelper.matchRecipe(machine, Recipe).isSuccess();
+        return RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess();
     }
 
-    public static boolean canOutputFluid(FluidStack fluidStack, WorkableMultiblockMachine machine) {
+    public static boolean canOutputFluid(FluidStack fluidStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().outputFluids(fluidStack).buildRawRecipe();
-        return RecipeHelper.matchRecipe(machine, Recipe).isSuccess();
+        return RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess();
     }
 
-    public static boolean canInputItem(ItemStack itemStack, WorkableMultiblockMachine machine) {
+    public static boolean canInputItem(ItemStack itemStack, RecipeMultiblockMachine machine) {
         var Recipe = GTRecipeBuilder.ofRaw().inputItems(itemStack).buildRawRecipe();
-        return RecipeHelper.matchRecipe(machine, Recipe).isSuccess();
+        return RecipeHelper.matchRecipe(machine.getRecipeHandlerGroups().get(0), Recipe.toRuntime()).isSuccess();
     }
 
     public static BlockPos getOffset(MetaMachine machine, int leftoff, int upoff, int backoff) {
@@ -157,9 +157,8 @@ public class MachineUtils {
                                      RecipeCapability<?> capability, @Nullable IO io) {
         machine.getParts().forEach(part -> part.getRecipeHandlers().forEach(handlerList -> {
             if (io != null) {
-                if (!handlerList.getHandlerIO().equals(io)) {
+                if (handlerList.getAllHandlers().stream().noneMatch(handler -> handler.getHandlerIO().support(io)))
                     return;
-                }
             }
             if (handlerList.getCapability(capability).isEmpty()) {
                 return;
@@ -174,9 +173,8 @@ public class MachineUtils {
                                      RecipeCapability<?> capability, @Nullable IO io) {
         machine.getParts().forEach(part -> part.getRecipeHandlers().forEach(handlerList -> {
             if (io != null) {
-                if (!handlerList.getHandlerIO().equals(io)) {
+                if (handlerList.getAllHandlers().stream().noneMatch(handler -> handler.getHandlerIO().support(io)))
                     return;
-                }
             }
             if (handlerList.getCapability(capability).isEmpty()) {
                 return;

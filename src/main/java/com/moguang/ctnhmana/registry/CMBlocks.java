@@ -209,7 +209,7 @@ public class CMBlocks {
             })
             .tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryBuild("forge", "mineable/wrench")),
                     BlockTags.MINEABLE_WITH_PICKAXE)
-            .item(net.minecraft.world.item.BlockItem::new)
+            .item(BlockItem::new)
 
             .build()
             .register();

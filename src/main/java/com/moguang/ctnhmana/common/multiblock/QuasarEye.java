@@ -6,8 +6,7 @@ import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -54,9 +53,9 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (!MachineUtils.inputFluid(CMMaterials.Mana.getFluid(recipe.data.getInt("consumption")), this)) {
-            if (recipe.data.getInt("active") > active) return false;
+            if (recipe.data.getInt("active") > active) return Component.empty();
         }
 
         if (MachineUtils.inputItem(CMItems.TWIST_RUNE.asStack(1), this)) {
@@ -140,33 +139,35 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
             "Â§9é­”åŠ›Â§rçš„Â§cç»ˆæžå¥¥ç§˜Â§rï¼Œèƒ½å¤Ÿåˆ›é€ Â?ç±»æ˜Ÿä½“Â§rçš„è£…ç½®å¦‚ä»Šæ¡åœ¨Â?ä½ Â§ræ‰‹ä¸­",
             "æœºå™¨æ¿€æ´»éœ€è¦Â§ræ¶ˆè€—åˆå§‹é­”åŠ›ç‡ƒæ–™Â§rï¼Œå…·ä½“æ•°å€¼è¯·æŸ¥é˜…JEI",
             "åœ¨é«˜èƒ½é‡ç­‰çº§ä¸‹æ¿€æ´»ä½Žç­‰çº§é…æ–¹æ—¶Â§bå¯å…é™¤æ¿€æ´»æ¶ˆè€—Â§r",
-            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?,
+            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?",
             "ç¬¦æ–‡èƒ½é‡èŽ·å–é€»è¾‘ï¼šÂ?æ¯æ¬¡é…æ–¹å‘¨æœŸå‰Â§rï¼Œæ¯ç§å¯æ¶ˆè€—ç¬¦æ–‡ç±»åž‹Â§cæœ€å¤šæ¶ˆè€—ä¸€ä¸ªÂ§r",
-            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?,
+            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?",
             "èƒ½é‡æ•ˆçŽ‡å…¬å¼ï¼šlog((ç¬¦æ–‡èƒ½é‡)/50)+1ã€‚æœ€å¤§æ•ˆçŽ‡ï¼š(1+èƒ½é‡ç­‰çº§)",
             "å…·æœ‰æ—¶é—´å¹¶è¡Œã€‚æ¶ˆè€—ä¸Žæ—¶é•¿å‡ä¹˜ä»¥å¹¶è¡Œç³»æ•?æ•ˆçŽ‡*5)",
             "ç‡ƒæ–™æ¶ˆè€—å…¬å¼ï¼š1-0.05*Math.max((ç¬¦æ–‡èƒ½é‡-50)/50,0.75)",
             "å‘ç”µæ¨¡å¼ä¸‹ï¼Œå°?%çš„EUäº§å‡ºç§¯ç´¯è¿›ç±»æ˜Ÿä½“ä¹‹çœ¼ã€‚æ¯25ç‚¹ç¬¦æ–‡èƒ½é‡é¢å¤?1%ç§¯ç´¯",
-            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?,
+            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?",
             "Â§bå¥½æ¶ˆæ¯Â§rï¼šè¿™å°æœºå™¨ä¸ä¼šçˆ†ç‚¸ã€‚Â§cä½†æ— æ³•ä¿è¯ä»¥åŽç‰ˆæœ¬ï¼Â§r"
     })
     @EN({
             "Â§9é­”åŠ›Â§rçš„Â§cç»ˆæžå¥¥ç§˜Â§rï¼Œèƒ½å¤Ÿåˆ›é€ Â?ç±»æ˜Ÿä½“Â§rçš„è£…ç½®å¦‚ä»Šæ¡åœ¨Â?ä½ Â§ræ‰‹ä¸­",
             "æœºå™¨æ¿€æ´»éœ€è¦Â§ræ¶ˆè€—åˆå§‹é­”åŠ›ç‡ƒæ–™Â§rï¼Œå…·ä½“æ•°å€¼è¯·æŸ¥é˜…JEI",
             "åœ¨é«˜èƒ½é‡ç­‰çº§ä¸‹æ¿€æ´»ä½Žç­‰çº§é…æ–¹æ—¶Â§bå¯å…é™¤æ¿€æ´»æ¶ˆè€—Â§r",
-            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?,
+            "Â§5ç¬¦æ–‡èƒ½é‡Â§rå†³å®šäº§å‡ºå¼ºåº¦ã€‚æŠ•å…¥Â§bäº”çº§ç¬¦æ–‡Â§rå¯æ”¾å¤§ç¬¦æ–‡èƒ½é‡å¹¶æå‡äº§å‡ºã€‚ä½¿ç”¨Â?ç±»æ˜Ÿä½“ç¬¦æ–‡Â§rå¯å¤§é‡ç”Ÿæˆç¬¦æ–‡èƒ½é‡?",
             "ç¬¦æ–‡èƒ½é‡èŽ·å–é€»è¾‘ï¼šÂ?æ¯æ¬¡é…æ–¹å‘¨æœŸå‰Â§rï¼Œæ¯ç§å¯æ¶ˆè€—ç¬¦æ–‡ç±»åž‹Â§cæœ€å¤šæ¶ˆè€—ä¸€ä¸ªÂ§r",
-            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?,
+            "Â§cè­¦å‘ŠÂ§rï¼šç¬¦æ–‡èƒ½é‡è¶Šé«˜ï¼ŒÂ§cæ¶ˆè€—é€ŸçŽ‡Â§rè¶Šå¿«ã€‚ç¬¦æ–‡èƒ½é‡ä½Žäº?0æ—¶æ•ˆçŽ‡Â§cå‡åŠÂ§rï¼?",
             "èƒ½é‡æ•ˆçŽ‡å…¬å¼ï¼šlog((ç¬¦æ–‡èƒ½é‡)/50)+1ã€‚æœ€å¤§æ•ˆçŽ‡ï¼š(1+èƒ½é‡ç­‰çº§)",
             "å…·æœ‰æ—¶é—´å¹¶è¡Œã€‚æ¶ˆè€—ä¸Žæ—¶é•¿å‡ä¹˜ä»¥å¹¶è¡Œç³»æ•?æ•ˆçŽ‡*5)",
             "ç‡ƒæ–™æ¶ˆè€—å…¬å¼ï¼š1-0.05*Math.max((ç¬¦æ–‡èƒ½é‡-50)/50,0.75)",
             "å‘ç”µæ¨¡å¼ä¸‹ï¼Œå°?%çš„EUäº§å‡ºç§¯ç´¯è¿›ç±»æ˜Ÿä½“ä¹‹çœ¼ã€‚æ¯25ç‚¹ç¬¦æ–‡èƒ½é‡é¢å¤?1%ç§¯ç´¯",
-            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?,
+            "åˆ›é€ æ¨¡å¼ä¸‹ï¼Œé‡Šæ”¾å…¨éƒ¨å‚¨å­˜EUã€‚é«˜çº§ç‡ƒæ–™å¯æ”¾å¤§äº§å‡ºã€‚æ¯1000E EUäº§ç”Ÿé¢å¤–æ°”ä½“å‰¯äº§ç‰©ã€‚å‚¨å­˜EU<1Eæ—¶åˆ›é€ æ¨¡å¼ç¦ç”?",
             "Â§bå¥½æ¶ˆæ¯Â§rï¼šè¿™å°æœºå™¨ä¸ä¼šçˆ†ç‚¸ã€‚Â§cä½†æ— æ³•ä¿è¯ä»¥åŽç‰ˆæœ¬ï¼Â§r"
     })
     public static Lang[] TOOLTIPS;
 
-    /** ç±»æ˜Ÿä½“ä¹‹çœ¼é…æ–¹åœ¨ JEI ä¸­æ˜¾ç¤ºçš„ dataInfoï¼Œç”± LangProcessor æ³¨å†Œ ctnh.recipe.quasar_eye.info.0/1/2 */
+    /**
+     * ç±»æ˜Ÿä½“ä¹‹çœ¼é…æ–¹åœ¨ JEI ä¸­æ˜¾ç¤ºçš„ dataInfoï¼Œç”± LangProcessor æ³¨å†Œ ctnh.recipe.quasar_eye.info.0/1/2
+     */
     @Category("recipe")
     public static class RecipeLang {
 
@@ -183,36 +184,38 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
         public static Lang RECIPE_INFO_2;
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, @NotNull GTRecipe recipe) {
         if (machine instanceof QuasarEye qmachine) {
             if (recipe.recipeType.equals(CMRecipeTypes.QUASAR_CREATE)) {
 
                 var true_eut = Math.min(qmachine.power / 200, Long.MAX_VALUE);
-                if (true_eut < 10000000) return ModifierFunction.NULL;
+                if (true_eut < 10000000) return null;
                 var outputmuti = true_eut / 50000000L;
                 qmachine.power = 0;
-                return ModifierFunction.builder()
-                        .eutMultiplier(true_eut)
-                        .outputModifier(ContentModifier.multiplier(outputmuti))
-                        .build();
+                recipe.multiplyEUt(true_eut);
+                recipe.multiplyOutputs((int) outputmuti);
+                recipe.multiplyTickOutputs((int) outputmuti);
+                return null;
             }
-            var EUt = RecipeHelper.getRealEUtWithIO(recipe).voltage();
+            var EUt = RecipeHelper.getRealEUtWithIO(recipe);
             var tier = recipe.data.getInt("tier");
             var power = (long) (qmachine.energy_caculate(qmachine.rune_energy, tier) *
-                    RecipeHelper.getRealEUtWithIO(recipe).voltage() *
+                    RecipeHelper.getRealEUtWithIO(recipe) *
                     (qmachine.energy_caculate(qmachine.rune_energy, tier) * 5) * recipe.duration * 0.2 *
                     (qmachine.rune_energy / 25));
             qmachine.power += power / 200;
-            return ModifierFunction.builder()
-                    .eutMultiplier(qmachine.energy_caculate(qmachine.rune_energy, tier))
-                    .durationMultiplier(qmachine.energy_caculate(qmachine.rune_energy, tier) * 5)
-                    .inputModifier(ContentModifier.multiplier(qmachine.energy_caculate(qmachine.rune_energy, tier) * 5 *
-                            (1 - 0.05 * Math.max((qmachine.rune_energy - 50) / 50, 10))))
-                    .outputModifier(ContentModifier.multiplier(qmachine.energy_caculate(qmachine.rune_energy, tier) *
-                            5 * (1 - 0.05 * Math.max((qmachine.rune_energy - 50) / 50, 10))))
-                    .build();
+            var efficiency = qmachine.energy_caculate(qmachine.rune_energy, tier);
+            var contentMultiplier = efficiency * 5 *
+                    (1 - 0.05 * Math.max((qmachine.rune_energy - 50) / 50, 10));
+            recipe.multiplyEUt(efficiency);
+            recipe.multiplyDuration(efficiency * 5);
+            recipe.multiplyInputs((int) contentMultiplier);
+            recipe.multiplyOutputs((int) contentMultiplier);
+            recipe.multiplyTickInputs((int) contentMultiplier);
+            recipe.multiplyTickOutputs((int) contentMultiplier);
+            return null;
         }
-        return ModifierFunction.NULL;
+        return null;
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.moguang.ctnhmana.common.multiblock.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -24,15 +23,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.*;
-import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.ManaReactorRender;
 import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
+import com.moguang.ctnhmana.common.multiblock.*;
+import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import com.moguang.ctnhmana.registry.multiblock.ManaMachine;
-import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import com.moguang.ctnhmana.registry.multiblock.Misc;
+import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
@@ -222,7 +221,7 @@ public class CMMultiblockMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_TRANSFORMER_RECIPES)
             .recipeModifiers(ManaForceTransformer::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A########BBBBB#########", "#######################", "#######################",
                             "#######################", "#######################", "#######################",
@@ -366,7 +365,7 @@ public class CMMultiblockMachines {
             .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
             .tooltips(hellforgeLang)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B",
                             "AAAAAAA", "AAAAAAA", "A#A#A#A")
@@ -3260,7 +3259,7 @@ public class CMMultiblockMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.RITUAL_RECIPES)
             .recipeModifiers(
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
                     RitualMechanicalMachine::recipeModifier)
             .appearanceBlock(() -> RITUAL_MECHANICAL_BLOCK.get())
             .pattern(definition -> FactoryBlockPattern.start()

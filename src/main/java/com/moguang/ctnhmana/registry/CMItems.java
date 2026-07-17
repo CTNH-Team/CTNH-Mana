@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import com.moguang.ctnhmana.common.item.manamachineupgrade.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,16 +22,16 @@ import net.minecraftforge.fluids.FluidUtil;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.item.bloodmagicjade.JadeItem;
-import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
-import com.moguang.ctnhmana.item.ManaMachineUpgrade.*;
-import com.moguang.ctnhmana.common.item.rune.IRuneItem;
-import com.moguang.ctnhmana.common.item.rune.SpireUpgradeRuneItem;
 import com.moguang.ctnhmana.common.item.bosssummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.common.item.bosssummoner.ThrowItem;
+import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.moguang.ctnhmana.common.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.common.item.equipment.TaintedBloodWeepingEye;
 import com.moguang.ctnhmana.common.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.common.item.manamachineupgrade.*;
+import com.moguang.ctnhmana.common.item.rune.IRuneItem;
+import com.moguang.ctnhmana.common.item.rune.SpireUpgradeRuneItem;
 import com.moguang.ctnhmana.registry.items.CMFuelItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
@@ -42,7 +41,7 @@ import vazkii.botania.common.lib.BotaniaTags;
 import java.util.List;
 
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
-import static com.moguang.ctnhmana.common.item.rune.RuneElementType.WATER;
+import static com.moguang.ctnhmana.common.item.rune.RuneElementType.*;
 
 @SuppressWarnings("removal")
 public class CMItems {

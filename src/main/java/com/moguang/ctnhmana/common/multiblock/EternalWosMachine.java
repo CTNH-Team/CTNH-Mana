@@ -10,10 +10,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMach
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
@@ -24,6 +22,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import com.ctnhlang.CN;
@@ -59,7 +58,7 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     public static int max_will = 200;
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         MachineUtils.applyContents(this, (content) -> {
             var item = (ItemStack) content;
             // if(item.hasTag()&&item.getTag().getCompound("data_model").contains("data"))
@@ -109,20 +108,20 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     }
 
     // todo
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof EternalWosMachine dmachine) {
             var level = dmachine.self().getLevel();
             var pos = dmachine.self().getPos();
             pos = pos.offset(0, -11, 0);
-            var maxParallel = ParallelLogic.getParallelAmount(dmachine, recipe, 2147483647);
+            var maxParallel = ParallelLogic.getParallelAmount(group, recipe, 2147483647);
             // ModifierFunction parallel = CTNHRecipeModifiers.accurateParallel(machine,recipe,maxParallel);
-            return ModifierFunction.builder()
-                    .parallels(maxParallel)
-                    .eutMultiplier(maxParallel)
-                    .outputModifier(ContentModifier.multiplier(maxParallel))
-                    .build();
+            recipe.multiplyOutputs(maxParallel);
+            recipe.multiplyTickOutputs(maxParallel);
+            recipe.multiplyEUt(maxParallel);
+            recipe.parallels = maxParallel;
+            return null;
         }
-        return ModifierFunction.IDENTITY;
+        return null;
     }
 
     public boolean isConnected() {
@@ -164,14 +163,13 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
             if (io == IO.OUT) {
                 if (!isConnected()) return super.handleRecipeIO(recipe, io);
                 var safe_recipe = lastOriginRecipe;
-                List<Content> outputContents = safe_recipe.getOutputContents(FluidRecipeCapability.CAP);
+                List<FluidIngredient> outputContents = safe_recipe.getOutputContents(FluidRecipeCapability.CAP);
                 if (!outputContents.isEmpty()) {
-                    for (Content content : outputContents) {
-                        var safe_content = content.copy(FluidRecipeCapability.CAP);
+                    for (FluidIngredient content : outputContents) {
+                        var safe_content = content.copy();
                         // ä»ŽContentä¸­èŽ·å–ItemStack
-                        FluidIngredient ingredient = FluidRecipeCapability.CAP.of(safe_content.getContent());
-                        if (ingredient != null) {
-                            long count = Arrays.stream(ingredient.getStacks())
+                        if (safe_content != null) {
+                            long count = Arrays.stream(safe_content.getFluids())
                                     .mapToLong(fluidStack -> fluidStack.getAmount()) // å–æ¯ä¸ªæµä½“æ ˆçš„å®žé™…æ•°é‡ï¼ˆmbï¼?
                                     .sum();
                             if (count < 1) return ActionResult.PASS_NO_CONTENTS;
@@ -285,14 +283,14 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     public static Lang demon_diffusion_model;
     @CN({
             "æŠ˜ç£¨,æŠ˜ç£¨,æ°¸æ’çš„æŠ˜ç£¨åœ¨é½¿è½®ä¹‹ä¸­,æ­¤åœ°å³æ˜¯é˜¿é¼»åœ°ç‹±",
-            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?,
-            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?,
+            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?",
+            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?",
             "åœ¨è¿žæŽ¥æ—¶å¼€å¯é€¸æ•£æ¨¡å¼ï¼Œå°†ä¼šç›´æŽ¥æŠŠç”Ÿäº§çš„æ„å¿—é€¸æ•£ï¼Œå¹¶ä¸”æ‰©æ•£å½“å‰åŒºå—çš„æ„å¿—ï¼Œé€šè¿‡æ­¤äº§ç”Ÿçš„åŒºå—æ„å¿—å¯ä»¥è¶…è¶Š100ï¼Œè¾¾åˆ?00åŒºåŸŸåŒºå—ä¸Šé™"
     })
     @EN({
             "æŠ˜ç£¨,æŠ˜ç£¨,æ°¸æ’çš„æŠ˜ç£¨åœ¨é½¿è½®ä¹‹ä¸­,æ­¤åœ°å³æ˜¯åœ°ç‹±",
-            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?,
-            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?,
+            "å…·æœ‰æ— é™å¹¶è¡Œ,ä¸æ”¯æŒä½Žçº§æ¨¡åž?ä½¿ç”¨æ¨¡åž‹èŽ·å¾—é¢å¤–çš„LPåŠ æˆï¼Œæ³¨æ„ï¼šè¯·é…å¤‡è¶³å¤Ÿå¤§çš„è¾“å‡ºä»“æ¥ç¡®ä¿å®Œå…¨å¹¶è¡Œè¾“å‡?",
+            "å¦‚æžœè‡ªèº«å’Œå·¥ä¸šåœ°ç‹±é”»ç‚‰ä»¥å…±äº«å²©æµ†æ± çš„æ–¹å¼(è¯¥ç»“æž„ä¸»æ–¹å—æ°å¥½æ¯”å·¥ä¸šåœ°ç‹±é”»ç‚‰é«˜11æ ?è¿žæŽ¥,åˆ™è½¬ä¸ºçµé­‚æ¨¡å¼ï¼šä¸å†äº§ç”ŸLPï¼Œè€Œæ˜¯æ”¹ä¸ºç»™åœ°ç‹±é”»ç‚‰ä¾›åº”æ™®é€šæ„å¿?",
             "åœ¨è¿žæŽ¥æ—¶å¼€å¯é€¸æ•£æ¨¡å¼ï¼Œå°†ä¼šç›´æŽ¥æŠŠç”Ÿäº§çš„æ„å¿—é€¸æ•£ï¼Œå¹¶ä¸”æ‰©æ•£å½“å‰åŒºå—çš„æ„å¿—ï¼Œé€šè¿‡æ­¤äº§ç”Ÿçš„åŒºå—æ„å¿—å¯ä»¥è¶…è¶Š100ï¼Œè¾¾åˆ?00åŒºåŸŸåŒºå—ä¸Šé™"
     })
     public static Lang[] eternalWosLang;

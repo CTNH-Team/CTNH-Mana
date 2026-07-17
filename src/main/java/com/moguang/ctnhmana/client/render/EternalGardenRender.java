@@ -1,7 +1,7 @@
 package com.moguang.ctnhmana.client.render;
 
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
@@ -44,7 +44,7 @@ public class EternalGardenRender extends DynamicRender<IMachineFeature, EternalG
     public void render(IMachineFeature feature, float v, PoseStack stack, MultiBufferSource buffer, int combinedLight,
                        int combinedOverlay) {
         var metaMachine = feature.self();
-        if (metaMachine instanceof WorkableElectricMultiblockMachine machine && machine.isFormed()) {
+        if (metaMachine instanceof RecipeElectricMultiblockMachine machine && machine.isFormed()) {
             var level = metaMachine.getLevel();
             if (level == null) return;
             float time = RenderUtils.getTime();
@@ -75,7 +75,7 @@ public class EternalGardenRender extends DynamicRender<IMachineFeature, EternalG
             if (machine.isActive()) {
                 var recipe = machine.getRecipeLogic().getLastRecipe();
                 if (recipe != null) {
-                    var items = RecipeHelper.getInputItems(recipe);
+                    var items = RecipeHelper.getInputItems(recipe, false);
                     if (items != null && !items.isEmpty()) {
                         var itemToRender = items.get(0);
 

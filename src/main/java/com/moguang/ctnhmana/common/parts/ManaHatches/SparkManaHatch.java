@@ -22,8 +22,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
 import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;

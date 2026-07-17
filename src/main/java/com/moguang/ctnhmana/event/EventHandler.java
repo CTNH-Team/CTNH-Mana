@@ -8,5 +8,4 @@ import com.moguang.ctnhmana.CTNHMana;
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandler {
 
-
 }

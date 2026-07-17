@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -278,16 +278,15 @@ public class RitualMechanicalMachine extends ManaMachine {
     }
 
     /** 保证配方时长不低于 {@link #MIN_RECIPE_DURATION} tick（1 秒）。 */
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (!(machine instanceof RitualMechanicalMachine)) {
-            return ModifierFunction.NULL;
+            return null;
         }
         if (recipe.duration >= MIN_RECIPE_DURATION) {
-            return ModifierFunction.IDENTITY;
+            return null;
         }
-        return ModifierFunction.builder()
-                .durationMultiplier((double) MIN_RECIPE_DURATION / recipe.duration)
-                .build();
+        recipe.multiplyDuration((double) MIN_RECIPE_DURATION / recipe.duration);
+        return null;
     }
 
     @Nullable
@@ -441,7 +440,7 @@ public class RitualMechanicalMachine extends ManaMachine {
         if (isActive()) {
             GTRecipe recipe = getRecipeLogic().getLastRecipe();
             if (recipe == null) {
-                recipe = getRecipeLogic().getLastOriginRecipe();
+                recipe = getRecipeLogic().getLastOriginRecipe().toRuntime();
             }
             Component ritualName = getRitualDisplayName(recipe);
             if (ritualName != null) {

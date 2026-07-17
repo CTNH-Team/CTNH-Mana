@@ -82,7 +82,7 @@ public class CentralControlBus extends ItemBusPartMachine {
         if (this.getOffsetTimer() % 5 == 0) {
             var controller = getControllers().isEmpty() ? null : getControllers().first();
             if (controller instanceof ICentralStorageMachine imachine) {
-                if (this.meta > -1 && this.meta < imachine.getInventory().getSize()) {
+                if (this.meta > -1 && this.meta < imachine.getInventory().getSlots()) {
                     if (getInputSignal() > 0 && !lastHadRedstone &&
                             !imachine.getInventory().getStackInSlot(meta).isEmpty())
                         imachine.popItem(meta);

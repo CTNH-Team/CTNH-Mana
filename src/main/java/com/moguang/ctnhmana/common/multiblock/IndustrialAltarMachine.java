@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
@@ -14,9 +15,8 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -197,7 +197,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
 
     public GTRecipe getBloodRecipe() {
         return GTRecipeBuilder.ofRaw().inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 100))
-                .buildRawRecipe();
+                .buildRawRecipe().toRuntime();
     }
 
     public int calculateSpeed(int tier) {
@@ -207,7 +207,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     //////////////////////////////////////
     // ******** Modifier ********//
     //////////////////////////////////////
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof IndustrialAltarMachine altarMachine) {
             var condition = recipe.conditions.get(0);
             int consume = 0;
@@ -218,7 +218,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             if (condition instanceof BloodAltarCondition altarCondition) {
                 altar_tier = altarCondition.altar_tier;
                 consume = altarCondition.consumption_rate;
-                var parallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 1024);
+                var parallel = ParallelLogic.getParallelAmount(group, recipe, 1024, false);
                 var overclock = altarMachine.altar_tier - altar_tier;
                 if (overclock > 0) {
                     consume = (int) (consume * Math.pow(4, overclock));
@@ -232,16 +232,17 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                     true_time = (int) Math.max(20, recipe.duration / speed);
                 }
                 altarMachine.consumption_lp = consume;
-                return ModifierFunction.builder()
-                        .parallels(batch)
-                        .inputModifier(ContentModifier.multiplier(batch))
-                        .outputModifier(ContentModifier.multiplier(batch))
-                        .durationMultiplier((double) true_time / recipe.duration)
-                        .build();
+                recipe.multiplyInputs(batch);
+                recipe.multiplyOutputs(batch);
+                recipe.multiplyTickInputs(batch);
+                recipe.multiplyTickOutputs(batch);
+                recipe.multiplyDuration((double) true_time / recipe.duration);
+                recipe.parallels = batch;
+                return null;
             }
-            return ModifierFunction.NULL;
+            return null;
         }
-        return ModifierFunction.NULL;
+        return null;
     }
 
     //////////////////////////////////////
@@ -277,8 +278,8 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                 // altar.fillMainTank(10);
                 // }
                 var boosterRecipe = getBloodRecipe();
-                var isBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() &&
-                        RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                var isBoosted = RecipeHelper.matchRecipe(getRecipeLogic().getLastGroup(), boosterRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(getRecipeLogic().getLastGroup(), boosterRecipe, IO.IN)
                                 .isSuccess();
                 if (isBoosted) {
                     altar.fillMainTank(dislocation_rate);
@@ -986,7 +987,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                                         machineBlock
                                                 .defaultBlockState()) instanceof IMachineBlockEntity machineBlockEntity) {
                                     var machine = machineBlockEntity.getMetaMachine();
-                                    if (machine instanceof com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController) {
+                                    if (machine instanceof IMultiController) {
                                         return false;
                                     }
                                     return machine.isFacingValid(facing);

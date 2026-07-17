@@ -23,13 +23,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.common.multiblock.MysticSpire;
-import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
+import com.moguang.ctnhmana.common.multiblock.MysticSpire;
+import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import lombok.Getter;
 import vazkii.botania.api.block.WandHUD;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;

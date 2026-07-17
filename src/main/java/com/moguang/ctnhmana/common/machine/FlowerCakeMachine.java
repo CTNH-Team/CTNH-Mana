@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeAmperageEnergyContainer;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
@@ -35,10 +34,10 @@ public class FlowerCakeMachine extends SimpleTieredMachine {
         long tierVoltage = GTValues.V[getTier()];
         tierVoltage = 0;
         if (isEnergyEmitter()) {
-            return RecipeAmperageEnergyContainer.makeEmitterContainer(this, tierVoltage * 64L,
+            return NotifiableEnergyContainer.emitterContainer(this, tierVoltage * 64L,
                     tierVoltage, getMaxInputOutputAmperage());
         } else {
-            return RecipeAmperageEnergyContainer.makeReceiverContainer(this, tierVoltage * 64L,
+            return NotifiableEnergyContainer.receiverContainer(this, tierVoltage * 64L,
                     tierVoltage, getMaxInputOutputAmperage());
         }
     }

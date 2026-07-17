@@ -32,6 +32,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
@@ -459,7 +460,7 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
     }
 
     private static void convertDefaultWillAtChunk(
-                                                  net.minecraft.world.level.Level level, BlockPos pos, double perType) {
+                                                  Level level, BlockPos pos, double perType) {
         var will = WorldDemonWillHandler.getWillChunk(level, pos).getCurrentWill();
         var available = will.getWill(EnumDemonWillType.DEFAULT);
         var units = Math.min(perType, Math.floor(available / TYPED_DEMON_WILLS.length));

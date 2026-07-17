@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -245,11 +244,13 @@ public class ZenithSpire extends MysticSpire {
 
     public EnergyContainerList getEnergyContainer() {
         List<IEnergyContainer> containers = new ArrayList<>();
-        var handlers = getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP);
-        if (handlers.isEmpty()) handlers = getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP);
-        for (IRecipeHandler<?> handler : handlers) {
-            if (handler instanceof IEnergyContainer container) {
-                containers.add(container);
+        for (IMultiPart part : getParts()) {
+            for (var handlerList : part.getRecipeHandlers()) {
+                for (IRecipeHandler<?> handler : handlerList.getCapability(EURecipeCapability.CAP)) {
+                    if (handler instanceof IEnergyContainer container) {
+                        containers.add(container);
+                    }
+                }
             }
         }
         return new EnergyContainerList(containers);
@@ -265,7 +266,7 @@ public class ZenithSpire extends MysticSpire {
         final BigInteger euBaseMaxManaBig = BigInteger.valueOf(base_maxmana);
 
         selfEnergyContainer = getEnergyContainer();
-        var voltage = selfEnergyContainer.getHighestInputVoltage();
+        var voltage = selfEnergyContainer.getHighestVoltage();
         this.eutier = GTUtil.getFloorTierByVoltage(voltage);
 
         long rangeL = (long) this.range * 2L + 200L;
@@ -293,7 +294,7 @@ public class ZenithSpire extends MysticSpire {
         this.speed = Math.max(1, this.speed);
 
         // EU：(电压×奥法speed/base)×4、(舱室×真实魔力上限/base_maxmana)×4 — BigInteger，不在此叠加魔力侧天顶 ×4
-        this.euSpeed = SpireMath.euSpeedScaled(selfEnergyContainer.getInputVoltage(), euSpeedFactor, base_speed);
+        this.euSpeed = SpireMath.euSpeedScaled(selfEnergyContainer.getEffectiveVoltage(), euSpeedFactor, base_speed);
         setEuCapacityBig(SpireBigMath.euCapacityScaled(selfEnergyContainer.getEnergyCapacity(), euMaxManaCapBig,
                 euBaseMaxManaBig));
         getEUContainer();
@@ -414,7 +415,7 @@ public class ZenithSpire extends MysticSpire {
             BigInteger stored = getStoredEuBig();
             long takeFromSpire = SpireBigMath.clampToLong(
                     SpireBigMath.min(BigInteger.valueOf(capRem), BigInteger.valueOf(EUs), stored));
-            long consume = energyInputContainer.addEnergy(takeFromSpire);
+            long consume = energyInputContainer.changeEnergy(takeFromSpire);
             setStoredEuBig(SpireBigMath.subtractNonNegative(stored, BigInteger.valueOf(consume)));
             if (consume > 0 && this.Spark instanceof OmegaSpark omegaSpark) {
                 omegaSpark.sendEnergyContainerParticles(this.euContainerPos);

@@ -20,8 +20,8 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;

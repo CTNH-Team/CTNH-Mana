@@ -13,8 +13,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.moguang.ctnhmana.common.multiblock.ZenithMatrixMachine;
 import com.moguang.ctnhmana.client.ClientProxy;
+import com.moguang.ctnhmana.common.multiblock.ZenithMatrixMachine;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.serialization.Codec;

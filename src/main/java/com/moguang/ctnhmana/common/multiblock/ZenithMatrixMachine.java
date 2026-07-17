@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
+import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

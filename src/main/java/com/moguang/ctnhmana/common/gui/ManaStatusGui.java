@@ -1,10 +1,10 @@
 package com.moguang.ctnhmana.common.gui;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
+import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -115,9 +115,9 @@ public class ManaStatusGui implements IFancyUIProvider {
         return ManaStatusGuiTooltips.translate();
     }
 
-    public Component addEnergyUsageLine(IEnergyContainer energyContainer) {
+    public Component addEnergyUsageLine(EnergyContainerList energyContainer) {
         if (energyContainer != null && energyContainer.getEnergyCapacity() > 0) {
-            long maxVoltage = Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage());
+            long maxVoltage = energyContainer.getHighestVoltage();
 
             String energyFormatted = FormattingUtil.formatNumbers(maxVoltage);
             // wrap in text component to keep it from being formatted

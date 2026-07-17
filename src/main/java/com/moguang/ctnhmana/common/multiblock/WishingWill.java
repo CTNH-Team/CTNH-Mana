@@ -8,25 +8,24 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.ingredient.item.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.AABB;
 
 import org.jetbrains.annotations.NotNull;
@@ -96,9 +95,18 @@ public class WishingWill extends RecipeMultiblockMachine {
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTick));
-            addHandlerList(RecipeHandlerList.of(IO.IN, machineStorage));
-            addHandlerList(RecipeHandlerList.of(IO.OUT, dummyOutputStorage));
         }
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        var inputHandlers = RecipeHandlerList.of(List.of(machineStorage));
+        var outputHandlers = RecipeHandlerList.of(List.of(dummyOutputStorage));
+        recipeHandlerLists.add(inputHandlers);
+        recipeHandlerLists.add(outputHandlers);
+        traitSubscriptions.add(inputHandlers.subscribe(recipeLogic::updateTickSubscription));
+        traitSubscriptions.add(outputHandlers.subscribe(recipeLogic::updateTickSubscription));
     }
 
     @Override
@@ -109,16 +117,15 @@ public class WishingWill extends RecipeMultiblockMachine {
         }
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof WishingWill wmachine) {
-            var parallel = ParallelLogic.getParallelAmount(wmachine, recipe, 10);
-            return ModifierFunction.builder()
-                    .inputModifier(ContentModifier.multiplier(parallel))
-                    .outputModifier(ContentModifier.multiplier(parallel))
-                    .eutMultiplier(parallel / 2)
-                    .build();
+            var parallel = ParallelLogic.getParallelAmount(group, recipe, 10);
+            recipe.multiplyAllContents(parallel);
+            recipe.multiplyEUt(parallel / 2.0);
+            recipe.parallels = parallel;
+            return null;
         }
-        return ModifierFunction.NULL;
+        return null;
     }
 
     class WishingWillLogic extends RecipeLogic {
@@ -135,14 +142,13 @@ public class WishingWill extends RecipeMultiblockMachine {
             }
             if (io == IO.OUT) {
                 var safe_recipe = lastOriginRecipe;
-                List<Content> outputContents = safe_recipe.getOutputContents(ItemRecipeCapability.CAP);
+                List<ItemIngredient> outputContents = safe_recipe.getOutputContents(ItemRecipeCapability.CAP);
                 if (!outputContents.isEmpty()) {
-                    for (Content content : outputContents) {
-                        var safe_content = content.copy(ItemRecipeCapability.CAP);
+                    for (ItemIngredient content : outputContents) {
+                        var safe_content = content.copy();
                         // ä»ŽContentä¸­èŽ·å–ItemStack
-                        Ingredient ingredient = ItemRecipeCapability.CAP.of(safe_content.getContent());
-                        if (ingredient != null) {
-                            ItemStack[] stacks = ingredient.getItems();
+                        if (safe_content != null) {
+                            ItemStack[] stacks = safe_content.getItems();
                             if (stacks != null && stacks.length > 0) {
                                 GetAward(stacks, "None");
                             }

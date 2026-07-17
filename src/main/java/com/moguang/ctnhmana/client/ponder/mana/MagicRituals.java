@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -163,7 +164,7 @@ public class MagicRituals {
         scene.markAsFinished();
     }
 
-    private static net.minecraft.world.level.block.Block block(String namespace, String path) {
+    private static Block block(String namespace, String path) {
         return ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(namespace, path));
     }
 

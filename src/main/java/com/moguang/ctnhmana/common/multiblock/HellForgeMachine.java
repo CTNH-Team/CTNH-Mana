@@ -14,9 +14,9 @@ import net.minecraft.server.level.ServerLevel;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import com.moguang.ctnhmana.common.item.manamachineupgrade.BMUpgradeItemT1;
 import com.moguang.ctnhmana.common.item.manamachineupgrade.BMUpgradeItemT2;
+import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 

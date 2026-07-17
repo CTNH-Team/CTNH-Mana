@@ -2,7 +2,7 @@ package com.moguang.ctnhmana.client.render;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.item.ItemIngredient;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.common.multiblock.MachineUtils;
@@ -147,20 +146,16 @@ public class ManaReactorRender extends DynamicRender<ManaReactor, ManaReactorRen
         GTRecipe lastRecipe = recipeLogic.getLastRecipe();
         if (lastRecipe == null) return;
 
-        List<Content> contents = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
+        List<ItemIngredient> contents = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
         if (contents.size() != 1) return;
 
-        Content content = contents.get(0);
+        ItemIngredient content = contents.get(0);
         ItemStack stackToRender = ItemStack.EMPTY;
 
-        if (content.content instanceof Ingredient ingredient) {
-            ItemStack[] items = ingredient.getItems();
-            if (items.length > 0) {
-                int index = (int) ((machine.self().getOffsetTimer() / 20) % items.length);
-                stackToRender = items[index];
-            }
-        } else if (content.content instanceof ItemStack stack) {
-            stackToRender = stack;
+        ItemStack[] items = content.getItems();
+        if (items.length > 0) {
+            int index = (int) ((machine.self().getOffsetTimer() / 20) % items.length);
+            stackToRender = items[index];
         }
 
         if (stackToRender.isEmpty()) return;

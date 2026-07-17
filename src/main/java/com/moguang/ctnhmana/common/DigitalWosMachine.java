@@ -4,9 +4,9 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
@@ -22,7 +22,7 @@ public class DigitalWosMachine extends SimpleTieredMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
             var count = stack.getTag().getCompound("data_model").getInt("data");
@@ -45,10 +45,11 @@ public class DigitalWosMachine extends SimpleTieredMachine {
         super.afterWorking();
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof DigitalWosMachine dmachine) {
-            return ModifierFunction.builder().outputModifier(ContentModifier.multiplier(dmachine.multiplier)).build();
+            recipe.outputs.multiply((int) dmachine.multiplier);
+            recipe.tickOutputs.multiply((int) dmachine.multiplier);
         }
-        return ModifierFunction.IDENTITY;
+        return null;
     }
 }

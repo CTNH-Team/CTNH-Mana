@@ -9,6 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import com.google.gson.JsonObject;
 import com.moguang.ctnhmana.CTNHMana;
@@ -132,7 +133,7 @@ public class BloodAltarRecipeBuilder {
             }
 
             @Override
-            public net.minecraft.world.item.crafting.RecipeSerializer<?> getType() {
+            public RecipeSerializer<?> getType() {
                 return BloodMagicRecipeSerializers.ALTAR.getRecipeSerializer();
             }
 

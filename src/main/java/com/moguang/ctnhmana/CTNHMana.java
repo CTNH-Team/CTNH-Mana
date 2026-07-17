@@ -1,28 +1,14 @@
 package com.moguang.ctnhmana;
 
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
-
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.moguang.ctnhmana.client.ClientProxy;
 import com.moguang.ctnhmana.common.CommonProxy;
-import com.moguang.ctnhmana.event.EventHandler;
-import com.moguang.ctnhmana.registry.CMBlocks;
-import com.moguang.ctnhmana.registry.CMMobEffects;
-import com.moguang.ctnhmana.registry.CMParticleTypes;
 import com.moguang.ctnhmana.registry.CMRegistrate;
-import com.moguang.ctnhmana.registry.sounds.CMSoundEvent;
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
-import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 @Mod(CTNHMana.MODID)
 public class CTNHMana {
@@ -41,6 +27,4 @@ public class CTNHMana {
     public static ResourceLocation id(String name) {
         return ResourceLocation.tryParse(MODID + ":" + name);
     }
-
-
 }

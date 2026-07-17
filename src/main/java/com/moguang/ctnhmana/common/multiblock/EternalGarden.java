@@ -13,9 +13,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMach
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
@@ -240,16 +240,11 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
             super(machine);
         }
 
-        @Override
         public @NotNull Iterator<GTRecipe> searchRecipe() {
-            Iterator<GTRecipe> normalSearch = super.searchRecipe();
-            if (normalSearch.hasNext()) {
-                return normalSearch;
-            }
-
             GTRecipe flowerRecipe = searchFlowerRecipe();
             if (flowerRecipe != null) {
-                if (matchRecipe(flowerRecipe).isSuccess()) {
+                if (RecipeHelper
+                        .matchContents(machine.getRecipeHandlerGroups().get(0), flowerRecipe).isSuccess()) {
                     return Collections.singleton(flowerRecipe).iterator();
                 }
             }
@@ -289,7 +284,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                                 .duration((int) (num * 5))
                                 .EUt(GTValues.HV, 1)
                                 .addData("type", "eat")
-                                .buildRawRecipe();
+                                .buildRawRecipe().toRuntime();
                         return builder;
                     }
                 }
@@ -309,13 +304,13 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                         var burns = stack.copy().getBurnTime(RecipeType.SMELTING);
                         var builder = CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("burns")
                                 .notConsumable(BotaniaFlowerBlocks.endoflame.asItem())
-                                .inputItems(stack.copyWithCount(1)) // 输入1个食�?
+                                .inputItems(stack.copyWithCount(1)) // 输入1个食??
                                 .outputFluids(CMMaterials.Mana.getFluid((int) (1)))
                                 .duration(1)
                                 .EUt(GTValues.HV, 1)
                                 .addData("temp", burns)
                                 .addData("type", "fire")
-                                .buildRawRecipe();
+                                .buildRawRecipe().toRuntime();
                         return builder;
                     }
                 }
@@ -324,44 +319,44 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
         }
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof EternalGarden mmachine) {
             int tier = mmachine.getTier();
-            int recipe_tier = RecipeHelper.getRecipeEUtTier(recipe);
+            int recipe_tier = GTUtil.getFloorTierByVoltage(RecipeHelper.getRealEUt(recipe));
             var base_overclock = 1.1;
             double overclock = Math.pow(base_overclock, tier - recipe_tier);
             if (recipe.data.getString("type").equals("water")) {
-                // 水绣�?
+                // 水绣??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int maxparallel = 8;
-                int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .eutMultiplier(parallel)
-                        .inputModifier(ContentModifier.multiplier(parallel))
-                        .outputModifier(ContentModifier.multiplier(parallel * overclock))
-                        .build();
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyInputs(parallel);
+                recipe.multiplyTickInputs(parallel);
+                recipe.multiplyOutputs((int) (parallel * overclock));
+                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                recipe.multiplyEUt(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
             if (recipe.data.getString("type").equals("eat")) {
-                // 彼方�?
+                // 彼方??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
-                int maxparallel = 8 + (mmachine.tier - RecipeHelper.getRecipeEUtTier(recipe)) * 4;
-                int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .eutMultiplier(parallel)
-                        .inputModifier(ContentModifier.multiplier(parallel))
-                        .outputModifier(ContentModifier.multiplier(parallel))
-                        .build();
+                int maxparallel = 8 + (mmachine.tier -
+                        GTUtil.getFloorTierByVoltage(RecipeHelper.getRealEUt(recipe))) * 4;
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyAllContents(parallel);
+                recipe.multiplyEUt(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
             if (recipe.data.getString("type").equals("fire")) {
-                // 烧煤�?
+                // 烧煤??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -372,31 +367,30 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                         Objects.requireNonNull(
                                 ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("gtceu:cryotheum"))),
                         1000);
-                // 检查输入仓是否有足够流�?
+                // 检查输入仓是否有足够流??
                 boolean isFluidSufficient = MachineUtils.inputFluid(pyrotheumFluid, mmachine);
                 if (isFluidSufficient) mmachine.Temperature -= 100000;
                 double rate = Math.sqrt(12500 * 12500 - Math.abs(temp - 12500 * 12500));
-                int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .eutMultiplier(parallel)
-                        .inputModifier(ContentModifier.multiplier(parallel * Math.max(1, Math.sqrt(rate))))
-                        .outputModifier(ContentModifier.multiplier(parallel * overclock * Math.max(rate, 1)))
-                        .build();
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyInputs((int) (parallel * Math.max(1, Math.sqrt(rate))));
+                recipe.multiplyTickInputs((int) (parallel * Math.max(1, Math.sqrt(rate))));
+                recipe.multiplyOutputs((int) (parallel * overclock * Math.max(rate, 1)));
+                recipe.multiplyTickOutputs((int) (parallel * overclock * Math.max(rate, 1)));
+                recipe.multiplyEUt(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
             if (recipe.data.getString("type").equals("boom")) {
-                // 热爆�?
+                // 热爆??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int maxparallel = (int) Math.pow(2, tier) * 32;
-                int parallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .inputModifier(ContentModifier.multiplier(parallel))
-                        .outputModifier(ContentModifier.multiplier(parallel))
-                        .build();
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyAllContents(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
 
             if (recipe.data.getString("type").equals("wither")) {
@@ -406,16 +400,17 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int maxparallel = 4;
-                int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .eutMultiplier((parallel))
-                        .inputModifier(ContentModifier.multiplier(parallel))
-                        .outputModifier(ContentModifier.multiplier(parallel * overclock))
-                        .build();
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyInputs(parallel);
+                recipe.multiplyTickInputs(parallel);
+                recipe.multiplyOutputs((int) (parallel * overclock));
+                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                recipe.multiplyEUt(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
             if (recipe.data.getString("type").equals("lighting")) {
-                // 雷德�?
+                // 雷德??
                 mmachine.wither = false;
                 mmachine.thunder = true;
                 mmachine.burn = false;
@@ -425,38 +420,39 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 if (level.isThundering()) {
                     if (recipe.data.getBoolean("light")) {
                         EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level, pos, MobSpawnType.TRIGGERED);
-                        return ModifierFunction.builder()
-                                .outputModifier(ContentModifier.multiplier(100000 * overclock))
-                                .build();
+                        recipe.multiplyOutputs((int) (100000 * overclock));
+                        recipe.multiplyTickOutputs((int) (100000 * overclock));
+                        return null;
                     }
-                    return ModifierFunction.builder()
-                            .outputModifier(ContentModifier.multiplier(1 * overclock))
-                            .build();
+                    recipe.multiplyOutputs((int) overclock);
+                    recipe.multiplyTickOutputs((int) overclock);
+                    return null;
                 }
                 if (level.isRaining()) {
-                    return ModifierFunction.builder()
-                            .outputModifier(ContentModifier.multiplier(300 * overclock))
-                            .build();
+                    recipe.multiplyOutputs((int) (300 * overclock));
+                    recipe.multiplyTickOutputs((int) (300 * overclock));
+                    return null;
                 }
 
             }
             if (recipe.data.getString("type").equals("blame")) {
-                // 热绣�?
+                // 热绣??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = true;
                 mmachine.Temperature = 0;
                 int maxparallel = 8 + Math.max((tier - 3), 0) * 4;
-                int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxparallel);
-                return ModifierFunction.builder()
-                        .parallels(parallel)
-                        .eutMultiplier(parallel)
-                        .inputModifier(ContentModifier.multiplier(parallel))
-                        .outputModifier(ContentModifier.multiplier(parallel * overclock))
-                        .build();
+                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
+                recipe.multiplyInputs(parallel);
+                recipe.multiplyTickInputs(parallel);
+                recipe.multiplyOutputs((int) (parallel * overclock));
+                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                recipe.multiplyEUt(parallel);
+                recipe.parallels = parallel;
+                return null;
             }
             if (recipe.data.getString("type").equals("fly")) {
-                // 勿落�?
+                // 勿落??
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
@@ -488,14 +484,15 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                                 BotaniaSounds.shulkMeNot, SoundSource.BLOCKS, 10.0F, 1.0F);
                     }
                 }
-                return ModifierFunction.builder()
-                        .eutMultiplier(muti)
-                        .outputModifier(ContentModifier.multiplier(Math.pow(2, Math.min(17, muti * 0.5)) * overclock))
-                        .build();
+                recipe.multiplyEUt(muti);
+                int outputMultiplier = (int) (Math.pow(2, Math.min(17, muti * 0.5)) * overclock);
+                recipe.multiplyOutputs(outputMultiplier);
+                recipe.multiplyTickOutputs(outputMultiplier);
+                return null;
             }
 
         }
-        return ModifierFunction.NULL;
+        return null;
     }
 
     public void addDisplayText(List<Component> textList) {

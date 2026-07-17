@@ -4,8 +4,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -69,19 +68,17 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
         this.consume_mana = 0;
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof ManaForceTransformer fmachine) {
             var mana = fmachine.hatch.getMana();
             int parallel = 64 * (int) ((fmachine.consume_mana) / 100000);
-            var true_parallel = ParallelLogic.getParallelAmount(fmachine, recipe, parallel);
-            return ModifierFunction.builder()
-                    .parallels(true_parallel)
-                    .inputModifier(ContentModifier.multiplier(true_parallel))
-                    .outputModifier(ContentModifier.multiplier(true_parallel))
-                    .eutModifier(ContentModifier.multiplier(true_parallel))
-                    .build();
+            var true_parallel = ParallelLogic.getParallelAmount(group, recipe, parallel);
+            recipe.multiplyAllContents(true_parallel);
+            recipe.multiplyEUt(true_parallel);
+            recipe.parallels = true_parallel;
+            return null;
         }
-        return ModifierFunction.IDENTITY;
+        return null;
     }
 
     @CN({

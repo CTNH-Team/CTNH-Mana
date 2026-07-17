@@ -16,8 +16,8 @@ import java.util.List;
 
 public class CTNHManaUtils {
 
-    public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs,
-                                                                                       List<Component> list) {
+    public static List<Component> itemTooltipsAdd(Lang[] langs,
+                                                  List<Component> list) {
         for (Lang lang : langs) {
             list.add(lang.translate());
         }
@@ -95,14 +95,16 @@ public class CTNHManaUtils {
         }
         return list;
     }
-    //加电压不加时间超频
+
+    // 加电压不加时间超频
     public static void applyParallel(GTRecipe recipe, int pa) {
         recipe.multiplyInputs(pa);
         recipe.multiplyOutputs(pa);
         recipe.parallels *= pa;
         recipe.multiplyEUt(pa);
     }
-    //加时间不加电压超频
+
+    // 加时间不加电压超频
     public static void applyParallelWithoutEU(GTRecipe recipe, int pa) {
         recipe.multiplyInputs(pa);
         recipe.multiplyOutputs(pa);

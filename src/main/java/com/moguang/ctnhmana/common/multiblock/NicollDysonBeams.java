@@ -14,8 +14,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -231,7 +230,7 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
         return failureManaLang_NoEnoughMana.translate();
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, @NotNull GTRecipe recipe) {
         int pa = 1;
         if (machine instanceof IMultiController controller) {
             if (controller.isFormed()) {
@@ -248,19 +247,17 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
             var tier = xmachine.getTier();
             xmachine.mana_parallel = pa;
             if (xmachine.quasar_power > 0) {
-                return ModifierFunction.builder()
-                        .durationMultiplier((1 - Math.min(0.01 * xmachine.twist_power, 0.9)))
-                        .inputModifier(ContentModifier.multiplier(10))
-                        .outputModifier(ContentModifier.multiplier(10))
-                        .eutMultiplier((1 - 0.01 * xmachine.starlight_power) * 10)
-                        .build();
+                recipe.multiplyDuration(1 - Math.min(0.01 * xmachine.twist_power, 0.9));
+                recipe.multiplyInputs(10);
+                recipe.multiplyOutputs(10);
+                recipe.multiplyEUt((1 - 0.01 * xmachine.starlight_power) * 10);
+                return null;
             }
-            return ModifierFunction.builder()
-                    .durationMultiplier(1 - Math.min(0.01 * xmachine.twist_power, 0.9))
-                    .eutMultiplier(1 - 0.01 * xmachine.starlight_power)
-                    .build();
+            recipe.multiplyDuration(1 - Math.min(0.01 * xmachine.twist_power, 0.9));
+            recipe.multiplyEUt(1 - 0.01 * xmachine.starlight_power);
+            return null;
         }
-        return ModifierFunction.NULL;
+        return null;
     }
 
     @Override

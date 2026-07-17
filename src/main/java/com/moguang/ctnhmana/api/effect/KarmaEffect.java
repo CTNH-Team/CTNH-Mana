@@ -79,7 +79,7 @@ public class KarmaEffect extends MobEffect {
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, net.minecraft.world.entity.ai.attributes.AttributeMap map,
+    public void removeAttributeModifiers(LivingEntity entity, AttributeMap map,
                                          int amplifier) {
         super.removeAttributeModifiers(entity, map, amplifier);
         if (!(entity instanceof Player player) || player.level().isClientSide()) {

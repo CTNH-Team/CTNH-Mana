@@ -2,6 +2,8 @@ package com.moguang.ctnhmana.event;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
+import com.lowdragmc.lowdraglib.networking.LDLNetworking;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -22,12 +24,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multiblock.HellForgeMachine;
 import com.moguang.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.moguang.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
+import com.moguang.ctnhmana.common.multiblock.HellForgeMachine;
 import com.moguang.ctnhmana.networking.packets.IndexFortunaPacket;
 import com.moguang.ctnhmana.registry.CMTags;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -130,8 +132,8 @@ public class ForgeEventHandler {
         }
     }
 
-    public static java.util.List<net.minecraft.network.chat.Component> itemTooltipsAdd(Lang[] langs,
-                                                                                       List<Component> list) {
+    public static List<Component> itemTooltipsAdd(Lang[] langs,
+                                                  List<Component> list) {
         for (Lang lang : langs) {
             list.add(lang.translate());
         }
@@ -179,7 +181,7 @@ public class ForgeEventHandler {
         }
         if (player.getMainHandItem().getItem() instanceof CaduceusItem &&
                 event.getKey() == FORTUNA.getKey().getValue()) {
-            com.lowdragmc.lowdraglib.networking.LDLNetworking.NETWORK.sendToServer(
+            LDLNetworking.NETWORK.sendToServer(
                     new IndexFortunaPacket(1));
         }
     }

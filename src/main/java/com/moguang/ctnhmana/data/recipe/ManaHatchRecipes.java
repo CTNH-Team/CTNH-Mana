@@ -1,11 +1,11 @@
 package com.moguang.ctnhmana.data.recipe;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -74,7 +74,7 @@ public class ManaHatchRecipes {
                 .inputItems(CMBlocks.PURE_MAGIC_CALCULATE_CORE.asStack())
                 .inputItems(CMBlocks.PURE_LOGIC_CASING.asStack())
                 .inputItems(ChemicalHelper.get(TagPrefix.gear, GTMaterials.TungstenSteel), 4)
-                .inputItems(GTAEMachines.FLUID_IMPORT_HATCH_ME.asStack())
+                .inputItems(GTMachines.FLUID_IMPORT_HATCH[GTValues.IV].asStack())
                 .inputItems(BotaniaItems.corporeaSpark)
                 .inputItems(CustomTags.IV_CIRCUITS, 2)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(144))

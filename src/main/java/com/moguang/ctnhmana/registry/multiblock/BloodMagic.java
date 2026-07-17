@@ -15,10 +15,10 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.multiblock.DemonWillMachine;
-import com.moguang.ctnhmana.common.multiblock.MeteorCaptureMachine;
 import com.moguang.ctnhmana.api.pattern.CMPredicates;
 import com.moguang.ctnhmana.client.render.DemonWillRender;
+import com.moguang.ctnhmana.common.multiblock.DemonWillMachine;
+import com.moguang.ctnhmana.common.multiblock.MeteorCaptureMachine;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import vazkii.botania.common.block.BotaniaBlocks;
