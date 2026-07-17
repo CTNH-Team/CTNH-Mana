@@ -49,7 +49,7 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
         super.appendHoverText(stack, level, itemTooltipsAdd(botaniacoreLang_t1, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信??
     }
 
-    @CN("§9孤蕊之独??")
+    @CN("§9孤蕊之独舞")
     @EN("§9Solo Bloom Waltz")
     public static Lang BT_UPDATE_NAME;
     @CN({

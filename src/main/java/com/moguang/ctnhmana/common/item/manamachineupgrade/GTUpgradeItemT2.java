@@ -52,7 +52,7 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
         super.appendHoverText(stack, level, itemTooltipsAdd(gtcoreLang_t2, tooltipComponents), isAdvanced); // 调用父类方法以处理原版提示信??
     }
 
-    @CN("§5超序之观??")
+    @CN("§5超序之观测")
     @EN("§5Transcendent Observation")
     public static Lang GT_UPDATE_NAME_T2;
     @CN({

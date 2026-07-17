@@ -6,20 +6,15 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -27,7 +22,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.moguang.ctnhmana.CMConfig;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
-import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.BloodAltarStatusProvider;
@@ -43,10 +37,11 @@ import tech.vixhentx.mcmod.ctnhlib.jade.JadePriorityManager;
 import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 @SuppressWarnings("removal")
-@Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonProxy {
 
     public CommonProxy() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.register(this);
         init();
     }
 
@@ -125,7 +120,7 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public static void addMaterialFlag(MaterialEvent event) {
+    public void addMaterialFlag(MaterialEvent event) {
         GTMaterialAddon.init();
     }
 
@@ -143,48 +138,25 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public static void registerMaterials(MaterialEvent event) {
+    public void registerMaterials(MaterialEvent event) {
         CMMaterials.init();
         CMMaterials.tagPrefixIgnore();
     }
 
     @SubscribeEvent
-    public static void onCommonSetup(FMLCommonSetupEvent event) {
+    public void onCommonSetup(FMLCommonSetupEvent event) {
         CMNetworking.init();
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ItemProperties.register(
-                    CMItems.SABER_WAND.get(), // 目标物品
-                    new ResourceLocation(CTNHMana.MODID, "wand_status"),
-                    (stack, level, entity, seed) -> {
-                        if (!SaberWandItem.getBindMode(stack)) return 1.0f;
-                        return 0f;
-                    });
-            ItemProperties.register(
-                    CMItems.CADUCEUS.get(),
-                    new ResourceLocation(CTNHMana.MODID, "tool_type"),
-                    (stack, level, entity, seed) -> {
-                        if (stack.getTag().contains("caduceus_type_index")) {
-                            return stack.getTag().getFloat("caduceus_type_index") / 12f;
-                        }
-                        return 0f;
-                    });
-        });
-    }
-
-    @SubscribeEvent
-    public static void onFMLoadComplete(FMLLoadCompleteEvent event) {
+    public void onFMLoadComplete(FMLLoadCompleteEvent event) {
         BloodMagicAPI.INSTANCE.registerAltarComponent(
                 CMBlocks.CASING_BLOODLOGIC.getDefaultState(),
                 "CRYSTAL");
     }
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
