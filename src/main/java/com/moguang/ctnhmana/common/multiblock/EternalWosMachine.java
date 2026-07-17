@@ -22,6 +22,8 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import dev.shadowsoffire.hostilenetworks.Hostile;
+import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -60,15 +62,14 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     @Override
     public Component beforeWorking(@Nullable GTRecipe recipe) {
         MachineUtils.applyContents(this, (content) -> {
-            var item = (ItemStack) content;
-            // if(item.hasTag()&&item.getTag().getCompound("data_model").contains("data"))
-            //
-            var count = ((ItemStack) content).getTag().getCompound("data_model").getInt("data");
-            if (count < 6) multiplier = 0;
-            else if (count < 48) multiplier = 1;
-            else if (count < 300) multiplier = 1.5;
-            else if (count < 900) multiplier = 2;
-            else multiplier = 3;
+            if(content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
+                var count = DataModelItem.getData(stack);
+                if (count < 6) multiplier = 0;
+                else if (count < 48) multiplier = 1;
+                else if (count < 300) multiplier = 1.5;
+                else if (count < 900) multiplier = 2;
+                else multiplier = 3;
+            }
         }, ItemRecipeCapability.CAP, IO.IN);
         return super.beforeWorking(recipe);
     }
@@ -76,8 +77,12 @@ public class EternalWosMachine extends RecipeElectricMultiblockMachine {
     @Override
     public void afterWorking() {
         MachineUtils.applyContents(this, (content) -> {
-            var count = ((ItemStack) content).getTag().getCompound("data_model").getInt("data");
-            if (count < 54) ((ItemStack) content).getTag().getCompound("data_model").putInt("data", count + 1);
+            if(content instanceof ItemStack stack && stack.is(Hostile.Items.DATA_MODEL.get())) {
+                var count = DataModelItem.getData(stack);
+                if (count < 54) {
+                    DataModelItem.setData(stack, count + 1);
+                }
+            }
         }, GTRecipeCapabilities.ITEM, IO.IN);
         super.afterWorking();
     }
