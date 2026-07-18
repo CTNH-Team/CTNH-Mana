@@ -112,10 +112,6 @@ public class MagicRituals {
         scene.world().createItemEntity(util.vector().of(3, 2, 4), util.vector().of(0.2, 0, 0.2),
                 item("botania", "rune_greed"));
         scene.idle(10);
-        scene.world().createItemEntity(util.vector().of(3, 2, 4), util.vector().of(0.1, 0, 0.15),
-                item("alexscaves", "shadow_silk"));
-        scene.idle(50);
-
         var trader = scene.world().createEntity(world -> {
             var entity = EntityType.WANDERING_TRADER.create(world);
             entity.setPos(5, 1, 4);
