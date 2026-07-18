@@ -1,12 +1,12 @@
 package com.moguang.ctnhmana.registry;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
+import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.data.materials.BotaniaMaterials;
 import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
@@ -57,61 +57,69 @@ public class CMMaterials {
     public static void tagPrefixIgnore() {
         TagPrefix.ingot.setIgnored(ManaSteel, () -> BotaniaItems.manaSteel);
         TagPrefix.nugget.setIgnored(ManaSteel, () -> BotaniaItems.manasteelNugget);
-        TagPrefix.block.setIgnored(ManaSteel, () -> BotaniaBlocks.manasteelBlock);
+        TagPrefix.block.setIgnoredBlock(ManaSteel, () -> BotaniaBlocks.manasteelBlock);
+
         TagPrefix.ingot.setIgnored(TerraSteel, () -> BotaniaItems.terrasteel);
         TagPrefix.nugget.setIgnored(TerraSteel, () -> BotaniaItems.terrasteelNugget);
-        TagPrefix.block.setIgnored(TerraSteel, () -> BotaniaBlocks.terrasteelBlock);
+        TagPrefix.block.setIgnoredBlock(TerraSteel, () -> BotaniaBlocks.terrasteelBlock);
+
         TagPrefix.ingot.setIgnored(Elementium, () -> BotaniaItems.elementium);
         TagPrefix.nugget.setIgnored(Elementium, () -> BotaniaItems.elementiumNugget);
-        TagPrefix.block.setIgnored(Elementium, () -> BotaniaBlocks.elementiumBlock);
+        TagPrefix.block.setIgnoredBlock(Elementium, () -> BotaniaBlocks.elementiumBlock);
+
         TagPrefix.ingot.setIgnored(AlfSteel, () -> ModItems.alfsteelIngot);
         TagPrefix.nugget.setIgnored(AlfSteel, () -> ModItems.alfsteelNugget);
-        TagPrefix.block.setIgnored(AlfSteel, () -> mythicbotany.register.ModBlocks.alfsteelBlock);
+        TagPrefix.block.setIgnoredBlock(AlfSteel, () -> mythicbotany.register.ModBlocks.alfsteelBlock);
+
         TagPrefix.ingot.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcos);
         TagPrefix.nugget.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcosNugget);
-        TagPrefix.block.setIgnored(Orichalcos, () -> ExtraBotanyBlocks.orichalcosBlock);
+        TagPrefix.block.setIgnoredBlock(Orichalcos, () -> ExtraBotanyBlocks.orichalcosBlock);
+
         TagPrefix.ingot.setIgnored(Photonium, () -> ExtraBotanyItems.photonium);
         TagPrefix.nugget.setIgnored(Photonium, () -> ExtraBotanyItems.photoniumNugget);
-        TagPrefix.block.setIgnored(Photonium, () -> ExtraBotanyBlocks.photoniumBlock);
+        TagPrefix.block.setIgnoredBlock(Photonium, () -> ExtraBotanyBlocks.photoniumBlock);
+
         TagPrefix.ingot.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialite);
         TagPrefix.nugget.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialiteNugget);
-        TagPrefix.block.setIgnored(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);
-        TagPrefix.ingot.setIgnored(DEMON, () -> BloodMagicItems.HELLFORGED_INGOT.get());
-        TagPrefix.block.setIgnored(DEMON, () -> BloodMagicBlocks.HELLFORGED_BLOCK.get());
+        TagPrefix.block.setIgnoredBlock(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);
+
+        TagPrefix.ingot.setIgnored(DEMON, BloodMagicItems.HELLFORGED_INGOT::get);
+        TagPrefix.block.setIgnoredBlock(DEMON, BloodMagicBlocks.HELLFORGED_BLOCK::get);
+
         TagPrefix.ingot.setIgnored(SHADOWIUM, () -> ExtraBotanyItems.shadowium);
         TagPrefix.nugget.setIgnored(SHADOWIUM, () -> ExtraBotanyItems.shadowiumNugget);
-        TagPrefix.block.setIgnored(SHADOWIUM, () -> ExtraBotanyBlocks.shadowiumBlock);
+        TagPrefix.block.setIgnoredBlock(SHADOWIUM, () -> ExtraBotanyBlocks.shadowiumBlock);
 
-        TagPrefix.block.setIgnored(Livingrock, () -> BotaniaBlocks.livingrock);
+        TagPrefix.block.setIgnoredBlock(Livingrock, () -> BotaniaBlocks.livingrock);
     }
 
-    public static final Material Mana = REGISTRATE.material(GTCEu.id("mana"))
+    public static final Material Mana = REGISTRATE.material(CTNHMana.id("mana"))
             .cnlang("凝聚魔力能量")
             .liquid()
             .element(MANA)
             .color(0x43e7ed)
             .buildAndRegister();
-    public static final Material Zenith_essence = REGISTRATE.material(GTCEu.id("zenith_essence"))
+    public static final Material Zenith_essence = REGISTRATE.material(CTNHMana.id("zenith_essence"))
             .cnlang("§5天顶源质§r")
             .liquid()
             .color(0x7D26CD)
             .secondaryColor(0x836FFF)
             .element(ZENITH)
             .buildAndRegister();
-    public static final Material Mana_Radiation_Mixture = REGISTRATE.material(GTCEu.id("mana_radiation_mixture"))
+    public static final Material Mana_Radiation_Mixture = REGISTRATE.material(CTNHMana.id("mana_radiation_mixture"))
             .cnlang("混合辐射魔力激发")
             .liquid()
             .plasma()
             .color(0x12C924)
             .element(MANA_RADIATION_MIXTURE)
             .buildAndRegister();
-    public static final Material Eve_Beam = REGISTRATE.material(GTCEu.id("eve_beam"))
+    public static final Material Eve_Beam = REGISTRATE.material(CTNHMana.id("eve_beam"))
             .cnlang("EVE高能粒子")
             .liquid()
             .plasma()
             .color(0x1237C9)
             .buildAndRegister();
-    public static final Material Psionic_Medulla = REGISTRATE.material(GTCEu.id("psionic_medulla"))
+    public static final Material Psionic_Medulla = REGISTRATE.material(CTNHMana.id("psionic_medulla"))
             .cnlang("§5灵界髓质§r")
             .liquid()
             .gem()
@@ -119,7 +127,7 @@ public class CMMaterials {
             .color(0x7D26CD)
             .secondaryColor(0x836FFF)
             .buildAndRegister();
-    public static final Material Ultra_Mana = REGISTRATE.material(GTCEu.id("ultra_mana"))
+    public static final Material Ultra_Mana = REGISTRATE.material(CTNHMana.id("ultra_mana"))
             .cnlang("究极魔力")
             .liquid()
             .ingot()
@@ -132,7 +140,7 @@ public class CMMaterials {
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
-    public static final Material Fused_Mana = REGISTRATE.material(GTCEu.id("fused_mana"))
+    public static final Material Fused_Mana = REGISTRATE.material(CTNHMana.id("fused_mana"))
             .cnlang("蕴魔")
             .liquid()
             .ore()
@@ -140,7 +148,7 @@ public class CMMaterials {
             .dust()
             .ingot()
             .buildAndRegister();
-    public static final Material Fused_Mixed_Mana = REGISTRATE.material(GTCEu.id("fused_mixed_mana"))
+    public static final Material Fused_Mixed_Mana = REGISTRATE.material(CTNHMana.id("fused_mixed_mana"))
             .cnlang("分选蕴魔")
             .liquid()
             .color(0xB784C9)
@@ -148,14 +156,14 @@ public class CMMaterials {
             .ingot()
             .element(MANA_MIXED_2)
             .buildAndRegister();
-    public static final Material Stable_Plus_Mana = REGISTRATE.material(GTCEu.id("stable_plus_mana"))
+    public static final Material Stable_Plus_Mana = REGISTRATE.material(CTNHMana.id("stable_plus_mana"))
             .cnlang("临界态究极魔力")
             .dust()
             .liquid()
             .ingot()
             .color(0xC949C9)
             .buildAndRegister();
-    public static final Material Unknown_Super_Mana = REGISTRATE.material(GTCEu.id("unknown_super_mana"))
+    public static final Material Unknown_Super_Mana = REGISTRATE.material(CTNHMana.id("unknown_super_mana"))
             .cnlang("混沌态临界魔力")
             .dust()
             .liquid()
@@ -163,12 +171,12 @@ public class CMMaterials {
             .color(0xF02DFA)
             .element(MANA_UNKNOWN_SUPER)
             .buildAndRegister();
-    public static final Material Remain_Mana = REGISTRATE.material(GTCEu.id("remain_mana"))
+    public static final Material Remain_Mana = REGISTRATE.material(CTNHMana.id("remain_mana"))
             .cnlang("魔力残留物")
             .dust()
             .color(0xC576C9)
             .buildAndRegister();
-    public static final Material Super_Plus_Mana = REGISTRATE.material(GTCEu.id("super_plus_mana"))
+    public static final Material Super_Plus_Mana = REGISTRATE.material(CTNHMana.id("super_plus_mana"))
             .cnlang("临界富集魔力")
             .dust()
             .liquid()
@@ -178,7 +186,7 @@ public class CMMaterials {
                     GENERATE_FRAME, GENERATE_RING)
             .element(MANA_PLUS3)
             .buildAndRegister();
-    public static final Material Quaser_Mana = REGISTRATE.material(GTCEu.id("quaser_mana"))
+    public static final Material Quaser_Mana = REGISTRATE.material(CTNHMana.id("quaser_mana"))
             .cnlang("类星体魔力")
             .dust()
             .liquid()
@@ -187,21 +195,21 @@ public class CMMaterials {
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
-    public static final Material Infused_Plus_Mana = REGISTRATE.material(GTCEu.id("infused_plus_mana"))
+    public static final Material Infused_Plus_Mana = REGISTRATE.material(CTNHMana.id("infused_plus_mana"))
             .cnlang("不稳定注魔临界魔力")
             .dust()
             .liquid()
             .ingot()
             .color(0x810887)
             .buildAndRegister();
-    public static final Material Unstable_Plus_Mana = REGISTRATE.material(GTCEu.id("unstable_plus_mana"))
+    public static final Material Unstable_Plus_Mana = REGISTRATE.material(CTNHMana.id("unstable_plus_mana"))
             .cnlang("不稳定超富集魔力")
             .dust()
             .liquid()
             .ingot()
             .color(0xE71FF2)
             .buildAndRegister();
-    public static final Material Twist_Mana = REGISTRATE.material(GTCEu.id("twist_mana"))
+    public static final Material Twist_Mana = REGISTRATE.material(CTNHMana.id("twist_mana"))
             .cnlang("扭曲放射态临界魔力")
             .dust()
             .liquid()
@@ -210,14 +218,14 @@ public class CMMaterials {
             .color(0xE73EF0)
             .buildAndRegister();
     /** 粉紫色基质：粉尘与液态并存 */
-    public static final Material Twisted_Aggregate_Matrix = REGISTRATE.material(GTCEu.id("twisted_aggregate_matrix"))
+    public static final Material Twisted_Aggregate_Matrix = REGISTRATE.material(CTNHMana.id("twisted_aggregate_matrix"))
             .cnlang("扭曲聚合基质")
             .dust()
             .liquid()
             .color(0xE895DA)
             .secondaryColor(0x9D4EDD)
             .buildAndRegister();
-    public static final Material Fused_demon_mixed = REGISTRATE.material(GTCEu.id("fused_demon_mixed"))
+    public static final Material Fused_demon_mixed = REGISTRATE.material(CTNHMana.id("fused_demon_mixed"))
             .cnlang("恶魔意志筛选蕴魔")
             .dust()
             .liquid()
@@ -225,7 +233,7 @@ public class CMMaterials {
             .element(MANA_LP_MIXED)
             .buildAndRegister();
 
-    public static final Material Twist_Power_Mana = REGISTRATE.material(GTCEu.id("twist_power_mana"))
+    public static final Material Twist_Power_Mana = REGISTRATE.material(CTNHMana.id("twist_power_mana"))
             .cnlang("极端扭曲放射态临界魔力")
             .dust()
             .liquid()
@@ -233,7 +241,7 @@ public class CMMaterials {
             .element(TWIST_POWER_MANA)
             .color(0x9E07A6)
             .buildAndRegister();
-    public static final Material Plus_Mana = REGISTRATE.material(GTCEu.id("plus_mana"))
+    public static final Material Plus_Mana = REGISTRATE.material(CTNHMana.id("plus_mana"))
             .cnlang("富集魔力")
             .dust()
             .liquid()
@@ -243,7 +251,7 @@ public class CMMaterials {
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING)
             .buildAndRegister();
-    public static final Material Fused_Lp_Mixed_Mana = REGISTRATE.material(GTCEu.id("fused_lp_mixed_mana"))
+    public static final Material Fused_Lp_Mixed_Mana = REGISTRATE.material(CTNHMana.id("fused_lp_mixed_mana"))
             .cnlang("源质提纯恶魔")
             .dust()
             .liquid()
@@ -251,25 +259,25 @@ public class CMMaterials {
             .element(FUSED_LP_MIXED_MANA)
             .color(0xC354C9)
             .buildAndRegister();
-    public static final Material Shroud_Zenith_essence = REGISTRATE.material(GTCEu.id("shroud_zenith_essence"))
+    public static final Material Shroud_Zenith_essence = REGISTRATE.material(CTNHMana.id("shroud_zenith_essence"))
             .cnlang("§5虚境化的天顶源质§r")
             .liquid()
             .color(0x7D26CD)
             .secondaryColor(0x836FFF)
             .element(ACTIVE_ZENITH)
             .buildAndRegister();
-    public static final Material MANA_STABLE_COOLDOWN = REGISTRATE.material(GTCEu.id("mana_stable_cooldown"))
+    public static final Material MANA_STABLE_COOLDOWN = REGISTRATE.material(CTNHMana.id("mana_stable_cooldown"))
             .cnlang("魔力稳定剂")
             .liquid()
             .color(0x28358A)
             .buildAndRegister();
-    public static final Material ELF_FUEL = REGISTRATE.material(GTCEu.id("elf_fuel"))
+    public static final Material ELF_FUEL = REGISTRATE.material(CTNHMana.id("elf_fuel"))
             .cnlang("精灵稳定燃料")
             .liquid()
             .color(0x28358A)
             .buildAndRegister()
             .setFormula("ArNeC2O4Ma", true);
-    public static final Material HEMOPLATINUM = REGISTRATE.material(GTCEu.id("hemoplatinum"))
+    public static final Material HEMOPLATINUM = REGISTRATE.material(CTNHMana.id("hemoplatinum"))
             .cnlang("§4血铂")
             .liquid()
             .ingot()
@@ -281,7 +289,7 @@ public class CMMaterials {
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING, GENERATE_FINE_WIRE)
             .buildAndRegister();
-    public static final Material COAGULBLOODGOLD = REGISTRATE.material(GTCEu.id("coagulbloodgold"))
+    public static final Material COAGULBLOODGOLD = REGISTRATE.material(CTNHMana.id("coagulbloodgold"))
             .cnlang("§4凝血金")
             .ingot()
             .liquid()
@@ -292,7 +300,7 @@ public class CMMaterials {
             .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_BOLT_SCREW, GENERATE_FOIL,
                     GENERATE_FRAME, GENERATE_RING, GENERATE_FINE_WIRE)
             .buildAndRegister();
-    public static final Material PRIMOVOLITHEST = REGISTRATE.material(GTCEu.id("primovolithest"))
+    public static final Material PRIMOVOLITHEST = REGISTRATE.material(CTNHMana.id("primovolithest"))
             .cnlang("混元意志钢")
             .liquid()
             .ingot()
@@ -305,7 +313,7 @@ public class CMMaterials {
                     GENERATE_FRAME, GENERATE_RING)
 
             .buildAndRegister();
-    public static final Material YURIKO = REGISTRATE.material(GTCEu.id("yuriko"))
+    public static final Material YURIKO = REGISTRATE.material(CTNHMana.id("yuriko"))
             .cnlang("绮璃")
             .liquid()
             .ingot()

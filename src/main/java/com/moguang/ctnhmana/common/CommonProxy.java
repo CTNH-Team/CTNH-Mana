@@ -2,9 +2,11 @@ package com.moguang.ctnhmana.common;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
+import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -135,6 +137,11 @@ public class CommonProxy {
 
     public static void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType> event) {
         CMRecipeConditions.init();
+    }
+
+    @SubscribeEvent
+    public void registerMaterial(MaterialRegistryEvent event) {
+        MaterialRegistryManager.getInstance().createRegistry(CTNHMana.MODID);
     }
 
     @SubscribeEvent

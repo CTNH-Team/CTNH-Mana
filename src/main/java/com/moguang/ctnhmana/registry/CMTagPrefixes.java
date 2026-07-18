@@ -5,7 +5,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -22,8 +24,9 @@ public class CMTagPrefixes {
                 .lang("Livingrock %s Ore")
                 .registerOre(() -> BotaniaBlocks.livingrock.defaultBlockState(),
                         () -> CMMaterials.Livingrock,
-                        BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).requiresCorrectToolForDrops()
-                                .strength(3.0F, 3.0F),
+                        () -> BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE)
+                                .strength(2.0F, 10.0F).sound(SoundType.STONE)
+                                .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops(),
                         ResourceLocation.tryParse("botania:block/polished_livingrock"), false, false, true);
 
         oreLivingrock.addSecondaryMaterial(new MaterialStack(CMMaterials.Livingrock, TagPrefix.dust.materialAmount()));
