@@ -147,7 +147,6 @@ public class CommonProxy {
     @SubscribeEvent
     public void registerMaterials(MaterialEvent event) {
         CMMaterials.init();
-        CMMaterials.tagPrefixIgnore();
     }
 
     @SubscribeEvent

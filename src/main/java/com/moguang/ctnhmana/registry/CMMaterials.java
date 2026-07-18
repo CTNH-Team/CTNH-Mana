@@ -46,10 +46,8 @@ public class CMMaterials {
             MaterialIconSet.METALLIC);
 
     public static void init() {
-        if (ManaSteel != null) {
-            return;
-        }
         BotaniaMaterials.init();
+        tagPrefixIgnore();
     }
 
     public static void register() {}
