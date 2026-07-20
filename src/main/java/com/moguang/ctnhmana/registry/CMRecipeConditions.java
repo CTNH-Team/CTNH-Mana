@@ -3,10 +3,10 @@ package com.moguang.ctnhmana.registry;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.common.recipe.HellForgeCondition;
-import com.moguang.ctnhmana.common.recipe.InfusionCellCastingCondition;
-import com.moguang.ctnhmana.common.recipe.ZenithCondition;
+import com.moguang.ctnhmana.api.recipe.condition.BloodAltarCondition;
+import com.moguang.ctnhmana.api.recipe.condition.HellForgeCondition;
+import com.moguang.ctnhmana.api.recipe.condition.InfusionCellCastingCondition;
+import com.moguang.ctnhmana.api.recipe.condition.ZenithCondition;
 
 public class CMRecipeConditions {
 

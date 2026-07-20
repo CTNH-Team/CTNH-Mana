@@ -2,19 +2,17 @@ package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.redstone.Redstone;
 
-import com.moguang.ctnhmana.common.recipe.BloodAltarCondition;
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.api.recipe.condition.BloodAltarCondition;
+import com.moguang.ctnhmana.data.recipe.builder.bloodmagic.BloodAltarRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ManaInfusionRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
@@ -23,7 +21,6 @@ import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;

@@ -6,8 +6,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine;
-import com.moguang.ctnhmana.Mutiblock.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
 import wayoftime.bloodmagic.core.data.SoulNetwork;
 import wayoftime.bloodmagic.ritual.AreaDescriptor;
@@ -29,11 +29,11 @@ import java.util.UUID;
  * <p>
  * <b>设计要点：</b>
  * <ul>
- *   <li>不经过 {@link wayoftime.bloodmagic.common.tile.TileMasterRitualStone}，因此跳过仪式石布局校验</li>
- *   <li>LP 从凝聚仓储罐经虚拟灵魂网络扣除（{@link #getOwnerNetwork()}），不扣玩家全局 LP</li>
- *   <li>所有仪式的 range key（如 harvest 的 {@code harvestRange}、折磨之井的 {@code damage}）
- *       统一映射到 {@link #FIXED_RANGE}，简化初版机器逻辑</li>
- *   <li>恶魔意志配置暂返回空列表；需要增强效果时可改为读取区块意志或凝聚仓存储</li>
+ * <li>不经过 {@link wayoftime.bloodmagic.common.tile.TileMasterRitualStone}，因此跳过仪式石布局校验</li>
+ * <li>LP 从凝聚仓储罐经虚拟灵魂网络扣除（{@link #getOwnerNetwork()}），不扣玩家全局 LP</li>
+ * <li>所有仪式的 range key（如 harvest 的 {@code harvestRange}、折磨之井的 {@code damage}）
+ * 统一映射到 {@link #FIXED_RANGE}，简化初版机器逻辑</li>
+ * <li>恶魔意志配置暂返回空列表；需要增强效果时可改为读取区块意志或凝聚仓存储</li>
  * </ul>
  *
  * @see RitualMechanicalMachine#afterWorking() 配方完成后创建本类并调用一次 performRitual

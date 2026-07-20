@@ -13,8 +13,6 @@ import net.createmod.catnip.annotations.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 
-import dev.latvian.mods.rhino.util.HideFromJS;
-import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +21,6 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 
 @LDLRegister(name = "arc_button", group = "widget.basic") // 修改注册名以便区分
-@RemapPrefixForJS("kjs$")
 public class ArcButtonWidget extends Widget implements IConfigurableWidget {
 
     @Configurable(name = "ldlib.gui.editor.name.clicked_texture")
@@ -85,7 +82,6 @@ public class ArcButtonWidget extends Widget implements IConfigurableWidget {
         return this;
     }
 
-    @HideFromJS
     public ArcButtonWidget setHoverTexture(IGuiTexture... hoverTexture) {
         super.setHoverTexture(hoverTexture);
         return this;

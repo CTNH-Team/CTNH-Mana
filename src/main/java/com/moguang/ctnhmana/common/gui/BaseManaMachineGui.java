@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.moguang.ctnhmana.Mutiblock.ManaMachine;
+import com.moguang.ctnhmana.common.multiblock.ManaMachine;
 import com.moguang.ctnhmana.registry.CMMachines;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 

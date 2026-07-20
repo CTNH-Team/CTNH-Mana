@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.item.equipment.KoishiEyeItem;
+import com.moguang.ctnhmana.common.item.equipment.KoishiEyeItem;
 import com.moguang.ctnhmana.registry.CMItems;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;

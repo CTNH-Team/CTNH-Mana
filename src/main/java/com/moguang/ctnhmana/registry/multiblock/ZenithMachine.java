@@ -12,8 +12,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.Mutiblock.BaseManaMachine;
-import com.moguang.ctnhmana.Mutiblock.parts.CMPartsAbility;
+import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 
@@ -30,14 +30,15 @@ public class ZenithMachine {
     public static void init() {}
 
     public final static MultiblockMachineDefinition ZENITH_CUTTER = REGISTRATE
-            .multiblock("zenith_cutter", holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 24, 32))
+            .multiblock("zenith_cutter",
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 24, 32))
             .cnLangValue("§5天顶思维切削者")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CUTTER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABBACCA", "ADDADDA", "ADDADDA", "ADDADDA", "ADDADDA", "ACCAEEA", "ADDADDA", "ADDADDA",
                             "ADDADDA", "ADDADDA", "ADDADDA", "AEEAFFA", "ADDADDA", "ADDADDA", "ADDADDA", "ADDADDA",
@@ -84,14 +85,14 @@ public class ZenithMachine {
             .register();
     public final static MultiblockMachineDefinition ZENITH_ELECTROLYZER = REGISTRATE
             .multiblock("zenith_electrolyzer",
-                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 7, 32))
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 7, 32))
             .cnLangValue("§5天顶概念解离者")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 7))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.ELECTROLYZER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A################", "######BBBBB######", "###BBBCCDEEBBB###", "##BCCCFCDEFEEEB##",
                             "##BCFBBCDEBBFEB##", "##BCBCCCDEEEBEB##", "#BCFBCDDDDDEBFEB#", "BBCCCCDDDDDEEEEBB",
@@ -149,7 +150,7 @@ public class ZenithMachine {
     // .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES, GTRecipeTypes.FORGE_HAMMER_RECIPES,
     // CMRecipeTypes.MANA_FORGE_RECIPES)
     // .recipeModifiers(BaseManaMachine::recipeModifier,
-    // GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+    // GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
     // .pattern(definition -> FactoryBlockPattern.start()
     // .aisle("AAAAAAAAAAAA", "ABBBBBBBBBBA", "ACCCCCCCCCCA", "ABBBBBBBBBBA", "AAAAAAAAAAAA")
     // .aisle("ADDDDDDDDDDA", "EFFFFFFFFFFG", "EHHHHHHHHHHC", "EFFFFFFFFFFG", "AIIIIIIIIIIA")
@@ -183,7 +184,7 @@ public class ZenithMachine {
     // .register();
     public final static MultiblockMachineDefinition ZENITH_CIRCUIT_ASSEMBLER = REGISTRATE
             .multiblock("zenith_assembler",
-                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 7, 32))
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 7, 32))
             .cnLangValue("§5天顶逻辑组合者")
             .tooltips(addManaMachineTooltips(basezenithmutiblockLang, 7))
             .tooltips(zenithAssemblerLang.translate())
@@ -191,7 +192,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES, CMRecipeTypes.ZENITH_CIRCUIT)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#########", "#########", "#########", "##BBBBB##", "##BBBBB##", "##BB@BB##", "##BBBBB##",
                             "##BBBBB##", "#########", "#########", "########A")
@@ -242,7 +243,7 @@ public class ZenithMachine {
             .register();
     public final static MultiblockMachineDefinition ZENITH_LASER = REGISTRATE
             .multiblock("zenith_laser",
-                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 7, 32))
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 7, 32))
             .cnLangValue("§5天顶空间映射者")
             .tooltips(addManaMachineTooltips(basezenithmutiblockLang, 7))
             .tooltips(zenithLaserLang.translate())
@@ -250,7 +251,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##",
                             "###AABAA###")
@@ -302,14 +303,14 @@ public class ZenithMachine {
             .register();
     public final static MultiblockMachineDefinition ZENITH_EXTRUDER = REGISTRATE
             .multiblock("zenith_extruder",
-                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 32, 32))
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 32, 32))
             .cnLangValue("§5天顶现实塑造者")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.EXTRUDER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#######", "########", "########", "########", "########", "########", "########",
                             "########", "########", "########", "########", "########", "########", "########",
@@ -364,7 +365,7 @@ public class ZenithMachine {
 
     public final static MultiblockMachineDefinition ZENITH_DISTILLATION = REGISTRATE
             .multiblock("zenith_distillation",
-                    holder -> new com.moguang.ctnhmana.Mutiblock.ZenithMachine(holder, 7, 32))
+                    holder -> new com.moguang.ctnhmana.common.multiblock.ZenithMachine(holder, 7, 32))
             .cnLangValue("§5天顶灵能升华者")
             .tooltips(addManaMachineTooltips(basezenithmutiblockLang, 7))
             .tooltips(zenithDistillationLang.translate())
@@ -372,7 +373,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##BBB###", "#########", "#########", "#########", "#########", "#########", "#########",
                             "#########", "#########", "#########", "#########", "#########", "#########", "#########",

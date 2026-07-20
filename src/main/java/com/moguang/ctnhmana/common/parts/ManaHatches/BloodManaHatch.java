@@ -1,0 +1,368 @@
+package com.moguang.ctnhmana.common.parts.ManaHatches;
+
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+
+import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.jei.IngredientIO;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.fluids.FluidStack;
+
+import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.parts.ManaHatch;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
+import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+import wayoftime.bloodmagic.api.compat.EnumDemonWillType;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
+import wayoftime.bloodmagic.common.item.ItemBloodOrb;
+import wayoftime.bloodmagic.common.item.soul.ItemSoulGem;
+import wayoftime.bloodmagic.demonaura.WillChunk;
+import wayoftime.bloodmagic.demonaura.WorldDemonWillHandler;
+import wayoftime.bloodmagic.util.helper.NetworkHelper;
+
+import java.util.Objects;
+import java.util.function.DoubleSupplier;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class BloodManaHatch extends ManaHatch implements IDistinctPart {
+
+    @Getter
+    @Persisted
+    private final NotifiableItemStackHandler blood_inventory;
+    @Getter
+    @Persisted
+    private final NotifiableItemStackHandler soul_inventory;
+    @Persisted
+    protected final IO io = IO.IN;
+    @Persisted
+    private int MANA_TO_POWER_RATE = 20; // 默认值为20
+    private ISubscription ManaSubs = null;
+    @Persisted
+    private double FLUID_LP_CONVERT_SPEED = 0.01;
+    @Persisted
+    private int Blood_Mana;
+    @Persisted
+    public int maxDemonWill = 100;
+    @Nullable
+    protected TickableSubscription ConvertSubs;
+    @Persisted
+    private int timer = 0;
+    @Persisted
+    public double rawWill = 0;
+    @Persisted
+    public double steadfastWill = 0;
+    @Persisted
+    public double corrosiveWill = 0;
+    @Persisted
+    public double destructiveWill = 0;
+    @Persisted
+    public double vengefulWill = 0;
+    @Persisted
+    public boolean transfer_net = true;
+
+    WillChunk willChunk = null;
+    // Holder初始化 持久化
+    // 宝珠链接
+    @Persisted
+    private int LP_TO_POWER_RATE = 10; // 默认值为10转1
+
+    public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, int LP_CONVERT_RATE, int capacity,
+                          int maxDemonWill, double FLUID_LP_CONVERT_SPEED) {
+        super(holder, max_Mana, max_LP, 0, capacity);
+        blood_inventory = createMachineStorageOrb();
+        soul_inventory = createMachineStorageGem();
+        this.LP_CONVERT_RATE = LP_CONVERT_RATE;
+        this.maxDemonWill = maxDemonWill;
+        this.FLUID_LP_CONVERT_SPEED = FLUID_LP_CONVERT_SPEED;
+    }
+
+    public DoubleSupplier get_MP = () -> (double) this.Mana / maxMana;
+
+    @Override
+    public boolean isDistinct() {
+        return getInventory().isDistinct();
+    }
+
+    @Override
+    public void setDistinct(boolean isDistinct) {
+        getInventory().setDistinct(isDistinct);
+    }
+
+    protected NotifiableItemStackHandler createMachineStorageGem() {
+        return new NotifiableItemStackHandler(
+                this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
+
+                    @Override
+                    public int getSlotLimit(int slot) {
+                        return 1;
+                    }
+
+                    @Override
+                    public void onContentsChanged(int slot) {
+                        super.onContentsChanged(slot);
+                    }
+                }).setFilter(itemStack -> itemStack.getItem() instanceof ItemSoulGem);
+    }
+
+    protected NotifiableItemStackHandler createMachineStorageOrb() {
+        return new NotifiableItemStackHandler(
+                this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
+
+                    @Override
+                    public int getSlotLimit(int slot) {
+                        return 1;
+                    }
+
+                    @Override
+                    public void onContentsChanged(int slot) {
+                        super.onContentsChanged(slot);
+                    }
+                }).setFilter(itemStack -> itemStack.getItem() instanceof ItemBloodOrb);
+    }
+
+    @Override
+    public Widget createUIWidget() {
+        var group = new DraggableScrollableWidgetGroup(0, 0, 176, 124).setBackground(CMGuiTextures.BM_BACKGROUND);
+        var container = new WidgetGroup(176 / 2 - 13, 124 / 2 - 26, 26, 26);
+        var container2 = new WidgetGroup(176 / 2 - 13, 124 / 2 + 26, 26, 26);
+        var speed_progress2 = (new ProgressWidget(this.get_MP, 176 - 24 - 4 - 4, 124 / 2 - 26, 24, 112,
+                new ProgressTexture(CMGuiTextures.PROGRESS_BAR_BM_MANA_HATCH_EMPTY,
+                        CMGuiTextures.PROGRESS_BAR_BM_MANA_HATCH_DYNAMIC)
+                        .setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
+                .setDynamicHoverTips(mana -> {
+                    return "当前魔力值:%d".formatted((int) (mana * maxMana));
+                }));
+        int index = 0;
+        container.addWidgets(
+                new SlotWidget(getBlood_inventory().storage, index++, 4, 4, true, io.support(IO.IN))
+                        .setBackgroundTexture(CMGuiTextures.SLOT_ORB)
+                        .setIngredientIO(IngredientIO.INPUT));
+        index = 0;
+        container.addWidgets(
+                new SlotWidget(getSoul_inventory().storage, index++, 4, 20, true, io.support(IO.IN))
+                        .setBackgroundTexture(GuiTextures.SLOT)
+                        .setIngredientIO(IngredientIO.INPUT));
+        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        group.addWidget(speed_progress2);
+        group.addWidget(container);
+        return group;
+    }
+
+    //////////////////////////////////////
+    // ******** Subscriptions&Ticks ********//
+    //////////////////////////////////////
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        this.willChunk = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()), getPos());
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+            onInventoryChanged();
+            ManaSubs = blood_inventory.addChangedListener(this::onInventoryChanged);
+            serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (ManaSubs != null) {
+            ManaSubs.unsubscribe();
+        }
+        if (ConvertSubs != null) {
+            ConvertSubs.unsubscribe();
+            ConvertSubs = null;
+        }
+    }
+
+    private void updateManaPower() {
+        ConvertSubs = subscribeServerTick(ConvertSubs, this::ConvertMana);
+    }
+
+    @Override
+    public void ConvertMana() {
+        if (getOffsetTimer() % 20 == 0 && hasWillStorageSpace()) {
+            ConvertGemsWill();
+            if (willChunk != null) {
+                for (EnumDemonWillType type1 : EnumDemonWillType.values()) {
+                    ConvertWill(type1);
+                }
+            }
+        }
+        if (Mana < maxMana) {
+            ConvertFluidLP();
+            ConvertLP();
+        }
+    }
+
+    private boolean hasWillStorageSpace() {
+        return rawWill < maxDemonWill ||
+                steadfastWill < maxDemonWill ||
+                corrosiveWill < maxDemonWill ||
+                destructiveWill < maxDemonWill ||
+                vengefulWill < maxDemonWill;
+    }
+
+    public boolean ConsumeWillIfEnough(String type, double num) {
+        switch (type) {
+            case "default" -> {
+                if (this.rawWill >= num) {
+                    this.rawWill -= num;
+                    return true;
+                }
+                return false;
+            }
+            case "vengeful" -> {
+                if (this.vengefulWill >= num) {
+                    this.vengefulWill -= num;
+                    return true;
+                }
+                return false;
+            }
+            case "steadfast" -> {
+                if (this.steadfastWill >= num) {
+                    this.steadfastWill -= num;
+                    return true;
+                }
+                return false;
+            }
+            case "corrosive" -> {
+                if (this.corrosiveWill >= num) {
+                    this.corrosiveWill -= num;
+                    return true;
+                }
+                return false;
+            }
+            case "destructive" -> {
+                if (this.destructiveWill >= num) {
+                    this.destructiveWill -= num;
+                    return true;
+                }
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+    public void ConvertGemsWill() {
+        if (!soul_inventory.isEmpty()) {
+            var item = getSoul_inventory().getStackInSlot(0);
+            if (item.getItem() instanceof ItemSoulGem gem && gem.getWill(gem.getCurrentType(item), item) > 0) {
+                var type = gem.getCurrentType(item);
+                var current_will = gem.getWill(type, item);
+                double consume = 0;
+                switch (type) {
+                    case DEFAULT -> {
+                        consume = Math.min(current_will, maxDemonWill - rawWill);
+                        rawWill += consume;
+
+                    }
+                    case CORROSIVE -> {
+                        consume = Math.min(current_will, maxDemonWill - corrosiveWill);
+                        corrosiveWill += consume;
+                    }
+                    case DESTRUCTIVE -> {
+                        consume = Math.min(current_will, maxDemonWill - destructiveWill);
+                        destructiveWill += consume;
+                    }
+                    case VENGEFUL -> {
+                        consume = Math.min(current_will, maxDemonWill - vengefulWill);
+                        vengefulWill += consume;
+                    }
+                    case STEADFAST -> {
+                        consume = Math.min(current_will, maxDemonWill - steadfastWill);
+                        steadfastWill += consume;
+                    }
+                }
+                gem.drainWill(type, item, consume, true);
+
+            }
+        }
+    }
+
+    public void ConvertFluidLP() {
+        if (!fluidTank.isEmpty() && fluidTank.getFluidInTank(0)
+                .containsFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1)) &&
+                fluidTank.getFluidInTank(0).getAmount() > FLUID_MANA_CONVERT_RATE / FLUID_MANA_CONVERT_SPEED) {
+            var consume = Math.min(fluidTank.getFluidInTank(0).getAmount(),
+                    (long) Math.min((fluidTank.getFluidInTank(0).getAmount() * FLUID_LP_CONVERT_SPEED),
+                            (maxMana - Mana) * LP_CONVERT_RATE));
+            Mana = Math.min(maxMana, (long) (consume / LP_CONVERT_RATE) + Mana);
+            fluidTank.getFluidInTank(0).setAmount((int) (fluidTank.getFluidInTank(0).getAmount() - consume));
+        }
+    }
+
+    public void ConvertWill(EnumDemonWillType TYPE) {
+        switch (TYPE) {
+            case DEFAULT -> {
+                var will = willChunk.getCurrentWill().getWill(TYPE);
+                var consume = Math.min(will, maxDemonWill - rawWill);
+                rawWill += consume;
+                WorldDemonWillHandler.drainWill(this.getLevel(), this.getPos(), TYPE, consume, true);
+            }
+            case CORROSIVE -> {
+                var will = willChunk.getCurrentWill().getWill(TYPE);
+                var consume = Math.min(will, maxDemonWill - corrosiveWill);
+                corrosiveWill += consume;
+                WorldDemonWillHandler.drainWill(this.getLevel(), this.getPos(), TYPE, consume, true);
+            }
+            case DESTRUCTIVE -> {
+                var will = willChunk.getCurrentWill().getWill(TYPE);
+                var consume = Math.min(will, maxDemonWill - destructiveWill);
+                destructiveWill += consume;
+                WorldDemonWillHandler.drainWill(this.getLevel(), this.getPos(), TYPE, consume, true);
+            }
+            case VENGEFUL -> {
+                var will = willChunk.getCurrentWill().getWill(TYPE);
+                var consume = Math.min(will, maxDemonWill - vengefulWill);
+                vengefulWill += consume;
+                WorldDemonWillHandler.drainWill(this.getLevel(), this.getPos(), TYPE, consume, true);
+            }
+            case STEADFAST -> {
+                var will = willChunk.getCurrentWill().getWill(TYPE);
+                var consume = Math.min(will, maxDemonWill - steadfastWill);
+                steadfastWill += consume;
+                WorldDemonWillHandler.drainWill(this.getLevel(), this.getPos(), TYPE, consume, true);
+            }
+        }
+    }
+
+    @Override
+    public void onInventoryChanged() {
+        if (!blood_inventory.isEmpty()) {
+            var item = blood_inventory.getStackInSlot(0);
+            if (item.getItem() instanceof ItemBloodOrb orb &&
+                    ((ItemBloodOrb) item.getItem()).getBinding(item) != null) {
+                this.orb = orb.getOrb(item);
+                this.SoulNet = NetworkHelper.getSoulNetwork(((ItemBloodOrb) item.getItem()).getBinding(item));
+                HAVE_ORB = true;
+            } else setSoulNetInvalid();
+
+        } else setSoulNetInvalid();
+    }
+
+    @Override
+    public void setSoulNetInvalid() {
+        if (this.SoulNet != null) {
+            this.SoulNet = null;
+            HAVE_ORB = false;
+        }
+    }
+}

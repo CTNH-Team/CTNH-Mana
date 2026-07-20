@@ -12,8 +12,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ElfPlateRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMachines;
 import com.moguang.ctnhmana.registry.CMMaterials;
@@ -26,7 +26,6 @@ import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.helheimRune;

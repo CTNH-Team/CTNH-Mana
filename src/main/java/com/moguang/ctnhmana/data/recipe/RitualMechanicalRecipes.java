@@ -1,5 +1,8 @@
 package com.moguang.ctnhmana.data.recipe;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -7,16 +10,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.moguang.ctnhmana.Mutiblock.RitualMechanicalMachine;
+import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.registry.CMMaterials;
+import org.jetbrains.annotations.Nullable;
+import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.function.Consumer;
-
-import org.jetbrains.annotations.Nullable;
-
-import vazkii.botania.common.item.BotaniaItems;
 
 import static com.gregtechceu.gtceu.api.GTValues.IV;
 import static com.gregtechceu.gtceu.api.GTValues.V;
@@ -34,8 +33,8 @@ import static dev.shadowsoffire.apotheosis.ench.Ench.Items.INFUSED_BREATH;
 public class RitualMechanicalRecipes {
 
     /** Ender IO 经验之汁，中文社区常称「液态经验」 */
-    private static final FluidIngredient LIQUID_EXPERIENCE =
-            FluidIngredient.of(ForgeRegistries.FLUIDS.getValue(ResourceLocation.parse("enderio:xp_juice")), 1000);
+    private static final FluidIngredient LIQUID_EXPERIENCE = FluidIngredient
+            .of(ForgeRegistries.FLUIDS.getValue(ResourceLocation.parse("enderio:xp_juice")), 1000);
 
     public static void init(Consumer<FinishedRecipe> provider) {
         // ── 原版 Blood Magic 仪式 ──────────────────────────────────────

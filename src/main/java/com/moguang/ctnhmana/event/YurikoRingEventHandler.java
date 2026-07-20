@@ -15,7 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.item.equipment.YurikoRingItem;
+import com.moguang.ctnhmana.common.item.equipment.YurikoRingItem;
 import com.moguang.ctnhmana.registry.CMItems;
 import vazkii.botania.common.handler.EquipmentHandler;
 

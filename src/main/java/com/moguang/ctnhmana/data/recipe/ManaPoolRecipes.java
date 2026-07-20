@@ -9,20 +9,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.common.recipe.builder.botania.ManaInfusionRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ManaInfusionRecipeBuilder;
 
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
-import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
-import static com.moguang.ctnhmana.registry.CMRecipeTypes.*;
-import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.*;
-import static dev.shadowsoffire.apotheosis.ench.Ench.Items.*;
 import static io.github.lounode.extrabotany.common.item.ExtraBotanyItems.*;
 import static mythicbotany.register.ModItems.*;
 import static net.minecraft.world.item.Items.*;

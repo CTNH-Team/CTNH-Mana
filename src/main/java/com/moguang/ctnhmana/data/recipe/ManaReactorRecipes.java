@@ -1,7 +1,7 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
-import com.moguang.ctnhmana.common.recipe.ZenithCondition;
+import com.moguang.ctnhmana.api.recipe.condition.ZenithCondition;
 import com.moguang.ctnhmana.registry.multiblock.Botania;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;

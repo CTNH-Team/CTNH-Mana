@@ -3,7 +3,7 @@ package com.moguang.ctnhmana.client.model;
 import net.minecraft.resources.ResourceLocation;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.item.FlowerCakeItem;
+import com.moguang.ctnhmana.common.item.FlowerCakeItem;
 import software.bernie.geckolib.model.GeoModel;
 
 public class StarCakeItemModel extends GeoModel<FlowerCakeItem> {

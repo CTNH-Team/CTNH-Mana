@@ -4,8 +4,8 @@ import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.client.ponder.Mana.MagicRituals;
-import com.moguang.ctnhmana.client.ponder.Mana.MysticSpire;
+import com.moguang.ctnhmana.client.ponder.mana.MagicRituals;
+import com.moguang.ctnhmana.client.ponder.mana.MysticSpire;
 import com.moguang.ctnhmana.registry.CMMultiblockMachines;
 
 public final class CTNHManaPonderScenes {

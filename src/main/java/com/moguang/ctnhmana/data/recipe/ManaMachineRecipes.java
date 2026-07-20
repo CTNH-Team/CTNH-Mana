@@ -1,7 +1,7 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -10,8 +10,8 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import com.moguang.ctnhmana.common.recipe.builder.ElfPlateRecipeBuilder;
-import com.moguang.ctnhmana.common.recipe.builder.botania.TerraPlateRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.ElfPlateRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.*;
 import mythicbotany.register.ModItems;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
@@ -34,7 +34,7 @@ import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.multiblock.BloodMagic.*;
 import static com.moguang.ctnhmana.registry.multiblock.Botania.*;
 import static com.moguang.ctnhmana.registry.multiblock.ManaMachine.*;
-import static com.moguang.ctnhmana.registry.multiblock.misc.*;
+import static com.moguang.ctnhmana.registry.multiblock.Misc.*;
 import static vazkii.botania.common.block.BotaniaBlocks.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
 import static wayoftime.bloodmagic.common.block.BloodMagicBlocks.*;

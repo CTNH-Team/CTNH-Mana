@@ -5,12 +5,12 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 
-import com.moguang.ctnhmana.Mutiblock.parts.ExtendedCentralControlBus;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import com.moguang.ctnhmana.common.parts.ExtendedCentralControlBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntConsumer;

@@ -4,11 +4,13 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import dev.shadowsoffire.hostilenetworks.Hostile;
+import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,15 +24,17 @@ public class DigitalWosMachine extends SimpleTieredMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
         if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
-            var count = stack.getTag().getCompound("data_model").getInt("data");
-            if (count < 6) multiplier = 0;
-            else if (count < 48) multiplier = 1;
-            else if (count < 300) multiplier = 1.5;
-            else if (count < 900) multiplier = 2;
-            else multiplier = 3;
+            if (stack.is(Hostile.Items.DATA_MODEL.get())) {
+                var count = DataModelItem.getData(stack);
+                if (count < 6) multiplier = 0;
+                else if (count < 48) multiplier = 1;
+                else if (count < 300) multiplier = 1.5;
+                else if (count < 900) multiplier = 2;
+                else multiplier = 3;
+            }
         }
         return super.beforeWorking(recipe);
     }
@@ -39,16 +43,21 @@ public class DigitalWosMachine extends SimpleTieredMachine {
     public void afterWorking() {
         if (!importItems.isEmpty()) {
             ItemStack stack = (ItemStack) importItems.getContents().get(0);
-            var count = stack.getTag().getCompound("data_model").getInt("data");
-            if (count < 54) stack.getTag().getCompound("data_model").putInt("data", count + 1);
+            if (stack.is(Hostile.Items.DATA_MODEL.get())) {
+                var count = DataModelItem.getData(stack);
+                if (count < 54) {
+                    DataModelItem.setData(stack, count + 1);
+                }
+            }
         }
         super.afterWorking();
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof DigitalWosMachine dmachine) {
-            return ModifierFunction.builder().outputModifier(ContentModifier.multiplier(dmachine.multiplier)).build();
+            recipe.outputs.multiply((int) dmachine.multiplier);
+            recipe.tickOutputs.multiply((int) dmachine.multiplier);
         }
-        return ModifierFunction.IDENTITY;
+        return null;
     }
 }

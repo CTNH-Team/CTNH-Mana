@@ -6,14 +6,13 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.moguang.ctnhmana.common.recipe.builder.bloodmagic.TartaricForgeRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.bloodmagic.TartaricForgeRecipeBuilder;
 import vazkii.botania.common.block.BotaniaBlocks;
 import wayoftime.bloodmagic.anointment.AnointmentData;
 import wayoftime.bloodmagic.anointment.AnointmentHolder;
@@ -23,14 +22,12 @@ import wayoftime.bloodmagic.core.AnointmentRegistrar;
 
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.Material.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static net.minecraft.world.item.Items.*;
 import static vazkii.botania.common.item.BotaniaItems.*;
-import static wayoftime.bloodmagic.anointment.Anointment.*;
 import static wayoftime.bloodmagic.common.item.BloodMagicItems.*;
 
 @SuppressWarnings("removal")

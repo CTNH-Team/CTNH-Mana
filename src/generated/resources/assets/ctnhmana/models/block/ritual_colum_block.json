@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "ctnhmana:block/altar/ritual_mechanical_block"
+  }
+}

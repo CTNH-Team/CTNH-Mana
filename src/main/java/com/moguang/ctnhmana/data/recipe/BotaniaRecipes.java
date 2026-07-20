@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
 import appeng.core.definitions.AEItems;
-import com.moguang.ctnhmana.common.recipe.builder.botania.PetalRecipeBuilder;
+import com.moguang.ctnhmana.data.recipe.builder.botania.PetalRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMItems;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;

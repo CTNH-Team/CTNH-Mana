@@ -2,11 +2,13 @@ package com.moguang.ctnhmana.client.gui.radial;
 
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 
+import com.lowdragmc.lowdraglib.networking.LDLNetworking;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.item.Caduceus.CaduceusItem;
+import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.moguang.ctnhmana.networking.packets.CaduceusPacket;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public final class CaduceusRadialMenu {
         IntConsumer onSelect = slot -> {
             if (slot < 0 || slot >= CaduceusItem.CYCLE_TYPES.size()) return;
             GTToolType selectedType = CaduceusItem.CYCLE_TYPES.get(slot);
-            com.lowdragmc.lowdraglib.networking.LDLNetworking.NETWORK.sendToServer(
+            LDLNetworking.NETWORK.sendToServer(
                     new CaduceusPacket(selectedType.name));
         };
 

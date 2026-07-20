@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
-import com.moguang.ctnhmana.common.recipe.ZenithCondition;
+import com.moguang.ctnhmana.api.recipe.condition.ZenithCondition;
 import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import mythicbotany.register.ModItems;

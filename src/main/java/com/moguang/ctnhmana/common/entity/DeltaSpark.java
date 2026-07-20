@@ -1,6 +1,7 @@
 package com.moguang.ctnhmana.common.entity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,14 +22,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
-import com.moguang.ctnhmana.Mutiblock.MysticSpire;
 
-import com.moguang.ctnhmana.Mutiblock.SpireBigMath;
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
-import com.moguang.ctnhmana.item.equipment.SaberWandItem;
+import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
+import com.moguang.ctnhmana.common.multiblock.MysticSpire;
+import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import lombok.Getter;
 import vazkii.botania.api.block.WandHUD;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
@@ -50,8 +51,8 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static com.moguang.ctnhmana.item.equipment.SaberWandItem.saberWandBindingLang;
-import static com.moguang.ctnhmana.item.equipment.SaberWandItem.updateSpireLang;
+import static com.moguang.ctnhmana.common.item.equipment.SaberWandItem.saberWandBindingLang;
+import static com.moguang.ctnhmana.common.item.equipment.SaberWandItem.updateSpireLang;
 
 public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaCollisionGhost {
 
@@ -167,19 +168,16 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     private static boolean canSpreadToReceiver(ManaReceiver receiver) {
-        return !receiver.isFull()
-                && !((BlockEntity) receiver).isRemoved()
-                && !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower())
-                && !(receiver instanceof GeneratingFlowerBlockEntity);
+        return !receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
+                !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
+                !(receiver instanceof GeneratingFlowerBlockEntity);
     }
 
     public void sendManaToHatchReceiver() {
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int remaining = pool.mysticOutboundTickCap(speed);
-        distributeOutboundToReceiversEvenly(pool, remaining, receiver ->
-                !receiver.isFull()
-                        && !((BlockEntity) receiver).isRemoved()
-                        && receiver instanceof IManaMachineBlockEntity);
+        distributeOutboundToReceiversEvenly(pool, remaining, receiver -> !receiver.isFull() &&
+                !((BlockEntity) receiver).isRemoved() && receiver instanceof IManaMachineBlockEntity);
     }
 
     /** 本 tick 预算在多个火花目标间均分；单目标满则跳过，余量下一轮再分 */
@@ -330,6 +328,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         target_pool.receiveMana(consume);
         if (isAnimationActive) particlesTowards((connectedDeltaSpark));
     }
+
     private static int tryTransferMana(ManaReceiver receiver, int attempt) {
         if (attempt <= 0 || receiver.isFull()) {
             return 0;
@@ -556,6 +555,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     (int) connectedDeltaSpark.getY(), (int) connectedDeltaSpark.getZ());
         this.SpireMachine.getOrCreatedSpark();
     }
+
     public record WandHud(DeltaSpark entity) implements WandHUD {
 
         @Override
