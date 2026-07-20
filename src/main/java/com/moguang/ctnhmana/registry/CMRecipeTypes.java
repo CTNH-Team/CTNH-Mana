@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.registry;
 
+import com.ctnhlang.EN;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
