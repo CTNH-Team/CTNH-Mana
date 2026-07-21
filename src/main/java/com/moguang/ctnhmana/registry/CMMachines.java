@@ -67,10 +67,10 @@ public class CMMachines {
             "可连续食用！"
     })
     @EN({
-            "§b制作组物品§r",
-            "§b我永恒的灵魂，注视着你的心。纵使黑夜孤寂，白昼如焚。",
-            "需要输入900000魔力来激活，食用后获得半个小时的创造飞行",
-            "可连续食用！"
+            "§bDeveloper Item§r",
+            "§bMy eternal soul gazes upon your heart. Though the night is lonely, the day burns like fire.",
+            "Requires 900,000 mana to activate. Grants 30 minutes of creative flight upon consumption.",
+            "Can be consumed repeatedly!"
     })
     public static Lang[] flowercakelang;
 
