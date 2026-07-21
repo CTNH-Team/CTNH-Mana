@@ -618,8 +618,8 @@ public class CMItems {
             "§1意志结晶的逻辑拓展"
     })
     @EN({
-            "§1意志逻辑IV电路",
-            "§1意志结晶的逻辑拓展"
+            "§1Will Logic IV Circuit",
+            "§1Logical Expansion of the Will Crystal"
     })
     public static Lang[] will_crystal_circuit_lang;
     @CN({
@@ -627,8 +627,8 @@ public class CMItems {
             "§b魔力逻辑电路的第一步"
     })
     @EN({
-            "§b魔力逻辑HV电路",
-            "§b魔力电路化的第一步"
+            "§bMagic Logic HV Circuit",
+            "§bThe First Step of Magic Logic Circuits"
     })
     public static Lang[] mana_circuit_lang;
     @CN({
@@ -636,8 +636,8 @@ public class CMItems {
             "§a超越精灵的逻辑运算因式"
     })
     @EN({
-            "§a精灵逻辑EV电路",
-            "§a超越精灵的逻辑运算因式"
+            "§aAdvanced Magic Logic EV Circuit",
+            "§aTranscending Elf, a Factorial Operation of Logic"
     })
     public static Lang[] advanced_mana_circuit_lang;
     @CN("§4单向涌血控制")
