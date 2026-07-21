@@ -637,7 +637,7 @@ public class CMItems {
     })
     @EN({
             "§aAdvanced Magic Logic EV Circuit",
-            "§aTranscending Pixie, a Factorial Operation of Logic"
+            "§aTranscending Elf, a Factorial Operation of Logic"
     })
     public static Lang[] advanced_mana_circuit_lang;
     @CN("§4单向涌血控制")
