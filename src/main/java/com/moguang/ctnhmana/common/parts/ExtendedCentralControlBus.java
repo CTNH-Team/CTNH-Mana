@@ -91,7 +91,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
     }
 
     @Override
-    protected NotifiableItemStackHandler createCircuitItemHandler(Object... args) {
+    protected NotifiableItemStackHandler createCircuitItemHandler(IO io) {
         return new NotifiableItemStackHandler(this, CIRCUIT_SLOT_COUNT, IO.IN, IO.NONE)
                 .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
                 .shouldSearchContent(false);

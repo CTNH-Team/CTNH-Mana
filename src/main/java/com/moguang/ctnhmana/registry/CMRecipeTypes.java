@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.registry;
 
+import com.ctnhlang.EN;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -200,6 +201,7 @@ public class CMRecipeTypes {
      * 坠星位标参考配方（{@code ctnhmana:meteor_ritual_guide}），仅 EMI/JEI 展示，机器不处理。
      */
     @CN("需要消耗的LP：%d")
+    @EN("LP cost: %d")
     public static Lang lp_cost;
     public static final GTRecipeType METEOR_RITUAL_GUIDE = REGISTRATE
             .recipeType(CTNHMana.id("meteor_ritual_guide"), DUMMY)
