@@ -365,7 +365,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.Temperature += temp;
                 FluidStack pyrotheumFluid = new FluidStack(
                         Objects.requireNonNull(
-                                ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("gtceu:cryotheum"))),
+                                ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("ctnhcore:cryotheum"))),
                         1000);
                 // 检查输入仓是否有足够流??
                 boolean isFluidSufficient = MachineUtils.inputFluid(pyrotheumFluid, mmachine);
