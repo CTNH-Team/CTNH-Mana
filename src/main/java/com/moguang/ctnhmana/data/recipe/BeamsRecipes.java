@@ -116,7 +116,8 @@ public class BeamsRecipes {
                 .addData("required_mana", 1000000)
                 .addData("mana", 500000)
                 .circuitMeta(1)
-                .inputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadah_oxide_mixture_dust")),
+                .inputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadah_oxide_mixture_dust")),
                         1280)
                 .outputFluids(Naquadah.getFluid(172800))
                 .EUt(100000)
@@ -136,7 +137,8 @@ public class BeamsRecipes {
                 .addData("required_mana", 5000000)
                 .addData("mana", 3000000)
                 .circuitMeta(1)
-                .inputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadria_oxide_mixture_dust")),
+                .inputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadria_oxide_mixture_dust")),
                         1280)
                 .outputFluids(Naquadria.getFluid(115200))
                 .EUt(1000000)
