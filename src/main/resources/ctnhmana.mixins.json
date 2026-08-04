@@ -5,6 +5,8 @@
   "refmap": "mixins.ctnhmana.refmap.json",
   "mixins": [
     "ars.MixinEmiLecternRecipeHandler",
+    "ars.PotionJarMixin",
+    "ars.PotionTankMixin",
     "bloodmagic.BloodAltarMixin",
     "bloodmagic.TileAltarAccessor",
     "botania.BotaniaEntitiesMixin",

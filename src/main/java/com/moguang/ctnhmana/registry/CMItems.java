@@ -358,7 +358,7 @@ public class CMItems {
                 .register();
         TAINTED_BLOOD_EYE = REGISTRATE
                 .item("tainted_blood_third_eye", TaintedBloodWeepingEye::new)
-                .cnlang("污血泣眼")
+                .cnlang("污血泪眼")
                 .properties(properties -> {
                     properties.rarity(Rarity.EPIC);
                     properties.stacksTo(1);
@@ -913,6 +913,94 @@ public class CMItems {
             .item("steadfast_core", Item::new)
             .cnlang("坚毅核心")
             .lang("Steadfast Core")
+            .register();
+    @CN("蕴含火焰之力")
+    public static Lang spiritFireLang;
+    public static ItemEntry<ComponentItem> SPIRIT_FIRE = REGISTRATE
+            .item("spirit_fire", ComponentItem::create)
+            .cnlang("§c火之灵魄")
+            .lang("§cSpirit of Fire")
+            .onRegister(attach(
+                    new TooltipBehavior(text -> text.add(spiritFireLang.translate().withStyle(ChatFormatting.RED)))))
+            .register();
+    @CN("蕴含水流之力")
+    public static Lang spiritWaterLang;
+    public static ItemEntry<ComponentItem> SPIRIT_WATER = REGISTRATE
+            .item("spirit_water", ComponentItem::create)
+            .cnlang("§b水之灵魄")
+            .lang("§bSpirit of Water")
+            .onRegister(attach(
+                    new TooltipBehavior(text -> text.add(spiritWaterLang.translate().withStyle(ChatFormatting.AQUA)))))
+            .register();
+    @CN("蕴含疾风之力")
+    public static Lang spiritWindLang;
+    public static ItemEntry<ComponentItem> SPIRIT_WIND = REGISTRATE
+            .item("spirit_wind", ComponentItem::create)
+            .cnlang("§a风之灵魄")
+            .lang("§aSpirit of Wind")
+            .onRegister(attach(
+                    new TooltipBehavior(text -> text.add(spiritWindLang.translate().withStyle(ChatFormatting.GREEN)))))
+            .register();
+    @CN("蕴含大地之力")
+    public static Lang spiritEarthLang;
+    public static ItemEntry<ComponentItem> SPIRIT_EARTH = REGISTRATE
+            .item("spirit_earth", ComponentItem::create)
+            .cnlang("§6地之灵魄")
+            .lang("§6Spirit of Earth")
+            .onRegister(attach(
+                    new TooltipBehavior(text -> text.add(spiritEarthLang.translate().withStyle(ChatFormatting.GOLD)))))
+            .register();
+    @CN("寄托我深深的罪孽")
+    public static Lang spiritSinLang;
+    public static ItemEntry<ComponentItem> SPIRIT_SIN = REGISTRATE
+            .item("spirit_sin", ComponentItem::create)
+            .cnlang("§5罪之灵魄")
+            .lang("§5Spirit of Sin")
+            .onRegister(attach(new TooltipBehavior(
+                    text -> text.add(spiritSinLang.translate().withStyle(ChatFormatting.DARK_PURPLE)))))
+            .register();
+    @CN("振幅转化元件")
+    public static Lang gemOsLang;
+    public static ItemEntry<ComponentItem> GEM_OSCILLATOR = REGISTRATE
+            .item("gem_oscillator", ComponentItem::create)
+            .cnlang("宝石振子")
+            .lang("spirit_sin")
+            .onRegister(attach(new TooltipBehavior(text -> text.add(gemOsLang.translate()))))
+            .register();
+    public static ItemEntry<ComponentItem> WEAK_MANA_SPIRIT = REGISTRATE
+            .item("weak_mana_spirit", ComponentItem::create)
+            .cnlang("§7稀疏蕴魔精魄")
+            .lang("§7Sparse Mana Spirit")
+            .register();
+    public static ItemEntry<ComponentItem> ASCENDING_MANA_SPIRIT = REGISTRATE
+            .item("ascending_mana_spirit", ComponentItem::create)
+            .cnlang("§b升腾蕴魔精魄")
+            .lang("§bAscending Mana Spirit")
+            .register();
+    public static ItemEntry<ComponentItem> GIGA_MANA_SPIRIT = REGISTRATE
+            .item("giga_mana_spirit", ComponentItem::create)
+            .cnlang("§a盖亚蕴魔精魄")
+            .lang("§aGaia Mana Spirit")
+            .register();
+    public static ItemEntry<ComponentItem> RAINBOW_MANA_SPIRIT = REGISTRATE
+            .item("rainbow_mana_spirit", ComponentItem::create)
+            .cnlang("§d虹彩蕴魔精魄")
+            .lang("§dRainbow Mana Spirit")
+            .register();
+    @CN({
+            "§7来自过去的崩坏的残留",
+            "在崩解的水晶之中，你能否看见那道潜藏的泪痕？"
+    })
+    @EN({
+            "§7来自过去的崩坏的残留",
+            "在崩解的水晶之中，你能否看见那道潜藏的泪痕？"
+    })
+    public static Lang[] cryshCatalystLang;
+    public static ItemEntry<ComponentItem> CRYSH_CATALYST = REGISTRATE
+            .item("crysh_catalyst", ComponentItem::create)
+            .cnlang("§7崩坏的催化剂")
+            .lang("§7crysh_catalyst")
+            .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(cryshCatalystLang, text))))
             .register();
 
     public static ItemEntry<BTUpgradeItemT1> SKY_FLOWER_SPEECH;

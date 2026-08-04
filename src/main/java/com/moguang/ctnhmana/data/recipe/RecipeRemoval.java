@@ -28,6 +28,24 @@ public class RecipeRemoval {
         removePaths.add("bloodmagic:blood_rune_capacity");
         removePaths.add("mythicbotany:wither_aconite_petal_apothecary");
         removePaths.add("extrabotany:the_origin");
+
+        // Apotheosis salvaging table — re-registered under ctnhmana:salvaging/*
+        removePaths.add("apotheosis:salvaging/common_material");
+        removePaths.add("apotheosis:salvaging/uncommon_material");
+        removePaths.add("apotheosis:salvaging/rare_material");
+        removePaths.add("apotheosis:salvaging/epic_material");
+        removePaths.add("apotheosis:salvaging/mythic_material");
+        removePaths.add("apotheosis:salvaging/common_gem_dust");
+        removePaths.add("apotheosis:salvaging/uncommon_gem_dust");
+        removePaths.add("apotheosis:salvaging/rare_gem_dust");
+        removePaths.add("apotheosis:salvaging/epic_gem_dust");
+        removePaths.add("apotheosis:salvaging/mythic_gem_dust");
+        removePaths.add("apotheosis:salvaging/ancient_gem_dust");
+        removePaths.add("apotheosis:salvaging/leather_horse_armor");
+        removePaths.add("apotheosis:salvaging/iron_horse_armor");
+        removePaths.add("apotheosis:salvaging/golden_horse_armor");
+        removePaths.add("apotheosis:salvaging/diamond_horse_armor");
+
         for (String path : removePaths) {
             registry.accept(ResourceLocation.parse(path));
         }

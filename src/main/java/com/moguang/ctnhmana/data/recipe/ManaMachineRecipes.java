@@ -236,6 +236,15 @@ public class ManaMachineRecipes {
                 .EUt(240)
                 .duration(100)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("industrial_salvaging")// 工业拆解台
+                .inputItems(LIVING_ROCK_CASING.asItem(), 8)
+                .inputItems(dev.shadowsoffire.apotheosis.adventure.Adventure.Items.SALVAGING_TABLE.get())
+                .inputItems(CustomTags.MV_CIRCUITS, 2)
+                .inputItems(ROBOT_ARM_MV.asStack(2))
+                .outputItems(INDUSTRIAL_SALVAGING.getItem())
+                .EUt(120)
+                .duration(200)
+                .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
                 .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
                 .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)

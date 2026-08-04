@@ -644,5 +644,31 @@ public class ManaMachineBlockRecipes {
                 .EUt(GTValues.VA[GTValues.IV])
                 .duration(400)
                 .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("blood_ritual_mechanical_block")
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000))
+                .inputItems(CASING_BLOOD.asItem(), 2)
+                .inputItems(ChemicalHelper.get(gear, HEMOPLATINUM), 16)
+                .outputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.asStack())
+                .duration(200)
+                .EUt(8192 / 4 / 4)
+                .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("ritual_colum_block")
+                .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.asStack())
+                .inputItems(CMItems.RUNE_CIRCUIT_BOARD.asItem(), 4)
+                .inputItems(BotaniaItems.runeEnvy, 7)
+                .inputItems(BloodMagicBlocks.MASTER_RITUAL_STONE.get().asItem())
+                .outputItems(RITUAL_COLUM_BLOCK.asStack())
+                .duration(200)
+                .EUt(8192 / 4 / 4)
+                .save(provider);
+        ASSEMBLER_RECIPES.recipeBuilder("ritual_mechine_block")
+                .inputItems(RITUAL_COLUM_BLOCK.asStack())
+                .inputItems(CustomTags.IV_CIRCUITS)
+                .inputItems(ChemicalHelper.get(plate, DEMON), 4)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 1000))
+                .outputItems(RITUAL_MECHANICAL_BLOCK.asStack())
+                .duration(200)
+                .EUt(8192 / 4 / 4)
+                .save(provider);
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ctnhmana:item/rainbow_mana_spirit"
+  }
+}
