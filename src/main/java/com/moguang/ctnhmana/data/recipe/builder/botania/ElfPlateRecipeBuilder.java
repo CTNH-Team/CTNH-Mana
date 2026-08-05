@@ -32,11 +32,19 @@ public class ElfPlateRecipeBuilder {
     private int toColor = 16777215;   // 白色默认RGB值
 
     private ElfPlateRecipeBuilder(String name) {
-        this.id = CTNHMana.id(name);
+        this(CTNHMana.id(name));
+    }
+
+    private ElfPlateRecipeBuilder(ResourceLocation id) {
+        this.id = id;
     }
 
     public static ElfPlateRecipeBuilder builder(String name) {
         return new ElfPlateRecipeBuilder(name);
+    }
+
+    public static ElfPlateRecipeBuilder builder(ResourceLocation id) {
+        return new ElfPlateRecipeBuilder(id);
     }
 
     public ElfPlateRecipeBuilder input(ItemLike item) {

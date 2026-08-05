@@ -37,12 +37,20 @@ public class RuneRitualRecipeBuilder {
     private SpecialRuneOutput specialOutput; // 自定义特殊输出（需自己实现该接口）
 
     private RuneRitualRecipeBuilder(String name) {
-        this.id = CTNHMana.id(name);
+        this(CTNHMana.id(name));
+    }
+
+    private RuneRitualRecipeBuilder(ResourceLocation id) {
+        this.id = id;
     }
 
     // ===================== 静态工厂方法（统一创建入口，对齐Petal风格）=====================
     public static RuneRitualRecipeBuilder builder(String name) {
         return new RuneRitualRecipeBuilder(name);
+    }
+
+    public static RuneRitualRecipeBuilder builder(ResourceLocation id) {
+        return new RuneRitualRecipeBuilder(id);
     }
 
     // ===================== 链式配置方法 - 核心符文（仪式中心）=====================
