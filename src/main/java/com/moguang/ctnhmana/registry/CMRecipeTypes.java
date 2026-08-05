@@ -1,6 +1,5 @@
 package com.moguang.ctnhmana.registry;
 
-import com.ctnhlang.EN;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -11,6 +10,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.multiblock.QuasarEye;
 import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;

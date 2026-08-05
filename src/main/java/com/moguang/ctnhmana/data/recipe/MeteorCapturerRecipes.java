@@ -87,9 +87,11 @@ public class MeteorCapturerRecipes {
         METEOR_CAPTURER_RECIPES.recipeBuilder("palladium_platinum_cooperite_iridium_osmium_copper")
                 .inputItems(GTMachines.ASSEMBLER[6])
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000 * 1024))
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:mars_stone_palladium_ore_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:mars_stone_palladium_ore_ore")),
                         64)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:mars_stone_platinum_ore_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:mars_stone_platinum_ore_ore")),
                         256)
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:mars_stone_cooperite_ore")), 64)
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:mars_stone_iridium_ore")), 64)
@@ -141,9 +143,11 @@ public class MeteorCapturerRecipes {
         METEOR_CAPTURER_RECIPES.recipeBuilder("palladium_platinum_cooperite_pentlandite_tetrahedrite")
                 .inputItems(EMITTER_HV)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000 * 1024))
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:moon_stone_palladium_ore_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:moon_stone_palladium_ore_ore")),
                         64)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:moon_stone_platinum_ore_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:moon_stone_platinum_ore_ore")),
                         256)
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:moon_stone_cooperite_ore")),
                         128)
@@ -205,7 +209,8 @@ public class MeteorCapturerRecipes {
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000 * 256))
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_aluminium_ore")), 256)
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_bauxite_ore")), 256)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:endstone_cryolite_ore")), 256)
+                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:endstone_cryolite_ore")),
+                        256)
                 .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:endstone_ilmenite_ore")), 64)
                 .duration(400)
                 .EUt(768000 / 400)
@@ -245,11 +250,13 @@ public class MeteorCapturerRecipes {
         METEOR_CAPTURER_RECIPES.recipeBuilder("naquadah_enriched_naquadria_oxide_mixture")
                 .inputItems(EMITTER_ZPM)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000 * 1024))
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadah_oxide_mixture_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadah_oxide_mixture_ore")),
                         512)
                 .outputItems(ForgeRegistries.ITEMS
                         .getValue(new ResourceLocation("ctnhcore:enriched_naquadah_oxide_mixture_ore")), 128)
-                .outputItems(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadria_oxide_mixture_ore")),
+                .outputItems(
+                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("ctnhcore:naquadria_oxide_mixture_ore")),
                         32)
                 .duration(400)
                 .EUt(80000000 / 400)
