@@ -20,7 +20,7 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
@@ -172,7 +172,7 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
         super.onLoad();
         this.willChunk = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()), getPos());
         if (getLevel() instanceof ServerLevel serverLevel) {
-            ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+            ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
             ManaSubs = blood_inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));

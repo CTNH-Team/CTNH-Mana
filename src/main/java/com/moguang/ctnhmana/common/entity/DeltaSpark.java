@@ -25,7 +25,7 @@ import net.minecraft.world.phys.AABB;
 
 import com.moguang.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.moguang.ctnhmana.api.networks.BotaniaExtendEffectType;
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.common.multiblock.MysticSpire;
@@ -177,7 +177,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int remaining = pool.mysticOutboundTickCap(speed);
         distributeOutboundToReceiversEvenly(pool, remaining, receiver -> !receiver.isFull() &&
-                !((BlockEntity) receiver).isRemoved() && receiver instanceof IManaMachineBlockEntity);
+                !((BlockEntity) receiver).isRemoved() && receiver instanceof ManaMachineBlockEntity);
     }
 
     /** 本 tick 预算在多个火花目标间均分；单目标满则跳过，余量下一轮再分 */

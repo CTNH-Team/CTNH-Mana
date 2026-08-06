@@ -22,7 +22,7 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
@@ -118,7 +118,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
 
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
@@ -131,7 +131,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
 
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
@@ -145,7 +145,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
         this.bar_type = bar_type;
     }
 
@@ -233,11 +233,11 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
 
     public int getmaxBTMana() {
-        return ((IManaMachineBlockEntity) this.holder).getMaxBTMana();
+        return ((ManaMachineBlockEntity) this.holder).getMaxBTMana();
     }
 
     public int getBTMana() {
-        return ((IManaMachineBlockEntity) this.holder).getCurrentMana();
+        return ((ManaMachineBlockEntity) this.holder).getCurrentMana();
     }
 
     //////////////////////////////////////
@@ -247,7 +247,7 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
-            ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+            ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
             ManaSubs = inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
@@ -297,8 +297,8 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     public void ConvertBTMana() {
         // 转化植物魔法Mana到Mana
-        if (((IManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
-            long consume = ((IManaMachineBlockEntity) this.holder)
+        if (((ManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
+            long consume = ((ManaMachineBlockEntity) this.holder)
                     .sendMana(Math.min((maxMana - Mana) * BTMANA_CONVERT_RATE, BTMANA_CONVERT_SPEED));
             Mana = Math.min(maxMana, Mana + consume / BTMANA_CONVERT_RATE);
         }
@@ -321,25 +321,25 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                 this.inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
-        if (!((IManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
+        if (!((ManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
             // 每tick转化容量的0.1%魔力
             var item = inventory.getStackInSlot(0);
             if (item.getItem() instanceof BandOfManaItem ManaRing) {
                 var p = ItemNBTHelper.getInt(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
             if (item.getItem() instanceof MasterBandOfManaItem mRing) {
                 var p = ItemNBTHelper.getLong(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setLong(item, "mana", p - (long) consume);
                 }
             }

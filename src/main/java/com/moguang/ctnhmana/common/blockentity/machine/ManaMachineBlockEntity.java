@@ -1,15 +1,10 @@
 package com.moguang.ctnhmana.common.blockentity.machine;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.model.machine.MachineRenderState;
 
 import com.lowdragmc.lowdraglib.syncdata.IManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -19,51 +14,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import lombok.Getter;
 import vazkii.botania.api.mana.ManaReceiver;
 
-public class IManaMachineBlockEntity extends MetaMachineBlockEntity
-                                     implements IMachineBlockEntity, IManaged, ManaReceiver {
+public class ManaMachineBlockEntity extends MetaMachineBlockEntity
+                                    implements IMachineBlockEntity, IManaged, ManaReceiver {
 
-    @Persisted
-    @DescSynced
-    @RequireRerender
-    private MachineRenderState renderState;
-    private final long offset;
     @Persisted
     @Getter
     public int maxBTMana;
     @Persisted
     public int BTMana = 0;
 
-    public IManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public ManaMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
-        this.renderState = this.getDefinition().defaultRenderState();
-        this.offset = (long) GTValues.RNG.nextInt(20);
         this.maxBTMana = 10000;
-    }
-
-    @Override
-    public MachineRenderState getRenderState() {
-        return this.renderState;
-    }
-
-    @Override
-    public void setRenderState(MachineRenderState state) {
-        this.renderState = state;
-        this.scheduleRenderUpdate();
-    }
-
-    @Override
-    public MetaMachine getMetaMachine() {
-        return this.metaMachine;
-    }
-
-    @Override
-    public long getOffset() {
-        return this.offset;
-    }
-
-    @Override
-    public void onChanged() {
-        super.onChanged(); // 调用父类逻辑
     }
 
     // 魔力接受单位
