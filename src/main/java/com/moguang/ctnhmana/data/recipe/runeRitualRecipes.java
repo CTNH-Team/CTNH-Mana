@@ -1,6 +1,8 @@
 package com.moguang.ctnhmana.data.recipe;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -88,8 +90,8 @@ public class runeRitualRecipes {
                 .center(ChemicalHelper.get(gemChipped, GTMaterials.Glass).getItem())
                 .rune(enderDagger, -1, 2, true)
                 .rune(WILDEN_SPIKE.get(), 3, 0, true)
-                .rune(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rose_gold_knife")), 1, 2, true)
-                .rune(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rose_gold_knife")), -1, -2, true)
+                .rune(ToolHelper.get(GTToolType.KNIFE, GTMaterials.RoseGold).getItem(), 1, 2, true)
+                .rune(ToolHelper.get(GTToolType.KNIFE, GTMaterials.RoseGold).getItem(), -1, -2, true)
                 .rune(ATHAME.get(), 1, -2, true)
                 .rune(DIAMOND_SWORD, -3, 0, true)
                 .input(runeGreed)

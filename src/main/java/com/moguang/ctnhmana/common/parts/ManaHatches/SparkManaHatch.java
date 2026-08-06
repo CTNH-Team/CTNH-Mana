@@ -22,7 +22,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import com.moguang.ctnhmana.registry.CMItems;
@@ -118,7 +118,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                 centerPos.getZ() + SEARCH_RANGE + 1);
         if (getLevel() instanceof ServerLevel serverLevel) {
             searchSpark();
-            ((IManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
+            ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
 
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
@@ -156,7 +156,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
     }
 
     public void ConvertSparkMana() {
-        var current_btmana = ((IManaMachineBlockEntity) this.holder).getCurrentMana();
+        var current_btmana = ((ManaMachineBlockEntity) this.holder).getCurrentMana();
         if (current_btmana >= this.maxBTMana || sparks == null) return;
         for (ManaSparkEntity spark : sparks) {
             if (spark.isAlive() && spark.getNetwork().equals(this.network)) {
@@ -165,7 +165,7 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                     var consume = Math.min(Math.min(sparkConvertSpeed, maxBTMana - current_btmana),
                             receiver.getCurrentMana());
                     receiver.receiveMana(-consume);
-                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
                 }
             }
         }
@@ -180,25 +180,25 @@ public class SparkManaHatch extends ManaHatch implements IDropSaveMachine {
                 this.inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
-        if (!((IManaMachineBlockEntity) this.holder).isFull() && !this.inventory.isEmpty()) {
+        if (!((ManaMachineBlockEntity) this.holder).isFull() && !this.inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
             // 每tick转化容量的1%魔力
             var item = this.inventory.getStackInSlot(0);
             if (item.getItem() instanceof BandOfManaItem ManaRing) {
                 var p = ItemNBTHelper.getInt(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.01, p);
+                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.01, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
             if (item.getItem() instanceof MasterBandOfManaItem mRing) {
                 var p = ItemNBTHelper.getLong(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((IManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((IManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
                     ItemNBTHelper.setLong(item, "mana", p - (long) consume);
                 }
             }

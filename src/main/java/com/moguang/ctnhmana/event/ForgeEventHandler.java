@@ -27,7 +27,7 @@ import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.moguang.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.moguang.ctnhmana.common.multiblock.HellForgeMachine;
 import com.moguang.ctnhmana.networking.packets.IndexFortunaPacket;
@@ -52,7 +52,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void attachBlockEntityCaps(AttachCapabilitiesEvent<BlockEntity> event) {
-        if (event.getObject() instanceof IManaMachineBlockEntity be) {
+        if (event.getObject() instanceof ManaMachineBlockEntity be) {
             event.addCapability(CTNHMana.id("mana_receiver"),
                     CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
         }

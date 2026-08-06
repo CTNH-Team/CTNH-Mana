@@ -39,11 +39,19 @@ public class BloodAltarRecipeBuilder {
     private int meta = -1;
 
     public BloodAltarRecipeBuilder(String name) {
-        this.id = CTNHMana.id(name);
+        this(CTNHMana.id(name));
+    }
+
+    public BloodAltarRecipeBuilder(ResourceLocation id) {
+        this.id = id;
     }
 
     public static BloodAltarRecipeBuilder builder(String name) {
         return new BloodAltarRecipeBuilder(name);
+    }
+
+    public static BloodAltarRecipeBuilder builder(ResourceLocation id) {
+        return new BloodAltarRecipeBuilder(id);
     }
 
     // ========== 链式配置方法（核心参数） ==========

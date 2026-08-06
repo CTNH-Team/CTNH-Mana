@@ -5,15 +5,13 @@ import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import com.moguang.ctnhmana.client.ponder.CTNHManaPonderSceneBuilder;
 import com.moguang.ctnhmana.common.entity.DeltaSpark;
 import com.moguang.ctnhmana.registry.CMEntities;
+import com.moguang.ctnhmana.registry.CMItems;
 import vazkii.botania.common.entity.BotaniaEntities;
 
 public class MysticSpire {
@@ -74,9 +72,7 @@ public class MysticSpire {
                 .pointAt(sparkVec1)
                 .attachKeyFrame();
         scene.idle(70);
-        Item saberWand = ForgeRegistries.ITEMS.getValue(
-                ResourceLocation.fromNamespaceAndPath("ctnhmana", "saber_wand"));
-        ItemStack saberWandStack = new ItemStack(saberWand);
+        ItemStack saberWandStack = CMItems.SABER_WAND.asStack();
         scene.overlay().showControls(sparkVec1, Pointing.DOWN, 20)
                 .withItem(saberWandStack)
                 .rightClick();
@@ -126,9 +122,7 @@ public class MysticSpire {
                 .pointAt(controllerVec)
                 .attachKeyFrame();
         scene.idle(70);
-        Item Upgtade = ForgeRegistries.ITEMS.getValue(
-                ResourceLocation.fromNamespaceAndPath("ctnhmana", "upgrade_rune_speed_1"));
-        ItemStack UpgtadeStack = new ItemStack(Upgtade);
+        ItemStack UpgtadeStack = CMItems.UPGRADE_RUNE_SPEED_1.asStack();
         scene.showText(50,
                 "Put the mystic spire upgrade in the main block UI to improve its properties",
                 "在尖塔主方块UI中放入尖塔升级以提升其属性")
