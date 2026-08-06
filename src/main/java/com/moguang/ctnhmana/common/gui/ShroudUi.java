@@ -46,7 +46,7 @@ public class ShroudUi implements IFancyUIProvider {
 
     private boolean isZenithOpen() {
         if (machine.getLevel() instanceof ServerLevel serverLevel) {
-            return ManaData.getOrCreate(serverLevel).isZenithOpen;
+            return ManaData.getOrCreate(serverLevel).isZenithOpen();
         }
         return machine.isZenithOpen;
     }

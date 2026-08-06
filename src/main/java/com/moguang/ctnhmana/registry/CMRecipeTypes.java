@@ -240,6 +240,13 @@ public class CMRecipeTypes {
             .setMaxTooltips(5)
             .addDataInfo(RitualMechanicalMachine::formatRitualRecipeTip)
             .addDataInfo(RitualMechanicalMachine::formatRitualLpTip);
+    public static final GTRecipeType DOOR_OF_SHROUD = REGISTRATE
+            .recipeType(CTNHMana.id("shroud_door"), ELECTRIC)
+            .cnlang("打开虚境之门扉").setMaxIOSize(6, 0, 6, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .setMaxTooltips(4);
 
     public static void init() {}
 }

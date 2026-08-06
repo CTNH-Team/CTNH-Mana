@@ -21,6 +21,7 @@ import net.minecraftforge.fluids.FluidUtil;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.common.item.ZenithDebugToolItem;
 import com.moguang.ctnhmana.common.item.bloodmagicjade.JadeItem;
 import com.moguang.ctnhmana.common.item.bosssummoner.BossSummonerBehavior;
 import com.moguang.ctnhmana.common.item.bosssummoner.ThrowItem;
@@ -459,6 +460,17 @@ public class CMItems {
                 .cnlang("指令所织之布")
                 .onRegister(attach(new TooltipBehavior(text -> text.add(indexPaperLang.translate()))))
                 .register();
+        ZENITH_DEBUG_TOOL = REGISTRATE
+                .item("zenith_debug_tool", ZenithDebugToolItem::new)
+                .cnlang("虚境debug工具")
+                .lang("Zenith Debug Tool")
+                .properties(properties -> {
+                    properties.stacksTo(1);
+                    properties.rarity(Rarity.EPIC);
+                    return properties;
+                })
+                .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("item/zenith_star")))
+                .register();
     }
 
     public static void init() {
@@ -510,6 +522,7 @@ public class CMItems {
     public static ItemEntry<ComponentItem> UNIMBUED_SPIRIT;
     public static ItemEntry<ComponentItem> ORICHALCOS_SPIRIT;
     public static ItemEntry<ComponentItem> INDEX_CLOTH;
+    public static ItemEntry<ZenithDebugToolItem> ZENITH_DEBUG_TOOL;
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);

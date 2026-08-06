@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -32,6 +33,7 @@ import java.util.Random;
  * 1. 形成瞬间的屏幕闪光与震动。
  * 2. 天空裂缝（zenith sky rift）渲染。
  * 3. FOV 脉冲（与屏幕震动同步）。
+ * 4. 虚境入侵期间雾色染紫（ViewportEvent）。
  */
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ZenithMatrixEffect {
@@ -51,6 +53,21 @@ public class ZenithMatrixEffect {
      */
     private static final int FLASH_MAX_ALPHA = 70;
 
+    /** 开扉过程屏幕泛紫的峰值不透明度（0-255）；刻意压低，仅作轻微染色。 */
+    private static final int DOOR_PURPLE_MAX_ALPHA = 36;
+    /** 开扉泛紫颜色（偏淡紫，避免死紫盖屏）。 */
+    private static final int DOOR_PURPLE_COLOR = 0x9B6BC8;
+
+    // ================= 虚境入侵雾色（方案 C） =================
+    /** 雾色混合强度 0~1：越大越紫。 */
+    private static final float INVADE_FOG_TINT = 0.75F;
+    /** 目标雾色 R（对齐 zenith shader 核心紫）。 */
+    private static final float INVADE_FOG_R = 0.42F;
+    private static final float INVADE_FOG_G = 0.06F;
+    private static final float INVADE_FOG_B = 0.58F;
+    /** 入侵时远雾拉近比例（更易看见紫雾）。 */
+    private static final float INVADE_FOG_FAR_SCALE = 0.78F;
+
     /**
      * GUI 渲染后事件：先渲染“虚境凝视”的紫色 tint，再叠加形成特效（闪光/震动）。
      */
@@ -68,42 +85,59 @@ public class ZenithMatrixEffect {
      */
     private static void renderFormationEffects(GuiGraphics guiGraphics, float partialTick) {
         int animTicks = ZenithMatrixRender.formationAnimTicks;
-        // 没有正在播放的形成动画时直接返回。
-        if (animTicks <= 0) return;
+        float doorShake = ZenithMatrixRender.doorOpenShakeIntensity;
+        float doorPurple = ZenithMatrixRender.doorOpenPurpleDisplay;
+        // 形成动画、开扉震动、开扉泛紫都没有时直接返回。
+        if (animTicks <= 0 && doorShake <= 0.01f && doorPurple <= 0.01f) return;
 
         Minecraft mc = Minecraft.getInstance();
         int screenW = mc.getWindow().getGuiScaledWidth();
         int screenH = mc.getWindow().getGuiScaledHeight();
 
-        // elapsed：从形成动画开始到现在经过的刻数，0 ~ FORMATION_DURATION。
-        int elapsed = ZenithMatrixRender.FORMATION_DURATION - animTicks;
+        float intensity = doorShake * 4.0f;
 
-        // ========== 屏幕闪光 ==========
-        if (elapsed < ZenithMatrixRender.FLASH_DURATION) {
-            float flashProgress = (float) elapsed / ZenithMatrixRender.FLASH_DURATION;
-
-            // 快速起峰：前 2 刻从 0 升到 1；之后随 flashProgress 衰减。
-            float alpha = elapsed < 2 ? (float) elapsed / 2.0f : 1.0f - flashProgress;
-            alpha = Math.max(0, Math.min(1, alpha));
-            int alphaInt = (int) (alpha * FLASH_MAX_ALPHA);
-            if (alphaInt > 0) {
-                // 颜色随 alpha 从峰值色过渡到尾色，使闪光更有能量感。
-                int color = lerpColor(FLASH_PEAK_COLOR, FLASH_TAIL_COLOR, alpha);
-                guiGraphics.fill(0, 0, screenW, screenH,
-                        (alphaInt << 24) | color);
+        // ========== 开扉：屏幕逐渐变紫（采样值每 5 秒更新，力度很轻） ==========
+        if (doorPurple > 0.01f) {
+            float ease = doorPurple * doorPurple;
+            int purpleAlpha = (int) (ease * DOOR_PURPLE_MAX_ALPHA);
+            if (purpleAlpha > 0) {
+                int color = lerpColor(FLASH_PEAK_COLOR, DOOR_PURPLE_COLOR, 1.0f - ease);
+                guiGraphics.fill(0, 0, screenW, screenH, (purpleAlpha << 24) | color);
             }
         }
 
-        // ========== 屏幕震动 ==========
-        int shakeStart = ZenithMatrixRender.SHAKE_DELAY;
-        int shakeEnd = shakeStart + ZenithMatrixRender.SHAKE_DURATION;
-        if (elapsed >= shakeStart && elapsed < shakeEnd) {
-            float shakeProgress = (float) (elapsed - shakeStart) / ZenithMatrixRender.SHAKE_DURATION;
-            // 震动强度随时间衰减，最大 4 像素偏移。
-            float intensity = (1.0f - shakeProgress) * 4.0f;
+        if (animTicks > 0) {
+            // elapsed：从形成动画开始到现在经过的刻数，0 ~ FORMATION_DURATION。
+            int elapsed = ZenithMatrixRender.FORMATION_DURATION - animTicks;
+
+            // ========== 屏幕闪光 ==========
+            if (elapsed < ZenithMatrixRender.FLASH_DURATION) {
+                float flashProgress = (float) elapsed / ZenithMatrixRender.FLASH_DURATION;
+
+                // 快速起峰：前 2 刻从 0 升到 1；之后随 flashProgress 衰减。
+                float alpha = elapsed < 2 ? (float) elapsed / 2.0f : 1.0f - flashProgress;
+                alpha = Math.max(0, Math.min(1, alpha));
+                int alphaInt = (int) (alpha * FLASH_MAX_ALPHA);
+                if (alphaInt > 0) {
+                    // 颜色随 alpha 从峰值色过渡到尾色，使闪光更有能量感。
+                    int color = lerpColor(FLASH_PEAK_COLOR, FLASH_TAIL_COLOR, alpha);
+                    guiGraphics.fill(0, 0, screenW, screenH,
+                            (alphaInt << 24) | color);
+                }
+            }
+
+            // ========== 形成动画震动 ==========
+            int shakeStart = ZenithMatrixRender.SHAKE_DELAY;
+            int shakeEnd = shakeStart + ZenithMatrixRender.SHAKE_DURATION;
+            if (elapsed >= shakeStart && elapsed < shakeEnd) {
+                float shakeProgress = (float) (elapsed - shakeStart) / ZenithMatrixRender.SHAKE_DURATION;
+                intensity = Math.max(intensity, (1.0f - shakeProgress) * 4.0f);
+            }
+        }
+
+        if (intensity > 0.01f) {
             float offsetX = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
             float offsetY = (SHAKE_RANDOM.nextFloat() * 2 - 1) * intensity;
-
             // 仅保留屏幕位移，不叠加黑色层，避免遮挡天空裂缝睁眼。
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(offsetX, offsetY, 0);
@@ -152,14 +186,42 @@ public class ZenithMatrixEffect {
                 event.setNewFovModifier(event.getNewFovModifier() + fovPulse);
             }
         }
+        // 开扉震动同步轻微 FOV 脉冲
+        if (ZenithMatrixRender.doorOpenShakeIntensity > 0.05f) {
+            float fovPulse = (float) Math.sin(System.currentTimeMillis() * 0.02) *
+                    ZenithMatrixRender.doorOpenShakeIntensity * 0.04f;
+            event.setNewFovModifier(event.getNewFovModifier() + fovPulse);
+        }
     }
 
-    /** 客户端每刻结束时更新效果计时器。 */
+    /** 客户端每刻结束时更新效果计时器与虚境入侵镜像。 */
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             ZenithMatrixRender.tickClientEffects();
+            ZenithInvadeClient.tick();
         }
+    }
+
+    /**
+     * 虚境入侵：将雾色向天顶紫混合，地平线与远景随之偏紫。
+     */
+    @SubscribeEvent
+    public static void onComputeFogColor(ViewportEvent.ComputeFogColor event) {
+        if (!ZenithInvadeClient.hasActive()) return;
+        float t = INVADE_FOG_TINT;
+        event.setRed(event.getRed() * (1.0F - t) + INVADE_FOG_R * t);
+        event.setGreen(event.getGreen() * (1.0F - t) + INVADE_FOG_G * t);
+        event.setBlue(event.getBlue() * (1.0F - t) + INVADE_FOG_B * t);
+    }
+
+    /**
+     * 虚境入侵：略微拉近远雾，让紫色雾更明显（不改近雾，避免贴脸糊死）。
+     */
+    @SubscribeEvent
+    public static void onRenderFog(ViewportEvent.RenderFog event) {
+        if (!ZenithInvadeClient.hasActive()) return;
+        event.scaleFarPlaneDistance(INVADE_FOG_FAR_SCALE);
     }
 
     /** 世界渲染阶段事件：在天空渲染之后绘制天顶裂缝。 */

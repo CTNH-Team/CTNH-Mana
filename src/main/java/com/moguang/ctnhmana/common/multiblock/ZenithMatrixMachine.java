@@ -2,39 +2,78 @@ package com.moguang.ctnhmana.common.multiblock;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.moguang.ctnhmana.client.render.ZenithMatrixRender;
+import com.moguang.ctnhmana.common.event.zenith.ZenithInvadeEvent;
+import com.moguang.ctnhmana.common.event.zenith.ZenithInvadeManager;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
+import com.moguang.ctnhmana.data.ManaData;
+import com.moguang.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CLEANROOM_GLASS;
 import static com.moguang.ctnhmana.registry.CMBlocks.*;
 
-public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine implements ICleanroomProvider {
+/**
+ * 天顶矩阵：通过主 UI 启动「打开虚境之门扉」配方，
+ * 完成后写入 isZenithOpen 并触发虚境入侵（zenithinvade）事件。
+ */
+public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvider {
 
     private static final int ZENITH_EYE_BACK_OFFSET = 24;
+    /** 开扉过程中每秒消耗的魔力能量 */
+    public static final int DOOR_MANA_PER_SECOND = 100_000;
+    /** 开扉龙息最终底面半径（覆盖整个天顶矩阵） */
+    public static final float DOOR_BREATH_RADIUS_MAX = 21.0F;
+    /** 开扉龙息最终覆盖高度 */
+    public static final float DOOR_BREATH_HEIGHT_MAX = 7.0F;
 
-    private boolean wasFormedLastTick = false;
+    /** 开扉进度 0~1，客户端用于震动与粒子表现同步 */
+    @DescSynced
+    @Persisted
+    public float doorProgressRatio = 0.0F;
 
     @Nullable
     private CleanroomType cleanroomType = CleanroomType.CLEANROOM;
@@ -45,8 +84,32 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
     @Nullable
     private Collection<ManaMachine> ManaReceivers;
 
+    @CN("开启虚境之门")
+    @EN("Open the Zenith Door")
+    public static Lang openDoorButtonLang;
+    @CN("虚境之门已然洞开")
+    @EN("The Zenith Door is already open")
+    public static Lang zenithAlreadyOpenLang;
+    @CN("需要且必须装配一个魔力凝聚仓")
+    @EN("Requires exactly one Mana Condenser hatch")
+    public static Lang zenithNeedManaHatchLang;
+    @CN("材料或能源不足，无法开启虚境之门")
+    @EN("Insufficient materials or power to open the Zenith Door")
+    public static Lang zenithStartFailedLang;
+    @CN("虚境之门开启中……")
+    @EN("Opening the Zenith Door...")
+    public static Lang zenithOpeningLang;
+    @CN("点击启动：消耗材料与魔力以开启虚境之门")
+    @EN("Click to start: consume materials and mana to open the Zenith Door")
+    public static Lang zenithStartHintLang;
+
     public ZenithMatrixMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
+        return new ZenithMatrixRecipeLogic(this);
     }
 
     @NotNull
@@ -56,7 +119,7 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
                     Sets::newHashSet);
             Set<ManaMachine> ManaReceivers = blockWorldState.getMatchContext().getOrCreate("zenithreceiver",
                     Sets::newHashSet);
-            // all non-GTMachines are allowed inside by default
+            // 内部允许非 GT 机器；魔力机器会被登记为洁净室/天顶接收者
             BlockEntity blockEntity = blockWorldState.getTileEntity();
             if (blockEntity instanceof IMachineBlockEntity machineBlockEntity) {
                 var machine = machineBlockEntity.getMetaMachine();
@@ -87,18 +150,188 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
     @Override
     public void clientTick() {
         super.clientTick();
-        boolean formed = this.isFormed();
-        if (formed) {
-            ZenithMatrixRender.markSkyEffectSource(getZenithEyePos());
-            if (!wasFormedLastTick) {
-                ZenithMatrixRender.formationAnimTicks = ZenithMatrixRender.FORMATION_DURATION;
-            }
+        // 天空裂缝 / 形成开场动画仅由虚境入侵 Event 驱动，结构成型不再触发
+        if (isFormed() && getRecipeLogic().isWorking()) {
+            // 开扉过程震动 / 泛紫强度随进度上升（工作反馈，非成型动画）
+            ZenithMatrixRender.doorOpenShakeIntensity = Math.max(
+                    ZenithMatrixRender.doorOpenShakeIntensity, doorProgressRatio);
+            ZenithMatrixRender.doorOpenProgress = doorProgressRatio;
         }
-        wasFormedLastTick = formed;
     }
 
     public BlockPos getZenithEyePos() {
         return getPos().relative(getFrontFacing().getOpposite(), ZENITH_EYE_BACK_OFFSET);
+    }
+
+    /** 查询世界级虚境开启状态 */
+    public boolean isWorldZenithOpen() {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            return ManaData.getOrCreate(serverLevel).isZenithOpen();
+        }
+        return isZenithOpen;
+    }
+
+    /**
+     * UI 按钮回调：检查状态后尝试启动 open_the_door 配方。
+     */
+    public void tryStartOpenDoor() {
+        if (getLevel() == null || getLevel().isClientSide) return;
+        if (!(getLevel() instanceof ServerLevel serverLevel)) return;
+
+        if (ManaData.getOrCreate(serverLevel).isZenithOpen()) {
+            return;
+        }
+        if (!isFormed()) return;
+        if (hatch == null) {
+            hatch = getHatch();
+        }
+        if (hatch == null) return;
+        if (getRecipeLogic().isWorking()) return;
+
+        // 手动搜菜并启动（自动搜菜已被 RecipeLogic 禁用）
+        if (getRecipeLogic() instanceof ZenithMatrixRecipeLogic logic) {
+            logic.startManually();
+        }
+    }
+
+    @Override
+    public Component beforeWorking(@Nullable GTRecipe recipe) {
+        if (hatch == null) {
+            hatch = getHatch();
+        }
+        if (hatch == null) {
+            return zenithNeedManaHatchLang.translate();
+        }
+        // 开局先扣一秒魔力，不足则拒绝启动
+        if (!hatch.consumeManaIfEnough(DOOR_MANA_PER_SECOND)) {
+            return BaseManaMachine.failureManaLang_NoEnoughMana.translate();
+        }
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public boolean onWorking() {
+        if (hatch == null) {
+            hatch = getHatch();
+        }
+        int max = Math.max(1, getRecipeLogic().getMaxProgress());
+        int progress = getRecipeLogic().getProgress();
+        doorProgressRatio = Mth.clamp((float) progress / max, 0.0F, 1.0F);
+
+        // 每秒消耗魔力；不足则本 tick 进度净倒退 1
+        if (getOffsetTimer() % 20 == 0) {
+            if (hatch == null || !hatch.consumeManaIfEnough(DOOR_MANA_PER_SECOND)) {
+                // onWorking 返回后 RecipeLogic 仍会 progress++，故这里 -2 实现净 -1
+                getRecipeLogic().setProgress(Math.max(-1, progress - 2));
+            }
+        }
+
+        spawnDoorParticles(doorProgressRatio);
+        return super.onWorking();
+    }
+
+    /**
+     * 以天顶之眼为中心散布龙息粒子云：圆柱覆盖，最终底面半径 21、高 7，随开扉进度放大。
+     */
+    private void spawnDoorParticles(float progressRatio) {
+        if (!(getLevel() instanceof ServerLevel serverLevel)) return;
+        BlockPos eye = getZenithEyePos();
+        RandomSource random = serverLevel.getRandom();
+        float t = Mth.clamp(progressRatio, 0.0F, 1.0F);
+        float radius = DOOR_BREATH_RADIUS_MAX * Math.max(0.05F, t);
+        float height = DOOR_BREATH_HEIGHT_MAX * Math.max(0.05F, t);
+        // 粒子数随面积增大，保证末期仍能铺满圆柱截面
+        int count = 12 + (int) (72 * t * t);
+        double eyeX = eye.getX() + 0.5D;
+        double eyeY = eye.getY() + 0.5D;
+        double eyeZ = eye.getZ() + 0.5D;
+        for (int i = 0; i < count; i++) {
+            double angle = random.nextDouble() * Math.PI * 2.0D;
+            double r = Math.sqrt(random.nextDouble()) * radius;
+            double ox = Math.cos(angle) * r;
+            double oz = Math.sin(angle) * r;
+            double oy = random.nextDouble() * height;
+            serverLevel.sendParticles(
+                    ParticleTypes.DRAGON_BREATH,
+                    eyeX + ox,
+                    eyeY + oy,
+                    eyeZ + oz,
+                    1,
+                    0.0D, 0.02D, 0.0D,
+                    0.01D);
+        }
+    }
+
+    @Override
+    public void afterWorking() {
+        // 防止配方完成后自动重跑
+        getRecipeLogic().markLastRecipeDirty();
+        doorProgressRatio = 1.0F;
+
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            ManaData.getOrCreate(serverLevel).setZenithOpen(true);
+            SyncManaData();
+            // 启动虚境入侵：锚点取天顶之眼，持续 10 分钟，播放开场动画
+            ZenithInvadeManager.get(serverLevel).start(
+                    getZenithEyePos(),
+                    ZenithInvadeEvent.DEFAULT_DURATION_TICKS,
+                    true);
+        }
+        super.afterWorking();
+    }
+
+    //////////////////////////////////////
+    // ******** UI ********//
+    //////////////////////////////////////
+
+    @Override
+    public ModularUI createUI(Player entityPlayer) {
+        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+    }
+
+    @Override
+    public @NotNull Widget createUIWidget() {
+        int width = 190;
+        int height = 125;
+        WidgetGroup root = new WidgetGroup(0, 0, width, height);
+        root.setBackground(CMGuiTextures.SHROUND_BACKGROUND);
+
+        // 状态文本
+        root.addWidget(new ComponentPanelWidget(8, 8, list -> {
+            list.clear();
+            if (isWorldZenithOpen()) {
+                list.add(zenithAlreadyOpenLang.translate());
+            } else if (getRecipeLogic().isWorking()) {
+                list.add(zenithOpeningLang.translate());
+                list.add(Component.literal(String.format("%.0f%%", doorProgressRatio * 100)));
+            } else {
+                list.add(zenithStartHintLang.translate());
+            }
+        }).setMaxWidthLimit(width - 16));
+
+        // 中心启动按钮
+        int btnSize = 48;
+        int btnX = (width - btnSize) / 2;
+        int btnY = (height - btnSize) / 2 + 8;
+        ButtonWidget startButton = new ButtonWidget(btnX, btnY, btnSize, btnSize,
+                new GuiTextureGroup(
+                        ResourceBorderTexture.BUTTON_COMMON,
+                        new TextTexture(openDoorButtonLang.translate().getString()).setWidth(btnSize - 4)),
+                clickData -> {
+                    if (!clickData.isRemote) {
+                        tryStartOpenDoor();
+                    }
+                });
+        startButton.setHoverTooltips(List.of(zenithStartHintLang.translate()));
+        root.addWidget(startButton);
+
+        // 简易进度条
+        root.addWidget(new ProgressWidget(
+                () -> doorProgressRatio,
+                20, height - 22, width - 40, 10,
+                GuiTextures.PROGRESS_BAR_ARROW));
+
+        return root;
     }
 
     @Override
@@ -110,11 +343,17 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
     public void onStructureFormed() {
         super.onStructureFormed();
         this.cleanroomType = CleanroomType.CLEANROOM;
-        // bind cleanroom
+        // 绑定魔力凝聚仓：必须存在
+        this.hatch = getHatch();
+        if (this.hatch == null) {
+            onStructureInvalid();
+            return;
+        }
+        this.hatchPos = hatch.getPos();
+
+        // 绑定洁净室接收者
         if (cleanroomReceivers != null) {
-            this.cleanroomReceivers.forEach(receiver -> {
-                receiver.setCleanroom(null);
-            });
+            this.cleanroomReceivers.forEach(receiver -> receiver.setCleanroom(null));
             this.cleanroomReceivers = null;
         }
         Set<ICleanroomReceiver> receivers = getMultiblockState().getMatchContext().getOrCreate("cleanroomReceiver",
@@ -125,21 +364,40 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
         this.ManaReceivers = ImmutableSet.copyOf(ManaReceivers);
         this.cleanroomReceivers.forEach(receiver -> receiver.setCleanroom(this));
         this.ManaReceivers.forEach(Manamachine -> Manamachine.setZenith_Enhanced(this));
-        // max progress is based roughly on the dimensions of the structure: ((w * d) ^ .8 * h)
-        // taller cleanrooms take longer than wider ones
-        // minimum of 100 is a 5x5x5 cleanroom: 125-25=100 ticks
-        // max sized CR is around 1142 ticks per progression
+        SyncManaData();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
+        this.hatch = null;
+        this.hatchPos = null;
+        doorProgressRatio = 0.0F;
         if (ManaReceivers != null) {
             this.cleanroomReceivers.forEach(receiver -> receiver.setCleanroom(null));
             this.cleanroomReceivers = null;
             this.ManaReceivers.forEach(Manamachine -> Manamachine.setZenith_Enhanced(null));
             this.ManaReceivers = null;
+        }
+    }
 
+    /**
+     * 仅允许按钮手动启动配方，禁止空闲时自动搜菜。
+     */
+    public static class ZenithMatrixRecipeLogic extends RecipeLogic {
+
+        public ZenithMatrixRecipeLogic(ZenithMatrixMachine machine) {
+            super(machine);
+        }
+
+        @Override
+        public void findAndHandleRecipe() {
+            // 禁止自动搜菜
+        }
+
+        /** 由 UI 按钮触发的手动搜菜启动 */
+        public void startManually() {
+            super.findAndHandleRecipe();
         }
     }
 
@@ -2847,7 +3105,8 @@ public class ZenithMatrixMachine extends WorkableElectricMultiblockMachine imple
                 .where("A", Predicates.any())
                 .where("J", Predicates.blocks(ZENITH_CASING_BLOCK.get())
                         .or(Predicates.autoAbilities(this.getDefinition().getRecipeTypes()))
-                        .or(abilities(CMPartsAbility.MANAHATCH)))
+                        .or(abilities(PartAbility.INPUT_LASER, PartAbility.SUBSTATION_INPUT_ENERGY))
+                        .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                 .where("F", Predicates.blocks(CLEANROOM_GLASS.get()))
                 .where("C", Predicates.blocks(BotaniaBlocks.elfGlass)
 

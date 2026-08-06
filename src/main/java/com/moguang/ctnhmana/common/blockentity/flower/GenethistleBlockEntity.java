@@ -61,7 +61,7 @@ public class GenethistleBlockEntity extends GeneratingFlowerBlockEntity {
             if (hasNearbyWaterOrLava(pos)) {
                 mana += BONUS_MANA;
             }
-            this.addMana(mana);
+            this.addMana(mana * 6);
         }
 
         if (ticksExisted > 0 && ticksExisted % RELOCATE_INTERVAL_TICKS == 0) {

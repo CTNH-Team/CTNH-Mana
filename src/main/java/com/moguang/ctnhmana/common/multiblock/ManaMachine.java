@@ -8,8 +8,10 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
+import com.moguang.ctnhmana.common.event.zenith.ZenithGlitchText;
 import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.data.ManaData;
 import lombok.Getter;
@@ -44,7 +46,7 @@ public class ManaMachine extends RecipeElectricMultiblockMachine {
         if (this.getLevel() instanceof ServerLevel serverLevel) {
             var manadata = ManaData.getOrCreate(serverLevel);
             ManaLevel = manadata.get();
-            isZenithOpen = manadata.isZenithOpen;
+            isZenithOpen = manadata.isZenithOpen();
         }
     }
 
@@ -76,6 +78,21 @@ public class ManaMachine extends RecipeElectricMultiblockMachine {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        buildDisplayText(textList);
+        applyZenithUiGlitch(textList);
+    }
+
+    /** 子类覆盖此方法追加 UI 文案；乱码统一在 {@link #addDisplayText} 末尾处理。 */
+    protected void buildDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+    }
+
+    protected final void applyZenithUiGlitch(List<Component> textList) {
+        ZenithGlitchText.scrambleIfInvading(getLevel(), textList);
     }
 
     // @Override

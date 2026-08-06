@@ -395,7 +395,13 @@ public class BaseManaMachine extends ManaMachine {
 
     @Override
     public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
+        buildDisplayText(textList);
+        applyZenithUiGlitch(textList);
+    }
+
+    @Override
+    protected void buildDisplayText(List<Component> textList) {
+        super.buildDisplayText(textList);
         if (this.isFormed()) {
             if (hatch != null) textList.add(textList.size(), BaseManaMachineLang[0].translate((int) hatch.getMana()));
             else {

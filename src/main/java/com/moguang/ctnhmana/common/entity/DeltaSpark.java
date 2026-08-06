@@ -31,6 +31,7 @@ import com.moguang.ctnhmana.common.item.equipment.SaberWandItem;
 import com.moguang.ctnhmana.common.multiblock.MysticSpire;
 import com.moguang.ctnhmana.common.multiblock.SpireBigMath;
 import lombok.Getter;
+import mythicbotany.functionalflora.WitherAconite;
 import vazkii.botania.api.block.WandHUD;
 import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.item.SparkEntity;
@@ -391,7 +392,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                             result.add((ManaReceiver) be);
                         }
                     }
-                    if (be instanceof GeneratingFlowerBlockEntity) {
+                    if (be instanceof GeneratingFlowerBlockEntity || be instanceof WitherAconite) {
                         BlockPos bePos = be.getBlockPos();
                         if (bePos.getY() >= centerPos.getY() - radius * 2 &&
                                 bePos.getY() <= centerPos.getY() + radius * 2 &&

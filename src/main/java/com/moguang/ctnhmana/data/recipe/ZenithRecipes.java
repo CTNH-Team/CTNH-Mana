@@ -23,6 +23,16 @@ import java.util.function.Consumer;
 public class ZenithRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        CMRecipeTypes.DOOR_OF_SHROUD.recipeBuilder("open_the_door")
+                .inputItems(ChemicalHelper.get(TagPrefix.gem, CMMaterials.Psionic_Medulla), 777)
+                .inputItems(CMItems.HORIZEN_RUNE)
+                .inputItems(CMItems.STARLIGHT_RUNE)
+                .inputItems(CMItems.TWIST_RUNE)
+                .inputItems(CMItems.PROLIFERATION_RUNE)
+                .inputFluids(CMMaterials.Shroud_Zenith_essence, 77777)
+                .EUt(GTValues.IV, 777)
+                .duration(100 * 20)
+                .save(provider);
         CMRecipeTypes.ZENITH_CIRCUIT.recipeBuilder("zenith_soc_a")
                 .inputItems(CMItems.MANA_WAFER, 7)
                 .inputItems(CMItems.WILL_WAFER, 7)

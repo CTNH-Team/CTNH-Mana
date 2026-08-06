@@ -10,15 +10,20 @@ import java.util.*;
 
 public class ManaData extends SavedData {
 
-    private static final String ManaData = "ManaSavedData";
+    private static final String DATA_NAME = "ctnhmana_manadata";
+    /** 虚境之门开启状态的 tag 键 */
+    public static final String TAG_ZENITH_OPEN = "isZenithOpen";
+
     private final ServerLevel serverLevel;
     public Map<String, Integer> ManaLevel = new HashMap<>();
     public List<String> LevelName = Arrays.asList("BT", "BM", "ARS", "GT"); // Waiting for NANE CHANGING
-    public boolean isZenithOpen = false;
+
+    /** 通用状态标签：布尔等标志统一存于此，避免散落的内置字段 */
+    private final CompoundTag tags = new CompoundTag();
 
     public static ManaData getOrCreate(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new ManaData(serverLevel, tag),
-                () -> new ManaData(serverLevel), "ctnhmana_manadata");
+                () -> new ManaData(serverLevel), DATA_NAME);
     }
 
     @Override
@@ -31,12 +36,30 @@ public class ManaData extends SavedData {
             ManaList.add(tag);
         });
         nbt.put("ManaInfo", ManaList);
-        nbt.putBoolean("isZenithOpen", isZenithOpen);
+        // 将 tags 中的标志合并写入根 NBT（保持旧键兼容）
+        nbt.putBoolean(TAG_ZENITH_OPEN, tags.getBoolean(TAG_ZENITH_OPEN));
         return nbt;
     }
 
+    /** 从 tag 读取虚境之门是否开启 */
+    public boolean isZenithOpen() {
+        return tags.getBoolean(TAG_ZENITH_OPEN);
+    }
+
+    /** 以 tag 形式写入虚境之门开启状态 */
     public void setZenithOpen(boolean open) {
-        isZenithOpen = open;
+        tags.putBoolean(TAG_ZENITH_OPEN, open);
+        setDirty();
+    }
+
+    /** 通用布尔 tag 读取 */
+    public boolean getBooleanTag(String key) {
+        return tags.getBoolean(key);
+    }
+
+    /** 通用布尔 tag 写入 */
+    public void setBooleanTag(String key, boolean value) {
+        tags.putBoolean(key, value);
         setDirty();
     }
 
@@ -60,10 +83,13 @@ public class ManaData extends SavedData {
                             "I HATE STREAM AND LAMABDA WHY JAVA HAVE ALL THESE THINGS"));
             ManaLevel.put(key, compoundTag.getInt(key));
         }
+        // 从 tag 读取虚境之门状态
+        tags.putBoolean(TAG_ZENITH_OPEN, tag.getBoolean(TAG_ZENITH_OPEN));
     }
 
     public ManaData(ServerLevel serverLevel) {
         this.serverLevel = serverLevel;
         LevelName.forEach((code) -> ChangeLevel(code, 0));
+        tags.putBoolean(TAG_ZENITH_OPEN, false);
     }
 }

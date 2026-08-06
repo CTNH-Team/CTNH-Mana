@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.ctnhmana.refmap.json",
   "mixins": [
+    "ae2.WirelessTerminalItemMixin",
+    "ae2.WirelessTerminalMenuHostMixin",
     "ars.MixinEmiLecternRecipeHandler",
     "ars.PotionJarMixin",
     "ars.PotionTankMixin",
@@ -13,6 +15,7 @@
     "botania.FunctionalFlowerBaseAccessor",
     "botania.ManaPoolBlockEntityMixin",
     "botania.PetruniaMixin",
+    "botania.WitherAconiteMixin",
     "botania.MixinForgePacketHandler",
     "emi.TagEmiIngredientMixin"
   ],

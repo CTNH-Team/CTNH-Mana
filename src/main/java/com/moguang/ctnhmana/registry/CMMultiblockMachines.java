@@ -430,7 +430,7 @@ public class CMMultiblockMachines {
             .cnLangValue("天顶矩阵")
             .appearanceBlock(() -> BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .recipeType(CMRecipeTypes.DOOR_OF_SHROUD)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A####BBB##############BBBBB##############BBB#####",
                             "#################################################",
@@ -3132,7 +3132,8 @@ public class CMMultiblockMachines {
                     .where("A", Predicates.any())
                     .where("J", Predicates.blocks(ZENITH_CASING_BLOCK.get())
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(CMPartsAbility.MANAHATCH)))
+                            .or(abilities(PartAbility.INPUT_LASER, PartAbility.SUBSTATION_INPUT_ENERGY))
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
                     .where("F", Predicates.blocks(CLEANROOM_GLASS.get()))
                     .where("C", Predicates.blocks(BotaniaBlocks.elfGlass))
                     .where("G", Predicates.blocks(MANA_STEEL_CASING.get()))
