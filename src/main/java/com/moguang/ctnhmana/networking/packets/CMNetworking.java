@@ -9,5 +9,6 @@ public class CMNetworking {
         NETWORK.registerC2S(IndexFortunaPacket.class);
         NETWORK.registerS2C(IndexTargetParticlePacket.class);
         NETWORK.registerS2C(IndexTargetBlockPacket.class);
+        NETWORK.registerS2C(ZenithInvadePacket.class);
     }
 }

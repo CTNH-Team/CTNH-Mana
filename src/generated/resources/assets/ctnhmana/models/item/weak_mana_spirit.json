@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ctnhmana:item/weak_mana_spirit"
+  }
+}

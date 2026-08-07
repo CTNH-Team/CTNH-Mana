@@ -63,8 +63,6 @@ public class ZenithSpire extends MysticSpire {
     @Nullable
     public List<BlockPos> euOutputContainerPos = new ArrayList<>();
     @Persisted
-    public Double zenithEfficiency = 0.25;
-    @Persisted
     public Long euSpeed = 0L;
 
     /**
@@ -316,7 +314,7 @@ public class ZenithSpire extends MysticSpire {
             this.energyoutputContainer = new EnergyContainerList(new ArrayList<>());
             return;
         }
-        int scanRange = (int) Math.max(1, Math.floor(this.range * this.zenithEfficiency));
+        int scanRange = Math.max(1, this.range);
         BlockPos controllerPos = this.getPos();
         int minX = controllerPos.getX() - scanRange;
         int maxX = controllerPos.getX() + scanRange;

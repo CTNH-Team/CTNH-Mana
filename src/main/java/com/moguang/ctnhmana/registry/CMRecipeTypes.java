@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.api.recipe.customlogic.IndustrialSalvagingLogic;
 import com.moguang.ctnhmana.common.multiblock.QuasarEye;
 import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
 import com.moguang.ctnhmana.data.recipe.EternalGardenSpecialRecipes;
@@ -155,6 +156,18 @@ public class CMRecipeTypes {
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CUT)
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND));
+    public static final GTRecipeType INDUSTRIAL_SALVAGING_RECIPES = REGISTRATE
+            .recipeType(CTNHMana.id("industrial_salvaging"), ELECTRIC)
+            .cnlang("工业拆解").setMaxIOSize(1, 6, 0, 0)
+            .setEUIO(IO.IN)
+            .setMaxTooltips(4)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MACERATOR)
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND))
+            .addDataInfo(data -> data.contains("info") ?
+                    IndustrialSalvagingLogic.by_rarity.translate().getString() : "")
+            .addCustomRecipeLogic(new IndustrialSalvagingLogic());
     public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE
             .recipeType(CTNHMana.id("mana_forge"), ELECTRIC)
             .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)
@@ -227,6 +240,13 @@ public class CMRecipeTypes {
             .setMaxTooltips(5)
             .addDataInfo(RitualMechanicalMachine::formatRitualRecipeTip)
             .addDataInfo(RitualMechanicalMachine::formatRitualLpTip);
+    public static final GTRecipeType DOOR_OF_SHROUD = REGISTRATE
+            .recipeType(CTNHMana.id("shroud_door"), ELECTRIC)
+            .cnlang("打开虚境之门扉").setMaxIOSize(6, 0, 6, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .setMaxTooltips(4);
 
     public static void init() {}
 }

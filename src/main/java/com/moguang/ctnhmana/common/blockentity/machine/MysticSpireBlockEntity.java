@@ -1,12 +1,9 @@
 package com.moguang.ctnhmana.common.blockentity.machine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.client.model.machine.MachineRenderState;
 
 import com.lowdragmc.lowdraglib.syncdata.IManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,13 +18,8 @@ import java.math.BigInteger;
  * 奥法尖塔魔力池：{@link #mysticTrueManaStr} 为真实储量（BigInteger），{@link #mysticTrueManaCapStr} 为真实容量；
  * {@link #BTMana} 仅为与 Botania / 火花交互用的 int 窗口，{@link #getCurrentMana()} 只读该 int，不直接扫 BigInteger。
  */
-public class MysticSpireBlockEntity extends IManaMachineBlockEntity
+public class MysticSpireBlockEntity extends ManaMachineBlockEntity
                                     implements IMachineBlockEntity, IManaged, ManaReceiver {
-
-    @Persisted
-    @DescSynced
-    @RequireRerender
-    private MachineRenderState renderState;
 
     /** 真实储量（十进制字符串） */
     @Persisted
@@ -39,7 +31,6 @@ public class MysticSpireBlockEntity extends IManaMachineBlockEntity
 
     public MysticSpireBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
-        this.renderState = this.getDefinition().defaultRenderState();
     }
 
     public BigInteger getTrueManaBig() {

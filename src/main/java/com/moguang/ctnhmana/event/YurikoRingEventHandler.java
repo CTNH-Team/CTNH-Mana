@@ -60,10 +60,8 @@ public class YurikoRingEventHandler {
         if (target instanceof Player player) {
             var item = EquipmentHandler.findOrEmpty(CMItems.YURIKO_RING.asItem(), player);
             if (item.getItem() instanceof YurikoRingItem) {
-
+                event.setAmount(event.getAmount() * 1.25F);
             }
-            float originalDamage2 = event.getAmount();
-            event.setAmount((float) (originalDamage2 * 1.25));
         }
     }
 

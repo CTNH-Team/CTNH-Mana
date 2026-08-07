@@ -28,4 +28,6 @@ public class CMMobEffects {
             IndexTargetEffect::new);
     public static final RegistryObject<SoulLeechEffect> SOUL_LEECH = MOB_EFFECTS.register("soul_leech",
             SoulLeechEffect::new);
+    public static final RegistryObject<TaintedBloodEffect> TAINTED_BLOOD = MOB_EFFECTS.register("tainted_blood",
+            TaintedBloodEffect::new);
 }

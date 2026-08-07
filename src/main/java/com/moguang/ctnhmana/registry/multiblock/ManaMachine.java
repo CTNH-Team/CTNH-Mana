@@ -1,5 +1,6 @@
 package com.moguang.ctnhmana.registry.multiblock;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -7,15 +8,20 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import net.minecraft.world.level.block.Blocks;
+
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.IndustrialSalvagingMachine;
 import com.moguang.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import com.simibubi.create.AllBlocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
@@ -398,6 +404,107 @@ public class ManaMachine {
                     .where("#", Predicates.any())
                     .build())
             .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
+            .register();
+
+    public final static MultiblockMachineDefinition INDUSTRIAL_SALVAGING = REGISTRATE
+            .multiblock("industrial_salvaging", IndustrialSalvagingMachine::new)
+            .cnLangValue("§b工业拆解台")
+            .tooltips(IndustrialSalvagingMachine.industrialSalvagingLang)
+            .appearanceBlock(GCYMBlocks.CASING_INDUSTRIAL_STEAM)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(CMRecipeTypes.INDUSTRIAL_SALVAGING_RECIPES)
+            .recipeModifiers(
+                    IndustrialSalvagingMachine::recipeModifier,
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("###############", "###############", "###############", "###############",
+                            "###############",
+                            "######AAA######", "#####AAAAA#####", "#####AAAAA#####", "#####AAAAA#####",
+                            "######AAA######", "###############", "###############", "###############",
+                            "###############", "###############")
+                    .aisle("###############", "###############", "###############", "#####AAAAA#####",
+                            "####AAAAAAA####",
+                            "###AAA###AAA###", "###AA#####AA###", "###AA#####AA###", "###AA#####AA###",
+                            "###AAA###AAA###", "####AAAAAAA####", "#####AAAAA#####", "###############",
+                            "###############", "###############")
+                    .aisle("###############", "###############", "#####AAAAA#####", "####A#####A####",
+                            "###A#######A###",
+                            "##A#########A##", "##A#########A##", "##A#########A##", "##A#########A##",
+                            "##A#########A##", "###B#######B###", "####A#####A####", "#####AAAAA#####",
+                            "###############", "###############")
+                    .aisle("###############", "#####AAAAA#####", "####A#####A####", "###A#######A###",
+                            "##A#########A##",
+                            "#A###########A#", "#A###########A#", "#A###########A#", "#A###########A#",
+                            "#A###########A#", "##B#########B##", "###B#######B###", "####A#####A####",
+                            "#####AAAAA#####", "###############")
+                    .aisle("###############", "####AAAAAAA####", "###A#######A###", "##A#########A##",
+                            "#A###########A#",
+                            "#A###########A#", "#A###########A#", "#A###########A#", "#A###########A#",
+                            "#A####CCC####A#", "#A###CCCCC###A#", "##ACCCCCCCCCA##", "###ACCCCCCCA###",
+                            "####AACCCAA####", "######AAA######")
+                    .aisle("######AAA######", "###AAA###AAA###", "##A#########A##", "#A###########A#",
+                            "#A###########A#",
+                            "#A###########A#", "A#############A", "A#############A", "A####CCCCC####A",
+                            "#A#CCC###CCC#A#", "#ACCC#####CCCA#", "#AC#########CA#", "###############",
+                            "###############", "###############")
+                    .aisle("#####AAAAA#####", "###AA#####AA###", "##A#########A##", "#A###########A#",
+                            "#A###########A#",
+                            "A#############A", "A#############A", "A###CCCCCCC###A", "ACCCC#####CCCCA",
+                            "ACC#########CCA", "###############", "###############", "###############",
+                            "###############", "###############")
+                    .aisle("#####AAAAA#####", "###AA#####AA###", "##A#########A##", "#A###########A#",
+                            "#A###########A#",
+                            "A#############A", "A###CCCDCCC###A", "ECCC#######CCCE", "###############",
+                            "###############", "###############", "###############", "###############",
+                            "###############", "###############")
+                    .aisle("#####AAAAA#####", "###AA#####AA###", "##A#########A##", "#A###########A#",
+                            "#A###########A#",
+                            "A#############A", "A#############A", "A###CCCCCCC###A", "ACCCC#####CCCCA",
+                            "ACC#########CCA", "###############", "###############", "###############",
+                            "###############", "###############")
+                    .aisle("######AAA######", "###AAA###AAA###", "##A#########A##", "#A###########A#",
+                            "#A###########A#",
+                            "#A###########A#", "A#############A", "A#############A", "A####CCCCC####A",
+                            "#A#CCC###CCC#A#", "#ACCC#####CCCA#", "#AC#########CA#", "###############",
+                            "###############", "###############")
+                    .aisle("###############", "####AAAAAAA####", "###A#######A###", "##A#########A##",
+                            "#A###########A#",
+                            "#A###########A#", "#A###########A#", "#A###########A#", "#A###########A#",
+                            "#A####CCC####A#", "#A###CCCCC###A#", "##ACCCCCCCCCA##", "###ACCCCCCCA###",
+                            "####AACCCAA####", "######AAA######")
+                    .aisle("###############", "#####AAAAA#####", "####A#####A####", "###A#######A###",
+                            "##A#########A##",
+                            "#A###########A#", "#A###########A#", "#A###########A#", "#A###########A#",
+                            "#A###########A#", "##A#########A##", "###A#######A###", "####A#####A####",
+                            "#####AAAAA#####", "###############")
+                    .aisle("###############", "###############", "#####AAAAA#####", "####A#####A####",
+                            "###A#######A###",
+                            "##A#########A##", "##A#########A##", "##A#########A##", "##A#########A##",
+                            "##A#########A##", "###A#######A###", "####A#####A####", "#####AAAAA#####",
+                            "###############", "###############")
+                    .aisle("###############", "###############", "###############", "#####AAAAA#####",
+                            "####AAAAAAA####",
+                            "###AAA###AAA###", "###AA#####AA###", "###AA#####AA###", "###AA#####AA###",
+                            "###AAA###AAA###", "####AAAAAAA####", "#####AAAAA#####", "###############",
+                            "###############", "###############")
+                    .aisle("###############", "###############", "###############", "###############",
+                            "###############",
+                            "######AAA######", "#####AAAAA#####", "#####AA@AA#####", "#####AAAAA#####",
+                            "######AAA######", "###############", "###############", "###############",
+                            "###############", "###############")
+                    .where("#", Predicates.any())
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("A", Predicates.blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+                    .where("B", Predicates.blocks(Blocks.BLACK_WOOL))
+                    .where("C", Predicates.blocks(Blocks.BLACK_CONCRETE))
+                    .where("D", Predicates.blocks(AllBlocks.ROSE_QUARTZ_LAMP.get()))
+                    .where("E", Predicates.blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/gcym/industrial_steam_casing"),
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
 }

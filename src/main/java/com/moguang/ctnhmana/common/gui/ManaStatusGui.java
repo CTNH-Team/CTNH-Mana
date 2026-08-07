@@ -19,6 +19,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.common.event.zenith.ZenithGlitchText;
 import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import com.moguang.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -73,6 +74,7 @@ public class ManaStatusGui implements IFancyUIProvider {
         if (this.machine == null || !this.machine.isFormed() || this.machine.hatch == null) {
             textList.add(Component.translatable("gtceu.multiblock.invalid_structure")
                     .withStyle(ChatFormatting.RED));
+            ZenithGlitchText.scrambleIfInvading(this.machine != null ? this.machine.getLevel() : null, textList);
             return;
         }
         textList.add(textList.size(), ManaStatusProviderTooltips.translate());
@@ -103,6 +105,7 @@ public class ManaStatusGui implements IFancyUIProvider {
             textList.add(textList.size(), BaseManaMachineLang[6].translate(machine.recipemetric.input));
             textList.add(textList.size(), BaseManaMachineLang[7].translate(machine.recipemetric.output));
         }
+        ZenithGlitchText.scrambleIfInvading(this.machine.getLevel(), textList);
     }
 
     @Override

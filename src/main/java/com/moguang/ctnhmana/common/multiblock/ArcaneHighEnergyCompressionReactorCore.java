@@ -520,13 +520,13 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     public Long calculateEU() {
         var now_eu = 0L;
         if (this.heat < this.maxHeat * 0.5) {
-            now_eu = (long) (Math.pow(heat, 2) * GTValues.VA[GTValues.HV]);
-        }
-        if (this.heat >= this.maxHeat * 0.5 && this.heat <= this.maxHeat) {
             now_eu = (long) (Math.pow(heat, 2) * GTValues.VA[GTValues.EV]);
         }
+        if (this.heat >= this.maxHeat * 0.5 && this.heat <= this.maxHeat) {
+            now_eu = (long) (Math.pow(heat, 2) * GTValues.VA[GTValues.IV]);
+        }
         if (this.heat > this.maxHeat) {
-            now_eu = (long) (Math.pow(this.maxHeat, 2) * GTValues.VA[GTValues.EV] *
+            now_eu = (long) (Math.pow(this.maxHeat, 2) * GTValues.VA[GTValues.IV] *
                     (1 + (double) (this.heat - this.maxHeat) / this.maxHeat) + Math.pow(this.heat - this.maxHeat, 3));
         }
         now_eu = Math.min(now_eu, maxEU);

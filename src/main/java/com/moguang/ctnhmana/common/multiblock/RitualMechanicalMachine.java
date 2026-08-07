@@ -425,7 +425,13 @@ public class RitualMechanicalMachine extends ManaMachine {
 
     @Override
     public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
+        buildDisplayText(textList);
+        applyZenithUiGlitch(textList);
+    }
+
+    @Override
+    protected void buildDisplayText(List<Component> textList) {
+        super.buildDisplayText(textList);
         if (!isFormed()) {
             return;
         }

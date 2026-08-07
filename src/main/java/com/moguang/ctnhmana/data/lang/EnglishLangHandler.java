@@ -86,6 +86,7 @@ public class EnglishLangHandler {
         provider.add("ctnh.multiblock.mana_condenser.tooltips.2",
                 "All mana I/O operations are processed through the central mana pool in the structure");
         provider.add("effect.ctnhmana.soul_leech", "Soul Leech");
+        provider.add("effect.ctnhmana.tainted_blood", "Tainted Blood");
 
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.0", "§8Endless Twisted Power§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1", "Can use laser warehouse.");

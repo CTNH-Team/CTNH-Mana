@@ -510,11 +510,11 @@ public class ManaRecipes {
                 .duration(1000)
                 .save(provider);
         GTRecipeTypes.CUTTER_RECIPES.recipeBuilder("empty_rune")
-                .inputItems(BotaniaBlocks.livingrock.asItem(), 4)
+                .inputItems(BotaniaBlocks.livingrock.asItem(), 16)
                 .inputFluids(CMMaterials.Mana, 100)
-                .outputItems(CMItems.EMPTY_RUNE, 1)
+                .outputItems(CMItems.EMPTY_RUNE, 4)
                 .duration(200)
-                .EUt(120)
+                .EUt(8)
                 .save(provider);
         VanillaRecipeHelper.addShapedRecipe(
                 provider, "caduceus", new ItemStack(CMItems.CADUCEUS),

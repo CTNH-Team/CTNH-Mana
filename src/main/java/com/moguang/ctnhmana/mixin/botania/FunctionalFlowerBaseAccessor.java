@@ -11,4 +11,8 @@ public interface FunctionalFlowerBaseAccessor {
     @Accessor("maxMana")
     @Mutable
     void ctnhmana$setMaxMana(int maxMana);
+
+    @Accessor("maxTransfer")
+    @Mutable
+    void ctnhmana$setMaxTransfer(int maxTransfer);
 }

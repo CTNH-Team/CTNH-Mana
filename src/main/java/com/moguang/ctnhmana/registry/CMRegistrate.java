@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.moguang.ctnhmana.CTNHMana;
-import com.moguang.ctnhmana.common.blockentity.machine.IManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.IZenithMartixBlockEntity;
+import com.moguang.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.moguang.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
@@ -74,7 +74,7 @@ public class CMRegistrate extends CNRegistrate {
     public CTNHMachineBuilder<MachineDefinition> manamachine(String name,
                                                              Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         return new CTNHMachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
-                MetaMachineBlock::new, MetaMachineItem::new, IManaMachineBlockEntity::new);
+                MetaMachineBlock::new, MetaMachineItem::new, ManaMachineBlockEntity::new);
     }
 
     public CTNHMultiblockMachineBuilder zenithmultiblock(String name,

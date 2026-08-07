@@ -9,6 +9,7 @@ dependencies {
     // ars
     modImplementation(ctnh.geckolib)
     modImplementation(ctnh.arsnouveau)
+    modImplementation(ctnh.arscreo)
 
     // botania
     modImplementation(ctnh.patchouli)

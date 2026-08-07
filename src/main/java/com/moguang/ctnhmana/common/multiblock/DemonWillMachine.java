@@ -338,8 +338,8 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
             if (Math.abs(high_will) < 10) {
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
             } else {
-                willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, getMaxWillTransfer());
-                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
+                willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.08, getMaxWillTransfer());
+                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.16);
             }
         } else {
             if (Math.abs(high_will) >= 9999) {
@@ -349,8 +349,8 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
             if (Math.abs(high_will) < 10) {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference));
             } else {
-                willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.08);
-                willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.04, getMaxWillTransfer());
+                willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.16);
+                willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.08, getMaxWillTransfer());
             }
         }
     }

@@ -58,11 +58,11 @@ public class AnattaLotusBlockEntity extends GeneratingFlowerBlockEntity {
             }
             getLevel().playSound(null, getEffectivePos(), BotaniaSounds.endoflame, SoundSource.BLOCKS, 1F, 1F);
             int totalBurnTime = processGroundItemsAndIgnite();
-            if (!this.rebirth) this.MaxMana = 3000000;
+            if (!this.rebirth) this.MaxMana = 3333333;
             this.rebirth = true;
             this.waiting_time = 300;
             if (totalBurnTime > 0) {
-                this.addMana(Math.min(getMaxMana() - getMana(), totalBurnTime / 10));
+                this.addMana(Math.min(getMaxMana() - getMana(), totalBurnTime / 3));
             }
         }
     }

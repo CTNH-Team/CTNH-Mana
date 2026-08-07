@@ -236,6 +236,15 @@ public class ManaMachineRecipes {
                 .EUt(240)
                 .duration(100)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("industrial_salvaging")// 工业拆解台
+                .inputItems(LIVING_ROCK_CASING.asItem(), 8)
+                .inputItems(dev.shadowsoffire.apotheosis.adventure.Adventure.Items.SALVAGING_TABLE.get())
+                .inputItems(CustomTags.MV_CIRCUITS, 2)
+                .inputItems(ROBOT_ARM_MV.asStack(2))
+                .outputItems(INDUSTRIAL_SALVAGING.getItem())
+                .EUt(120)
+                .duration(200)
+                .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
                 .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
                 .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
@@ -246,14 +255,20 @@ public class ManaMachineRecipes {
                 .EUt(480)
                 .duration(200)
                 .save(provider);
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("demon_will_generator")// 恶魔意志发电机
-                .inputItems(CustomTags.LuV_CIRCUITS, 2)
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.recipeBuilder("demon_will_generator")// 恶魔意志发电机
+                .inputItems(CustomTags.ZPM_CIRCUITS, 8)
                 .inputItems(HELLFORGED_BLOCK.get().asItem(), 2)
-                .inputItems(ChemicalHelper.get(screw, TungstenSteel), 2)
+                .inputItems(ChemicalHelper.get(screw, PRIMOVOLITHEST), 16)
                 .inputItems(DEMON_WILL_GAUGE, 16)
                 .inputItems(REAGENT_SUPPRESSION.get())
                 .inputItems(REAGENT_TELEPOSITION.get(), 1)
+                .inputItems(TWISTED_SOUL_FORGING.asItem())
+                .inputItems(CORROSIVE_CORE)
+                .inputItems(STEADFAST_CORE)
+                .inputItems(DESTRUCTIVE_CORE)
+                .inputItems(VENGEFUL_CORE)
                 .inputFluids(FluidIngredient.of(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 4000))
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 4000))
                 .outputItems(DEMON_WILL_GENERATOR.getItem())
                 .EUt(7680)
                 .duration(100)

@@ -47,6 +47,22 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
     public static int skyEffectTicks = 0;
     /** 形成动画剩余刻数。从 FORMATION_DURATION 递减到 0，控制闪屏、震动、睁眼等一次性效果。 */
     public static int formationAnimTicks = 0;
+    /**
+     * 开扉过程中的屏幕震动强度（0~1），由机器客户端同步。
+     * 与形成动画震动叠加使用。
+     */
+    public static float doorOpenShakeIntensity = 0.0F;
+    /**
+     * 开扉进度（0~1），由机器 clientTick 写入；渲染用 {@link #doorOpenPurpleDisplay}，每 5 秒采样一次。
+     */
+    public static float doorOpenProgress = 0.0F;
+    /**
+     * 实际用于屏幕泛紫的进度采样值（0~1），每 {@link #DOOR_PURPLE_SAMPLE_INTERVAL} 刻更新一次。
+     */
+    public static float doorOpenPurpleDisplay = 0.0F;
+    /** 开扉泛紫采样间隔：5 秒。 */
+    public static final int DOOR_PURPLE_SAMPLE_INTERVAL = 5 * 20;
+    private static int doorPurpleSampleTicks = 0;
 
     /** 形成动画总时长：80 刻 = 4 秒（20 TPS）。 */
     public static final int FORMATION_DURATION = 80;
@@ -66,6 +82,8 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
 
     /** 当前天空效果的世界源点位置（天顶之眼坐标），用于渲染天空层时定位。 */
     private static BlockPos skyEffectSourcePos;
+    /** 是否由虚境入侵限时事件驱动天空特效 */
+    private static boolean timedSkyEffectActive = false;
 
     /** 天顶主题色：紫-粉，与 shaders/core/zenith.fsh 中的 ZENITH_BRIGHT / ZENITH_CORE 保持一致。 */
     public static final float[] ZENITH_BEAM_COLOR = { 0.9F, 0.15F, 1.0F, 1.0F };
@@ -85,7 +103,8 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
 
     /**
      * 标记天空效果应从哪个世界坐标开始渲染。
-     * 由 ZenithMatrixMachine.clientTick 在机器成形后每刻调用。
+     * 由 ZenithMatrixMachine.clientTick 在机器成形后每刻调用，
+     * 或由虚境入侵客户端镜像维持心跳。
      *
      * @param sourcePos 天顶之眼方块位置
      */
@@ -93,6 +112,30 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
         // 使用 immutable() 避免外部修改影响静态源点。
         skyEffectTicks = 2;
         skyEffectSourcePos = sourcePos.immutable();
+    }
+
+    /**
+     * 启动限时天空特效（虚境入侵）。
+     *
+     * @param sourcePos     锚点
+     * @param durationTicks 剩余时长
+     * @param playIntro     是否播放形成开场动画
+     */
+    public static void beginTimedSkyEffect(BlockPos sourcePos, int durationTicks, boolean playIntro) {
+        timedSkyEffectActive = true;
+        // durationTicks 由 ZenithInvadeClient 镜像维护；此处只做心跳续命 + 可选开场
+        skyEffectSourcePos = sourcePos.immutable();
+        skyEffectTicks = Math.max(skyEffectTicks, 2);
+        if (playIntro && durationTicks > 0) {
+            formationAnimTicks = FORMATION_DURATION;
+        }
+    }
+
+    /** 清除限时天空特效标记（事件全部结束时调用）。 */
+    public static void clearTimedSkyEffect() {
+        timedSkyEffectActive = false;
+        // 留给机器成形心跳续命；若机器未成形则下几 tick 自然清空
+        skyEffectTicks = Math.min(skyEffectTicks, 2);
     }
 
     /**
@@ -105,15 +148,49 @@ public class ZenithMatrixRender extends DynamicRender<IMachineFeature, ZenithMat
         }
         if (skyEffectTicks <= 0) {
             skyEffectSourcePos = null;
+            timedSkyEffectActive = false;
         }
         if (formationAnimTicks > 0) {
             formationAnimTicks--;
+        }
+        // 开门震动由机器侧写入，此处自然衰减以免残留
+        if (doorOpenShakeIntensity > 0 && formationAnimTicks <= 0) {
+            doorOpenShakeIntensity *= 0.85F;
+            if (doorOpenShakeIntensity < 0.01F) {
+                doorOpenShakeIntensity = 0;
+            }
+        }
+        // 开扉进度：配方结束后衰减；渲染采样每 5 秒刷新一次，避免每 tick 改紫度
+        if (doorOpenProgress > 0 && doorOpenShakeIntensity < 0.01F && formationAnimTicks <= 0) {
+            doorOpenProgress *= 0.9F;
+            if (doorOpenProgress < 0.01F) {
+                doorOpenProgress = 0;
+            }
+        }
+        doorPurpleSampleTicks++;
+        if (doorOpenProgress > 0.01F && doorOpenPurpleDisplay <= 0.01F) {
+            // 开扉刚开始：立刻采一次样，之后每 5 秒再改
+            doorOpenPurpleDisplay = doorOpenProgress;
+            doorPurpleSampleTicks = 0;
+        } else if (doorPurpleSampleTicks >= DOOR_PURPLE_SAMPLE_INTERVAL) {
+            doorPurpleSampleTicks = 0;
+            doorOpenPurpleDisplay = doorOpenProgress;
+        } else if (doorOpenProgress <= 0.01F && doorOpenPurpleDisplay > 0) {
+            // 结束后尽快清显示采样，避免残留满强度紫幕
+            doorOpenPurpleDisplay *= 0.85F;
+            if (doorOpenPurpleDisplay < 0.01F) {
+                doorOpenPurpleDisplay = 0;
+            }
         }
     }
 
     /** 当前是否存在有效的天空效果源点。 */
     public static boolean hasSkyEffectSource() {
         return skyEffectTicks > 0 && skyEffectSourcePos != null;
+    }
+
+    public static boolean isTimedSkyEffectActive() {
+        return timedSkyEffectActive && hasSkyEffectSource();
     }
 
     /**
