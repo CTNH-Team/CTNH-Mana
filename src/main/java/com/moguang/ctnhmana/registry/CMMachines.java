@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.BlockGetter;
@@ -50,6 +49,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.GTMachines.CREATIVE_TOOLTIPS;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
+import static com.moguang.ctnhmana.common.DigitalWosMachine.digitalWosTooltip;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
 public class CMMachines {
@@ -372,7 +372,7 @@ public class CMMachines {
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeModifier(DigitalWosMachine::recipeModifier)
                     .workableTieredHullModel(CTNHMana.id("block/machine/digital_well_of_suffer"))
-                    .tooltips(Component.translatable("ctnh.dwof.tooltip").withStyle(ChatFormatting.YELLOW))
+                    .tooltips(CTNHManaUtils.addMachineTooltips((digitalWosTooltip)))
                     .register(),
             GTValues.tiersBetween(LV, UV));
     public static final MachineDefinition BROADCAST_HATCH = REGISTRATE

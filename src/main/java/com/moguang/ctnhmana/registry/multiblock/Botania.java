@@ -1419,8 +1419,8 @@ public class Botania {
                     .where("r", Predicates.blocks(BotaniaFlowerBlocks.rosaArcana))
                     .build())
 
-            .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/living_rock_casing"),
-                    GTCEu.id("block/multiblock/implosion_compressor"))
+            .model(createWorkableCasingMachineModel(CTNHMana.id("block/casings/unfading_garden_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
                     .andThen(b -> b.addDynamicRenderer(EternalGardenRender::new)))
             .appearanceBlock(CASING_STAINLESS_CLEAN)
             .register();
@@ -1591,7 +1591,7 @@ public class Botania {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                    GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+                    CTNHMana.id("block/overlay/manamachine"))
             .register();
     public static final MultiblockMachineDefinition INDUSTRIAL_PETAL_APOTHECARY = REGISTRATE.multiblock(
             "industrial_petal_apothecary",

@@ -2,7 +2,6 @@ package com.moguang.ctnhmana.common.item.manamachineupgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +12,7 @@ import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
 import com.moguang.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -90,7 +90,7 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
 
         }
         if (consume >= 5) metric.parallel = Integer.MAX_VALUE;
-        metric.true_parallel = ParallelLogic.getParallelAmount(group, recipe, metric.parallel);
+        metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
         return metric;
     }
 

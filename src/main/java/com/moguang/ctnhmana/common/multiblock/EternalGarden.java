@@ -1,20 +1,13 @@
 package com.moguang.ctnhmana.common.multiblock;
 
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,25 +26,18 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.moguang.ctnhmana.common.parts.RedstoneSignalBroadcastHatch;
-import com.moguang.ctnhmana.registry.CMMaterials;
-import com.moguang.ctnhmana.registry.CMRecipeTypes;
-import org.jetbrains.annotations.NotNull;
-import vazkii.botania.common.block.BotaniaFlowerBlocks;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import vazkii.botania.common.handler.BotaniaSounds;
 
 import java.util.*;
-
-import javax.annotation.Nullable;
 
 public class EternalGarden extends RecipeElectricMultiblockMachine implements ITieredMachine, IChannelMachine {
 
@@ -229,95 +215,9 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
         return super.onWorking();
     }
 
-    @Override
-    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
-        return new GardenLogic(this);
-    }
-
-    class GardenLogic extends RecipeLogic {
-
-        public GardenLogic(IRecipeLogicMachine machine) {
-            super(machine);
-        }
-
-        public @NotNull Iterator<GTRecipe> searchRecipe() {
-            GTRecipe flowerRecipe = searchFlowerRecipe();
-            if (flowerRecipe != null) {
-                if (RecipeHelper
-                        .matchContents(machine.getRecipeHandlerGroups().get(0), flowerRecipe).isSuccess()) {
-                    return Collections.singleton(flowerRecipe).iterator();
-                }
-            }
-            return Collections.emptyIterator();
-        }
-
-        @Nullable
-        private GTRecipe searchFlowerRecipe() {
-            IRecipeCapabilityHolder holder = machine;
-            var recipeHandlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-            for (var handler : recipeHandlers) {
-                for (var content : handler.getContents()) {
-                    if (!(content instanceof ItemStack stack)) continue;
-                    if (stack.isEmpty()) continue;
-                    if (stack.getItem().equals(BotaniaFlowerBlocks.endoflame.asItem())) return searchBurnRecipe();
-                    if (stack.getItem().equals(BotaniaFlowerBlocks.gourmaryllis.asItem())) return searchFoodRecipe();
-                }
-            }
-            return null;
-        }
-
-        @Nullable
-        private GTRecipe searchFoodRecipe() {
-            IRecipeCapabilityHolder holder = machine;
-            var recipeHandlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-            for (var handler : recipeHandlers) {
-                for (var content : handler.getContents()) {
-                    if (!(content instanceof ItemStack stack)) continue;
-                    if (stack.isEmpty()) continue;
-                    if (stack.getFoodProperties(null) != null) {
-                        var properties = stack.copy().getFoodProperties(null);
-                        var num = Math.pow(properties.getNutrition(), 3);
-                        var builder = CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("eats")
-                                .notConsumable(BotaniaFlowerBlocks.gourmaryllis.asItem())
-                                .inputItems(stack.copyWithCount(1))
-                                .outputFluids(CMMaterials.Mana.getFluid((int) (num * 1.5)))
-                                .duration((int) (num * 5))
-                                .EUt(GTValues.HV, 1)
-                                .addData("type", "eat")
-                                .buildRawRecipe().toRuntime();
-                        return builder;
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Nullable
-        private GTRecipe searchBurnRecipe() {
-            IRecipeCapabilityHolder holder = machine;
-            var recipeHandlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-            for (var handler : recipeHandlers) {
-                for (var content : handler.getContents()) {
-                    if (!(content instanceof ItemStack stack)) continue;
-                    if (stack.isEmpty()) continue;
-                    if (stack.getBurnTime(RecipeType.SMELTING) > 0) {
-                        var burns = stack.copy().getBurnTime(RecipeType.SMELTING);
-                        var builder = CMRecipeTypes.ETERNAL_GARDEN.recipeBuilder("burns")
-                                .notConsumable(BotaniaFlowerBlocks.endoflame.asItem())
-                                .inputItems(stack.copyWithCount(1)) // 输入1个食??
-                                .outputFluids(CMMaterials.Mana.getFluid((int) (1)))
-                                .duration(1)
-                                .EUt(GTValues.HV, 1)
-                                .addData("temp", burns)
-                                .addData("type", "fire")
-                                .buildRawRecipe().toRuntime();
-                        return builder;
-                    }
-                }
-            }
-            return null;
-        }
-    }
+    /** Reject parallel<=0 so we never multiplyInputs(0) into a matchable empty recipe. */
+    private static final Component INSUFFICIENT_INPUTS = Component
+            .translatable("gtceu.recipe_logic.insufficient_in");
 
     public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof EternalGarden mmachine) {
@@ -325,167 +225,169 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
             int recipe_tier = GTUtil.getFloorTierByVoltage(RecipeHelper.getRealEUt(recipe));
             var base_overclock = 1.1;
             double overclock = Math.pow(base_overclock, tier - recipe_tier);
-            if (recipe.data.getString("type").equals("water")) {
-                // 水绣??
+            String type = recipe.data.getString("type");
+            if (type.equals("water")) {
+                // 水绣球
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
-                int maxparallel = 8;
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyInputs(parallel);
-                recipe.multiplyTickInputs(parallel);
-                recipe.multiplyOutputs((int) (parallel * overclock));
-                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 8);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                int outMul = Math.max(1, (int) (parallel * overclock));
+                CTNHManaUtils.multiplyInputs(recipe, parallel);
+                recipe.multiplyOutputs(outMul);
+                recipe.multiplyTickOutputs(outMul);
                 recipe.multiplyEUt(parallel);
                 recipe.parallels = parallel;
                 return null;
             }
-            if (recipe.data.getString("type").equals("eat")) {
-                // 彼方??
+            if (type.equals("eat")) {
+                // 彼方兰
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int maxparallel = 8 + (mmachine.tier -
                         GTUtil.getFloorTierByVoltage(RecipeHelper.getRealEUt(recipe))) * 4;
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyAllContents(parallel);
-                recipe.multiplyEUt(parallel);
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                CTNHManaUtils.multiplyAllContents(recipe, parallel);
                 recipe.parallels = parallel;
                 return null;
             }
-            if (recipe.data.getString("type").equals("fire")) {
-                // 烧煤??
+            if (type.equals("fire")) {
+                // 炎修花烧燃料：先算并行，避免燃料耗尽后 multiply(0) 跑空配方
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
-                int maxparallel = 8;
                 int temp = recipe.data.getInt("temp");
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 8);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
                 mmachine.Temperature += temp;
                 FluidStack pyrotheumFluid = new FluidStack(
                         Objects.requireNonNull(
                                 ForgeRegistries.FLUIDS.getValue(ResourceLocation.tryParse("ctnhcore:cryotheum"))),
                         1000);
-                // 检查输入仓是否有足够流??
-                boolean isFluidSufficient = MachineUtils.inputFluid(pyrotheumFluid, mmachine);
-                if (isFluidSufficient) mmachine.Temperature -= 100000;
-                double rate = Math.sqrt(12500 * 12500 - Math.abs(temp - 12500 * 12500));
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyInputs((int) (parallel * Math.max(1, Math.sqrt(rate))));
-                recipe.multiplyTickInputs((int) (parallel * Math.max(1, Math.sqrt(rate))));
-                recipe.multiplyOutputs((int) (parallel * overclock * Math.max(rate, 1)));
-                recipe.multiplyTickOutputs((int) (parallel * overclock * Math.max(rate, 1)));
+                if (MachineUtils.inputFluid(pyrotheumFluid, mmachine)) {
+                    mmachine.Temperature -= 100000;
+                }
+                double rate = Math.sqrt(Math.max(0, temp));
+                int outMul = Math.max(1, (int) (parallel * overclock * Math.max(rate, 1)));
+                CTNHManaUtils.multiplyInputs(recipe, parallel);
+                recipe.multiplyOutputs(outMul);
+                recipe.multiplyTickOutputs(outMul);
                 recipe.multiplyEUt(parallel);
                 recipe.parallels = parallel;
                 return null;
             }
-            if (recipe.data.getString("type").equals("boom")) {
-                // 热爆??
+            if (type.equals("boom")) {
+                // 热爆
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int maxparallel = (int) Math.pow(2, tier) * 32;
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyAllContents(parallel);
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                CTNHManaUtils.multiplyAllContents(recipe, parallel);
                 recipe.parallels = parallel;
                 return null;
             }
 
-            if (recipe.data.getString("type").equals("wither")) {
+            if (type.equals("wither")) {
                 // 凋零兔葵
                 mmachine.wither = true;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
-                int maxparallel = 4;
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyInputs(parallel);
-                recipe.multiplyTickInputs(parallel);
-                recipe.multiplyOutputs((int) (parallel * overclock));
-                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 4);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                int outMul = Math.max(1, (int) (parallel * overclock));
+                CTNHManaUtils.multiplyInputs(recipe, parallel);
+                recipe.multiplyOutputs(outMul);
+                recipe.multiplyTickOutputs(outMul);
                 recipe.multiplyEUt(parallel);
                 recipe.parallels = parallel;
                 return null;
             }
-            if (recipe.data.getString("type").equals("lighting")) {
-                // 雷德??
+            if (type.equals("lighting")) {
+                // 雷德兰
                 mmachine.wither = false;
                 mmachine.thunder = true;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 var level = mmachine.getLevel();
                 var pos = mmachine.getPos();
-                if (level.isThundering()) {
+                if (level != null && level.isThundering()) {
                     if (recipe.data.getBoolean("light")) {
                         EntityType.LIGHTNING_BOLT.spawn((ServerLevel) level, pos, MobSpawnType.TRIGGERED);
-                        recipe.multiplyOutputs((int) (100000 * overclock));
-                        recipe.multiplyTickOutputs((int) (100000 * overclock));
+                        int outMul = Math.max(1, (int) (100000 * overclock));
+                        recipe.multiplyOutputs(outMul);
+                        recipe.multiplyTickOutputs(outMul);
                         return null;
                     }
-                    recipe.multiplyOutputs((int) overclock);
-                    recipe.multiplyTickOutputs((int) overclock);
+                    int outMul = Math.max(1, (int) overclock);
+                    recipe.multiplyOutputs(outMul);
+                    recipe.multiplyTickOutputs(outMul);
                     return null;
                 }
-                if (level.isRaining()) {
-                    recipe.multiplyOutputs((int) (300 * overclock));
-                    recipe.multiplyTickOutputs((int) (300 * overclock));
+                if (level != null && level.isRaining()) {
+                    int outMul = Math.max(1, (int) (300 * overclock));
+                    recipe.multiplyOutputs(outMul);
+                    recipe.multiplyTickOutputs(outMul);
                     return null;
                 }
-
+                return null;
             }
-            if (recipe.data.getString("type").equals("blame")) {
-                // 热绣??
+            if (type.equals("blame") || type.equals("flame")) {
+                // 炽玫瑰 / 热绣球（旧 data type=flame 兼容）
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = true;
                 mmachine.Temperature = 0;
                 int maxparallel = 8 + Math.max((tier - 3), 0) * 4;
-                int parallel = ParallelLogic.getParallelAmount(group, recipe, maxparallel);
-                recipe.multiplyInputs(parallel);
-                recipe.multiplyTickInputs(parallel);
-                recipe.multiplyOutputs((int) (parallel * overclock));
-                recipe.multiplyTickOutputs((int) (parallel * overclock));
+                int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
+                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                int outMul = Math.max(1, (int) (parallel * overclock));
+                CTNHManaUtils.multiplyInputs(recipe, parallel);
+                recipe.multiplyOutputs(outMul);
+                recipe.multiplyTickOutputs(outMul);
                 recipe.multiplyEUt(parallel);
                 recipe.parallels = parallel;
                 return null;
             }
-            if (recipe.data.getString("type").equals("fly")) {
-                // 勿落??
+            if (type.equals("fly")) {
+                // 勿落草
                 mmachine.wither = false;
                 mmachine.thunder = false;
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 var pos = mmachine.getPos();
                 var level = mmachine.getLevel();
-                // forge文档真不如Fabric一根吧
-                int muti = 0;
+                int muti = 1;
                 var area = AABB.of(BoundingBox.fromCorners(pos.offset(-20, -10, -20), pos.offset(10, 10, 10)));
                 if (level != null) {
                     var entities = level.getEntities(null, area);
-                    muti = 1;
                     for (Entity i : entities) {
-                        if (!(i instanceof LivingEntity)) {
+                        if (!(i instanceof LivingEntity living)) {
                             continue;
                         }
-                        if (((LivingEntity) i).hasEffect(MobEffects.LEVITATION)) {
+                        if (living.hasEffect(MobEffects.LEVITATION)) {
                             muti += 1;
-                            Holder<DamageType> type = level
+                            Holder<DamageType> damageType = level
                                     .registryAccess()
                                     .registryOrThrow(Registries.DAMAGE_TYPE)
                                     .getHolderOrThrow(DamageTypes.MAGIC);
-                            // forge文档真不如Fabric一根吧
-                            DamageSource damageSource = new DamageSource(type);
-                            i.hurt(damageSource, 200);
+                            living.hurt(new DamageSource(damageType), 200);
                         }
-                        level.playSound((Player) null, (double) pos.getX() + (double) 0.5F,
-                                (double) pos.getY() + (double) 0.5F, (double) pos.getZ() + (double) 0.5F,
+                        level.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
                                 BotaniaSounds.shulkMeNot, SoundSource.BLOCKS, 10.0F, 1.0F);
                     }
                 }
                 recipe.multiplyEUt(muti);
-                int outputMultiplier = (int) (Math.pow(2, Math.min(17, muti * 0.5)) * overclock);
+                int outputMultiplier = Math.max(1,
+                        (int) (Math.pow(2, Math.min(17, muti * 0.5)) * overclock));
                 recipe.multiplyOutputs(outputMultiplier);
                 recipe.multiplyTickOutputs(outputMultiplier);
                 return null;

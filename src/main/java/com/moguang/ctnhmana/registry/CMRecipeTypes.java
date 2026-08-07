@@ -12,6 +12,9 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.api.recipe.customlogic.DigitalWellOfSufferLogic;
+import com.moguang.ctnhmana.api.recipe.customlogic.EternalGardenLogic;
+import com.moguang.ctnhmana.api.recipe.customlogic.IndustrialGemCuttingLogic;
 import com.moguang.ctnhmana.api.recipe.customlogic.IndustrialSalvagingLogic;
 import com.moguang.ctnhmana.common.multiblock.QuasarEye;
 import com.moguang.ctnhmana.common.multiblock.RitualMechanicalMachine;
@@ -80,14 +83,11 @@ public class CMRecipeTypes {
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .addDataInfo(data -> {
-                if (data.getString("type").equals("eat"))
-                    return EternalGardenSpecialRecipes.eternalFoodRecipeLang.translate().getString();
-                if (data.getString("type").equals("fire"))
-                    return EternalGardenSpecialRecipes.eternalCoalRecipeLang.translate().getString();
-                return "";
-            })
-            .setSound(GTSoundEntries.CHEMICAL);
+            .addDataInfo(data -> EternalGardenSpecialRecipes.recipeTypeInfo(data, 0))
+            .addDataInfo(data -> EternalGardenSpecialRecipes.recipeTypeInfo(data, 1))
+            .addDataInfo(data -> EternalGardenSpecialRecipes.recipeTypeInfo(data, 2))
+            .setSound(GTSoundEntries.CHEMICAL)
+            .addCustomRecipeLogic(new EternalGardenLogic());
 
     public static final GTRecipeType MANA_CONDENSER_RECIPES = REGISTRATE
             .recipeType(CTNHMana.id("mana_condenser"), MULTIBLOCK)
@@ -136,10 +136,11 @@ public class CMRecipeTypes {
             .recipeType(CTNHMana.id("digital_well_of_suffer"), ELECTRIC)
             .cnlang("数字化苦难之井")
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 0, 0, 1)
+            .setMaxIOSize(1, 0, 1, 1)
             .setProgressBar(CMGuiTextures.PROGRESS_BAR_BLOOD, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH)
-            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BM_BACKGROUND));
+            .addDataInfo(data -> DigitalWellOfSufferLogic.by_model_tier.translate().getString())
+            .addCustomRecipeLogic(new DigitalWellOfSufferLogic());
 
     public static final GTRecipeType GAIA_REACTOR_RECIPES = REGISTRATE.recipeType(CTNHMana.id("gaia_reactor"), ELECTRIC)
             .cnlang("盖亚反应").setMaxIOSize(2, 24, 2, 2)
@@ -168,6 +169,18 @@ public class CMRecipeTypes {
             .addDataInfo(data -> data.contains("info") ?
                     IndustrialSalvagingLogic.by_rarity.translate().getString() : "")
             .addCustomRecipeLogic(new IndustrialSalvagingLogic());
+    public static final GTRecipeType GEM_INLAY_RECIPES = REGISTRATE
+            .recipeType(CTNHMana.id("gem_inlay"), ELECTRIC)
+            .cnlang("宝石镶嵌").setMaxIOSize(4, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setMaxTooltips(4)
+            .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+            .setProgressBar(CMGuiTextures.PROGRESS_BAR_MANA, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CUT)
+            .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND))
+            .addDataInfo(data -> data.contains("info") ?
+                    IndustrialGemCuttingLogic.by_cutting.translate().getString() : "")
+            .addCustomRecipeLogic(new IndustrialGemCuttingLogic());
     public static final GTRecipeType MANA_FORGE_RECIPES = REGISTRATE
             .recipeType(CTNHMana.id("mana_forge"), ELECTRIC)
             .cnlang("注魔锻造").setMaxIOSize(1, 1, 0, 0)

@@ -6,6 +6,7 @@
   "mixins": [
     "ae2.WirelessTerminalItemMixin",
     "ae2.WirelessTerminalMenuHostMixin",
+    "apotheosis.GemCuttingMenuMixin",
     "ars.MixinEmiLecternRecipeHandler",
     "ars.PotionJarMixin",
     "ars.PotionTankMixin",
@@ -20,6 +21,7 @@
     "emi.TagEmiIngredientMixin"
   ],
   "client": [
+    "apotheosis.AdventureJeiPluginMixin"
   ],
   "minVersion": "0.1"
 }

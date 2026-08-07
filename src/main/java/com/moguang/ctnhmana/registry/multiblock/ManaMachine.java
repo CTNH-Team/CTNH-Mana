@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
+import com.moguang.ctnhmana.common.multiblock.IndustrialGemInlayMachine;
 import com.moguang.ctnhmana.common.multiblock.IndustrialSalvagingMachine;
 import com.moguang.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
@@ -505,6 +506,31 @@ public class ManaMachine {
                     .where("E", Predicates.blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/gcym/industrial_steam_casing"),
+                    CTNHMana.id("block/overlay/manamachine"))
+            .register();
+
+    public final static MultiblockMachineDefinition GEM_INLAY = REGISTRATE
+            .multiblock("gem_inlay", IndustrialGemInlayMachine::new)
+            .cnLangValue("§b宝石镶嵌机")
+            .tooltips(IndustrialGemInlayMachine.industrialGemInlayLang)
+            .appearanceBlock(() -> LIVING_ROCK_CASING.get())
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(CMRecipeTypes.GEM_INLAY_RECIPES)
+            .recipeModifiers(
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.BATCH_MODE)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("BBB", "BBB", "BBB")
+                    .aisle("BBB", "BCB", "BBB")
+                    .aisle("BBB", "B@B", "BBB")
+                    .where("B", Predicates.blocks(LIVING_ROCK_CASING.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(CMPartsAbility.MANAHATCH).setExactLimit(1)))
+                    .where("C", Predicates.blocks(
+                            dev.shadowsoffire.apotheosis.adventure.Adventure.Blocks.GEM_CUTTING_TABLE.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .workableCasingModel(CTNHMana.id("block/casings/living_rock_casing"),
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
 }

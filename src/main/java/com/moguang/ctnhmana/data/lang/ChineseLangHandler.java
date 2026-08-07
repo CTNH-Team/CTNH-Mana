@@ -282,10 +282,12 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.jade.manahatch.vengefulwillprogress", "§c复仇意志：%s / %s");
         provider.add("ctnhmana.jade.terra_plate.manaprogress", "魔力输入进度：%s / %s (%.2f%%)");
         provider.add("ctnhmana.jade.bloodaltar.lp", "LP存储：%d / %d");
+        provider.add("ctnhmana.jade.eternal_wos.will_output", "§9本轮注魂产出：%s 普通意志");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider", "魔力舱室属性");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider", "魔力机器属性");
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "工业血祭坛属性");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "魔力机器魔力属性");
+        provider.add("config.jade.plugin_gtceu.eternal_wos_status_provider", "永恒苦难之井注魂");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "魔力池属性");
         // provider.add("ctnh.recipe_type.info", "配方类型：%s");
         provider.add("ctnh.recipe_type.list", "%s, %s");
@@ -382,10 +384,11 @@ public class ChineseLangHandler {
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.1", "享受生灵痛苦的嘶吼吧。§r");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.2", "配方时间始终固定在1s。提高电压等级会提高产出生命源质的产出，等效于无损超频。§r");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.3", "使用残缺的数据模型不会产出任何东西，模型等级越高，产出越多");
-        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.4", "§b灵魂模式：§r");
-        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.5", "灵魂模式下，机器不生产生命源质，而是为下方的§b工业狱火锻炉§r提供意志。");
+        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.4", "§b注魂模式：§r");
+        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.5",
+                "与下方§b工业狱火锻炉§r连接后，可通过按钮开启注魂模式：机器不生产生命源质，而是为锻炉提供意志。");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.6", "两台机器需要共用岩浆池，且控制器必须位于狱火锻炉的正上方。请查阅JEI以获得更多信息。");
-        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.7", "产出生命源质量（mB）/100000的意志。");
+        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.7", "产出生命源质量（mB）/1000000的意志。注魂模式下并行无视输出仓容量。");
 
         provider.add("ctnh.multiblock.hellforge.tooltip.0", "§8机器也会有灵魂吗？§r");
         provider.add("ctnh.multiblock.hellforge.tooltip.1", "运行狱火锻炉的配方，需要满足配方的最小意志条件。§r");
@@ -496,11 +499,11 @@ public class ChineseLangHandler {
         provider.add("ctnhmana.spire.page.2",
                 "奥法尖塔在结构成型时会生成一个§b德尔塔火花§r,同时与其完成绑定,奥法尖塔结构失效时§b德尔塔火花§r随之消失,但数据会保留在尖塔主方块中$(p),通过切换尖塔/火花的模式来决定魔力尖塔的工作模式,§b德尔塔火花§r可以绑定另一个§b德尔塔火花§r,无视模式向该火花传递魔力,该效果独立于传递速度运算且无视模式限制");
         provider.add("ctnhmana.spire.page.3",
-                "奥法尖塔拥有多种模式,你可以在机器主方块UI进行切换,或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b广域扩散,§6中转");
+                "奥法尖塔拥有多种模式,你可以在机器主方块UI进行切换,或者对奥法尖塔/德尔塔火花使用处于工作模式下的§b电子火花之杖§r来切换模式$(p)奥法尖塔目前具有四个模式：§4聚焦,§c火花扩散,§b凝聚扩散,§6中转");
         provider.add("ctnhmana.spire.page.4",
                 "奥法尖塔的各项属性决定了德尔塔火花的性能：$(p)速度：决定了火花传递魔力的速度,初始值10000/tick$(p) 接收速度：决定了火花主动吸取魔力的速度,注意火花吸收产能花的初始吸收速率只有接收速度的1/10,初始值：10000/tick$(p)范围：决定了火花的影响范围,初始值：15");
         provider.add("ctnhmana.spire.page.5",
-                "奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力,而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b广域扩散§r：火花无视一切限制规则,向周围所有的非德尔塔火花的魔力容器传递魔力$(p)§6中转§r：奥法尖塔不执行任何操作,只实现奥法尖塔间的魔力传递");
+                "奥法尖塔的模式决定了其工作逻辑：$(p)§4聚焦§r：奥法尖塔不输出魔力,而自动接受周围同色火花或者产魔花的魔力$(p)§c火花扩散§r：奥法尖塔将魔力输出到周围同色火花和火花升级魔力凝聚仓中$(p)§b凝聚扩散§r：尖塔仅向范围内的魔力凝聚仓广播魔力$(p)§6中转§r：奥法尖塔不执行任何操作,只实现奥法尖塔间的魔力传递");
 
         provider.add("ctnhmana.spire.page.6",
                 "奥法尖塔间可以使用§4电子火花魔杖§r来进行绑定$(p)在§4电子火花魔杖§r的绑定模式下,第一次右键delta火花将选定要绑定的,目标火花,第二次将完成绑定,让奥法尖塔往目标火花传递mana。$(p)使用shift+右键点击delta火花将清除绑定,请注意:允许奥法尖塔间成环 传递");

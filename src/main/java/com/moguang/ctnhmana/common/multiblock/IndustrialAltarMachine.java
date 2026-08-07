@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
@@ -45,6 +44,7 @@ import com.moguang.ctnhmana.common.item.bloodmagicjade.JadeItem;
 import com.moguang.ctnhmana.mixin.bloodmagic.TileAltarAccessor;
 import com.moguang.ctnhmana.registry.CMBlocks;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -218,7 +218,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
             if (condition instanceof BloodAltarCondition altarCondition) {
                 altar_tier = altarCondition.altar_tier;
                 consume = altarCondition.consumption_rate;
-                var parallel = ParallelLogic.getParallelAmount(group, recipe, 1024, false);
+                var parallel = CTNHManaUtils.getParallelAmount(group, recipe, 1024, false);
                 var overclock = altarMachine.altar_tier - altar_tier;
                 if (overclock > 0) {
                     consume = (int) (consume * Math.pow(4, overclock));
@@ -232,9 +232,9 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
                     true_time = (int) Math.max(20, recipe.duration / speed);
                 }
                 altarMachine.consumption_lp = consume;
-                recipe.multiplyInputs(batch);
+                CTNHManaUtils.multiplyInputs(recipe, batch);
                 recipe.multiplyOutputs(batch);
-                recipe.multiplyTickInputs(batch);
+                CTNHManaUtils.multiplyTickInputs(recipe, batch);
                 recipe.multiplyTickOutputs(batch);
                 recipe.multiplyDuration((double) true_time / recipe.duration);
                 recipe.parallels = batch;

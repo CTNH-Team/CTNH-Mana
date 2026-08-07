@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
@@ -13,6 +12,7 @@ import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -72,9 +72,8 @@ public class ManaForceTransformer extends ManaMachine implements IExplosionMachi
         if (machine instanceof ManaForceTransformer fmachine) {
             var mana = fmachine.hatch.getMana();
             int parallel = 64 * (int) ((fmachine.consume_mana) / 100000);
-            var true_parallel = ParallelLogic.getParallelAmount(group, recipe, parallel);
-            recipe.multiplyAllContents(true_parallel);
-            recipe.multiplyEUt(true_parallel);
+            var true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, parallel);
+            CTNHManaUtils.multiplyAllContents(recipe, true_parallel);
             recipe.parallels = true_parallel;
             return null;
         }

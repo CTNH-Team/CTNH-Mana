@@ -220,8 +220,8 @@ public class MysticSpire {
         Vec3 poolVec4 = util.vector().blockSurface(util.grid().at(0, 2, 5), Direction.UP);
 
         scene.title("mystic_spire_scene3", "Mystic Spire's mode", "奥法尖塔的模式");
-        scene.showText(70, "Mystic Spire has four working modes: focus, spark spread, wide spread, transfer",
-                "奥法尖塔有四种工作模式：聚焦，火花扩散，广域扩散，中转")
+        scene.showText(70, "Mystic Spire has four working modes: focus, spark spread, condenser spread, transfer",
+                "奥法尖塔有四种工作模式：聚焦，火花扩散，凝聚扩散，中转")
                 .pointAt(controllerVec1)
                 .attachKeyFrame();
         scene.idle(90);
@@ -242,8 +242,8 @@ public class MysticSpire {
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec3, 70);
         scene.idle(90);
         scene.showText(70,
-                "In wide spread mode, the tower ignores all restrictions and passes the magic power to the non-delta fireflower within the range",
-                "广域扩散模式下，尖塔无视一切限制，向范围内非德尔塔火花的魔力容器传递魔力")
+                "In condenser spread mode, the tower only broadcasts mana to mana condensers within range",
+                "凝聚扩散模式下，尖塔仅向范围内的魔力凝聚仓广播魔力")
                 .pointAt(controllerVec3)
                 .attachKeyFrame();
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec2, 70);
@@ -263,8 +263,8 @@ public class MysticSpire {
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec3, 50);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec4, 50);
         scene.idle(70);
-        scene.showText(70, "Note: Wide Spread will not transfer magic power to the output mode's magic pool",
-                "注意：广域扩散不会向输出模式的魔力池转递魔力")
+        scene.showText(70, "Note: Condenser spread does not transfer mana to pools, flowers, or ordinary sparks",
+                "注意：凝聚扩散不会向魔力池、产魔花或普通火花传递魔力")
                 .pointAt(controllerVec3)
                 .attachKeyFrame();
         scene.idle(70);

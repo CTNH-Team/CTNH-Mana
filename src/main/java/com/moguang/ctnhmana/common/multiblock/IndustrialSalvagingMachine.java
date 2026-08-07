@@ -8,13 +8,13 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.ingredient.item.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.item.RangedItemIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -78,9 +78,9 @@ public class IndustrialSalvagingMachine extends ManaMachine {
 
         int steps = Math.max(0, tier - GTValues.LV);
         int limit = steps >= 13 ? Integer.MAX_VALUE : 64 << (2 * steps);
-        int parallel = ParallelLogic.getParallelAmount(group, recipe, limit);
+        int parallel = CTNHManaUtils.getParallelAmount(group, recipe, limit);
         if (parallel > 1) {
-            recipe.multiplyAllContents(parallel);
+            CTNHManaUtils.multiplyAllContents(recipe, parallel);
             recipe.parallels *= parallel;
         }
         return null;

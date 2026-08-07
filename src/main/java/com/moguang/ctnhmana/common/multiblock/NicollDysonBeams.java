@@ -32,6 +32,7 @@ import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.parts.ManaHatch;
 import com.moguang.ctnhmana.registry.CMItems;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -248,7 +249,7 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
             xmachine.mana_parallel = pa;
             if (xmachine.quasar_power > 0) {
                 recipe.multiplyDuration(1 - Math.min(0.01 * xmachine.twist_power, 0.9));
-                recipe.multiplyInputs(10);
+                CTNHManaUtils.multiplyInputs(recipe, 10);
                 recipe.multiplyOutputs(10);
                 recipe.multiplyEUt((1 - 0.01 * xmachine.starlight_power) * 10);
                 return null;

@@ -71,9 +71,9 @@ public class CMGuiTextures {
             "ctnhmana:textures/gui/spire_mode/animation_off.png");
     public static final ResourceTexture SPIRE_ANIMATION_ON = new ResourceTexture(
             "ctnhmana:textures/gui/spire_mode/animation_on.png");
-    public static final ResourceTexture ETERNAL_WOS_DIFFUSION_ON = new ResourceTexture(
+    public static final ResourceTexture ETERNAL_WOS_SOUL_ON = new ResourceTexture(
             "ctnhmana:textures/gui/eternal_wos_mode/diffusion_on.png");
-    public static final ResourceTexture ETERNAL_WOS_DIFFUSION_OFF = new ResourceTexture(
+    public static final ResourceTexture ETERNAL_WOS_SOUL_OFF = new ResourceTexture(
             "ctnhmana:textures/gui/eternal_wos_mode/diffusion_off.png");
 
     public static final ResourceTexture BT_BACKGROUND = new ResourceTexture(

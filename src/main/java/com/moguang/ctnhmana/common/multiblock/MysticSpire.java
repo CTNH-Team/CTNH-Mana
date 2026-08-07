@@ -379,18 +379,18 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @CN({
             "§4聚焦",
             "§c火花扩散",
-            "§b广域扩散",
+            "§b凝聚扩散",
             "§6中转",
             "%d模式",
             "关闭火花传输动画"
     })
     @EN({
-            "§4聚焦",
-            "§c火花扩散",
-            "§b广域扩散",
-            "§6中转",
-            "%d模式",
-            "关闭火花传输动画"
+            "§4Focus",
+            "§cSpark Spread",
+            "§bCondenser Spread",
+            "§6Transfer",
+            "%s Mode",
+            "Disable spark transfer animation"
     })
     public static Lang[] spireModeLang;
     @CN({

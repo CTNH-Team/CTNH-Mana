@@ -39,10 +39,10 @@ import java.util.List;
 /**
  * 虚境入侵效果：
  * <ul>
- *   <li>常驻：AE 终端干扰</li>
- *   <li>每 20s 随机 1 个轻微事件</li>
- *   <li>每 44s 随机 1 个中度事件</li>
- *   <li>每 77s 随机 1 个重度事件</li>
+ * <li>常驻：AE 终端干扰</li>
+ * <li>每 20s 随机 1 个轻微事件</li>
+ * <li>每 44s 随机 1 个中度事件</li>
+ * <li>每 77s 随机 1 个重度事件</li>
  * </ul>
  */
 public final class ZenithInvadeEffects {

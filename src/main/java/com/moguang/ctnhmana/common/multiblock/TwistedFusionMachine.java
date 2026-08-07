@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
@@ -52,7 +51,7 @@ public class TwistedFusionMachine extends RecipeElectricMultiblockMachine {
         }
 
         if (zmachine.mks > 5 && zmachine.mks < Integer.MAX_VALUE - 1) {
-            int pa = ParallelLogic.getParallelAmount(group, recipe, 1024);
+            int pa = CTNHManaUtils.getParallelAmount(group, recipe, 1024);
             if (pa <= 1) return null;
             // 加电压并行，再叠旧折扣：总 EU = eut * pa * 0.25 * 0.99^pa，时长同旧公式
             CTNHManaUtils.applyParallel(recipe, pa);
@@ -62,7 +61,7 @@ public class TwistedFusionMachine extends RecipeElectricMultiblockMachine {
             return null;
         }
         if (zmachine.mks >= Integer.MAX_VALUE - 1) {
-            int pa = ParallelLogic.getParallelAmount(group, recipe, Integer.MAX_VALUE - 10);
+            int pa = CTNHManaUtils.getParallelAmount(group, recipe, Integer.MAX_VALUE - 10);
             if (pa <= 1) return null;
             CTNHManaUtils.applyParallel(recipe, pa);
             double scale = 0.0001 * Math.pow(0.9, pa);

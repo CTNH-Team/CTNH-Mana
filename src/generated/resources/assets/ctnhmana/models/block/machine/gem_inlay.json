@@ -1,21 +1,16 @@
 {
   "parent": "minecraft:block/block",
-  "dynamic_renders": [
-    {
-      "type": "ctnhmana:eternal_garden"
-    }
-  ],
   "loader": "gtceu:machine",
-  "machine": "ctnhmana:eternal_garden",
+  "machine": "ctnhmana:gem_inlay",
   "texture_overrides": {
-    "all": "ctnhmana:block/casings/unfading_garden_casing"
+    "all": "ctnhmana:block/casings/living_rock_casing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front"
         }
       }
@@ -24,7 +19,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_paused",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_paused_emissive"
         }
@@ -34,7 +29,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
@@ -44,7 +39,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
@@ -54,7 +49,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front"
         }
       }
@@ -63,7 +58,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_paused",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_paused_emissive"
         }
@@ -73,7 +68,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }
@@ -83,7 +78,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "ctnhmana:block/casings/unfading_garden_casing",
+          "all": "ctnhmana:block/casings/living_rock_casing",
           "overlay_front": "ctnhmana:block/overlay/manamachine/overlay_front_active",
           "overlay_front_emissive": "ctnhmana:block/overlay/manamachine/overlay_front_active_emissive"
         }

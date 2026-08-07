@@ -245,6 +245,15 @@ public class ManaMachineRecipes {
                 .EUt(120)
                 .duration(200)
                 .save(provider);
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("gem_inlay")// 宝石镶嵌机
+                .inputItems(LIVING_ROCK_CASING.asItem(), 8)
+                .inputItems(dev.shadowsoffire.apotheosis.adventure.Adventure.Items.GEM_CUTTING_TABLE.get())
+                .inputItems(CustomTags.MV_CIRCUITS, 2)
+                .inputItems(ROBOT_ARM_MV.asStack(2))
+                .outputItems(GEM_INLAY.getItem())
+                .EUt(120)
+                .duration(200)
+                .save(provider);
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
                 .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
                 .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)

@@ -46,6 +46,9 @@ public class RecipeRemoval {
         removePaths.add("apotheosis:salvaging/golden_horse_armor");
         removePaths.add("apotheosis:salvaging/diamond_horse_armor");
 
+        // Native gem cutting has no datapack recipes (hardcoded); cleared via GemCuttingMenuMixin.
+        // Keep gem_cutting_table crafting so the block can still be used in the multiblock.
+
         for (String path : removePaths) {
             registry.accept(ResourceLocation.parse(path));
         }

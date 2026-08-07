@@ -263,7 +263,7 @@ public class BaseManaMachine extends ManaMachine {
             // GT 升级：IO 乘并行，EU 不乘并行，时长 * (1/speed) * min(64, pa)
             double inMul = pa * metric.input;
             double outMul = pa * metric.output;
-            recipe.multiplyInputs(Math.max(1, (int) Math.round(inMul)));
+            CTNHManaUtils.multiplyInputs(recipe, Math.max(1, (int) Math.round(inMul)));
             recipe.multiplyOutputs(Math.max(1, (int) Math.round(outMul)));
             recipe.parallels *= pa;
             recipe.multiplyEUt(metric.eut);
@@ -274,7 +274,7 @@ public class BaseManaMachine extends ManaMachine {
         // 普通：加电压并行，再叠 input/output/eut/speed 倍率
         CTNHManaUtils.applyParallel(recipe, pa);
         if (metric.input != 1.0) {
-            recipe.multiplyInputs(Math.max(1, (int) Math.round(metric.input)));
+            CTNHManaUtils.multiplyInputs(recipe, Math.max(1, (int) Math.round(metric.input)));
         }
         if (metric.output != 1.0) {
             recipe.multiplyOutputs(Math.max(1, (int) Math.round(metric.output)));

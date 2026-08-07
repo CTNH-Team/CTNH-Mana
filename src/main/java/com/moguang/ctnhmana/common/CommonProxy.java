@@ -27,6 +27,7 @@ import com.moguang.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.BloodAltarStatusProvider;
+import com.moguang.ctnhmana.integration.jade.EternalWosStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaMachineManaStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
@@ -119,6 +120,17 @@ public class CommonProxy {
                 Block.class,
                 900,
                 "bloodaltar_status");
+        JadePriorityManager.registerBlockData(
+                new EternalWosStatusProvider(),
+                BlockEntity.class,
+                900,
+                "eternal_wos_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new EternalWosStatusProvider(),
+                Block.class,
+                900,
+                "eternal_wos_status");
     }
 
     @SubscribeEvent

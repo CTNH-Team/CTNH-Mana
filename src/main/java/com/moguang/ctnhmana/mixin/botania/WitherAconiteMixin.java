@@ -29,7 +29,6 @@ public class WitherAconiteMixin {
     @Mutable
     public static int DEFAULT_MANA_PER_STAR;
 
-
     @Inject(method = "<init>", at = @At("TAIL"))
     private void ctnhmana$adjustCapaAndTransfer(BlockEntityType<?> type, BlockPos pos, BlockState state,
                                                 CallbackInfo ci) {

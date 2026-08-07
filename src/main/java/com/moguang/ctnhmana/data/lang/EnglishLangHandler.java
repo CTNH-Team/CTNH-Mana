@@ -113,13 +113,13 @@ public class EnglishLangHandler {
                 "Recipe time is always fixed at 1s. Increasing the voltage tier will boost the production of Vital Essence, equivalent to lossless overclocking.§r");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.3",
                 "Using an incomplete Data Model yields no output. Higher model levels result in greater production.");
-        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.4", "§bSoul Mode:§r");
+        provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.4", "§bSoul Infusion Mode:§r");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.5",
-                "In Soul Mode, the machine does not produce Vital Essence but provides Will to the §bIndustrial Hellforge§r below.");
+                "When linked to the §bIndustrial Hellforge§r below, use the button to enable Soul Infusion Mode: no Vital Essence is produced; Will is supplied to the Hellforge instead.");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.6",
                 "Both machines must share the same lava pool, and the controller must be positioned directly above the Hellforge. Please consult JEI for more details.");
         provider.add("ctnh.multiblock.eternal_well_of_suffer.tooltip.7",
-                "Outputs Will equal to the Vital Essence production (mB)/100,000.");
+                "Outputs Will equal to the Vital Essence production (mB)/1,000,000. In Soul Infusion Mode, parallel ignores output capacity.");
 
         provider.add("ctnh.multiblock.hellforge.tooltip.0", "§8Do machines have souls too?§r");
         provider.add("ctnh.multiblock.hellforge.tooltip.1",
@@ -148,10 +148,12 @@ public class EnglishLangHandler {
         provider.add("ctnh.multiblock.twisted_fusion_mk1.tooltip.8",
                 "Perhaps this can be used to produce some §9strange things§r...");
 
+        provider.add("ctnhmana.jade.eternal_wos.will_output", "§9Soul Infusion Output: %s Raw Will");
         provider.add("config.jade.plugin_gtceu.manahatch_status_provider", "Manahatch Status");
         provider.add("config.jade.plugin_gtceu.manamachine_status_provider", "Manamachine Status");
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "Bloodalter Status");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "Manamachine Mana Status");
+        provider.add("config.jade.plugin_gtceu.eternal_wos_status_provider", "Eternal Well Soul Infusion");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "Manapool Status");
 
         provider.add("ctnhmana.entry.anatta_lotus", "Anatta Lotus");

@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.item.ItemIngredient;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
@@ -28,6 +27,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -119,8 +119,10 @@ public class WishingWill extends RecipeMultiblockMachine {
 
     public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof WishingWill wmachine) {
-            var parallel = ParallelLogic.getParallelAmount(group, recipe, 10);
-            recipe.multiplyAllContents(parallel);
+            var parallel = CTNHManaUtils.getParallelAmount(group, recipe, 10);
+            CTNHManaUtils.multiplyInputs(recipe, parallel);
+            recipe.multiplyOutputs(parallel);
+            recipe.multiplyTickOutputs(parallel);
             recipe.multiplyEUt(parallel / 2.0);
             recipe.parallels = parallel;
             return null;

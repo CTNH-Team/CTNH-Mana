@@ -15,6 +15,7 @@ import com.ctnhlang.*;
 import com.moguang.ctnhmana.registry.CMItems;
 import com.moguang.ctnhmana.registry.CMMaterials;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -209,9 +210,8 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
                     (1 - 0.05 * Math.max((qmachine.rune_energy - 50) / 50, 10));
             recipe.multiplyEUt(efficiency);
             recipe.multiplyDuration(efficiency * 5);
-            recipe.multiplyInputs((int) contentMultiplier);
+            CTNHManaUtils.multiplyInputs(recipe, (int) contentMultiplier);
             recipe.multiplyOutputs((int) contentMultiplier);
-            recipe.multiplyTickInputs((int) contentMultiplier);
             recipe.multiplyTickOutputs((int) contentMultiplier);
             return null;
         }

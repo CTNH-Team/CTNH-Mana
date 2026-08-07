@@ -87,11 +87,12 @@ public class PetalRecipeBuilder {
 
         GTRecipeBuilder gtBuilder = GTRecipeBuilder.of(gtId, CMRecipeTypes.INDUSTRIAL_PETAL_APOTHECARY_RECIPES);
 
-        List<Ingredient> pre_inputs = new ArrayList<>();
+        // Merge identical inputs without mutating shared Ingredient instances (e.g. BotaniaIngredients.*).
+        List<Ingredient> merged = new ArrayList<>();
+        List<Integer> counts = new ArrayList<>();
         List<Ingredient> gtInputs = new ArrayList<>(this.inputs);
         gtInputs.add(this.reagent);
         for (Ingredient currentIng : gtInputs) {
-            // 前置校验1：跳过空配料，避免后续空指针/数组越界
             if (currentIng == null || currentIng == Ingredient.EMPTY) {
                 continue;
             }
@@ -99,34 +100,28 @@ public class PetalRecipeBuilder {
             if (currentStacks == null || currentStacks.length == 0 || currentStacks[0].isEmpty()) {
                 continue;
             }
-            ItemStack currentFirstStack = currentStacks[0]; // 取第一个代表栈作为匹配依据
-            boolean isMatched = false; // 标记是否匹配到已有Ingredient
-
-            for (Ingredient existIng : pre_inputs) {
+            ItemStack currentFirstStack = currentStacks[0];
+            boolean isMatched = false;
+            for (int i = 0; i < merged.size(); i++) {
+                Ingredient existIng = merged.get(i);
                 ItemStack[] existStacks = existIng.getItems();
                 if (existStacks == null || existStacks.length == 0 || existStacks[0].isEmpty()) {
                     continue;
                 }
                 if (existIng.test(currentFirstStack)) {
-                    ItemStack existFirstStack = existStacks[0];
-                    int maxStack = existFirstStack.getMaxStackSize();
-                    if (existFirstStack.getCount() < maxStack) {
-                        existFirstStack.setCount(existFirstStack.getCount() + 1);
-                    }
+                    counts.set(i, counts.get(i) + 1);
                     isMatched = true;
-                    break; // 找到匹配，立即跳出内层循环，避免重复计数
+                    break;
                 }
             }
-
             if (!isMatched) {
-                pre_inputs.add(currentIng);
+                merged.add(currentIng);
+                counts.add(1);
             }
         }
 
-        for (Ingredient ingredient : pre_inputs) {
-            if (ingredient.getItems()[0].getCount() > 1)
-                gtBuilder.inputItems(ingredient.getItems()[0]);
-            else gtBuilder.inputItems(ingredient);
+        for (int i = 0; i < merged.size(); i++) {
+            gtBuilder.inputItems(merged.get(i), counts.get(i));
         }
         gtBuilder.outputItems(this.output);
         gtBuilder.EUt(VA[ULV]);

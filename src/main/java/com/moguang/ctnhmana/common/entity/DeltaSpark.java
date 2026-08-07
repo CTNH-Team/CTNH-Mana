@@ -39,7 +39,6 @@ import vazkii.botania.api.mana.ManaCollisionGhost;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.api.mana.spark.ManaSpark;
 import vazkii.botania.client.core.helper.RenderHelper;
-import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 import vazkii.botania.common.entity.SparkBaseEntity;
 import vazkii.botania.common.handler.BotaniaSounds;
 import vazkii.botania.common.helper.ColorHelper;
@@ -85,7 +84,6 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     public List<ManaSpark> sparks;
     public List<ManaReceiver> receivers;
     public List<GeneratingFlowerBlockEntity> flowers = new ArrayList<>();
-    public List<ManaPoolBlockEntity> pools;
 
     // public DeltaSpark(EntityType<?> type, Level world, BlockPos AttachPos) {
     // super(type, world);
@@ -126,7 +124,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                 if (!sparks.isEmpty()) sendManaToSpark();
                 if (!receivers.isEmpty()) sendManaToHatchReceiver();
             }
-            if (mode == 2 && !receivers.isEmpty()) sendManaToReceiver();
+            // 凝聚扩散：仅向魔力凝聚仓广播
+            if (mode == 2 && !receivers.isEmpty()) sendManaToHatchReceiver();
             if (mode == 0 && !receivers.isEmpty()) receiveManaFromSpark();
             if (mode == 0 && !flowers.isEmpty()) receiveManaFromFlower();
             if (connectedDeltaSpark != null) sendManaToDeltaNet();
@@ -160,18 +159,6 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int remaining = pool.mysticOutboundTickCap(speed);
         distributeOutboundToSparksEvenly(pool, remaining);
-    }
-
-    public void sendManaToReceiver() {
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        int remaining = pool.mysticOutboundTickCap(speed);
-        distributeOutboundToReceiversEvenly(pool, remaining, DeltaSpark::canSpreadToReceiver);
-    }
-
-    private static boolean canSpreadToReceiver(ManaReceiver receiver) {
-        return !receiver.isFull() && !((BlockEntity) receiver).isRemoved() &&
-                !(receiver instanceof ManaPoolBlockEntity mpe && mpe.isOutputtingPower()) &&
-                !(receiver instanceof GeneratingFlowerBlockEntity);
     }
 
     public void sendManaToHatchReceiver() {

@@ -2,7 +2,6 @@ package com.moguang.ctnhmana.common.item.manamachineupgrade;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +11,7 @@ import net.minecraft.world.level.Level;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.moguang.ctnhmana.common.multiblock.BaseManaMachine;
+import com.moguang.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -27,7 +27,7 @@ public class BTUpgradeItemT2 extends ManaMachineUpgradeItem {
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
                                                           BaseManaMachine machine, RecipeHandlerGroup group) {
         var hatch = machine.getHatch();
-        var true_parallel = ParallelLogic.getParallelAmount(group, recipe, metric.parallel);
+        var true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
         metric.speed += Math.min(0.75, true_parallel * 0.05);
         metric.true_parallel = true_parallel;
         return metric;

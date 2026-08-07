@@ -3,6 +3,7 @@ package com.moguang.ctnhmana.data.recipe;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.recipe.ingredient.fluid.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
@@ -16,6 +17,7 @@ import com.moguang.ctnhmana.registry.*;
 import com.moguang.ctnhmana.registry.multiblock.ZenithMachine;
 import mythicbotany.register.ModItems;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 import wayoftime.bloodmagic.common.item.BloodMagicItems;
 
 import java.util.function.Consumer;
@@ -23,6 +25,13 @@ import java.util.function.Consumer;
 public class ZenithRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        CMRecipeTypes.MANA_REACTOR_RECIPES.recipeBuilder("twist_martix")
+                .inputFluids(CMMaterials.Zenith_essence, 1000)
+                .inputFluids(FluidIngredient.of(BloodMagicFluids.DOUBT_FLUID.get(), 1000))
+                .outputFluids(CMMaterials.Twisted_Aggregate_Matrix.getFluid(1000))
+                .EUt(GTValues.IV, 8)
+                .duration(20 * 20)
+                .save(provider);
         CMRecipeTypes.DOOR_OF_SHROUD.recipeBuilder("open_the_door")
                 .inputItems(ChemicalHelper.get(TagPrefix.gem, CMMaterials.Psionic_Medulla), 777)
                 .inputItems(CMItems.HORIZEN_RUNE)
