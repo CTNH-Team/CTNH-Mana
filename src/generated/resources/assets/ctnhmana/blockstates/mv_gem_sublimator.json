@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ctnhmana:block/machine/mv_gem_sublimator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ctnhmana:block/machine/mv_gem_sublimator"
+    },
+    "facing=south": {
+      "model": "ctnhmana:block/machine/mv_gem_sublimator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ctnhmana:block/machine/mv_gem_sublimator",
+      "y": 270
+    }
+  }
+}

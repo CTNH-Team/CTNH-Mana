@@ -9,26 +9,26 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
-import com.moguang.ctnhmana.CTNHMana;
+import com.moguang.ctnhmana.data.recipe.builder.apotheosis.GemCuttingRecipeBuilder;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.cutting.GemCuttingMenu;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Runtime fallback for gem inlay: matches Apotheosis {@link GemCuttingMenu.RarityUpgrade}
- * against concrete gem NBT stacks in the machine inventory.
+ * against concrete gem NBT stacks. Also builds XEI representative recipes (per gem × rarity)
+ * via {@link GemCuttingRecipeBuilder} once registries are loaded.
  */
 public class IndustrialGemCuttingLogic implements GTRecipeType.ICustomRecipeLogic {
 
@@ -94,12 +94,16 @@ public class IndustrialGemCuttingLogic implements GTRecipeType.ICustomRecipeLogi
                 for (ItemStack mat : materials) {
                     DynamicHolder<LootRarity> matRarity = RarityRegistry.getMaterialRarity(mat.getItem());
                     int matCost;
+                    String variant;
                     if (matRarity == gemRarity) {
                         matCost = GemCuttingMenu.STD_MAT_COST;
+                        variant = "std";
                     } else if (matRarity == RarityRegistry.next(gemRarity)) {
                         matCost = GemCuttingMenu.NEXT_MAT_COST;
+                        variant = "next";
                     } else if (matRarity == RarityRegistry.prev(gemRarity)) {
                         matCost = GemCuttingMenu.PREV_MAT_COST;
+                        variant = "prev";
                     } else {
                         continue;
                     }
@@ -112,16 +116,14 @@ public class IndustrialGemCuttingLogic implements GTRecipeType.ICustomRecipeLogi
 
                     ResourceLocation rarityId = gemRarity.getId();
                     String path = rarityId != null ? rarityId.getPath() : ("ordinal_" + gemRarity.get().ordinal());
-                    ResourceLocation matId = matRarity.getId();
-                    String matPath = matId != null ? matId.getPath() : "mat";
+                    ResourceLocation gemId = mainGem.gem().getId();
+                    String gemPath = gemId != null ? gemId.getPath().replace('/', '_') : "gem";
 
-                    return CMRecipeTypes.GEM_INLAY_RECIPES
-                            .recipeBuilder(CTNHMana.id("gem_inlay/dynamic/" + path + "/" + matPath))
-                            .inputItems(main.copyWithCount(1))
-                            .inputItems(bot.copyWithCount(1))
-                            .inputItems(new ItemStack(Adventure.Items.GEM_DUST.get(), dustCost))
-                            .inputItems(mat.copyWithCount(matCost))
-                            .outputItems(out)
+                    return GemCuttingRecipeBuilder.builder("dynamic/" + gemPath + "/" + path + "/" + variant)
+                            .gem(main)
+                            .output(out)
+                            .material(mat, matCost)
+                            .dustCount(dustCost)
                             .EUt(EU_PER_TICK)
                             .duration(DURATION)
                             .buildRawRecipe();
@@ -131,16 +133,77 @@ public class IndustrialGemCuttingLogic implements GTRecipeType.ICustomRecipeLogi
         return null;
     }
 
-    @CN("%s宝石")
-    @EN("%s Gem")
-    public static Lang any_rarity_gem;
-
-    @CN("按宝石切割台规则升级稀有度")
-    @EN("Upgrades gem rarity using Gem Cutting Table rules")
-    public static Lang by_cutting;
-
+    /**
+     * XEI display only: real gem stacks from {@link GemRegistry} (not rarity-only shells).
+     * Runtime matching remains in {@link #createCustomRecipe}.
+     */
     @Override
     public void buildRepresentativeRecipes() {
-        // Representative recipes are registered via GemCuttingRecipes datagen builder.
+        if (GemRegistry.INSTANCE.getValues().isEmpty() || RarityRegistry.INSTANCE.getOrderedRarities().isEmpty()) {
+            return;
+        }
+
+        LootRarity max = RarityRegistry.getMaxRarity().get();
+        for (Gem gem : GemRegistry.INSTANCE.getValues()) {
+            LootRarity rarity = RarityRegistry.getMinRarity().get();
+            while (rarity != max) {
+                if (gem.clamp(rarity) == rarity) {
+                    ItemStack in = GemRegistry.createGemStack(gem, rarity);
+                    ItemStack out = GemRegistry.createGemStack(gem, rarity.next());
+                    int dust = GemCuttingMenu.getDustCost(rarity);
+                    ResourceLocation gemId = gem.getId();
+                    ResourceLocation rarityId = RarityRegistry.INSTANCE.getKey(rarity);
+                    String gemPath = gemId != null ? gemId.getPath().replace('/', '_') : "gem";
+                    String rarityPath = rarityId != null ? rarityId.getPath() : ("ord_" + rarity.ordinal());
+
+                    // std material (cost 3)
+                    var std = GemCuttingRecipeBuilder.builder("xei/" + gemPath + "/" + rarityPath + "/std")
+                            .gem(in)
+                            .output(out)
+                            .material(rarity.getMaterial(), GemCuttingMenu.STD_MAT_COST)
+                            .dustCount(dust)
+                            .circuitMeta(1)
+                            .EUt(EU_PER_TICK)
+                            .duration(DURATION)
+                            .buildRawRecipe();
+                    CMRecipeTypes.GEM_INLAY_RECIPES.addToMainCategory(std.withId(std.getId().withPrefix("/")));
+
+                    // next material (cost 1), skip when next is ancient (material unavailable)
+                    LootRarity next = rarity.next();
+                    ResourceLocation nextId = RarityRegistry.INSTANCE.getKey(next);
+                    if (nextId == null || !"ancient".equals(nextId.getPath())) {
+                        var nextRecipe = GemCuttingRecipeBuilder
+                                .builder("xei/" + gemPath + "/" + rarityPath + "/next")
+                                .gem(in)
+                                .output(out)
+                                .material(next.getMaterial(), GemCuttingMenu.NEXT_MAT_COST)
+                                .dustCount(dust)
+                                .circuitMeta(2)
+                                .EUt(EU_PER_TICK)
+                                .duration(DURATION)
+                                .buildRawRecipe();
+                        CMRecipeTypes.GEM_INLAY_RECIPES
+                                .addToMainCategory(nextRecipe.withId(nextRecipe.getId().withPrefix("/")));
+                    }
+
+                    // prev material (cost 9)
+                    if (rarity != RarityRegistry.getMinRarity().get()) {
+                        var prevRecipe = GemCuttingRecipeBuilder
+                                .builder("xei/" + gemPath + "/" + rarityPath + "/prev")
+                                .gem(in)
+                                .output(out)
+                                .material(rarity.prev().getMaterial(), GemCuttingMenu.PREV_MAT_COST)
+                                .dustCount(dust)
+                                .circuitMeta(3)
+                                .EUt(EU_PER_TICK)
+                                .duration(DURATION)
+                                .buildRawRecipe();
+                        CMRecipeTypes.GEM_INLAY_RECIPES
+                                .addToMainCategory(prevRecipe.withId(prevRecipe.getId().withPrefix("/")));
+                    }
+                }
+                rarity = rarity.next();
+            }
+        }
     }
 }

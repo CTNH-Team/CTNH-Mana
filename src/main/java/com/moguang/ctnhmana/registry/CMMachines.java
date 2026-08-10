@@ -30,6 +30,7 @@ import com.moguang.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.moguang.ctnhmana.common.item.FlowerCakeItem;
 import com.moguang.ctnhmana.common.machine.FlowerCakeBlock;
 import com.moguang.ctnhmana.common.machine.FlowerCakeMachine;
+import com.moguang.ctnhmana.common.machine.GemSublimatorMachine;
 import com.moguang.ctnhmana.common.parts.CMPartsAbility;
 import com.moguang.ctnhmana.common.parts.CentralControlBus;
 import com.moguang.ctnhmana.common.parts.ExtendedCentralControlBus;
@@ -50,6 +51,9 @@ import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelPropertie
 import static com.gregtechceu.gtceu.common.data.GTMachines.CREATIVE_TOOLTIPS;
 import static com.moguang.ctnhmana.CTNHMana.REGISTRATE;
 import static com.moguang.ctnhmana.common.DigitalWosMachine.digitalWosTooltip;
+import static com.moguang.ctnhmana.common.machine.GemSublimatorMachine.gemSublimatorCtrlHintTooltip;
+import static com.moguang.ctnhmana.common.machine.GemSublimatorMachine.gemSublimatorCtrlTooltip;
+import static com.moguang.ctnhmana.common.machine.GemSublimatorMachine.gemSublimatorTooltip;
 import static com.moguang.ctnhmana.data.lang.ChineseLangHandler.*;
 
 public class CMMachines {
@@ -375,6 +379,38 @@ public class CMMachines {
                     .tooltips(CTNHManaUtils.addMachineTooltips((digitalWosTooltip)))
                     .register(),
             GTValues.tiersBetween(LV, UV));
+    /**
+     * 宝石携刻机 ULV–UV（注册 id 仍为 gem_sublimator）。
+     * recipeType 仅供 EMI 分类；实际加工由 {@link GemSublimatorMachine} 自定义 tick 驱动。
+     * 外观暂复用高压釜 hull 模型。
+     */
+    public static final MachineDefinition[] GEM_SUBLIMATOR = registerTieredMachines(
+            "gem_sublimator",
+            GemSublimatorMachine::new,
+            (tier, builder) -> builder
+                    .langValue("%s Gem Engraver".formatted(VNF[tier]))
+                    .cnLangValue("%s宝石携刻机".formatted(VNF[tier]))
+                    // 具体示例 + Tag 通用两条分类都挂上，查机器/查任意宝石都能在 EMI 看到
+                    .recipeType(CMRecipeTypes.GEM_SUBLIMATOR_RECIPES)
+                    .recipeType(CMRecipeTypes.GEM_SUBLIMATOR_GENERIC_RECIPES)
+                    .editableUI(GemSublimatorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gem_sublimator"), tier))
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .workableTieredHullModel(GTCEu.id("block/machines/autoclave"))
+                    .tooltips(CTNHManaUtils.addMachineTooltips(gemSublimatorTooltip))
+                    .tooltipBuilder((stack, tooltip) -> {
+                        // 按本档电压写入「最高品质」与「通电增速」
+                        tooltip.add(GemSublimatorMachine.maxQualityTooltipLine(tier));
+                        tooltip.add(GemSublimatorMachine.poweredGainTooltipLine(tier));
+                        tooltip.add(gemSublimatorCtrlHintTooltip.translate());
+                        if (GTUtil.isCtrlDown()) {
+                            tooltip.add(Component.empty());
+                            for (Lang line : gemSublimatorCtrlTooltip) {
+                                tooltip.add(line.translate());
+                            }
+                        }
+                    })
+                    .register(),
+            GTValues.tiersBetween(ULV, UV));
     public static final MachineDefinition BROADCAST_HATCH = REGISTRATE
             .machine("redstone_signal_broadcast_hatch", RedstoneSignalBroadcastHatch::new)
             .cnLangValue("红石信号广播仓")

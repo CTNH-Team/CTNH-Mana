@@ -6,6 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import com.moguang.ctnhmana.registry.CMTags;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 
 import java.util.Objects;
 
@@ -46,6 +47,8 @@ public class ItemTags {
                 UPGRADE_RUNE_TRANSLOCATION_1.get(), UPGRADE_RUNE_TRANSLOCATION_2.get(),
                 UPGRADE_RUNE_TRANSLOCATION_3.get(),
                 UPGRADE_RUNE_OMEGA.get());
+        // 神话宝石仅一种 Item，NBT 区分具体种类；Tag 供携刻机通用 EMI 配方查表
+        create(provider, APOTHEOSIS_GEMS, Adventure.Items.GEM.get());
     }
 
     public static void create(RegistrateTagsProvider<Item> provider, TagKey<Item> tagKey, Item... rls) {

@@ -28,6 +28,7 @@ import com.moguang.ctnhmana.data.CMDatagen;
 import com.moguang.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
 import com.moguang.ctnhmana.integration.jade.BloodAltarStatusProvider;
 import com.moguang.ctnhmana.integration.jade.EternalWosStatusProvider;
+import com.moguang.ctnhmana.integration.jade.GemSublimatorStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaHatchStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ManaMachineManaStatusProvider;
 import com.moguang.ctnhmana.integration.jade.ThirdEyeStatusProvider;
@@ -131,6 +132,17 @@ public class CommonProxy {
                 Block.class,
                 900,
                 "eternal_wos_status");
+        JadePriorityManager.registerBlockData(
+                new GemSublimatorStatusProvider(),
+                BlockEntity.class,
+                900,
+                "gem_sublimator_status");
+
+        JadePriorityManager.registerBlockComponent(
+                new GemSublimatorStatusProvider(),
+                Block.class,
+                900,
+                "gem_sublimator_status");
     }
 
     @SubscribeEvent

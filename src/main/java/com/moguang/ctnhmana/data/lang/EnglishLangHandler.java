@@ -154,6 +154,7 @@ public class EnglishLangHandler {
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "Bloodalter Status");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "Manamachine Mana Status");
         provider.add("config.jade.plugin_gtceu.eternal_wos_status_provider", "Eternal Well Soul Infusion");
+        provider.add("config.jade.plugin_gtceu.gem_sublimator_status_provider", "Gem Engraver Progress");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "Manapool Status");
 
         provider.add("ctnhmana.entry.anatta_lotus", "Anatta Lotus");

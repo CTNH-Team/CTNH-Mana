@@ -288,6 +288,7 @@ public class ChineseLangHandler {
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "工业血祭坛属性");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "魔力机器魔力属性");
         provider.add("config.jade.plugin_gtceu.eternal_wos_status_provider", "永恒苦难之井注魂");
+        provider.add("config.jade.plugin_gtceu.gem_sublimator_status_provider", "宝石携刻机进度");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "魔力池属性");
         // provider.add("ctnh.recipe_type.info", "配方类型：%s");
         provider.add("ctnh.recipe_type.list", "%s, %s");
@@ -447,7 +448,7 @@ public class ChineseLangHandler {
         provider.add("zenith_extruder.1", "允许使用§5天顶灵压塑形§r，其以每个形态1mB§5天顶源质§5r的代价来一次性塑造大部分锭的各种形态");
         provider.add("zenith_extruder.2", "允许塑形的形态包括：§7板，杆，小型齿轮，齿轮，转子，环，螺栓，§4不允许塑形南瓜派！");
 
-        provider.add("ctnh.multiblock.mana_condenser.tooltips.0", "反熵物质转化！");
+        provider.add("ctnh.multiblock.mana_condenser.tooltips.0", "这个机器在本版本已经暂时移除！！未来将会重做");
         provider.add("ctnh.multiblock.mana_condenser.tooltips.1", "可以将魔力转化为液态魔力，或者将液态魔力转化为魔力，后者所需的能量更多");
         provider.add("ctnh.multiblock.mana_condenser.tooltips.2", "所有魔力输入输出均通过结构中心的魔力池进行");
 

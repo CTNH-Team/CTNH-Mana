@@ -2,37 +2,36 @@ package com.moguang.ctnhmana.data.recipe.builder.apotheosis;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 import com.moguang.ctnhmana.CTNHMana;
 import com.moguang.ctnhmana.registry.CMRecipeTypes;
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.cutting.GemCuttingMenu;
 
 import java.util.function.Consumer;
 
 /**
- * Datagen builder for Apotheosis Gem Cutting Table rarity-upgrade recipes,
- * mirrored into {@link CMRecipeTypes#GEM_INLAY_RECIPES} for the gem inlay machine.
- * <p>
- * Native gem cutting has no RecipeSerializer (hardcoded in {@link GemCuttingMenu});
- * this builder only registers GT recipes.
+ * Builder for Apotheosis Gem Cutting rarity-upgrade recipes on
+ * {@link CMRecipeTypes#GEM_INLAY_RECIPES}. Expects real gem stacks (with gem id + rarity).
  */
 public class GemCuttingRecipeBuilder {
 
     private final ResourceLocation id;
     private ItemStack gem;
+    private ItemStack output;
     private ItemStack material;
     private int materialCount;
-    private ItemStack output;
     private int dustCount = -1;
+    private boolean registerMachineRecipe = true;
+    private int meta = -1;
     private long eut = GTValues.VA[GTValues.LV];
     private int duration = 20 * 10;
-    private int meta = -1;
 
     private GemCuttingRecipeBuilder(String name) {
         this.id = CTNHMana.id(name);
@@ -42,24 +41,29 @@ public class GemCuttingRecipeBuilder {
         return new GemCuttingRecipeBuilder(name);
     }
 
-    /** Main gem and sacrificial duplicate (same stack, count 2 in GT). */
+    /** Explicit gem stacks (must include gem id + rarity NBT). */
     public GemCuttingRecipeBuilder gem(ItemStack gemStack) {
         this.gem = gemStack.copyWithCount(1);
         return this;
     }
 
-    public GemCuttingRecipeBuilder material(ItemStack materialStack, int count) {
-        this.material = materialStack.copyWithCount(1);
+    public GemCuttingRecipeBuilder output(ItemStack outputStack) {
+        this.output = outputStack.copyWithCount(1);
+        return this;
+    }
+
+    public GemCuttingRecipeBuilder material(ItemLike item, int count) {
+        this.material = new ItemStack(item.asItem());
         this.materialCount = count;
         return this;
     }
 
-    public GemCuttingRecipeBuilder output(ItemStack outputStack) {
-        this.output = outputStack.copy();
+    public GemCuttingRecipeBuilder material(ItemStack stack, int count) {
+        this.material = stack.copyWithCount(1);
+        this.materialCount = count;
         return this;
     }
 
-    /** Dust cost from {@link GemCuttingMenu#getDustCost}. Required. */
     public GemCuttingRecipeBuilder dustCount(int count) {
         this.dustCount = count;
         return this;
@@ -80,11 +84,16 @@ public class GemCuttingRecipeBuilder {
         return this;
     }
 
+    /** Whether to register the gem-inlay GT recipe. Defaults to {@code true}. */
+    public GemCuttingRecipeBuilder registerMachineRecipe(boolean register) {
+        this.registerMachineRecipe = register;
+        return this;
+    }
+
     private GTRecipeBuilder mapToGTBuilder() {
         if (this.gem == null || this.material == null || this.output == null || this.materialCount <= 0) {
             throw new IllegalStateException("宝石切割配方缺少参数: " + this.id);
         }
-
         if (this.dustCount < 0) {
             throw new IllegalStateException("宝石切割配方未设置宝石粉消耗: " + this.id);
         }
@@ -96,7 +105,8 @@ public class GemCuttingRecipeBuilder {
                 .inputItems(this.material.copyWithCount(this.materialCount))
                 .outputItems(this.output)
                 .EUt(this.eut)
-                .duration(this.duration);
+                .duration(this.duration)
+                .addData("info", true);
 
         if (this.meta >= 0) {
             gtBuilder.circuitMeta(this.meta);
@@ -104,7 +114,14 @@ public class GemCuttingRecipeBuilder {
         return gtBuilder;
     }
 
+    /** Build a raw GT recipe for XEI representative registration (no FinishedRecipe consumer). */
+    public GTRecipeDefinition buildRawRecipe() {
+        return mapToGTBuilder().buildRawRecipe();
+    }
+
     public void save(Consumer<FinishedRecipe> consumer) {
-        mapToGTBuilder().save(consumer);
+        if (this.registerMachineRecipe) {
+            mapToGTBuilder().save(consumer);
+        }
     }
 }

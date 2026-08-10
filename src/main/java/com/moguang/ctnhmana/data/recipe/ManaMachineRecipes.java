@@ -13,9 +13,11 @@ import net.minecraft.world.item.Items;
 import com.moguang.ctnhmana.data.recipe.builder.botania.ElfPlateRecipeBuilder;
 import com.moguang.ctnhmana.data.recipe.builder.botania.TerraPlateRecipeBuilder;
 import com.moguang.ctnhmana.registry.*;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import mythicbotany.register.ModItems;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -29,6 +31,7 @@ import static com.moguang.ctnhmana.registry.CMItems.*;
 import static com.moguang.ctnhmana.registry.CMMachines.BROADCAST_HATCH;
 import static com.moguang.ctnhmana.registry.CMMachines.CENTRALCONTROL_BUS;
 import static com.moguang.ctnhmana.registry.CMMachines.EXTENDED_CENTRALCONTROL_BUS;
+import static com.moguang.ctnhmana.registry.CMMachines.GEM_SUBLIMATOR;
 import static com.moguang.ctnhmana.registry.CMMaterials.*;
 import static com.moguang.ctnhmana.registry.CMMultiblockMachines.*;
 import static com.moguang.ctnhmana.registry.multiblock.BloodMagic.*;
@@ -170,17 +173,17 @@ public class ManaMachineRecipes {
                 'C', MAGIC_CORE.get(),
                 'D', gaiaSpreader.asItem(),
                 'E', fabulousPool.asItem());
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_condenser")// 魔力凝聚器
-                .inputItems(corporeaSpark, 2)
-                .inputItems(spark, 2)
-                .inputItems(CIRCUIT_ASSEMBLER[4], 4)
-                .inputItems(CASING_TITANIUM_STABLE.asItem(), 4)
-                .inputItems(runeWinter, 16)
-                .inputFluids(Mana.getFluid(4000))
-                .outputItems(MANA_CONDENSER.asStack())
-                .EUt(1920)
-                .duration(200)
-                .save(provider);
+//        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("mana_condenser")// 魔力凝聚器
+//                .inputItems(corporeaSpark, 2)
+//                .inputItems(spark, 2)
+//                .inputItems(CIRCUIT_ASSEMBLER[4], 4)
+//                .inputItems(CASING_TITANIUM_STABLE.asItem(), 4)
+//                .inputItems(runeWinter, 16)
+//                .inputFluids(Mana.getFluid(4000))
+//                .outputItems(MANA_CONDENSER.asStack())
+//                .EUt(1920)
+//                .duration(200)
+//                .save(provider);
         TerraPlateRecipeBuilder.builder("twist_reactor_mk1")// 扭曲聚变反应堆mk1
                 .input(TWISTED_FUSION_CASING.asItem())
                 .input(TWISTED_FUSION_CASING.asItem())
@@ -254,6 +257,29 @@ public class ManaMachineRecipes {
                 .EUt(120)
                 .duration(200)
                 .save(provider);
+        // 宝石携刻机（ULV–UV）：同档机壳 + 活石机壳 + 宝石粉 + 同档电路 + 高压釜
+        // ULV 没有高压釜时回退用 LV 高压釜；组装耗电至少按 LV VA 计
+        for (int tier : tiersBetween(ULV, UV)) {
+            var machine = GEM_SUBLIMATOR[tier];
+            if (machine == null) {
+                continue;
+            }
+            var builder = GTRecipeTypes.ASSEMBLER_RECIPES
+                    .recipeBuilder("gem_sublimator_" + VN[tier].toLowerCase(Locale.ROOT))
+                    .inputItems(HULL[tier].asStack())
+                    .inputItems(LIVING_ROCK_CASING.asItem(), 4)
+                    .inputItems(Adventure.Items.GEM_DUST.get(), 16)
+                    .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 2);
+            if (AUTOCLAVE[tier] != null) {
+                builder.inputItems(AUTOCLAVE[tier].asStack());
+            } else if (AUTOCLAVE[LV] != null) {
+                builder.inputItems(AUTOCLAVE[LV].asStack());
+            }
+            builder.outputItems(machine.asStack())
+                    .EUt(VA[Math.max(tier, LV)])
+                    .duration(200)
+                    .save(provider);
+        }
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
                 .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
                 .inputItems(BLOOD_RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)
