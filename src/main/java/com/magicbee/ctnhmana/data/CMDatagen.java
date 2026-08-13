@@ -1,0 +1,21 @@
+package com.magicbee.ctnhmana.data;
+
+import com.magicbee.ctnhmana.data.lang.ChineseLangHandler;
+import com.magicbee.ctnhmana.data.lang.EnglishLangHandler;
+import com.magicbee.ctnhmana.data.tags.FluidTypeTags;
+import com.magicbee.ctnhmana.data.tags.ItemTags;
+import com.tterrag.registrate.providers.ProviderType;
+
+import static com.magicbee.ctnhmana.CTNHMana.REGISTRATE;
+import static tech.vixhentx.mcmod.ctnhlib.registrate.data.ProviderTypes.CNLANG;
+
+public class CMDatagen {
+
+    public static void init() {
+        REGISTRATE.addLangProcessor();
+        REGISTRATE.addDataGenerator(ProviderType.LANG, EnglishLangHandler::init);
+        REGISTRATE.addDataGenerator(CNLANG, ChineseLangHandler::init);
+        REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTypeTags::init);
+        REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, ItemTags::init);
+    }
+}

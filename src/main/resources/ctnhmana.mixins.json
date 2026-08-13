@@ -1,8 +1,8 @@
 {
   "required": true,
-  "package": "com.moguang.ctnhmana.mixin",
+  "package": "com.magicbee.ctnhmana.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "mixins.ctnhmana.refmap.json",
+  "refmap": "mixins.magicbee.refmap.json",
   "mixins": [
     "ae2.WirelessTerminalItemMixin",
     "ae2.WirelessTerminalMenuHostMixin",
