@@ -26,6 +26,7 @@ import com.magicbee.ctnhmana.common.item.bloodmagicjade.JadeItem;
 import com.magicbee.ctnhmana.common.item.bosssummoner.BossSummonerBehavior;
 import com.magicbee.ctnhmana.common.item.bosssummoner.ThrowItem;
 import com.magicbee.ctnhmana.common.item.caduceus.CaduceusItem;
+import com.magicbee.ctnhmana.common.item.dungeon.PerfectMineKeyItem;
 import com.magicbee.ctnhmana.common.item.equipment.KoishiEyeItem;
 import com.magicbee.ctnhmana.common.item.equipment.SaberWandItem;
 import com.magicbee.ctnhmana.common.item.equipment.TaintedBloodWeepingEye;
@@ -205,13 +206,13 @@ public class CMItems {
                 .register();
         BLOODY_NANO_PROCESSOR_MAINFRAME = REGISTRATE
                 .item("bloody_nano_processor_mainframe", ComponentItem::create)
-                .cnlang("§4血染微处理主机§r")
+                .cnlang("§4血染微处理主机")
                 .tag(CustomTags.LuV_CIRCUITS)
                 .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(bloody_nano_circuit_lang, text))))
                 .register();
         MIXIN_WILL_PROCESSOR_MAINFRAME = REGISTRATE
                 .item("mixin_will_processor_mainframe", ComponentItem::create)
-                .cnlang("§1注元意志处理器主机§r")
+                .cnlang("§1注元意志处理器主机")
                 .tag(CustomTags.ZPM_CIRCUITS)
                 .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(mixin_will_circuit_lang, text))))
                 .register();
@@ -999,6 +1000,33 @@ public class CMItems {
             .item("rainbow_mana_spirit", ComponentItem::create)
             .cnlang("§d虹彩蕴魔精魄")
             .lang("§dRainbow Mana Spirit")
+            .register();
+    public static ItemEntry<ComponentItem> BROKEN_MINE_KEY = REGISTRATE
+            .item("broken_mine_key", ComponentItem::create)
+            .cnlang("§7破碎的工头钥匙")
+            .lang("§7Broken Foreman's Key")
+            .register();
+    @CN(
+            {
+                    "§6可打开任何地牢封印，将普通封印当作矿区入口的封印使用",
+                    "§4我讨厌你们,讨厌所有的钥匙,讨厌所有的锁,讨厌你们整个领域！"
+            })
+    @EN(
+            {
+                    "§6Can open any dungeon seal, treating normal seals as mine-entrance seals",
+                    "§4I hate you all, hate every key, hate every lock, hate your entire realm!"
+            })
+    public static Lang perfectMineKeyLang[];
+    public static ItemEntry<PerfectMineKeyItem> PERFECT_MINE_KEY = REGISTRATE
+            .item("perfect_mine_key", PerfectMineKeyItem::new)
+            .cnlang("§6完善的工头钥匙")
+            .lang("§6Perfect Foreman's Key")
+            .properties(properties -> {
+                properties.stacksTo(1);
+                properties.rarity(Rarity.EPIC);
+                return properties;
+            })
+            .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(perfectMineKeyLang,text))))
             .register();
     @CN({
             "§7来自过去的崩坏的残留",

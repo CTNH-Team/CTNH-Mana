@@ -20,7 +20,7 @@ import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 宝石携刻机的 EMI / XEI 展示逻辑。
+ * 宝石刻格机的 EMI / XEI 展示逻辑。
  * <p>
  * <b>重要：</b>真正加工由 {@code GemSublimatorMachine} 的自定义 tick 完成，
  * 不走 GT {@link #createCustomRecipe} 匹配。此处只在注册表加载后
@@ -38,7 +38,7 @@ public class IndustrialGemSublimatorLogic implements GTRecipeType.ICustomRecipeL
 
     /**
      * 运行时匹配：恒返回 null。
-     * 携刻机不通过 RecipeLogic 匹配库存配方。
+     * 刻格机不通过 RecipeLogic 匹配库存配方。
      */
     @Override
     public @Nullable GTRecipeDefinition createCustomRecipe(RecipeHandlerGroup holder) {

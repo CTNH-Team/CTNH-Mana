@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 /**
- * 宝石携刻「展示」EMI 配方类型逻辑。
+ * 宝石刻格「展示」EMI 配方类型逻辑。
  * <p>
  * 输入使用 {@link CMTags#APOTHEOSIS_GEMS}（Tag），因此玩家对<strong>任意</strong>神话宝石
  * 在 EMI 中查询「用途」时，都能看到「Tag + 宝石粉 → XX品质的宝石」。

@@ -26,7 +26,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 /**
- * 宝石携刻机的静态规则表。
+ * 宝石刻格机的静态规则表。
  * <p>
  * 机器主流程不走 GT 配方秒表，而是用自定义进度点；本类集中存放：
  * <ul>

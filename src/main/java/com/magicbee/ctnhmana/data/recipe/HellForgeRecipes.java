@@ -219,7 +219,7 @@ public class HellForgeRecipes {
         TartaricForgeRecipeBuilder.builder("miners_key")// 矿工之钥
                 .input(COPPER_INGOT, HELLFORGED_INGOT.get(), IMBUED_SLATE.get())
                 .output(new ItemStack(DUNGEON_MINE_KEY.get(), 1))
-                .minimumSouls(2400).soulDrain(1200)
+                .minimumSouls(240).soulDrain(120)
                 .circuitMeta(1)
                 .save(provider);
         TartaricForgeRecipeBuilder.builder("corrosive_crystal_catalyst")// 侵蚀晶体催化剂

@@ -19,6 +19,7 @@ import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
 import com.magicbee.ctnhmana.common.multiblock.IndustrialGemInlayMachine;
 import com.magicbee.ctnhmana.common.multiblock.IndustrialSalvagingMachine;
 import com.magicbee.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
+import com.magicbee.ctnhmana.common.multiblock.ManaMaceratorMachine;
 import com.magicbee.ctnhmana.common.parts.CMPartsAbility;
 import com.magicbee.ctnhmana.registry.CMBlocks;
 import com.magicbee.ctnhmana.registry.CMRecipeTypes;
@@ -37,15 +38,16 @@ public class ManaMachine {
     public static void init() {}
 
     public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE
-            .multiblock("mana_macerator", holder -> new BaseManaMachine(holder, 1))
+            .multiblock("mana_macerator", holder -> new ManaMaceratorMachine(holder, 1))
             .cnLangValue("§b魔力粉碎机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(ManaMaceratorMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
-                    GTRecipeModifiers.BATCH_MODE)
+                    ManaMaceratorMachine::batchModeViewAware,
+                    ManaMaceratorMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##########", "###########", "#####B#####", "###BBBBB###", "###BBCBB###", "###BCCCB###",
                             "###BBCBB###", "###BBBBB###", "#####B#####", "###########", "###########")

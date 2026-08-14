@@ -87,6 +87,7 @@ public class CTNHManaGTAddon implements IGTAddon {
         GemCuttingRecipes.init(provider);
         EternalWosRecipes.init(provider);
         ManaTransformerRecipes.init(provider);
+        PerfectMineKeyRecipes.init(provider);
     }
 
     // 这个函数用于重新注册其他模组被删除的配方，因为被删除的配方如果id不变即使重新注册也会被移除，故通过这个函数将配方的命名空间变为ctnhmana

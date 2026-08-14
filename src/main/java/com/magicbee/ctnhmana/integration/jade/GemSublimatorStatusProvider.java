@@ -24,7 +24,7 @@ import snownee.jade.api.ui.BoxStyle;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 /**
- * 宝石携刻机专用 JADE：显示自定义进度点 {@code progress/maxProgress}，
+ * 宝石刻格机专用 JADE：显示自定义进度点 {@code progress/maxProgress}，
  * 而不是 GT {@code WorkLogicMachineProvider} 的 tick/秒格式。
  * <p>
  * 机器侧 {@link GemSublimatorMachine} 不覆盖 {@code IWorkLogicMachine#getProgress()}，
@@ -35,7 +35,7 @@ public class GemSublimatorStatusProvider extends CapabilityBlockProvider<GemSubl
     /** 青玉色进度条，与魔力类深蓝条区分 */
     private static final int BAR_COLOR = 0xFF1ABC9C;
 
-    @CN("携刻进度：%s / %s")
+    @CN("刻格进度：%s / %s")
     @EN("Engraving: %s / %s")
     public static Lang jadeProgress;
 

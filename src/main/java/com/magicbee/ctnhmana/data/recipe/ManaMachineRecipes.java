@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -258,28 +259,46 @@ public class ManaMachineRecipes {
                 .EUt(120)
                 .duration(200)
                 .save(provider);
-        // 宝石携刻机（ULV–UV）：同档机壳 + 活石机壳 + 宝石粉 + 同档电路 + 高压釜
-        // ULV 没有高压釜时回退用 LV 高压釜；组装耗电至少按 LV VA 计
+        // 宝石刻格机（ULV–UV）：全部改由工作台合成
+        // 全部档位：对应档机壳 + 宝石切割台 + 2 宝石尘 + 4 个对应品质珍宝材料；非 ULV 另加高一档电路 x1
+        // 珍宝材料逐级提高：ULV/LV=陈旧布匹, MV=发光水晶碎片, HV/EV=玄奥沙, IV=神铸珍珠, LuV/ZPM/UV=无限之体现
         for (int tier : tiersBetween(ULV, UV)) {
             var machine = GEM_SUBLIMATOR[tier];
             if (machine == null) {
                 continue;
             }
-            var builder = GTRecipeTypes.ASSEMBLER_RECIPES
-                    .recipeBuilder("gem_sublimator_" + VN[tier].toLowerCase(Locale.ROOT))
-                    .inputItems(HULL[tier].asStack())
-                    .inputItems(LIVING_ROCK_CASING.asItem(), 4)
-                    .inputItems(Adventure.Items.GEM_DUST.get(), 16)
-                    .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 2);
-            if (AUTOCLAVE[tier] != null) {
-                builder.inputItems(AUTOCLAVE[tier].asStack());
-            } else if (AUTOCLAVE[LV] != null) {
-                builder.inputItems(AUTOCLAVE[LV].asStack());
+            String id = "gem_sublimator_" + VN[tier].toLowerCase(Locale.ROOT);
+            Item treasure = switch (tier) {
+                case ULV, LV -> Adventure.Items.UNCOMMON_MATERIAL.get();
+                case MV -> Adventure.Items.RARE_MATERIAL.get();
+                case HV, EV -> Adventure.Items.EPIC_MATERIAL.get();
+                case IV -> Adventure.Items.MYTHIC_MATERIAL.get();
+                default -> Adventure.Items.ANCIENT_MATERIAL.get(); // LuV/ZPM/UV 用最高档
+            };
+            if (tier == ULV) {
+                VanillaRecipeHelper.addShapedRecipe(provider, id, machine.asStack(),
+                        "ABA",
+                        " DE",
+                        "FGF",
+                        'A', treasure,
+                        'B', Adventure.Items.GEM_CUTTING_TABLE.get(),
+                        'D', HULL[tier].asStack(),
+                        'E', Adventure.Items.GEM_DUST.get(),
+                        'F', treasure,
+                        'G', Adventure.Items.GEM_DUST.get());
+            } else {
+                VanillaRecipeHelper.addShapedRecipe(provider, id, machine.asStack(),
+                        "ABA",
+                        "CDE",
+                        "FGF",
+                        'A', treasure,
+                        'B', Adventure.Items.GEM_CUTTING_TABLE.get(),
+                        'C', CustomTags.CIRCUITS_ARRAY[tier + 1],
+                        'D', HULL[tier].asStack(),
+                        'E', Adventure.Items.GEM_DUST.get(),
+                        'F', treasure,
+                        'G', Adventure.Items.GEM_DUST.get());
             }
-            builder.outputItems(machine.asStack())
-                    .EUt(VA[Math.max(tier, LV)])
-                    .duration(200)
-                    .save(provider);
         }
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("ritual_mechanical_array")// 工业血祭仪式阵
                 .inputItems(RITUAL_MECHANICAL_BLOCK.get().asItem(), 8)

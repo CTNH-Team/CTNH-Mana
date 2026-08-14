@@ -380,7 +380,7 @@ public class CMMachines {
                     .register(),
             GTValues.tiersBetween(LV, UV));
     /**
-     * 宝石携刻机 ULV–UV（注册 id 仍为 gem_sublimator）。
+     * 宝石刻格机 ULV–UV（注册 id 仍为 gem_sublimator）。
      * recipeType 仅供 EMI 分类；实际加工由 {@link GemSublimatorMachine} 自定义 tick 驱动。
      * 外观暂复用高压釜 hull 模型。
      */
@@ -389,7 +389,7 @@ public class CMMachines {
             GemSublimatorMachine::new,
             (tier, builder) -> builder
                     .langValue("%s Gem Engraver".formatted(VNF[tier]))
-                    .cnLangValue("%s宝石携刻机".formatted(VNF[tier]))
+                    .cnLangValue("%s宝石刻格机".formatted(VNF[tier]))
                     // 具体示例 + Tag 通用两条分类都挂上，查机器/查任意宝石都能在 EMI 看到
                     .recipeType(CMRecipeTypes.GEM_SUBLIMATOR_RECIPES)
                     .recipeType(CMRecipeTypes.GEM_SUBLIMATOR_GENERIC_RECIPES)

@@ -48,7 +48,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import java.util.function.BiFunction;
 
 /**
- * 宝石携刻机（单方块，ULV–UV；注册 id 仍为 gem_sublimator）。
+ * 宝石刻格机（单方块，ULV–UV；注册 id 仍为 gem_sublimator）。
  * <p>
  * 设计要点（参考 Fisher 的自定义 tick 进度，而非标准 GT 配方逻辑）：
  * <ul>

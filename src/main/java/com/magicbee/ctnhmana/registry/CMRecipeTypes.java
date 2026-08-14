@@ -182,13 +182,13 @@ public class CMRecipeTypes {
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND))
             .addCustomRecipeLogic(new IndustrialGemCuttingLogic());
     /**
-     * 宝石携刻配方类型：仅用于 EMI 展示分类（具体宝石示例）。
+     * 宝石刻格配方类型：仅用于 EMI 展示分类（具体宝石示例）。
      * 运行时匹配在 {@link IndustrialGemSublimatorLogic#createCustomRecipe} 中恒为 null，
      * 代表性配方由 {@link IndustrialGemSublimatorLogic#buildRepresentativeRecipes} 注入。
      */
     public static final GTRecipeType GEM_SUBLIMATOR_RECIPES = REGISTRATE
             .recipeType(CTNHMana.id("gem_sublimator"), ELECTRIC)
-            .cnlang("宝石携刻")
+            .cnlang("宝石刻格")
             .lang("Gem Engraving")
             .setMaxIOSize(2, 1, 0, 0)
             .setEUIO(IO.IN)
@@ -199,13 +199,13 @@ public class CMRecipeTypes {
             .setUiBuilder((recipe, widgetGroup) -> widgetGroup.setBackground(CMGuiTextures.BT_BACKGROUND))
             .addCustomRecipeLogic(new IndustrialGemSublimatorLogic());
     /**
-     * 宝石携刻「展示」EMI 分类：{@code #forge:apotheosis_gems + 粉 → XX品质的宝石}。
+     * 宝石刻格「展示」EMI 分类：{@code #forge:apotheosis_gems + 粉 → XX品质的宝石}。
      * 输入为 Tag，与具体宝石 NBT 解耦，任意神话宝石查表都能看到。
      * 机器侧与 {@link #GEM_SUBLIMATOR_RECIPES} 一并注册，仅作 EMI 展示，不参与运行时匹配。
      */
     public static final GTRecipeType GEM_SUBLIMATOR_GENERIC_RECIPES = REGISTRATE
             .recipeType(CTNHMana.id("gem_sublimator_generic"), DUMMY)
-            .cnlang("宝石携刻（展示）")
+            .cnlang("宝石刻格（展示）")
             .lang("Gem Engraving (Display)")
             .setMaxIOSize(2, 1, 0, 0)
             .setEUIO(IO.IN)

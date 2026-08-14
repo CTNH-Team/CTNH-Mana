@@ -288,7 +288,7 @@ public class ChineseLangHandler {
         provider.add("config.jade.plugin_gtceu.bloodaltar_status_provider", "工业血祭坛属性");
         provider.add("config.jade.plugin_gtceu.manamachine_mana_status_provider", "魔力机器魔力属性");
         provider.add("config.jade.plugin_gtceu.eternal_wos_status_provider", "永恒苦难之井注魂");
-        provider.add("config.jade.plugin_gtceu.gem_sublimator_status_provider", "宝石携刻机进度");
+        provider.add("config.jade.plugin_gtceu.gem_sublimator_status_provider", "宝石刻格机进度");
         provider.add("config.jade.plugin_ctnhmana.mana_pool_status", "魔力池属性");
         // provider.add("ctnh.recipe_type.info", "配方类型：%s");
         provider.add("ctnh.recipe_type.list", "%s, %s");
