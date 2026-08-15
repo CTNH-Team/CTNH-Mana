@@ -41,11 +41,13 @@ public class ManaMachine {
             .multiblock("mana_macerator", holder -> new ManaMaceratorMachine(holder, 1))
             .cnLangValue("§b魔力粉碎机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
+            .tooltips(ManaMaceratorMachine.manaMaceratorLang[0].translate(),
+                    ManaMaceratorMachine.manaMaceratorLang[1].translate())
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
             .recipeModifiers(ManaMaceratorMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     ManaMaceratorMachine::batchModeViewAware,
                     ManaMaceratorMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -98,7 +100,7 @@ public class ManaMachine {
                     CMRecipeTypes.MANA_FORGE_RECIPES)
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######", "#######", "#######")
@@ -132,7 +134,7 @@ public class ManaMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.WIREMILL_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "###B###", "###B###", "###B###", "###B###")
@@ -164,7 +166,7 @@ public class ManaMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.LATHE_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######")
@@ -202,7 +204,7 @@ public class ManaMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.ASSEMBLER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A####BBB#####", "#############", "#############", "#############", "#############",
@@ -261,7 +263,7 @@ public class ManaMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MIXER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A####BBB#####", "#############", "#############", "#############", "#############",
@@ -419,7 +421,7 @@ public class ManaMachine {
             .recipeType(CMRecipeTypes.INDUSTRIAL_SALVAGING_RECIPES)
             .recipeModifiers(
                     IndustrialSalvagingMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###############", "###############", "###############", "###############",
@@ -519,7 +521,7 @@ public class ManaMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.GEM_INLAY_RECIPES)
             .recipeModifiers(
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK),
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("BBB", "BBB", "BBB")

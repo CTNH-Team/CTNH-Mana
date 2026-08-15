@@ -1,5 +1,7 @@
 package com.magicbee.ctnhmana.common.multiblock;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -15,6 +17,7 @@ import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.api.CrossParallelRecipeLogic;
 import tech.vixhentx.mcmod.ctnhlib.api.ICrossParallelRecipeLogicMachine;
+import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
@@ -183,6 +186,11 @@ public class ManaMaceratorMachine extends BaseManaMachine implements ICrossParal
                 ? Math.max(0.2, recipemetric.eut - num * 0.05 - Math.min(1.0, 0.025 * (int) (batchRawDuration * paTotal / 2000)))
                 : Math.max(0.5, recipemetric.eut - num * 0.025 - Math.min(0.5, 0.025 * (int) (batchRawDuration * paTotal / 4000)));
         recipe.multiplyEUt(eutMult);
+        // 回写批次最终倍率到 recipemetric，供侧边栏（ManaStatusGui）显示正确值；
+        // 下一轮配方处理时 gtRecipeModifier 会重新 Copy+plus 覆盖，不影响计算。
+        recipemetric.speed = speed;
+        recipemetric.eut = eutMult;
+        recipemetric.parallel = workingParallels;
         return null;
     }
 
@@ -208,4 +216,15 @@ public class ManaMaceratorMachine extends BaseManaMachine implements ICrossParal
             textList.add(BaseManaMachineWorkingParallelLang.translate(workingParallels, limit));
         }
     }
+    @CN(
+            {
+                    "§a启用跨配方并行§r,允许一次性并行不同的配方,每个配方分别计算升级加成,批次并行上限§a等同于并行上限§r",
+                    "§5启用流水线升级时§r,所有配方都会统一计入流水线的加成之中"
+            }
+    )
+    @EN({
+            "§aEnables cross-recipe parallelism§r, allowing multiple different recipes to run at once. Each recipe gets its own upgrade bonus, and the batch parallel limit§a equals the parallel limit§r",
+            "§5When a pipeline upgrade is installed§r, all recipes are uniformly included in the pipeline bonus"
+    })
+    public static Lang[] manaMaceratorLang;
 }

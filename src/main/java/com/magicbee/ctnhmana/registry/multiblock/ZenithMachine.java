@@ -38,7 +38,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CUTTER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABBACCA", "ADDADDA", "ADDADDA", "ADDADDA", "ADDADDA", "ACCAEEA", "ADDADDA", "ADDADDA",
                             "ADDADDA", "ADDADDA", "ADDADDA", "AEEAFFA", "ADDADDA", "ADDADDA", "ADDADDA", "ADDADDA",
@@ -92,7 +92,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.ELECTROLYZER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A################", "######BBBBB######", "###BBBCCDEEBBB###", "##BCCCFCDEFEEEB##",
                             "##BCFBBCDEBBFEB##", "##BCBCCCDEEEBEB##", "#BCFBCDDDDDEBFEB#", "BBCCCCDDDDDEEEEBB",
@@ -192,7 +192,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES, CMRecipeTypes.ZENITH_CIRCUIT)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#########", "#########", "#########", "##BBBBB##", "##BBBBB##", "##BB@BB##", "##BBBBB##",
                             "##BBBBB##", "#########", "#########", "########A")
@@ -251,7 +251,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##",
                             "###AABAA###")
@@ -310,7 +310,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.EXTRUDER_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#######", "########", "########", "########", "########", "########", "########",
                             "########", "########", "########", "########", "########", "########", "########",
@@ -373,7 +373,7 @@ public class ZenithMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
             .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##BBB###", "#########", "#########", "#########", "#########", "#########", "#########",
                             "#########", "#########", "#########", "#########", "#########", "#########", "#########",
