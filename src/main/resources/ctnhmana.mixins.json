@@ -10,6 +10,7 @@
     "ars.PotionJarMixin",
     "ars.PotionTankMixin",
     "bloodmagic.BloodAltarMixin",
+    "bloodmagic.DemonWillHolderMixin",
     "bloodmagic.TileAltarAccessor",
     "botania.BotaniaEntitiesMixin",
     "botania.FunctionalFlowerBaseAccessor",

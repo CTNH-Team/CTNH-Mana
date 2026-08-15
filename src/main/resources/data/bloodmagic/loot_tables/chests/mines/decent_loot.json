@@ -949,7 +949,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -976,7 +976,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -1003,7 +1003,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -1030,7 +1030,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -1057,7 +1057,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -1084,7 +1084,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 7
+                "max": 5
               }
             }
           ]
@@ -1097,7 +1097,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.02
+          "chance": 0.001
         }
       ],
       "entries": [
@@ -1111,6 +1111,33 @@
               "count": {
                 "type": "minecraft:constant",
                 "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ctnh_endless_will_crystal",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.01
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ctnhmana:will_crystal_processor",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
               }
             }
           ]
@@ -1137,7 +1164,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1164,7 +1191,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1191,7 +1218,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1218,7 +1245,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1245,7 +1272,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1272,7 +1299,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 5
+                "max": 4
               }
             }
           ]
@@ -1397,6 +1424,32 @@
         {
           "type": "minecraft:item",
           "name": "ctnhmana:vengeful_core",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:constant",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ctnh_endless_mixin_will_mainframe",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.0001
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ctnhmana:mixin_will_processor_mainframe",
           "weight": 1,
           "functions": [
             {

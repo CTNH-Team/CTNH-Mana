@@ -83,7 +83,7 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
     public boolean isBoosted = false;
     public double diversity = 1;
     public double difference = 0;
-    public static final int BASE_MAX_WILL_TRANSFER = 400;
+    public static final int BASE_MAX_WILL_TRANSFER = 200;
 
     public int Sacrifice_rune = 0;
     public int Speed_rune = 0;
@@ -336,7 +336,8 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
                 difference = 0;
             }
             if (Math.abs(high_will) < 10) {
-                willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference));
+                willChunk1.getCurrentWill().drainWill(type1, Double.MAX_VALUE);
+                willChunk2.getCurrentWill().drainWill(type1, Double.MAX_VALUE);
             } else {
                 willChunk1.getCurrentWill().addWill(type1, Math.abs(difference) * 0.08, getMaxWillTransfer());
                 willChunk2.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.16);
@@ -347,7 +348,8 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
                 difference = 0;
             }
             if (Math.abs(high_will) < 10) {
-                willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference));
+                willChunk1.getCurrentWill().drainWill(type1, Double.MAX_VALUE);
+                willChunk2.getCurrentWill().drainWill(type1, Double.MAX_VALUE);
             } else {
                 willChunk1.getCurrentWill().drainWill(type1, Math.abs(difference) * 0.16);
                 willChunk2.getCurrentWill().addWill(type1, Math.abs(difference) * 0.08, getMaxWillTransfer());
@@ -594,7 +596,7 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
             textList.add(INFO_SOUL_NETWORK_LINKED.translate());
             if (lastLpPerTick > 0) {
                 var lpPercent = Math.min(ORB_LP_CAP_FRACTION,
-                        ORB_LP_BASE_FRACTION + ORB_LP_PER_RUNE_FRACTION * Orb_rune) * 100;
+                        ORB_LP_PER_RUNE_FRACTION * Orb_rune) * 100;
                 textList.add(INFO_LP_CONVERSION.translate(
                         String.format("%.2f", lpPercent),
                         FormattingUtil.formatNumbers(lastLpPerTick)));
@@ -698,9 +700,9 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
             "EU/t = 256 × 多样性 × 有效浓度差 × ln(有效浓度差+1) × [困惑强化倍率]",
             "困惑强化倍率 = 2 + 0.2×牺牲等级（需持续输入困惑液）",
             "多样性：两侧各按 1.2−Σ(占比²) 计算后相乘；无意志侧取 0.2；专精固定 0.8；两侧均衡时最高约 1.44",
-            "意志迁移：高侧扣除差值4%，低侧获得差值4%；高侧该类型意志<10 时只清空不迁移；单侧≥999 时清空该侧全部意志",
+            "意志迁移：高侧扣除差值16%，低侧获得差值8%（净损耗8%）；任一侧该类型意志<10 时直接清干两侧该类型意志；任一侧该类型意志≥9999 时清空该侧全部意志",
             "专精模式仅处理对应意志；默认模式累加所有类型的浓度差",
-            "已链接灵魂网络时：每周期 LP = 毛发电 × min(1%, 0.1%+0.1%×宝珠等级)；实际 EU/t = 毛发电 × (1 − 转化比例)",
+            "已链接灵魂网络时：每周期 LP = 毛发电 × min(1%, 0.1%×宝珠等级)；实际 EU/t = 毛发电 × (1 − 转化比例)",
             "转位：每侧区块消耗 4×min(等级×2, floor(空白/4)) 空白意志，四种类型意志各 +min(等级×2, floor(空白/4))"
     })
     @EN({
@@ -709,9 +711,9 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
             "EU/t = 256 × diversity × effective difference × ln(effective difference+1) × [doubt boost]",
             "Doubt boost = 2 + 0.2×sacrifice levels (requires continuous doubt fluid input)",
             "Diversity: per side 1.2−Σ(ratio²), then multiply both sides; 0.2 if a side has no will; 0.8 in specialty; up to ~1.44 when both sides are balanced",
-            "Will migration: high side −4% of difference, low side +4%; if high side <10 for that type, drain only (no transfer); if either side ≥999, clear all will on that side",
+            "Will migration: high side −16% of difference, low side +8% (net 8% loss); if either side <10 for that type, clear that will type on both sides; if either side ≥9999 for that type, clear ALL will on that side",
             "Specialty mode processes one will type only; default mode sums concentration differences of all types",
-            "With linked soul network: LP per cycle = gross EU/t × min(1%, 0.1%+0.1%×orb levels); actual EU/t = gross × (1 − conversion fraction)",
+            "With linked soul network: LP per cycle = gross EU/t × min(1%, 0.1%×orb levels); actual EU/t = gross × (1 − conversion fraction)",
             "Displacement: per side drains 4×min(level×2, floor(raw/4)) raw will; each typed will gains +min(level×2, floor(raw/4))"
     })
     public static Lang[] SHIFT_TOOLTIPS;
