@@ -17,7 +17,8 @@ import wayoftime.bloodmagic.will.DemonWillHolder;
 public abstract class DemonWillHolderMixin {
 
     @Inject(method = "addWill(Lwayoftime/bloodmagic/api/compat/EnumDemonWillType;DD)D",
-            at = @At("RETURN"), cancellable = true)
+            at = @At("RETURN"),
+            cancellable = true)
     private void ctnh$enforceWillCap(EnumDemonWillType type, double amount, double max,
                                      CallbackInfoReturnable<Double> cir) {
         double overflow = amount - cir.getReturnValue();

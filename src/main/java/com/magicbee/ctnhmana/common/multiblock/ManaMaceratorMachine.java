@@ -1,7 +1,5 @@
 package com.magicbee.ctnhmana.common.multiblock;
 
-import com.ctnhlang.CN;
-import com.ctnhlang.EN;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -12,6 +10,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 
 import net.minecraft.network.chat.Component;
 
+import com.ctnhlang.CN;
+import com.ctnhlang.EN;
 import com.magicbee.ctnhmana.common.item.manamachineupgrade.GTUpgradeItemT2;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
@@ -175,16 +175,18 @@ public class ManaMaceratorMachine extends BaseManaMachine implements ICrossParal
         double num = Math.max(0, recipemetric.parallel - 1); // 清除的并行数
         double k = batchMinK == Double.MAX_VALUE ? 1.0 : batchMinK; // 超频整体倍率（保守取最小）
         // 流水线 speed（沿用 GT 升级公式，量纲搬批次总量）
-        double speed = t2
-                ? recipemetric.speed * Math.pow(1.05, num) + Math.min(20.00, paTotal * 0.05)
-                : recipemetric.speed + num * 0.05 + Math.min(5.00, paTotal * 0.05);
+        double speed = t2 ? recipemetric.speed * Math.pow(1.05, num) + Math.min(20.00, paTotal * 0.05) :
+                recipemetric.speed + num * 0.05 + Math.min(5.00, paTotal * 0.05);
         // 总时长 = Σ原始时长 × (1/speed) × min(64, paTotal) × 超频倍率
         long finalDuration = Math.max(1, Math.round(batchRawDuration / speed * Math.min(64, paTotal) * k));
         recipe.duration = (int) finalDuration;
         // 电压减成（基于批次总“批处理时长”）
-        double eutMult = t2
-                ? Math.max(0.2, recipemetric.eut - num * 0.05 - Math.min(1.0, 0.025 * (int) (batchRawDuration * paTotal / 2000)))
-                : Math.max(0.5, recipemetric.eut - num * 0.025 - Math.min(0.5, 0.025 * (int) (batchRawDuration * paTotal / 4000)));
+        double eutMult = t2 ?
+                Math.max(0.2,
+                        recipemetric.eut - num * 0.05 -
+                                Math.min(1.0, 0.025 * (int) (batchRawDuration * paTotal / 2000))) :
+                Math.max(0.5, recipemetric.eut - num * 0.025 -
+                        Math.min(0.5, 0.025 * (int) (batchRawDuration * paTotal / 4000)));
         recipe.multiplyEUt(eutMult);
         // 回写批次最终倍率到 recipemetric，供侧边栏（ManaStatusGui）显示正确值；
         // 下一轮配方处理时 gtRecipeModifier 会重新 Copy+plus 覆盖，不影响计算。
@@ -216,12 +218,11 @@ public class ManaMaceratorMachine extends BaseManaMachine implements ICrossParal
             textList.add(BaseManaMachineWorkingParallelLang.translate(workingParallels, limit));
         }
     }
-    @CN(
-            {
-                    "§a启用跨配方并行§r,允许一次性并行不同的配方,每个配方分别计算升级加成,批次并行上限§a等同于并行上限§r",
-                    "§5启用流水线升级时§r,所有配方都会统一计入流水线的加成之中"
-            }
-    )
+
+    @CN({
+            "§a启用跨配方并行§r,允许一次性并行不同的配方,每个配方分别计算升级加成,批次并行上限§a等同于并行上限§r",
+            "§5启用流水线升级时§r,所有配方都会统一计入流水线的加成之中"
+    })
     @EN({
             "§aEnables cross-recipe parallelism§r, allowing multiple different recipes to run at once. Each recipe gets its own upgrade bonus, and the batch parallel limit§a equals the parallel limit§r",
             "§5When a pipeline upgrade is installed§r, all recipes are uniformly included in the pipeline bonus"
