@@ -165,7 +165,7 @@
           ],
           "name": "minecraft:diamond",
           "quality": 4,
-          "weight": 7
+          "weight": 4
         },
         {
           "type": "minecraft:item",
@@ -250,7 +250,7 @@
           ],
           "name": "bloodmagic:strong_tau",
           "quality": 3,
-          "weight": 6
+          "weight": 4
         },
         {
           "type": "minecraft:item",
@@ -267,7 +267,7 @@
           ],
           "name": "bloodmagic:sand_hellforged",
           "quality": 3,
-          "weight": 12
+          "weight": 4
         },
         {
           "type": "minecraft:item",
@@ -721,7 +721,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -748,7 +748,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -775,7 +775,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -802,7 +802,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -829,7 +829,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -856,7 +856,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [

@@ -1006,16 +1006,14 @@ public class CMItems {
             .cnlang("§7破碎的工头钥匙")
             .lang("§7Broken Foreman's Key")
             .register();
-    @CN(
-            {
-                    "§6可打开任何地牢封印，将普通封印当作矿区入口的封印使用",
-                    "§4我讨厌你们,讨厌所有的钥匙,讨厌所有的锁,讨厌你们整个领域！"
-            })
-    @EN(
-            {
-                    "§6Can open any dungeon seal, treating normal seals as mine-entrance seals",
-                    "§4I hate you all, hate every key, hate every lock, hate your entire realm!"
-            })
+    @CN({
+            "§6可打开任何地牢封印，将普通封印当作矿区入口的封印使用",
+            "§4我讨厌你们,讨厌所有的钥匙,讨厌所有的锁,讨厌你们整个领域！"
+    })
+    @EN({
+            "§6Can open any dungeon seal, treating normal seals as mine-entrance seals",
+            "§4I hate you all, hate every key, hate every lock, hate your entire realm!"
+    })
     public static Lang perfectMineKeyLang[];
     public static ItemEntry<PerfectMineKeyItem> PERFECT_MINE_KEY = REGISTRATE
             .item("perfect_mine_key", PerfectMineKeyItem::new)
@@ -1026,7 +1024,7 @@ public class CMItems {
                 properties.rarity(Rarity.EPIC);
                 return properties;
             })
-            .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(perfectMineKeyLang,text))))
+            .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(perfectMineKeyLang, text))))
             .register();
     @CN({
             "§7来自过去的崩坏的残留",
@@ -1037,11 +1035,26 @@ public class CMItems {
             "在崩解的水晶之中，你能否看见那道潜藏的泪痕？"
     })
     public static Lang[] cryshCatalystLang;
+    @CN({
+            "§6相信它会给你带来好！这蕴含了BEEEEEEEEEEEEEEEEE的加护！",
+            "§7嘉登除外"
+    })
+    @EN({
+            "§7来自过去的崩坏的残留",
+            "在崩解的水晶之中，你能否看见那道潜藏的泪痕？"
+    })
+    public static Lang[] wishBeeLang;
     public static ItemEntry<ComponentItem> CRYSH_CATALYST = REGISTRATE
             .item("crysh_catalyst", ComponentItem::create)
             .cnlang("§7崩坏的催化剂")
             .lang("§7crysh_catalyst")
             .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(cryshCatalystLang, text))))
+            .register();
+    public static ItemEntry<ComponentItem> WISH_BEE = REGISTRATE
+            .item("wish_bee", ComponentItem::create)
+            .cnlang("§6许愿🐝")
+            .lang("§7crysh_catalyst")
+            .onRegister(attach(new TooltipBehavior(text -> itemTooltipsChange(wishBeeLang, text))))
             .register();
 
     public static ItemEntry<BTUpgradeItemT1> SKY_FLOWER_SPEECH;

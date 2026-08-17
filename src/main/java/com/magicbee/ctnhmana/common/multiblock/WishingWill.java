@@ -3,164 +3,145 @@ package com.magicbee.ctnhmana.common.multiblock;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.ActionResult;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
-import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.item.ItemIngredient;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.TickTask;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.items.ItemHandlerHelper;
 
-import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import static com.gregtechceu.gtceu.data.recipe.CustomTags.CIRCUITS;
 
 public class WishingWill extends RecipeMultiblockMachine {
 
+    /** 巨型假输入：许愿投币池，9 槽 */
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
+    /** 巨型假输出：64 槽，配方产物落入此处等待抛出 */
     @Persisted
     protected final NotifiableItemStackHandler dummyOutputStorage;
-    protected TickableSubscription ManaSubs = null;
+    protected TickableSubscription poolSubs = null;
 
     public WishingWill(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        this.machineStorage = new NotifiableItemStackHandler(this, 1, IO.IN, IO.IN);
-        dummyOutputStorage = new NotifiableItemStackHandler(this, 114514, IO.OUT, IO.OUT);
+        this.machineStorage = new NotifiableItemStackHandler(this, 9, IO.IN, IO.IN);
+        dummyOutputStorage = new NotifiableItemStackHandler(this, 64, IO.OUT, IO.OUT);
     }
 
-    public void GetPoolItems() {
-        var world = this.getLevel();
-        var pos = this.getPos();
-        AABB area = new AABB(new BlockPos(pos.getX() - 1, pos.getY() - 10, pos.getZ() - 1),
-                new BlockPos(pos.getX() + 1, pos.getY() + 10, pos.getZ() + 1));
-        List<ItemEntity> droppedItems = world.getEntitiesOfClass(
-                ItemEntity.class,  // 只筛选物品实体
-                area);
-        for (ItemEntity item : droppedItems) {
-            if (item.getItem().is(CIRCUITS)) {
-                if (machineStorage.getStackInSlot(0).isEmpty()) {
-                    machineStorage.insertItem(0, (item.getItem()), false);
-                    item.remove(Entity.RemovalReason.KILLED);
-                }
+    /** 水池位置：控制器正前方 4 格、低 1 格（控制器 (24,-57,75) -> 水池 (24,-58,79)） */
+    private BlockPos getPoolPos() {
+        return MachineUtils.getOffset(this, 0, -1, -4);
+    }
+
+    /** 吸收水池里的掉落物（什么都吸）放入假输入，放不下的留在原地 */
+    protected void vacuumPoolItems() {
+        var level = this.getLevel();
+        if (level == null || level.isClientSide) return;
+        var pos = getPoolPos();
+        AABB area = new AABB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
+                pos.getX() + 1, pos.getY() + 3, pos.getZ() + 1);
+        for (ItemEntity item : level.getEntitiesOfClass(ItemEntity.class, area)) {
+            if (item.getItem().isEmpty()) continue;
+            ItemStack rest = ItemHandlerHelper.insertItemStacked(machineStorage, item.getItem(), false);
+            if (rest.isEmpty()) {
+                item.remove(Entity.RemovalReason.KILLED);
+            } else {
+                item.getItem().setCount(rest.getCount());
             }
         }
     }
 
-    @Override
-    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
-        return new WishingWillLogic(this);
-    }
-
-    public void GetAward(ItemStack[] itemStacks, String award_type) {
-        if (this.getLevel() instanceof ClientLevel) return;
-        var level = this.getLevel();
-        var pos = this.getPos();
-        for (ItemStack item : itemStacks) {
-            ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 3, pos.getZ(), item);
-            itemEntity.setDeltaMovement(
-                    0.0,
-                    0.5 + level.random.nextDouble() * 2.0,
-                    0.0);
-            itemEntity.setPickUpDelay(10); // 设置拾取延迟
-            level.addFreshEntity(itemEntity);
+    /** 把假输入里配不上任何配方的物品抛回水池，避免垃圾卡死配方 */
+    protected void ejectUnusableItems() {
+        var group = getRecipeLogic().getLastGroup();
+        if (group == null) return;
+        for (int slot = 0; slot < machineStorage.getSlots(); slot++) {
+            ItemStack stack = machineStorage.getStackInSlot(slot);
+            if (stack.isEmpty()) continue;
+            if (!hasRecipeFor(stack, group)) {
+                ejectStack(machineStorage.extractItem(slot, stack.getCount(), false));
+            }
         }
     }
 
-    public void updateTick() {
-        ManaSubs = subscribeServerTick(ManaSubs, this::GetPoolItems);
+    /** 配方库中是否存在以该物品为输入的配方 */
+    private boolean hasRecipeFor(ItemStack stack, RecipeHandlerGroup group) {
+        var iterator = getRecipeType().getRecipeIterator(group, recipe -> true);
+        if (iterator == null) return false;
+        while (iterator.hasNext()) {
+            var recipe = iterator.next();
+            for (ItemIngredient ingredient : recipe.getInputContents(ItemRecipeCapability.CAP)) {
+                if (ingredient.test(stack)) return true;
+            }
+        }
+        return false;
     }
 
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        if (getLevel() instanceof ServerLevel serverLevel) {
-            serverLevel.getServer().tell(new TickTask(0, this::updateTick));
+    /** 把假输出里的产物按随机动量从水池抛出 */
+    protected void ejectOutputs() {
+        for (int slot = 0; slot < dummyOutputStorage.getSlots(); slot++) {
+            ItemStack stack = dummyOutputStorage.getStackInSlot(slot);
+            if (stack.isEmpty()) continue;
+            ejectStack(dummyOutputStorage.extractItem(slot, stack.getCount(), false));
+        }
+    }
+
+    private void ejectStack(@NotNull ItemStack stack) {
+        if (stack.isEmpty()) return;
+        var level = this.getLevel();
+        if (level == null || level.isClientSide) return;
+        var pos = getPoolPos();
+        ItemEntity itemEntity = new ItemEntity(level,
+                pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, stack);
+        itemEntity.setDeltaMovement(
+                (level.random.nextDouble() - 0.5) * 0.6,
+                0.5 + level.random.nextDouble() * 1.5,
+                (level.random.nextDouble() - 0.5) * 0.6);
+        itemEntity.setPickUpDelay(10); // 设置拾取延迟
+        level.addFreshEntity(itemEntity);
+    }
+
+    /** 池子主循环：每 2 tick 抛出产物；空闲时每 20 tick 吸物并吐回无用物品 */
+    protected void poolTick() {
+        if (!isFormed) return;
+        if (getOffsetTimer() % 2 == 0) {
+            ejectOutputs();
+        }
+        if (recipeLogic.isIdle() && getOffsetTimer() % 20 == 0) {
+            vacuumPoolItems();
+            ejectUnusableItems();
         }
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        var inputHandlers = RecipeHandlerList.of(List.of(machineStorage));
-        var outputHandlers = RecipeHandlerList.of(List.of(dummyOutputStorage));
-        recipeHandlerLists.add(inputHandlers);
-        recipeHandlerLists.add(outputHandlers);
-        traitSubscriptions.add(inputHandlers.subscribe(recipeLogic::updateTickSubscription));
-        traitSubscriptions.add(outputHandlers.subscribe(recipeLogic::updateTickSubscription));
+        poolSubs = subscribeServerTick(poolSubs, this::poolTick);
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        if (poolSubs != null) {
+            poolSubs.unsubscribe();
+            poolSubs = null;
+        }
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        if (ManaSubs != null) {
-            ManaSubs.unsubscribe();
-        }
-    }
-
-    public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
-        if (machine instanceof WishingWill wmachine) {
-            var parallel = CTNHManaUtils.getParallelAmount(group, recipe, 10);
-            CTNHManaUtils.multiplyInputs(recipe, parallel);
-            recipe.multiplyOutputs(parallel);
-            recipe.multiplyTickOutputs(parallel);
-            recipe.multiplyEUt(parallel / 2.0);
-            recipe.parallels = parallel;
-            return null;
-        }
-        return null;
-    }
-
-    class WishingWillLogic extends RecipeLogic {
-
-        public WishingWillLogic(IRecipeLogicMachine machine) {
-            super(machine);
-        }
-
-        @Override
-        protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
-            if (io == IO.IN) {
-                // 输入处理：正常处理
-                return super.handleRecipeIO(recipe, io);
-            }
-            if (io == IO.OUT) {
-                var safe_recipe = lastOriginRecipe;
-                List<ItemIngredient> outputContents = safe_recipe.getOutputContents(ItemRecipeCapability.CAP);
-                if (!outputContents.isEmpty()) {
-                    for (ItemIngredient content : outputContents) {
-                        var safe_content = content.copy();
-                        // 从Content中获取ItemStack
-                        if (safe_content != null) {
-                            ItemStack[] stacks = safe_content.getItems();
-                            if (stacks != null && stacks.length > 0) {
-                                GetAward(stacks, "None");
-                            }
-                        }
-                    }
-                }
-                return ActionResult.SUCCESS;
-            }
-
-            return super.handleRecipeIO(recipe, io);
+        if (poolSubs != null) {
+            poolSubs.unsubscribe();
+            poolSubs = null;
         }
     }
 }

@@ -87,7 +87,7 @@
           ],
           "name": "bloodmagic:corrupted_dust",
           "quality": 4,
-          "weight": 8
+          "weight": 3
         }
       ],
       "rolls": {
@@ -199,7 +199,7 @@
           ],
           "name": "minecraft:diamond",
           "quality": 4,
-          "weight": 5
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -231,7 +231,7 @@
             }
           ],
           "name": "bloodmagic:basemonstersoul",
-          "weight": 10
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -248,7 +248,7 @@
           ],
           "name": "bloodmagic:strong_tau",
           "quality": 3,
-          "weight": 6
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -827,7 +827,7 @@
           ],
           "name": "bloodmagic:hellforgedparts",
           "quality": 10,
-          "weight": 6
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -840,7 +840,7 @@
           ],
           "name": "bloodmagic:hellforged_explosive_cell",
           "quality": 5,
-          "weight": 4
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -853,7 +853,7 @@
           ],
           "name": "bloodmagic:hellforged_resonator",
           "quality": 5,
-          "weight": 4
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -866,7 +866,7 @@
           ],
           "name": "bloodmagic:advancedcuttingfluid",
           "quality": 5,
-          "weight": 4
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -956,7 +956,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -983,7 +983,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -1010,7 +1010,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -1037,7 +1037,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -1064,7 +1064,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -1091,7 +1091,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [

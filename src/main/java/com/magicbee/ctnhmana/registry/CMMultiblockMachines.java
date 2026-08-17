@@ -407,20 +407,43 @@ public class CMMultiblockMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.WISHING_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("ABA", "AAA", "AAA", "CAC")
-                    .aisle("ABA", "D#D", "D#D", "CAC")
-                    .aisle("ABA", "D#D", "D#D", "CAC")
-                    .aisle("ABA", "D#D", "D#D", "CAC")
-                    .aisle("ABA", "A@X", "AAA", "CAC")
-                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockPolished)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PartAbility.IMPORT_FLUIDS)))
-                    .where("B", Predicates.blocks(CMBlocks.MANA_STEEL_CASING.get()))
-                    .where("C", Predicates.blocks(BotaniaBlocks.livingrockBrickStairs))
-                    .where("D", Predicates.frames(CMMaterials.ManaSteel))
-                    .where("X", Predicates.abilities(CMPartsAbility.MANAHATCH))
-                    .where("#", Predicates.any())
+                    .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########",
+                            "###########", "###########")
+                    .aisle("###BCCCB###", "###AAAAA###", "###########", "###########", "###########", "###########",
+                            "###########", "###########")
+                    .aisle("##BDDDDDB##", "##EBCCCBE##", "##EAAAAAE##", "##E#####E##", "##E#####E##", "##E#####E##",
+                            "##AAAAAAA##", "###########")
+                    .aisle("ABDCCCCCDBA", "#ABCFFFCBA#", "##AAFGFAA##", "###########", "###########", "###########",
+                            "##AGCCCGA##", "###AAAAA###")
+                    .aisle("ACDCBHBCDCA", "#ACFIJIFBA#", "##AFKAKFA##", "###########", "###########", "###########",
+                            "##AC###CA##", "###ALCLA###")
+                    .aisle("ACDCHLHCDCA", "#ACFJIJFCA#", "##AGAIAGA##", "###########", "###########", "###########",
+                            "##AC###CA##", "###ACGCA###")
+                    .aisle("ACDCBHBCDCA", "#ACFIJIFCA#", "##AFKAKFA##", "###########", "###########", "###########",
+                            "##AC###CA##", "###ALCLA###")
+                    .aisle("ABDCCCCCDBA", "#ABCFFFCBA#", "##AAFGFAA##", "###########", "###########", "###########",
+                            "##AGCCCGA##", "###AAAAA###")
+                    .aisle("##BDDDDDB##", "##EBCCCBE##", "##EAAAAAE##", "##E#####E##", "##E#####E##", "##E#####E##",
+                            "##AAAAAAA##", "###########")
+                    .aisle("###BCCCB###", "###AA@AA###", "###########", "###########", "###########", "###########",
+                            "###########", "###########")
+                    .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########",
+                            "###########", "###########")
+                    .where("J", Predicates.blocks(LIVING_ROCK_CASING.get()))
+                    .where("C", Predicates.blocks(BotaniaBlocks.livingwoodLog))
+                    .where("G", Predicates.blocks(Blocks.SEA_LANTERN))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("F", Predicates.blocks(BotaniaBlocks.livingrockPolished))
+                    .where("H", Predicates.blocks(BotaniaBlocks.livingwoodPatternFramed))
+                    .where("A", Predicates.blocks(BotaniaBlocks.livingrockBrickStairs))
+                    .where("E", Predicates.blocks(BotaniaBlocks.livingrockBrickWall))
+                    .where("#", Predicates.any())
+                    .where("I", Predicates.blocks(Blocks.WATER))
+                    .where("K", Predicates.blocks(BotaniaBlocks.livingrockBrickSlab))
+                    .where("#", Predicates.any())
+                    .where("B", Predicates.blocks(BotaniaBlocks.livingrockBrickChiseled))
+                    .where("D", Predicates.blocks(BotaniaBlocks.livingrockBrick))
+                    .where("L", Predicates.blocks(BotaniaBlocks.livingwoodGlimmering))
                     .build())
 
             .workableCasingModel(BotaniaRL("block/polished_livingrock"),

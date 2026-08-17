@@ -429,7 +429,7 @@
             }
           ],
           "name": "bloodmagic:strong_tau",
-          "weight": 6
+          "weight": 4
         },
         {
           "type": "minecraft:item",
@@ -527,7 +527,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -554,7 +554,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -581,7 +581,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -608,7 +608,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -635,7 +635,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [
@@ -662,7 +662,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.1333
+          "chance": 0.1
         }
       ],
       "entries": [

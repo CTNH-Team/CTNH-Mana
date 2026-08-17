@@ -30,4 +30,10 @@ public class CMMobEffects {
             SoulLeechEffect::new);
     public static final RegistryObject<TaintedBloodEffect> TAINTED_BLOOD = MOB_EFFECTS.register("tainted_blood",
             TaintedBloodEffect::new);
+    public static final RegistryObject<PhysicalAntagonismEffect> PHYSICAL_ANTAGONISM = MOB_EFFECTS.register(
+            "physical_antagonism", PhysicalAntagonismEffect::new);
+    public static final RegistryObject<MagicalAntagonismEffect> MAGICAL_ANTAGONISM = MOB_EFFECTS.register(
+            "magical_antagonism", MagicalAntagonismEffect::new);
+    public static final RegistryObject<PainShieldEffect> PAIN_SHIELD = MOB_EFFECTS.register(
+            "pain_shield", PainShieldEffect::new);
 }

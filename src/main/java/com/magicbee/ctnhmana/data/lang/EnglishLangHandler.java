@@ -87,6 +87,9 @@ public class EnglishLangHandler {
                 "All mana I/O operations are processed through the central mana pool in the structure");
         provider.add("effect.ctnhmana.soul_leech", "Soul Leech");
         provider.add("effect.ctnhmana.tainted_blood", "Tainted Blood");
+        provider.add("effect.ctnhmana.physical_antagonism", "Physical Antagonism");
+        provider.add("effect.ctnhmana.magical_antagonism", "Arcane Antagonism");
+        provider.add("effect.ctnhmana.pain_shield", "Pain Shield");
 
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.0", "§8Endless Twisted Power§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1", "Can use laser warehouse.");

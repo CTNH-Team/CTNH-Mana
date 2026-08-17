@@ -57,7 +57,7 @@ public class RuneAltarRecipes {
         RuneAltarRecipeBuilder.builder("earth_rune")// 大地符文
                 .input(new ItemStack(SANDSTONE))
                 .input(new ItemStack(BlockRegistry.FLOURISHING_LOG.asItem(), 1))
-                .input(ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:andesite_alloy_ingot")))
+                .input(new ItemStack(Blocks.ANDESITE))
                 .input(new ItemStack(GRANITE))
                 .input(new ItemStack(CLAY_BALL))
                 .input(ChemicalHelper.get(dust, Calcite))
@@ -103,7 +103,7 @@ public class RuneAltarRecipes {
                 .input(new ItemStack(BlockRegistry.CASCADING_LOG.asItem(), 2))
                 .input(OAK_BOAT)
                 .mana(2000)
-                .output(new ItemStack(BotaniaItems.runeWater, 1))
+                .output(new ItemStack(BotaniaItems.runeWater, 2))
                 .save(provider);
         RuneAltarRecipeBuilder.builder("fire_rune")// 火之符文
                 .input(BLAZE_CAKE.get())
@@ -113,7 +113,7 @@ public class RuneAltarRecipes {
                 .input(new ItemStack(BlockRegistry.BLAZING_LOG.asItem(), 2))
                 .input(CRIMSON_FUNGUS)
                 .mana(2000)
-                .output(new ItemStack(BotaniaItems.runeFire, 1))
+                .output(new ItemStack(BotaniaItems.runeFire, 2))
                 .save(provider);
         RuneAltarRecipeBuilder.builder("summer_rune")// 夏之符文
                 .input(runeEarth, runeWater)
