@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ctnhmana:item/advanced_mana_transistor"
+    "layer0": "ctnhmana:item/malicious_thermalily"
   }
 }

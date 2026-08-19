@@ -19,7 +19,8 @@
     "botania.PetruniaMixin",
     "botania.WitherAconiteMixin",
     "botania.MixinForgePacketHandler",
-    "emi.TagEmiIngredientMixin"
+    "emi.TagEmiIngredientMixin",
+    "minecraft.EntityAccessor"
   ],
   "client": [
   ],

@@ -8,6 +8,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 
+import com.magicbee.ctnhmana.common.entity.GiantBee;
+
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public class TaintedBloodEffect extends MobEffect {
                 player,
                 player.getBoundingBox().inflate(8));
         for (LivingEntity entity : entityList) {
-            if (entity instanceof Mob mob) {
+            if (entity instanceof Mob mob && !(entity instanceof GiantBee)) {
                 var followRange = mob.getAttribute(Attributes.FOLLOW_RANGE);
                 if (followRange != null) {
                     followRange.setBaseValue(1);

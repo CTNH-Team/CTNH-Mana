@@ -1,5 +1,6 @@
 package com.magicbee.ctnhmana.registry;
 
+import com.magicbee.ctnhmana.common.blockentity.WitherAconiteTrapBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.flower.AnattaLotusBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.flower.BlackVeinMarigoldBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.flower.BloodAntiarisBlockEntity;
@@ -43,5 +44,10 @@ public class CMBlockEntities {
     public static BlockEntityEntry<GenethistleBlockEntity> GENETHISTLE = REGISTRATE
             .blockEntity("genethistle", GenethistleBlockEntity::new)
             .validBlocks(CMBlocks.GENETHISTLE)
+            .register();
+
+    public static BlockEntityEntry<WitherAconiteTrapBlockEntity> WITHER_ACONITE_TRAP = REGISTRATE
+            .blockEntity("wither_aconite_trap", WitherAconiteTrapBlockEntity::new)
+            .validBlocks(CMBlocks.WITHER_ACONITE_TRAP)
             .register();
 }

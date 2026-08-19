@@ -36,4 +36,12 @@ public class CMMobEffects {
             "magical_antagonism", MagicalAntagonismEffect::new);
     public static final RegistryObject<PainShieldEffect> PAIN_SHIELD = MOB_EFFECTS.register(
             "pain_shield", PainShieldEffect::new);
+    public static final RegistryObject<RootedEffect> ROOTED = MOB_EFFECTS.register(
+            "rooted", RootedEffect::new);
+    public static final RegistryObject<ArmorBreakEffect> ARMOR_BREAK = MOB_EFFECTS.register(
+            "armor_break", ArmorBreakEffect::new);
+    public static final RegistryObject<RageEffect> RAGE = MOB_EFFECTS.register(
+            "rage", RageEffect::new);
+    public static final RegistryObject<WitherCloudEffect> WITHER_CLOUD = MOB_EFFECTS.register(
+            "wither_cloud", WitherCloudEffect::new);
 }

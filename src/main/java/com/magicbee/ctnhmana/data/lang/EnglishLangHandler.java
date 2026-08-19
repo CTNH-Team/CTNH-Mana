@@ -90,6 +90,9 @@ public class EnglishLangHandler {
         provider.add("effect.ctnhmana.physical_antagonism", "Physical Antagonism");
         provider.add("effect.ctnhmana.magical_antagonism", "Arcane Antagonism");
         provider.add("effect.ctnhmana.pain_shield", "Pain Shield");
+        provider.add("effect.ctnhmana.rooted", "Rooted");
+        provider.add("effect.ctnhmana.armor_break", "Armor Break");
+        provider.add("effect.ctnhmana.rage", "Rage");
 
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.0", "§8Endless Twisted Power§r");
         provider.add("ctnh.multiblock.twisted_fusion_mk_infinity.tooltip.1", "Can use laser warehouse.");

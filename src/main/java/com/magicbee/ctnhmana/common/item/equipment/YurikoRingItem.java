@@ -26,8 +26,6 @@ import vazkii.botania.common.proxy.Proxy;
 import java.util.List;
 import java.util.Objects;
 
-import static sfiomn.legendarysurvivaloverhaul.registry.MobEffectRegistry.TEMPERATURE_IMMUNITY;
-
 public class YurikoRingItem extends BaubleItem {
 
     Long timer = 0L;
@@ -105,16 +103,9 @@ public class YurikoRingItem extends BaubleItem {
                 4,  // 等级5（V对应4）
                 false,
                 true);
-        MobEffectInstance CT = new MobEffectInstance(
-                TEMPERATURE_IMMUNITY.get(),
-                time,
-                4,
-                false,
-                true);
         player.addEffect(regeneration);
         player.addEffect(resistance);
         player.addEffect(speed);
-        player.addEffect(CT);
     }
 
     @CN({

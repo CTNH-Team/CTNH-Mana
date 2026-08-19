@@ -18,12 +18,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.common.blocks.CoilType;
 import com.magicbee.ctnhmana.common.blocks.FrameBlock;
 import com.magicbee.ctnhmana.common.blocks.RuneBlock;
+import com.magicbee.ctnhmana.common.blocks.WitherAconiteTrapBlock;
 import com.magicbee.ctnhmana.common.item.TooltipsBlockItem;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -413,6 +415,16 @@ public class CMBlocks {
             .model(GTModels::rubberTreeSaplingModel)
             .build()
             .register();
+    public static final BlockEntry<WitherAconiteTrapBlock> WITHER_ACONITE_TRAP = REGISTRATE
+            .block("wither_aconite_trap", WitherAconiteTrapBlock::new)
+            .cnlang("恶意凋零菟葵")
+            .lang("Malicious Wither Aconite")
+            .blockstate(GTModels::createCrossBlockState)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .properties(p -> p.noCollission().noOcclusion().instabreak()
+                    .pushReaction(PushReaction.BLOCK)
+                    .isValidSpawn((state, level, pos, ent) -> false))
+            .register();
 
     public static final BlockEntry<Block> PURE_LOGIC_CASING = createCasingBlock("pure_logic_casing", "纯净魔力逻辑传输方块",
             CTNHMana.id("block/casings/pure_logic_casing"));
@@ -472,4 +484,6 @@ public class CMBlocks {
             "mana_compressed_core", "魔力压缩核心", "block/coil/mana_compressed_core");
     public static final BlockEntry<Block> ARCANE_ENERGY_LASER_TOWER = createCasingBlock(
             "arcane_energy_laser_tower", "奥能能量激光塔", CTNHMana.id("block/casings/arcane_energy_tower"));
+
+    /** 恶意凋零菟葵（凋灵兔葵投掷物/追缉冲刺落点生成）：悬浮、挖掉不掉落、30 秒后爆炸 */
 }

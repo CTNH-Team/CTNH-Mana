@@ -376,16 +376,16 @@ public class ManaReactorRecipes {
                 .circuitMeta(1)
                 .EUt(9600 / 200)
                 .save(provider);
-        MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")// 高级注魔晶体管
-                .addCondition(new ZenithCondition(false))
-                .notConsumable(ELF_CATALYST.get())
-                .inputItems(MANA_TRANSISTOR, 2)
-                .inputFluids(Mana.getFluid(10))
-                .outputItems(ADVANCED_MANA_TRANSISTOR)
-                .duration(200)
-                .circuitMeta(1)
-                .EUt(9600 / 200)
-                .save(provider);
+        // MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_transistor")// 高级注魔晶体管
+        // .addCondition(new ZenithCondition(false))
+        // .notConsumable(ELF_CATALYST.get())
+        // .inputItems(MANA_TRANSISTOR, 2)
+        // .inputFluids(Mana.getFluid(10))
+        // .outputItems(ADVANCED_MANA_TRANSISTOR)
+        // .duration(200)
+        // .circuitMeta(1)
+        // .EUt(9600 / 200)
+        // .save(provider);
         MANA_REACTOR_RECIPES.recipeBuilder("advanced_mana_capacitor")// 高级注魔电容
                 .addCondition(new ZenithCondition(false))
                 .notConsumable(ELF_CATALYST.get())

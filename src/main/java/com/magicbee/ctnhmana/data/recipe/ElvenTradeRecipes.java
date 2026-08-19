@@ -10,12 +10,10 @@ import static com.magicbee.ctnhmana.registry.CMItems.ADVANCED_MANA_CAPACITOR;
 import static com.magicbee.ctnhmana.registry.CMItems.ADVANCED_MANA_DIODE;
 import static com.magicbee.ctnhmana.registry.CMItems.ADVANCED_MANA_INDUCTOR;
 import static com.magicbee.ctnhmana.registry.CMItems.ADVANCED_MANA_RESISTOR;
-import static com.magicbee.ctnhmana.registry.CMItems.ADVANCED_MANA_TRANSISTOR;
 import static com.magicbee.ctnhmana.registry.CMItems.MANA_CAPACITOR;
 import static com.magicbee.ctnhmana.registry.CMItems.MANA_DIODE;
 import static com.magicbee.ctnhmana.registry.CMItems.MANA_INDUCTOR;
 import static com.magicbee.ctnhmana.registry.CMItems.MANA_RESISTOR;
-import static com.magicbee.ctnhmana.registry.CMItems.MANA_TRANSISTOR;
 
 @SuppressWarnings("removal")
 public class ElvenTradeRecipes {
@@ -30,10 +28,10 @@ public class ElvenTradeRecipes {
                 .input(MANA_DIODE.asStack(), MANA_DIODE.asStack())
                 .output(ADVANCED_MANA_DIODE.asStack())
                 .save(provider);
-        ElvenTradeRecipeBuilder.builder("advanced_mana_transistor")
-                .input(MANA_TRANSISTOR.asStack(), MANA_TRANSISTOR.asStack())
-                .output(ADVANCED_MANA_TRANSISTOR.asStack())
-                .save(provider);
+        // ElvenTradeRecipeBuilder.builder("advanced_mana_transistor")
+        // .input(TRANSISTOR.asStack(), MANA_TRANSISTOR.asStack())
+        // .output(ADVANCED_MANA_TRANSISTOR.asStack())
+        // .save(provider);
         ElvenTradeRecipeBuilder.builder("advanced_mana_capacitor")
                 .input(MANA_CAPACITOR.asStack(), MANA_CAPACITOR.asStack())
                 .output(ADVANCED_MANA_CAPACITOR.asStack())

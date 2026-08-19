@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.magicbee.ctnhmana.common.entity.GiantBee;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -60,7 +61,7 @@ public class KoishiEyeItem extends BaubleItem {
                     player,
                     player.getBoundingBox().inflate(8));
             for (LivingEntity entity : entityList) {
-                if (entity instanceof Mob mob) {
+                if (entity instanceof Mob mob && !(entity instanceof GiantBee)) {
                     mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(1);
                     if (Objects.equals(mob.getTarget(), player)) mob.setTarget(null);
 

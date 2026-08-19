@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.magicbee.ctnhmana.CTNHMana;
+import com.magicbee.ctnhmana.common.entity.GiantBee;
 import vazkii.botania.common.handler.EquipmentHandler;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.item.equipment.bauble.ThirdEyeItem;
@@ -56,7 +57,7 @@ public class ThirdEyeEventHandler {
                         player,
                         player.getBoundingBox().inflate(8));
                 for (LivingEntity entity : entityList) {
-                    if (entity instanceof NeutralMob mob) {
+                    if (entity instanceof NeutralMob mob && !(entity instanceof GiantBee)) {
                         mob.setTarget(player);
 
                     }

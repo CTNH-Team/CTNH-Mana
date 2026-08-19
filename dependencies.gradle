@@ -33,7 +33,6 @@ dependencies {
     modImplementation(ctnh.hostile)
     modImplementation(ctnh.lendercataclysm)
     modImplementation(ctnh.lionfishapi)
-    modImplementation(ctnh.legendary)
     modImplementation(ctnh.avaritia)
 
     modLocalRuntime(ctnh.curios)

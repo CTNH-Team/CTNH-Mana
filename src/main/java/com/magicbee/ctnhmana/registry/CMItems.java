@@ -71,6 +71,11 @@ public class CMItems {
                     list.add(Component.translatable("ctnh.boss_summoner.use").withStyle(ChatFormatting.DARK_RED));
                 })))
                 .register();
+        MALICIOUS_THERMALILY = REGISTRATE
+                .item("malicious_thermalily", Item::new)
+                .cnlang("恶意热爆花")
+                .lang("Malicious Thermalily")
+                .register();
         HORIZEN_RUNE = REGISTRATE
                 .item("horizen_rune", holder -> new IRuneItem(holder, List.of(EARTH, WIND, FIRE), 5))
                 .cnlang("§5视域§r符文")
@@ -816,11 +821,11 @@ public class CMItems {
             .lang("Mana Capacitor")
             .register();
 
-    public static ItemEntry<ComponentItem> MANA_TRANSISTOR = REGISTRATE
-            .item("mana_transistor", ComponentItem::create)
-            .cnlang("魔力晶体管")
-            .lang("Mana Transistor")
-            .register();
+    // public static ItemEntry<ComponentItem> MANA_TRANSISTOR = REGISTRATE
+    // .item("mana_transistor", ComponentItem::create)
+    // .cnlang("魔力晶体管")
+    // .lang("Mana Transistor")
+    // .register();
 
     public static ItemEntry<ComponentItem> MANA_DIODE = REGISTRATE
             .item("mana_diode", ComponentItem::create)
@@ -846,11 +851,11 @@ public class CMItems {
             .lang("Advanced Mana Capacitor")
             .register();
 
-    public static ItemEntry<ComponentItem> ADVANCED_MANA_TRANSISTOR = REGISTRATE
-            .item("advanced_mana_transistor", ComponentItem::create)
-            .cnlang("精灵晶体管")
-            .lang("Advanced Mana Transistor")
-            .register();
+    // public static ItemEntry<ComponentItem> ADVANCED_MANA_TRANSISTOR = REGISTRATE
+    // .item("advanced_mana_transistor", ComponentItem::create)
+    // .cnlang("精灵晶体管")
+    // .lang("Advanced Mana Transistor")
+    // .register();
 
     public static ItemEntry<ComponentItem> ADVANCED_MANA_DIODE = REGISTRATE
             .item("advanced_mana_diode", ComponentItem::create)
@@ -1079,4 +1084,7 @@ public class CMItems {
     @CN("须臾强化")
     @EN("Ephemeral Upgrade")
     public static Lang ephemeral_jade_upgrade;
+
+    /** 恶意热爆花（投掷物用占位物品；材质 entropinnyum_boom） */
+    public static ItemEntry<Item> MALICIOUS_THERMALILY;
 }

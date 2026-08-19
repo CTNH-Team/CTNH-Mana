@@ -58,12 +58,12 @@ public class ManaPoolRecipes {
                 .mana(4000)
                 .circuitMeta(1)
                 .save(provider);
-        ManaInfusionRecipeBuilder.builder("mana_transistor")// 魔力晶体管
-                .input(TRANSISTOR.asStack())
-                .output(MANA_TRANSISTOR.asStack())
-                .mana(10000)
-                .circuitMeta(1)
-                .save(provider);
+        // ManaInfusionRecipeBuilder.builder("mana_transistor")// 魔力晶体管
+        // .input(TRANSISTOR.asStack())
+        // .output(MANA_TRANSISTOR.asStack())
+        // .mana(10000)
+        // .circuitMeta(1)
+        // .save(provider);
         ManaInfusionRecipeBuilder.builder("mana_capacitor")// 魔力电容
                 .input(CAPACITOR.asStack())
                 .output(MANA_CAPACITOR.asStack())
