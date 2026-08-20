@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
  * 暴露 {@link Entity#setSharedFlag(int, boolean)}（protected），
  * 供缚地效果清除鞘翅滑翔状态（Entity.FLAG_FALL_FLYING = 7）使用。
  */
-@Mixin(value = Entity.class,remap = false)
+@Mixin(Entity.class)
 public interface EntityAccessor {
 
     @Invoker("setSharedFlag")
