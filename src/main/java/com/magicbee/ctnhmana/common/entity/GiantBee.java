@@ -115,8 +115,8 @@ public class GiantBee extends AbstractRampageBee {
 
     // ---------- 二阶段转阶段 ----------
 
-    /** 血量 ≤ 该值触发阶段转化 */
-    private static final float PHASE2_TRIGGER_HEALTH = 100.0F;
+    /** 血量 ≤ 该值触发阶段转化（第一阶段到 400 血进入转阶段） */
+    private static final float PHASE2_TRIGGER_HEALTH = 400.0F;
     /** 转化前停顿 tick（锁血，1 秒） */
     private static final int PHASE2_PAUSE_TICKS = 20;
     /** 恢复期每秒回血 */
@@ -304,6 +304,13 @@ public class GiantBee extends AbstractRampageBee {
     public void makeAngryAt(LivingEntity target) {
         if (this.level().isClientSide) {
             return;
+        }
+        if (!this.isAngry()) {
+            // 首次被激怒进入 boss 状态：全服广播
+            if (this.level().getServer() != null) {
+                this.level().getServer().getPlayerList().broadcastSystemMessage(
+                        Component.literal("你激怒了不该激怒的蜜蜂！"), false);
+            }
         }
         this.setAngry(true);
         this.setTarget(target);
@@ -608,13 +615,18 @@ public class GiantBee extends AbstractRampageBee {
                 this.transformSummonCooldown = TRANSFORM_SUMMON_INTERVAL;
                 this.summonServantCount(TRANSFORM_MAX_SERVANTS, TRANSFORM_SUMMON_COUNT);
             }
-            // 回满血：进入真正的二阶段（10 级苦难护盾 + 切回巡空模式）
+            // 回满血：进入真正的二阶段（5 级苦难护盾 + 切回巡空模式）
             if (this.getHealth() >= this.getMaxHealth()) {
                 this.phase2Recovering = false;
                 this.phase2Transforming = false;
                 this.transformTicks = 0;
                 this.setPhase(2);
-                this.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, 9, false, false));
+                // 进入二阶段：全服广播
+                if (this.level().getServer() != null) {
+                    this.level().getServer().getPlayerList().broadcastSystemMessage(
+                            Component.literal("你彻底激怒了究极魔力蜜蜂！"), false);
+                }
+                this.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, 4, false, false));
                 this.exitChaseMode();
             }
         }

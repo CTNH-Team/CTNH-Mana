@@ -59,7 +59,7 @@ public class GiantBeeChaseGoal extends Goal {
     private static final int BLIND_DURATION = 600;
     private static final int BLIND_AMPLIFIER = 2;
     /** 玩家距离 ≥25 格：传送到自己面前并缚地 30 秒 */
-    private static final double TELEPORT_DISTANCE = 25.0D;
+    private static final double TELEPORT_DISTANCE = 35.0D;
     private static final int ROOTED_DURATION = 600;
     /** 失明溅射药水 */
     private static final float POTION_SPEED = 0.8F;
@@ -114,7 +114,7 @@ public class GiantBeeChaseGoal extends Goal {
         this.chaseTicks = 0;
         // 二阶段追缉开始：苦难护盾不足 3 则提升到 3，并立即召唤 4 只皇家蜜蜂（二阶段专属）
         if (this.bee.isPhase2()) {
-            this.bee.ensurePainShield(2); // amplifier 2 = 3 级
+            this.bee.ensurePainShield(1); // amplifier 2 = 3 级
             this.bee.summonServantCount(MAX_CHASE_SERVANTS, 4);
         }
         LivingEntity target = this.bee.getTarget();

@@ -2,6 +2,7 @@ package com.magicbee.ctnhmana.registry;
 
 import net.minecraft.world.entity.MobCategory;
 
+import com.magicbee.ctnhmana.client.render.BeeNukeProjectileRenderer;
 import com.magicbee.ctnhmana.client.render.DeltaSparkRenderer;
 import com.magicbee.ctnhmana.client.render.GiantBeeRenderer;
 import com.magicbee.ctnhmana.client.render.MaliciousThermalilyProjectileRenderer;
@@ -12,6 +13,7 @@ import com.magicbee.ctnhmana.common.entity.DeltaSpark;
 import com.magicbee.ctnhmana.common.entity.GiantBee;
 import com.magicbee.ctnhmana.common.entity.OmegaSpark;
 import com.magicbee.ctnhmana.common.entity.RoyalServantBee;
+import com.magicbee.ctnhmana.common.entity.projectile.BeeNukeProjectile;
 import com.magicbee.ctnhmana.common.entity.projectile.MaliciousThermalilyProjectile;
 import com.magicbee.ctnhmana.common.entity.projectile.WitherAconiteProjectile;
 import com.tterrag.registrate.util.entry.EntityEntry;
@@ -83,6 +85,18 @@ public class CMEntities {
                     .setUpdateInterval(3)
                     .setShouldReceiveVelocityUpdates(true))
             .renderer(() -> MaliciousThermalilyProjectileRenderer::new)
+            .register();
+
+    /** 蜜蜂核弹投掷物（巨蜂第三阶段朝玩家抛射，命中 25 半径凋零伤害 + 蜜蜡实心块） */
+    public static EntityEntry<BeeNukeProjectile> BEE_NUKE_PROJECTILE = REGISTRATE
+            .entity("bee_nuke_projectile", BeeNukeProjectile::new, MobCategory.MISC)
+            .cnlang("蜜蜂核弹")
+            .lang("Bee Nuke")
+            .properties(props -> props.sized(0.25F, 0.25F)
+                    .setTrackingRange(16)
+                    .setUpdateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true))
+            .renderer(() -> BeeNukeProjectileRenderer::new)
             .register();
 
     public static void init() {}

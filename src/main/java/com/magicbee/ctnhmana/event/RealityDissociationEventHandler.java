@@ -16,20 +16,20 @@ import com.magicbee.ctnhmana.registry.CMMobEffects;
 /**
  * 现实解离效果处理：
  * <ul>
- * <li>非自然回血量每级减少 15%。</li>
- * <li>大蜜蜂/皇家蜜蜂造成伤害时，给目标施加 5 秒现实解离；若已有则重置时长并提高 1 级。</li>
+ * <li>非自然回血量每级减少 10%。</li>
+ * <li>大蜜蜂/皇家蜜蜂造成伤害时，给目标施加 3 秒现实解离；若已有则重置时长并提高 1 级。</li>
  * </ul>
  */
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class RealityDissociationEventHandler {
 
     /** 每级非自然回血减少的比例。 */
-    private static final float HEAL_REDUCTION_PER_LEVEL = 0.15F;
-    /** 现实解离持续时长（5 秒）。 */
-    private static final int DISSOCIATION_DURATION = 5 * 20;
+    private static final float HEAL_REDUCTION_PER_LEVEL = 0.10F;
+    /** 现实解离持续时长（3 秒）。 */
+    private static final int DISSOCIATION_DURATION = 3 * 20;
 
     /**
-     * 给目标施加一次现实解离：无则 0 级，有则等级 +1；无论何种情况都重置为 5 秒。
+     * 给目标施加一次现实解离：无则 0 级，有则等级 +1；无论何种情况都重置为 3 秒。
      *
      * @param target     被施加者
      * @param bonusLevel 额外叠加的等级（自爆用 +1，普通伤害 0）
@@ -50,11 +50,10 @@ public class RealityDissociationEventHandler {
             return;
         }
         Entity source = event.getSource().getEntity();
-        // 大蜜蜂或皇家蜜蜂造成的伤害：施加 5 秒现实解离
+        // 大蜜蜂或皇家蜜蜂造成的伤害：施加 3 秒现实解离
         if (source instanceof GiantBee) {
             applyDissociation(event.getEntity(), 0);
-        } else if (source instanceof RoyalServantBee servant) {
-            // 皇家蜜蜂自爆时施加会由自爆方法额外 +1 级，此处只做基础施加
+        } else if (source instanceof RoyalServantBee) {
             applyDissociation(event.getEntity(), 0);
         }
     }
@@ -67,7 +66,7 @@ public class RealityDissociationEventHandler {
         }
         MobEffectInstance effect = entity.getEffect(CMMobEffects.REALITY_DISSOCIATION.get());
         if (effect != null) {
-            // 每级减少 15% 回血，最多减到 0
+            // 每级减少 10% 回血，最多减到 0
             float multiply = 1.0F - HEAL_REDUCTION_PER_LEVEL * (effect.getAmplifier() + 1);
             event.setAmount(event.getAmount() * Math.max(multiply, 0.0F));
         }

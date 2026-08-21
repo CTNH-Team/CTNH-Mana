@@ -1,25 +1,28 @@
 package com.magicbee.ctnhmana.common.entity.ai;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import com.magicbee.ctnhmana.common.entity.GiantBee;
+import com.magicbee.ctnhmana.common.entity.projectile.BeeNukeProjectile;
+import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMMobEffects;
 
 import java.util.EnumSet;
 
 /**
- * 巨蜂第三阶段（P3）goal：进入后按「失明攻击 → 飞天陨石」无限循环，直到被杀。
+ * 巨蜂第三阶段（P3）goal：进入后按「失明攻击 → 飞天核弹」无限循环，直到被杀。
  * <ul>
- * <li>失明攻击子阶段（30 秒）：全程给玩家失明 II（持续刷新），随后重复「停顿1s → 朝玩家冲刺15格（冲刺前原地生凋零云5秒，冲刺后给2秒缚地）→ 8向滞留药水」。</li>
- * <li>飞天子阶段：飞天 + 16向滞留药水 + 警告；追踪玩家每5秒召2只蜜蜂持续10秒；再飞天+16向药水+缚地+警告；3秒后召唤蜂蜜陨石砸玩家；停5秒后切回失明攻击。转化为陨石模式时解除玩家失明。</li>
- * <li>通用：三阶段全程玩家离 boss 超过 30 格时，传动到 boss 面前并获得 30 秒缚地。</li>
+ * <li>失明攻击子阶段（30 秒）：全程给玩家失明 I（持续刷新），大蜜蜂自身获得发光标记；随后重复「停顿1s → 朝玩家冲刺15格（冲刺前原地生凋零云5秒，冲刺后给2秒缚地）→ 8向滞留药水」。此阶段玩家离 boss 超 30
+ * 格会被传送到面前并获 30 秒缚地。</li>
+ * <li>飞天子阶段：蜜蜂悬停并保持在玩家上方；飞天 + 16向滞留药水 + 警告；追踪玩家每5秒召2只蜜蜂持续10秒；再16向药水+缚地+警告；3秒后朝玩家抛射蜜蜂核弹（命中 25 半径凋零伤害 +
+ * 蜜蜡实心块）；停5秒后切回失明攻击。此阶段不传送玩家。转化为飞天模式时解除玩家失明与大蜜蜂发光标记。</li>
  * </ul>
  */
 public class GiantBeePhase3Goal extends Goal {
@@ -44,6 +47,8 @@ public class GiantBeePhase3Goal extends Goal {
     private static final int METEOR_DELAY_TICKS = 60;
     /** 陨石后停顿 5 秒（100 tick） */
     private static final int AFTER_TICKS = 100;
+    /** 核弹阶段蜜蜂悬停高度（玩家头顶上方格数） */
+    private static final double HOVER_HEIGHT = 8.0D;
 
     private final GiantBee bee;
     private boolean inCombos;      // 失明攻击子阶段
@@ -96,11 +101,11 @@ public class GiantBeePhase3Goal extends Goal {
     public void tick() {
         if (this.inCombos) {
             this.tickBlindCombos();
+            // 传送仅在黑暗（失明攻击）阶段生效，核弹阶段不再传送玩家
+            this.tickTeleportCheck();
         } else {
             this.tickFlyingMeteor();
         }
-        // 三阶段通用：玩家离 boss 超过 30 格，传送到面前并给 30 秒缚地
-        this.tickTeleportCheck();
     }
 
     /** 玩家与 boss 超过该距离（格）则传送 */
@@ -137,17 +142,20 @@ public class GiantBeePhase3Goal extends Goal {
             this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
             return;
         }
-        // 失明攻击子阶段全程：给玩家失明 II（amplifier 1），持续刷新
+        // 失明攻击子阶段全程：给玩家失明I（amplifier 0），持续刷新
         Player p = this.bee.level().getNearestPlayer(this.bee, 64.0D);
         if (p != null) {
-            p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 1));
+            p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0));
         }
+        // 失明攻击子阶段全程：大蜜蜂自身获得发光标记（宝箱显形描边，随阶段结束消失）
+        this.bee.addEffect(new MobEffectInstance(MobEffects.GLOWING, 40, 0, false, false));
         this.tick++;
         if (this.tick >= BLIND_COMBO_DURATION) {
-            // 30 秒结束：切飞天陨石子阶段，并解除玩家失明
+            // 30 秒结束：切飞天陨石子阶段，并解除玩家失明与大蜜蜂发光标记
             this.inCombos = false;
             this.bee.setP3BlindComboActive(false);
             this.tick = 0;
+            this.bee.removeEffect(MobEffects.GLOWING);
             if (p != null) {
                 p.removeEffect(MobEffects.BLINDNESS);
             }
@@ -209,8 +217,7 @@ public class GiantBeePhase3Goal extends Goal {
     // ---------- 飞天陨石子阶段 ----------
 
     private int subStageTick;
-    private int subStage;   // 0=第一次飞天 1=追踪召唤 2=第二次飞天+锚 3=陨石前 4=等陨石 5=停顿
-    private BlockPos meteorLandPos;   // 本次陨石落点（落地时触发 AOE）
+    private int subStage;   // 0=第一次飞天 1=追踪召唤 2=第二次飞天+锚 3=核弹前 4=核弹后缓冲 5=停顿
 
     private void startFlyingPhase() {
         this.subStageTick = 0;
@@ -218,35 +225,35 @@ public class GiantBeePhase3Goal extends Goal {
         // 第一次飞天：向上 + 16 向滞留药水 + 警告
         this.bee.setDeltaMovement(0.0D, 1.5D, 0.0D);
         this.bee.throwPotionDirections(16);
-        this.bee.warnPlayer("究极蜜蜂陨石已经部署");
+        this.bee.warnPlayer("究极蜜蜂核弹已经部署");
     }
 
     private void tickFlyingMeteor() {
         Player p = this.bee.level().getNearestPlayer(this.bee, 64.0D);
         this.subStageTick++;
+        // 整个核弹阶段：蜜蜂悬停并保持在玩家上方（头顶 HOVER_HEIGHT 格），跟随玩家移动
+        if (p != null) {
+            Vec3 hover = new Vec3(p.getX(), p.getY() + p.getBbHeight() + HOVER_HEIGHT, p.getZ());
+            Vec3 to = hover.subtract(this.bee.position());
+            this.bee.setDeltaMovement(Mth.clamp(to.x, -0.4D, 0.4D), Mth.clamp(to.y, -0.4D, 0.4D),
+                    Mth.clamp(to.z, -0.4D, 0.4D));
+            this.bee.faceEntity(p);
+        }
         switch (this.subStage) {
             case 0 -> {
-                // 短暂飞天（保持上升约 40 tick 到位）
+                // 就位阶段：40 tick 后进入追踪召唤（悬停已由上方 hover 接管）
                 if (this.subStageTick >= 40) {
-                    this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
                     this.subStage = 1;
                     this.subStageTick = 0;
                     this.summonCooldown = SUMMON_INTERVAL;
                 }
             }
             case 1 -> {
-                // 追踪玩家每 5 秒召 2 只，持续 10 秒
+                // 追踪玩家期间每 5 秒召 2 只，持续 10 秒（悬停由上方 hover 统一处理）
                 LivingEntity target = this.bee.getTarget();
-                if (target != null && target.isAlive()) {
-                    this.bee.faceEntity(target);
-                    Vec3 aim = new Vec3(target.getX(), target.getY() + target.getBbHeight() + 2.0D, target.getZ());
-                    Vec3 to = aim.subtract(this.bee.position());
-                    this.bee.setDeltaMovement(Mth.clamp(to.x, -0.4D, 0.4D), Mth.clamp(to.y, -0.4D, 0.4D),
-                            Mth.clamp(to.z, -0.4D, 0.4D));
-                    if (--this.summonCooldown <= 0) {
-                        this.summonCooldown = SUMMON_INTERVAL;
-                        this.bee.summonServantCount(SUMMON_MAX, SUMMON_COUNT);
-                    }
+                if (target != null && target.isAlive() && --this.summonCooldown <= 0) {
+                    this.summonCooldown = SUMMON_INTERVAL;
+                    this.bee.summonServantCount(SUMMON_MAX, SUMMON_COUNT);
                 }
                 if (this.subStageTick >= CHASE_TRACK_TICKS) {
                     this.subStage = 2;
@@ -254,9 +261,9 @@ public class GiantBeePhase3Goal extends Goal {
                 }
             }
             case 2 -> {
-                // 第二次飞天：向上 + 16 向药水 + 停原地 + 警告 + 缚地失明
+                // 第二次信号：16 向药水 + 警告 + 缚地（悬停跟随玩家）
                 this.bee.throwPotionDirections(16);
-                this.bee.warnPlayer("警告：究极蜜蜂陨石即将发射！");
+                this.bee.warnPlayer("警告：究极蜜蜂核弹即将发射！");
                 if (p != null) {
                     p.addEffect(new MobEffectInstance(CMMobEffects.ROOTED.get(), 200, 0, false, true));
                 }
@@ -264,30 +271,38 @@ public class GiantBeePhase3Goal extends Goal {
                 this.subStageTick = 0;
             }
             case 3 -> {
-                // 停原地，3 秒后砸陨石
-                this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+                // 3 秒后朝玩家抛射蜜蜂核弹（替换原陨石大招），期间持续悬停
                 if (this.subStageTick >= METEOR_DELAY_TICKS) {
-                    BlockPos targetPos = p != null ? p.blockPosition() : this.bee.blockPosition();
-                    this.bee.summonHoneyMeteorAt(targetPos);
-                    this.meteorLandPos = targetPos;
+                    Level level = this.bee.level();
+                    if (!level.isClientSide) {
+                        BeeNukeProjectile nuke = new BeeNukeProjectile(CMEntities.BEE_NUKE_PROJECTILE.get(), level);
+                        nuke.setOwner(this.bee);
+                        LivingEntity target = this.bee.getTarget();
+                        Vec3 aimDir;
+                        if (target != null && target.isAlive()) {
+                            aimDir = new Vec3(target.getX(), target.getY() + target.getBbHeight() + 2.0D,
+                                    target.getZ()).subtract(this.bee.position()).normalize();
+                        } else {
+                            aimDir = this.bee.getLookAngle().normalize();
+                        }
+                        nuke.moveTo(this.bee.getX(), this.bee.getY() + this.bee.getBbHeight() * 0.5D,
+                                this.bee.getZ());
+                        nuke.shoot(aimDir.x, aimDir.y, aimDir.z, 1.6F, 0.2F);
+                        level.addFreshEntity(nuke);
+                    }
                     this.subStage = 4;
                     this.subStageTick = 0;
                 }
             }
             case 4 -> {
-                // 等待陨石落地（短暂），落地瞬间对非蜜蜂生物造成 10 半径 100 凋零伤害
-                this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+                // 核弹已抛出，短暂缓冲后进入停顿
                 if (this.subStageTick >= 20) {
-                    if (this.meteorLandPos != null) {
-                        this.bee.meteorImpactDamage(this.meteorLandPos);
-                    }
                     this.subStage = 5;
                     this.subStageTick = 0;
                 }
             }
             case 5 -> {
-                // 停顿 5 秒
-                this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+                // 停顿 5 秒（持续悬停），然后切回失明攻击
                 if (this.subStageTick >= AFTER_TICKS) {
                     // 循环计数 +1（解除锁血），切回失明攻击
                     this.bee.incrementP3Cycle();
