@@ -44,4 +44,6 @@ public class CMMobEffects {
             "rage", RageEffect::new);
     public static final RegistryObject<WitherCloudEffect> WITHER_CLOUD = MOB_EFFECTS.register(
             "wither_cloud", WitherCloudEffect::new);
+    public static final RegistryObject<RealityDissociationEffect> REALITY_DISSOCIATION = MOB_EFFECTS.register(
+            "reality_dissociation", RealityDissociationEffect::new);
 }

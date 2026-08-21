@@ -77,7 +77,7 @@ public class PainShieldEventHandler {
             if (gem.getWill(EnumDemonWillType.DEFAULT, stack) <= WILL_COST) {
                 continue;
             }
-            gem.drainWill(EnumDemonWillType.DEFAULT, stack, WILL_COST, false);
+            gem.drainWill(EnumDemonWillType.DEFAULT, stack, WILL_COST, true);
             // 降低 1 级，1 级时直接移除（1.20.1 的 update 只升不降，需先移除再添加）
             target.removeEffect(CMMobEffects.PAIN_SHIELD.get());
             if (instance.getAmplifier() > 0) {

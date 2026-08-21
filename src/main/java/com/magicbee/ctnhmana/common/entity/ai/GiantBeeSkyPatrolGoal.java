@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import com.magicbee.ctnhmana.common.entity.GiantBee;
+import com.magicbee.ctnhmana.common.entity.projectile.MaliciousThermalilyProjectile;
 import com.magicbee.ctnhmana.common.entity.projectile.WitherAconiteProjectile;
 import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMMobEffects;
@@ -57,9 +58,9 @@ public class GiantBeeSkyPatrolGoal extends Goal {
     /** 滞留药水齐射：8 个水平方向 */
     private static final int BARRAGE_DIRECTIONS = 8;
     private static final float BARRAGE_SPEED = 0.5F;
-    /** 巡空缚地：每 5 秒给玩家 2 秒缚地 */
+    /** 巡空缚地：每 5 秒给玩家 4.5 秒缚地 */
     private static final int ROOT_INTERVAL = 100;
-    private static final int ROOT_DURATION = 40;
+    private static final int ROOT_DURATION = 90;
 
     private final GiantBee bee;
     private boolean climbing;
@@ -129,20 +130,31 @@ public class GiantBeeSkyPatrolGoal extends Goal {
             this.arrowCooldown = ARROW_INTERVAL;
             this.shootPoisonArrow();
         }
-        // 每 1 秒从正下方丢下 3 级负面滞留药水
+        // 每 1 秒从正下方丢下 3 级负面滞留药水（二阶段 25% 概率改为恶意热爆花）
         if (--this.potionCooldown <= 0) {
             this.potionCooldown = POTION_INTERVAL;
-            this.throwLingeringPotion();
+            if (this.bee.isPhase2() && this.bee.getRandom().nextFloat() < 0.25F) {
+                this.throwThermalily();
+            } else {
+                this.throwLingeringPotion();
+            }
         }
-        // 每 5 秒向斜前方抛射一朵凋灵兔葵
+        // 每 5 秒向斜前方抛射凋灵兔葵（二阶段：扇形前方 3 朵，30° 角）
         if (--this.aconiteCooldown <= 0) {
             this.aconiteCooldown = ACONITE_INTERVAL;
-            this.throwWitherAconite();
+            if (this.bee.isPhase2()) {
+                this.throwWitherAconiteFan();
+            } else {
+                this.throwWitherAconite();
+            }
         }
-        // 每 10 秒 50%/50% 触发技能：散射箭雨 / 滞留药水齐射
+        // 每 10 秒触发技能：非二阶段 50%/50% 单选；二阶段同时全部发动
         if (--this.skillCooldown <= 0) {
             this.skillCooldown = SKILL_INTERVAL;
-            if (this.bee.getRandom().nextBoolean()) {
+            if (this.bee.isPhase2()) {
+                this.scatterPoisonArrows();
+                this.throwPotionBarrage();
+            } else if (this.bee.getRandom().nextBoolean()) {
                 this.scatterPoisonArrows();
             } else {
                 this.throwPotionBarrage();
@@ -212,6 +224,45 @@ public class GiantBeeSkyPatrolGoal extends Goal {
             aconite.shoot(0.0D, -1.0D, 0.0D, 0.6F, 0.0F);
         }
         level.addFreshEntity(aconite);
+    }
+
+    /** 朝目标方向竖直下丢一朵恶意热爆花（着陆爆炸） */
+    private void throwThermalily() {
+        Level level = this.bee.level();
+        if (level.isClientSide) {
+            return;
+        }
+        MaliciousThermalilyProjectile proj = new MaliciousThermalilyProjectile(
+                CMEntities.MALICIOUS_THERMALILY_PROJECTILE.get(), level);
+        proj.setOwner(this.bee);
+        proj.moveTo(this.bee.getX(), this.bee.getY() - 1.0D, this.bee.getZ());
+        proj.shoot(0.0D, -1.0D, 0.0D, 0.6F, 0.0F);
+        level.addFreshEntity(proj);
+    }
+
+    /** 二阶段：朝目标方向扇形抛射 3 朵凋灵兔葵（两侧 ±15°，共 30° 角） */
+    private void throwWitherAconiteFan() {
+        Level level = this.bee.level();
+        if (level.isClientSide) {
+            return;
+        }
+        LivingEntity target = this.bee.getTarget();
+        double baseYaw = this.bee.getYRot();
+        if (target != null && target.isAlive()) {
+            // 面向目标
+            Vec3 to = new Vec3(target.getX() - this.bee.getX(), 0.0D, target.getZ() - this.bee.getZ());
+            baseYaw = (float) (Math.atan2(-to.x, to.z) * (180.0D / Math.PI));
+        }
+        for (int i = 0; i < 3; i++) {
+            double yaw = baseYaw + (i - 1) * 15.0D; // -15°, 0°, +15°（30° 扇区）
+            Vec3 dir = new Vec3(-Math.sin(yaw * Math.PI / 180.0D), 0.0D, Math.cos(yaw * Math.PI / 180.0D));
+            WitherAconiteProjectile aconite = new WitherAconiteProjectile(CMEntities.WITHER_ACONITE_PROJECTILE.get(),
+                    level);
+            aconite.setOwner(this.bee);
+            aconite.moveTo(this.bee.getX(), this.bee.getY() - 1.0D, this.bee.getZ());
+            aconite.shoot(dir.x, dir.y, dir.z, 0.7F, 0.0F);
+            level.addFreshEntity(aconite);
+        }
     }
 
     /** 技能：向各个方向（下半球随机）抛射 20 发剧毒箭 */

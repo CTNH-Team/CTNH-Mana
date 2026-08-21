@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +29,7 @@ import com.magicbee.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.magicbee.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.magicbee.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
+import com.magicbee.ctnhmana.common.capability.DamageClampCapability;
 import com.magicbee.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.magicbee.ctnhmana.common.multiblock.HellForgeMachine;
 import com.magicbee.ctnhmana.networking.packets.IndexFortunaPacket;
@@ -59,6 +61,14 @@ public class ForgeEventHandler {
         if (event.getObject() instanceof FlowerCakeBlockEntity be) {
             event.addCapability(CTNHMana.id("mana_receiver_flowercake"),
                     CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
+        }
+    }
+
+    /** 给玩家挂载"护甲前原始伤害"能力，供中央减伤钳制器使用。 */
+    @SubscribeEvent
+    public static void attachDamageClamp(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            event.addCapability(CTNHMana.id("damage_clamp"), new DamageClampCapability());
         }
     }
 

@@ -1,0 +1,35 @@
+{
+  "type": "bloodmagic:meteor",
+  "explosion": 6.0,
+  "input": {
+    "item": "minecraft:honeycomb_block"
+  },
+  "syphon": 0,
+  "layers": [
+    {
+      "additionalWeight": 0,
+      "minWeight": 0,
+      "radius": 10,
+      "shell": {
+        "block": "minecraft:honeycomb_block"
+      },
+      "fill": {
+        "block": "minecraft:honey_block"
+      },
+      "weightMap": [
+        {
+          "block": "minecraft:bee_nest",
+          "weight": 150
+        },
+        {
+          "block": "minecraft:beehive",
+          "weight": 100
+        },
+        {
+          "block": "minecraft:honeycomb_block",
+          "weight": 300
+        }
+      ]
+    }
+  ]
+}

@@ -31,9 +31,9 @@ import java.util.UUID;
 public class RoyalServantBee extends AbstractRampageBee {
 
     /** 每秒伤害上限 */
-    private static final float MAX_TAKEN_PER_SECOND = 19.0F;
+    private static final float MAX_TAKEN_PER_SECOND = 24.0F;
     /** 自爆触发血量 */
-    public static final float SELF_DESTRUCT_HEALTH = 10.0F;
+    public static final float SELF_DESTRUCT_HEALTH = 20.0F;
     /** 自爆距离（到目标脚底） */
     public static final double SELF_DESTRUCT_RANGE = 2.5D;
     /** 自爆 AOE 范围/伤害 */
@@ -195,6 +195,14 @@ public class RoyalServantBee extends AbstractRampageBee {
     private static final int AUTO_DASH_INTERVAL = 100;
     private int autoDashCooldown;
 
+    /** boss 命令的额外连续冲锋次数（追缉停顿时连发 2 次用） */
+    private int pendingDashCommands;
+
+    /** 令其在当前冲锋结束后再连续发动 extra 次冲锋（boss 用） */
+    public void queueExtraDashes(int extra) {
+        this.pendingDashCommands += extra;
+    }
+
     // ---------- 冲刺技能（由 boss 发动） ----------
 
     /** 由绑定的 boss 调用：原地停顿 0.25 秒后向目标方向冲刺 5 格 */
@@ -241,6 +249,11 @@ public class RoyalServantBee extends AbstractRampageBee {
                     this.dashState = DashState.NONE;
                     this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, DASH_SPEED_DURATION,
                             DASH_SPEED_AMPLIFIER, false, false));
+                    // 若还被命令额外冲锋，立即连发下一次
+                    if (this.pendingDashCommands > 0) {
+                        this.pendingDashCommands--;
+                        this.triggerDash();
+                    }
                 }
             }
             default -> {}

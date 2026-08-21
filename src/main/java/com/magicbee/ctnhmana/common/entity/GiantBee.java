@@ -1,5 +1,6 @@
 package com.magicbee.ctnhmana.common.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,6 +16,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -24,13 +26,19 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import com.magicbee.ctnhmana.common.entity.ai.GiantBeeChaseGoal;
 import com.magicbee.ctnhmana.common.entity.ai.GiantBeeFlowerAttractionGoal;
+import com.magicbee.ctnhmana.common.entity.ai.GiantBeePhase3Goal;
 import com.magicbee.ctnhmana.common.entity.ai.GiantBeePollenGoal;
 import com.magicbee.ctnhmana.common.entity.ai.GiantBeeSkyPatrolGoal;
 import com.magicbee.ctnhmana.common.entity.ai.GiantBeeWanderGoal;
@@ -39,6 +47,9 @@ import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMItems;
 import com.magicbee.ctnhmana.registry.CMMobEffects;
 import vazkii.botania.common.item.BotaniaItems;
+import wayoftime.bloodmagic.entity.projectile.EntityMeteor;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -114,6 +125,15 @@ public class GiantBee extends AbstractRampageBee {
     private static final int THERMALILY_INTERVAL = 80;
     /** 恢复期 0.25 秒抛射面朝方向药水箭 */
     private static final int ARROW_INTERVAL_P2 = 5;
+    /** 转阶段每 10 秒召唤 3 只皇家蜜蜂 */
+    private static final int TRANSFORM_SUMMON_INTERVAL = 200;
+    private static final int TRANSFORM_SUMMON_COUNT = 3;
+    private static final int TRANSFORM_MAX_SERVANTS = 5;
+    // ---------- 第三阶段 ----------
+    /** 血量 ≤ 该值进入第三阶段 */
+    private static final float PHASE3_TRIGGER_HEALTH = 400.0F;
+    /** 第三阶段锁血下限：循环未完整走完一遍时，非 kill 伤害不使血量低于该值 */
+    private static final float P3_LOCK_HEALTH = 200.0F;
     /** 阶段变量 */
     private static final EntityDataAccessor<Integer> DATA_PHASE = SynchedEntityData.defineId(GiantBee.class,
             EntityDataSerializers.INT);
@@ -139,6 +159,11 @@ public class GiantBee extends AbstractRampageBee {
     private boolean phase2Transforming;   // 转阶段整体（停顿+恢复期），期间不移动/不转向玩家
     private int thermalilyCooldown;
     private int p2ArrowCooldown;
+    private int transformSummonCooldown;
+    /** 第三阶段：是否进行中 / 完整循环计数 / 是否处于失明攻击子阶段（该阶段 50% 减伤） */
+    private boolean p3Active;
+    private int p3CycleCount;
+    private boolean p3BlindComboActive;
 
     /** 狂暴时显示的 BOSS 血量条 */
     private final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(this.getDisplayName(),
@@ -150,6 +175,8 @@ public class GiantBee extends AbstractRampageBee {
 
     @Override
     protected void registerGoals() {
+        // 第三阶段（最高优先级，isPhase3 触发时接管）
+        this.goalSelector.addGoal(0, new GiantBeePhase3Goal(this));
         // 巡空机制优先级最高（boss 战）
         this.goalSelector.addGoal(0, new GiantBeeSkyPatrolGoal(this));
         // 追缉模式（巡空后切换，优先级最高，一定触发则替换巡空）
@@ -201,6 +228,36 @@ public class GiantBee extends AbstractRampageBee {
         this.entityData.set(DATA_PHASE, phase);
     }
 
+    /** 是否已进入第三阶段 */
+    public boolean isPhase3() {
+        return this.getPhase() >= 3;
+    }
+
+    /** P3 是否进行中 */
+    public boolean isP3Active() {
+        return this.p3Active;
+    }
+
+    /** P3 是否处于失明攻击子阶段（该阶段 50% 减伤） */
+    public boolean isP3BlindComboActive() {
+        return this.p3BlindComboActive;
+    }
+
+    /** P3 是否尚未完整走完一轮循环（据此锁血 ≥200） */
+    public boolean isP3Locked() {
+        return this.p3Active && this.p3CycleCount < 1;
+    }
+
+    /** 供 P3 goal 切换失明攻击子阶段标志（决定 50% 减伤是否生效） */
+    public void setP3BlindComboActive(boolean active) {
+        this.p3BlindComboActive = active;
+    }
+
+    /** 供 P3 goal 在飞天子阶段结束时增加完整循环计数（解除锁血） */
+    public void incrementP3Cycle() {
+        this.p3CycleCount++;
+    }
+
     public boolean isAngry() {
         return this.entityData.get(DATA_ANGRY);
     }
@@ -216,10 +273,15 @@ public class GiantBee extends AbstractRampageBee {
         return this.entityData.get(DATA_CHASING);
     }
 
-    /** 切换为追缉模式：禁用巡空、启用追缉 */
+    /** 切换为追缉模式：禁用巡空、启用追缉，解除二阶段巡空的永久缚地 */
     public void enterChaseMode() {
         if (this.level().isClientSide) {
             return;
+        }
+        // 二阶段巡空的永久缚地在进入追缉时解除
+        Player nearby = this.level().getNearestPlayer(this, 64.0D);
+        if (nearby != null) {
+            nearby.removeEffect(CMMobEffects.ROOTED.get());
         }
         this.entityData.set(DATA_CHASING, true);
     }
@@ -265,14 +327,14 @@ public class GiantBee extends AbstractRampageBee {
             // kill 伤害（/kill 指令）不受免疫与伤害上限限制
             boolean isKillDamage = source.is(DamageTypes.GENERIC_KILL);
             // 低于 7 的伤害完全免疫
-            if (amount < IMMUNE_THRESHOLD && !isKillDamage) {
+            if (amount < IMMUNE_THRESHOLD && !isKillDamage && !this.isAngry()) {
                 return false;
             }
             // 激怒判定基于原始伤害
-            if (amount > MAX_TAKEN_DAMAGE) {
+            if (amount > MAX_TAKEN_DAMAGE && !this.isAngry()) {
                 // 超过 50：直接获得 3 层激怒
                 this.gainRage(MAX_RAGE_STACKS);
-            } else {
+            } else if (!this.isAngry()) {
                 // 7-50：1 层激怒 + 范围 AOE 伤害 + 中毒
                 this.gainRage(1);
                 this.rageAoE();
@@ -283,6 +345,10 @@ public class GiantBee extends AbstractRampageBee {
                 if (this.isChasing()) {
                     amount *= (1.0F - CHASE_DAMAGE_REDUCTION);
                 }
+                // 第三阶段失明攻击子阶段：额外 50% 减伤
+                if (this.isP3BlindComboActive()) {
+                    amount *= 0.5F;
+                }
                 amount = Math.min(amount, MAX_TAKEN_DAMAGE);
                 float actualTaken = this.clampDamagePerSecond(amount, MAX_TAKEN_DAMAGE);
                 // 巡空模式（狂暴且未切换追缉）实际受到的伤害计入切换累计值（回血不扣减）
@@ -290,6 +356,10 @@ public class GiantBee extends AbstractRampageBee {
                     this.patrolDamageTaken += actualTaken;
                 }
                 amount = actualTaken;
+                // 第三阶段锁血：未完整走完一轮循环时，非 kill 伤害不使血量低于 P3_LOCK_HEALTH
+                if (this.isP3Locked() && this.getHealth() - amount < P3_LOCK_HEALTH) {
+                    amount = Math.max(0.0F, this.getHealth() - P3_LOCK_HEALTH);
+                }
             }
         }
         return super.hurt(source, amount);
@@ -325,6 +395,10 @@ public class GiantBee extends AbstractRampageBee {
         if (servant != null) {
             servant.moveTo(this.getX(), this.getY() + this.getBbHeight() + 1.0D, this.getZ(), this.getYRot(), 0.0F);
             servant.setBoundBoss(this);
+            // 追缉模式下召唤的护卫获得 2 级苦难护盾（amplifier 1，持续 600 秒）
+            if (this.isChasing() && this.isPhase2()) {
+                servant.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, 0, false, false));
+            }
             this.level().addFreshEntity(servant);
         }
     }
@@ -333,6 +407,26 @@ public class GiantBee extends AbstractRampageBee {
     public void commandServantsToDash() {
         this.level().getEntitiesOfClass(RoyalServantBee.class, this.getBoundingBox().inflate(SERVANT_BUFF_RANGE),
                 e -> e.isAlive() && e.isBoundTo(this)).forEach(RoyalServantBee::triggerDash);
+    }
+
+    /** 命令范围内所有存活侍从发动 total 次连续冲锋（先触发一次，其余排队连发） */
+    public void commandServantsToDash(int total) {
+        this.level().getEntitiesOfClass(RoyalServantBee.class, this.getBoundingBox().inflate(SERVANT_BUFF_RANGE),
+                e -> e.isAlive() && e.isBoundTo(this)).forEach(servant -> {
+                    servant.queueExtraDashes(total - 1);
+                    servant.triggerDash();
+                });
+    }
+
+    /** 确保苦难护盾等级至少为 targetAmplifier（amplifier；若已有更高则不动） */
+    public void ensurePainShield(int targetAmplifier) {
+        if (this.level().isClientSide) {
+            return;
+        }
+        MobEffectInstance shield = this.getEffect(CMMobEffects.PAIN_SHIELD.get());
+        if (shield == null || shield.getAmplifier() < targetAmplifier) {
+            this.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, targetAmplifier, false, false));
+        }
     }
 
     /** 获得激怒层数（buff 持续 10 秒）；满 3 层锁定最后的伤害者进入狂暴 */
@@ -389,6 +483,18 @@ public class GiantBee extends AbstractRampageBee {
                 this.getHealth() <= PHASE2_TRIGGER_HEALTH) {
             this.startPhase2Transition();
         }
+        // 第三阶段触发：已进入二阶段且血量 ≤400 时进入 P3
+        if (!this.p3Active && this.isPhase2() && this.getHealth() <= PHASE3_TRIGGER_HEALTH) {
+            this.p3Active = true;
+            this.p3CycleCount = 0;
+            this.p3BlindComboActive = false;
+            this.setPhase(3);
+            // 进入三阶段：解除二阶段巡空的永久缚地
+            Player nearby = this.level().getNearestPlayer(this, 64.0D);
+            if (nearby != null) {
+                nearby.removeEffect(CMMobEffects.ROOTED.get());
+            }
+        }
         if (this.phase2Transforming) {
             this.tickPhaseTransition();
             return;
@@ -407,6 +513,13 @@ public class GiantBee extends AbstractRampageBee {
             // 巡空模式：累计在线时长，满足条件切换追缉
             if (!this.isChasing()) {
                 this.patrolTicks++;
+                // 二阶段：巡空时永久给玩家缚地（每 tick 刷新）
+                if (this.isPhase2()) {
+                    Player nearby = this.level().getNearestPlayer(this, 64.0D);
+                    if (nearby != null) {
+                        nearby.addEffect(new MobEffectInstance(CMMobEffects.ROOTED.get(), 100, 0, false, true));
+                    }
+                }
                 if ((this.patrolTicks >= CHASE_SWITCH_MIN_TICKS &&
                         this.patrolDamageTaken >= CHASE_SWITCH_DAMAGE_THRESHOLD) ||
                         this.patrolTicks >= CHASE_SWITCH_FORCE_TICKS) {
@@ -429,6 +542,10 @@ public class GiantBee extends AbstractRampageBee {
     private void summonServantWave() {
         int max = this.isChasing() ? MAX_SERVANTS_CHASE : MAX_SERVANTS_SKY;
         int count = this.isChasing() ? SERVANT_WAVE_COUNT_CHASE : SERVANT_WAVE_COUNT_SKY;
+        // 二阶段：巡空/追缉召唤均额外 +1 只
+        if (this.isPhase2()) {
+            count++;
+        }
         int servants = this.countServants();
         if (servants >= max) {
             return;
@@ -476,7 +593,7 @@ public class GiantBee extends AbstractRampageBee {
             }
             return;
         }
-        // 恢复期：每秒回 20 + 每 4 秒八方向热爆花 + 0.25s 药水箭
+        // 恢复期：每秒回 20 + 每 4 秒八方向热爆花 + 0.25s 药水箭 + 每 10 秒召唤 3 只皇家蜜蜂
         if (this.phase2Recovering) {
             this.heal(PHASE2_REGEN_PER_SECOND / 20.0F);
             if (--this.thermalilyCooldown <= 0) {
@@ -487,14 +604,33 @@ public class GiantBee extends AbstractRampageBee {
                 this.p2ArrowCooldown = ARROW_INTERVAL_P2;
                 this.shootPhase2PoisonArrow();
             }
-            // 回满血：进入真正的二阶段
+            if (--this.transformSummonCooldown <= 0) {
+                this.transformSummonCooldown = TRANSFORM_SUMMON_INTERVAL;
+                this.summonServantCount(TRANSFORM_MAX_SERVANTS, TRANSFORM_SUMMON_COUNT);
+            }
+            // 回满血：进入真正的二阶段（10 级苦难护盾 + 切回巡空模式）
             if (this.getHealth() >= this.getMaxHealth()) {
                 this.phase2Recovering = false;
                 this.phase2Transforming = false;
                 this.transformTicks = 0;
                 this.setPhase(2);
+                this.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, 9, false, false));
+                this.exitChaseMode();
             }
         }
+    }
+
+    /** 召唤指定数量的皇家蜜蜂并命令现存侍从冲刺（上限 max） */
+    public void summonServantCount(int max, int count) {
+        int servants = this.countServants();
+        if (servants >= max) {
+            return;
+        }
+        int toSummon = Math.min(count, max - servants);
+        for (int i = 0; i < toSummon; i++) {
+            this.summonServantBee();
+        }
+        this.commandServantsToDash();
     }
 
     /** 恢复期：八方向抛射恶意热爆花（水平 8 个 45° 方向） */
@@ -527,6 +663,91 @@ public class GiantBee extends AbstractRampageBee {
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
         arrow.shoot(look.x, look.y, look.z, 2.0F, 1.0F);
         level.addFreshEntity(arrow);
+    }
+
+    // ---------- 第三阶段辅助 ----------
+
+    /** 原地生成一朵凋零云（持续 {@code duration} tick，5 秒用 100），仿恶意菟葵凋零云 */
+    public void spawnWitherCloudAt(BlockPos pos, int duration) {
+        if (this.level().isClientSide) {
+            return;
+        }
+        AreaEffectCloud cloud = new AreaEffectCloud(this.level(), pos.getX() + 0.5D, pos.getY() + 0.5D,
+                pos.getZ() + 0.5D);
+        cloud.setRadius(3.5F);
+        cloud.setDuration(duration);
+        cloud.setWaitTime(0);
+        cloud.setParticle(ParticleTypes.SMOKE);
+        cloud.addEffect(new MobEffectInstance(CMMobEffects.WITHER_CLOUD.get(), duration, 0));
+        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, duration, 1));
+        this.level().addFreshEntity(cloud);
+    }
+
+    /** 朝 n 个水平方向各丢一瓶滞留药水（8 或 16 向） */
+    public void throwPotionDirections(int count) {
+        Level level = this.level();
+        if (level.isClientSide) {
+            return;
+        }
+        for (int i = 0; i < count; i++) {
+            double yaw = i * (360.0D / count);
+            Vec3 dir = new Vec3(-Math.sin(yaw * Math.PI / 180.0D), 0.0D, Math.cos(yaw * Math.PI / 180.0D));
+            ThrownPotion potion = new ThrownPotion(level, this);
+            potion.setItem(this.randomLingeringPotion());
+            potion.moveTo(this.getX(), this.getY() + this.getBbHeight() * 0.5D, this.getZ());
+            potion.shoot(dir.x, dir.y, dir.z, 0.5F, 0.0F);
+            level.addFreshEntity(potion);
+        }
+    }
+
+    /** 随机一瓶 3 级负面滞留药水（剧毒 / 缓慢 / 瞬间伤害） */
+    private ItemStack randomLingeringPotion() {
+        ItemStack stack = new ItemStack(Items.LINGERING_POTION);
+        MobEffectInstance effect = switch (this.getRandom().nextInt(3)) {
+            case 0 -> new MobEffectInstance(MobEffects.POISON, 400, 2);
+            case 1 -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 400, 2);
+            default -> new MobEffectInstance(MobEffects.HARM, 1, 2);
+        };
+        PotionUtils.setCustomEffects(stack, List.of(effect));
+        return stack;
+    }
+
+    /** 从高空朝目标位置召唤一颗血魔法蜂蜜陨石 */
+    public void summonHoneyMeteorAt(BlockPos target) {
+        Level level = this.level();
+        if (level.isClientSide) {
+            return;
+        }
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        EntityMeteor meteor = new EntityMeteor(serverLevel, target.getX() + 0.5D, serverLevel.getHeight(),
+                target.getZ() + 0.5D);
+        meteor.setDeltaMovement(0.0D, -0.5D, 0.0D);
+        meteor.setContainedStack(new ItemStack(Blocks.HONEYCOMB_BLOCK));
+        serverLevel.addFreshEntity(meteor);
+    }
+
+    /** 陨石落地冲击：以落点为中心 10 半径，对所有非蜜蜂生物造成 100 点凋零伤害 */
+    public void meteorImpactDamage(BlockPos center) {
+        Level level = this.level();
+        if (level.isClientSide) {
+            return;
+        }
+        Vec3 vec = new Vec3(center.getX() + 0.5D, center.getY() + 0.5D, center.getZ() + 0.5D);
+        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class,
+                new AABB(vec, vec).inflate(10.0D),
+                e -> e.isAlive() && !(e instanceof GiantBee) && !(e instanceof RoyalServantBee))) {
+            entity.hurt(entity.damageSources().wither(), 100.0F);
+        }
+    }
+
+    /** 对最近的玩家显示文本警告（Exp 或操作栏） */
+    public void warnPlayer(String message) {
+        Player player = this.level().getNearestPlayer(this, 64.0D);
+        if (player != null) {
+            player.displayClientMessage(Component.literal(message), true);
+        }
     }
 
     // ---------- 喂食 ----------

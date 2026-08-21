@@ -1,6 +1,5 @@
 package com.magicbee.ctnhmana.common.entity.ai;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,14 +15,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import com.magicbee.ctnhmana.common.entity.GiantBee;
-import com.magicbee.ctnhmana.registry.CMBlocks;
 import com.magicbee.ctnhmana.registry.CMMobEffects;
 
 import java.util.EnumSet;
 import java.util.List;
 
 /**
- * 巨蜂追缉模式（boss 战后半段）：进入时立即向玩家冲锋（带惯性），随后持续追击（速度 0.3）。
+ * 巨蜂追缉模式（boss 战后半段）：进入时立即向玩家头顶直线冲刺，随后持续追击（速度 0.3）。
  * 每 5 秒二选一发动技能：①停顿 0.5 秒后锁定玩家位置冲刺，落点生成恶意凋零菟葵；
  * ②向面朝方向发射 10 支剧毒箭并扔一瓶失明 III 溅射药水。
  * 玩家距离 ≥25 格时：传送玩家到自身面前并赋予 30 秒缚地。
@@ -35,19 +33,22 @@ public class GiantBeeChaseGoal extends Goal {
     private static final int CHASE_DURATION = 600;
     /** 追缉结束时恢复的生命 */
     private static final float RESTORE_HEALTH = 25.0F;
+    /** 追缉开始时召唤 4 只皇家蜜蜂的上限 */
+    private static final int MAX_CHASE_SERVANTS = 5;
 
-    /** 进入时冲锋：直接锁定玩家位置冲撞（带惯性） */
+    /** 进入时冲锋：直接锁定玩家位置冲撞 */
     private static final double OPENING_CHARGE_SPEED = 1.4D;
-    /** 惯性保留 tick 数 */
-    private static final int INERTIA_TICKS = 32;
     /** 追击速度（P 控制，0.3 格/tick） */
     private static final double CHASE_SPEED = 0.3D;
     /** 技能间隔：5 秒 */
     private static final int SKILL_INTERVAL = 100;
-    /** 技能 ① 停顿 1 秒（20 tick）后锁定玩家位置高速冲刺 20 格 */
+    /** 技能 ① 停顿 1 秒后锁定玩家位置高速冲刺（仿皇家蜜蜂：固定方向直线冲） */
     private static final int SKILL_PAUSE_TICKS = 10;
-    private static final double SKILL_CHARGE_DISTANCE = 30.0D;
-    private static final double SKILL_CHARGE_SPEED = 5.0D;
+    private static final double SKILL_CHARGE_SPEED = 1.5D;
+    /** 冲刺固定 tick 数（皇家蜜蜂式，不看距离） */
+    private static final int SKILL_CHARGE_TICKS = 15;
+    /** 冲刺时的破坏半径（碰撞箱外扩格数，需 ≥ 单 tick 位移以免撞墙受阻） */
+    private static final double SKILL_CHARGE_BREAK = 2.D;
     /** 冲刺到达后的 AOE 伤害（范围 4 格，凋零伤害） */
     private static final double SKILL_AOE_RANGE = 4.0D;
     private static final float SKILL_AOE_DAMAGE = 15.0F;
@@ -65,20 +66,21 @@ public class GiantBeeChaseGoal extends Goal {
 
     private final GiantBee bee;
     private boolean openingCharge;   // 进入时的冲锋
-    private Vec3 chargeDir;
-    private int inertiaTicks;
+    private Vec3 openingAim;         // 冲锋锁定点（玩家头顶+2）
     private int skillCooldown;
     private SkillState skillState = SkillState.NONE;
     private int skillTicks;
     private Vec3 skillTarget;
-    private boolean pendingDash;   // 停顿结束后走冲刺（true）还是箭雨（false）
+    private Vec3 skillDir;   // 冲刺锁定方向（开始冲刺时固定，仿皇家蜜蜂）
+    private int comboRemaining;   // 连招剩余轮数（停顿-冲锋-丢箭，重复 3 次）
     private int teleportCooldown;
     private int chaseTicks;   // 追缉已持续 tick
 
     private enum SkillState {
         NONE,
         PAUSING,
-        CHARGING
+        CHARGING,
+        FIRING
     }
 
     public GiantBeeChaseGoal(GiantBee bee) {
@@ -97,25 +99,29 @@ public class GiantBeeChaseGoal extends Goal {
         return this.bee.isChasing() && !this.bee.isTransforming() && this.bee.isAlive();
     }
 
-    /** 追缉锁定高度偏移（玩家脚底上方格数，避免贴地追踪） */
+    /** 追缉锁定高度偏移：朝玩家头顶上方格数，保证飞行单位冲锋不贴地 */
     private static final double TARGET_HEIGHT_OFFSET = 2.0D;
 
-    /** 追缉瞄准点：玩家位置上方 {@link #TARGET_HEIGHT_OFFSET} 格 */
+    /** 追缉瞄准点：玩家头顶上方 {@link #TARGET_HEIGHT_OFFSET} 格（飞行单位冲锋，保持高度） */
     private Vec3 aimPoint(LivingEntity target) {
-        return new Vec3(target.getX(), target.getY() + TARGET_HEIGHT_OFFSET, target.getZ());
+        return new Vec3(target.getX(), target.getY() + target.getBbHeight() + TARGET_HEIGHT_OFFSET, target.getZ());
     }
 
     @Override
     public void start() {
         this.skillCooldown = SKILL_INTERVAL;
         this.skillState = SkillState.NONE;
-        this.inertiaTicks = INERTIA_TICKS;
         this.chaseTicks = 0;
+        // 二阶段追缉开始：苦难护盾不足 3 则提升到 3，并立即召唤 4 只皇家蜜蜂（二阶段专属）
+        if (this.bee.isPhase2()) {
+            this.bee.ensurePainShield(2); // amplifier 2 = 3 级
+            this.bee.summonServantCount(MAX_CHASE_SERVANTS, 4);
+        }
         LivingEntity target = this.bee.getTarget();
         if (target != null && target.isAlive()) {
             this.openingCharge = true;
-            Vec3 aim = this.aimPoint(target);
-            this.chargeDir = aim.subtract(this.bee.position()).normalize();
+            // 直接锁定玩家头顶+2 的位置，不再用固定方向，避免方向漂移
+            this.openingAim = this.aimPoint(target);
         } else {
             this.openingCharge = false;
         }
@@ -151,14 +157,10 @@ public class GiantBeeChaseGoal extends Goal {
             this.bee.exitChaseMode();
             return;
         }
-        // 每 5 秒二选一技能
+        // 每 5 秒技能：二阶段为连招 3 次（停顿-冲锋-丢箭），一阶段为单次二选一（停顿-冲锋 或 停顿-箭）
         if (this.skillState == SkillState.NONE && --this.skillCooldown <= 0) {
             this.skillCooldown = SKILL_INTERVAL;
-            if (this.bee.getRandom().nextBoolean()) {
-                this.startDashSkill(target);
-            } else {
-                this.startArrowSkill();
-            }
+            this.startCombo(target);
         }
         // 技能状态机
         if (this.skillState != SkillState.NONE) {
@@ -168,11 +170,15 @@ public class GiantBeeChaseGoal extends Goal {
             return;
         }
         if (this.openingCharge) {
-            // 进入时的冲锋：带惯性直到惯性结束
-            this.bee.setDeltaMovement(this.chargeDir.scale(OPENING_CHARGE_SPEED));
-            this.inertiaTicks--;
-            if (this.inertiaTicks <= 0) {
-                this.openingCharge = false;
+            // 进入时的冲锋：直接朝锁定点直线飞冲，无减速/惯性，到位即止
+            Vec3 to = this.openingAim.subtract(this.bee.position());
+            double dist = to.length();
+            if (dist >= 2.0D && Double.isFinite(dist) && dist > 0.01D) {
+                this.bee.setDeltaMovement(to.scale(OPENING_CHARGE_SPEED / dist));
+                this.bee.destroyTouchedBlocks(1.5D); // 顺路清障，避免撞墙回弹
+            } else {
+                this.openingCharge = false; // 已到位
+                this.bee.setDeltaMovement(Vec3.ZERO);
             }
         } else {
             // 持续追击玩家上方 2 格（P 控制，避免贴地）
@@ -198,61 +204,77 @@ public class GiantBeeChaseGoal extends Goal {
         player.addEffect(new MobEffectInstance(CMMobEffects.ROOTED.get(), ROOTED_DURATION, 0, false, true));
     }
 
-    // ---------- 技能 ① 停顿后向锁定位置冲锋，落点生成恶意凋零菟葵 ----------
+    // ---------- 技能 ① 停顿后向锁定位置冲锋（不放菟葵） ----------
 
-    private void startDashSkill(LivingEntity target) {
+    /** 发起技能：二阶段 = 停顿-冲锋-丢箭连招 3 次；一阶段 = 二选一单次（停顿-冲锋 或 停顿-箭） */
+    private void startCombo(LivingEntity target) {
+        this.skillTarget = this.aimPoint(target);
+        this.comboRemaining = this.bee.isPhase2() ? 3 : 1;
+        // 一阶段：随机决定本轮是冲锋还是箭；二阶段每轮固定冲锋+丢箭
+        if (!this.bee.isPhase2() && this.bee.getRandom().nextBoolean()) {
+            this.comboRemaining = 0; // 标记仅箭
+            this.skillState = SkillState.PAUSING;
+            this.skillTicks = SKILL_PAUSE_TICKS;
+            return;
+        }
+        this.startComboPause();
+    }
+
+    private void startComboPause() {
         this.skillState = SkillState.PAUSING;
         this.skillTicks = SKILL_PAUSE_TICKS;
-        this.skillTarget = this.aimPoint(target);
-        this.pendingDash = true;
+        this.bee.commandServantsToDash(2); // 停顿期间皇家蜜蜂连冲 2 次
     }
 
     private void tickSkillState() {
         switch (this.skillState) {
             case PAUSING -> {
-                // 停在原地 1 秒（技能发动前蓄力；仅冲刺技能在停顿处生成菟葵）
+                // 停在原地蓄力，同时面朝目标
                 this.bee.setDeltaMovement(Vec3.ZERO);
-                if (this.pendingDash) {
-                    this.spawnRose();
-                }
+                this.bee.faceEntity(this.bee.getTarget());
                 if (--this.skillTicks <= 0) {
-                    if (this.pendingDash) {
-                        this.skillState = SkillState.CHARGING;
-                        this.skillTicks = (int) Math.ceil(SKILL_CHARGE_DISTANCE / SKILL_CHARGE_SPEED); // 10 tick 冲 20 格
-                    } else {
-                        // 箭雨/药水技能：停顿结束后发射
+                    if (this.comboRemaining <= 0) {
+                        // 一阶段"仅箭"：停顿结束丢箭
                         this.skillState = SkillState.NONE;
                         this.fireArrowSkill();
+                    } else {
+                        // 开始冲刺：按锁定方向直线冲（仿皇家蜜蜂，方向固定不变）
+                        Vec3 to = this.skillTarget.subtract(this.bee.position());
+                        if (to.lengthSqr() < 0.0001D) {
+                            // 目标过近，退化为原地 AOE
+                            this.skillState = SkillState.NONE;
+                            this.dealAoE();
+                        } else {
+                            this.skillDir = to.normalize();
+                            this.skillState = SkillState.CHARGING;
+                            this.skillTicks = SKILL_CHARGE_TICKS; // 冲固定 tick
+                        }
                     }
                 }
             }
             case CHARGING -> {
-                // 朝锁定玩家位置高速冲刺 20 格，冲刺时额外破坏 1 格范围清障
-                Vec3 to = this.skillTarget.subtract(this.bee.position());
-                double dist = to.length();
-                this.bee.setDeltaMovement(to.normalize().scale(SKILL_CHARGE_SPEED));
-                this.bee.destroyTouchedBlocks(1.0D);
-                if (--this.skillTicks <= 0 || dist >= SKILL_CHARGE_DISTANCE) {
+                // 沿锁定方向直线高速冲刺，每 tick 破坏清障（仿皇家蜜蜂冲刺）
+                this.bee.destroyTouchedBlocks(SKILL_CHARGE_BREAK);
+                this.bee.setDeltaMovement(this.skillDir.scale(SKILL_CHARGE_SPEED));
+                if (--this.skillTicks <= 0) {
+                    // 冲刺结束：停步 + AOE
                     this.bee.setDeltaMovement(Vec3.ZERO);
-                    this.skillState = SkillState.NONE;
-                    // 到达：AOE 伤害 + 落点生成菟葵
-                    this.spawnRose();
                     this.dealAoE();
+                    // 二阶段：本轮冲锋后丢箭，并进入下一轮连招；一阶段：结束
+                    if (this.bee.isPhase2()) {
+                        this.fireArrowSkill();
+                        this.comboRemaining--;
+                        if (this.comboRemaining > 0) {
+                            this.startComboPause();
+                        } else {
+                            this.skillState = SkillState.NONE;
+                        }
+                    } else {
+                        this.skillState = SkillState.NONE;
+                    }
                 }
             }
             default -> {}
-        }
-    }
-
-    /** 在冲刺落点（boss 当前位置）生成一棵恶意凋零菟葵（悬浮方块） */
-    private void spawnRose() {
-        Level level = this.bee.level();
-        if (level.isClientSide) {
-            return;
-        }
-        BlockPos pos = this.bee.blockPosition();
-        if (level.getBlockState(pos).canBeReplaced()) {
-            level.setBlock(pos, CMBlocks.WITHER_ACONITE_TRAP.get().defaultBlockState(), 3);
         }
     }
 
@@ -269,13 +291,7 @@ public class GiantBeeChaseGoal extends Goal {
         }
     }
 
-    // ---------- 技能 ② 停顿 1 秒后：10 支剧毒箭 + 失明 III 溅射药水 ----------
-
-    private void startArrowSkill() {
-        this.skillState = SkillState.PAUSING;
-        this.skillTicks = SKILL_PAUSE_TICKS;
-        this.pendingDash = false;
-    }
+    // ---------- 技能 ② 停顿结束后：10 支剧毒箭 + 失明 III 溅射药水 ----------
 
     /** 停顿结束后发射箭雨 + 失明药水 */
     private void fireArrowSkill() {
