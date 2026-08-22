@@ -90,6 +90,9 @@ public class GiantBee extends AbstractRampageBee {
             EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_CHASING = SynchedEntityData.defineId(GiantBee.class,
             EntityDataSerializers.BOOLEAN);
+    /** 狂暴（被无尽剑激怒）：任何阶段 75% 独立减伤 + 近战×2 + 技能 cd 1 秒 */
+    private static final EntityDataAccessor<Boolean> DATA_RAGE = SynchedEntityData.defineId(GiantBee.class,
+            EntityDataSerializers.BOOLEAN);
 
     /** 侍从生效范围/每只存活侍从提供的伤害减免 */
     private static final double SERVANT_BUFF_RANGE = 32.0D;
@@ -108,6 +111,12 @@ public class GiantBee extends AbstractRampageBee {
     private static final float MAX_SERVANT_DAMAGE_REDUCTION = 0.95F;
     /** 追缉模式自带减伤（与蜜蜂减伤乘算） */
     private static final float CHASE_DAMAGE_REDUCTION = 0.5F;
+    /** 狂暴减伤（独立乘区，任何阶段生效） */
+    private static final float RAGE_DAMAGE_REDUCTION = 0.75F;
+    /** 狂暴时技能 cd 等效加速（tick，1 秒） */
+    private static final int RAGE_CD_REDUCE = 20;
+    /** 狂暴近战翻倍：施加的力量效果 amplifier（基础攻击 12 → 24） */
+    private static final int RAGE_BOOST_AMPLIFIER = 3;
     /** 巡空→追缉切换条件：至少 30 秒且累计受伤害至少 60；或 2 分钟未切换 */
     private static final int CHASE_SWITCH_MIN_TICKS = 600;
     private static final float CHASE_SWITCH_DAMAGE_THRESHOLD = 120.0F;
@@ -203,6 +212,7 @@ public class GiantBee extends AbstractRampageBee {
         super.defineSynchedData();
         this.entityData.define(DATA_ANGRY, false);
         this.entityData.define(DATA_CHASING, false);
+        this.entityData.define(DATA_RAGE, false);
         this.entityData.define(DATA_PHASE, 1);
     }
 
@@ -266,6 +276,17 @@ public class GiantBee extends AbstractRampageBee {
         this.entityData.set(DATA_ANGRY, angry);
     }
 
+    // ---------- 狂暴（无尽剑触发） ----------
+
+    /** 是否处于狂暴状态（被无尽剑激怒，永久）：75% 独立减伤 + 近战×2 + 技能 cd 1 秒 */
+    public boolean isRageMode() {
+        return this.entityData.get(DATA_RAGE);
+    }
+
+    public void setRageMode(boolean rage) {
+        this.entityData.set(DATA_RAGE, rage);
+    }
+
     // ---------- 模式：巡空 / 追缉 ----------
 
     /** 是否处于追缉模式（战斗后半段：追击、50% 减伤、冲刺技能） */
@@ -320,6 +341,28 @@ public class GiantBee extends AbstractRampageBee {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (!this.level().isClientSide) {
+            // 无尽剑（avaritia:infinity）伤害：完全免疫，并触发狂暴
+            if (this.isInfinitySwordDamage(source)) {
+                if (!this.isRageMode()) {
+                    this.setRageMode(true);
+                    this.setAngry(true);
+                    this.angerTimer = 0;
+                    // 触发狂暴时必须锁定攻击目标，否则 AI goal 空转不转头
+                    if (this.getTarget() == null || !this.getTarget().isAlive()) {
+                        if (source.getEntity() instanceof LivingEntity attacker) {
+                            this.setTarget(attacker);
+                        } else {
+                            this.setTarget(this.level().getNearestPlayer(this, 64.0D));
+                        }
+                    }
+                    // 广播作弊提示
+                    if (this.level().getServer() != null) {
+                        this.level().getServer().getPlayerList().broadcastSystemMessage(
+                                Component.literal("你竟然作弊！大蜜蜂不会饶恕你！"), false);
+                    }
+                }
+                return false;
+            }
             // 其他巨蜂的 AOE 反伤会互相连锁无限递归：巨蜂之间的伤害不触发本机制
             if (source.getEntity() instanceof GiantBee) {
                 return super.hurt(source, amount);
@@ -356,6 +399,10 @@ public class GiantBee extends AbstractRampageBee {
                 if (this.isP3BlindComboActive()) {
                     amount *= 0.5F;
                 }
+                // 狂暴（无尽剑触发）：任何阶段 75% 独立减伤乘区
+                if (this.isRageMode()) {
+                    amount *= (1.0F - RAGE_DAMAGE_REDUCTION);
+                }
                 amount = Math.min(amount, MAX_TAKEN_DAMAGE);
                 float actualTaken = this.clampDamagePerSecond(amount, MAX_TAKEN_DAMAGE);
                 // 巡空模式（狂暴且未切换追缉）实际受到的伤害计入切换累计值（回血不扣减）
@@ -370,6 +417,30 @@ public class GiantBee extends AbstractRampageBee {
             }
         }
         return super.hurt(source, amount);
+    }
+
+    /** 是否为无尽贪婪（Re-Avaritia）无尽剑造成的伤害（伤害类型 avaritia:infinity） */
+    private boolean isInfinitySwordDamage(DamageSource source) {
+        return source.typeHolder().unwrapKey()
+                .map(key -> key.location().toString().equals("avaritia:infinity"))
+                .orElse(false);
+    }
+
+    /**
+     * 免疫无尽剑左键秒杀：无尽剑直接 setHealth(health - Float.MAX_VALUE) / setHealth(0) 绕过 hurt。
+     * 这里拦截单次扣血超过伤害上限（50）的设置（正常战斗扣血经 hurt 钳制 ≤50；回血为增加不受影响）。
+     */
+    @Override
+    public void setHealth(float pHealth) {
+        // 免疫无尽剑左键秒杀：拦截单次扣血超过伤害上限（50）的设置。
+        // 正常战斗扣血经 hurt 钳制 ≤50；回血为增加（drop 为负）不受影响；无限剑 setHealth(h-∞)/setHealth(0) 为大量扣血被忽略。
+        if (!this.level().isClientSide) {
+            float drop = this.getHealth() - pHealth;
+            if (drop > MAX_TAKEN_DAMAGE) {
+                return;
+            }
+        }
+        super.setHealth(pHealth);
     }
 
     /**
@@ -402,9 +473,14 @@ public class GiantBee extends AbstractRampageBee {
         if (servant != null) {
             servant.moveTo(this.getX(), this.getY() + this.getBbHeight() + 1.0D, this.getZ(), this.getYRot(), 0.0F);
             servant.setBoundBoss(this);
-            // 追缉模式下召唤的护卫获得 2 级苦难护盾（amplifier 1，持续 600 秒）
-            if (this.isChasing() && this.isPhase2()) {
+            // 黑暗阶段（P3 失明攻击）：召唤的护卫不给苦难护盾，改给持久发光
+            boolean darkStage = this.isP3BlindComboActive();
+            if (this.isChasing() && this.isPhase2() && !darkStage) {
+                // 追缉模式下召唤的护卫获得 2 级苦难护盾（amplifier 1，持续 600 秒）
                 servant.addEffect(new MobEffectInstance(CMMobEffects.PAIN_SHIELD.get(), 12000, 0, false, false));
+            }
+            if (darkStage) {
+                servant.addEffect(new MobEffectInstance(MobEffects.GLOWING, 120000, 0, false, false));
             }
             this.level().addFreshEntity(servant);
         }
@@ -509,6 +585,12 @@ public class GiantBee extends AbstractRampageBee {
         // BOSS 血量条仅在狂暴时显示
         this.bossEvent.setVisible(this.isAngry());
         if (this.isAngry()) {
+            // 狂暴（无尽剑触发）：永久保持，近战伤害×2（力量效果），技能 cd 等效同比减速
+            if (this.isRageMode()) {
+                this.angerTimer = 0; // 狂暴不会因时间消退
+                this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 40,
+                        RAGE_BOOST_AMPLIFIER, false, false));
+            }
             // 任何模式：每秒破坏一次碰撞箱往外 1 格范围的可破坏方块
             this.tickDestroyTouchedBlocks();
             this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
@@ -533,8 +615,9 @@ public class GiantBee extends AbstractRampageBee {
                     this.enterChaseMode();
                 }
             }
-            // 每 15 秒（巡空）/14 秒（追缉）尝试召唤一波对应数量的侍从并命令现存侍从冲刺
-            if (--this.servantWaveTimer <= 0) {
+            // 每 15 秒（巡空）/14 秒（追缉）尝试召唤一波对应数量的侍从并命令现存侍从冲刺；狂暴时等效 1 秒
+            this.servantWaveTimer -= this.isRageMode() ? RAGE_CD_REDUCE : 1;
+            if (this.servantWaveTimer <= 0) {
                 this.servantWaveTimer = this.isChasing() ? SERVANT_WAVE_INTERVAL_CHASE : SERVANT_WAVE_INTERVAL_SKY;
                 this.summonServantWave();
             }

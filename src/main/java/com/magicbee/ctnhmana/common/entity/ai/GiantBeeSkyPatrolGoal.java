@@ -36,7 +36,7 @@ public class GiantBeeSkyPatrolGoal extends Goal {
     private static final double PATROL_HEIGHT = 10.0D;
     /** 爬升速度（格/tick） */
     private static final double CLIMB_SPEED = 1.5D;
-    /** 悬停 P 控制增益与速度上限 */
+    /** 悬停 P 控制增益与速度上限（巡空追击速度） */
     private static final double POSITION_GAIN = 0.5D;
     private static final double MAX_SPEED = 1.0D;
     /** 毒箭：间隔 0.5 秒（10 tick），剧毒 II 5 秒，初速 2.5 */
@@ -61,6 +61,8 @@ public class GiantBeeSkyPatrolGoal extends Goal {
     /** 巡空缚地：每 5 秒给玩家 4.5 秒缚地 */
     private static final int ROOT_INTERVAL = 100;
     private static final int ROOT_DURATION = 90;
+    /** 狂暴时技能 cd 等效加速（tick，1 秒） */
+    private static final int RAGE_CD_REDUCE = 20;
 
     private final GiantBee bee;
     private boolean climbing;
@@ -101,8 +103,13 @@ public class GiantBeeSkyPatrolGoal extends Goal {
     public void tick() {
         LivingEntity target = this.bee.getTarget();
         if (target == null || !target.isAlive()) {
-            // 无目标：原地悬停
-            this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+            // 目标丢失时自动补最近玩家，避免 AI 空转不转头
+            Player nearest = this.bee.level().getNearestPlayer(this.bee, 64.0D);
+            if (nearest != null && this.bee.isAlive()) {
+                this.bee.setTarget(nearest);
+            } else {
+                this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+            }
             return;
         }
         double targetY = target.getY() + target.getBbHeight() + PATROL_HEIGHT;
@@ -125,13 +132,15 @@ public class GiantBeeSkyPatrolGoal extends Goal {
                 Mth.clamp(dz * POSITION_GAIN, -MAX_SPEED, MAX_SPEED));
         // 面向玩家（天空直线方向即玩家方向）
         this.bee.faceEntity(target);
-        // 每 0.5 秒向下瞄准玩家发射剧毒药水箭
-        if (--this.arrowCooldown <= 0) {
+        // 每 0.5 秒向下瞄准玩家发射剧毒药水箭（狂暴时等效 1 秒）
+        this.arrowCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+        if (this.arrowCooldown <= 0) {
             this.arrowCooldown = ARROW_INTERVAL;
             this.shootPoisonArrow();
         }
         // 每 1 秒从正下方丢下 3 级负面滞留药水（二阶段 25% 概率改为恶意热爆花）
-        if (--this.potionCooldown <= 0) {
+        this.potionCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+        if (this.potionCooldown <= 0) {
             this.potionCooldown = POTION_INTERVAL;
             if (this.bee.isPhase2() && this.bee.getRandom().nextFloat() < 0.25F) {
                 this.throwThermalily();
@@ -140,7 +149,8 @@ public class GiantBeeSkyPatrolGoal extends Goal {
             }
         }
         // 每 5 秒向斜前方抛射凋灵兔葵（二阶段：扇形前方 3 朵，30° 角）
-        if (--this.aconiteCooldown <= 0) {
+        this.aconiteCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+        if (this.aconiteCooldown <= 0) {
             this.aconiteCooldown = ACONITE_INTERVAL;
             if (this.bee.isPhase2()) {
                 this.throwWitherAconiteFan();
@@ -149,7 +159,8 @@ public class GiantBeeSkyPatrolGoal extends Goal {
             }
         }
         // 每 10 秒触发技能：非二阶段 50%/50% 单选；二阶段同时全部发动
-        if (--this.skillCooldown <= 0) {
+        this.skillCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+        if (this.skillCooldown <= 0) {
             this.skillCooldown = SKILL_INTERVAL;
             if (this.bee.isPhase2()) {
                 this.scatterPoisonArrows();
@@ -161,7 +172,8 @@ public class GiantBeeSkyPatrolGoal extends Goal {
             }
         }
         // 每 5 秒给玩家 2 秒缚地
-        if (--this.rootCooldown <= 0) {
+        this.rootCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+        if (this.rootCooldown <= 0) {
             this.rootCooldown = ROOT_INTERVAL;
             if (target instanceof Player player && !player.isCreative()) {
                 player.addEffect(new MobEffectInstance(CMMobEffects.ROOTED.get(), ROOT_DURATION, 0, false, true));

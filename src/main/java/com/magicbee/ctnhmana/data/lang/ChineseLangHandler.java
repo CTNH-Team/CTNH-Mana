@@ -229,6 +229,7 @@ public class ChineseLangHandler {
         provider.add("ritual.ctnhmana.ritualbosssummon", "战争呼唤仪式");
         provider.add("ritual.ctnhmana.dragon_cloudritual", "龙吟仪式");
         provider.add("ritual.ctnhmana.dragon_shroudsight", "虚境之视");
+        provider.add("ritual.ctnhmana.ritualbeesummon", "唤蜂仪式");
         provider.add("ctnhmana.recipe.blood_ritual.ritual_id", "仪式：%s");
         provider.add("ctnhmana.recipe.blood_ritual.lp_cost", "消耗 LP：%s");
         provider.add("ctnhmana.recipe.meteor_ritual.lp_cost", "消耗 LP：%s");

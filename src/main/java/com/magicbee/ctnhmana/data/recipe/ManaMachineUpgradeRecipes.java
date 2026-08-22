@@ -59,6 +59,15 @@ public class ManaMachineUpgradeRecipes {
                 .output(CMItems.AZURE_SKY_FLOWER_DANCE.asStack())
                 .mana(2000000)
                 .save(provider);
+        TerraPlateRecipeBuilder.builder("bee_vision")
+                .input(CMItems.WISH_BEE.asStack())
+                .input(BotaniaItems.manaDiamond)
+                .input(BotaniaItems.manaDiamond)
+                .input(CustomTags.MV_CIRCUITS)
+                .input(CMItems.MAGIC_CORE.asStack())
+                .output(CMItems.BEE_VISION.asStack())
+                .mana(500000)
+                .save(provider);
         BloodAltarRecipeBuilder.builder("bm_update_t1")
                 .input(CMItems.MAGIC_CORE.asStack())
                 .circuitMeta(11)

@@ -43,12 +43,14 @@ public class GiantBeePhase3Goal extends Goal {
     private static final int SUMMON_INTERVAL = 100;
     private static final int SUMMON_MAX = 5;
     private static final int SUMMON_COUNT = 2;
+    /** 狂暴时技能 cd 等效加速（tick，1 秒） */
+    private static final int RAGE_CD_REDUCE = 20;
     /** 陨石前计时（3 秒） */
     private static final int METEOR_DELAY_TICKS = 60;
     /** 陨石后停顿 5 秒（100 tick） */
     private static final int AFTER_TICKS = 100;
-    /** 核弹阶段蜜蜂悬停高度（玩家头顶上方格数） */
-    private static final double HOVER_HEIGHT = 8.0D;
+    /** 核弹阶段蜜蜂悬停高度：保持玩家头顶上方该高度（格），初始向上飞约 50 格再保持 40 格以上 */
+    private static final double HOVER_HEIGHT = 40.0D;
 
     private final GiantBee bee;
     private boolean inCombos;      // 失明攻击子阶段
@@ -222,8 +224,8 @@ public class GiantBeePhase3Goal extends Goal {
     private void startFlyingPhase() {
         this.subStageTick = 0;
         this.subStage = 0;
-        // 第一次飞天：向上 + 16 向滞留药水 + 警告
-        this.bee.setDeltaMovement(0.0D, 1.5D, 0.0D);
+        // 第一次飞天：快速向上攀升（约 50 格），随后切换悬停保持在玩家 40 格以上
+        this.bee.setDeltaMovement(0.0D, 2.0D, 0.0D);
         this.bee.throwPotionDirections(16);
         this.bee.warnPlayer("究极蜜蜂核弹已经部署");
     }
@@ -232,10 +234,11 @@ public class GiantBeePhase3Goal extends Goal {
         Player p = this.bee.level().getNearestPlayer(this.bee, 64.0D);
         this.subStageTick++;
         // 整个核弹阶段：蜜蜂悬停并保持在玩家上方（头顶 HOVER_HEIGHT 格），跟随玩家移动
+        // 垂直方向用更快速度快速攀升，确保保持 40 格以上高度
         if (p != null) {
             Vec3 hover = new Vec3(p.getX(), p.getY() + p.getBbHeight() + HOVER_HEIGHT, p.getZ());
             Vec3 to = hover.subtract(this.bee.position());
-            this.bee.setDeltaMovement(Mth.clamp(to.x, -0.4D, 0.4D), Mth.clamp(to.y, -0.4D, 0.4D),
+            this.bee.setDeltaMovement(Mth.clamp(to.x, -0.4D, 0.4D), Mth.clamp(to.y, -0.8D, 0.8D),
                     Mth.clamp(to.z, -0.4D, 0.4D));
             this.bee.faceEntity(p);
         }
@@ -251,9 +254,12 @@ public class GiantBeePhase3Goal extends Goal {
             case 1 -> {
                 // 追踪玩家期间每 5 秒召 2 只，持续 10 秒（悬停由上方 hover 统一处理）
                 LivingEntity target = this.bee.getTarget();
-                if (target != null && target.isAlive() && --this.summonCooldown <= 0) {
-                    this.summonCooldown = SUMMON_INTERVAL;
-                    this.bee.summonServantCount(SUMMON_MAX, SUMMON_COUNT);
+                if (target != null && target.isAlive()) {
+                    this.summonCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+                    if (this.summonCooldown <= 0) {
+                        this.summonCooldown = SUMMON_INTERVAL;
+                        this.bee.summonServantCount(SUMMON_MAX, SUMMON_COUNT);
+                    }
                 }
                 if (this.subStageTick >= CHASE_TRACK_TICKS) {
                     this.subStage = 2;

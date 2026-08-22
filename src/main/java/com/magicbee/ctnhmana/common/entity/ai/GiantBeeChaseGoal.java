@@ -61,6 +61,8 @@ public class GiantBeeChaseGoal extends Goal {
     /** 玩家距离 ≥25 格：传送到自己面前并缚地 30 秒 */
     private static final double TELEPORT_DISTANCE = 35.0D;
     private static final int ROOTED_DURATION = 600;
+    /** 狂暴时技能 cd 等效加速（tick，1 秒） */
+    private static final int RAGE_CD_REDUCE = 20;
     /** 失明溅射药水 */
     private static final float POTION_SPEED = 0.8F;
 
@@ -136,7 +138,13 @@ public class GiantBeeChaseGoal extends Goal {
     public void tick() {
         LivingEntity target = this.bee.getTarget();
         if (target == null || !target.isAlive()) {
-            this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+            // 目标丢失时自动补最近玩家，避免 AI 空转不转头
+            Player nearest = this.bee.level().getNearestPlayer(this.bee, 64.0D);
+            if (nearest != null && this.bee.isAlive()) {
+                this.bee.setTarget(nearest);
+            } else {
+                this.bee.setDeltaMovement(0.0D, 0.0D, 0.0D);
+            }
             return;
         }
         // 玩家距离 ≥25 格：传送到面前并缚地 30 秒
@@ -157,10 +165,13 @@ public class GiantBeeChaseGoal extends Goal {
             this.bee.exitChaseMode();
             return;
         }
-        // 每 5 秒技能：二阶段为连招 3 次（停顿-冲锋-丢箭），一阶段为单次二选一（停顿-冲锋 或 停顿-箭）
-        if (this.skillState == SkillState.NONE && --this.skillCooldown <= 0) {
-            this.skillCooldown = SKILL_INTERVAL;
-            this.startCombo(target);
+        // 每 5 秒技能：二阶段为连招 3 次（停顿-冲锋-丢箭），一阶段为单次二选一（停顿-冲锋 或 停顿-箭）；狂暴时等效 1 秒
+        if (this.skillState == SkillState.NONE) {
+            this.skillCooldown -= this.bee.isRageMode() ? RAGE_CD_REDUCE : 1;
+            if (this.skillCooldown <= 0) {
+                this.skillCooldown = SKILL_INTERVAL;
+                this.startCombo(target);
+            }
         }
         // 技能状态机
         if (this.skillState != SkillState.NONE) {
@@ -257,8 +268,9 @@ public class GiantBeeChaseGoal extends Goal {
                 this.bee.destroyTouchedBlocks(SKILL_CHARGE_BREAK);
                 this.bee.setDeltaMovement(this.skillDir.scale(SKILL_CHARGE_SPEED));
                 if (--this.skillTicks <= 0) {
-                    // 冲刺结束：停步 + AOE
+                    // 冲刺结束：停步 + 获得 2 秒速度 III + AOE
                     this.bee.setDeltaMovement(Vec3.ZERO);
+                    this.bee.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 40, 2, false, true));
                     this.dealAoE();
                     // 二阶段：本轮冲锋后丢箭，并进入下一轮连招；一阶段：结束
                     if (this.bee.isPhase2()) {

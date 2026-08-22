@@ -185,5 +185,6 @@ public class EnglishLangHandler {
         provider.add("ctnhmana.recipe.meteor_ritual.lp_cost", "LP Cost: %s");
         provider.add("ctnhmana.recipe.meteor_ritual.marker_tip",
                 "Marker item must be a dropped item within 21 blocks of the controller");
+        provider.add("ritual.ctnhmana.ritualbeesummon", "Bee Summoning Ritual");
     }
 }

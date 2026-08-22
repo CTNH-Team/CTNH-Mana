@@ -449,6 +449,10 @@ public class CMItems {
                 .item("azure_sky_flower_dance", BTUpgradeItemT3::new)
                 .cnlang("苍穹之花舞")
                 .register();
+        BEE_VISION = REGISTRATE
+                .item("bee_vision", BeeVisionUpgradeItem::new)
+                .cnlang("蜜蜂之视野")
+                .register();
         MAGIC_CORE = REGISTRATE
                 .item("magic_core", ComponentItem::create)
                 .cnlang("魔式转化核心")
@@ -1072,6 +1076,7 @@ public class CMItems {
     public static ItemEntry<BTUpgradeItemT2> CLEAR_SKY_FLOWER_WISH;
     public static ItemEntry<ComponentItem> WARPED_FORGING;
     public static ItemEntry<BTUpgradeItemT3> AZURE_SKY_FLOWER_DANCE;
+    public static ItemEntry<BeeVisionUpgradeItem> BEE_VISION;
     public static ItemEntry<ComponentItem> MAGIC_CORE;
     public static ItemEntry<ComponentItem> HEART_OF_FLOWER;
 
