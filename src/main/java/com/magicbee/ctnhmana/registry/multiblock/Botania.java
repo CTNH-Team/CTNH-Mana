@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -1427,7 +1426,7 @@ public class Botania {
             .register();
 
     public static final MultiblockMachineDefinition GAIA_REACTOR = REGISTRATE.multiblock("gaia_reactor",
-                    RecipeElectricMultiblockMachine::new)
+            RecipeElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .cnLangValue("盖亚反应器")
             .recipeType(CMRecipeTypes.GAIA_REACTOR_RECIPES)
@@ -1596,7 +1595,7 @@ public class Botania {
             .register();
     public static final MultiblockMachineDefinition INDUSTRIAL_PETAL_APOTHECARY = REGISTRATE.multiblock(
             "industrial_petal_apothecary",
-                    RecipeElectricMultiblockMachine::new)
+            RecipeElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .cnLangValue("彩虹花药台")
             .recipeType(CMRecipeTypes.INDUSTRIAL_PETAL_APOTHECARY_RECIPES)

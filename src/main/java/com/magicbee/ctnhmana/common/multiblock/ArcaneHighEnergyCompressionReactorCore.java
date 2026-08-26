@@ -69,7 +69,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     protected final NotifiableItemStackHandler inventory;
     @Getter
     @Persisted
-    public long maxEU = Integer.MAX_VALUE;
+    public long maxEU = Long.MAX_VALUE;
     @Getter
     @Persisted
     public long EU = 0L;

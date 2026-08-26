@@ -15,7 +15,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -453,12 +452,6 @@ public class CMItems {
         BEE_VISION = REGISTRATE
                 .item("bee_vision", BeeVisionUpgradeItem::new)
                 .cnlang("蜜蜂之视野")
-                .register();
-        GIANT_BEE_SPAWN_EGG = REGISTRATE
-                .item("giant_bee_spawn_egg", props -> new SpawnEggItem(CMEntities.GIANT_BEE.get(), 0xE3A033, 0x3A2A12,
-                        props))
-                .cnlang("大蜜蜂刷怪蛋")
-                .lang("Giant Bee Spawn Egg")
                 .register();
         MAGIC_CORE = REGISTRATE
                 .item("magic_core", ComponentItem::create)
@@ -1084,7 +1077,6 @@ public class CMItems {
     public static ItemEntry<ComponentItem> WARPED_FORGING;
     public static ItemEntry<BTUpgradeItemT3> AZURE_SKY_FLOWER_DANCE;
     public static ItemEntry<BeeVisionUpgradeItem> BEE_VISION;
-    public static ItemEntry<SpawnEggItem> GIANT_BEE_SPAWN_EGG;
     public static ItemEntry<ComponentItem> MAGIC_CORE;
     public static ItemEntry<ComponentItem> HEART_OF_FLOWER;
 
