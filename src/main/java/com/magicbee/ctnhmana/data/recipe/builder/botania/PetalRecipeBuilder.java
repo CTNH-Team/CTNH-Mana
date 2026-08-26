@@ -120,8 +120,20 @@ public class PetalRecipeBuilder {
             }
         }
 
+        // Pass the merged count on a representative stack, mirroring RuneAltarRecipeBuilder.
+        // gtBuilder.inputItems(Ingredient, int) would build a SimpleTagIngredient with count 1 for
+        // tag-based ingredients, silently dropping the merged count; a copied stack preserves it
+        // without mutating shared ingredient instances (e.g. BotaniaIngredients.*).
         for (int i = 0; i < merged.size(); i++) {
-            gtBuilder.inputItems(merged.get(i), counts.get(i));
+            Ingredient ingredient = merged.get(i);
+            int count = counts.get(i);
+            if (count > 1) {
+                ItemStack representative = ingredient.getItems()[0].copy();
+                representative.setCount(count);
+                gtBuilder.inputItems(representative);
+            } else {
+                gtBuilder.inputItems(ingredient);
+            }
         }
         gtBuilder.outputItems(this.output);
         gtBuilder.EUt(VA[ULV]);

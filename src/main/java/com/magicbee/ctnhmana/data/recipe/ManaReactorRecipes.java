@@ -138,7 +138,7 @@ public class ManaReactorRecipes {
                 .inputItems(niflheimRune, 64)
                 .inputItems(gaiaIngot, 64)
                 .inputItems(alfsteelIngot, 128)
-                .inputFluids(Mana, 1200 * 1000)
+                .inputFluids(Mana, 12 * 1000)
                 .inputItems(runeMana, 64)
                 .inputItems(ELF_CATALYST)
                 .chancedOutput(TERRA_CATALYST.asStack(), (int) 6000f, 1)

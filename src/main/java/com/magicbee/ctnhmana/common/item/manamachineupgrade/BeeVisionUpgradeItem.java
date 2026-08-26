@@ -80,12 +80,12 @@ public class BeeVisionUpgradeItem extends ManaMachineUpgradeItem {
     @EN("§eVantabeel Vision")
     public static Lang BEE_VISION_UPDATE_NAME;
     @CN({
-            "基于周围蜜蜂集群的升级",
+            "聚焦于BEEEEEEE的升级",
             "机器获得：",
             "以机器为中心§b8格§r半径内，每一只蜜蜂提供§a+4§r并行与§a+10%§r运行速度",
             "若范围内存在§4究极无敌魔力大悲Bee§r，则以上效果§a翻倍§r",
             "运行速度加成最高提供§a+1000%§r",
-            "§o§e让蜜蜂的嗡鸣声化作机器的脉搏吧，蜂群之眼凝视着每一个工件§r"
+            "§o§eBEEEEE终将统治格雷科技！§r"
     })
     @EN({
             "An upgrade driven by the surrounding bee swarm",

@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
@@ -33,6 +34,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -903,6 +905,31 @@ public class GiantBee extends AbstractRampageBee {
     @Override
     public void die(DamageSource source) {
         this.bossEvent.setVisible(false);
+        if (!this.level().isClientSide && this.level() instanceof ServerLevel serverLevel) {
+            // 死亡时打雷
+            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
+            if (bolt != null) {
+                bolt.moveTo(this.getX(), this.getY(), this.getZ());
+                bolt.setVisualOnly(false);
+                serverLevel.addFreshEntity(bolt);
+            }
+            // 死亡时生成掉落箱
+            BlockPos chestPos = this.blockPosition().above();
+            serverLevel.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 3);
+            if (serverLevel.getBlockEntity(chestPos) instanceof ChestBlockEntity chest) {
+                chest.clearContent();
+                chest.setItem(0, new ItemStack(CMItems.KOISHI_EYE.get())); // 紧闭的第三只眼
+                chest.setItem(1, new ItemStack(CMItems.TAINTED_BLOOD_EYE.get())); // 污血泣眼
+                chest.setItem(2, new ItemStack(CMItems.WISH_BEE.get(),
+                        6 + this.getRandom().nextInt(7))); // 6-12 个幸运Bee
+                chest.setItem(3, new ItemStack(CMItems.BEE_VISION.get())); // 蜜蜂之视野
+                chest.setItem(4, new ItemStack(CMItems.MAGIC_QUANTUM_PROCESSOR_MAINFRAME.get())); // 超因果处理器
+                chest.setItem(5, new ItemStack(CMItems.GIANT_BEE_SPAWN_EGG.get())); // 蜜蜂刷怪蛋
+                chest.setItem(6, new ItemStack(Items.HONEYCOMB, 16 + this.getRandom().nextInt(17))); // 蜜蜡
+                chest.setItem(7, new ItemStack(Items.BEE_NEST)); // 蜂巢
+                chest.setItem(8, new ItemStack(Items.HONEY_BOTTLE, 8 + this.getRandom().nextInt(9))); // 蜂蜜瓶
+            }
+        }
         super.die(source);
     }
 

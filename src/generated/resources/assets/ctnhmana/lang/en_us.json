@@ -385,6 +385,13 @@
   "ctnhmana.basemanamachine.manahatch_npe_error": "Null Pointer Exception: Mana Condenser hatch missing",
   "ctnhmana.basemanamachine.null_update_name": "No upgrade installed",
   "ctnhmana.basemanamachinegui.titlelangbasemana": "Current upgrades",
+  "ctnhmana.beevisionupgradeitem.bee_vision_update_name": "§eVantabeel Vision",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.0": "An upgrade driven by the surrounding bee swarm",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.1": "The machine gains:",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.2": "Every bee within a §b8-block§r radius grants §a+4§r parallel and §a+10%§r speed",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.3": "If a §4Superultra Gaint Mana Bee§r is present, all effects are §adoubled§r",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.4": "Speed bonus is capped at §a+1000%§r",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.5": "§o§eLet the buzzing of bees become the machine's pulse; the swarm's eye watches every crafted piece§r",
   "ctnhmana.blood_antiaris.lexicon.1": "",
   "ctnhmana.blood_antiaris.lexicon.2": "",
   "ctnhmana.bloodaltarcondition.altar_consumption_lang.0": "LP consumption rate: %d/tick",
@@ -963,6 +970,7 @@
   "effect.ctnhmana.rooted": "Rooted",
   "effect.ctnhmana.soul_leech": "Soul Leech",
   "effect.ctnhmana.tainted_blood": "Tainted Blood",
+  "entity.ctnhmana.bee_nuke_projectile": "Bee Nuke",
   "entity.ctnhmana.delta_spark": "Delta Spark",
   "entity.ctnhmana.giant_bee": "SuperUltraGaintManaBee",
   "entity.ctnhmana.malicious_thermalily_projectile": "Malicious Thermalily",
@@ -997,6 +1005,7 @@
   "item.ctnhmana.advanced_spark_stick_disintegrated": "Advanced Infusion Cell (Disintegrated)",
   "item.ctnhmana.ascending_mana_spirit": "§bAscending Mana Spirit",
   "item.ctnhmana.azure_sky_flower_dance": "Azure Sky Flower Dance",
+  "item.ctnhmana.bee_vision": "Bee Vision",
   "item.ctnhmana.blank_rune": "Blank Rune",
   "item.ctnhmana.blood_capacitor": "Blood Capacitor",
   "item.ctnhmana.blood_diode": "Blood Diode",
@@ -1156,5 +1165,6 @@
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_4": "贯通",
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_5": "同调",
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_tooltip": "需要的接触等级：%s",
-  "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_tooltip_all": "%s\n%s\n%s\n"
+  "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_tooltip_all": "%s\n%s\n%s\n",
+  "ritual.ctnhmana.ritualbeesummon": "Bee Summoning Ritual"
 }

@@ -385,6 +385,13 @@
   "ctnhmana.basemanamachine.manahatch_npe_error": "buıssıɯ ɥɔʇɐɥ ɹǝsuǝpuoƆ ɐuɐW :uoıʇdǝɔxƎ ɹǝʇuıoԀ ןןnN",
   "ctnhmana.basemanamachine.null_update_name": "pǝןןɐʇsuı ǝpɐɹbdn oN",
   "ctnhmana.basemanamachinegui.titlelangbasemana": "sǝpɐɹbdn ʇuǝɹɹnƆ",
+  "ctnhmana.beevisionupgradeitem.bee_vision_update_name": "uoısıΛ ןǝǝqɐʇuɐΛǝ§",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.0": "ɯɹɐʍs ǝǝq buıpunoɹɹns ǝɥʇ ʎq uǝʌıɹp ǝpɐɹbdn uⱯ",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.1": ":suıɐb ǝuıɥɔɐɯ ǝɥ⟘",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.2": "pǝǝds ɹ§%0Ɩ+ɐ§ puɐ ןǝןןɐɹɐd ɹ§ㄣ+ɐ§ sʇuɐɹb snıpɐɹ ɹ§ʞɔoןq-8q§ ɐ uıɥʇıʍ ǝǝq ʎɹǝʌƎ",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.3": "ɹ§pǝןqnopɐ§ ǝɹɐ sʇɔǝɟɟǝ ןןɐ 'ʇuǝsǝɹd sı ɹ§ǝǝᗺ ɐuɐW ʇuıɐ⅁ ɐɹʇןnɹǝdnSㄣ§ ɐ ɟI",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.4": "ɹ§%000Ɩ+ɐ§ ʇɐ pǝddɐɔ sı snuoq pǝǝdS",
+  "ctnhmana.beevisionupgradeitem.beevisionlang.5": "ɹ§ǝɔǝıd pǝʇɟɐɹɔ ʎɹǝʌǝ sǝɥɔʇɐʍ ǝʎǝ s,ɯɹɐʍs ǝɥʇ ؛ǝsןnd s,ǝuıɥɔɐɯ ǝɥʇ ǝɯoɔǝq sǝǝq ɟo buızznq ǝɥʇ ʇǝꞀǝ§o§",
   "ctnhmana.blood_antiaris.lexicon.1": "",
   "ctnhmana.blood_antiaris.lexicon.2": "",
   "ctnhmana.bloodaltarcondition.altar_consumption_lang.0": "ʞɔıʇ/%d :ǝʇɐɹ uoıʇdɯnsuoɔ ԀꞀ",
@@ -963,6 +970,7 @@
   "effect.ctnhmana.rooted": "pǝʇooᴚ",
   "effect.ctnhmana.soul_leech": "ɥɔǝǝꞀ ןnoS",
   "effect.ctnhmana.tainted_blood": "pooןᗺ pǝʇuıɐ⟘",
+  "entity.ctnhmana.bee_nuke_projectile": "ǝʞnN ǝǝᗺ",
   "entity.ctnhmana.delta_spark": "ʞɹɐdS ɐʇןǝᗡ",
   "entity.ctnhmana.giant_bee": "ǝǝᗺɐuɐWʇuıɐ⅁ɐɹʇן∩ɹǝdnS",
   "entity.ctnhmana.malicious_thermalily_projectile": "ʎןıןɐɯɹǝɥ⟘ snoıɔıןɐW",
@@ -997,6 +1005,7 @@
   "item.ctnhmana.advanced_spark_stick_disintegrated": ")pǝʇɐɹbǝʇuısıᗡ( ןןǝƆ uoısnɟuI pǝɔuɐʌpⱯ",
   "item.ctnhmana.ascending_mana_spirit": "ʇıɹıdS ɐuɐW buıpuǝɔsⱯq§",
   "item.ctnhmana.azure_sky_flower_dance": "ǝɔuɐᗡ ɹǝʍoןℲ ʎʞS ǝɹnzⱯ",
+  "item.ctnhmana.bee_vision": "uoısıΛ ǝǝᗺ",
   "item.ctnhmana.blank_rune": "ǝunᴚ ʞuɐןᗺ",
   "item.ctnhmana.blood_capacitor": "ɹoʇıɔɐdɐƆ pooןᗺ",
   "item.ctnhmana.blood_diode": "ǝpoıᗡ pooןᗺ",
@@ -1156,5 +1165,6 @@
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_4": "通贯",
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_5": "调同",
   "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_level_tooltip": "%s：级等触接的要需",
-  "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_tooltip_all": "\n%s\n%s\n%s"
+  "recipe.condition.zenith_condition.ctnhmana.zenithcondition.zenith_tooltip_all": "\n%s\n%s\n%s",
+  "ritual.ctnhmana.ritualbeesummon": "ןɐnʇıᴚ buıuoɯɯnS ǝǝᗺ"
 }

@@ -86,7 +86,6 @@ public class RitualBeeSummon extends Ritual {
         this.addSquareRunes(consumer, 2, -2, EnumRuneType.WATER);
         this.addCornerRunes(consumer, 1, -2, EnumRuneType.AIR);
         this.addParallelRunes(consumer, 1, -1, EnumRuneType.BLANK);
-        this.addParallelRunes(consumer, 2, -1, EnumRuneType.EARTH);
         this.addParallelRunes(consumer, 3, -2, EnumRuneType.WATER);
         this.addSmaalSquareRunes(consumer, 3, 0, -1, EnumRuneType.DUSK);
         this.addSmaalSquareRunes(consumer, -3, 0, -1, EnumRuneType.DUSK);
