@@ -9,10 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import com.magicbee.ctnhmana.CTNHMana;
+import com.magicbee.ctnhmana.client.fx.SparkFlowClientTracker;
 import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.magicbee.ctnhmana.client.render.*;
 import com.magicbee.ctnhmana.client.render.particle.IconParticle;
@@ -45,6 +47,8 @@ public class ClientProxy extends CommonProxy {
         DynamicRenderManager.register(CTNHMana.id("mana_condenser"), ManaCondenserRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("mana_reactor"), ManaReactorRender.TYPE);
         DynamicRenderManager.register(CTNHMana.id("demon_will_generator"), DemonWillRender.TYPE);
+        // 原版火花流动提示的客户端本地续画
+        MinecraftForge.EVENT_BUS.register(SparkFlowClientTracker.class);
     }
 
     @SubscribeEvent

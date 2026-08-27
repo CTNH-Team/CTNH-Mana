@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,9 +23,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
-import com.magicbee.ctnhmana.api.networks.BotaniaEffectPacketExtend;
-import com.magicbee.ctnhmana.api.networks.BotaniaExtendEffectType;
+import com.magicbee.ctnhmana.CMConfig;
+import com.magicbee.ctnhmana.api.networks.SparkFlowTable;
+import com.magicbee.ctnhmana.client.fx.SparkFlowParticles;
 import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.magicbee.ctnhmana.common.item.equipment.SaberWandItem;
@@ -42,10 +45,8 @@ import vazkii.botania.client.core.helper.RenderHelper;
 import vazkii.botania.common.entity.SparkBaseEntity;
 import vazkii.botania.common.handler.BotaniaSounds;
 import vazkii.botania.common.helper.ColorHelper;
+import vazkii.botania.common.helper.VecHelper;
 import vazkii.botania.common.item.BotaniaItems;
-import vazkii.botania.network.EffectType;
-import vazkii.botania.network.clientbound.BotaniaEffectPacket;
-import vazkii.botania.xplat.XplatAbstractions;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -60,6 +61,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     private static final String TAG_UPGRADE = "upgrade";
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(DeltaSpark.class,
             EntityDataSerializers.INT);
+    /** 活跃连线表：服务端汇总本窗口内真实发生过流动的目标，客户端据此本地生成粒子（取代每 tick 发包）。 */
+    private static final EntityDataAccessor<CompoundTag> FLOW = SynchedEntityData.defineId(DeltaSpark.class,
+            EntityDataSerializers.COMPOUND_TAG);
 
     @Persisted
     @Getter
@@ -81,6 +85,13 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     public int TargetNum = 3;
     public int timer = 0;
 
+    /** 本同步窗口内累积的活跃连线，仅服务端使用；每次同步后清空。 */
+    private final Set<BlockPos> pendingBlockOut = new LinkedHashSet<>();
+    private final Set<BlockPos> pendingBlockIn = new LinkedHashSet<>();
+    private final Set<Integer> pendingEntityOut = new LinkedHashSet<>();
+    private final Set<Integer> pendingEntityIn = new LinkedHashSet<>();
+    private int flowSyncTimer = 0;
+
     public List<ManaSpark> sparks;
     public List<ManaReceiver> receivers;
     public List<GeneratingFlowerBlockEntity> flowers = new ArrayList<>();
@@ -100,7 +111,9 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
 
     @Override
     public void tick() {
-        if (level().isClientSide && firstTick) {
+        if (level().isClientSide) {
+            // 客户端只负责本地画粒子，服务端的传输逻辑绝不在客户端执行
+            clientTickFlowParticles();
             return;
         }
 
@@ -132,6 +145,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         }
 
         // When loaded, initialize transfers
+        syncFlowTable();
     }
 
     public void initSpark() {
@@ -399,6 +413,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(MODE, mode);
+        entityData.define(FLOW, new CompoundTag());
     }
 
     public void setMode(int mode) {
@@ -407,29 +422,105 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     private void particlesTowards(Entity e) {
-        XplatAbstractions.INSTANCE.sendToTracking(this,
-                new BotaniaEffectPacket(EffectType.SPARK_MANA_FLOW, getX(), getY(), getZ(),
-                        getId(), e.getId(), ColorHelper.getColorValue(getNetwork())));
+        addFlowEntity(e.getId(), false);
     }
 
     private void particlesTowardsReverse(Entity e) {
-        XplatAbstractions.INSTANCE.sendToTracking(e,
-                new BotaniaEffectPacket(EffectType.SPARK_MANA_FLOW, getX(), getY(), getZ(),
-                        e.getId(), getId(), ColorHelper.getColorValue(getNetwork())));
+        addFlowEntity(e.getId(), true);
     }
 
     private void particlesTowardsReverse(BlockEntity e) {
-        XplatAbstractions.INSTANCE.sendToTracking(this,
-                new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW_REVERSE, e.getBlockPos().getX(),
-                        e.getBlockPos().getY(), e.getBlockPos().getZ(),
-                        getId(), getId(), ColorHelper.getColorValue(getNetwork())));
+        addFlowTarget(e.getBlockPos(), true);
     }
 
     private void particlesTowards(BlockEntity e) {
-        XplatAbstractions.INSTANCE.sendToTracking(this,
-                new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW, e.getBlockPos().getX(),
-                        e.getBlockPos().getY(), e.getBlockPos().getZ(),
-                        getId(), getId(), ColorHelper.getColorValue(getNetwork())));
+        addFlowTarget(e.getBlockPos(), false);
+    }
+
+    /**
+     * 记录一条「本窗口内确实流动过」的方块连线。粒子不再逐次发包，而是由 {@link #syncFlowTable()} 汇总进实体
+     * 数据，客户端本地生成。
+     *
+     * @param inbound true 表示魔力从该方块流入本火花
+     */
+    protected void addFlowTarget(BlockPos pos, boolean inbound) {
+        if (!isAnimationActive || level().isClientSide) {
+            return;
+        }
+        (inbound ? pendingBlockIn : pendingBlockOut).add(pos.immutable());
+    }
+
+    /** 记录一条实体连线（其他普通火花，或对端尖塔火花）。 */
+    protected void addFlowEntity(int entityId, boolean inbound) {
+        if (!isAnimationActive || level().isClientSide) {
+            return;
+        }
+        (inbound ? pendingEntityIn : pendingEntityOut).add(entityId);
+    }
+
+    /** 按同步窗口把累积的连线写进实体数据；内容不变时 {@link SynchedEntityData} 不标脏，也就不会发包。 */
+    private void syncFlowTable() {
+        CMConfig.SparkParticles config = CMConfig.spark();
+        if (!config.enabled) {
+            clearPendingFlow();
+            if (!SparkFlowTable.isEmpty(entityData.get(FLOW))) {
+                entityData.set(FLOW, new CompoundTag());
+            }
+            return;
+        }
+        if (++flowSyncTimer < config.syncInterval()) {
+            return;
+        }
+        flowSyncTimer = 0;
+        entityData.set(FLOW, SparkFlowTable.encode(isAnimationActive, pendingBlockOut, pendingBlockIn,
+                pendingEntityOut, pendingEntityIn, config.maxSyncedTargets()));
+        clearPendingFlow();
+    }
+
+    private void clearPendingFlow() {
+        pendingBlockOut.clear();
+        pendingBlockIn.clear();
+        pendingEntityOut.clear();
+        pendingEntityIn.clear();
+    }
+
+    /** 客户端按同步来的连线表本地生成粒子，不再依赖服务端逐个粒子发包。 */
+    private void clientTickFlowParticles() {
+        CMConfig.SparkParticles config = CMConfig.spark();
+        int perConnection = config.particlesPerConnection();
+        if (!config.enabled || perConnection <= 0) {
+            return;
+        }
+        CompoundTag table = entityData.get(FLOW);
+        if (SparkFlowTable.isEmpty(table) || !SparkFlowTable.animation(table)) {
+            return;
+        }
+        int[] entries = SparkFlowTable.entries(table);
+        int color = ColorHelper.getColorValue(getNetwork());
+        Vec3 selfCenter = VecHelper.fromEntityCenter(this);
+        int budget = config.maxParticlesPerTick();
+        for (int i = 0; i + SparkFlowTable.STRIDE <= entries.length && budget > 0; i += SparkFlowTable.STRIDE) {
+            int type = entries[i];
+            Vec3 other;
+            if (SparkFlowTable.isEntity(type)) {
+                Entity target = level().getEntity(entries[i + 1]);
+                if (target == null) {
+                    continue;
+                }
+                other = VecHelper.fromEntityCenter(target);
+            } else {
+                other = Vec3.atCenterOf(new BlockPos(entries[i + 1], entries[i + 2], entries[i + 3]));
+            }
+            boolean inbound = SparkFlowTable.isInbound(type);
+            for (int n = 0; n < perConnection && budget > 0; n++) {
+                if (inbound) {
+                    SparkFlowParticles.spawn(level(), other, selfCenter, color);
+                } else {
+                    SparkFlowParticles.spawn(level(), selfCenter, other, color);
+                }
+                budget--;
+            }
+        }
     }
 
     @Override

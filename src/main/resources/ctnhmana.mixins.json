@@ -19,10 +19,12 @@
     "botania.PetruniaMixin",
     "botania.WitherAconiteMixin",
     "botania.MixinForgePacketHandler",
+    "botania.ManaSparkEntityMixin",
     "emi.TagEmiIngredientMixin",
     "minecraft.EntityAccessor"
   ],
   "client": [
+    "botania.client.BotaniaEffectPacketHandlerMixin"
   ],
   "minVersion": "0.1"
 }

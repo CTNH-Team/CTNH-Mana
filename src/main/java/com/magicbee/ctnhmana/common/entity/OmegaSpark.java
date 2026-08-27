@@ -4,12 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-import com.magicbee.ctnhmana.api.networks.BotaniaEffectPacketExtend;
-import com.magicbee.ctnhmana.api.networks.BotaniaExtendEffectType;
 import com.magicbee.ctnhmana.common.multiblock.SpireBigMath;
 import com.magicbee.ctnhmana.common.multiblock.ZenithSpire;
-import vazkii.botania.common.helper.ColorHelper;
-import vazkii.botania.xplat.XplatAbstractions;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -20,25 +16,19 @@ public class OmegaSpark extends DeltaSpark {
         super(type, world);
     }
 
+    /** EU 容器连线：只记录进活跃连线表，由客户端本地生成粒子（不再每 tick 逐个容器发包）。 */
     public void sendEnergyContainerParticles(List<BlockPos> containerPosList) {
         if (!isAnimationActive || containerPosList == null || containerPosList.isEmpty()) return;
-        int color = ColorHelper.getColorValue(getNetwork());
         for (BlockPos pos : containerPosList) {
-            XplatAbstractions.INSTANCE.sendToTracking(this,
-                    new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW,
-                            pos.getX(), pos.getY(), pos.getZ(),
-                            getId(), getId(), color));
+            addFlowTarget(pos, false);
         }
     }
 
+    /** EU 容器反向连线（容器 → 火花），同样只记录进活跃连线表。 */
     public void sendEnergyContainerParticlesReverse(List<BlockPos> containerPosList) {
         if (!isAnimationActive || containerPosList == null || containerPosList.isEmpty()) return;
-        int color = ColorHelper.getColorValue(getNetwork());
         for (BlockPos pos : containerPosList) {
-            XplatAbstractions.INSTANCE.sendToTracking(this,
-                    new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW_REVERSE,
-                            pos.getX(), pos.getY(), pos.getZ(),
-                            getId(), getId(), color));
+            addFlowTarget(pos, true);
         }
     }
 
