@@ -24,17 +24,17 @@ import vazkii.botania.xplat.XplatAbstractions;
  * </p>
  *
  * <p>
- * 版本敏感点：注入的是 {@code ManaSparkEntity#particlesTowards/particlesFrom} 内的 {@code sendToTracking}
- * 调用。Botania 升级后若这两个私有方法改名或改结构，此 mixin 会在启动期直接报错（配置为 required），
- * 这是刻意选择——静默失效会让带宽问题悄悄回归。
+ * 版本敏感点：注入的是 {@code ManaSparkEntity#particlesTowards(Entity)} 内唯一的 {@code sendToTracking} 调用
+ * （Botania 1.20.1-450 只有这一个粒子发送方法，两处调用点分别是喂玩家魔力物品与 transfers 循环）。Botania 升级后
+ * 若该私有方法改名或改结构，此 mixin 会在启动期直接报错（配置为 required），这是刻意选择——静默失效会让带宽问题
+ * 悄悄回归。
  * </p>
  */
 @Mixin(value = ManaSparkEntity.class, remap = false)
 public abstract class ManaSparkEntityMixin {
 
     @Redirect(
-              method = { "particlesTowards(Lnet/minecraft/world/entity/Entity;)V",
-                      "particlesFrom(Lnet/minecraft/world/entity/Entity;)V" },
+              method = "particlesTowards(Lnet/minecraft/world/entity/Entity;)V",
               at = @At(value = "INVOKE",
                        target = "Lvazkii/botania/xplat/XplatAbstractions;sendToTracking" +
                                "(Lnet/minecraft/world/entity/Entity;Lvazkii/botania/network/BotaniaPacket;)V"),
