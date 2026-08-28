@@ -112,7 +112,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     @Override
     public void tick() {
         if (level().isClientSide) {
-            // 客户端只负责本地画粒子，服务端的传输逻辑绝不在客户端执行
+            // 客户端只负责本地画粒子；传输逻辑仅在服务端执行
             clientTickFlowParticles();
             return;
         }
@@ -438,8 +438,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     /**
-     * 记录一条「本窗口内确实流动过」的方块连线。粒子不再逐次发包，而是由 {@link #syncFlowTable()} 汇总进实体
-     * 数据，客户端本地生成。
+     * 记录一条「本窗口内流动过」的方块连线。连线由 {@link #syncFlowTable()} 汇总进实体数据，客户端据此
+     * 本地生成粒子。
      *
      * @param inbound true 表示魔力从该方块流入本火花
      */
@@ -484,7 +484,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         pendingEntityIn.clear();
     }
 
-    /** 客户端按同步来的连线表本地生成粒子，不再依赖服务端逐个粒子发包。 */
+    /** 客户端按同步来的连线表本地生成粒子。 */
     private void clientTickFlowParticles() {
         CMConfig.SparkParticles config = CMConfig.spark();
         int perConnection = config.particlesPerConnection();

@@ -109,6 +109,11 @@ public class CMConfig {
         @Configurable.Comment({ "CLIENT: hard cap on spark flow particles per client tick", "Default: 96" })
         public int clientMaxParticlesPerTick = 96;
 
+        @Configurable
+        @Configurable.Comment({ "CLIENT: ticks a flow particle takes to fly from source to target",
+                "It dies exactly on arrival, so this also decides how fast the lights travel. Default: 25" })
+        public int clientFlightTicks = 25;
+
         public int hintInterval() {
             return Math.max(1, botaniaHintIntervalTicks);
         }
@@ -136,11 +141,15 @@ public class CMConfig {
         public int maxParticlesPerTick() {
             return Math.max(0, clientMaxParticlesPerTick);
         }
+
+        public int flightTicks() {
+            return Math.max(1, clientFlightTicks);
+        }
     }
 
     private static final SparkParticles SPARK_FALLBACK = new SparkParticles();
 
-    /** 配置可能尚未加载（例如 mixin 早于 {@link #init()} 执行），此时回退到默认值而不是抛 NPE。 */
+    /** 配置未加载时（例如 mixin 早于 {@link #init()} 执行）返回默认值。 */
     public static SparkParticles spark() {
         CMConfig instance = INSTANCE;
         return instance == null || instance.sparkParticles == null ? SPARK_FALLBACK : instance.sparkParticles;

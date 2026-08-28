@@ -16,7 +16,7 @@ public class OmegaSpark extends DeltaSpark {
         super(type, world);
     }
 
-    /** EU 容器连线：只记录进活跃连线表，由客户端本地生成粒子（不再每 tick 逐个容器发包）。 */
+    /** EU 容器连线：记录进活跃连线表，由客户端本地生成粒子。 */
     public void sendEnergyContainerParticles(List<BlockPos> containerPosList) {
         if (!isAnimationActive || containerPosList == null || containerPosList.isEmpty()) return;
         for (BlockPos pos : containerPosList) {

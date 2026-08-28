@@ -58,7 +58,7 @@ public abstract class ManaSparkEntityMixin {
         SparkEffectSender.sendNearSpawn(serverLevel, spawn.x, spawn.y, spawn.z, packet, config.hintRadius());
     }
 
-    /** 粒子出生点为 {@code args[0]} 对应实体的中心（正向为火花自身，particlesFrom 为对端）。 */
+    /** 粒子出生点为 {@code args[0]} 对应实体的中心（发出这条流动的火花自身）。 */
     @Unique
     private static Vec3 ctnhmana$spawnPos(ServerLevel level, BotaniaPacket packet, Entity anchor) {
         Entity source = anchor;

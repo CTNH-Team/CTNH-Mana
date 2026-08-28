@@ -15,6 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.client.fx.SparkFlowClientTracker;
+import com.magicbee.ctnhmana.client.fx.SparkFlowParticle;
 import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.magicbee.ctnhmana.client.render.*;
 import com.magicbee.ctnhmana.client.render.particle.IconParticle;
@@ -70,6 +71,7 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(CMParticleTypes.INDEX_TARGET.get(), IconParticle.Provider::new);
+        event.registerSpriteSet(CMParticleTypes.SPARK_FLOW.get(), SparkFlowParticle.Provider::new);
     }
 
     @SubscribeEvent

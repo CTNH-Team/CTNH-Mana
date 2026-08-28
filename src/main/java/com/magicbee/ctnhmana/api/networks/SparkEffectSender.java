@@ -7,7 +7,7 @@ import vazkii.botania.forge.network.ForgePacketHandler;
 import vazkii.botania.network.BotaniaPacket;
 
 /**
- * 按「粒子出生点」而不是实体追踪范围发送火花粒子包。
+ * 按「粒子出生点」的半径发送火花粒子包。
  *
  * <p>
  * 客户端的 wisp 粒子类型 {@code overrideLimiter == false}，`addAlwaysVisibleParticle` 走 {@code force = false}

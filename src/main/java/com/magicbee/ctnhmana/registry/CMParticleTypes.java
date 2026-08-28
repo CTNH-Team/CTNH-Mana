@@ -19,4 +19,8 @@ public class CMParticleTypes {
 
     public static final RegistryObject<SimpleParticleType> INDEX_TARGET = PARTICLE_TYPES.register("index_target",
             () -> new SimpleParticleType(false));
+
+    /** 火花魔力流动光点：客户端本地生成，匀速直达并在终点消失（见 client/fx/SparkFlowParticle）。 */
+    public static final RegistryObject<SimpleParticleType> SPARK_FLOW = PARTICLE_TYPES.register("spark_flow",
+            () -> new SimpleParticleType(false));
 }
