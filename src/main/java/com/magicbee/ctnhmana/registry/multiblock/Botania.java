@@ -6,9 +6,11 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -1430,6 +1432,8 @@ public class Botania {
             .rotationState(RotationState.NON_Y_AXIS)
             .cnLangValue("盖亚反应器")
             .recipeType(CMRecipeTypes.GAIA_REACTOR_RECIPES)
+            .recipeModifiers(
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#############################", "#############################",
                             "#############################", "#############################",
@@ -1599,6 +1603,8 @@ public class Botania {
             .rotationState(RotationState.NON_Y_AXIS)
             .cnLangValue("彩虹花药台")
             .recipeType(CMRecipeTypes.INDUSTRIAL_PETAL_APOTHECARY_RECIPES)
+            .recipeModifiers(
+                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###################", "###################", "###################", "###################",
                             "###################", "###################", "###################", "###################",

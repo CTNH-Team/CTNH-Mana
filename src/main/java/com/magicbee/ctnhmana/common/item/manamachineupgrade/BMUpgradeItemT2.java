@@ -64,6 +64,29 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
     @Override
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
                                                           BaseManaMachine machine, RecipeHandlerGroup group) {
+        if (consumeWills(machine) >= 5) metric.parallel = Integer.MAX_VALUE;
+        metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
+        return metric;
+    }
+
+    @Override
+    public int getMaxParallelCap(BaseManaMachine.MachineMetric metric, BaseManaMachine machine) {
+        if (machine.getHatch() instanceof BloodManaHatch hatch && allWillsPresent(hatch)) {
+            return Integer.MAX_VALUE;
+        }
+        return Math.max(1, metric.parallel);
+    }
+
+    @Override
+    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
+                                                               int batchParallel, BaseManaMachine machine,
+                                                               RecipeHandlerGroup group) {
+        consumeWills(machine); // 跨并：意志每批次消耗一次
+        metric.true_parallel = batchParallel;
+        return metric;
+    }
+
+    private int consumeWills(BaseManaMachine machine) {
         var tier = machine.getTier();
         int consume = 0;
         if (machine.getHatch() instanceof BloodManaHatch hatch) {
@@ -87,11 +110,14 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
                 hatch.corrosiveWill -= (tier - 1) * BASE_CONSUPTION;
                 consume += 1;
             }
-
         }
-        if (consume >= 5) metric.parallel = Integer.MAX_VALUE;
-        metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
-        return metric;
+        return consume;
+    }
+
+    /** 五种意志是否齐备（纯查询，不消耗）——对应原 "消耗后 consume>=5" 的帽解除条件。 */
+    private boolean allWillsPresent(BloodManaHatch hatch) {
+        return hatch.rawWill >= 20 && hatch.steadfastWill >= BASE_MIN && hatch.destructiveWill >= BASE_MIN &&
+                hatch.vengefulWill >= BASE_MIN && hatch.corrosiveWill >= BASE_MIN;
     }
 
     @Override

@@ -39,6 +39,21 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     }
 
     @Override
+    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
+                                                               int batchParallel, BaseManaMachine machine,
+                                                               RecipeHandlerGroup group) {
+        // 跨并：基于合并配方的最大原始时长判断，魔力每批次消耗一次
+        if (recipe.duration >= 100 * 20) {
+            var accelerate = Math.min(5, (int) machine.getHatch().Mana / 10000);
+            metric.speed += accelerate * 0.5;
+            machine.getHatch().consumeManaIfEnough(accelerate * 10000);
+        }
+        metric.speed += Math.min(2.00, batchParallel * 0.05);
+        metric.true_parallel = batchParallel;
+        return metric;
+    }
+
+    @Override
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
                                                                 BaseManaMachine machine) {
         var hatch = machine.getHatch();

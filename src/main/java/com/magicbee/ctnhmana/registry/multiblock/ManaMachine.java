@@ -16,13 +16,14 @@ import net.minecraft.world.level.block.Blocks;
 
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.CrossParallelManaMachine;
 import com.magicbee.ctnhmana.common.multiblock.IndustrialGemInlayMachine;
 import com.magicbee.ctnhmana.common.multiblock.IndustrialSalvagingMachine;
 import com.magicbee.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
-import com.magicbee.ctnhmana.common.multiblock.ManaMaceratorMachine;
 import com.magicbee.ctnhmana.common.parts.CMPartsAbility;
 import com.magicbee.ctnhmana.registry.CMBlocks;
 import com.magicbee.ctnhmana.registry.CMRecipeTypes;
+import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import com.simibubi.create.AllBlocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 
@@ -38,18 +39,17 @@ public class ManaMachine {
     public static void init() {}
 
     public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE
-            .multiblock("mana_macerator", holder -> new ManaMaceratorMachine(holder, 1))
+            .multiblock("mana_macerator", holder -> new CrossParallelManaMachine(holder, 1))
             .cnLangValue("§b魔力粉碎机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
-            .tooltips(ManaMaceratorMachine.manaMaceratorLang[0].translate(),
-                    ManaMaceratorMachine.manaMaceratorLang[1].translate())
+            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMachine.crossParallelLang))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
-            .recipeModifiers(ManaMaceratorMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
-                    ManaMaceratorMachine::batchModeViewAware,
-                    ManaMaceratorMachine::parallelBudgetModifier)
+            // 超频不在此链中：per-recipe 超频已延后，批次定型在 modifyRecipeAfterMerge 统一计算
+            .recipeModifiers(CrossParallelManaMachine::recipeModifier,
+                    CrossParallelManaMachine::batchModeViewAware,
+                    CrossParallelManaMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##########", "###########", "#####B#####", "###BBBBB###", "###BBCBB###", "###BCCCB###",
                             "###BBCBB###", "###BBBBB###", "#####B#####", "###########", "###########")
@@ -92,16 +92,18 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE
-            .multiblock("mana_bender", holder -> new BaseManaMachine(holder, 1))
+            .multiblock("mana_bender", holder -> new CrossParallelManaMachine(holder, 1))
             .cnLangValue("§b魔力卷板机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
+            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMachine.crossParallelLang))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.BENDER_RECIPES, GTRecipeTypes.FORGE_HAMMER_RECIPES,
                     CMRecipeTypes.MANA_FORGE_RECIPES)
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
-            .recipeModifiers(BaseManaMachine::recipeModifier,
-                    GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
-                    GTRecipeModifiers.BATCH_MODE)
+            // 超频不在此链中：per-recipe 超频已延后，批次定型在 modifyRecipeAfterMerge 统一计算
+            .recipeModifiers(CrossParallelManaMachine::recipeModifier,
+                    CrossParallelManaMachine::batchModeViewAware,
+                    CrossParallelManaMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######", "#######", "#######")
                     .aisle("#BCBCB#", "###B###", "###B###", "###B###", "###B###", "###B###", "#BBBBB#")

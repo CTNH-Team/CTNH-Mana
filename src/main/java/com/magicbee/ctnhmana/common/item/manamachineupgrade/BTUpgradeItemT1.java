@@ -34,6 +34,15 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     }
 
     @Override
+    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
+                                                               int batchParallel, BaseManaMachine machine,
+                                                               RecipeHandlerGroup group) {
+        metric.speed += Math.min(0.16, batchParallel * 0.01);
+        metric.true_parallel = batchParallel;
+        return metric;
+    }
+
+    @Override
     public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
                                                                 BaseManaMachine machine) {
         var hatch = machine.getHatch();

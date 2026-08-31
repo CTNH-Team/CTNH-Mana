@@ -64,6 +64,21 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
     @Override
     public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
                                                           BaseManaMachine machine, RecipeHandlerGroup group) {
+        consumeWills(machine);
+        metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
+        return metric;
+    }
+
+    @Override
+    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
+                                                               int batchParallel, BaseManaMachine machine,
+                                                               RecipeHandlerGroup group) {
+        consumeWills(machine); // 跨并：意志每批次消耗一次
+        metric.true_parallel = batchParallel;
+        return metric;
+    }
+
+    private void consumeWills(BaseManaMachine machine) {
         var tier = machine.getTier();
         if (machine.getHatch() instanceof BloodManaHatch hatch) {
             if (hatch.rawWill >= 20) {
@@ -82,8 +97,6 @@ public class BMUpgradeItemT1 extends ManaMachineUpgradeItem {
                 hatch.corrosiveWill -= (tier - 1) * BASE_CONSUPTION;
             }
         }
-        metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
-        return metric;
     }
 
     @Override

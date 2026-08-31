@@ -28,12 +28,16 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
@@ -107,6 +111,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     public boolean cooldown = false; // 冷却时间
     @Persisted
     public int workingCheckTicks = 10; // onWorking检测一次的时间变量
+    @Persisted
+    public int unstableTicks = 0; // 稳定度低于0的持续tick计数，达到20tick（1秒）触发爆炸
     @Persisted
     public int cooldownDurationTicks = 200; // 冷却时间
     @Persisted
@@ -201,6 +207,16 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
 
     public void tick() {
         if (!isFormed) return;
+        // 稳定度低于0持续1秒（20tick）则爆炸
+        if (stability < 0) {
+            unstableTicks++;
+            if (unstableTicks >= 20) {
+                unstableTicks = 0;
+                shutdownAndExplode();
+            }
+        } else if (unstableTicks > 0) {
+            unstableTicks = 0; // 恢复稳定则重置计时
+        }
         if (!isActive() && shouldChecked) {
             onInventoryChanged();
             shouldChecked = false; // 只需要检查一次，非常省性能
@@ -224,7 +240,8 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
             calculateStability();
             changeSignal();
             if (stability < 0) {
-                explosion();
+                // 爆炸判定统一在tick()中按持续1秒处理，这里不再立即触发
+                // explosion();
                 // doExplosion(10f);
             }
             predicateEU = calculateEU();
@@ -232,9 +249,31 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         return super.onWorking();
     }
 
-    public void explosion() {
+    /**
+     * 稳定度崩溃爆炸：立即停机 → 清空存储 → 按主导元素决定半径并爆炸 → 附加元素扩散效果
+     */
+    public void shutdownAndExplode() {
+        // 1. 立即停机：中断当前配方，不再继续执行
+        recipeLogic.interruptRecipe();
+        // 2. 清空存储
         this.EU = 0;
         this.heat = 0;
+        this.stabilityPressure = 0;
+        this.used_stability = 0;
+        // 3. 决定爆炸半径：罪孽元素主导时扩大为54
+        float radius = 36F;
+        RuneElementType dominant = getDominantElement();
+        if (dominant == RuneElementType.SIN) {
+            radius = 54F;
+        }
+        // 4. 无条件炸坑（忽略GT配置，强制破坏地形）
+        var pos = self().getPos();
+        var level = self().getLevel();
+        level.removeBlock(pos, false);
+        level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                radius, Level.ExplosionInteraction.BLOCK);
+        // 5. 附加元素扩散效果（风元素预留）
+        applyElementExplosionEffects(dominant, pos, radius);
     }
 
     // 强冷：输入魔力冷却剂，降低热量并提高稳定度
@@ -423,6 +462,114 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         if (nidavellirRuneCount > 0) {
             elementMap.put(RuneElementType.EARTH,
                     elementMap.getOrDefault(RuneElementType.EARTH, 0) + nidavellirRuneCount * 5);
+        }
+    }
+
+    /**
+     * 返回当前计数最多的元素类型；平局时按 火>地>水>罪孽>风 的优先级取一个
+     */
+    public RuneElementType getDominantElement() {
+        RuneElementType dominant = null;
+        int maxCount = 0;
+        for (RuneElementType type : RuneElementType.values()) {
+            int count = elementMap.getOrDefault(type, 0);
+            if (count > maxCount) {
+                maxCount = count;
+                dominant = type;
+            }
+        }
+        return dominant;
+    }
+
+    /**
+     * 爆炸后的元素附加效果。生成位置在整个爆炸半径内随机选取，
+     * 生成概率随距中心距离增加而线性衰减：p = baseChance * (1 - dist / radius)
+     */
+    public void applyElementExplosionEffects(RuneElementType dominant, BlockPos center, float radius) {
+        if (dominant == null) return;
+        var level = getLevel();
+        if (!(level instanceof ServerLevel serverLevel)) return;
+        int count = (int) (radius * radius * radius); // 采样次数，随半径增大
+        double centerX = center.getX() + 0.5;
+        double centerY = center.getY() + 0.5;
+        double centerZ = center.getZ() + 0.5;
+        switch (dominant) {
+            case FIRE -> {
+                // 火元素：额外施加火焰，并随机生成岩浆
+                for (int i = 0; i < count; i++) {
+                    double x = center.getX() + (level.random.nextDouble() * 2 - 1) * radius;
+                    double z = center.getZ() + (level.random.nextDouble() * 2 - 1) * radius;
+                    var pos = BlockPos.containing(x, center.getY(), z);
+                    double dist = Math.sqrt(pos.distToCenterSqr(centerX, centerY, centerZ));
+                    if (dist > radius) continue;
+                    if (level.random.nextDouble() > (1 - dist / radius) * 0.35) continue;
+                    // 找该列第一个可放方块的位置
+                    while (pos.getY() > center.getY() - radius && level.getBlockState(pos).isAir()) {
+                        pos = pos.below();
+                    }
+                    if (level.random.nextDouble() < 0.3) {
+                        level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
+                    } else if (level.isEmptyBlock(pos.above())) {
+                        level.setBlock(pos.above(), Blocks.FIRE.defaultBlockState(), 3);
+                    }
+                }
+            }
+            case EARTH -> {
+                // 土元素：随机生成各类泥土
+                Block[] dirtBlocks = new Block[] {
+                        Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.GRASS_BLOCK, Blocks.PODZOL,
+                        Blocks.ROOTED_DIRT, Blocks.MYCELIUM, Blocks.GRAVEL, Blocks.SAND
+                };
+                for (int i = 0; i < count; i++) {
+                    double x = center.getX() + (level.random.nextDouble() * 2 - 1) * radius;
+                    double z = center.getZ() + (level.random.nextDouble() * 2 - 1) * radius;
+                    var pos = BlockPos.containing(x, center.getY(), z);
+                    double dist = Math.sqrt(pos.distToCenterSqr(centerX, centerY, centerZ));
+                    if (dist > radius) continue;
+                    if (level.random.nextDouble() > (1 - dist / radius) * 0.4) continue;
+                    while (pos.getY() > center.getY() - radius && level.getBlockState(pos).isAir()) {
+                        pos = pos.below();
+                    }
+                    if (!level.getBlockState(pos).isAir()) {
+                        level.setBlock(pos, dirtBlocks[level.random.nextInt(dirtBlocks.length)].defaultBlockState(), 3);
+                    }
+                }
+            }
+            case WATER -> {
+                // 水元素：随机生成大量水与冰
+                Block[] iceBlocks = new Block[] {
+                        Blocks.ICE, Blocks.PACKED_ICE, Blocks.BLUE_ICE
+                };
+                for (int i = 0; i < count * 2; i++) {
+                    double x = center.getX() + (level.random.nextDouble() * 2 - 1) * radius;
+                    double z = center.getZ() + (level.random.nextDouble() * 2 - 1) * radius;
+                    var pos = BlockPos.containing(x, center.getY(), z);
+                    double dist = Math.sqrt(pos.distToCenterSqr(centerX, centerY, centerZ));
+                    if (dist > radius) continue;
+                    if (level.random.nextDouble() > (1 - dist / radius) * 0.6) continue;
+                    // 从中心高度向下填充水（大量），更远处放冰
+                    while (pos.getY() > center.getY() - radius) {
+                        var state = level.getBlockState(pos);
+                        if (state.isAir()) {
+                            if (dist < radius * 0.5) {
+                                level.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
+                            } else {
+                                level.setBlock(pos,
+                                        iceBlocks[level.random.nextInt(iceBlocks.length)].defaultBlockState(), 3);
+                            }
+                        } else {
+                            break;
+                        }
+                        pos = pos.below();
+                    }
+                }
+            }
+            case SIN -> {
+                // 罪孽元素：已在shutdownAndExplode中扩大爆炸半径为54
+            }
+            case WIND -> {
+                // 风元素：预留效果（暂未实现）
+            }
         }
     }
 
@@ -1227,7 +1374,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
             "在产热模式下,注术单元将给机器注入§c热量§r,当注术单元枯竭时,其将会被弹出到输出IO中，如果机器的§a稳定度§r较低,那么注术单元有可能发生崩解(具体崩解产物请查阅配方类型：§5扭曲崩解§r)",
             "在产热模式下,符文具有一定特效：当将符文放入UI内部槽位时，符文的效果将会显现。符文本身不产生任何§c热量§r，而是给机器提供增益并占用一定§a稳定度§r，当配方执行完毕后，如果机器稳定度较低，符文可能发生崩解并被弹出到输出IO中，崩解会产出§5扭曲符文§r",
             "在产热模式下，§c热量§r会逐渐积累，并且在配方执行完毕后一次性全部转化为电量，热量越高，产生的电量越高，同时当热量大于上限的§650%§r和§c100%§r时，热量对电量的转化比会大幅度上升（由于公式未定，请先咨询魔力beeeee对应公式）",
-            "在产热模式下，§a稳定度§r是空间稳定的重要指标，当其低于§c0§r时将会造成重大灾难（但由于魔力beeeeee还没写爆炸，所以现在我们只会把存储热降为零，享受这不会爆炸的时光吧）,符文和注术单元会占用稳定度，与此同时热量占上限超过§650%§r,§c100%§r时，稳定度会随每§e0.5s§r降低，当热量超过§c100%§r时，稳定度会迅速降低",
+            "在产热模式下，§a稳定度§r是空间稳定的重要指标，当其低于§c0§r时将会造成重大灾难：稳定度低于§c0§r持续§e1秒§r后，机器立即停机并发生§c爆炸§r，爆炸半径§e36§r格（§5罪孽元素§r主导时扩大为§e54§r格）。爆炸后根据当前最多的元素类型附加扩散效果：§6火元素§r施加火焰并随机生成岩浆；§2土元素§r随机生成各类泥土；§b水元素§r随机生成大量水与冰；§5罪孽元素§r扩大爆炸半径；§f风元素§r预留效果。生成概率随距爆炸中心的距离增加而降低",
             "在产热模式执行完毕时，§c热量§r被转化为电量，弹出损坏符文，§a稳定度§r将会回复到满值，随后进入§b维度稳定§r（冷却）模式",
             "在产热模式下,可以输入10000mb魔力稳定剂进行强冷，强冷会立即使稳定值+10,同时立即扣除一部分热量,每一轮至多强冷一次，冬之符文等符文可以强化强冷的效果",
             "具有§e§l两个红石信号频道§r，使用§c§l红石信号广播仓§r来调频",
@@ -1249,7 +1396,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
             "Heating: cells add §cHeat§r; depleted cells export; low §aStability§r may §5TwistCollapse§r (see §5TwistCollapse§r recipes).",
             "Runes: no §cHeat§r, buffs and §aStability§r cost; low stability may break runes into §5Twisted Runes§r.",
             "§cHeat§r banks then converts to EU; higher §cHeat§r → more EU; above §650%§r / §c100%§r cap, conversion spikes (formula TBD — ask Mana bee).",
-            "§aStability§r anchors space; below §c0§r is disaster (currently only clears stored §cHeat§r). Above §650%§r / §c100%§r cap, §aStability§r drains every §e0.5s§r; over §c100%§r cap it drops faster.",
+            "§aStability§r anchors space; below §c0§r is disaster: holding §c<0§r for §e1s§r stops the machine and triggers a §cblast§r (radius §e36§r; §5Sin§r-dominant expands to §e54§r). Dominant element adds spread effects — §6Fire§r: flames & magma; §2Earth§r: assorted dirt; §bWater§r: water & ice; §5Sin§r: bigger blast; §fWind§r: reserved. Spawn chance fades with distance from the blast center.",
             "在产热模式下,可以输入10000mb魔力稳定剂进行强冷，强冷会立即使稳定值+10,同时立即扣除一部分热量,每一轮至多强冷一次，冬之符文等符文可以强化强冷的效果",
             "Heating ends: EU credited, broken runes popped, §aStability§r full, then §bcooldown§r (stabilization).",
             "§e§lTwo redstone channels§r — tune with §c§lRedstone Broadcast Hatch§r.",
