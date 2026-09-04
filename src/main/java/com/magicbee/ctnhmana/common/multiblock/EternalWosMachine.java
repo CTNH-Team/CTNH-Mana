@@ -18,6 +18,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -27,6 +28,10 @@ import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import dev.shadowsoffire.hostilenetworks.Hostile;
 import dev.shadowsoffire.hostilenetworks.item.DataModelItem;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.overlay.DisplayHelper;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.Arrays;
@@ -35,6 +40,22 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class EternalWosMachine extends RecipeElectricMultiblockMachine {
+
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        if (isFormed() && isSoulInfusionActive() && getRecipeLogic().isWorking() && getSoulWillPerRecipe() > 0)
+            data.putDouble("will_output", getSoulWillOutput());
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        super.appendMachineJadeTooltip(data, tooltip, accessor, config);
+        if (data.contains("will_output")) tooltip.add(tooltip.getElementHelper().text(Component.translatable(
+                "ctnhmana.jade.eternal_wos.will_output",
+                DisplayHelper.dfCommas.format(data.getDouble("will_output")))));
+    }
 
     public double multiplier = 0;
 

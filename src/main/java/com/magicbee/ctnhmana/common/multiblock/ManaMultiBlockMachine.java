@@ -7,7 +7,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMach
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
@@ -17,15 +19,20 @@ import com.magicbee.ctnhmana.data.ManaData;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.overlay.DisplayHelper;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ManaMachine extends RecipeElectricMultiblockMachine {
+public class ManaMultiBlockMachine extends RecipeElectricMultiblockMachine {
 
-    public ManaMachine(IMachineBlockEntity holder, Object... args) {
+    public ManaMultiBlockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
@@ -93,6 +100,29 @@ public class ManaMachine extends RecipeElectricMultiblockMachine {
 
     protected final void applyZenithUiGlitch(List<Component> textList) {
         ZenithGlitchText.scrambleIfInvading(getLevel(), textList);
+    }
+
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        if (isFormed() && hatch != null) {
+            data.putLong("mana", hatch.getMana());
+            data.putLong("max_mana", hatch.getMaxMana());
+        }
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        super.appendMachineJadeTooltip(data, tooltip, accessor, config);
+        long max = data.getLong("max_mana");
+        if (max <= 0) return;
+        var helper = tooltip.getElementHelper();
+        tooltip.add(helper.progress(Math.min(1F, data.getLong("mana") / (float) max),
+                Component.translatable("ctnhmana.jade.manahatch.manaprogress",
+                        DisplayHelper.dfCommas.format(data.getLong("mana")), DisplayHelper.dfCommas.format(max)),
+                helper.progressStyle().color(0x00008B, 0x00008B).textColor(-1),
+                Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555), true));
     }
 
     // @Override

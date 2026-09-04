@@ -32,8 +32,10 @@ public class WishingWill extends RecipeMultiblockMachine {
 
     public WishingWill(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        this.machineStorage = new NotifiableItemStackHandler(this, 9, IO.IN, IO.IN);
-        dummyOutputStorage = new NotifiableItemStackHandler(this, 64, IO.OUT, IO.OUT);
+        this.machineStorage = attachTrait(
+                new NotifiableItemStackHandler(this, 9, IO.IN, IO.IN));
+        dummyOutputStorage = attachTrait(
+                new NotifiableItemStackHandler(this, 64, IO.OUT, IO.OUT));
     }
 
     /** 水池位置：控制器正前方 4 格、低 1 格（控制器 (24,-57,75) -> 水池 (24,-58,79)） */

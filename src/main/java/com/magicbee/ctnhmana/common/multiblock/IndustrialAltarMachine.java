@@ -24,8 +24,10 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
@@ -48,6 +50,11 @@ import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.overlay.DisplayHelper;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import wayoftime.bloodmagic.altar.BloodAltar;
 import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
@@ -66,6 +73,44 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.autoAbilities;
 
 @SuppressWarnings("removal")
 public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implements ITieredMachine {
+
+    @CN("§4LP消耗速度:%d/t")
+    @EN("§4LP consumption: %d/t")
+    public static Lang Lpconsumelang;
+
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        int lp = 0;
+        int maxLp = 0;
+        if (isFormed() && altar != null) {
+            lp = altar.getCurrentBlood();
+            maxLp = altar.getCapacity();
+        }
+        data.putInt("altar_lp", lp);
+        data.putInt("altar_max_lp", maxLp);
+        int consume = isFormed() && isActive() ? consumption_lp : 0;
+        if ("suppression".equals(Upgrade)) consume = (int) (consume * 0.5);
+        data.putInt("altar_consume", consume);
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        super.appendMachineJadeTooltip(data, tooltip, accessor, config);
+        int max = data.getInt("altar_max_lp");
+        if (max > 0) {
+            int lp = data.getInt("altar_lp");
+            var helper = tooltip.getElementHelper();
+            tooltip.add(helper.progress(Math.min(1F, lp / (float) max),
+                    Component.translatable("ctnhmana.jade.manahatch.manaprogress",
+                            DisplayHelper.dfCommas.format(lp), DisplayHelper.dfCommas.format(max)),
+                    helper.progressStyle().color(0x8B0000, 0x8B0000).textColor(-1),
+                    Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555), true));
+        }
+        int consume = data.getInt("altar_consume");
+        if (consume > 0) tooltip.add(tooltip.getElementHelper().text(Lpconsumelang.translate(consume)));
+    }
 
     private record PreviewCell(BlockPos pos, TraceabilityPredicate predicate, int sliceIndex) {}
 

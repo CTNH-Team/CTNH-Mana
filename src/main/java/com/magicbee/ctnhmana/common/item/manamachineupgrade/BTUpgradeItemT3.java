@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -24,8 +24,10 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         var hatch = machine.getHatch();
         var true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
         if (recipe.duration >= 100 * 20) {
@@ -39,9 +41,11 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                               int batchParallel, BaseManaMachine machine,
-                                                               RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateBatchUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                         GTRecipe recipe,
+                                                                         int batchParallel,
+                                                                         BaseManaMultiBlockMachine machine,
+                                                                         RecipeHandlerGroup group) {
         // 跨并：基于合并配方的最大原始时长判断，魔力每批次消耗一次
         if (recipe.duration >= 100 * 20) {
             var accelerate = Math.min(5, (int) machine.getHatch().Mana / 10000);
@@ -54,8 +58,8 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         var hatch = machine.getHatch();
 
         metric.parallel += Math.min(256, 2 * (hatch.getBTMana() / 50000 + hatch.getmaxBTMana() / 200000));

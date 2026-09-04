@@ -18,18 +18,33 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.Util;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
-import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
+import com.magicbee.ctnhmana.api.machine.trait.BTManaContainerTrait;
+import com.magicbee.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import com.magicbee.ctnhmana.registry.CMItems;
 import com.magicbee.ctnhmana.registry.CMMaterials;
 import io.github.lounode.extrabotany.common.item.relic.MasterBandOfManaItem;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.api.ui.IElementHelper;
+import snownee.jade.overlay.DisplayHelper;
+import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.common.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.bauble.BandOfManaItem;
 import wayoftime.bloodmagic.common.item.BloodOrb;
@@ -53,18 +68,15 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Getter
     @Persisted
     protected final NotifiableFluidTank fluidTank;
-    // @Persisted
-    // private Level level;
+    @Getter
     @Persisted
-    public int maxBTMana;
+    protected final BTManaContainerTrait BTManaContainer;
     @Persisted
     @Getter
     public long maxLP;
     @Persisted
     @Getter
     public long maxMana;
-    @Persisted
-    public long maxFluidMana;
     @Setter
     @Getter
     @Persisted
@@ -106,11 +118,10 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
                      int BTMANA_CONVERT_RATE, int LP_CONVERT_RATE, int FLUID_MANA_CONVERT_RATE) {
         super(holder);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
+        fluidTank = attachTrait(new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH));
+        inventory = attachTrait(new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH));
+        BTManaContainer = attachTrait(new BTManaContainerTrait(this, maxBTMana));
         this.maxMana = maxMana;
-        this.maxBTMana = maxBTMana;
-        this.maxFluidMana = maxFluidMana;
         this.maxLP = maxLP;
         this.BTMANA_CONVERT_RATE = BTMANA_CONVERT_RATE;
         this.LP_CONVERT_RATE = LP_CONVERT_RATE;
@@ -118,34 +129,31 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
 
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity) {
         super(holder);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
+        fluidTank = attachTrait(new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH));
+        inventory = attachTrait(new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH));
+        BTManaContainer = attachTrait(new BTManaContainerTrait(this, maxBTMana));
         this.maxMana = maxMana;
-        this.maxBTMana = maxBTMana;
         this.maxLP = maxLP;
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
     }
 
     public ManaHatch(IMachineBlockEntity holder, long maxMana, long maxLP, int maxBTMana, int capacity,
                      String bar_type) {
         super(holder);
-        fluidTank = new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH);
-        inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
+        fluidTank = attachTrait(new NotifiableFluidTank(this, 1, capacity, IO.NONE, IO.BOTH));
+        inventory = attachTrait(new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH));
+        BTManaContainer = attachTrait(new BTManaContainerTrait(this, maxBTMana));
         this.maxMana = maxMana;
-        this.maxBTMana = maxBTMana;
         this.maxLP = maxLP;
         this.LP_CONVERT_SPEED = (int) (maxLP * 0.01);
         this.BTMANA_CONVERT_SPEED = (int) (maxBTMana * 0.01);
         this.FLUID_MANA_CONVERT_SPEED = (int) (capacity * 0.01);
-        ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
         this.bar_type = bar_type;
     }
 
@@ -233,11 +241,19 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     }
 
     public int getmaxBTMana() {
-        return ((ManaMachineBlockEntity) this.holder).getMaxBTMana();
+        return BTManaContainer.getMaxBTMana();
     }
 
     public int getBTMana() {
-        return ((ManaMachineBlockEntity) this.holder).getCurrentMana();
+        return BTManaContainer.getBTMana();
+    }
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
+            return LazyOptional.of(() -> BTManaContainer).cast();
+        }
+        return super.getCapability(cap, side);
     }
 
     //////////////////////////////////////
@@ -247,7 +263,6 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
-            ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
             ManaSubs = inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));
@@ -297,8 +312,8 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
 
     public void ConvertBTMana() {
         // 转化植物魔法Mana到Mana
-        if (((ManaMachineBlockEntity) this.holder).getCurrentMana() > 0) {
-            long consume = ((ManaMachineBlockEntity) this.holder)
+        if (BTManaContainer.getBTMana() > 0) {
+            long consume = BTManaContainer
                     .sendMana(Math.min((maxMana - Mana) * BTMANA_CONVERT_RATE, BTMANA_CONVERT_SPEED));
             Mana = Math.min(maxMana, Mana + consume / BTMANA_CONVERT_RATE);
         }
@@ -321,25 +336,25 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
                 this.inventory.setStackInSlot(0, new ItemStack(CMItems.ORICHALCOS_SPIRIT.get(), item.getCount()));
             }
         }
-        if (!((ManaMachineBlockEntity) this.holder).isFull() && !inventory.isEmpty()) {
+        if (!BTManaContainer.isFull() && !inventory.isEmpty()) {
             // 把魔力戒指里的魔力转化为植物魔法魔力
             // 每tick转化容量的0.1%魔力
             var item = inventory.getStackInSlot(0);
             if (item.getItem() instanceof BandOfManaItem ManaRing) {
                 var p = ItemNBTHelper.getInt(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    int consume = (int) Math.min(BTManaContainer.getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    BTManaContainer.receiveMana(consume);
                     ItemNBTHelper.setInt(item, "mana", p - (int) consume);
                 }
             }
             if (item.getItem() instanceof MasterBandOfManaItem mRing) {
                 var p = ItemNBTHelper.getLong(item, "mana", 0);
                 if (p >= 20) {
-                    int consume = (int) Math.min(((ManaMachineBlockEntity) this.holder).getMaxBTMana() * 0.001, p);
+                    int consume = (int) Math.min(BTManaContainer.getMaxBTMana() * 0.001, p);
                     // Mana = Math.min(maxMana, consume / MANA_TO_POWER_RATE + Mana);
-                    ((ManaMachineBlockEntity) this.holder).receiveMana(consume);
+                    BTManaContainer.receiveMana(consume);
                     ItemNBTHelper.setLong(item, "mana", p - (long) consume);
                 }
             }
@@ -369,5 +384,73 @@ public class ManaHatch extends MultiblockPartMachine implements IDistinctPart, I
     @Override
     public boolean canShared() {
         return false;
+    }
+
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        data.putLong("mana", Mana);
+        data.putLong("max_mana", maxMana);
+        data.putInt("bt_mana", getBTMana());
+        data.putInt("max_bt_mana", getmaxBTMana());
+        int lp = 0;
+        int maxLp = 0;
+        if (SoulNet != null && HAVE_ORB && orb != null) {
+            lp = SoulNet.getCurrentEssence();
+            maxLp = orb.getCapacity();
+        }
+        data.putInt("lp", lp);
+        data.putInt("max_lp", maxLp);
+        if (this instanceof BloodManaHatch blood) {
+            data.putDouble("raw_will", blood.rawWill);
+            data.putDouble("steadfast_will", blood.steadfastWill);
+            data.putDouble("corrosive_will", blood.corrosiveWill);
+            data.putDouble("destructive_will", blood.destructiveWill);
+            data.putDouble("vengeful_will", blood.vengefulWill);
+            data.putDouble("max_will", blood.maxDemonWill);
+        }
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        var helper = tooltip.getElementHelper();
+        addManaProgress(tooltip, helper, data.getLong("mana"), data.getLong("max_mana"),
+                "ctnhmana.jade.manahatch.manaprogress", 0x00008B);
+        addManaProgress(tooltip, helper, data.getInt("bt_mana"), data.getInt("max_bt_mana"),
+                "ctnhmana.jade.manahatch.btmanaprogress", 0xADD8E6);
+        addManaProgress(tooltip, helper, data.getInt("lp"), data.getInt("max_lp"),
+                "ctnhmana.jade.manahatch.bmmanaprogress", 0x8B0000);
+        double maxWill = data.getDouble("max_will");
+        addWillProgress(tooltip, helper, data, "raw_will", "ctnhmana.jade.manahatch.rawwillprogress", maxWill,
+                0xFF0099FF);
+        addWillProgress(tooltip, helper, data, "steadfast_will", "ctnhmana.jade.manahatch.steadfastwillprogress",
+                maxWill, 0xFF9900CC);
+        addWillProgress(tooltip, helper, data, "corrosive_will", "ctnhmana.jade.manahatch.corrosivewillprogress",
+                maxWill, 0xFF00CC66);
+        addWillProgress(tooltip, helper, data, "destructive_will", "ctnhmana.jade.manahatch.destructivewillprogress",
+                maxWill, 0xFFFFCC00);
+        addWillProgress(tooltip, helper, data, "vengeful_will", "ctnhmana.jade.manahatch.vengefulwillprogress", maxWill,
+                0xFFFF3333);
+    }
+
+    private static void addManaProgress(ITooltip tooltip, IElementHelper helper, long value,
+                                        long max, String key, int color) {
+        if (max <= 0) return;
+        tooltip.add(helper.progress(Math.min(1F, value / (float) max),
+                Component.translatable(key, DisplayHelper.dfCommas.format(value), DisplayHelper.dfCommas.format(max)),
+                helper.progressStyle().color(color, color).textColor(-1),
+                Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555), true));
+    }
+
+    private static void addWillProgress(ITooltip tooltip, IElementHelper helper, CompoundTag data,
+                                        String valueKey, String langKey, double max, int borderColor) {
+        double value = data.getDouble(valueKey);
+        if (max <= 0 || value <= 0) return;
+        tooltip.add(helper.progress((float) Math.min(1D, value / max),
+                Component.translatable(langKey, DisplayHelper.dfCommas.format(value),
+                        DisplayHelper.dfCommas.format(max)),
+                helper.progressStyle().color(0x8B0000, 0x8B0000).textColor(-1),
+                Util.make(BoxStyle.DEFAULT, style -> style.borderColor = borderColor), true));
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -24,8 +24,10 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         if (metric.parallel > 1) {
             var num = metric.parallel - 1;
             metric.parallel = -1;
@@ -40,8 +42,8 @@ public class GTUpgradeItemT2 extends ManaMachineUpgradeItem {
         return metric;
     }
 
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         metric.parallel += 2;
         return metric;
     }

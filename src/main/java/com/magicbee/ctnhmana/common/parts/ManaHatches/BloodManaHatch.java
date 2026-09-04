@@ -20,7 +20,6 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.magicbee.ctnhmana.common.parts.ManaHatch;
 import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import lombok.Getter;
@@ -85,8 +84,8 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
     public BloodManaHatch(IMachineBlockEntity holder, long max_Mana, long max_LP, int LP_CONVERT_RATE, int capacity,
                           int maxDemonWill, double FLUID_LP_CONVERT_SPEED) {
         super(holder, max_Mana, max_LP, 0, capacity);
-        blood_inventory = createMachineStorageOrb();
-        soul_inventory = createMachineStorageGem();
+        blood_inventory = attachTrait(createMachineStorageOrb());
+        soul_inventory = attachTrait(createMachineStorageGem());
         this.LP_CONVERT_RATE = LP_CONVERT_RATE;
         this.maxDemonWill = maxDemonWill;
         this.FLUID_LP_CONVERT_SPEED = FLUID_LP_CONVERT_SPEED;
@@ -172,7 +171,6 @@ public class BloodManaHatch extends ManaHatch implements IDistinctPart {
         super.onLoad();
         this.willChunk = WorldDemonWillHandler.getWillChunk(Objects.requireNonNull(getLevel()), getPos());
         if (getLevel() instanceof ServerLevel serverLevel) {
-            ((ManaMachineBlockEntity) this.holder).setMaxMana(maxBTMana);
             onInventoryChanged();
             ManaSubs = blood_inventory.addChangedListener(this::onInventoryChanged);
             serverLevel.getServer().tell(new TickTask(0, this::updateManaPower));

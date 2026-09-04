@@ -1,5 +1,7 @@
 package com.magicbee.ctnhmana.common.entity;
 
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.ChatFormatting;
@@ -23,9 +25,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 
+import com.magicbee.ctnhmana.api.machine.trait.BTManaContainerTrait;
 import com.magicbee.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.magicbee.ctnhmana.api.networks.BotaniaExtendEffectType;
-import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.magicbee.ctnhmana.common.item.equipment.SaberWandItem;
 import com.magicbee.ctnhmana.common.multiblock.MysticSpire;
@@ -165,7 +167,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
         var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
         int remaining = pool.mysticOutboundTickCap(speed);
         distributeOutboundToReceiversEvenly(pool, remaining, receiver -> !receiver.isFull() &&
-                !((BlockEntity) receiver).isRemoved() && receiver instanceof ManaMachineBlockEntity);
+                !((BlockEntity) receiver).isRemoved() && receiver instanceof BTManaContainerTrait);
     }
 
     /** 本 tick 预算在多个火花目标间均分；单目标满则跳过，余量下一轮再分 */
@@ -219,7 +221,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                 if (sent <= 0) continue;
                 pool.mysticDrainMana(sent);
                 remaining -= sent;
-                if (isAnimationActive) particlesTowards((BlockEntity) receiver);
+                if (isAnimationActive) particlesTowards(receiver.getManaReceiverPos());
                 progress = true;
             }
             if (!progress) break;
@@ -379,6 +381,18 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                             result.add((ManaReceiver) be);
                         }
                     }
+                    if (be instanceof IMachineBlockEntity machineHolder) {
+                        var trait = machineHolder.getMetaMachine().getTrait(BTManaContainerTrait.class);
+                        if (trait != null) {
+                            BlockPos bePos = be.getBlockPos();
+                            if (bePos.getY() >= centerPos.getY() - radius * 2 &&
+                                    bePos.getY() <= centerPos.getY() + radius * 2 &&
+                                    Math.abs(bePos.getX() - centerPos.getX()) <= radius &&
+                                    Math.abs(bePos.getZ() - centerPos.getZ()) <= radius) {
+                                result.add(trait);
+                            }
+                        }
+                    }
                     if (be instanceof GeneratingFlowerBlockEntity || be instanceof WitherAconite) {
                         BlockPos bePos = be.getBlockPos();
                         if (bePos.getY() >= centerPos.getY() - radius * 2 &&
@@ -426,9 +440,13 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     private void particlesTowards(BlockEntity e) {
+        particlesTowards(e.getBlockPos());
+    }
+
+    private void particlesTowards(BlockPos pos) {
         XplatAbstractions.INSTANCE.sendToTracking(this,
-                new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW, e.getBlockPos().getX(),
-                        e.getBlockPos().getY(), e.getBlockPos().getZ(),
+                new BotaniaEffectPacketExtend(BotaniaExtendEffectType.SPARK_MANA_FLOW, pos.getX(),
+                        pos.getY(), pos.getZ(),
                         getId(), getId(), ColorHelper.getColorValue(getNetwork())));
     }
 

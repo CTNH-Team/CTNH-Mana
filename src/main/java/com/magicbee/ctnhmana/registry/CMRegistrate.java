@@ -2,6 +2,7 @@ package com.magicbee.ctnhmana.registry;
 
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -16,8 +17,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.magicbee.ctnhmana.CTNHMana;
-import com.magicbee.ctnhmana.common.blockentity.machine.IZenithMartixBlockEntity;
-import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
@@ -74,13 +73,7 @@ public class CMRegistrate extends CNRegistrate {
     public CTNHMachineBuilder<MachineDefinition> manamachine(String name,
                                                              Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         return new CTNHMachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
-                MetaMachineBlock::new, MetaMachineItem::new, ManaMachineBlockEntity::new);
-    }
-
-    public CTNHMultiblockMachineBuilder zenithmultiblock(String name,
-                                                         Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
-        return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new,
-                IZenithMartixBlockEntity::new);
+                MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 
     public CTNHMultiblockMachineBuilder mysticmultiblock(String name,

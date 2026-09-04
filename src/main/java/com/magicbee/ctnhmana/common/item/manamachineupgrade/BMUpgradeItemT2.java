@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
@@ -28,8 +28,8 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
     public double BASE_MIN = 10;
 
     @Override
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         boolean stead = false;
         if (machine.getHatch() instanceof BloodManaHatch hatch) {
             if (hatch.getSoulNet() != null && hatch.getOrb() != null) {
@@ -62,15 +62,17 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         if (consumeWills(machine) >= 5) metric.parallel = Integer.MAX_VALUE;
         metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
         return metric;
     }
 
     @Override
-    public int getMaxParallelCap(BaseManaMachine.MachineMetric metric, BaseManaMachine machine) {
+    public int getMaxParallelCap(BaseManaMultiBlockMachine.MachineMetric metric, BaseManaMultiBlockMachine machine) {
         if (machine.getHatch() instanceof BloodManaHatch hatch && allWillsPresent(hatch)) {
             return Integer.MAX_VALUE;
         }
@@ -78,15 +80,17 @@ public class BMUpgradeItemT2 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                               int batchParallel, BaseManaMachine machine,
-                                                               RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateBatchUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                         GTRecipe recipe,
+                                                                         int batchParallel,
+                                                                         BaseManaMultiBlockMachine machine,
+                                                                         RecipeHandlerGroup group) {
         consumeWills(machine); // 跨并：意志每批次消耗一次
         metric.true_parallel = batchParallel;
         return metric;
     }
 
-    private int consumeWills(BaseManaMachine machine) {
+    private int consumeWills(BaseManaMultiBlockMachine machine) {
         var tier = machine.getTier();
         int consume = 0;
         if (machine.getHatch() instanceof BloodManaHatch hatch) {

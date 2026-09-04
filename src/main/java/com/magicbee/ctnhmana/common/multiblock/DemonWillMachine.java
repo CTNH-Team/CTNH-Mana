@@ -139,7 +139,7 @@ public class DemonWillMachine extends RecipeElectricMultiblockMachine {
 
     public DemonWillMachine(IMachineBlockEntity holder) {
         super(holder);
-        machineStorage = createMachineStorage((byte) 1);
+        machineStorage = attachTrait(createMachineStorage((byte) 1));
     }
 
     private static int scw(int v) {

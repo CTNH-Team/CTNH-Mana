@@ -109,7 +109,7 @@ public class CMMultiblockMachines {
             .appearanceBlock(() -> BotaniaBlocks.livingrockPolished)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(CMRecipeTypes.MANA_REACTOR_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAAAAAAAAAAAA", "###BB#######BB###", "#################", "#################",
@@ -365,7 +365,7 @@ public class CMMultiblockMachines {
             .appearanceBlock(SOUL_LOCKING_CASING::get)
             .recipeTypes(CMRecipeTypes.HELL_FORGE_RECIPES)
             .tooltips(hellforgeLang)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAAAAA", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B", "B#####B",

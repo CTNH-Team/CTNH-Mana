@@ -16,7 +16,7 @@ import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.magicbee.ctnhmana.common.entity.GiantBee;
 import com.magicbee.ctnhmana.common.entity.RoyalServantBee;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -46,8 +46,8 @@ public class BeeVisionUpgradeItem extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         Level level = machine.getLevel();
         BlockPos pos = machine.getPos();
         if (level instanceof ServerLevel serverLevel) {
@@ -64,8 +64,10 @@ public class BeeVisionUpgradeItem extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         metric.true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, Math.max(1, metric.parallel));
         return metric;
     }

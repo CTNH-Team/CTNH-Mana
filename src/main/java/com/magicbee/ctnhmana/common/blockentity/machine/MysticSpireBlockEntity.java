@@ -1,25 +1,40 @@
 package com.magicbee.ctnhmana.common.blockentity.machine;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.IManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import com.magicbee.ctnhmana.common.multiblock.SpireBigMath;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.api.mana.ManaReceiver;
 
 import java.math.BigInteger;
 
 /**
  * 奥法尖塔魔力池：{@link #mysticTrueManaStr} 为真实储量（BigInteger），{@link #mysticTrueManaCapStr} 为真实容量；
- * {@link #BTMana} 仅为与 Botania / 火花交互用的 int 窗口，{@link #getCurrentMana()} 只读该 int，不直接扫 BigInteger。
+ * {@link #maxBTMana}/{@link #BTMana} 仅为与 Botania / 火花交互用的 int 窗口，{@link #getCurrentMana()} 只读该 int，不直接扫 BigInteger。
  */
-public class MysticSpireBlockEntity extends ManaMachineBlockEntity
+public class MysticSpireBlockEntity extends MetaMachineBlockEntity
                                     implements IMachineBlockEntity, IManaged, ManaReceiver {
+
+    /** Botania 交互窗口容量（int 档） */
+    @Persisted
+    public int maxBTMana = 10000;
+    /** Botania 交互窗口储量（int 档） */
+    @Persisted
+    public int BTMana = 0;
 
     /** 真实储量（十进制字符串） */
     @Persisted
@@ -123,6 +138,16 @@ public class MysticSpireBlockEntity extends ManaMachineBlockEntity
         setChanged();
     }
 
+    @Override
+    public Level getManaReceiverLevel() {
+        return this.getLevel();
+    }
+
+    @Override
+    public BlockPos getManaReceiverPos() {
+        return this.getBlockPos();
+    }
+
     /**
      * Botania {@link ManaReceiver}：只返回 int 缓存 {@link #BTMana}，不在这里做 BigInteger 计算。
      * 调用前应已通过 {@link #syncMysticManaCacheFromTrue()}（每 tick / 火花 tick 入口）刷新。
@@ -130,6 +155,10 @@ public class MysticSpireBlockEntity extends ManaMachineBlockEntity
     @Override
     public int getCurrentMana() {
         return Math.max(0, BTMana);
+    }
+
+    public int getMaxBTMana() {
+        return Math.max(0, maxBTMana);
     }
 
     @Override
@@ -155,14 +184,12 @@ public class MysticSpireBlockEntity extends ManaMachineBlockEntity
      * 仅设置 Botania 交互用 int 档 {@link #maxBTMana}（传送/池条窗口），
      * <strong>不</strong>修改 {@link #mysticTrueManaCapStr}；真实容量由 {@link #setTrueManaCapacityBig} 单独维护。
      */
-    @Override
     public void setMaxMana(int i) {
-        super.setMaxMana(i);
+        maxBTMana = i;
         syncMysticManaCacheFromTrue();
         setChanged();
     }
 
-    @Override
     public long sendMana(long mana) {
         if (mana <= 0) return 0;
         BigInteger t = getTrueManaBig();
@@ -171,5 +198,18 @@ public class MysticSpireBlockEntity extends ManaMachineBlockEntity
         syncMysticManaCacheFromTrue();
         setChanged();
         return take;
+    }
+
+    @Override
+    public boolean canReceiveManaFromBursts() {
+        return true;
+    }
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
+            return LazyOptional.of(() -> (ManaReceiver) this).cast();
+        }
+        return super.getCapability(cap, side);
     }
 }

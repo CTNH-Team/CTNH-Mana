@@ -64,10 +64,10 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         super(holder, args);
         this.sparkpos = MachineUtils.getOffset(this, 0, 10, 1);
         // 4 槽位：用于与尼克尔戴森光束一致的槽位承载逻辑（仅 UI 展示/存放）。
-        this.machineStorage = new NotifiableItemStackHandler(
+        this.machineStorage = attachTrait(new NotifiableItemStackHandler(
                 this, 4, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(4) {
 
-                });
+                }));
         this.machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof SpireUpgradeRuneItem);
     }
 

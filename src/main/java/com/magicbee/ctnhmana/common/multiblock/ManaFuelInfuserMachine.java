@@ -25,9 +25,9 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-import static com.magicbee.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine.failureManaLang_NoEnoughMana;
 
-public class ManaFuelInfuserMachine extends ManaMachine {
+public class ManaFuelInfuserMachine extends ManaMultiBlockMachine {
 
     @Nullable
     protected TickableSubscription tickSubs;

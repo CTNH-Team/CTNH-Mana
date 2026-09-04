@@ -11,8 +11,6 @@ import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,19 +23,11 @@ import com.magicbee.ctnhmana.CMConfig;
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderPlugin;
 import com.magicbee.ctnhmana.data.CMDatagen;
-import com.magicbee.ctnhmana.integration.jade.BaseManaMachineStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.BloodAltarStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.EternalWosStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.GemSublimatorStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.ManaHatchStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.ManaMachineManaStatusProvider;
-import com.magicbee.ctnhmana.integration.jade.ThirdEyeStatusProvider;
 import com.magicbee.ctnhmana.networking.packets.CMNetworking;
 import com.magicbee.ctnhmana.registry.*;
 import com.magicbee.ctnhmana.registry.sounds.CMSoundDefinitionsProvider;
 import com.magicbee.ctnhmana.registry.sounds.CMSoundEvent;
 import tech.vixhentx.mcmod.ctnhlib.client.ponder.CTNHPonderLang;
-import tech.vixhentx.mcmod.ctnhlib.jade.JadePriorityManager;
 import wayoftime.bloodmagic.impl.BloodMagicAPI;
 
 @SuppressWarnings("removal")
@@ -66,83 +56,6 @@ public class CommonProxy {
         CMDatagen.init();
         // CMRecipes.init(modEventBus);
         CMConfig.init();
-        JadePriorityManager.registerBlockData(
-                new ManaHatchStatusProvider(),
-                BlockEntity.class,
-                900,
-                "mana_hatch_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new ManaHatchStatusProvider(),
-                Block.class,
-                900,
-                "mana_hatch_status");
-        JadePriorityManager.registerBlockData(
-                new ManaMachineManaStatusProvider(),
-                BlockEntity.class,
-                900,
-                "manamachine_mana_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new ManaMachineManaStatusProvider(),
-                Block.class,
-                900,
-                "manamachine_mana_status");
-        JadePriorityManager.registerBlockData(
-                new BaseManaMachineStatusProvider(),
-                BlockEntity.class,
-                900,
-                "mana_base_machine_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new BaseManaMachineStatusProvider(),
-                Block.class,
-                900,
-                "mana_base_machine_status");
-        JadePriorityManager.registerBlockData(
-                new ThirdEyeStatusProvider(),
-                BlockEntity.class,
-                900,
-                "mana_pool_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new ThirdEyeStatusProvider(),
-                Block.class,
-                900,
-                "mana_pool_status");
-        JadePriorityManager.registerBlockData(
-                new BloodAltarStatusProvider(),
-                BlockEntity.class,
-                900,
-                "bloodaltar_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new BloodAltarStatusProvider(),
-                Block.class,
-                900,
-                "bloodaltar_status");
-        JadePriorityManager.registerBlockData(
-                new EternalWosStatusProvider(),
-                BlockEntity.class,
-                900,
-                "eternal_wos_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new EternalWosStatusProvider(),
-                Block.class,
-                900,
-                "eternal_wos_status");
-        JadePriorityManager.registerBlockData(
-                new GemSublimatorStatusProvider(),
-                BlockEntity.class,
-                900,
-                "gem_sublimator_status");
-
-        JadePriorityManager.registerBlockComponent(
-                new GemSublimatorStatusProvider(),
-                Block.class,
-                900,
-                "gem_sublimator_status");
     }
 
     @SubscribeEvent

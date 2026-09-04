@@ -15,11 +15,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.world.level.block.Blocks;
 
 import com.magicbee.ctnhmana.CTNHMana;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
-import com.magicbee.ctnhmana.common.multiblock.CrossParallelManaMachine;
-import com.magicbee.ctnhmana.common.multiblock.IndustrialGemInlayMachine;
-import com.magicbee.ctnhmana.common.multiblock.IndustrialSalvagingMachine;
-import com.magicbee.ctnhmana.common.multiblock.ManaFuelInfuserMachine;
+import com.magicbee.ctnhmana.common.multiblock.*;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.common.parts.CMPartsAbility;
 import com.magicbee.ctnhmana.registry.CMBlocks;
 import com.magicbee.ctnhmana.registry.CMRecipeTypes;
@@ -39,17 +36,17 @@ public class ManaMachine {
     public static void init() {}
 
     public final static MultiblockMachineDefinition MANA_MACERATOR = REGISTRATE
-            .multiblock("mana_macerator", holder -> new CrossParallelManaMachine(holder, 1))
+            .multiblock("mana_macerator", holder -> new CrossParallelManaMultiBlockMachine(holder, 1))
             .cnLangValue("§b魔力粉碎机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
-            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMachine.crossParallelLang))
+            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMultiBlockMachine.crossParallelLang))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
             // 超频不在此链中：per-recipe 超频已延后，批次定型在 modifyRecipeAfterMerge 统一计算
-            .recipeModifiers(CrossParallelManaMachine::recipeModifier,
-                    CrossParallelManaMachine::batchModeViewAware,
-                    CrossParallelManaMachine::parallelBudgetModifier)
+            .recipeModifiers(CrossParallelManaMultiBlockMachine::recipeModifier,
+                    CrossParallelManaMultiBlockMachine::batchModeViewAware,
+                    CrossParallelManaMultiBlockMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##########", "###########", "#####B#####", "###BBBBB###", "###BBCBB###", "###BCCCB###",
                             "###BBCBB###", "###BBBBB###", "#####B#####", "###########", "###########")
@@ -92,18 +89,18 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_BENDER = REGISTRATE
-            .multiblock("mana_bender", holder -> new CrossParallelManaMachine(holder, 1))
+            .multiblock("mana_bender", holder -> new CrossParallelManaMultiBlockMachine(holder, 1))
             .cnLangValue("§b魔力卷板机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
-            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMachine.crossParallelLang))
+            .tooltips(CTNHManaUtils.addMachineTooltips(CrossParallelManaMultiBlockMachine.crossParallelLang))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.BENDER_RECIPES, GTRecipeTypes.FORGE_HAMMER_RECIPES,
                     CMRecipeTypes.MANA_FORGE_RECIPES)
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             // 超频不在此链中：per-recipe 超频已延后，批次定型在 modifyRecipeAfterMerge 统一计算
-            .recipeModifiers(CrossParallelManaMachine::recipeModifier,
-                    CrossParallelManaMachine::batchModeViewAware,
-                    CrossParallelManaMachine::parallelBudgetModifier)
+            .recipeModifiers(CrossParallelManaMultiBlockMachine::recipeModifier,
+                    CrossParallelManaMultiBlockMachine::batchModeViewAware,
+                    CrossParallelManaMultiBlockMachine::parallelBudgetModifier)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#BBB##", "#######", "#######", "#######", "#######", "#######", "#######")
                     .aisle("#BCBCB#", "###B###", "###B###", "###B###", "###B###", "###B###", "#BBBBB#")
@@ -129,13 +126,13 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_WIREMILL = REGISTRATE
-            .multiblock("mana_wiremill", holder -> new BaseManaMachine(holder, 1))
+            .multiblock("mana_wiremill", holder -> new BaseManaMultiBlockMachine(holder, 1))
             .cnLangValue("§b魔力线材扎机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.WIREMILL_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -161,13 +158,13 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_LATHE = REGISTRATE
-            .multiblock("mana_lathe", holder -> new BaseManaMachine(holder, 1))
+            .multiblock("mana_lathe", holder -> new BaseManaMultiBlockMachine(holder, 1))
             .cnLangValue("§b魔力车床")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 1))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.LATHE_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -199,13 +196,13 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_ASSEMBLER = REGISTRATE
-            .multiblock("mana_assembler", holder -> new BaseManaMachine(holder, 8))
+            .multiblock("mana_assembler", holder -> new BaseManaMultiBlockMachine(holder, 8))
             .cnLangValue("§b魔力组装机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 8))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.ASSEMBLER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -258,13 +255,13 @@ public class ManaMachine {
                     CTNHMana.id("block/overlay/manamachine"))
             .register();
     public final static MultiblockMachineDefinition MANA_MIXER = REGISTRATE
-            .multiblock("mana_mixer", holder -> new BaseManaMachine(holder, 8))
+            .multiblock("mana_mixer", holder -> new BaseManaMultiBlockMachine(holder, 8))
             .cnLangValue("§b魔力搅拌机")
             .tooltips(addManaMachineTooltips(basemanamutiblockLang, 8))
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.MIXER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK),
                     GTRecipeModifiers.BATCH_MODE)
             .pattern(definition -> FactoryBlockPattern.start()

@@ -44,7 +44,8 @@ import java.util.List;
  * 非流水线视野：并行消耗额外 EU（EU/t = Σ(EU_i×pa_i)），时长 = max(原始时长)/speed。
  * 流水线视野：并行按批处理模式增长时间而非 EU（EU/t = Σ base EU_i），时长 = Σ原始时长/speed×min(64, paTotal)。
  */
-public class CrossParallelManaMachine extends BaseManaMachine implements ICrossParallelRecipeLogicMachine {
+public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachine
+                                                implements ICrossParallelRecipeLogicMachine {
 
     //////////////////////////////////////
     // ******** 批次状态（不持久化） ********//
@@ -66,7 +67,7 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
     /** 最近一次开工批次的并行数（钩子缓存，供 UI 显示） */
     protected transient int workingParallels = 1;
 
-    public CrossParallelManaMachine(IMachineBlockEntity holder, int consumption) {
+    public CrossParallelManaMultiBlockMachine(IMachineBlockEntity holder, int consumption) {
         super(holder, consumption);
     }
 
@@ -83,18 +84,19 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
     // ******** RecipeModifier ********//
     //////////////////////////////////////
     public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
-        if (machine instanceof CrossParallelManaMachine mm) {
+        if (machine instanceof CrossParallelManaMultiBlockMachine mm) {
             if (mm.isGTView()) return gtRecipeModifier(mm, group, recipe);
             return nonGTRecipeModifier(mm, group, recipe); // 非流水线视野：增益全部延后
         }
-        return RecipeModifier.nullWrongType(CrossParallelManaMachine.class, machine);
+        return RecipeModifier.nullWrongType(CrossParallelManaMultiBlockMachine.class, machine);
     }
 
     /**
      * 流水线视野：只做配方级流水线并行——算并行数 pa、IO 放大、缓存原始时长/EU；时间/电压一律不动。
      * 不调用升级项的 calculateUpgrade（其 speed/eut 计算基于单配方 pa，与批次语义冲突）。
      */
-    private static Component gtRecipeModifier(CrossParallelManaMachine mm, RecipeHandlerGroup group, GTRecipe recipe) {
+    private static Component gtRecipeModifier(CrossParallelManaMultiBlockMachine mm, RecipeHandlerGroup group,
+                                              GTRecipe recipe) {
         mm.recipemetric.Copy(mm.metric);
         mm.recipemetric.plus(mm.globalmetric);
         boolean t2 = mm.upgrade instanceof GTUpgradeItemT2;
@@ -112,7 +114,7 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
      * 并用剩余电压预算二次限制并行（已并入配方占用的电压不重复计算），
      * 只做结构性 IO/EU×pa 缩放，不改时长、不施加任何升级增益。
      */
-    private static Component nonGTRecipeModifier(CrossParallelManaMachine mm, RecipeHandlerGroup group,
+    private static Component nonGTRecipeModifier(CrossParallelManaMultiBlockMachine mm, RecipeHandlerGroup group,
                                                  GTRecipe recipe) {
         mm.recipemetric.Copy(mm.metric);
         mm.recipemetric.plus(mm.globalmetric);
@@ -138,14 +140,14 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
     // ******** ParallelBudgetModifier ********//
     //////////////////////////////////////
     public static Component parallelBudgetModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
-        if (!(machine instanceof CrossParallelManaMachine mm)) return null;
+        if (!(machine instanceof CrossParallelManaMultiBlockMachine mm)) return null;
         if (!(mm.getRecipeLogic() instanceof CrossParallelRecipeLogic logic)) return null;
         if (!mm.isGTView()) return nonGTBudget(mm, logic, recipe);
         return gtBudget(mm, logic, recipe);
     }
 
     /** 输入容量 Σ(电压×电流)，与 GTCEu EURecipeCapability 同口径；无能量舱时不限。 */
-    private static long capacityOf(CrossParallelManaMachine mm) {
+    private static long capacityOf(CrossParallelManaMultiBlockMachine mm) {
         long capacity = 0;
         for (var handler : mm.getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP)) {
             if (handler instanceof IEnergyContainer container) {
@@ -159,7 +161,8 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
      * 非流水线视野：批次累计的“提交检测”（确认并入的配方才计入 EU 与并行），
      * 并强制总并行预算（= 升级并行帽）与 EU 预算（Σ(EU_i×pa_i) ≤ 输入容量）。
      */
-    private static Component nonGTBudget(CrossParallelManaMachine mm, CrossParallelRecipeLogic logic, GTRecipe recipe) {
+    private static Component nonGTBudget(CrossParallelManaMultiBlockMachine mm, CrossParallelRecipeLogic logic,
+                                         GTRecipe recipe) {
         if (logic.mergedRecipe == null) {
             // 新轮次：重置批次状态
             mm.batchParallelBudget = Math.max(1,
@@ -195,7 +198,8 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
      * 并强制 EU 预算（Σ base EU_i ≤ 输入容量）。最终时长计算在
      * {@link #modifyRecipeAfterMerge} 统一完成。
      */
-    private static Component gtBudget(CrossParallelManaMachine mm, CrossParallelRecipeLogic logic, GTRecipe recipe) {
+    private static Component gtBudget(CrossParallelManaMultiBlockMachine mm, CrossParallelRecipeLogic logic,
+                                      GTRecipe recipe) {
         if (logic.mergedRecipe == null) {
             // 新轮次：重置批次状态
             mm.batchCommittedParallels = 0;
@@ -308,7 +312,7 @@ public class CrossParallelManaMachine extends BaseManaMachine implements ICrossP
     //////////////////////////////////////
     /** 流水线视野跳过 BATCH_MODE（其时长放大与流水线语义冲突），非流水线视野原样执行。 */
     public static Component batchModeViewAware(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
-        if (machine instanceof CrossParallelManaMachine mm && mm.isGTView()) return null;
+        if (machine instanceof CrossParallelManaMultiBlockMachine mm && mm.isGTView()) return null;
         return GTRecipeModifiers.BATCH_MODE.apply(machine, group, recipe);
     }
 

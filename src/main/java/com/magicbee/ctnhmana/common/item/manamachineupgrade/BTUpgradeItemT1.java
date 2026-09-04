@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
@@ -24,8 +24,10 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         var hatch = machine.getHatch();
         var true_parallel = CTNHManaUtils.getParallelAmount(group, recipe, metric.parallel);
         metric.speed += Math.min(0.16, true_parallel * 0.01);
@@ -34,17 +36,19 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                               int batchParallel, BaseManaMachine machine,
-                                                               RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateBatchUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                         GTRecipe recipe,
+                                                                         int batchParallel,
+                                                                         BaseManaMultiBlockMachine machine,
+                                                                         RecipeHandlerGroup group) {
         metric.speed += Math.min(0.16, batchParallel * 0.01);
         metric.true_parallel = batchParallel;
         return metric;
     }
 
     @Override
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         var hatch = machine.getHatch();
 
         metric.parallel += Math.min(16, (hatch.getBTMana() / 50000 + hatch.getmaxBTMana() / 200000));

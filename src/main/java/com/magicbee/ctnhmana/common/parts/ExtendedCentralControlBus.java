@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.ProgrammableCircuitSlotTrait;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
@@ -73,6 +73,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
 
     @Nullable
     protected TickableSubscription tickSubs;
+    protected final ProgrammableCircuitSlotTrait circuitSlot;
     @Persisted
     private boolean lastHadRedstone = false;
 
@@ -83,6 +84,9 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
 
     public ExtendedCentralControlBus(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
+        this.circuitSlot = attachPersistentTrait("extended_circuit_slot",
+                new ProgrammableCircuitSlotTrait(this, CIRCUIT_SLOT_COUNT));
+        circuitSlot.shouldSearchContent(false);
     }
 
     @Override
@@ -90,11 +94,8 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
         return CIRCUIT_SLOT_COUNT;
     }
 
-    @Override
-    protected NotifiableItemStackHandler createCircuitItemHandler(IO io) {
-        return new NotifiableItemStackHandler(this, CIRCUIT_SLOT_COUNT, IO.IN, IO.NONE)
-                .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
-                .shouldSearchContent(false);
+    public ProgrammableCircuitSlotTrait getCircuitSlot() {
+        return circuitSlot;
     }
 
     @Override
@@ -122,7 +123,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
         if (circuitSlot < 0 || circuitSlot >= CIRCUIT_SLOT_COUNT) {
             return -1;
         }
-        ItemStack circuit = circuitInventory.getStackInSlot(circuitSlot);
+        ItemStack circuit = this.circuitSlot.getStorage().getStackInSlot(circuitSlot);
         if (circuit.isEmpty() || !IntCircuitBehaviour.isIntegratedCircuit(circuit)) {
             return -1;
         }
@@ -197,11 +198,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
     }
 
     @Override
-    public boolean isCircuitSlotEnabled() {
-        return false;
-    }
 
-    @Override
     public ModularUI createUI(Player entityPlayer) {
         return new ModularUI(UI_WIDTH, UI_HEIGHT, this, entityPlayer)
                 .widget(new FancyMachineUIWidget(this, UI_WIDTH, UI_HEIGHT));

@@ -121,7 +121,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     public ArcaneHighEnergyCompressionReactorCore(IMachineBlockEntity holder, int slot_range) {
         super(holder);
         this.slot_range = slot_range;
-        inventory = createMachineStorage(slot_range);
+        inventory = attachTrait(createMachineStorage(slot_range));
     }
 
     @Override

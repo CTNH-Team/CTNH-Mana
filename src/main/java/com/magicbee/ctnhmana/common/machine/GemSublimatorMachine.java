@@ -28,6 +28,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 
 import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +44,10 @@ import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.function.BiFunction;
@@ -60,6 +65,26 @@ import java.util.function.BiFunction;
  * </ul>
  */
 public class GemSublimatorMachine extends WorkableTieredMachine implements IFancyUIMachine, IMachineLife {
+
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        data.putInt("gem_progress", progress);
+        data.putInt("gem_max_progress", maxProgress);
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        super.appendMachineJadeTooltip(data, tooltip, accessor, config);
+        int max = data.getInt("gem_max_progress");
+        if (max <= 0) return;
+        int current = data.getInt("gem_progress");
+        tooltip.add(tooltip.getElementHelper().progress(Math.min(1F, current / (float) max),
+                progressHover.translate(String.valueOf(current), String.valueOf(max)),
+                tooltip.getElementHelper().progressStyle().color(0xFF1ABC9C, 0xFF1ABC9C).textColor(-1),
+                Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555), true));
+    }
 
     public static final int GEM_SLOT = 0;
     public static final int DUST_SLOT = 0;
@@ -118,10 +143,10 @@ public class GemSublimatorMachine extends WorkableTieredMachine implements IFanc
 
     public GemSublimatorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
-        this.gemInventory = createGemHandler();
-        this.dustInventory = createDustHandler();
-        this.materialInventory = createMaterialHandler();
-        this.outputInventory = createOutputHandler();
+        this.gemInventory = attachTrait(createGemHandler());
+        this.dustInventory = attachTrait(createDustHandler());
+        this.materialInventory = attachTrait(createMaterialHandler());
+        this.outputInventory = attachTrait(createOutputHandler());
         this.chargerInventory = createChargerItemHandler();
     }
 

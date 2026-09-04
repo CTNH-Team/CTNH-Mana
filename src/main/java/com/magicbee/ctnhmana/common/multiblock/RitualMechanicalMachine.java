@@ -56,9 +56,9 @@ import java.util.UUID;
  * LP 通过 {@link MachineRitualSoulNetwork} 从凝聚仓储罐扣除，<b>不消耗</b>玩家全局灵魂网络。
  * Orb 仅用于绑定仪式主人 UUID（{@link #getOrbOwnerId}）。
  */
-public class RitualMechanicalMachine extends ManaMachine {
+public class RitualMechanicalMachine extends ManaMultiBlockMachine {
 
-    /** 与 {@link BaseManaMachine} 主面板相同的缩放系数 */
+    /** 与 {@link BaseManaMultiBlockMachine} 主面板相同的缩放系数 */
     private static final double BASE_MANA_UI_SCALE = 1.2;
 
     private static int sc(int v) {

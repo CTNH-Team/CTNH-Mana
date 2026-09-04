@@ -23,6 +23,7 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
@@ -39,13 +40,29 @@ import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-public class BaseManaMachine extends ManaMachine {
+public class BaseManaMultiBlockMachine extends ManaMultiBlockMachine {
 
-    @Persisted
+    @Override
+    protected void writeMachineJadeData(CompoundTag data, BlockAccessor accessor) {
+        super.writeMachineJadeData(data, accessor);
+        if (upgrade != null) data.putString("upgrade", upgrade.getUpdateName().translate().getString());
+    }
+
+    @Override
+    protected void appendMachineJadeTooltip(CompoundTag data, ITooltip tooltip, BlockAccessor accessor,
+                                            IPluginConfig config) {
+        super.appendMachineJadeTooltip(data, tooltip, accessor, config);
+        if (data.contains("upgrade")) tooltip.add(tooltip.getElementHelper().text(BaseManaMachineLang[2].translate(
+                data.getString("upgrade"))));
+    }
+
     public final NotifiableItemStackHandler machineStorage;
 
     @Persisted
@@ -65,9 +82,9 @@ public class BaseManaMachine extends ManaMachine {
     @Nullable
     protected TickableSubscription TickSubs;
 
-    public BaseManaMachine(IMachineBlockEntity holder, int consumption) {
+    public BaseManaMultiBlockMachine(IMachineBlockEntity holder, int consumption) {
         super(holder);
-        this.machineStorage = createMachineStorage();
+        this.machineStorage = attachTrait(createMachineStorage());
         this.baseConsumption = consumption;
     }
 
@@ -77,7 +94,7 @@ public class BaseManaMachine extends ManaMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.hatch = getHatch(); // 获取舱室（在 ManaMachine 中实现的通用查找）
+        this.hatch = getHatch(); // 获取舱室（在 ManaMultiBlockMachine 中实现的通用查找）
         if (this.hatch == null) onStructureInvalid(); // 获取不到就别成型
         else this.hatchPos = hatch.getPos();
         var tier = getTier();// 获取等级
@@ -247,8 +264,8 @@ public class BaseManaMachine extends ManaMachine {
     ///
     public static @Nullable Component recipeModifier(@NotNull MetaMachine machine, RecipeHandlerGroup group,
                                                      @NotNull GTRecipe recipe) {
-        if (!(machine instanceof BaseManaMachine mmachine)) {
-            return RecipeModifier.nullWrongType(BaseManaMachine.class, machine);
+        if (!(machine instanceof BaseManaMultiBlockMachine mmachine)) {
+            return RecipeModifier.nullWrongType(BaseManaMultiBlockMachine.class, machine);
         }
         // 复制metric 检查metric 计算metric
         mmachine.recipemetric.Copy(mmachine.metric);

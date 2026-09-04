@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.ManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.ManaMultiBlockMachine;
 import com.magicbee.ctnhmana.registry.CMRecipeConditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -67,14 +67,12 @@ public class InfusionCellCastingCondition extends RecipeCondition<InfusionCellCa
     @Override
     protected boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         var machine = recipeLogic.getMachine();
-        if (!(machine instanceof ManaMachine manaMachine)) {
+        if (!(machine instanceof ManaMultiBlockMachine manaMultiBlockMachine)) {
             return false;
         }
-        var hatch = manaMachine.hatch != null ? manaMachine.hatch : manaMachine.getHatch();
-        if (hatch == null) {
-            return false;
-        }
-        return true;
+        var hatch = manaMultiBlockMachine.hatch != null ? manaMultiBlockMachine.hatch :
+                manaMultiBlockMachine.getHatch();
+        return hatch != null;
     }
 
     @Override

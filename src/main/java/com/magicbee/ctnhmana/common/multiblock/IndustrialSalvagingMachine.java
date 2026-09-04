@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 /**
- * Industrial Salvaging Table controller. Extends {@link ManaMachine} for hatch/mana data hooks.
+ * Industrial Salvaging Table controller. Extends {@link ManaMultiBlockMachine} for hatch/mana data hooks.
  */
-public class IndustrialSalvagingMachine extends ManaMachine {
+public class IndustrialSalvagingMachine extends ManaMultiBlockMachine {
 
     @CN({
             "回收宝石和符文的产出",

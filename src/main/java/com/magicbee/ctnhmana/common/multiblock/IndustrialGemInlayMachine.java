@@ -9,7 +9,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 /**
  * Gem inlay machine controller. Automates Apotheosis Gem Cutting Table rarity upgrades.
  */
-public class IndustrialGemInlayMachine extends ManaMachine {
+public class IndustrialGemInlayMachine extends ManaMultiBlockMachine {
 
     @CN({
             "自动化执行神话宝石切割台配方",

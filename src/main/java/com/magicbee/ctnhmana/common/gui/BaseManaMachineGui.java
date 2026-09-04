@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.ManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.ManaMultiBlockMachine;
 import com.magicbee.ctnhmana.registry.CMMachines;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -22,10 +22,10 @@ public class BaseManaMachineGui implements IFancyUIProvider {
     @EN("Current upgrades")
     public static Lang TitleLangBaseMana;
 
-    protected ManaMachine machine;
+    protected ManaMultiBlockMachine machine;
 
     public BaseManaMachineGui(IRecipeLogicMachine machine) {
-        if (machine instanceof ManaMachine mmachine)
+        if (machine instanceof ManaMultiBlockMachine mmachine)
             this.machine = mmachine;
     }
 

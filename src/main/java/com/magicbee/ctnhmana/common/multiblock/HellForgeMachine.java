@@ -20,7 +20,7 @@ import com.magicbee.ctnhmana.common.parts.ManaHatches.BloodManaHatch;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
-public class HellForgeMachine extends BaseManaMachine {
+public class HellForgeMachine extends BaseManaMultiBlockMachine {
 
     public double will = 0;
     public static final String WILL = "will";

@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-public class ZenithMachine extends BaseManaMachine {
+public class ZenithMachine extends BaseManaMultiBlockMachine {
 
     @Persisted
     public int base_parallel = 0;

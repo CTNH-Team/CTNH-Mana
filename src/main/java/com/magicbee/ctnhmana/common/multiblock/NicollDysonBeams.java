@@ -40,7 +40,7 @@ import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.magicbee.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine.failureManaLang_NoEnoughMana;
 
 public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements IExplosionMachine, ITieredMachine {
 
@@ -78,7 +78,7 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
 
     public NicollDysonBeams(IMachineBlockEntity holder) {
         super(holder);
-        this.machineStorage = createMachineStorage((byte) 64);
+        this.machineStorage = attachTrait(createMachineStorage((byte) 64));
     }
 
     @Override

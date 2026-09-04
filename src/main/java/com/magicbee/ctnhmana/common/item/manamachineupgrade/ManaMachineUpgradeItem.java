@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
 import net.minecraft.network.chat.Component;
 
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import lombok.Getter;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
@@ -25,13 +25,15 @@ public class ManaMachineUpgradeItem extends ComponentItem {
         this.updateName = updateName;
     }
 
-    public BaseManaMachine.MachineMetric calculateUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                          BaseManaMachine machine, RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                    GTRecipe recipe,
+                                                                    BaseManaMultiBlockMachine machine,
+                                                                    RecipeHandlerGroup group) {
         return metric;
     }
 
-    public BaseManaMachine.MachineMetric calculateNormalUpgrade(BaseManaMachine.MachineMetric metric,
-                                                                BaseManaMachine machine) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                          BaseManaMultiBlockMachine machine) {
         return metric;
     }
 
@@ -39,7 +41,7 @@ public class ManaMachineUpgradeItem extends ComponentItem {
      * 跨并专用：返回本升级允许的最大并行帽（纯查询，无副作用）。
      * 在首个 recipeModifier 调用，用于计算当前配方的并行数。
      */
-    public int getMaxParallelCap(BaseManaMachine.MachineMetric metric, BaseManaMachine machine) {
+    public int getMaxParallelCap(BaseManaMultiBlockMachine.MachineMetric metric, BaseManaMultiBlockMachine machine) {
         return Math.max(1, metric.parallel);
     }
 
@@ -50,9 +52,11 @@ public class ManaMachineUpgradeItem extends ComponentItem {
      * @param recipe        合并后的配方（duration 为最大原始时长，供时长相关加成判断）
      * @param batchParallel 批次总并行（Σ 各配方并行）
      */
-    public BaseManaMachine.MachineMetric calculateBatchUpgrade(BaseManaMachine.MachineMetric metric, GTRecipe recipe,
-                                                               int batchParallel, BaseManaMachine machine,
-                                                               RecipeHandlerGroup group) {
+    public BaseManaMultiBlockMachine.MachineMetric calculateBatchUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
+                                                                         GTRecipe recipe,
+                                                                         int batchParallel,
+                                                                         BaseManaMultiBlockMachine machine,
+                                                                         RecipeHandlerGroup group) {
         metric.true_parallel = batchParallel;
         return metric;
     }

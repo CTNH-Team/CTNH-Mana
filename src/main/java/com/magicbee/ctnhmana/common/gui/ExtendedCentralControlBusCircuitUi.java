@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -103,17 +102,16 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
         public ExtendedCentralControlBusCircuitPanel(ExtendedCentralControlBus bus) {
             super(0, 0, CONFIG_PANEL_W, computePanelHeight());
             this.bus = bus;
-            IItemHandlerModifiable handler = bus.getCircuitInventory().storage;
+            IItemHandlerModifiable handler = bus.getCircuitSlot().getStorage();
 
             addWidget(new LabelWidget(4, 4, extendedCentralControlBusUiLang[0].translate().getString()));
 
             int gridTop = 22;
             // 8 列通道网格在 9 列配置面板宽度内居中
             int gridLeft = (CONFIG_PANEL_W - COLS * STEP) / 2;
-            for (int i = 0; i < ExtendedCentralControlBus.CIRCUIT_SLOT_COUNT; i++) {
-                int x = gridLeft + (i % COLS) * STEP;
-                int y = gridTop + (i / COLS) * STEP;
-                int circuitSlot = i;
+            for (int circuitSlot = 0; circuitSlot < ExtendedCentralControlBus.CIRCUIT_SLOT_COUNT; circuitSlot++) {
+                int x = gridLeft + (circuitSlot % COLS) * STEP;
+                int y = gridTop + (circuitSlot / COLS) * STEP;
                 addWidget(new SelectableCircuitSlotWidget(handler, circuitSlot, x, y, SLOT, bus, this::onSlotSelected)
                         .setHoverTooltips(extendedCentralControlBusUiLang[1].translate(circuitSlot,
                                 formatTarget(bus.getTargetSlot(circuitSlot)))));
@@ -135,18 +133,15 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
 
         private WidgetGroup buildConfigurator(int y) {
             var group = new WidgetGroup(0, y, CONFIG_PANEL_W, CONFIG_PANEL_H);
-            var handler = bus.getCircuitInventory().storage;
-            boolean ghost = ConfigHolder.INSTANCE.machines.ghostCircuit;
+            var handler = bus.getCircuitSlot().getStorage();
             int previewX = (CONFIG_PANEL_W - SLOT) / 2;
 
             group.addWidget(new LabelWidget(12, 8, "Programmed Circuit Configuration"));
-            previewSlot = new SlotWidget(handler, bus.selectedCircuitSlot, previewX, 26, !ghost, !ghost);
+            previewSlot = new SlotWidget(handler, bus.selectedCircuitSlot, previewX, 26, false, false);
             previewSlot.setBackground(new GuiTextureGroup(GuiTextures.SLOT, GuiTextures.INT_CIRCUIT_OVERLAY));
             group.addWidget(previewSlot);
-            if (ghost) {
-                group.addWidget(new ButtonWidget(previewX, 26, SLOT, SLOT, IGuiTexture.EMPTY,
-                        clickData -> onCircuitSet(-1)));
-            }
+            group.addWidget(new ButtonWidget(previewX, 26, SLOT, SLOT, IGuiTexture.EMPTY,
+                    clickData -> onCircuitSet(-1)));
 
             int idx = 0;
             int btnLeft = (CONFIG_PANEL_W - CONFIG_BTN_COLS * STEP) / 2;
@@ -172,7 +167,7 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
         }
 
         private void refreshPreviewSlot() {
-            previewSlot.setHandlerSlot(bus.getCircuitInventory().storage, bus.selectedCircuitSlot);
+            previewSlot.setHandlerSlot(bus.getCircuitSlot().getStorage(), bus.selectedCircuitSlot);
         }
 
         private void onSlotSelected(int circuitSlot) {
@@ -194,7 +189,7 @@ public class ExtendedCentralControlBusCircuitUi implements IFancyUIProvider {
         }
 
         private void applyCircuit(int slot, int configuration) {
-            IItemHandlerModifiable handler = bus.getCircuitInventory().storage;
+            IItemHandlerModifiable handler = bus.getCircuitSlot().getStorage();
             if (configuration < 0) {
                 handler.setStackInSlot(slot, ItemStack.EMPTY);
             } else {

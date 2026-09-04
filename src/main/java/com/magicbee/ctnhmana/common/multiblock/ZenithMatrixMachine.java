@@ -60,7 +60,7 @@ import static com.magicbee.ctnhmana.registry.CMBlocks.*;
  * 天顶矩阵：通过主 UI 启动「打开虚境之门扉」配方，
  * 完成后写入 isZenithOpen 并触发虚境入侵（zenithinvade）事件。
  */
-public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvider {
+public class ZenithMatrixMachine extends ManaMultiBlockMachine implements ICleanroomProvider {
 
     private static final int ZENITH_EYE_BACK_OFFSET = 24;
     /** 开扉过程中每秒消耗的魔力能量 */
@@ -82,7 +82,7 @@ public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvid
     private Collection<ICleanroomReceiver> cleanroomReceivers;
     @Getter
     @Nullable
-    private Collection<ManaMachine> ManaReceivers;
+    private Collection<ManaMultiBlockMachine> ManaReceivers;
 
     @CN("开启虚境之门")
     @EN("Open the Zenith Door")
@@ -117,18 +117,18 @@ public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvid
         return new TraceabilityPredicate(blockWorldState -> {
             Set<ICleanroomReceiver> receivers = blockWorldState.getMatchContext().getOrCreate("cleanroomReceiver",
                     Sets::newHashSet);
-            Set<ManaMachine> ManaReceivers = blockWorldState.getMatchContext().getOrCreate("zenithreceiver",
+            Set<ManaMultiBlockMachine> ManaReceivers = blockWorldState.getMatchContext().getOrCreate("zenithreceiver",
                     Sets::newHashSet);
             // 内部允许非 GT 机器；魔力机器会被登记为洁净室/天顶接收者
             BlockEntity blockEntity = blockWorldState.getTileEntity();
             if (blockEntity instanceof IMachineBlockEntity machineBlockEntity) {
                 var machine = machineBlockEntity.getMetaMachine();
-                if (machine instanceof ManaMachine) {
+                if (machine instanceof ManaMultiBlockMachine) {
                     var receiver = GTCapabilityHelper.getCleanroomReceiver(blockWorldState.getWorld(),
                             blockWorldState.getPos(), null);
                     if (receiver != null) {
                         receivers.add(receiver);
-                        ManaReceivers.add((ManaMachine) machine);
+                        ManaReceivers.add((ManaMultiBlockMachine) machine);
                     }
                 }
             }
@@ -204,7 +204,7 @@ public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvid
         }
         // 开局先扣一秒魔力，不足则拒绝启动
         if (!hatch.consumeManaIfEnough(DOOR_MANA_PER_SECOND)) {
-            return BaseManaMachine.failureManaLang_NoEnoughMana.translate();
+            return BaseManaMultiBlockMachine.failureManaLang_NoEnoughMana.translate();
         }
         return super.beforeWorking(recipe);
     }
@@ -358,7 +358,7 @@ public class ZenithMatrixMachine extends ManaMachine implements ICleanroomProvid
         }
         Set<ICleanroomReceiver> receivers = getMultiblockState().getMatchContext().getOrCreate("cleanroomReceiver",
                 Sets::newHashSet);
-        Set<ManaMachine> ManaReceivers = getMultiblockState().getMatchContext().getOrCreate("zenithreceiver",
+        Set<ManaMultiBlockMachine> ManaReceivers = getMultiblockState().getMatchContext().getOrCreate("zenithreceiver",
                 Sets::newHashSet);
         this.cleanroomReceivers = ImmutableSet.copyOf(receivers);
         this.ManaReceivers = ImmutableSet.copyOf(ManaReceivers);

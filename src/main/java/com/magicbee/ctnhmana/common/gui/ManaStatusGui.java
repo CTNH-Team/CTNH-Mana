@@ -20,13 +20,13 @@ import net.minecraft.network.chat.MutableComponent;
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
 import com.magicbee.ctnhmana.common.event.zenith.ZenithGlitchText;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
 import java.util.List;
 
-import static com.magicbee.ctnhmana.common.multiblock.BaseManaMachine.BaseManaMachineLang;
+import static com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine.BaseManaMachineLang;
 
 public class ManaStatusGui implements IFancyUIProvider {
 
@@ -36,7 +36,7 @@ public class ManaStatusGui implements IFancyUIProvider {
         return (int) Math.round(v * STATUS_UI_SCALE);
     }
 
-    protected BaseManaMachine machine;
+    protected BaseManaMultiBlockMachine machine;
 
     @CN("查看机器详细数据")
     @EN("View detailed machine data")
@@ -48,7 +48,7 @@ public class ManaStatusGui implements IFancyUIProvider {
     @EN("Error")
     public static Lang ManaStatusGuiError;
 
-    public ManaStatusGui(BaseManaMachine machine) {
+    public ManaStatusGui(BaseManaMultiBlockMachine machine) {
         this.machine = machine;
     }
 

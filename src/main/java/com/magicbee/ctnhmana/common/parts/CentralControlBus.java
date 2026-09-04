@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.trait.ProgrammableCircuitSlotTrait;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
@@ -52,13 +53,17 @@ public class CentralControlBus extends ItemBusPartMachine {
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateIOTickSubscription));
         }
-        if (this.isCircuitSlotEnabled() && this.circuitInventory != null) {
-            metasubs = circuitInventory.addChangedListener(this::updateMetaSubscription);
+        var circuitSlot = getTrait(ProgrammableCircuitSlotTrait.class);
+        if (circuitSlot != null) {
+            metasubs = circuitSlot.addChangedListener(this::updateMetaSubscription);
+            updateMetaSubscription();
         }
     }
 
     public void updateMetaSubscription() {
-        meta = IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.getStackInSlot(0));
+        var circuitSlot = getTrait(ProgrammableCircuitSlotTrait.class);
+        if (circuitSlot != null)
+            meta = IntCircuitBehaviour.getCircuitConfiguration(circuitSlot.getStorage().getStackInSlot(0));
     }
 
     @Override

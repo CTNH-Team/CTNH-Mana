@@ -28,7 +28,6 @@ import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.magicbee.ctnhmana.client.gui.radial.RadialMenuScreen;
 import com.magicbee.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
-import com.magicbee.ctnhmana.common.blockentity.machine.ManaMachineBlockEntity;
 import com.magicbee.ctnhmana.common.capability.DamageClampCapability;
 import com.magicbee.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.magicbee.ctnhmana.common.multiblock.HellForgeMachine;
@@ -54,10 +53,6 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void attachBlockEntityCaps(AttachCapabilitiesEvent<BlockEntity> event) {
-        if (event.getObject() instanceof ManaMachineBlockEntity be) {
-            event.addCapability(CTNHMana.id("mana_receiver"),
-                    CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
-        }
         if (event.getObject() instanceof FlowerCakeBlockEntity be) {
             event.addCapability(CTNHMana.id("mana_receiver_flowercake"),
                     CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));

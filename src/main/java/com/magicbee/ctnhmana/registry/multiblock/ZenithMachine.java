@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.magicbee.ctnhmana.CTNHMana;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.common.parts.CMPartsAbility;
 import com.magicbee.ctnhmana.registry.CMBlocks;
 import com.magicbee.ctnhmana.registry.CMRecipeTypes;
@@ -37,7 +37,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CUTTER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("ABBACCA", "ADDADDA", "ADDADDA", "ADDADDA", "ADDADDA", "ACCAEEA", "ADDADDA", "ADDADDA",
@@ -91,7 +91,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.ELECTROLYZER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A################", "######BBBBB######", "###BBBCCDEEBBB###", "##BCCCFCDEFEEEB##",
@@ -149,7 +149,7 @@ public class ZenithMachine {
     // .rotationState(RotationState.NON_Y_AXIS)
     // .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES, GTRecipeTypes.FORGE_HAMMER_RECIPES,
     // CMRecipeTypes.MANA_FORGE_RECIPES)
-    // .recipeModifiers(BaseManaMachine::recipeModifier,
+    // .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
     // GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
     // .pattern(definition -> FactoryBlockPattern.start()
     // .aisle("AAAAAAAAAAAA", "ABBBBBBBBBBA", "ACCCCCCCCCCA", "ABBBBBBBBBBA", "AAAAAAAAAAAA")
@@ -191,7 +191,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES, CMRecipeTypes.ZENITH_CIRCUIT)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#########", "#########", "#########", "##BBBBB##", "##BBBBB##", "##BB@BB##", "##BBBBB##",
@@ -250,7 +250,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES, CMRecipeTypes.ANTIPHASE_ETCHING)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###AA@AA###", "##AABCBAA##", "#AADDDDDAA#", "AADDDDDDDAA", "#AADDDDDAA#", "##AABCBAA##",
@@ -309,7 +309,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.EXTRUDER_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A#######", "########", "########", "########", "########", "########", "########",
@@ -372,7 +372,7 @@ public class ZenithMachine {
             .appearanceBlock(() -> LIVING_ROCK_CASING.get())
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
-            .recipeModifiers(BaseManaMachine::recipeModifier,
+            .recipeModifiers(BaseManaMultiBlockMachine::recipeModifier,
                     GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A##BBB###", "#########", "#########", "#########", "#########", "#########", "#########",

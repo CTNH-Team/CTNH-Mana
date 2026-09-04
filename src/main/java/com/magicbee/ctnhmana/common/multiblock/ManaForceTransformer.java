@@ -16,9 +16,9 @@ import com.magicbee.ctnhmana.utils.CTNHManaUtils;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
 
-import static com.magicbee.ctnhmana.common.multiblock.BaseManaMachine.failureManaLang_NoEnoughMana;
+import static com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine.failureManaLang_NoEnoughMana;
 
-public class ManaForceTransformer extends ManaMachine implements IExplosionMachine {
+public class ManaForceTransformer extends ManaMultiBlockMachine implements IExplosionMachine {
 
     @Persisted
     public int baseconsumption = 1;

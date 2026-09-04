@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.multiblock.BaseManaMachine;
+import com.magicbee.ctnhmana.common.multiblock.BaseManaMultiBlockMachine;
 import com.magicbee.ctnhmana.data.ManaData;
 import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import com.magicbee.ctnhmana.registry.CMMachines;
@@ -34,13 +34,13 @@ public class ShroudUi implements IFancyUIProvider {
     public static Lang ZenithLockedHintLang;
 
     public boolean a = false;
-    private final BaseManaMachine machine;
+    private final BaseManaMultiBlockMachine machine;
     private final int y_position = (int) ((275 - 168) / 2 * 1.5);
     private final int width = (int) (275 * 1.5);
     private final int height = (int) (168 * 1.5);
     private final int circle_length = (int) (92 * 1.5);
 
-    public ShroudUi(BaseManaMachine machine) {
+    public ShroudUi(BaseManaMultiBlockMachine machine) {
         this.machine = machine;
     }
 
