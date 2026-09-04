@@ -173,6 +173,8 @@ public class ZenithSpire extends MysticSpire {
 
     @Override
     public void metircTick() {
+        if (!isStructureOperational()) return;
+
         getManaTrait().syncManaCache();
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
@@ -444,7 +446,7 @@ public class ZenithSpire extends MysticSpire {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if (this.isFormed && this.selfEnergyContainer != null) {
+        if (isStructureOperational() && this.selfEnergyContainer != null) {
             int ti = Math.max(0, Math.min(this.eutier, GTValues.V.length - 1));
             long denom = Math.max(1L, GTValues.V[ti]);
             long displayAmp = this.euSpeed / denom;

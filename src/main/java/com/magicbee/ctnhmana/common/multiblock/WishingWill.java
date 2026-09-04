@@ -113,7 +113,7 @@ public class WishingWill extends RecipeMultiblockMachine {
 
     /** 池子主循环：每 2 tick 抛出产物；空闲时每 20 tick 吸物并吐回无用物品 */
     protected void poolTick() {
-        if (!isFormed) return;
+        if (!isStructureOperational()) return;
         if (getOffsetTimer() % 2 == 0) {
             ejectOutputs();
         }
@@ -126,12 +126,30 @@ public class WishingWill extends RecipeMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        poolSubs = subscribeServerTick(poolSubs, this::poolTick);
+        updatePoolSubscription();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
+        updatePoolSubscription();
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updatePoolSubscription();
+    }
+
+    private void updatePoolSubscription() {
+        if (isStructureOperational()) {
+            poolSubs = subscribeServerTick(poolSubs, this::poolTick);
+        } else {
+            unsubscribePoolTick();
+        }
+    }
+
+    private void unsubscribePoolTick() {
         if (poolSubs != null) {
             poolSubs.unsubscribe();
             poolSubs = null;
@@ -141,9 +159,6 @@ public class WishingWill extends RecipeMultiblockMachine {
     @Override
     public void onUnload() {
         super.onUnload();
-        if (poolSubs != null) {
-            poolSubs.unsubscribe();
-            poolSubs = null;
-        }
+        unsubscribePoolTick();
     }
 }

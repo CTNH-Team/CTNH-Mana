@@ -141,6 +141,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
             doExplosion(10F);
         }
         super.onStructureInvalid();
+        updateTickSubscription();
     }
 
     public void updateEnergyContainer() {
@@ -186,6 +187,10 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
 
     private void onInventoryChanged() {
         rebuildAllMaps();
+        if (!isStructureOperational()) {
+            shouldChecked = true;
+            return;
+        }
         if (this.isActive()) return;
         for (int i = 0; i <= slot_range * slot_range - 1; i++) {
             if ((!this.inventory.getStackInSlot(i).isEmpty() &&
@@ -197,7 +202,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     }
 
     protected void updateTickSubscription() {
-        if (isFormed) {
+        if (isStructureOperational()) {
             tickSubs = subscribeServerTick(tickSubs, this::tick);
         } else if (tickSubs != null) {
             tickSubs.unsubscribe();
@@ -205,8 +210,14 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
         }
     }
 
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTickSubscription();
+    }
+
     public void tick() {
-        if (!isFormed) return;
+        if (!isStructureOperational()) return;
         // 稳定度低于0持续1秒（20tick）则爆炸
         if (stability < 0) {
             unstableTicks++;
@@ -307,6 +318,10 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     }
 
     public void startRecipeCycle() {
+        if (!isStructureOperational()) {
+            shouldChecked = true;
+            return;
+        }
         if (!isWorkingEnabled() && !this.cooldown) return;
         GTRecipeType recipeType = getRecipeType();
         rebuildAllMaps();// 每次循环开始前重算一次符文状态
@@ -737,7 +752,7 @@ public class ArcaneHighEnergyCompressionReactorCore extends RecipeMultiblockMach
     /// //////////////////////////
     @Override
     public void addDisplayText(List<Component> textList) {
-        if (isFormed) {
+        if (isStructureOperational()) {
             textList.add(AHCCstatusLang[0].translate(EU, maxEU));
             if (this.cooldown) {
                 textList.add(Component.literal("维度稳定模式"));

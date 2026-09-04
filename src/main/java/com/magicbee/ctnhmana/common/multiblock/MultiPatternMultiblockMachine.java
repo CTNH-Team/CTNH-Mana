@@ -112,8 +112,30 @@ public class MultiPatternMultiblockMachine extends RecipeElectricMultiblockMachi
             return super.checkPattern();
         }
 
+        // A formed snapshot remembers which pattern owned its parts across a save/reload. Validate that pattern first;
+        // if any of its chunks are unavailable, accepting another fully loaded pattern could orphan the old parts and
+        // addon-side topology before they can be definitively unbound.
+        int persistedPatternIndex = isStructureFormedSnapshot() &&
+                matchedPatternIndex >= 0 && matchedPatternIndex < patterns.size() ? matchedPatternIndex : -1;
+        if (persistedPatternIndex >= 0) {
+            BlockPattern persistedPattern = patterns.get(persistedPatternIndex);
+            if (persistedPattern != null) {
+                worldState.clean();
+                if (persistedPattern.checkPatternAt(worldState, false)) {
+                    matchedPattern = persistedPattern;
+                    return true;
+                }
+                if (worldState.error == MultiblockState.UNLOAD_ERROR) {
+                    matchedPattern = null;
+                    return false;
+                }
+            }
+        }
+
         // 尝试匹配每个模式
+        boolean sawUnloadedPosition = false;
         for (int i = patterns.size() - 1; i >= 0; i--) {
+            if (i == persistedPatternIndex) continue;
             BlockPattern pattern = patterns.get(i);
             if (pattern != null) {
                 // 清理状态（每次尝试前清理）
@@ -126,12 +148,17 @@ public class MultiPatternMultiblockMachine extends RecipeElectricMultiblockMachi
                     matchedPattern = pattern;
                     return true;
                 }
+                sawUnloadedPosition |= worldState.error == MultiblockState.UNLOAD_ERROR;
             }
         }
 
         // 所有模式都不匹配
         matchedPatternIndex = -1;
         matchedPattern = null;
+        if (sawUnloadedPosition) {
+            // A later pattern mismatch cannot make an earlier uninspectable candidate authoritative.
+            worldState.setError(MultiblockState.UNLOAD_ERROR);
+        }
         return false;
     }
 

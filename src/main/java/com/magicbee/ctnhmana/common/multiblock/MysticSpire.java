@@ -135,10 +135,23 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     }
 
     public void updateTick() {
-        TickSubs = subscribeServerTick(TickSubs, this::metircTick);
+        if (isStructureOperational()) {
+            TickSubs = subscribeServerTick(TickSubs, this::metircTick);
+        } else if (TickSubs != null) {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTick();
     }
 
     public void metircTick() {
+        if (!isStructureOperational()) return;
+
         manaTrait.syncManaCache();
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
@@ -149,6 +162,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void onStructureFormed() {
         super.onStructureFormed();
 
+        updateTick();
+
         refreshConnectedDeltaSparkFromWorld();
 
         getOrCreatedSpark();
@@ -157,6 +172,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
+        updateTick();
         // 虽然德尔塔火花在检测到结构失效后会自行消灭，但考虑到持久化的因素，双向记录数据和摧毁是保险的，这绝对不是什么PTSD
         if (Spark != null) {
             this.Spark.kill();

@@ -95,10 +95,7 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        if (TickSubs != null) {
-            TickSubs.unsubscribe();
-            TickSubs = null;
-        }
+        updateTick();
     }
 
     public ManaHatch getHatch() {
@@ -125,10 +122,23 @@ public class NicollDysonBeams extends RecipeElectricMultiblockMachine implements
     }
 
     public void updateTick() {
-        TickSubs = subscribeServerTick(TickSubs, this::tick);
+        if (isStructureOperational()) {
+            TickSubs = subscribeServerTick(TickSubs, this::tick);
+        } else if (TickSubs != null) {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTick();
     }
 
     public void tick() {
+        if (!isStructureOperational()) return;
+
         if (this.getOffsetTimer() % 20 == 0 && this.hatch != null) {
             if (hatch.getMana() > 100000 && this.mana < max_mana) {
                 var consume = Math.min(hatch.getMana(), 100000 * mana_parallel);

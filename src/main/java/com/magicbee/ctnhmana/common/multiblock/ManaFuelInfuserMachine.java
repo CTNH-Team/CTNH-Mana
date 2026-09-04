@@ -70,13 +70,33 @@ public class ManaFuelInfuserMachine extends ManaMultiBlockMachine {
         super.onStructureFormed();
         this.hatch = getHatch(); // 获取舱室
         if (this.hatch == null) onStructureInvalid(); // 获取不到就别成型
+        updateTick();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        updateTick();
     }
 
     public void updateTick() {
-        tickSubs = subscribeServerTick(tickSubs, this::tickReadInput);
+        if (isStructureOperational()) {
+            tickSubs = subscribeServerTick(tickSubs, this::tickReadInput);
+        } else if (tickSubs != null) {
+            tickSubs.unsubscribe();
+            tickSubs = null;
+        }
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTick();
     }
 
     public void tickReadInput() {
+        if (!isStructureOperational()) return;
+
         lastInputItem = ItemStack.EMPTY;
         lastInputItemCount = 0;
         lastInputFluid = FluidStack.EMPTY;

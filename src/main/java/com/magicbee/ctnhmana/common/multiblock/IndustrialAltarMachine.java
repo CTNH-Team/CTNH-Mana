@@ -198,6 +198,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         } else {
             onStructureInvalid();
         }
+        updateTick();
     }
 
     public boolean consumeLPIfEnough(int lp) {
@@ -212,7 +213,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         var world = this.getLevel();
         if (this.getLevel().isClientSide()) return;
         var index = getMatchedPatternIndex();
-        if (!this.isFormed) return;
+        if (!isStructureOperational()) return;
         altar_pos = MachineUtils.getOffset(this, 0, 1, 2);
         if (world.getBlockEntity(altar_pos) instanceof TileAltar new_altar) {
             var tier = new_altar.getTier();
@@ -238,6 +239,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
         altar_tier = 0;
         dislocation_rate = 100;
         dislocation_modifier = 1.0F;
+        updateTick();
     }
 
     public GTRecipe getBloodRecipe() {
@@ -311,7 +313,18 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     }
 
     public void updateTick() {
-        TickSubs = subscribeServerTick(TickSubs, this::updateStates);
+        if (isStructureOperational()) {
+            TickSubs = subscribeServerTick(TickSubs, this::updateStates);
+        } else if (TickSubs != null) {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTick();
     }
 
     // todo
@@ -350,7 +363,7 @@ public class IndustrialAltarMachine extends MultiPatternMultiblockMachine implem
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if (this.isFormed && tileAltar != null && altar != null) {
+        if (isStructureOperational() && tileAltar != null && altar != null) {
             textList.add(level_lang.translate(altar_tier));
             textList.add(altar_lang[0].translate(tileAltar.getCapacity()));
             textList.add(altar_lang[1].translate(tileAltar.getCurrentBlood()));

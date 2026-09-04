@@ -356,6 +356,10 @@ public class ZenithMatrixMachine extends ManaMultiBlockMachine implements IClean
             this.cleanroomReceivers.forEach(receiver -> receiver.setCleanroom(null));
             this.cleanroomReceivers = null;
         }
+        if (ManaReceivers != null) {
+            this.ManaReceivers.forEach(manaMachine -> manaMachine.setZenith_Enhanced(null));
+            this.ManaReceivers = null;
+        }
         Set<ICleanroomReceiver> receivers = getMultiblockState().getMatchContext().getOrCreate("cleanroomReceiver",
                 Sets::newHashSet);
         Set<ManaMultiBlockMachine> ManaReceivers = getMultiblockState().getMatchContext().getOrCreate("zenithreceiver",
@@ -373,10 +377,12 @@ public class ZenithMatrixMachine extends ManaMultiBlockMachine implements IClean
         this.hatch = null;
         this.hatchPos = null;
         doorProgressRatio = 0.0F;
-        if (ManaReceivers != null) {
+        if (cleanroomReceivers != null) {
             this.cleanroomReceivers.forEach(receiver -> receiver.setCleanroom(null));
             this.cleanroomReceivers = null;
-            this.ManaReceivers.forEach(Manamachine -> Manamachine.setZenith_Enhanced(null));
+        }
+        if (ManaReceivers != null) {
+            this.ManaReceivers.forEach(manaMachine -> manaMachine.setZenith_Enhanced(null));
             this.ManaReceivers = null;
         }
     }

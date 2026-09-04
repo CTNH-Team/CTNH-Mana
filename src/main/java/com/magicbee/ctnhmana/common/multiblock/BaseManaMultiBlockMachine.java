@@ -103,6 +103,13 @@ public class BaseManaMultiBlockMachine extends ManaMultiBlockMachine {
         this.metric.init(); // 重置metric
         this.globalmetric.initGlobal();
         onInventoryChanged();
+        updateTick();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        updateTick();
     }
 
     @Override
@@ -157,12 +164,23 @@ public class BaseManaMultiBlockMachine extends ManaMultiBlockMachine {
     }
 
     public void updateTick() {
-        TickSubs = subscribeServerTick(TickSubs, this::updateMetric);
+        if (isStructureOperational()) {
+            TickSubs = subscribeServerTick(TickSubs, this::updateMetric);
+        } else if (TickSubs != null) {
+            TickSubs.unsubscribe();
+            TickSubs = null;
+        }
+    }
+
+    @Override
+    protected void onStructureRevalidationChanged(boolean pending) {
+        super.onStructureRevalidationChanged(pending);
+        updateTick();
     }
 
     // 每秒维护一次
     public void updateMetric() {
-        if (!this.isFormed()) return;
+        if (!isStructureOperational()) return;
         if (getOffsetTimer() % 20 == 0) {
             if (this.upgrade != null) {
                 metric = upgrade.calculateNormalUpgrade(new MachineMetric(), this);
