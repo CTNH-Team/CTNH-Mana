@@ -20,22 +20,26 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
+import com.magicbee.ctnhmana.api.machine.trait.MysticSpireManaTrait;
 import com.magicbee.ctnhmana.common.entity.DeltaSpark;
 import com.magicbee.ctnhmana.common.item.rune.SpireUpgradeRuneItem;
 import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMGuiTextures;
 import org.jetbrains.annotations.Nullable;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
+import vazkii.botania.api.BotaniaForgeCapabilities;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -51,6 +55,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     protected TickableSubscription TickSubs;
     @Persisted
     public final NotifiableItemStackHandler machineStorage;
+    @Persisted
+    private final MysticSpireManaTrait manaTrait;
 
     private static int scw(int v) {
         return (int) Math.round(v * UI_WIDTH_SCALE);
@@ -69,6 +75,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
 
                 }));
         this.machineStorage.setFilter(itemStack -> itemStack.getItem() instanceof SpireUpgradeRuneItem);
+        this.manaTrait = attachTrait(new MysticSpireManaTrait(this));
     }
 
     @Persisted
@@ -113,9 +120,6 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Override
     public void onLoad() {
         super.onLoad();
-        if (this.holder instanceof MysticSpireBlockEntity mbe) {
-            mbe.migrateLegacyMysticManaIfNeeded();
-        }
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTick));
         }
@@ -135,9 +139,7 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     }
 
     public void metircTick() {
-        if (this.holder instanceof MysticSpireBlockEntity mbe) {
-            mbe.syncMysticManaCacheFromTrue();
-        }
+        manaTrait.syncManaCache();
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
         }
@@ -147,7 +149,6 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     public void onStructureFormed() {
         super.onStructureFormed();
 
-        // ((MysticSpireBlockEntity) this.holder).receiveMana(100000);
         refreshConnectedDeltaSparkFromWorld();
 
         getOrCreatedSpark();
@@ -206,10 +207,9 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
     @Override
     public void addDisplayText(List<Component> textList) {
         if (isFormed()) {
-            var pool = ((MysticSpireBlockEntity) this.holder);
             textList.add(spireDataLang[0].translate(
-                    FormattingUtil.formatNumbers(pool.getTrueManaBig()),
-                    FormattingUtil.formatNumbers(pool.getTrueManaCapBig())));
+                    FormattingUtil.formatNumbers(manaTrait.getTrueManaBig()),
+                    FormattingUtil.formatNumbers(manaTrait.getTrueManaCapBig())));
             textList.add(spireDataLang[1].translate(mode_MAP.get(MODE).translate()));
             textList.add(spireDataLang[2].translate(speed));
             textList.add(spireDataLang[4].translate(range));
@@ -371,9 +371,20 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
         this.speed = (int) Math.min((long) this.maxMana / 10L, (long) this.speed);
         this.speed = Math.max(1, this.speed);
 
-        MysticSpireBlockEntity pool = (MysticSpireBlockEntity) this.holder;
-        pool.setTrueManaCapacityBig(trueManaCapBig);
-        pool.setMaxMana(SpireBigMath.interactionManaBarCap(trueManaCapBig));
+        manaTrait.setTrueManaCapacityBig(trueManaCapBig);
+        manaTrait.setMaxMana(SpireBigMath.interactionManaBarCap(trueManaCapBig));
+    }
+
+    public MysticSpireManaTrait getManaTrait() {
+        return manaTrait;
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
+        if (capability == BotaniaForgeCapabilities.MANA_RECEIVER) {
+            return LazyOptional.of(() -> manaTrait).cast();
+        }
+        return super.getCapability(capability, side);
     }
 
     @CN({

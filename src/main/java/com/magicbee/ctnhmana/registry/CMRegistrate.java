@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.magicbee.ctnhmana.CTNHMana;
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import tech.vixhentx.mcmod.ctnhlib.registrate.CNRegistrate;
@@ -76,8 +75,8 @@ public class CMRegistrate extends CNRegistrate {
                 MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 
-    public CTNHMultiblockMachineBuilder mysticmultiblock(String name,
-                                                         Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
-        return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, MysticSpireBlockEntity::new);
+    public CTNHMultiblockMachineBuilder manaMultiblock(String name,
+                                                       Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+        return multiblock(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 }

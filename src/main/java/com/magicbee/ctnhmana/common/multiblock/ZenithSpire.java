@@ -29,7 +29,6 @@ import net.minecraft.world.phys.AABB;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.magicbee.ctnhmana.common.entity.DeltaSpark;
 import com.magicbee.ctnhmana.common.entity.OmegaSpark;
 import com.magicbee.ctnhmana.registry.CMEntities;
@@ -174,9 +173,7 @@ public class ZenithSpire extends MysticSpire {
 
     @Override
     public void metircTick() {
-        if (this.holder instanceof MysticSpireBlockEntity mbe) {
-            mbe.syncMysticManaCacheFromTrue();
-        }
+        getManaTrait().syncManaCache();
         if (this.getOffsetTimer() % 100 == 0) {
             getOrCreatedSpark();
             getEUContainer();
@@ -259,8 +256,7 @@ public class ZenithSpire extends MysticSpire {
         super.updateSelf();
         // EU 倍率独立于魔力侧天顶 ×4：速度用奥法档 int speed；容量因子用真实魔力上限 BigInteger（避免 maxMana 钳 int 导致 EU 上限偏小）
         final int euSpeedFactor = this.speed;
-        final BigInteger euMaxManaCapBig = this.holder instanceof MysticSpireBlockEntity poolEu ?
-                poolEu.getTrueManaCapBig() : BigInteger.valueOf(Math.max(0, this.maxMana));
+        final BigInteger euMaxManaCapBig = getManaTrait().getTrueManaCapBig();
         final BigInteger euBaseMaxManaBig = BigInteger.valueOf(base_maxmana);
 
         selfEnergyContainer = getEnergyContainer();
@@ -271,18 +267,11 @@ public class ZenithSpire extends MysticSpire {
         this.range = rangeL > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rangeL;
 
         // 天顶魔力：与奥法池同源 BigInteger 真实上限再 ×4；公开 int maxMana 仅作柱条/火花窗口（与 pool.setMaxMana 一致）
-        if (this.holder instanceof MysticSpireBlockEntity pool) {
-            BigInteger zenithTrueCap = pool.getTrueManaCapBig()
-                    .multiply(BigInteger.valueOf(4L))
-                    .min(SpireBigMath.TRUE_MANA_ABS_CEILING);
-            pool.setTrueManaCapacityBig(zenithTrueCap);
-            int barCap = SpireBigMath.interactionManaBarCap(zenithTrueCap);
-            pool.setMaxMana(barCap);
-            this.maxMana = barCap;
-        } else {
-            this.maxMana = SpireMath.multiplyIntPositiveCap(this.maxMana, 4);
-            this.maxMana = Math.min(this.maxMana, Integer.MAX_VALUE);
-        }
+        BigInteger zenithTrueCap = getManaTrait().getTrueManaCapBig()
+                .multiply(BigInteger.valueOf(4L))
+                .min(SpireBigMath.TRUE_MANA_ABS_CEILING);
+        getManaTrait().setTrueManaCapacityBig(zenithTrueCap);
+        this.maxMana = SpireBigMath.interactionManaBarCap(zenithTrueCap);
 
         // 天顶传输速率 ×4（与 EU 倍率无关）
         this.speed = SpireMath.multiplyIntPositiveCap(this.speed, 4);

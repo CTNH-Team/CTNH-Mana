@@ -3528,7 +3528,7 @@ public class CMMultiblockMachines {
                     CTNHMana.id("block/overlay/manamachine_bm"))
             .register();
     public final static MultiblockMachineDefinition MysticSpire = REGISTRATE
-            .mysticmultiblock("mystic_spire", holder -> new MysticSpire(holder))
+            .manaMultiblock("mystic_spire", holder -> new MysticSpire(holder))
             .cnLangValue("§b奥法尖塔")
             .tooltips(spireTooltipsLang)
             .appearanceBlock(() -> BotaniaBlocks.corporeaBlock)
@@ -3569,7 +3569,7 @@ public class CMMultiblockMachines {
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
     public final static MultiblockMachineDefinition ZenithSpire = REGISTRATE
-            .mysticmultiblock("zenith_spire", holder -> new ZenithSpire(holder))
+            .manaMultiblock("zenith_spire", holder -> new ZenithSpire(holder))
             .cnLangValue("§b天顶尖塔")
             .tooltips(omegaSpireLang)
             .appearanceBlock(() -> FIELD_RESTRICTION_CASING.get())
@@ -4483,7 +4483,7 @@ public class CMMultiblockMachines {
                     GTCEu.id("block/multiblock/generator/large_steam_turbine"))
             .register();
     public final static MultiblockMachineDefinition AHCC = REGISTRATE
-            .mysticmultiblock("arcane_highenergy_compression_reactor_core",
+            .manaMultiblock("arcane_highenergy_compression_reactor_core",
                     holder -> new ArcaneHighEnergyCompressionReactorCore(holder, 5))
             .cnLangValue("§高能魔能压缩反应核心(AHCC)")
             .tooltips(AHCC_TOOLTIPS)

@@ -19,7 +19,6 @@ import vazkii.botania.api.mana.ManaReceiver;
 public class BTManaContainerTrait extends MachineTrait implements ManaReceiver {
 
     @Getter
-    @Setter
     @Persisted
     protected int maxBTMana;
 
@@ -34,7 +33,12 @@ public class BTManaContainerTrait extends MachineTrait implements ManaReceiver {
 
     public BTManaContainerTrait(MetaMachine machine, int maxBTMana) {
         super(machine);
-        this.maxBTMana = maxBTMana;
+        this.maxBTMana = Math.max(0, maxBTMana);
+    }
+
+    public void setMaxBTMana(int maxBTMana) {
+        this.maxBTMana = Math.max(0, maxBTMana);
+        BTMana = Math.min(BTMana, this.maxBTMana);
     }
 
     @Override

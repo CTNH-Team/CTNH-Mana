@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import mythicbotany.functionalflora.base.FunctionalFlowerBase;
 import mythicbotany.infuser.TileManaInfuser;
 import snownee.jade.api.BlockAccessor;
@@ -38,8 +37,8 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
             BlockEntity be = blockAccessor.getBlockEntity();
             var capData = blockAccessor.getServerData().getCompound(getUid().toString());
             var helper = tooltip.getElementHelper();
-            if (be instanceof ManaPoolBlockEntity || be instanceof BindableSpecialFlowerBlockEntity ||
-                    be instanceof FunctionalFlowerBase || be instanceof MysticSpireBlockEntity ||
+            if (be instanceof BindableSpecialFlowerBlockEntity ||
+                    be instanceof FunctionalFlowerBase ||
                     be instanceof ManaReceiver) {
                 var mana = capData.getLong("mana_x");
                 var maxmana = capData.getLong("max_mana_x");
@@ -91,8 +90,8 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
             max_mana = pool.getMaxMana();
         }
         if (be instanceof FlowerCakeBlockEntity cake) {
-            mana = cake.getCurrentMana();
-            max_mana = cake.max_mana;
+            mana = cake.getManaTrait().getCurrentMana();
+            max_mana = cake.getManaTrait().getMaxBTMana();
         }
         if (be instanceof TileManaInfuser infuser) {
             plate_mana = infuser.getCurrentMana();
@@ -109,10 +108,6 @@ public class ThirdEyeStatusProvider implements IBlockComponentProvider, IServerD
         if (be instanceof FunctionalFlowerBase flower) {
             mana = flower.getCurrentMana();
             max_mana = flower.maxMana;
-        }
-        if (be instanceof MysticSpireBlockEntity mmachine) {
-            mana = mmachine.getCurrentMana();
-            max_mana = mmachine.getMaxBTMana();
         }
         data.putInt("plate_mana", plate_mana);
         data.putInt("required_mana", required_mana);

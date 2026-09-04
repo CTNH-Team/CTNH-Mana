@@ -27,18 +27,14 @@ import net.minecraftforge.fml.common.Mod;
 import com.magicbee.ctnhmana.CTNHMana;
 import com.magicbee.ctnhmana.client.gui.radial.CaduceusRadialMenu;
 import com.magicbee.ctnhmana.client.gui.radial.RadialMenuScreen;
-import com.magicbee.ctnhmana.common.blockentity.machine.FlowerCakeBlockEntity;
 import com.magicbee.ctnhmana.common.capability.DamageClampCapability;
 import com.magicbee.ctnhmana.common.item.caduceus.CaduceusItem;
 import com.magicbee.ctnhmana.common.multiblock.HellForgeMachine;
 import com.magicbee.ctnhmana.networking.packets.IndexFortunaPacket;
 import com.magicbee.ctnhmana.registry.CMTags;
 import tech.vixhentx.mcmod.ctnhlib.langprovider.Lang;
-import vazkii.botania.api.BotaniaForgeCapabilities;
-import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.common.item.equipment.bauble.ThirdEyeItem;
 import vazkii.botania.common.lib.BotaniaTags;
-import vazkii.botania.forge.CapabilityUtil;
 import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 import java.util.List;
@@ -50,14 +46,6 @@ import static mythicbotany.register.ModBlocks.petrunia;
 
 @Mod.EventBusSubscriber(modid = CTNHMana.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
-
-    @SubscribeEvent
-    public static void attachBlockEntityCaps(AttachCapabilitiesEvent<BlockEntity> event) {
-        if (event.getObject() instanceof FlowerCakeBlockEntity be) {
-            event.addCapability(CTNHMana.id("mana_receiver_flowercake"),
-                    CapabilityUtil.makeProvider(BotaniaForgeCapabilities.MANA_RECEIVER, (ManaReceiver) be));
-        }
-    }
 
     /** 给玩家挂载"护甲前原始伤害"能力，供中央减伤钳制器使用。 */
     @SubscribeEvent

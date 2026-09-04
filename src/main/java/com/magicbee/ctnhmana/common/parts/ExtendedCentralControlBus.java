@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.trait.ProgrammableCircuitSlotTrait;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
@@ -30,6 +29,7 @@ import net.minecraft.world.level.Level;
 
 import com.ctnhlang.CN;
 import com.ctnhlang.EN;
+import com.magicbee.ctnhmana.api.machine.trait.ExtendedControlBusCircuitTrait;
 import com.magicbee.ctnhmana.common.gui.ExtendedCentralControlBusCircuitUi;
 import com.magicbee.ctnhmana.common.multiblock.ICentralStorageMachine;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +73,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
 
     @Nullable
     protected TickableSubscription tickSubs;
-    protected final ProgrammableCircuitSlotTrait circuitSlot;
+    protected final ExtendedControlBusCircuitTrait circuitSlot;
     @Persisted
     private boolean lastHadRedstone = false;
 
@@ -85,8 +85,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
     public ExtendedCentralControlBus(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
         this.circuitSlot = attachPersistentTrait("extended_circuit_slot",
-                new ProgrammableCircuitSlotTrait(this, CIRCUIT_SLOT_COUNT));
-        circuitSlot.shouldSearchContent(false);
+                new ExtendedControlBusCircuitTrait(this, CIRCUIT_SLOT_COUNT));
     }
 
     @Override
@@ -94,7 +93,7 @@ public class ExtendedCentralControlBus extends ItemBusPartMachine {
         return CIRCUIT_SLOT_COUNT;
     }
 
-    public ProgrammableCircuitSlotTrait getCircuitSlot() {
+    public ExtendedControlBusCircuitTrait getCircuitSlot() {
         return circuitSlot;
     }
 

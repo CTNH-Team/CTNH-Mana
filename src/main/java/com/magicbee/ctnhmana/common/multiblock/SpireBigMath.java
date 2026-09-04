@@ -1,6 +1,6 @@
 package com.magicbee.ctnhmana.common.multiblock;
 
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
+import com.magicbee.ctnhmana.api.machine.trait.MysticSpireManaTrait;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
@@ -90,7 +90,7 @@ public final class SpireBigMath {
 
     /**
      * (energyCapacity * maxMana / baseMaxMana) * 4。
-     * 天顶尖塔应传入与 {@link MysticSpireBlockEntity#getTrueManaCapBig()}
+     * 天顶尖塔应传入与 {@link MysticSpireManaTrait#getTrueManaCapBig()}
      * 一致的奥法档真实容量（{@link BigInteger}），勿用钳到 int 的 {@code MysticSpire#maxMana}。
      */
     public static BigInteger euCapacityScaled(long energyCapacity, BigInteger maxMana, BigInteger baseMaxMana) {

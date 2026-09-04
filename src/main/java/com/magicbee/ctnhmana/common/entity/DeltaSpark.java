@@ -26,9 +26,9 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 
 import com.magicbee.ctnhmana.api.machine.trait.BTManaContainerTrait;
+import com.magicbee.ctnhmana.api.machine.trait.MysticSpireManaTrait;
 import com.magicbee.ctnhmana.api.networks.BotaniaEffectPacketExtend;
 import com.magicbee.ctnhmana.api.networks.BotaniaExtendEffectType;
-import com.magicbee.ctnhmana.common.blockentity.machine.MysticSpireBlockEntity;
 import com.magicbee.ctnhmana.common.item.equipment.SaberWandItem;
 import com.magicbee.ctnhmana.common.multiblock.MysticSpire;
 import com.magicbee.ctnhmana.common.multiblock.SpireBigMath;
@@ -115,10 +115,10 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
             }
             timer++;
             if (AttachPos != null && level().getBlockEntity(AttachPos) != null &&
-                    level().getBlockEntity(AttachPos) instanceof MysticSpireBlockEntity entity &&
+                    level().getBlockEntity(AttachPos) instanceof IMachineBlockEntity entity &&
                     entity.getMetaMachine() instanceof MysticSpire machine && machine.isFormed()) {
                 this.SpireMachine = machine;
-                entity.syncMysticManaCacheFromTrue();
+                machine.getManaTrait().syncManaCache();
             } else {
                 this.kill();
             }
@@ -138,7 +138,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
 
     public void initSpark() {
         if (AttachPos != null && level().getBlockEntity(AttachPos) != null &&
-                level().getBlockEntity(AttachPos) instanceof MysticSpireBlockEntity entity &&
+                level().getBlockEntity(AttachPos) instanceof IMachineBlockEntity entity &&
                 entity.getMetaMachine() instanceof MysticSpire machine && machine.isFormed()) {
             this.SpireMachine = machine;
             machine.Spark = this;
@@ -158,20 +158,29 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     public void sendManaToSpark() {
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
+        var pool = SpireMachine.getManaTrait();
         int remaining = pool.mysticOutboundTickCap(speed);
         distributeOutboundToSparksEvenly(pool, remaining);
     }
 
     public void sendManaToHatchReceiver() {
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
+        var pool = SpireMachine.getManaTrait();
         int remaining = pool.mysticOutboundTickCap(speed);
-        distributeOutboundToReceiversEvenly(pool, remaining, receiver -> !receiver.isFull() &&
-                !((BlockEntity) receiver).isRemoved() && receiver instanceof BTManaContainerTrait);
+        distributeOutboundToReceiversEvenly(pool, remaining,
+                receiver -> receiver instanceof BTManaContainerTrait && !receiver.isFull() &&
+                        isReceiverLoaded(receiver));
+    }
+
+    /** Traits can be ManaReceivers too, so receiver validity must not rely on a BlockEntity cast. */
+    private static boolean isReceiverLoaded(ManaReceiver receiver) {
+        Level receiverLevel = receiver.getManaReceiverLevel();
+        if (receiverLevel == null) return false;
+        BlockEntity blockEntity = receiverLevel.getBlockEntity(receiver.getManaReceiverPos());
+        return blockEntity != null && !blockEntity.isRemoved();
     }
 
     /** 本 tick 预算在多个火花目标间均分；单目标满则跳过，余量下一轮再分 */
-    private void distributeOutboundToSparksEvenly(MysticSpireBlockEntity pool, int remaining) {
+    private void distributeOutboundToSparksEvenly(MysticSpireManaTrait pool, int remaining) {
         if (remaining <= 0) return;
         while (remaining > 0) {
             List<ManaSpark> active = new ArrayList<>();
@@ -202,7 +211,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     /** 本 tick 预算在多个 ManaReceiver 间均分；单目标满则跳过，余量下一轮再分 */
-    private void distributeOutboundToReceiversEvenly(MysticSpireBlockEntity pool, int remaining,
+    private void distributeOutboundToReceiversEvenly(MysticSpireManaTrait pool, int remaining,
                                                      Predicate<ManaReceiver> eligible) {
         if (remaining <= 0) return;
         while (remaining > 0) {
@@ -229,14 +238,14 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     public void receiveManaFromSpark() {
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
+        var pool = SpireMachine.getManaTrait();
         if (pool.isFull()) return;
         int remaining = pool.mysticInboundTickBudget(speed);
         distributeInboundFromSparksEvenly(pool, remaining);
     }
 
     public void receiveManaFromFlower() {
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
+        var pool = SpireMachine.getManaTrait();
         if (pool.isFull()) return;
         long flowerLim = (long) (speed * effencicy);
         if (flowerLim > Integer.MAX_VALUE) flowerLim = Integer.MAX_VALUE;
@@ -246,7 +255,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     /** 本 tick 吸收预算在多个火花来源间均分；尖塔满或来源空则跳过，余量下一轮再分 */
-    private void distributeInboundFromSparksEvenly(MysticSpireBlockEntity pool, int remaining) {
+    private void distributeInboundFromSparksEvenly(MysticSpireManaTrait pool, int remaining) {
         if (remaining <= 0) return;
         while (remaining > 0 && !pool.isFull()) {
             List<ManaSpark> active = new ArrayList<>();
@@ -279,7 +288,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     /** 本 tick 吸收预算在多个产魔花间均分；尖塔满或花空则跳过，余量下一轮再分 */
-    private void distributeInboundFromFlowersEvenly(MysticSpireBlockEntity pool, int remaining) {
+    private void distributeInboundFromFlowersEvenly(MysticSpireManaTrait pool, int remaining) {
         if (remaining <= 0) return;
         while (remaining > 0 && !pool.isFull()) {
             List<GeneratingFlowerBlockEntity> active = new ArrayList<>();
@@ -309,8 +318,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
 
     public void sendManaToDeltaNet() {
         if (connectedDeltaSpark == null || connectedDeltaSpark.SpireMachine == null) return;
-        var pool = (MysticSpireBlockEntity) SpireMachine.getHolder();
-        var target_pool = (MysticSpireBlockEntity) connectedDeltaSpark.SpireMachine.getHolder();
+        var pool = SpireMachine.getManaTrait();
+        var target_pool = connectedDeltaSpark.SpireMachine.getManaTrait();
         int consume = Math.min(pool.mysticOutboundTickCap(speed),
                 target_pool.mysticInboundTickBudget(Integer.MAX_VALUE));
         if (consume <= 0) return;
@@ -329,7 +338,7 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
     }
 
     /** 先尝试注入尖塔，返回真实进入量（基于 BigInteger 储量，避免 int 窗口计量失真） */
-    private static int tryReceiveMana(MysticSpireBlockEntity pool, int attempt) {
+    private static int tryReceiveMana(MysticSpireManaTrait pool, int attempt) {
         if (attempt <= 0 || pool.isFull()) {
             return 0;
         }
@@ -372,7 +381,8 @@ public class DeltaSpark extends SparkBaseEntity implements SparkEntity, ManaColl
                     continue;
                 }
                 for (BlockEntity be : chunk.getBlockEntities().values()) {
-                    if (be instanceof ManaReceiver && !(be instanceof MysticSpireBlockEntity)) {
+                    if (be instanceof ManaReceiver && !(be instanceof IMachineBlockEntity holder &&
+                            holder.getMetaMachine() instanceof MysticSpire)) {
                         BlockPos bePos = be.getBlockPos();
                         if (bePos.getY() >= centerPos.getY() - radius * 2 &&
                                 bePos.getY() <= centerPos.getY() + radius * 2 &&
