@@ -12,7 +12,8 @@ import com.google.gson.JsonObject;
 import com.magicbee.ctnhmana.data.recipe.*;
 import com.magicbee.ctnhmana.registry.*;
 import org.jetbrains.annotations.Nullable;
-import tech.vixhentx.mcmod.ctnhlib.data.DataFilterPack;
+import tech.vixhentx.mcmod.ctnhlib.data.recipe.RecipeRemovalHelper;
+import tech.vixhentx.mcmod.ctnhlib.data.recipe.RecipeRemovalHelper.RemoveFilter;
 
 import java.util.function.Consumer;
 
@@ -126,17 +127,14 @@ public class CTNHManaGTAddon implements IGTAddon {
     }
 
     @Override
-    public void removeRecipes(Consumer<ResourceLocation> consumer) {
-        RecipeRemoval.init(consumer);
-        DataFilterPack.removeRecipeType("bloodmagic", "altar");
-        DataFilterPack.removeRecipeType("botania", "petal_apothecary");
-        DataFilterPack.removeRecipeType("botania", "runic_altar");
-        DataFilterPack.removeRecipeType("botania", "terra_plate");
-        DataFilterPack.removeRecipeType("extrabotany", "petal_apothecary");
-        DataFilterPack.removeRecipeType("mythicbotany:.*_runic_altar");
-        DataFilterPack.removeRecipeType("bloodmagic", "soulforge");
-        DataFilterPack.removeRecipeType("bloodmagic:.*_from_dungeon_raw_stonecutting");
-
-        DataFilterPack.removeRecipe("bloodmagic:soulforge/demon_crystallizer");
+    public void removeRecipes(Consumer<ResourceLocation> ignoredConsumer) {
+        ManaRecipeRemoval.init();
+        RecipeRemovalHelper.remove(new RemoveFilter().type("bloodmagic:altar"));
+        RecipeRemovalHelper.remove(new RemoveFilter().type("botania:petal_apothecary"));
+        RecipeRemovalHelper.remove(new RemoveFilter().type("botania:runic_altar"));
+        RecipeRemovalHelper.remove(new RemoveFilter().type("botania:terra_plate"));
+        RecipeRemovalHelper.remove(new RemoveFilter().type("extrabotany:petal_apothecary"));
+        RecipeRemovalHelper.remove(new RemoveFilter().idRegex("mythicbotany:.*_runic_altar"));
+        RecipeRemovalHelper.remove(new RemoveFilter().type("bloodmagic:soulforge"));
     }
 }
