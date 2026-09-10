@@ -183,11 +183,11 @@ public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachin
             int used = logic.mergedRecipe.parallels;
             int incoming = Math.max(1, recipe.parallels);
             if (used + incoming > mm.batchParallelBudget) {
-                return RecipeModifier.DEFAULT_FAILURE; // 超并行预算：本配方不并入
+                return batchParallelBudgetExceeded.translate(); // 超并行预算：本配方不并入
             }
         }
         if (mm.batchCommittedEUt + candidateEUt > capacityOf(mm)) {
-            return RecipeModifier.DEFAULT_FAILURE; // 超电压预算：本配方不并入
+            return batchEuBudgetExceeded.translate(); // 超电压预算：本配方不并入
         }
         mm.lastPendingEUt = candidateEUt;
         return null;
@@ -216,7 +216,7 @@ public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachin
         }
         long candidateEUt = RecipeHelper.getRealEUt(recipe); // GT：base EU（不乘 pa）
         if (mm.batchCommittedEUt + candidateEUt > capacityOf(mm)) {
-            return RecipeModifier.DEFAULT_FAILURE; // 超电压预算：本配方不并入
+            return batchEuBudgetExceeded.translate(); // 超电压预算：本配方不并入
         }
         // 缓存当前配方的待提交数据
         mm.lastPendingRawDuration = mm.lastRawDuration;
@@ -329,6 +329,14 @@ public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachin
             textList.add(BaseManaMachineWorkingParallelLang.translate(workingParallels, limit));
         }
     }
+
+    @CN("批次并行预算已满：本配方不并入当前批次")
+    @EN("Batch parallel budget is full: this recipe is not merged into the current batch")
+    public static Lang batchParallelBudgetExceeded;
+
+    @CN("批次电压预算已满：本配方不并入当前批次（可增加能源仓或降低并行）")
+    @EN("Batch EU budget is full: this recipe is not merged into the current batch (add energy hatches or reduce parallelism)")
+    public static Lang batchEuBudgetExceeded;
 
     @CN({
             "§a启用跨配方并行§r,一个批次最多合并§a64§r个不同配方",
