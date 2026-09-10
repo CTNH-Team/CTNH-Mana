@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.RecipeElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerGroup;
 
 import net.minecraft.nbt.CompoundTag;
@@ -198,10 +197,10 @@ public class QuasarEye extends RecipeElectricMultiblockMachine implements ITiere
                 recipe.multiplyTickOutputs((int) outputmuti);
                 return null;
             }
-            var EUt = RecipeHelper.getRealEUtWithIO(recipe);
+            var EUt = recipe.getOutputEUt();
             var tier = recipe.data.getInt("tier");
             var power = (long) (qmachine.energy_caculate(qmachine.rune_energy, tier) *
-                    RecipeHelper.getRealEUtWithIO(recipe) *
+                    EUt *
                     (qmachine.energy_caculate(qmachine.rune_energy, tier) * 5) * recipe.duration * 0.2 *
                     (qmachine.rune_energy / 25));
             qmachine.power += power / 200;
