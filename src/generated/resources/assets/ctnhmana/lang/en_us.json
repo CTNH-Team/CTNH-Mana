@@ -660,7 +660,6 @@
   "ctnhmana.entry.demon_flytrap": "Demon Flytrap",
   "ctnhmana.entry.genethistle": "Genethistle",
   "ctnhmana.entry.pararosia": "ParaRosia",
-  "ctnhmana.eternalgarden.norunnableparallel": "No runnable parallel: not enough inputs, or the output buffer is full",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.0": "Thermalily: ignites nearby entities while running",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.1": "max parallel = 8+max(tier−3,0)×4",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.2": "output × parallel × voltage OC",

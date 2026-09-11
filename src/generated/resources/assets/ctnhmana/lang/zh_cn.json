@@ -754,7 +754,6 @@
   "ctnhmana.entry.satori_eye": "第三只眼",
   "ctnhmana.entry.tulpenmanie": "永远的奥古斯都",
   "ctnhmana.eternal_garden": "永恒花园",
-  "ctnhmana.eternalgarden.norunnableparallel": "没有可运行的并行：输入材料不足，或输出仓已满",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.0": "炽玫瑰：运行时点燃周围实体",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.1": "最大并行=8+max(等级-3,0)×4",
   "ctnhmana.eternalgardenspecialrecipes.blamerecipelang.2": "产出×并行×电压超频",
