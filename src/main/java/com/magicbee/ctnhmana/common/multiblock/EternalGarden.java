@@ -215,10 +215,6 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
         return super.onWorking();
     }
 
-    /** Reject parallel<=0 so we never multiplyInputs(0) into a matchable empty recipe. */
-    private static final Component INSUFFICIENT_INPUTS = Component
-            .translatable("gtceu.recipe_logic.insufficient_in");
-
     public static Component recipeModifier(MetaMachine machine, RecipeHandlerGroup group, GTRecipe recipe) {
         if (machine instanceof EternalGarden mmachine) {
             int tier = mmachine.getTier();
@@ -233,7 +229,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 8);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 int outMul = Math.max(1, (int) (parallel * overclock));
                 CTNHManaUtils.multiplyInputs(recipe, parallel);
                 recipe.multiplyOutputs(outMul);
@@ -251,7 +247,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 int maxparallel = 8 + (mmachine.tier -
                         GTUtil.getFloorTierByVoltage(RecipeHelper.getRealEUt(recipe))) * 4;
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 CTNHManaUtils.multiplyAllContents(recipe, parallel);
                 recipe.parallels = parallel;
                 return null;
@@ -263,7 +259,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.burn = false;
                 int temp = recipe.data.getInt("temp");
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 8);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 mmachine.Temperature += temp;
                 FluidStack pyrotheumFluid = new FluidStack(
                         Objects.requireNonNull(
@@ -289,7 +285,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.Temperature = 0;
                 int maxparallel = (int) Math.pow(2, tier) * 32;
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 CTNHManaUtils.multiplyAllContents(recipe, parallel);
                 recipe.parallels = parallel;
                 return null;
@@ -302,7 +298,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.burn = false;
                 mmachine.Temperature = 0;
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, 4);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 int outMul = Math.max(1, (int) (parallel * overclock));
                 CTNHManaUtils.multiplyInputs(recipe, parallel);
                 recipe.multiplyOutputs(outMul);
@@ -348,7 +344,7 @@ public class EternalGarden extends RecipeElectricMultiblockMachine implements IT
                 mmachine.Temperature = 0;
                 int maxparallel = 8 + Math.max((tier - 3), 0) * 4;
                 int parallel = CTNHManaUtils.getParallelAmount(group, recipe, maxparallel);
-                if (parallel <= 0) return INSUFFICIENT_INPUTS;
+                parallel = Math.max(1, parallel);
                 int outMul = Math.max(1, (int) (parallel * overclock));
                 CTNHManaUtils.multiplyInputs(recipe, parallel);
                 recipe.multiplyOutputs(outMul);
