@@ -94,14 +94,26 @@ public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachin
     /**
      * 流水线视野：只做配方级流水线并行——算并行数 pa、IO 放大、缓存原始时长/EU；时间/电压一律不动。
      * 不调用升级项的 calculateUpgrade（其 speed/eut 计算基于单配方 pa，与批次语义冲突）。
+     * <p>
+     * 并行以<b>批次总并行预算</b>（= 最大并行 512/1024）为上限：每个配方的 pa 取剩余预算，
+     * 保证所有跨并配方的并行之和不超过最大并行；预算耗尽后不再并入新配方。
      */
     private static Component gtRecipeModifier(CrossParallelManaMultiBlockMachine mm, RecipeHandlerGroup group,
                                               GTRecipe recipe) {
         mm.recipemetric.Copy(mm.metric);
         mm.recipemetric.plus(mm.globalmetric);
         boolean t2 = mm.upgrade instanceof GTUpgradeItemT2;
-        int limit = t2 ? 1024 : 512;
-        int pa = Math.max(1, CTNHManaUtils.getParallelAmount(group, recipe, limit, false));
+        int totalLimit = t2 ? 1024 : 512;
+        // 已并入配方的并行之和 = 合并配方的 parallels（mergeRecipe 累加，实时）
+        int used = 0;
+        if (mm.getRecipeLogic() instanceof CrossParallelRecipeLogic logic && logic.mergedRecipe != null) {
+            used = logic.mergedRecipe.parallels;
+        }
+        int remaining = totalLimit - used;
+        if (remaining < 1) {
+            return RecipeModifier.DEFAULT_FAILURE; // 总并行预算已满：本配方不并入
+        }
+        int pa = Math.max(1, CTNHManaUtils.getParallelAmount(group, recipe, remaining, false));
         CTNHManaUtils.multiplyInputs(recipe, Math.max(1, (int) Math.round(pa * mm.recipemetric.input)));
         recipe.multiplyOutputs(Math.max(1, (int) Math.round(pa * mm.recipemetric.output)));
         recipe.parallels = pa;
@@ -110,26 +122,36 @@ public class CrossParallelManaMultiBlockMachine extends BaseManaMultiBlockMachin
     }
 
     /**
-     * 非流水线视野：在第一个修改器锁定并行数 pa（读实时库存，帽 = 升级并行帽），
-     * 并用剩余电压预算二次限制并行（已并入配方占用的电压不重复计算），
-     * 只做结构性 IO/EU×pa 缩放，不改时长、不施加任何升级增益。
+     * 非流水线视野：在第一个修改器锁定并行数 pa，只做结构性 IO/EU×pa 缩放，不改时长、不施加任何升级增益。
+     * <p>
+     * pa 同时受三重限制，且<b>已并入的批次占用会被扣除</b>（同一批次的额度共享）：
+     * 总并行剩余额度（并行帽 − 已并入并行）、剩余输入容量（输入容量 − 已占用 EU/t）、材料/输出。
+     * 这样先并入的配方不会吃满预算而饿死后续配方。
      */
     private static Component nonGTRecipeModifier(CrossParallelManaMultiBlockMachine mm, RecipeHandlerGroup group,
                                                  GTRecipe recipe) {
         mm.recipemetric.Copy(mm.metric);
         mm.recipemetric.plus(mm.globalmetric);
-        int cap = mm.upgrade != null ? mm.upgrade.getMaxParallelCap(mm.recipemetric, mm) :
-                Math.max(1, mm.recipemetric.parallel);
-        int pa = Math.max(1, CTNHManaUtils.getParallelAmount(group, recipe, cap, true));
-        // 已占用电压 = 合并配方的 EU/t（tickInputs 已累加，等于 Σ 各配方贡献，无提交滞后问题）
-        long occupied = 0;
+        // 批次已占用：并行（parallels 累加）与电压（EU/t 累加），均读合并配方，无提交滞后
+        int usedParallels = 0;
+        long occupiedEUt = 0;
         if (mm.getRecipeLogic() instanceof CrossParallelRecipeLogic logic && logic.mergedRecipe != null) {
-            occupied = RecipeHelper.getRealEUt(logic.mergedRecipe);
+            usedParallels = logic.mergedRecipe.parallels;
+            occupiedEUt = RecipeHelper.getRealEUt(logic.mergedRecipe);
         }
-        long remaining = capacityOf(mm) - occupied;
+        // 并行：每个配方只取剩余额度（并行帽 − 已并入），防止吃满总预算饿死后续配方
+        int totalLimit = mm.upgrade != null ? mm.upgrade.getMaxParallelCap(mm.recipemetric, mm) :
+                Math.max(1, mm.recipemetric.parallel);
+        int remainingParallel = totalLimit - usedParallels;
+        if (remainingParallel < 1) {
+            return RecipeModifier.DEFAULT_FAILURE; // 总并行预算已满：本配方不并入
+        }
+        int pa = Math.max(1, CTNHManaUtils.getParallelAmount(group, recipe, remainingParallel, true));
+        // 电压：按剩余输入容量二次压低并行
+        long remainingEUt = capacityOf(mm) - occupiedEUt;
         long recipeEUt = RecipeHelper.getRealEUt(recipe); // applyParallel 前 = base EU
-        if (remaining > 0 && recipeEUt > 0) {
-            pa = Math.min(pa, (int) Math.max(1, Math.min(Integer.MAX_VALUE, remaining / recipeEUt)));
+        if (remainingEUt > 0 && recipeEUt > 0) {
+            pa = Math.min(pa, (int) Math.max(1, Math.min(Integer.MAX_VALUE, remainingEUt / recipeEUt)));
         }
         CTNHManaUtils.applyParallel(recipe, pa); // 结构性：输入/输出/EU×pa、parallels=pa
         mm.lastRawDuration = recipe.duration; // = 原始时长

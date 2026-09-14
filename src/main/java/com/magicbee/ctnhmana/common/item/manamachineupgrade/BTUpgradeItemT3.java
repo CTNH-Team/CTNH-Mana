@@ -62,7 +62,8 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
                                                                           BaseManaMultiBlockMachine machine) {
         var hatch = machine.getHatch();
 
-        metric.parallel += Math.min(256, 2 * (hatch.getBTMana() / 50000 + hatch.getmaxBTMana() / 200000));
+        metric.parallel += Math.min(128, 2 * (hatch.getBTMana() / 50000 ));
+        metric.parallel += Math.min(128, 2 * (hatch.getmaxBTMana() / 200000));
         metric.speed += Math.min(0.5, (double) hatch.getBTMana() / 100000 * 0.025);
         return metric;
     }
@@ -79,7 +80,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
     @CN({
             "偏向于植物魔法与魔力的升级",
             "机器获得：",
-            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得2点并行(最高256)",
+            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得2点并行上限(两者分别最多获得128并行)",
             "运行时的每一并行提供§a+5%§r机器工作速度（最高200%）",
             "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2.5%§r机器工作速度（最高50%）",
             "如果配方的原始时间大于100s,则消耗至多5W魔力能量，每消耗1W魔力能量使运行速度增加25%",

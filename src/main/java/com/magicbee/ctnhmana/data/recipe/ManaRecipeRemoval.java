@@ -42,6 +42,10 @@ public final class ManaRecipeRemoval {
             "apotheosis:salvaging/leather_horse_armor",
             "apotheosis:salvaging/iron_horse_armor",
             "apotheosis:salvaging/golden_horse_armor",
+            "extrabotany:pleiades_combat_maid_headgear",
+            "extrabotany:pleiades_combat_maid_skirt",
+            "extrabotany:pleiades_combat_maid_suit",
+            "extrabotany:pleiades_combat_maid_boots",
             "apotheosis:salvaging/diamond_horse_armor");
 
     private ManaRecipeRemoval() {}

@@ -50,8 +50,8 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     public BaseManaMultiBlockMachine.MachineMetric calculateNormalUpgrade(BaseManaMultiBlockMachine.MachineMetric metric,
                                                                           BaseManaMultiBlockMachine machine) {
         var hatch = machine.getHatch();
-
-        metric.parallel += Math.min(16, (hatch.getBTMana() / 50000 + hatch.getmaxBTMana() / 200000));
+        metric.parallel += Math.min(8, (hatch.getBTMana() / 50000 ));
+        metric.parallel+=Math.min(8,hatch.getmaxBTMana() / 200000);
         metric.speed += Math.min(0.1, (double) hatch.getBTMana() / 100000 * 0.02);
         return metric;
     }
@@ -68,7 +68,7 @@ public class BTUpgradeItemT1 extends ManaMachineUpgradeItem {
     @CN({
             "偏向于植物魔法与魔力的升级",
             "机器获得：",
-            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得一点并行(最高16)",
+            "魔力凝聚仓每存有5W植物魔法魔力，每存有20W植物魔法魔力存储上限，就获得一点并行(两者分别最多获得8并行)",
             "运行时的每一并行提供§a+1%§r机器工作速度(最高16%)",
             "魔力凝聚仓存有的每10W植物魔法魔力提供§a+2%§r机器工作速度(最高10%)",
             "§o§9与花朵共舞吧，即使是机器也无法遮蔽群星的美丽§r"
