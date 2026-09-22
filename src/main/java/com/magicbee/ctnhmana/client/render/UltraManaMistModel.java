@@ -29,12 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 究极魔力锭的“紫色迷雾”模型包装。
+ * 究极魔力锭的“紫色漩涡坍缩”模型包装。
  *
  * <p>把已经烘焙好的物品模型原样委托出去，只额外挂一个迷雾 pass：
- * 该 pass 每帧用 {@code avaritia:misc/halo} 与 {@code avaritia:misc/halo_noise}
- * 现场生成一组加法混合的 quad，围绕物品缓慢环绕、缩放、呼吸，
- * 叠出连续流动的紫色雾气。因为走的是原版 {@code ItemRenderer} 的多 pass 循环，
+ * 该 pass 每帧用 {@code avaritia:misc/halo} 与 {@code avaritia:misc/halo_noise} 现场生成 4 片加法混合的
+ * quad —— 一层稳定的背后紫晕、一层正面柔光，加两层反向旋转、相位错开的向内坍缩漩涡，
+ * 配色取材质自身的紫色。因为走的是原版 {@code ItemRenderer} 的多 pass 循环，
  * 物品栏、JEI/EMI、掉落物、展示框、手持等所有显示上下文都会生效。
  *
  * <p>贴图全部复用已有资源，不改动任何材质文件。
@@ -55,9 +55,11 @@ public class UltraManaMistModel implements BakedModel {
     private static final float[] COLOR_BASE = rgb(0x7D26CD);
     private static final float[] COLOR_LIGHT = rgb(0xB06CFF);
 
-    /** 雾团环绕中心的数量与轨道相位。 */
-    private static final int PUFF_COUNT = 3;
-    private static final float TAU = (float) (Math.PI * 2.0);
+    /** 一次向内坍缩的周期（秒）。 */
+    private static final float COLLAPSE_PERIOD = 2.2F;
+    /** 噪声采样窗口：由小到大，图案随之被吸向中心；上限留白是为了避开图集邻格渗色。 */
+    private static final float COLLAPSE_WINDOW_MIN = 0.16F;
+    private static final float COLLAPSE_WINDOW_MAX = 0.42F;
 
     private final BakedModel base;
     private final MistPass mistPass;
@@ -131,7 +133,7 @@ public class UltraManaMistModel implements BakedModel {
     }
 
     /**
-     * 纯附加的迷雾层：本体不产出任何 quad，只提供一组每帧重新生成的加法混合雾团。
+     * 纯附加的漩涡层：本体不产出任何 quad，只提供一组每帧重新生成的加法混合坍缩漩涡。
      */
     private static class MistPass implements BakedModel {
 
@@ -155,39 +157,19 @@ public class UltraManaMistModel implements BakedModel {
             TextureAtlasSprite noise = sprite(NOISE_TEXTURE);
 
             float time = (Util.getMillis() % 1_000_000L) / 1000.0F;
-            List<BakedQuad> quads = new ArrayList<>(5 + PUFF_COUNT);
+            List<BakedQuad> quads = new ArrayList<>(4);
 
-            // 1) 背后的大光晕：垫在物品后面，保证从背面看也有紫雾。
+            // 1) 稳定的紫色底晕：垫在物品背后，保证任何时刻都有紫光，不会跟着漩涡一起消失。
             quads.add(quad(halo, 0.5F, 0.5F, 0.62F, Z_BACK, 0.0F,
-                    0.0F, 1.0F, 0.0F, 1.0F, argb(COLOR_BASE, 0.30F + 0.06F * Mth.sin(time * 0.9F))));
+                    0.0F, 1.0F, 0.0F, 1.0F, argb(COLOR_BASE, 0.22F + 0.03F * Mth.sin(time * 1.1F))));
 
-            // 2) 正面的柔雾：让物品整体蒙上一层紫色。
-            quads.add(quad(halo, 0.5F, 0.5F, 0.58F, Z_FRONT, time * 0.06F,
-                    0.0F, 1.0F, 0.0F, 1.0F, argb(COLOR_LIGHT, 0.16F + 0.04F * Mth.sin(time * 1.3F + 1.1F))));
+            // 2) 正面柔光：把物品整体罩进紫色里。
+            quads.add(quad(halo, 0.5F, 0.5F, 0.58F, Z_FRONT, 0.0F,
+                    0.0F, 1.0F, 0.0F, 1.0F, argb(COLOR_LIGHT, 0.12F)));
 
-            // 3) 环绕的雾团：每团按自己的速度和相位绕着物品公转，同时自转与呼吸。
-            for (int i = 0; i < PUFF_COUNT; i++) {
-                float seed = i * (TAU / PUFF_COUNT);
-                float orbit = time * (0.55F + 0.16F * i) + seed;
-                float radius = 0.11F + 0.05F * Mth.sin(time * 0.7F + seed);
-                float half = 0.19F + 0.05F * Mth.sin(time * 0.95F + seed * 1.7F);
-                float spin = time * (0.8F + 0.35F * i) * ((i & 1) == 0 ? 1.0F : -1.0F);
-                float alpha = 0.17F + 0.07F * Mth.sin(time * 1.15F + seed * 2.3F);
-                float[] color = mix(COLOR_DEEP, COLOR_LIGHT, 0.5F + 0.5F * Mth.sin(time * 0.6F + seed));
-                quads.add(quad(halo,
-                        0.5F + Mth.cos(orbit) * radius, 0.5F + Mth.sin(orbit) * radius,
-                        half, Z_FRONT, spin,
-                        // 只取贴图中心部分，得到边缘柔和的雾团而不是硬边方块。
-                        0.18F, 0.82F, 0.18F, 0.82F, argb(color, alpha)));
-            }
-
-            // 4) 噪声气流：两层反向漂移的逐帧噪声，制造持续翻涌的观感。
-            if (noise != null) {
-                quads.add(quad(noise, 0.5F, 0.5F, 0.55F, Z_FRONT, -time * 0.25F,
-                        0.03F, 0.97F, 0.03F, 0.97F, argb(COLOR_BASE, 0.055F)));
-                quads.add(quad(noise, 0.5F, 0.5F, 0.63F, Z_BACK, time * 0.18F,
-                        0.03F, 0.97F, 0.03F, 0.97F, argb(COLOR_LIGHT, 0.045F)));
-            }
+            // 3)+4) 两层反向旋转的坍缩漩涡，一前一后、相位错开半个周期，让坍缩看起来是连续的。
+            addVortex(quads, noise, time, Z_FRONT, 0.55F, 0.35F, 0.0F, 0.38F);
+            addVortex(quads, noise, time, Z_BACK, 0.48F, -0.22F, COLLAPSE_PERIOD * 0.5F, 0.28F);
             return quads;
         }
 
@@ -230,6 +212,27 @@ public class UltraManaMistModel implements BakedModel {
         public @NotNull ItemTransforms getTransforms() {
             return this.base.getTransforms();
         }
+    }
+
+    /**
+     * 追加一片向内坍缩的紫漩涡。
+     *
+     * <p>做法是在同一个 quad 里不断放大贴图的采样窗口：窗口越大，塞进去的贴图内容越多，
+     * 图案从中心向外看起来就越小 —— 即持续向锭心收缩，这正是“被吸进去”的观感。
+     * 窗口按 sqrt 推进，收缩速度在一个周期内越来越快；透明度取正弦包络，周期首尾归零，
+     * 所以循环重置时看不出接缝。越接近坍缩终点颜色越亮，像物质被卷入时被加热。
+     */
+    private static void addVortex(List<BakedQuad> quads, @Nullable TextureAtlasSprite noise, float time,
+                                  float z, float half, float spinSpeed, float phaseOffset, float peakAlpha) {
+        if (noise == null) {
+            return;
+        }
+        float progress = (time + phaseOffset) % COLLAPSE_PERIOD / COLLAPSE_PERIOD;
+        float window = COLLAPSE_WINDOW_MIN + (COLLAPSE_WINDOW_MAX - COLLAPSE_WINDOW_MIN) * Mth.sqrt(progress);
+        float alpha = peakAlpha * Mth.sin((float) Math.PI * progress);
+        quads.add(quad(noise, 0.5F, 0.5F, half, z, time * spinSpeed,
+                0.5F - window, 0.5F + window, 0.5F - window, 0.5F + window,
+                argb(mix(COLOR_DEEP, COLOR_LIGHT, progress), alpha)));
     }
 
     /**

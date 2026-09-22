@@ -38,7 +38,7 @@ public class BloodMagic {
 
     public final static MultiblockMachineDefinition DEMON_WILL_GENERATOR = REGISTRATE
             .multiblock("demon_will_generator", DemonWillMachine::new)
-            .cnLangValue("恶魔意志发电机")
+            .cnLangValue("觉恋贴贴发电机")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(CMRecipeTypes.DEMON_WILL_GENERATOR_RECIPE)
             .generator(true)
