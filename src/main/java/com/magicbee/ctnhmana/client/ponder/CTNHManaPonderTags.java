@@ -26,6 +26,7 @@ public final class CTNHManaPonderTags {
 
         helper.addToTag(Mana)
                 .add(CMMultiblockMachines.MysticSpire.getId())
+                .add(CMMultiblockMachines.INDUSTRIAL_ALTAR.getId())
                 .add(ResourceLocation.fromNamespaceAndPath("botania", "fel_pumpkin"))
                 .add(ResourceLocation.fromNamespaceAndPath("mythicbotany", "central_rune_holder"))
                 .add(ResourceLocation.fromNamespaceAndPath("bloodmagic", "ritualdivinerdusk"));

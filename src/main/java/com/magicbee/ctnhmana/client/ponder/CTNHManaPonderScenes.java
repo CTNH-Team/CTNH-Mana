@@ -4,6 +4,7 @@ import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 
 import com.magicbee.ctnhmana.CTNHMana;
+import com.magicbee.ctnhmana.client.ponder.mana.IndustrialAltar;
 import com.magicbee.ctnhmana.client.ponder.mana.MagicRituals;
 import com.magicbee.ctnhmana.client.ponder.mana.MysticSpire;
 import com.magicbee.ctnhmana.registry.CMMultiblockMachines;
@@ -17,6 +18,9 @@ public final class CTNHManaPonderScenes {
                 .addStoryBoard("mysticspire/scene1", MysticSpire::Scene1, CTNHManaPonderTags.Mana)
                 .addStoryBoard("mysticspire/scene2", MysticSpire::Scene2, CTNHManaPonderTags.Mana)
                 .addStoryBoard("mysticspire/scene3", MysticSpire::Scene3, CTNHManaPonderTags.Mana);
+
+        helper.forComponents(CMMultiblockMachines.INDUSTRIAL_ALTAR.getId())
+                .addStoryBoard("industrial_altar/common", IndustrialAltar::Common, CTNHManaPonderTags.Mana);
 
         helper.forComponents(ResourceLocation.fromNamespaceAndPath("botania", "fel_pumpkin"))
                 .addStoryBoard("blaze/common", MagicRituals::Blaze, CTNHManaPonderTags.Mana);
