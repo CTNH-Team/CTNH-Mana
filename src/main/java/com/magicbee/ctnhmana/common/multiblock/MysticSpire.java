@@ -304,6 +304,8 @@ public class MysticSpire extends WorkableMultiblockMachine implements IFancyUIMa
                 .setPressed(isAnimationActive)
                 .setHoverTooltips(spireModeLang[5].translate());
 
+        // 下面这行实参的顺序，就是思索里 outlineButton 的按钮序号（聚焦 0 / 凝聚扩散 1 / 中转 2 /
+        // 火花扩散 3 / 动画 4），它和 MODE 号并不一一对应：调整实参顺序前先改 mysticspire scene3 的映射。
         group.addWidgets(focus_button, global_button, connect_button, spark_button, action_button);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;

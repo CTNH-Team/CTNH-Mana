@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderSceneBuilder;
+import com.magicbee.ctnhmana.client.ponder.machine.SpireModeChange;
 import com.magicbee.ctnhmana.common.entity.DeltaSpark;
 import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMItems;
@@ -174,6 +175,26 @@ public class MysticSpire {
         scene.idle(70);
     }
 
+    /**
+     * 讲某个模式时摆出尖塔主方块界面，用红框框住对应的模式按钮，并把尖塔真的切到那个模式，
+     * 于是按钮显示为按下、界面上看到的状态和讲的内容一致。四段各摆一次，每段面板各自结束。
+     *
+     * <p>
+     * {@code buttonIndex} 是机器页里的按钮序号，**不等于模式号**：界面把按钮交给容器的顺序是
+     * 聚焦 / 凝聚扩散 / 中转 / 火花扩散 / 动画（见 {@code MysticSpire#createUIWidget()} 末尾那行
+     * {@code addWidgets}），所以火花扩散是第 3 个、凝聚扩散第 1 个、中转第 2 个。
+     */
+    private static void showModeUi(CTNHManaPonderSceneBuilder scene, SceneBuildingUtil util, BlockPos spirePos,
+            int mode, int buttonIndex) {
+        SpireModeChange.apply(scene, spirePos, mode);
+        // at(...) 用的是贴面锚点，机器坐标必须显式写 forMachine：只给 at() 的话它会按锚点所在方块算，
+        // 也就是主方块上方那一格，那里没有方块实体，整块面板都建不出来。
+        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos))
+                .forMachine(spirePos)
+                .outlineButton(buttonIndex, 10)
+                .show(70);
+    }
+
     // 奥法尖塔的模式
     public static void Scene3(SceneBuilder builder, SceneBuildingUtil util) {
         CTNHManaPonderSceneBuilder scene = new CTNHManaPonderSceneBuilder(builder);
@@ -242,6 +263,7 @@ public class MysticSpire {
                 "聚焦模式下，尖塔主动吸取周围同色火花或产魔花的魔力")
                 .pointAt(controllerVec1)
                 .attachKeyFrame();
+        showModeUi(scene, util, util.grid().at(8, 2, 6), 0, 0);
         PonderParticleUtil.sparkManaFlow(scene.effects(), poolVec1, sparkVec1, 360);
         scene.idle(90);
         scene.showText(70,
@@ -249,6 +271,7 @@ public class MysticSpire {
                 "火花扩散模式下，尖塔将魔力主动输出到周围同色火花或者魔力凝聚仓中")
                 .pointAt(controllerVec3)
                 .attachKeyFrame();
+        showModeUi(scene, util, util.grid().at(2, 2, 12), 1, 3);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec1, sparkVec3, 160);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec2, 70);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec3, 70);
@@ -258,6 +281,7 @@ public class MysticSpire {
                 "凝聚扩散模式下，尖塔仅向范围内的魔力凝聚仓广播魔力")
                 .pointAt(controllerVec3)
                 .attachKeyFrame();
+        showModeUi(scene, util, util.grid().at(2, 2, 12), 2, 1);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec2, 70);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec3, 70);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec3, poolVec4, 70);
@@ -267,6 +291,7 @@ public class MysticSpire {
                 "中转模式下，尖塔不执行任何操作，只实现尖塔间的魔力传递")
                 .pointAt(controllerVec2)
                 .attachKeyFrame();
+        showModeUi(scene, util, util.grid().at(13, 2, 12), 3, 2);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec1, sparkVec2, 70);
         scene.idle(10);
         PonderParticleUtil.sparkManaFlow(scene.effects(), sparkVec2, sparkVec3, 60);
