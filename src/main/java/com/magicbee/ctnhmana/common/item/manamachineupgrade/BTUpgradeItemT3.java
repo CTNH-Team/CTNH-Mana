@@ -62,7 +62,7 @@ public class BTUpgradeItemT3 extends ManaMachineUpgradeItem {
                                                                           BaseManaMultiBlockMachine machine) {
         var hatch = machine.getHatch();
 
-        metric.parallel += Math.min(128, 2 * (hatch.getBTMana() / 50000 ));
+        metric.parallel += Math.min(128, 2 * (hatch.getBTMana() / 50000));
         metric.parallel += Math.min(128, 2 * (hatch.getmaxBTMana() / 200000));
         metric.speed += Math.min(0.5, (double) hatch.getBTMana() / 100000 * 0.025);
         return metric;

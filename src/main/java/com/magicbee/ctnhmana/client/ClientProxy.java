@@ -79,7 +79,8 @@ public class ClientProxy extends CommonProxy {
     /**
      * 给究极魔力锭的烘焙结果套一层紫色迷雾包装（{@link UltraManaMistModel}）。
      *
-     * <p>物品本体由 GTCEu 在客户端动态资源包里生成为 {@code {"parent": "gtceu:item/material_sets/ultramana/ingot"}}，
+     * <p>
+     * 物品本体由 GTCEu 在客户端动态资源包里生成为 {@code {"parent": "gtceu:item/material_sets/ultramana/ingot"}}，
      * 自定义模型 loader 写在父模型上不会被 Forge 采用，因此这里在烘焙完成后按物品 id 替换掉整个 baked model。
      */
     @SubscribeEvent

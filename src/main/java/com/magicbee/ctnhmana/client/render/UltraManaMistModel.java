@@ -31,13 +31,15 @@ import java.util.List;
 /**
  * 究极魔力锭的“紫色漩涡坍缩”模型包装。
  *
- * <p>把已经烘焙好的物品模型原样委托出去，只额外挂一个迷雾 pass：
+ * <p>
+ * 把已经烘焙好的物品模型原样委托出去，只额外挂一个迷雾 pass：
  * 该 pass 每帧用 {@code avaritia:misc/halo} 与 {@code avaritia:misc/halo_noise} 现场生成 4 片加法混合的
  * quad —— 一层稳定的背后紫晕、一层正面柔光，加两层反向旋转、相位错开的向内坍缩漩涡，
  * 配色取材质自身的紫色。因为走的是原版 {@code ItemRenderer} 的多 pass 循环，
  * 物品栏、JEI/EMI、掉落物、展示框、手持等所有显示上下文都会生效。
  *
- * <p>贴图全部复用已有资源，不改动任何材质文件。
+ * <p>
+ * 贴图全部复用已有资源，不改动任何材质文件。
  */
 public class UltraManaMistModel implements BakedModel {
 
@@ -217,7 +219,8 @@ public class UltraManaMistModel implements BakedModel {
     /**
      * 追加一片向内坍缩的紫漩涡。
      *
-     * <p>做法是在同一个 quad 里不断放大贴图的采样窗口：窗口越大，塞进去的贴图内容越多，
+     * <p>
+     * 做法是在同一个 quad 里不断放大贴图的采样窗口：窗口越大，塞进去的贴图内容越多，
      * 图案从中心向外看起来就越小 —— 即持续向锭心收缩，这正是“被吸进去”的观感。
      * 窗口按 sqrt 推进，收缩速度在一个周期内越来越快；透明度取正弦包络，周期首尾归零，
      * 所以循环重置时看不出接缝。越接近坍缩终点颜色越亮，像物质被卷入时被加热。
@@ -238,7 +241,8 @@ public class UltraManaMistModel implements BakedModel {
     /**
      * 生成一片绕 (cx, cy) 旋转、位于 z 平面上的雾团 quad。
      *
-     * <p>顶点顺序与 UV 配对沿用 Avaritia halo 的写法，保证 quad 法线朝 +z、朝向物品正面。
+     * <p>
+     * 顶点顺序与 UV 配对沿用 Avaritia halo 的写法，保证 quad 法线朝 +z、朝向物品正面。
      * 顶点数据用 Avaritia 的 {@link HaloUtils#putVertex} 写入 BLOCK 格式布局，
      * 渲染时可直接交给 {@code ItemRenderer#renderQuadList}。
      *

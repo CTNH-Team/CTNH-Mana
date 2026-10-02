@@ -8,7 +8,8 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 /**
  * 究极魔力锭紫色迷雾的渲染层。
  *
- * <p>刻意沿用原版半透明层（{@code RenderType.TRANSLUCENT}）的 BLOCK 顶点格式与方块图集采样，
+ * <p>
+ * 刻意沿用原版半透明层（{@code RenderType.TRANSLUCENT}）的 BLOCK 顶点格式与方块图集采样，
  * 只把混合模式换成加法、关掉面剔除并禁止写深度：
  * <ul>
  * <li>加法混合让迷雾只“发光”而不压暗物品；</li>
