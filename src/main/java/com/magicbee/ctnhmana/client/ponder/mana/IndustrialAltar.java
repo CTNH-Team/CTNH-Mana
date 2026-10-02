@@ -8,10 +8,15 @@ import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderSceneBuilder;
+
+import tech.vixhentx.mcmod.ctnhlib.client.ponder.ui.MachineUI;
+import wayoftime.bloodmagic.common.fluid.BloodMagicFluids;
 
 /**
  * 工业血祭坛的思索：演示 2 级 → 3 级 → 4 级 → 回到 3 级的结构升级。
@@ -28,6 +33,10 @@ import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderSceneBuilder;
  * 正是主方块的 {@code (0, +1, +2)}，与 {@code MachineUtils.getOffset(this, 0, 1, 2)} 一致。
  */
 public class IndustrialAltar {
+
+    /** EV 流体输入仓的界面：生命源质从这一格灌进去。 */
+    private static final MachineUI LIFE_ESSENCE_HATCH_UI = MachineUI
+            .of(GTMachines.FLUID_IMPORT_HATCH[GTValues.EV]).scale(0.6f);
 
     // ---------------------------------------------------------------- 结构分解
     // 下面三组 box 由 pattern 还原后求“精确覆盖”得到，恰好等于各级的方块集合，
@@ -190,14 +199,23 @@ public class IndustrialAltar {
         scene.overlay().showControls(surface(util, HATCH_X, HATCH_Y, HATCH_Z), Pointing.DOWN, 40)
                 .rightClick()
                 .withItem(GTMachines.FLUID_IMPORT_HATCH[GTValues.EV].asStack());
-        scene.world().setBlock(util.grid().at(HATCH_X, HATCH_Y, HATCH_Z),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.EV].defaultBlockState(), true);
-        scene.showText(80,
+        BlockPos hatchPos = util.grid().at(HATCH_X, HATCH_Y, HATCH_Z);
+        scene.world().setBlock(hatchPos, GTMachines.FLUID_IMPORT_HATCH[GTValues.EV].defaultBlockState(), true);
+        // 仓室在结构西北外角，默认 Pointing.DOWN 会把面板压在它正上方挡住仓；挪到下方并缩小。
+        scene.showUI(LIFE_ESSENCE_HATCH_UI).at(util.vector().topOf(hatchPos))
+                .pointing(Pointing.UP)
+                .scale(0.5f)
+                .forMachine(hatchPos)
+                .tank(0)
+                .withFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000), 20)
+                .outlineTank(0, 20)
+                .show(170);
+        scene.showText(90,
                 "Some ring blocks, such as this brick, can be replaced by hatches for Life Essence and power.",
                 "部分外壳方块（例如这个砖块）可以替换成仓室，用来输入生命源质和电力。")
                 .pointAt(surface(util, HATCH_X, HATCH_Y, HATCH_Z))
                 .attachKeyFrame();
-        scene.idle(80);
+        scene.idle(180);
 
         scene.markAsFinished();
     }

@@ -12,9 +12,16 @@ import com.magicbee.ctnhmana.client.ponder.CTNHManaPonderSceneBuilder;
 import com.magicbee.ctnhmana.common.entity.DeltaSpark;
 import com.magicbee.ctnhmana.registry.CMEntities;
 import com.magicbee.ctnhmana.registry.CMItems;
+import com.magicbee.ctnhmana.registry.CMMultiblockMachines;
+import tech.vixhentx.mcmod.ctnhlib.client.ponder.ui.MachineUI;
 import vazkii.botania.common.entity.BotaniaEntities;
 
 public class MysticSpire {
+
+    /** 尖塔主方块自己的界面：升级符文插在它中间那 4 个槽位里。 */
+    private static final MachineUI MYSTIC_SPIRE_UI = MachineUI.of(CMMultiblockMachines.MysticSpire)
+            .scale(0.6f)
+            .forceMultiblockActivated();
 
     private MysticSpire() {}
 
@@ -123,14 +130,19 @@ public class MysticSpire {
                 .attachKeyFrame();
         scene.idle(70);
         ItemStack UpgtadeStack = CMItems.UPGRADE_RUNE_SPEED_1.asStack();
-        scene.showText(50,
+        scene.showText(60,
                 "Put the mystic spire upgrade in the main block UI to improve its properties",
                 "在尖塔主方块UI中放入尖塔升级以提升其属性")
                 .pointAt(controllerVec)
                 .attachKeyFrame();
-        scene.overlay().showControls(controllerVec, Pointing.DOWN, 40)
-                .withItem(UpgtadeStack);
-        scene.idle(70);
+        // storyboard 里主方块在 (8,2,6)：场景其余文案用的 (8,2,7) 是机壳，拿它当机器面板建不出来。
+        BlockPos spirePos = util.grid().at(8, 2, 6);
+        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos)).forMachine(spirePos)
+                .slot(0)
+                .withItem(UpgtadeStack, 20)
+                .outlineSlot(0, 20)
+                .show(160);
+        scene.idle(170);
         scene.showText(50,
                 "Capacity is the amount of magic power cached by the tower, initialized to 1000000, maximum is INT",
                 "容量是尖塔的魔力缓存量，初始为1000000，最大为INT")
