@@ -202,10 +202,10 @@ public class IndustrialAltar {
         BlockPos hatchPos = util.grid().at(HATCH_X, HATCH_Y, HATCH_Z);
         scene.world().setBlock(hatchPos, GTMachines.FLUID_IMPORT_HATCH[GTValues.EV].defaultBlockState(), true);
         // 仓室在结构西北外角，默认 Pointing.DOWN 会把面板压在它正上方挡住仓；挪到下方并缩小。
-        scene.showUI(LIFE_ESSENCE_HATCH_UI).at(util.vector().topOf(hatchPos))
+        scene.showUI(LIFE_ESSENCE_HATCH_UI).at(util.vector().topOf(hatchPos)).machinePos(hatchPos)
                 .pointing(Pointing.UP)
                 .scale(0.5f)
-                .forMachine(hatchPos)
+                .machinePos(hatchPos)
                 .tank(0)
                 .withFluid(new FluidStack(BloodMagicFluids.LIFE_ESSENCE_FLUID.get(), 1000), 20)
                 .outlineTank(0, 20)

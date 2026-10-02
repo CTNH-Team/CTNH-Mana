@@ -138,7 +138,7 @@ public class MysticSpire {
                 .attachKeyFrame();
         // storyboard 里主方块在 (8,2,6)：场景其余文案用的 (8,2,7) 是机壳，拿它当机器面板建不出来。
         BlockPos spirePos = util.grid().at(8, 2, 6);
-        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos)).forMachine(spirePos)
+        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos)).machinePos(spirePos)
                 .slot(0)
                 .withItem(UpgtadeStack, 20)
                 .outlineSlot(0, 20)
@@ -189,8 +189,7 @@ public class MysticSpire {
         SpireModeChange.apply(scene, spirePos, mode);
         // at(...) 用的是贴面锚点，机器坐标必须显式写 forMachine：只给 at() 的话它会按锚点所在方块算，
         // 也就是主方块上方那一格，那里没有方块实体，整块面板都建不出来。
-        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos))
-                .forMachine(spirePos)
+        scene.showUI(MYSTIC_SPIRE_UI).at(util.vector().topOf(spirePos)).machinePos(spirePos)
                 .outlineButton(buttonIndex, 10)
                 .show(70);
     }
